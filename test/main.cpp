@@ -4,6 +4,6 @@ extern void cubeTexTest();
 
 int main()
 {
-    cubeTexTest();
+    cubeTest();
     return 0;
 }

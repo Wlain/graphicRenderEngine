@@ -30,12 +30,9 @@ public:
     static Mesh* createSphere();
 
 public:
-    Mesh();
+    Mesh(std::vector<glm::vec3> &vertexPositions, std::vector<glm::vec3> &normals, std::vector<glm::vec2> &uvs, Mesh::Topology topology);
     ~Mesh();
-    void updateMesh(std::vector<glm::vec3>& vertexPositions,
-                    std::vector<glm::vec3>& normals,
-                    std::vector<glm::vec2>& uvs,
-                    Topology topology = Topology::Triangles);
+    void update(std::vector<glm::vec3> &vertexPositions, std::vector<glm::vec3> &normals, std::vector<glm::vec2> &uvs);
     inline int32_t getVertexCount() const { return m_vertexCount; }
     inline Topology topology() const { return m_topology; }
 

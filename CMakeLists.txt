@@ -14,7 +14,6 @@ add_subdirectory(3rdparty/glm)
 # spdlog
 add_subdirectory(3rdparty/spdlog)
 
-
 if (APPLE)
     INCLUDE_DIRECTORIES(/System/Library/Frameworks)
     FIND_LIBRARY(OpenGL_LIBRARY OpenGL)
@@ -28,16 +27,12 @@ include_directories(
         ${PROJECT_SOURCE_DIR}/test
         ${PROJECT_SOURCE_DIR}/3rdparty)
 
-file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
-        src/*.cpp
-        utils/*.cpp
-        test/*.cpp)
+file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS src/*.cpp utils/*.cpp)
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${SOURCE_FILES} test/*.cpp)
 
-add_executable(simpleRenderEngine ${SOURCES} test/cubeTexTest.cpp)
+add_executable(simpleRenderEngine ${SOURCES})
+add_library(re SHARED ${SOURCE_FILES})
 
 # 链接库
-target_link_libraries(simpleRenderEngine
-        glfw
-        glm
-        spdlog
-        ${EXTRA_LIBS})
+target_link_libraries(re glfw glm spdlog ${EXTRA_LIBS})
+target_link_libraries(simpleRenderEngine re)

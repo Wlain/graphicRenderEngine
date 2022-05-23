@@ -8,10 +8,12 @@
 #include <glm/gtc/constants.hpp>
 namespace re
 {
-Mesh::Mesh()
+Mesh::Mesh(std::vector<glm::vec3>& vertexPositions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& uvs, Mesh::Topology topology) :
+    m_topology(topology)
 {
     glGenBuffers(1, &m_vbo);
     glGenVertexArrays(1, &m_vao);
+    update(vertexPositions, normals, uvs);
 }
 
 Mesh::~Mesh()
@@ -25,9 +27,8 @@ void Mesh::bind() const
     glBindVertexArray(m_vao);
 }
 
-void Mesh::updateMesh(std::vector<glm::vec3>& vertexPositions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& uvs, Topology topology)
+void Mesh::update(std::vector<glm::vec3>& vertexPositions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& uvs)
 {
-    m_topology = topology;
     m_vertexCount = (int32_t)vertexPositions.size();
     if (normals.size() < m_vertexCount)
     {
@@ -67,7 +68,6 @@ void Mesh::updateMesh(std::vector<glm::vec3>& vertexPositions, std::vector<glm::
 
 Mesh* Mesh::createQuad()
 {
-    Mesh* mesh = new Mesh();
     std::vector<glm::vec3> vertices({ glm::vec3{ 1, -1, 0 }, glm::vec3{ 1, 1, 0 },
                                       glm::vec3{ -1, -1, 0 }, glm::vec3{ -1, -1, 0 },
                                       glm::vec3{ 1, 1, 0 }, glm::vec3{ -1, 1, 0 } });
@@ -75,7 +75,7 @@ Mesh* Mesh::createQuad()
     std::vector<glm::vec2> uvs({ glm::vec2{ 1, 0 }, glm::vec2{ 1, 1 }, glm::vec2{ 0, 0 },
                                  glm::vec2{ 0, 0 }, glm::vec2{ 1, 1 },
                                  glm::vec2{ 0, 1 } });
-    mesh->updateMesh(vertices, normals, uvs, Topology::Triangles);
+    Mesh* mesh = new Mesh(vertices, normals, uvs, Topology::Triangles);
     return mesh;
 }
 
@@ -83,7 +83,6 @@ Mesh* Mesh::createCube()
 {
     using namespace glm;
     float length = 1.0f;
-    Mesh* mesh = new Mesh();
     //    v5----- v4
     //   /|      /|
     //  v1------v0|
@@ -127,16 +126,15 @@ Mesh* Mesh::createCube()
         vec3{0, -1, 0}, vec3{0, -1, 0}, vec3{0, -1, 0}, vec3{0, -1, 0},
     });
     // clang-format on
-    mesh->updateMesh(positions, normals, uvs, Topology::Triangles);
+    auto* mesh = new Mesh(positions, normals, uvs, Topology::Triangles);
     return mesh;
 }
 
 Mesh* Mesh::createSphere()
 {
     using namespace glm;
-    Mesh* mesh = new Mesh();
-    int stacks = 16;
-    int slices = 32; // 片
+    int stacks = 8;
+    int slices = 16;
     float radius = 1.0f;
     size_t vertexCount = ((stacks + 1) * slices);
     std::vector<vec3> vertices{ vertexCount };
@@ -173,12 +171,13 @@ Mesh* Mesh::createSphere()
             glm::u8vec2 offset[] = {
                 // first triangle
                 glm::u8vec2{ i, j },
-                glm::u8vec2{ (i + 1) % slices, j },
                 glm::u8vec2{ (i + 1) % slices, j + 1 },
+                glm::u8vec2{ (i + 1) % slices, j },
+
                 // second triangle
                 glm::u8vec2{ i, j },
-                glm::u8vec2{ (i + 1) % slices, j + 1 },
                 glm::u8vec2{ i, j + 1 },
+                glm::u8vec2{ (i + 1) % slices, j + 1 }
             };
             for (const auto& o : offset)
             {
@@ -189,7 +188,8 @@ Mesh* Mesh::createSphere()
             }
         }
     }
-    mesh->updateMesh(finalPosition, finalNormals, finalUVs, Topology::Triangles);
+    auto* mesh = new Mesh(finalPosition, finalNormals, finalUVs, Topology::Triangles);
     return mesh;
 }
+
 } // namespace re

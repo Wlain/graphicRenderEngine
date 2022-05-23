@@ -12,17 +12,20 @@ struct Light
     enum class Type
     {
         Point,
-        Directional
+        Directional,
+        Unused
     };
 
     Light();
     ~Light();
-    Type light{ Type::Point };
+    Type type{ Type::Point };
     glm::vec3 position{};
     glm::vec3 direction{};
     glm::vec3 color{};
     float range{};
-    Light(Type light, const glm::vec3& position, const glm::vec3& direction, const glm::vec3& color, float range);
+    // 0 = no specular
+    float specularity{};
+    Light(Type type, const glm::vec3& position, const glm::vec3& direction, const glm::vec3& color, float range, float specularity);
 };
 } // namespace re
 

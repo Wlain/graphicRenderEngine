@@ -25,7 +25,7 @@ public:
     static Shader* getUnlit();
     static Shader* getDebugUV();
     static Shader* getDebugNormals();
-    static Shader* getSpecularColor();
+    static Shader* getStandard();
 
     ~Shader();
     bool setMatrix(const char* name, glm::mat4 value);
@@ -39,12 +39,12 @@ public:
     inline bool isDepthWrite() const { return m_depthWrite; }
     inline void setBlend(BlendType type) { m_blending = type; }
     inline BlendType getBlend() const { return m_blending; }
-    bool setTexture(const char *name, Texture* texture, unsigned int textureSlot = 0);
+    bool setTexture(const char* name, Texture* texture, unsigned int textureSlot = 0);
 
 private:
     Shader();
     void bind();
-    bool setLights(Light value[4]);
+    bool setLights(Light value[4], const glm::vec4& ambient, const glm::mat4& viewTransform);
     friend class Mesh;
     friend class Renderer;
 
@@ -52,7 +52,7 @@ private:
     inline static Shader* s_unlit{ nullptr }; // 无灯光
     inline static Shader* s_debugUV{ nullptr };
     inline static Shader* s_debugNormals{ nullptr };
-    inline static Shader* s_specularColor{ nullptr };
+    inline static Shader* s_standard{ nullptr };
 
 private:
     BlendType m_blending{ BlendType::Disabled };

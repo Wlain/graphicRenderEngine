@@ -8,6 +8,7 @@
 #include "light.h"
 
 #include <GLFW/glfw3.h>
+#include <algorithm>
 #include <glm/glm.hpp>
 namespace re
 {
@@ -27,6 +28,15 @@ public:
     void setCamera(Camera* camera);
     inline Camera* getCamera() const { return m_camera; }
     inline Camera* getDefaultCamera() { return &m_defaultCamera; }
+    inline const glm::vec3& getAmbientLight() const
+    {
+        return glm::vec3(m_ambientLight);
+    }
+    inline void setAmbientLight(glm::vec3& ambientLight)
+    {
+        float maxAmbient = std::max(ambientLight.x, std::max(ambientLight.y, ambientLight.z));
+        m_ambientLight = glm::vec4(ambientLight, maxAmbient);
+    }
     void clearScreen(const glm::vec4& color, bool clearColorBuffer = true, bool clearDepthBuffer = true);
     // Update window with OpenGL rendering
     void swapWindow();
@@ -38,6 +48,7 @@ public:
     inline static Renderer* s_instance{ nullptr };
 
 private:
+    glm::vec4 m_ambientLight = glm::vec4(0.2f, 0.2f, 0.2f, 0.2f);
     Light m_sceneLights[s_maxSceneLights];
     Camera m_defaultCamera;
     Camera* m_camera{ nullptr };

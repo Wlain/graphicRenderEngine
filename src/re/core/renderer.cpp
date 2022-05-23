@@ -8,8 +8,6 @@
 #include "mesh.h"
 #include "shader.h"
 
-#include <iostream>
-
 // render engine
 namespace re
 {
@@ -54,7 +52,7 @@ void Renderer::render(Mesh* mesh, const glm::mat4& modelTransform, Shader* shade
     shader->setMatrix("projection", m_camera->getProjectionTransform());
     auto normalMatrix = glm::transpose(glm::inverse((glm::mat3)(m_camera->getViewTransform() * modelTransform)));
     shader->setMatrix("normalMat", normalMatrix);
-    shader->setLights(m_sceneLights);
+    shader->setLights(m_sceneLights, m_ambientLight, m_camera->getViewTransform());
     mesh->bind();
     glDrawArrays((GLenum)mesh->topology(), 0, mesh->getVertexCount());
 }

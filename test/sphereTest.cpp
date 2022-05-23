@@ -33,11 +33,26 @@ void sphereTest()
         glfwTerminate();
     }
     Renderer r{ window };
-    r.getCamera()->lookAt({ 0.0f, 0.0f, 4.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-    r.getCamera()->perspectiveProjection(45.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
-    Shader* shader = Shader::getUnlit();
+    r.getCamera()->lookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+    r.getCamera()->perspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
+    Shader* shader = Shader::getStandard();
     Mesh* mesh = Mesh::createSphere();
-    shader->setVector("color", { 0.0f, 1.0f, 0.0f, 1.0f });
+    bool point = true;
+    if (point)
+    {
+        r.setLight(0, { Light::Type::Point, { 0, 2, 1 }, { 0, 0, 0 }, { 1, 0, 0 }, 10, 5 });
+        r.setLight(1, { Light::Type::Point, { 2, 0, 1 }, { 0, 0, 0 }, { 0, 1, 0 }, 10, 10 });
+        r.setLight(2, { Light::Type::Point, { 0, -2, 1 }, { 0, 0, 0 }, { 0, 0, 1 }, 10, 20 });
+        r.setLight(3, { Light::Type::Point, { -2, 0, 1 }, { 0, 0, 0 }, { 1, 1, 1 }, 10, 40 });
+    }
+    else
+    {
+        r.setLight(0, { Light::Type::Directional, { 0, 0, 0 }, { 0, 1, 0 }, { 1, 0, 0 }, 10, 10 });
+        r.setLight(1, { Light::Type::Directional, { 0, 0, 0 }, { 1, 0, 0 }, { 0, 1, 0 }, 10, 10 });
+        r.setLight(2, { Light::Type::Directional, { 0, 0, 0 }, { 0, -1, 0 }, { 0, 0, 1 }, 10, 10 });
+        r.setLight(3, { Light::Type::Directional, { 0, 0, 0 }, { -1, 0, 0 }, { 1, 1, 1 }, 10, 10 });
+    }
+
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
