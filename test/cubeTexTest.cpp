@@ -1,10 +1,12 @@
 //
-// Created by william on 2022/5/22.
+// Created by william on 2022/5/23.
 //
+
 #include "commonMacro.h"
 #include "re/core/mesh.h"
 #include "re/core/renderer.h"
 #include "re/core/shader.h"
+#include "re/core/texture.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -16,7 +18,7 @@ using namespace re;
 static int s_canvasWidth = 640;
 static int s_canvasHeight = 480;
 
-void cubeTest()
+void cubeTexTest()
 {
     LOG_INFO("cubeTest");
     glfwInit();
@@ -36,6 +38,7 @@ void cubeTest()
     r.getCamera()->lookAt({ 0.0f, 0.0f, 4.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
     r.getCamera()->perspectiveProjection(45.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
     Shader* shader = Shader::getUnlit();
+    shader->setTexture("tex", Texture::createTextureFromFile(GET_CURRENT("test/resources/test.jpg"), true));
     Mesh* mesh = Mesh::createCube();
     while (!glfwWindowShouldClose(window))
     {

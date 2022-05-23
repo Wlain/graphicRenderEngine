@@ -35,8 +35,7 @@ void sphereTest()
     Renderer r{ window };
     r.getCamera()->lookAt({ 0.0f, 0.0f, 4.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
     r.getCamera()->perspectiveProjection(45.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
-    Shader* shader = Shader::createUnlitColor();
-    shader->bind();
+    Shader* shader = Shader::getUnlit();
     Mesh* mesh = Mesh::createSphere();
     shader->setVector("color", { 0.0f, 1.0f, 0.0f, 1.0f });
     while (!glfwWindowShouldClose(window))

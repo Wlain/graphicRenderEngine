@@ -1,7 +1,6 @@
 //
 // Created by william on 2022/5/22.
 //
-
 #include "logger.h"
 
 #include "spdlog/async.h"
@@ -9,7 +8,6 @@
 #include "spdlog/sinks/stdout_color_sinks.h"
 
 #include <vector>
-
 Logger::Logger()
 {
     auto stdoutSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();

@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON) # 设置指定的C++版本
 # modify flat to -std=c++20 rather than -std=gnu++20
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+add_definitions(-DCURRENT_PROJECT_DIR="${PROJECT_SOURCE_DIR}/")
+
 # glfw
 add_subdirectory(3rdparty/glfw)
 # glm
@@ -31,7 +33,7 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
         utils/*.cpp
         test/*.cpp)
 
-add_executable(simpleRenderEngine ${SOURCES} utils/timer.h test/sphereTest.cpp)
+add_executable(simpleRenderEngine ${SOURCES} test/cubeTexTest.cpp)
 
 # 链接库
 target_link_libraries(simpleRenderEngine

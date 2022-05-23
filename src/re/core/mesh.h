@@ -32,7 +32,6 @@ public:
 public:
     Mesh();
     ~Mesh();
-    void bind() const;
     void updateMesh(std::vector<glm::vec3>& vertexPositions,
                     std::vector<glm::vec3>& normals,
                     std::vector<glm::vec2>& uvs,
@@ -41,6 +40,8 @@ public:
     inline Topology topology() const { return m_topology; }
 
 private:
+    void bind() const;
+    friend class Renderer;
     Topology m_topology{ Topology::Triangles }; // mesh拓扑结构
     uint32_t m_vbo{ 0 };
     uint32_t m_vao{ 0 };

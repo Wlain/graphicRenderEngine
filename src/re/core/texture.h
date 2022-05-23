@@ -27,8 +27,10 @@ class Texture
     };
 
 public:
-    static Texture* createTextureFromPNG(const char* filePath, int size, bool generateMipmaps = false);
+    static Texture* createTextureFromFile(const char* filePath, bool generateMipmaps = false);
     static Texture* getWhiteTexture();
+    static Texture* createRGBATextureMem(const char* data, int width, int height, bool generateMipmaps = false);
+    ~Texture();
     inline int width() const { return m_info.width; }
     inline int height() const { return m_info.height; }
     inline bool isFilterSampling() const { return m_info.filterSampling; }
@@ -45,13 +47,14 @@ public:
     }
 
 private:
-    Texture(unsigned char* data, int width, int height, uint32_t format, bool generateMipmaps);
+    Texture(const char* data, int width, int height, uint32_t format, bool generateMipmaps);
     void updateTextureSampler() const;
 
 private:
     inline static Texture* s_whiteTexture{ nullptr };
 
 private:
+    friend class Shader;
     uint32_t m_id{ 0 };
     Info m_info{};
 };

@@ -4,13 +4,11 @@
 
 #ifndef SIMPLERENDERENGINE_LOGGER_H
 #define SIMPLERENDERENGINE_LOGGER_H
-
 #include "singleton.h"
+#include "spdlog/spdlog.h"
 
 #include <cstdio>
 #include <cstdlib>
-#include "spdlog/spdlog.h"
-
 class Logger final : public Singleton<Logger>
 {
 public:
@@ -63,5 +61,4 @@ public:
 private:
     std::shared_ptr<spdlog::logger> m_logger;
 };
-
 #endif //SIMPLERENDERENGINE_LOGGER_H
