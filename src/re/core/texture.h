@@ -4,15 +4,56 @@
 
 #ifndef SIMPLERENDERENGINE_TEXTURE_H
 #define SIMPLERENDERENGINE_TEXTURE_H
+#include <cstdlib>
 namespace re
 {
 class Texture
 {
+    enum class PixelFormat
+    {
+        RGBA,
+        RGB
+    };
+
+    struct Info
+    {
+        PixelFormat format = PixelFormat::RGBA;
+        int width = 0;
+        int height = 0;
+        int channels = 0;
+        bool generateMipmap = false;
+        bool filterSampling = true;
+        bool wrapTextureCoordinates = true;
+    };
+
 public:
+    static Texture* createTextureFromPNG(const char* filePath, int size, bool generateMipmaps = false);
+    static Texture* getWhiteTexture();
+    inline int width() const { return m_info.width; }
+    inline int height() const { return m_info.height; }
+    inline bool isFilterSampling() const { return m_info.filterSampling; }
+    inline void setFilterSampling(bool enable)
+    {
+        m_info.filterSampling = enable;
+        updateTextureSampler();
+    }
+    inline bool isWrapTextureCoordinates() const { return m_info.wrapTextureCoordinates; }
+    inline void setWrapTextureCoordinates(bool enable)
+    {
+        m_info.wrapTextureCoordinates = enable;
+        updateTextureSampler();
+    }
+
 private:
-    int m_width;
-    int m_height;
-    bool m_generateMipmap;
+    Texture(unsigned char* data, int width, int height, uint32_t format, bool generateMipmaps);
+    void updateTextureSampler() const;
+
+private:
+    inline static Texture* s_whiteTexture{ nullptr };
+
+private:
+    uint32_t m_id{ 0 };
+    Info m_info{};
 };
 } // namespace re
 

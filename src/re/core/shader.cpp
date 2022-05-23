@@ -61,7 +61,7 @@ bool linkProgram(GLuint shaderProgram)
         glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH, &logSize);
         std::vector<char> errorLog((size_t)logSize);
         glGetProgramInfoLog(shaderProgram, logSize, NULL, errorLog.data());
-        LOG_ERROR("%s", errorLog.data())
+        LOG_ERROR("%s", errorLog.data());
         return false;
     }
     return true;

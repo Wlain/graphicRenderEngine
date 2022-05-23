@@ -2,7 +2,6 @@
 // Created by william on 2022/5/22.
 //
 #include "commonMacro.h"
-#include "re/core/camera.h"
 #include "re/core/mesh.h"
 #include "re/core/renderer.h"
 #include "re/core/shader.h"
@@ -19,7 +18,7 @@ static int s_canvasHeight = 480;
 
 void cubeTest()
 {
-    LOG_ERROR("cubeTest");
+    LOG_INFO("cubeTest");
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);

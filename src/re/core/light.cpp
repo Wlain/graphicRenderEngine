@@ -8,7 +8,7 @@ namespace re
 Light::Light() = default;
 Light::~Light() = default;
 
-Light::Light(LightType light, const glm::vec3& position, const glm::vec3& direction, const glm::vec3& color, float range) :
+Light::Light(Type light, const glm::vec3& position, const glm::vec3& direction, const glm::vec3& color, float range) :
     light(light), position(position), direction(direction), color(color), range(range)
 {}
 

@@ -19,15 +19,15 @@ Renderer::Renderer(GLFWwindow* window) :
     s_instance = this;
     m_camera = &m_defaultCamera;
     glfwMakeContextCurrent(window);
-    std::cout << "OpenGL version " << glGetString(GL_VERSION) << std::endl;
-    std::cout << "rg version " << s_rgVersionMajor << "." << s_rgVersionMinor << std::endl;
+    LOG_INFO("OpenGL version {}", glGetString(GL_VERSION));
+    LOG_INFO("rg version {}.{}", s_rgVersionMajor, s_rgVersionMinor);
     // setup opengl context
     glEnable(GL_CULL_FACE);
 }
 
 Renderer::~Renderer() = default;
 
-void Renderer::setLight(int lightIndex, Light light)
+void Renderer::setLight(int lightIndex, const Light& light)
 {
     ASSERT(lightIndex >= 0);
     ASSERT(lightIndex < s_maxSceneLights);
@@ -56,7 +56,7 @@ void Renderer::render(Mesh* mesh, const glm::mat4& modelTransform, Shader* shade
     shader->setMatrix("normalMat", normalMatrix);
     shader->setLights(m_sceneLights);
     mesh->bind();
-    glDrawArrays((GLenum)mesh->getMeshTopology(), 0, mesh->getVertexCount());
+    glDrawArrays((GLenum)mesh->topology(), 0, mesh->getVertexCount());
 }
 
 void Renderer::setCamera(Camera* camera)

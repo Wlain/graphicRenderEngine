@@ -14,15 +14,16 @@ namespace re
 {
 class Shader;
 
-enum class MeshTopology : uint8_t
-{
-    Points = 0x0000,
-    Lines = 0x0001,
-    Triangles = 0x0004
-};
-
 class Mesh
 {
+public:
+    enum class Topology : uint8_t
+    {
+        Points = 0x0000,
+        Lines = 0x0001,
+        Triangles = 0x0004
+    };
+
 public:
     static Mesh* createQuad();
     static Mesh* createCube();
@@ -31,19 +32,19 @@ public:
 public:
     Mesh();
     ~Mesh();
-    void bind();
+    void bind() const;
     void updateMesh(std::vector<glm::vec3>& vertexPositions,
                     std::vector<glm::vec3>& normals,
                     std::vector<glm::vec2>& uvs,
-                    MeshTopology meshTopology = MeshTopology::Triangles);
-    inline size_t getVertexCount() const { return m_vertexCount; }
-    inline MeshTopology getMeshTopology() const { return m_meshTopology; }
+                    Topology topology = Topology::Triangles);
+    inline int32_t getVertexCount() const { return m_vertexCount; }
+    inline Topology topology() const { return m_topology; }
 
 private:
-    MeshTopology m_meshTopology{ MeshTopology::Triangles }; // mesh拓扑结构
-    unsigned int m_vbo{ 0 };
-    unsigned int m_vao{ 0 };
-    size_t m_vertexCount{ 0 };
+    Topology m_topology{ Topology::Triangles }; // mesh拓扑结构
+    uint32_t m_vbo{ 0 };
+    uint32_t m_vao{ 0 };
+    int32_t m_vertexCount{ 0 };
 };
 } // namespace re
 

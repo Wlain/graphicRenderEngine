@@ -9,13 +9,15 @@
 #include <glm/glm.hpp>
 namespace re
 {
-enum class BlendingType
-{
-    Disabled,
-    AlphaBlending
-};
 class Shader
 {
+public:
+    enum class BlendingType
+    {
+        Disabled,
+        AlphaBlending
+    };
+
 public:
     static Shader* createShader(const char* vertexShader, const char* fragmentShader);
     static Shader* createUnlitColor();
@@ -41,16 +43,16 @@ private:
     friend class Renderer;
 
 private:
-    inline static Shader* s_unlitColor = nullptr;
-    inline static Shader* s_debugUV = nullptr;
-    inline static Shader* s_debugNormals = nullptr;
-    inline static Shader* s_specularColor = nullptr;
+    inline static Shader* s_unlitColor{ nullptr };
+    inline static Shader* s_debugUV{ nullptr };
+    inline static Shader* s_debugNormals{ nullptr };
+    inline static Shader* s_specularColor{ nullptr };
 
 private:
+    BlendingType m_blending{ BlendingType::Disabled };
     unsigned int m_id{ 0 };
     bool m_depthTest{ true };
     bool m_depthWrite{ true };
-    BlendingType m_blending{ BlendingType::Disabled };
 };
 } // namespace re
 

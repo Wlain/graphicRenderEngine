@@ -1,5 +1,10 @@
 # simpleRenderEngine
-This is a simple render engine based on MAC-OS
+This is a simple render engine based on OpenGL in MAC-OS
 
-# environment
+# dependencies
+* glfw
+* glm
+* spdlog
+
+
 

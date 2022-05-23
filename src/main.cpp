@@ -1,6 +1,8 @@
 extern void cubeTest();
+extern void sphereTest();
+
 int main()
 {
-    cubeTest();
+    sphereTest();
     return 0;
 }

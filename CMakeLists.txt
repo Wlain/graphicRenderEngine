@@ -12,6 +12,7 @@ add_subdirectory(3rdparty/glm)
 # spdlog
 add_subdirectory(3rdparty/spdlog)
 
+
 if (APPLE)
     INCLUDE_DIRECTORIES(/System/Library/Frameworks)
     FIND_LIBRARY(OpenGL_LIBRARY OpenGL)
@@ -22,14 +23,15 @@ endif ()
 include_directories(
         ${PROJECT_SOURCE_DIR}/src
         ${PROJECT_SOURCE_DIR}/utils
-        ${PROJECT_SOURCE_DIR}/test)
+        ${PROJECT_SOURCE_DIR}/test
+        ${PROJECT_SOURCE_DIR}/3rdparty)
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
         src/*.cpp
         utils/*.cpp
         test/*.cpp)
 
-add_executable(simpleRenderEngine ${SOURCES})
+add_executable(simpleRenderEngine ${SOURCES} utils/timer.h test/sphereTest.cpp)
 
 # 链接库
 target_link_libraries(simpleRenderEngine

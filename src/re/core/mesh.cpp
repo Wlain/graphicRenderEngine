@@ -20,15 +20,15 @@ Mesh::~Mesh()
     glDeleteBuffers(1, &m_vbo);
 }
 
-void Mesh::bind()
+void Mesh::bind() const
 {
     glBindVertexArray(m_vao);
 }
 
-void Mesh::updateMesh(std::vector<glm::vec3>& vertexPositions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& uvs, MeshTopology meshTopology)
+void Mesh::updateMesh(std::vector<glm::vec3>& vertexPositions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& uvs, Topology topology)
 {
-    m_meshTopology = meshTopology;
-    m_vertexCount = vertexPositions.size();
+    m_topology = topology;
+    m_vertexCount = (int32_t)vertexPositions.size();
     if (normals.size() < m_vertexCount)
     {
         normals.resize(m_vertexCount, { 0.0f, 0.0f, 0.0f });
@@ -75,7 +75,7 @@ Mesh* Mesh::createQuad()
     std::vector<glm::vec2> uvs({ glm::vec2{ 1, 0 }, glm::vec2{ 1, 1 }, glm::vec2{ 0, 0 },
                                  glm::vec2{ 0, 0 }, glm::vec2{ 1, 1 },
                                  glm::vec2{ 0, 1 } });
-    mesh->updateMesh(vertices, normals, uvs, MeshTopology::Triangles);
+    mesh->updateMesh(vertices, normals, uvs, Topology::Triangles);
     return mesh;
 }
 
@@ -127,7 +127,7 @@ Mesh* Mesh::createCube()
         vec3{0, -1, 0}, vec3{0, -1, 0}, vec3{0, -1, 0}, vec3{0, -1, 0},
     });
     // clang-format on
-    mesh->updateMesh(positions, normals, uvs, MeshTopology::Triangles);
+    mesh->updateMesh(positions, normals, uvs, Topology::Triangles);
     return mesh;
 }
 
@@ -138,7 +138,7 @@ Mesh* Mesh::createSphere()
     int stacks = 16;
     int slices = 32; // 片
     float radius = 1.0f;
-    auto vertexCount = (size_t)((stacks + 1) * slices);
+    size_t vertexCount = ((stacks + 1) * slices);
     std::vector<vec3> vertices{ vertexCount };
     std::vector<vec3> normals{ vertexCount };
     std::vector<vec2> uvs{ vertexCount };
@@ -189,7 +189,7 @@ Mesh* Mesh::createSphere()
             }
         }
     }
-    mesh->updateMesh(finalPosition, finalNormals, finalUVs, MeshTopology::Triangles);
+    mesh->updateMesh(finalPosition, finalNormals, finalUVs, Topology::Triangles);
     return mesh;
 }
 } // namespace re

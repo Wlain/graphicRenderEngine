@@ -18,10 +18,10 @@ class Shader;
 class Renderer
 {
 public:
-    Renderer(GLFWwindow* window);
+    explicit Renderer(GLFWwindow* window);
     ~Renderer();
     inline static Renderer* instance() { return s_instance; }
-    void setLight(int lightIndex, Light light);
+    void setLight(int lightIndex, const Light& light);
     Light& getLight(int lightIndex);
     void render(Mesh* mesh, const glm::mat4& modelTransform, Shader* shader);
     void setCamera(Camera* camera);
@@ -32,16 +32,16 @@ public:
     void swapWindow();
 
 public:
-    static constexpr int s_maxSceneLights = 4;
-    static constexpr int s_rgVersionMajor = 0;
-    static constexpr int s_rgVersionMinor = 1;
-    inline static Renderer* s_instance = nullptr;
+    static constexpr int s_maxSceneLights{ 4 };
+    static constexpr int s_rgVersionMajor{ 0 };
+    static constexpr int s_rgVersionMinor{ 1 };
+    inline static Renderer* s_instance{ nullptr };
 
 private:
     Light m_sceneLights[s_maxSceneLights];
     Camera m_defaultCamera;
-    Camera* m_camera = nullptr;
-    GLFWwindow* m_window = nullptr;
+    Camera* m_camera{ nullptr };
+    GLFWwindow* m_window{ nullptr };
 };
 } // namespace re
 #endif //SIMPLERENDERENGINE_RENDERER_H

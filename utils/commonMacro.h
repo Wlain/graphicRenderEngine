@@ -11,10 +11,8 @@
 #include <string>
 #include <thread>
 
-#define LOG_HELPER(level, ...)                                                                                    \
-    Logger::getInstance().log(level, "[in File:" + std::string(__FILE__) + ":" + std::to_string(__LINE__) + "] "  \
-                                                                                                            "[" + \
-                                  std::string(__FUNCTION__) + "] [msg]: " + __VA_ARGS__);
+#define LOG_HELPER(level, ...) \
+    Logger::getInstance().log(level, "[in File:" + std::string(__FILE__) + ":" + std::to_string(__LINE__) + " in func:" + std::string(__FUNCTION__) + "]:" + __VA_ARGS__)
 
 #define LOG_DEBUG(...) LOG_HELPER(Logger::Level::Debug, __VA_ARGS__)
 #define LOG_INFO(...) LOG_HELPER(Logger::Level::Info, __VA_ARGS__)

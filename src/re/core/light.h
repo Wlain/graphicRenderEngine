@@ -7,22 +7,22 @@
 #include <glm/glm.hpp>
 namespace re
 {
-enum class LightType
-{
-    Point,
-    Directional
-};
-
 struct Light
 {
+    enum class Type
+    {
+        Point,
+        Directional
+    };
+
     Light();
     ~Light();
-    LightType light{ LightType::Point };
-    glm::vec3 position;
-    glm::vec3 direction;
-    glm::vec3 color;
-    float range;
-    Light(LightType light, const glm::vec3& position, const glm::vec3& direction, const glm::vec3& color, float range);
+    Type light{ Type::Point };
+    glm::vec3 position{};
+    glm::vec3 direction{};
+    glm::vec3 color{};
+    float range{};
+    Light(Type light, const glm::vec3& position, const glm::vec3& direction, const glm::vec3& color, float range);
 };
 } // namespace re
 
