@@ -6,8 +6,8 @@
 
 #include "commonMacro.h"
 #include "font.inl"
+#include "glCommonDefine.h"
 
-#include <OpenGL/gl3.h>
 #include <fstream>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>

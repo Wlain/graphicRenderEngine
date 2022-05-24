@@ -12,8 +12,8 @@ class Camera
 {
 public:
     Camera();
-    void lookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up);
-    void perspectiveProjection(float fieldOfViewY, float viewportWidth, float viewportHeight, float nearPlane, float farPlane);
+    void setLookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up);
+    void setPerspectiveProjection(float fieldOfViewY, float viewportWidth, float viewportHeight, float nearPlane, float farPlane);
     void setOrthographicProjection(float left, float right, float bottom, float top, float zNear, float zFar);
     inline void setViewTransform(const glm::mat4& viewTransform) { m_viewTransform = viewTransform; }
     inline void setProjectionTransform(const glm::mat4& projectionTransform) { m_projectionTransform = projectionTransform; }

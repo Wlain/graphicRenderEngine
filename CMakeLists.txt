@@ -25,10 +25,18 @@ include_directories(
         ${PROJECT_SOURCE_DIR}/re
         ${PROJECT_SOURCE_DIR}/re/utils
         ${PROJECT_SOURCE_DIR}/test
-        ${PROJECT_SOURCE_DIR}/3rdparty)
+        ${PROJECT_SOURCE_DIR}/3rdparty
+        ${PROJECT_SOURCE_DIR}/3rdparty/imgui
+        ${PROJECT_SOURCE_DIR}/3rdparty/imgui/backends)
 
-file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS re/*.cpp)
-file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${SOURCE_FILES} test/*.cpp)
+# imgui
+file(GLOB IMAGE_UI_SRC
+        3rdparty/imgui/backends/imgui_impl_glfw.*
+        3rdparty/imgui/backends/imgui_impl_opengl3.*
+        3rdparty/imgui/*.cpp)
+
+file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS ${IMAGE_UI_SRC} re/*.cpp)
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${SOURCE_FILES}  test/*.cpp )
 
 add_executable(simpleRenderEngine ${SOURCES})
 add_library(re SHARED ${SOURCE_FILES})

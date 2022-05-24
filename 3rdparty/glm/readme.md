@@ -325,7 +325,7 @@ glm::mat4 camera(float Translate, glm::vec2 const& Rotate)
 #### Features:
 - Added GTC_color_space: convertLinearToSRGB and convertSRGBToLinear functions
 - Added 'fmod' overload to GTX_common with tests #308
-- Left handed perspective and lookAt functions #314
+- Left handed perspective and setLookAt functions #314
 - Added functions eulerAngleXYZ and extractEulerAngleXYZ #311
 - Added <glm/gtx/hash.hpp> to perform std::hash on GLM types #320 #367
 - Added <glm/gtx/wrap.hpp> for texcoord wrapping
@@ -558,7 +558,7 @@ glm::mat4 camera(float Translate, glm::vec2 const& Rotate)
 - Added GLM_FORCE_SIZE_T_LENGTH and glm::length_t
 - Removed unnecessary conversions
 - Optimized packing and unpacking functions
-- Removed the normalization of the up argument of lookAt function (#114)
+- Removed the normalization of the up argument of setLookAt function (#114)
 - Added low precision specializations of inversesqrt
 - Fixed ldexp and frexp implementations
 - Increased assert coverage

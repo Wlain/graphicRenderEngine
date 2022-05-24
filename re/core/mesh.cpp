@@ -4,7 +4,7 @@
 
 #include "mesh.h"
 
-#include <OpenGL/gl3.h>
+#include "glCommonDefine.h"
 #include <glm/gtc/constants.hpp>
 namespace re
 {

@@ -6,18 +6,18 @@
 
 #include "renderer.h"
 
-#include <OpenGL/gl3.h>
+#include "glCommonDefine.h"
 #include <glm/gtc/matrix_transform.hpp>
 namespace re
 {
 Camera::Camera() = default;
 
-void Camera::lookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up)
+void Camera::setLookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up)
 {
     m_viewTransform = glm::lookAt(eye, at, up);
 }
 
-void Camera::perspectiveProjection(float fieldOfViewY, float viewportWidth, float viewportHeight, float nearPlane, float farPlane)
+void Camera::setPerspectiveProjection(float fieldOfViewY, float viewportWidth, float viewportHeight, float nearPlane, float farPlane)
 {
     m_projectionTransform = glm::perspectiveFov(glm::radians(fieldOfViewY), viewportWidth, viewportHeight, nearPlane, farPlane);
 }

@@ -45,18 +45,18 @@ public:
     static Shader* getFont();
 
     ~Shader();
-    bool setMatrix(const char* name, glm::mat4 value);
-    bool setMatrix(const char* name, glm::mat3 value);
-    bool setVector(const char* name, glm::vec4 value);
-    bool setFloat(const char* name, float value);
-    bool setInt(const char* name, int value);
+    bool set(const char* name, glm::mat4 value);
+    bool set(const char* name, glm::mat3 value);
+    bool set(const char* name, glm::vec4 value);
+    bool set(const char* name, float value);
+    bool set(const char* name, int value);
+    bool set(const char* name, Texture* texture, unsigned int textureSlot = 0);
     inline void setDepthTest(bool enable) { m_depthTest = enable; }
     inline bool isDepthTest() const { return m_depthTest; }
     inline void setDepthWrite(bool enable) { m_depthWrite = enable; }
     inline bool isDepthWrite() const { return m_depthWrite; }
     inline void setBlend(BlendType type) { m_blending = type; }
     inline BlendType getBlend() const { return m_blending; }
-    bool setTexture(const char* name, Texture* texture, unsigned int textureSlot = 0);
 
 private:
     Shader();

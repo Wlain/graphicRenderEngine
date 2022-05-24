@@ -29,7 +29,7 @@ void Debug::drawLine(glm::vec3 from, glm::vec3 to)
     std::vector<glm::vec2> uvs = { glm::vec2{ 0 }, glm::vec2{ 0 } };
     auto* mesh = new Mesh(vertices, normals, uvs, Mesh::Topology::Lines);
     auto* shader = Shader::getUnlit();
-    shader->setVector("color", s_color);
+    shader->set("color", s_color);
     if (Renderer::instance() != nullptr)
     {
         Renderer::instance()->render(mesh, glm::mat4(1), shader);

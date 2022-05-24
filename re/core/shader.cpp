@@ -7,7 +7,7 @@
 #include "commonMacro.h"
 #include "texture.h"
 
-#include <OpenGL/gl3.h>
+#include "glCommonDefine.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <string>
 #include <vector>
@@ -180,9 +180,9 @@ Shader* Shader::getStandard()
         }
     )";
     s_standard = createShader(vertexShader, fragmentShader);
-    s_standard->setVector("color", glm::vec4(1));
-    s_standard->setTexture("tex", Texture::getWhiteTexture());
-    s_standard->setFloat("specularity", 0);
+    s_standard->set("color", glm::vec4(1));
+    s_standard->set("tex", Texture::getWhiteTexture());
+    s_standard->set("specularity", 0.0f);
     return s_standard;
 }
 
@@ -220,8 +220,8 @@ Shader* Shader::getFont()
         }
     )";
     s_font = createShader(vertexShader, fragmentShader);
-    s_font->setVector("color", glm::vec4(1));
-    s_font->setTexture("tex", Texture::getFontTexture());
+    s_font->set("color", glm::vec4(1));
+    s_font->set("tex", Texture::getFontTexture());
     s_font->setBlend(BlendType::AlphaBlending);
     return s_font;
 }
@@ -266,60 +266,75 @@ Shader::~Shader()
     glDeleteShader(m_id);
 }
 
-bool Shader::setMatrix(const char* name, glm::mat4 value)
+bool Shader::set(const char* name, glm::mat4 value)
 {
     glUseProgram(m_id);
     GLint location = glGetUniformLocation(m_id, name);
     if (location == -1)
     {
+#ifdef DEBUG
+        LOG_ERROR("Cannot find shader uniform!");
+#endif
         return false;
     }
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
     return true;
 }
 
-bool Shader::setMatrix(const char* name, glm::mat3 value)
+bool Shader::set(const char* name, glm::mat3 value)
 {
     glUseProgram(m_id);
     GLint location = glGetUniformLocation(m_id, name);
     if (location == -1)
     {
+#ifdef DEBUG
+        LOG_ERROR("Cannot find shader uniform!");
+#endif
         return false;
     }
     glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(value));
     return true;
 }
 
-bool Shader::setVector(const char* name, glm::vec4 value)
+bool Shader::set(const char* name, glm::vec4 value)
 {
     glUseProgram(m_id);
     GLint location = glGetUniformLocation(m_id, name);
     if (location == -1)
     {
+#ifdef DEBUG
+        LOG_ERROR("Cannot find shader uniform!");
+#endif
         return false;
     }
     glUniform4fv(location, 1, glm::value_ptr(value));
     return true;
 }
 
-bool Shader::setFloat(const char* name, float value)
+bool Shader::set(const char* name, float value)
 {
     glUseProgram(m_id);
     GLint location = glGetUniformLocation(m_id, name);
     if (location == -1)
     {
+#ifdef DEBUG
+        LOG_ERROR("Cannot find shader uniform!");
+#endif
         return false;
     }
     glUniform1f(location, value);
     return true;
 }
 
-bool Shader::setInt(const char* name, int value)
+bool Shader::set(const char* name, int value)
 {
     glUseProgram(m_id);
     GLint location = glGetUniformLocation(m_id, name);
     if (location == -1)
     {
+#ifdef DEBUG
+        LOG_ERROR("Cannot find shader uniform!");
+#endif
         return false;
     }
     glUniform1i(location, value);
@@ -332,6 +347,9 @@ bool Shader::setLights(Light* value, const glm::vec4& ambient, const glm::mat4& 
     GLint location = glGetUniformLocation(m_id, "ambientLight");
     if (location == -1)
     {
+#ifdef DEBUG
+        LOG_ERROR("Cannot find shader uniform!");
+#endif
         return false;
     }
     glUniform4fv(location, 1, glm::value_ptr(ambient));
@@ -424,8 +442,8 @@ Shader* Shader::getUnlit()
         }
     )";
     s_unlit = createShader(vertexShader, fragmentShader);
-    s_unlit->setVector("color", glm::vec4(1.0f));
-    s_unlit->setTexture("tex", Texture::getWhiteTexture());
+    s_unlit->set("color", glm::vec4(1.0f));
+    s_unlit->set("tex", Texture::getWhiteTexture());
     return s_unlit;
 }
 
@@ -464,19 +482,22 @@ Shader* Shader::getUnlitSprite()
         }
     )";
     s_unlitSprite = createShader(vertexShader, fragmentShader);
-    s_unlitSprite->setVector("color", glm::vec4(1));
-    s_unlitSprite->setTexture("tex", Texture::getWhiteTexture());
+    s_unlitSprite->set("color", glm::vec4(1));
+    s_unlitSprite->set("tex", Texture::getWhiteTexture());
     s_unlitSprite->setBlend(BlendType::AlphaBlending);
     s_unlitSprite->setDepthTest(false);
     return s_unlitSprite;
 }
 
-bool Shader::setTexture(const char* name, Texture* texture, unsigned int textureSlot)
+bool Shader::set(const char* name, Texture* texture, unsigned int textureSlot)
 {
     glUseProgram(m_id);
     GLint location = glGetUniformLocation(m_id, name);
     if (location == -1)
     {
+#ifdef DEBUG
+        LOG_ERROR("Cannot find shader uniform!");
+#endif
         return false;
     }
 

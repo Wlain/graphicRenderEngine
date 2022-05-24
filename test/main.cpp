@@ -2,9 +2,10 @@ extern void cubeTest();
 extern void sphereTest();
 extern void cubeTexTest();
 extern void textText();
+extern void guiTest();
 
 int main()
 {
-    textText();
+    guiTest();
     return 0;
 }

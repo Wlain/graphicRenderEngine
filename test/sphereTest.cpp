@@ -15,10 +15,11 @@ using namespace re;
 
 static int s_canvasWidth = 640;
 static int s_canvasHeight = 480;
+static constexpr char* title = "sphereTest";
 
 void sphereTest()
 {
-    LOG_INFO("cubeTest");
+    LOG_INFO("{}", title);
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
@@ -27,14 +28,14 @@ void sphereTest()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
     // glfw window creation
-    auto window = glfwCreateWindow(s_canvasWidth, s_canvasHeight, "hello world", nullptr, nullptr);
+    auto window = glfwCreateWindow(s_canvasWidth, s_canvasHeight, title, nullptr, nullptr);
     if (window == nullptr)
     {
         glfwTerminate();
     }
     Renderer r{ window };
-    r.getCamera()->lookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-    r.getCamera()->perspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
+    r.getCamera()->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+    r.getCamera()->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
     Shader* shader = Shader::getStandard();
     Mesh* mesh = Mesh::createSphere();
     bool point = true;

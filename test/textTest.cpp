@@ -12,17 +12,16 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/euler_angles.hpp>
 
 using namespace re;
 
 static int s_canvasWidth = 640;
 static int s_canvasHeight = 480;
+static constexpr char* title = "textText";
 
 void textText()
 {
-    LOG_INFO("cubeTest");
+    LOG_INFO("{}", title);
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
@@ -31,7 +30,7 @@ void textText()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
     // glfw window creation
-    auto window = glfwCreateWindow(s_canvasWidth, s_canvasHeight, "hello world", nullptr, nullptr);
+    auto window = glfwCreateWindow(s_canvasWidth, s_canvasHeight, title, nullptr, nullptr);
     if (window == nullptr)
     {
         glfwTerminate();

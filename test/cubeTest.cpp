@@ -5,7 +5,6 @@
 #include "core/mesh.h"
 #include "core/renderer.h"
 #include "core/shader.h"
-#include "core/text.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -16,10 +15,11 @@ using namespace re;
 
 static int s_canvasWidth = 640;
 static int s_canvasHeight = 480;
+static constexpr char* title = "cubeTest";
 
 void cubeTest()
 {
-    LOG_INFO("cubeTest");
+    LOG_INFO("{}", title);
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
@@ -34,10 +34,10 @@ void cubeTest()
         glfwTerminate();
     }
     Renderer r{ window };
-    r.getCamera()->lookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-    r.getCamera()->perspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
+    r.getCamera()->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+    r.getCamera()->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
     Shader* shader = Shader::getStandard();
-    shader->setTexture("tex", Texture::getFontTexture());
+    shader->set("tex", Texture::getFontTexture());
     auto* mesh = Mesh::createCube();
     r.setLight(0, { Light::Type::Point, { 0, 2, 1 }, { 0, 0, 0 }, { 1, 0, 0 }, 2 });
     r.setLight(1, { Light::Type::Point, { 2, 0, 1 }, { 0, 0, 0 }, { 0, 1, 0 }, 2 });
