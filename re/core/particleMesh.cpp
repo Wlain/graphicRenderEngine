@@ -7,11 +7,11 @@
 #include "glCommonDefine.h"
 namespace re
 {
-ParticleMesh::ParticleMesh(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec4>& colors, const std::vector<glm::vec2>& uvCenter, const std::vector<float>& uvSize, const std::vector<float>& uvRotation, const std::vector<float>& particleSizes)
+ParticleMesh::ParticleMesh(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec4>& colors, const std::vector<glm::vec2>& uv, const std::vector<float>& uvSize, const std::vector<float>& uvRotation, const std::vector<float>& particleSizes)
 {
     glGenBuffers(1, &m_vbo);
     glGenVertexArrays(1, &m_vao);
-    update(vertexPositions, colors, uvCenter, uvSize, uvRotation, particleSizes);
+    update(vertexPositions, colors, uv, uvSize, uvRotation, particleSizes);
 }
 
 ParticleMesh::~ParticleMesh()
@@ -20,18 +20,18 @@ ParticleMesh::~ParticleMesh()
     glDeleteBuffers(1, &m_vbo);
 }
 
-void ParticleMesh::update(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec4>& colors, const std::vector<glm::vec2>& uvCenter, const std::vector<float>& uvSize, const std::vector<float>& uvRotation, const std::vector<float>& particleSizes)
+void ParticleMesh::update(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec4>& colors, const std::vector<glm::vec2>& uv, const std::vector<float>& uvSize, const std::vector<float>& uvRotation, const std::vector<float>& particleSizes)
 {
     m_vertexPositions = vertexPositions;
     m_colors = colors;
-    m_uvCenter = uvCenter;
+    m_uv = uv;
     m_uvSize = uvSize;
     m_uvRotation = uvRotation;
     m_particleSizes = particleSizes;
     m_vertexCount = (int)vertexPositions.size();
     bool hasColors = colors.size() == m_vertexCount;
     bool hasUvSize = uvSize.size() == m_vertexCount;
-    bool hasUvCenter = uvCenter.size() == m_vertexCount;
+    bool hasUv = uv.size() == m_vertexCount;
     bool hasUvRotation = uvRotation.size() == m_vertexCount;
     bool hasParticleSizes = particleSizes.size() == m_vertexCount;
     // interleave data
@@ -55,7 +55,7 @@ void ParticleMesh::update(const std::vector<glm::vec3>& vertexPositions, const s
             // uv
             if (j < 2)
             {
-                interleavedData[i * floatsPerVertex + j + 8] = hasUvCenter ? uvCenter[i][j] : 0.5f;
+                interleavedData[i * floatsPerVertex + j + 8] = hasUv ? uv[i][j] : 0.5f;
             }
             else if (j == 2)
             {

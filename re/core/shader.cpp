@@ -298,7 +298,7 @@ Shader* Shader::getStandardParticles()
         }
     )";
     s_standardParticles = createShader(vertexShader, fragmentShader, true);
-    s_standardParticles->set("tex", Texture::getWhiteTexture());
+    s_standardParticles->set("tex", Texture::getSphereTexture());
     s_standardParticles->setBlend(BlendType::AdditiveBlending);
     s_standardParticles->setDepthWrite(false);
     return s_standardParticles;

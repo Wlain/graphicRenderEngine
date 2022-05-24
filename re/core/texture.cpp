@@ -84,11 +84,11 @@ Texture* Texture::getFontTexture()
     return s_fontTexture;
 }
 
-Texture* Texture::getAlphaSphereTexture()
+Texture* Texture::getSphereTexture()
 {
-    if (s_alphaSphereTexture != nullptr)
+    if (s_sphereTexture != nullptr)
     {
-        return s_alphaSphereTexture;
+        return s_sphereTexture;
     }
     int size = 128;
     char one = (char)0xff;
@@ -98,11 +98,14 @@ Texture* Texture::getAlphaSphereTexture()
         for (int y = 0; y < size; y++)
         {
             float distToCenter = glm::clamp(1.0f - 2.0f * glm::length(glm::vec2((x + 0.5f) / size, (y + 0.5f) / size) - glm::vec2(0.5f, 0.5f)), 0.0f, 1.0f);
-            data[x * size * 4 + y * 4 + 3] = (char)(255 * distToCenter);
+            data[x * size * 4 + y * 4 + 0] = (char)(255 * distToCenter);
+            data[x * size * 4 + y * 4 + 1] = (char)(255 * distToCenter);
+            data[x * size * 4 + y * 4 + 2] = (char)(255 * distToCenter);
+            data[x * size * 4 + y * 4 + 3] = (char)255;
         }
     }
-    s_alphaSphereTexture = createFromMem(data.data(), size, size, true);
-    return s_alphaSphereTexture;
+    s_sphereTexture = createFromMem(data.data(), size, size, true);
+    return s_sphereTexture;
 }
 
 Texture* Texture::createFromMem(const char* data, int width, int height, bool generateMipmaps)

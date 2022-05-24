@@ -58,9 +58,7 @@ void particleTest()
     r.getCamera()->setPerspectiveProjection(45.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
     auto* shader = Shader::getStandard();
     shader->set("specularity", 20.0f);
-    shader->set("tex", Texture::createTextureFromFile(GET_CURRENT("test/resources/test.jpg"), true), 1);
     auto* shaderParticle = Shader::getStandardParticles();
-    shaderParticle->set("tex", Texture::getAlphaSphereTexture());
     shaderParticle->set("isSplit", 1);
     auto* particleMesh = createParticles();
     Mesh* mesh = Mesh::createCube();
@@ -73,7 +71,9 @@ void particleTest()
     {
         /// 渲染
         r.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
+        shader->set("tex", Texture::createTextureFromFile(GET_CURRENT("test/resources/test.jpg"), true));
         r.render(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)) * glm::scale(glm::mat4(1), { 0.3f, 0.3f, 0.3f }), shader);
+        shaderParticle->set("tex", Texture::getSphereTexture(), true);
         r.render(particleMesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), shaderParticle);
         r.swapWindow();
     }

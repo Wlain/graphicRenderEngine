@@ -30,7 +30,7 @@ public:
     static Texture* createTextureFromFile(const char* filePath, bool generateMipmaps = false);
     static Texture* getWhiteTexture();
     static Texture* getFontTexture();
-    static Texture* getAlphaSphereTexture();
+    static Texture* getSphereTexture();
     static Texture* createFromMem(const char* data, int width, int height, bool generateMipmaps = false);
     ~Texture();
     inline int width() const { return m_info.width; }
@@ -55,7 +55,7 @@ private:
 private:
     inline static Texture* s_whiteTexture{ nullptr };
     inline static Texture* s_fontTexture{ nullptr };
-    inline static Texture* s_alphaSphereTexture{ nullptr };
+    inline static Texture* s_sphereTexture{ nullptr };
 
 private:
     friend class Shader;
