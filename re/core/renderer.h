@@ -42,7 +42,12 @@ public:
     void clearScreen(const glm::vec4& color, bool clearColorBuffer = true, bool clearDepthBuffer = true);
     // Update window with OpenGL rendering
     void swapWindow();
-    void setupShader(const glm::mat4 &modelTransform, Shader *shader);
+    void setupShader(const glm::mat4& modelTransform, Shader* shader);
+    // flush GPU command buffer (must be called when profiling GPU time - should not be called when not profiling)
+    void flush()
+    {
+        glFlush();
+    }
 
 public:
     static constexpr int s_maxSceneLights{ 4 };

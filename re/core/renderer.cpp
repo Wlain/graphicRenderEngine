@@ -25,6 +25,7 @@ Renderer::Renderer(GLFWwindow* window) :
     glEnable(GL_CULL_FACE);
     glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_LOWER_LEFT);
     glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
+    glfwGetFramebufferSize(m_window, &m_camera->m_viewportWidth, &m_camera->m_viewportHeight);
 }
 
 Renderer::~Renderer() = default;

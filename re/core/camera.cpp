@@ -4,13 +4,19 @@
 
 #include "camera.h"
 
+#include "glCommonDefine.h"
 #include "renderer.h"
 
-#include "glCommonDefine.h"
 #include <glm/gtc/matrix_transform.hpp>
 namespace re
 {
-Camera::Camera() = default;
+Camera::Camera()
+{
+    if (Renderer::s_instance)
+    {
+        glfwGetFramebufferSize(Renderer::s_instance->m_window, &m_viewportWidth, &m_viewportHeight);
+    }
+}
 
 void Camera::setLookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up)
 {
