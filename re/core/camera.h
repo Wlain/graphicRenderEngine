@@ -20,6 +20,7 @@ public:
     inline glm::mat4 getViewTransform() const { return m_viewTransform; }
     inline glm::mat4 getProjectionTransform() const { return m_projectionTransform; };
     void setViewport(int x, int y, int width, int height);
+    void setWindowCoordinates(int width = -1, int height = -1);
 
 private:
     glm::mat4 m_viewTransform{ 1.0f };

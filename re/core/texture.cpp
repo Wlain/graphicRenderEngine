@@ -5,6 +5,7 @@
 #include "texture.h"
 
 #include "commonMacro.h"
+#include "font.inl"
 
 #include <OpenGL/gl3.h>
 #include <fstream>
@@ -60,11 +61,29 @@ Texture* Texture::getWhiteTexture()
     }
     char one = (char)0xff;
     std::vector<char> data(2 * 2 * 4, one);
-    s_whiteTexture = createRGBATextureMem(data.data(), 2, 2, true);
+    s_whiteTexture = createFromMem(data.data(), 2, 2, true);
     return s_whiteTexture;
 }
 
-Texture* Texture::createRGBATextureMem(const char* data, int width, int height, bool generateMipmaps)
+Texture* Texture::getFontTexture()
+{
+    if (s_fontTexture != nullptr)
+    {
+        return s_fontTexture;
+    }
+    int width{};
+    int height{};
+    int channels{};
+    stbi_set_flip_vertically_on_load(true);
+    int desireComp = STBI_rgb_alpha;
+    unsigned char* data = stbi_load_from_memory((stbi_uc const*)fontPng, sizeof(fontPng), &width, &height, &channels, desireComp);
+    stbi_set_flip_vertically_on_load(false);
+    s_fontTexture = new Texture((const char*)data, width, height, GL_RGBA, true);
+    stbi_image_free(data);
+    return s_fontTexture;
+}
+
+Texture* Texture::createFromMem(const char* data, int width, int height, bool generateMipmaps)
 {
     return new Texture(data, width, height, GL_RGBA, generateMipmaps);
 }

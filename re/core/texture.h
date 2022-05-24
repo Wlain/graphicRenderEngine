@@ -29,7 +29,8 @@ class Texture
 public:
     static Texture* createTextureFromFile(const char* filePath, bool generateMipmaps = false);
     static Texture* getWhiteTexture();
-    static Texture* createRGBATextureMem(const char* data, int width, int height, bool generateMipmaps = false);
+    static Texture* getFontTexture();
+    static Texture* createFromMem(const char* data, int width, int height, bool generateMipmaps = false);
     ~Texture();
     inline int width() const { return m_info.width; }
     inline int height() const { return m_info.height; }
@@ -52,6 +53,7 @@ private:
 
 private:
     inline static Texture* s_whiteTexture{ nullptr };
+    inline static Texture* s_fontTexture{};
 
 private:
     friend class Shader;

@@ -39,4 +39,8 @@ void Camera::setViewport(int x, int y, int width, int height)
         glScissor(x, y, width, height);
     }
 }
+
+void Camera::setWindowCoordinates(int width, int height)
+{
+}
 } // namespace re

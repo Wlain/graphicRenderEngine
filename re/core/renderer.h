@@ -28,7 +28,7 @@ public:
     void setCamera(Camera* camera);
     inline Camera* getCamera() const { return m_camera; }
     inline Camera* getDefaultCamera() { return &m_defaultCamera; }
-    inline const glm::vec3& getAmbientLight() const
+    inline const glm::vec3 getAmbientLight() const
     {
         return glm::vec3(m_ambientLight);
     }

@@ -26,6 +26,7 @@ public:
     static Shader* getDebugUV();
     static Shader* getDebugNormals();
     static Shader* getStandard();
+    static Shader* getFont();
 
     ~Shader();
     bool setMatrix(const char* name, glm::mat4 value);
@@ -53,6 +54,7 @@ private:
     inline static Shader* s_debugUV{ nullptr };
     inline static Shader* s_debugNormals{ nullptr };
     inline static Shader* s_standard{ nullptr };
+    inline static Shader* s_font{ nullptr };
 
 private:
     BlendType m_blending{ BlendType::Disabled };

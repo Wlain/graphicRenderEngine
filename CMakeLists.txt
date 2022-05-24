@@ -22,12 +22,12 @@ if (APPLE)
 endif ()
 
 include_directories(
-        ${PROJECT_SOURCE_DIR}/src
-        ${PROJECT_SOURCE_DIR}/utils
+        ${PROJECT_SOURCE_DIR}/re
+        ${PROJECT_SOURCE_DIR}/re/utils
         ${PROJECT_SOURCE_DIR}/test
         ${PROJECT_SOURCE_DIR}/3rdparty)
 
-file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS src/*.cpp utils/*.cpp)
+file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS re/*.cpp)
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${SOURCE_FILES} test/*.cpp)
 
 add_executable(simpleRenderEngine ${SOURCES})

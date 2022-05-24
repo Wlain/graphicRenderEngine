@@ -3,10 +3,10 @@
 //
 
 #include "commonMacro.h"
-#include "re/core/mesh.h"
-#include "re/core/renderer.h"
-#include "re/core/shader.h"
-#include "re/core/texture.h"
+#include "core/mesh.h"
+#include "core/renderer.h"
+#include "core/shader.h"
+#include "core/texture.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
