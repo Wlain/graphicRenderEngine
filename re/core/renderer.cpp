@@ -21,6 +21,7 @@ Renderer::Renderer(GLFWwindow* window) :
     LOG_INFO("OpenGL version {}", glGetString(GL_VERSION));
     LOG_INFO("rg version {}.{}", s_rgVersionMajor, s_rgVersionMinor);
     // setup opengl context
+    glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_LOWER_LEFT);
     glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
@@ -90,6 +91,7 @@ void Renderer::clearScreen(const glm::vec4& color, bool clearColorBuffer, bool c
     }
     if (clearDepthBuffer)
     {
+        glDepthMask(GL_TRUE);
         clear |= GL_DEPTH_BUFFER_BIT;
     }
     glClear(clear);

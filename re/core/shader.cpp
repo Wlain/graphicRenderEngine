@@ -130,8 +130,6 @@ Shader* Shader::getStandard()
             vec3 normal = normalize(vNormal);
 
             float diffuseFrac = 1.0 - ambientLight.w;
-            float diffuse = 0;
-            float specular = 0;
             for (int i = 0; i < 4; i++)
             {
                 bool isDirectional = lightPosType[i].w == 0.0;
@@ -164,8 +162,8 @@ Shader* Shader::getStandard()
                     float nDotHV = dot(normal, H);
                     if (nDotHV > 0)
                     {
-                       float pf = pow(nDotHV, specularity);
-                       lightColor += vec3(att * diffuseFrac * diffuseFrac * pf); // white specular highlights
+                        float pf = pow(nDotHV, specularity);
+                        lightColor += vec3(att * diffuseFrac * pf); // white specular highlights
                     }
                }
             }
@@ -275,7 +273,7 @@ Shader* Shader::getStandardParticles()
     s_standardParticles = createShader(vertexShader, fragmentShader, true);
     s_standardParticles->set("tex", Texture::getWhiteTexture());
     s_standardParticles->setBlend(BlendType::AdditiveBlending);
-    s_standardParticles->setDepthWrite(true);
+    s_standardParticles->setDepthWrite(false);
     return s_standardParticles;
 }
 
@@ -463,25 +461,15 @@ bool Shader::set(const char* name, Texture* texture, unsigned int textureSlot)
 bool Shader::setLights(Light* value, const glm::vec4& ambient, const glm::mat4& viewTransform)
 {
     glUseProgram(m_id);
-    GLint location = glGetUniformLocation(m_id, "ambientLight");
-    if (location == -1)
+    auto uniform = getType("ambientLight");
+    if (uniform.id != -1)
     {
-#ifdef DEBUG
-        LOG_ERROR("Cannot find shader uniform!");
-#endif
-        return false;
+        glUniform4fv(uniform.id, 1, glm::value_ptr(ambient));
     }
-    glUniform4fv(location, 1, glm::value_ptr(ambient));
-    location = glGetUniformLocation(m_id, "lightPosType");
-    GLint location2 = glGetUniformLocation(m_id, "lightColorRange");
-    if (location == -1 || location2 == -1)
-    {
-        LOG_ERROR("Set light not implemented!");
-        return false;
-    }
+
     glm::vec4 lightPosType[4];
     glm::vec4 lightColorRange[4];
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < 4; i++)
     {
         if (value[i].type == Light::Type::Point)
         {
@@ -500,8 +488,24 @@ bool Shader::setLights(Light* value, const glm::vec4& ambient, const glm::mat4& 
         lightPosType[i] = viewTransform * lightPosType[i];
         lightColorRange[i] = glm::vec4(value[i].color, value[i].range);
     }
-    glUniform4fv(location, 4, glm::value_ptr(lightPosType[0]));
-    glUniform4fv(location2, 4, glm::value_ptr(lightColorRange[0]));
+    uniform = getType("lightPosType");
+    if (uniform.id != -1)
+    {
+        if (uniform.arrayCount != 4)
+        {
+            LOG_ERROR("Invalid shader uniform array count for lightPosType");
+        }
+        glUniform4fv(uniform.id, 4, glm::value_ptr(lightPosType[0]));
+    }
+    uniform = getType("lightColorRange");
+    if (uniform.id != -1)
+    {
+        if (uniform.arrayCount != 4)
+        {
+            LOG_ERROR("Invalid shader uniform array count for lightColorRange");
+        }
+        glUniform4fv(uniform.id, 4, glm::value_ptr(lightColorRange[0]));
+    }
     return true;
 }
 
@@ -529,6 +533,9 @@ void Shader::bind()
     case BlendType::AdditiveBlending:
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+        break;
+    default:
+        LOG_ERROR("err");
         break;
     }
 }
@@ -667,7 +674,12 @@ void Shader::updateUniforms()
         default:
             LOG_ERROR("Unsupported shader type {}, name {}", type, name);
         }
-
+        // remove [0] if exists
+        char* bracketIndex = strchr(name, '[');
+        if (bracketIndex != nullptr)
+        {
+            *bracketIndex = '\0';
+        }
         GLint location = glGetUniformLocation(m_id, name);
         m_uniforms[name] = { location, uniformType, size };
     }

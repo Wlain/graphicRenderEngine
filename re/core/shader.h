@@ -18,10 +18,10 @@ public:
     enum class BlendType
     {
         Disabled,
-        AlphaBlending,   // src minus one alpha
-        AdditiveBlending // one alpha, one
+        AlphaBlending,   // 根据 alpha值将表面与背景混合（src alpha ,one minus src alpha）
+        AdditiveBlending // 根据 alpha 值添加光线（src alpha,one）
     };
-
+    
     enum class UniformType
     {
         Int,

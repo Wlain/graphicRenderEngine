@@ -43,7 +43,7 @@ void guiTest()
     r.getCamera()->setPerspectiveProjection(60, 640, 480, 0.1, 100);
     auto* shader = Shader::getStandard();
     auto* mesh = Mesh::createCube();
-    static float range = 0.0f;
+    static float f = 0.0f;
     //  init imageui
     ImGui::CreateContext();
     // 设置样式
@@ -52,21 +52,18 @@ void guiTest()
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
     ImVec4 clearColor = ImColor(114, 144, 154);
-
+    shader->set("specularity", 20.0f);
+    r.setLight(0, Light(Light::Type::Point, { 0, 0, 10 }, { 0, 0, 0 }, { 1, 0, 0 }, 50));
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
         r.clearScreen({ clearColor.x, clearColor.y, clearColor.z, 1.0f });
-        r.setLight(0, { Light::Type::Point, { 0, 2, 1 }, { 0, 0, 0 }, { 1, 0, 0 }, range });
-        r.setLight(1, { Light::Type::Point, { 2, 0, 1 }, { 0, 0, 0 }, { 0, 1, 0 }, range });
-        r.setLight(2, { Light::Type::Point, { 0, -2, 1 }, { 0, 0, 0 }, { 0, 0, 1 }, range });
-        r.setLight(3, { Light::Type::Point, { -2, 0, 1 }, { 0, 0, 0 }, { 1, 1, 1 }, range });
         r.render(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), shader);
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
         ImGui::Begin("Hello, world!");
-        ImGui::SliderFloat("float", &range, 0.0f, 20.0f);
+        ImGui::SliderFloat("float", &f, 0.0f, 20.0f);
         ImGui::ColorEdit3("clear color", (float*)&clearColor);
         ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         ImGui::End();
