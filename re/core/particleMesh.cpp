@@ -76,7 +76,7 @@ void ParticleMesh::update(const std::vector<glm::vec3>& vertexPositions, const s
     for (int i = 0; i < 3; i++)
     {
         glEnableVertexAttribArray(i);
-        glVertexAttribPointer(i, length[i], GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(offset[i] * sizeof(float)));
+        glVertexAttribPointer(i, length[i], GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(offset[i] * sizeof(float)));
     }
 }
 
