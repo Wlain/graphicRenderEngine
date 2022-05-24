@@ -69,7 +69,7 @@ void ParticleMesh::update(const std::vector<glm::vec3>& vertexPositions, const s
     }
     glBindVertexArray(m_vao);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * interleavedData.size(), interleavedData.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * interleavedData.size(), interleavedData.data(), GL_DYNAMIC_DRAW);
     // bind vertex attributes (position+size, color, uvs)
     int length[3] = { 4, 4, 4 };
     int offset[3] = { 0, 4, 8 };
