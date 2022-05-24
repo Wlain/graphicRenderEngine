@@ -7,7 +7,6 @@
 #include "light.h"
 #include "texture.h"
 
-#include <map>
 #include <vector>
 namespace re
 {
@@ -35,10 +34,11 @@ public:
 
     struct Uniform
     {
-        int id;
-        UniformType type;
+        char* name[50];
+        int id{-1};
+        UniformType type{UniformType::Invalid};
         // 1 means not array
-        int arrayCount;
+        int arrayCount{-1};
     };
 
 public:
@@ -102,7 +102,7 @@ private:
     friend class Mesh;
     friend class Renderer;
     BlendType m_blending{ BlendType::Disabled };
-    std::map<std::string, Uniform> m_uniforms;
+    std::vector<Uniform> m_uniforms;
     unsigned int m_id{ 0 };
     bool m_depthTest{ true };
     bool m_depthWrite{ true };

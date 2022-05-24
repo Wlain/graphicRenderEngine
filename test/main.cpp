@@ -9,6 +9,6 @@ extern void spriteTest();
 
 int main()
 {
-    spriteTest();
+    cubeTexTest();
     return 0;
 }

@@ -8,6 +8,7 @@
 #include "glCommonDefine.h"
 #include "texture.h"
 
+#include <algorithm>
 #include <glm/gtc/type_ptr.hpp>
 #include <string>
 #include <vector>
@@ -657,20 +658,20 @@ Shader* Shader::getUnlitSprite()
 
 bool Shader::contains(const char* name)
 {
-    return m_uniforms.find(name) != m_uniforms.end();
+    bool result = std::any_of(m_uniforms.begin(), m_uniforms.end(), [&](const auto& u) {
+        return strcmp((const char*)u.name, name) == 0;
+    });
+    return result;
 }
 
 Shader::Uniform Shader::getType(const char* name)
 {
-    auto res = m_uniforms.find(name);
-    if (res != m_uniforms.end())
+    for (const auto& u : m_uniforms)
     {
-        return m_uniforms[name];
+        if (strcmp((const char*)u.name, name) == 0)
+            return u;
     }
-    else
-    {
-        return { -1, UniformType::Invalid, -1 };
-    }
+    return {};
 }
 
 void Shader::updateUniforms()
@@ -717,7 +718,12 @@ void Shader::updateUniforms()
             *bracketIndex = '\0';
         }
         GLint location = glGetUniformLocation(m_id, name);
-        m_uniforms[name] = { location, uniformType, size };
+        Uniform u{};
+        memcpy(u.name, name, 50);
+        u.id = location;
+        u.arrayCount = size;
+        u.type = uniformType;
+        m_uniforms.emplace_back(std::move(u));
     }
 }
 } // namespace re
