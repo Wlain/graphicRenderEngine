@@ -9,6 +9,7 @@
 #include "glCommonDefine.h"
 
 #include <fstream>
+#include <glm/glm.hpp>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 
@@ -81,6 +82,27 @@ Texture* Texture::getFontTexture()
     s_fontTexture = new Texture((const char*)data, width, height, GL_RGBA, true);
     stbi_image_free(data);
     return s_fontTexture;
+}
+
+Texture* Texture::getAlphaSphereTexture()
+{
+    if (s_alphaSphereTexture != nullptr)
+    {
+        return s_alphaSphereTexture;
+    }
+    int size = 128;
+    char one = (char)0xff;
+    std::vector<char> data(size * size * 4, one);
+    for (int x = 0; x < size; x++)
+    {
+        for (int y = 0; y < size; y++)
+        {
+            float distToCenter = glm::clamp(1.0f - 2.0f * glm::length(glm::vec2((x + 0.5f) / size, (y + 0.5f) / size) - glm::vec2(0.5f, 0.5f)), 0.0f, 1.0f);
+            data[x * size * 4 + y * 4 + 3] = (char)(255 * distToCenter);
+        }
+    }
+    s_alphaSphereTexture = createFromMem(data.data(), size, size, true);
+    return s_alphaSphereTexture;
 }
 
 Texture* Texture::createFromMem(const char* data, int width, int height, bool generateMipmaps)

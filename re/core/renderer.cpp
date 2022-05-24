@@ -6,6 +6,7 @@
 
 #include "commonMacro.h"
 #include "mesh.h"
+#include "particleMesh.h"
 #include "shader.h"
 
 // render engine
@@ -20,6 +21,9 @@ Renderer::Renderer(GLFWwindow* window) :
     LOG_INFO("OpenGL version {}", glGetString(GL_VERSION));
     LOG_INFO("rg version {}.{}", s_rgVersionMajor, s_rgVersionMinor);
     // setup opengl context
+    glEnable(GL_CULL_FACE);
+    glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_LOWER_LEFT);
+    glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 }
 
 Renderer::~Renderer() = default;
@@ -45,13 +49,7 @@ void Renderer::render(Mesh* mesh, const glm::mat4& modelTransform, Shader* shade
         LOG_ERROR("Renderer::render:can not render,camera is null");
         return;
     }
-    shader->bind();
-    shader->set("model", modelTransform);
-    shader->set("view", m_camera->getViewTransform());
-    shader->set("projection", m_camera->getProjectionTransform());
-    auto normalMatrix = glm::transpose(glm::inverse((glm::mat3)(m_camera->getViewTransform() * modelTransform)));
-    shader->set("normalMat", normalMatrix);
-    shader->setLights(m_sceneLights, m_ambientLight, m_camera->getViewTransform());
+    setupShader(modelTransform, shader);
     mesh->bind();
     int indexCount = mesh->getIndices().size();
     if (indexCount == 0)
@@ -62,6 +60,18 @@ void Renderer::render(Mesh* mesh, const glm::mat4& modelTransform, Shader* shade
     {
         glDrawElements((GLenum)mesh->topology(), indexCount, GL_UNSIGNED_SHORT, 0);
     }
+}
+
+void Renderer::render(ParticleMesh* mesh, glm::mat4 modelTransform, Shader* shader)
+{
+    if (m_camera == nullptr)
+    {
+        LOG_ERROR("Renderer::render:can not render,camera is null");
+        return;
+    }
+    setupShader(modelTransform, shader);
+    mesh->bind();
+    glDrawArrays((GLenum)Mesh::Topology::Points, 0, mesh->getVertexCount());
 }
 
 void Renderer::setCamera(Camera* camera)
@@ -91,5 +101,28 @@ void Renderer::swapWindow()
         glfwSetWindowShouldClose(m_window, true);
     glfwSwapBuffers(m_window);
     glfwPollEvents();
+}
+
+void Renderer::setupShader(const glm::mat4& modelTransform, Shader* shader)
+{
+    shader->bind();
+    if (shader->getType("model").type != Shader::UniformType::Invalid)
+    {
+        shader->set("model", modelTransform);
+    }
+    if (shader->getType("view").type != Shader::UniformType::Invalid)
+    {
+        shader->set("view", m_camera->getViewTransform());
+    }
+    if (shader->getType("projection").type != Shader::UniformType::Invalid)
+    {
+        shader->set("projection", m_camera->getProjectionTransform());
+    }
+    if (shader->getType("normalMat").type != Shader::UniformType::Invalid)
+    {
+        auto normalMatrix = transpose(inverse((glm::mat3)(m_camera->getViewTransform() * modelTransform)));
+        shader->set("normalMat", normalMatrix);
+    }
+    shader->setLights(m_sceneLights, m_ambientLight, m_camera->getViewTransform());
 }
 } // namespace re

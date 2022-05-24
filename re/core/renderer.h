@@ -6,6 +6,7 @@
 #define SIMPLERENDERENGINE_RENDERER_H
 #include "camera.h"
 #include "light.h"
+#include "particleMesh.h"
 
 #include <GLFW/glfw3.h>
 #include <algorithm>
@@ -15,16 +16,17 @@ namespace re
 // 前向声明
 class Mesh;
 class Shader;
+class ParticleMesh;
 
 class Renderer
 {
 public:
     explicit Renderer(GLFWwindow* window);
     ~Renderer();
-    inline static Renderer* instance() { return s_instance; }
     void setLight(int lightIndex, const Light& light);
     Light& getLight(int lightIndex);
     void render(Mesh* mesh, const glm::mat4& modelTransform, Shader* shader);
+    void render(ParticleMesh* mesh, glm::mat4 modelTransform, Shader* shader);
     void setCamera(Camera* camera);
     inline Camera* getCamera() const { return m_camera; }
     inline Camera* getDefaultCamera() { return &m_defaultCamera; }
@@ -40,17 +42,14 @@ public:
     void clearScreen(const glm::vec4& color, bool clearColorBuffer = true, bool clearDepthBuffer = true);
     // Update window with OpenGL rendering
     void swapWindow();
-    inline glm::ivec2& size()
-    {
-        glfwGetFramebufferSize(m_window, &m_size.x, &m_size.y);
-        return m_size;
-    }
+    void setupShader(const glm::mat4 &modelTransform, Shader *shader);
 
 public:
     static constexpr int s_maxSceneLights{ 4 };
     static constexpr int s_rgVersionMajor{ 0 };
     static constexpr int s_rgVersionMinor{ 2 };
     inline static Renderer* s_instance{ nullptr };
+    friend class Camera;
 
 private:
     glm::vec4 m_ambientLight = glm::vec4(0.2f, 0.2f, 0.2f, 0.2f);
@@ -58,7 +57,6 @@ private:
     Camera m_defaultCamera;
     Camera* m_camera{ nullptr };
     GLFWwindow* m_window{ nullptr };
-    glm::ivec2 m_size;
 };
 } // namespace re
 #endif //SIMPLERENDERENGINE_RENDERER_H

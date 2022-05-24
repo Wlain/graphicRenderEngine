@@ -226,12 +226,65 @@ Shader* Shader::getFont()
     return s_font;
 }
 
+Shader* Shader::getStandardParticles()
+{
+    if (s_standardParticles != nullptr)
+    {
+        return s_standardParticles;
+    }
+    const char* vertexShader = R"(#version 140
+        in vec4 position;
+        in vec4 color;
+        in vec4 uv;
+        out vec4 vUV;
+        out vec4 vColor;
+
+        uniform mat4 model;
+        uniform mat4 view;
+        uniform mat4 projection;
+
+        void main(void) {
+            vec4 pos = vec4( position.xyz, 1.0);
+            gl_Position = projection * view * model * pos;
+            vec3 ndc = gl_Position.xyz / gl_Position.w ; // perspective divide.
+
+            float zDist = 1.0-ndc.z ; // 1 is close (right up in your face,)
+            if (zDist < 0.0 || zDist > 1.0)
+            {
+                zDist = 0.0;
+            }
+            gl_PointSize = position.w * zDist;
+            vUV = uv;
+            vColor = color;
+        }
+    )";
+    const char* fragmentShader = R"(#version 140
+        out vec4 fragColor;
+        in vec4 vUV;
+        in vec4 vColor;
+
+        uniform sampler2D tex;
+
+        void main(void)
+        {
+            vec2 uv = vUV.xy + gl_PointCoord * vUV.zw;
+            vec4 c = vColor * texture(tex, uv);
+            fragColor = c;
+        }
+    )";
+    s_standardParticles = createShader(vertexShader, fragmentShader, true);
+    s_standardParticles->set("tex", Texture::getWhiteTexture());
+    s_standardParticles->setBlend(BlendType::AdditiveBlending);
+    s_standardParticles->setDepthWrite(true);
+    return s_standardParticles;
+}
+
 Texture::~Texture()
 {
     glDeleteTextures(1, &m_id);
 }
 
-Shader* Shader::createShader(const char* vertexShader, const char* fragmentShader)
+Shader* Shader::createShader(const char* vertexShader, const char* fragmentShader, bool particleLayout)
 {
     auto* shader = new Shader();
     std::vector<const char*> shaderSrc{ vertexShader, fragmentShader };
@@ -242,7 +295,7 @@ Shader* Shader::createShader(const char* vertexShader, const char* fragmentShade
         glAttachShader(shader->m_id, s);
     }
     // enforce layout
-    std::string attributeNames[3] = { "position", "normal", "uv" };
+    std::string attributeNames[3] = { "position", particleLayout ? "color" : "normal", "uv" };
     for (int i = 0; i < 3; i++)
     {
         glBindAttribLocation(shader->m_id, i, attributeNames[i].c_str());
@@ -384,7 +437,6 @@ bool Shader::set(const char* name, int value)
     return true;
 }
 
-
 bool Shader::set(const char* name, Texture* texture, unsigned int textureSlot)
 {
     glUseProgram(m_id);
@@ -407,7 +459,6 @@ bool Shader::set(const char* name, Texture* texture, unsigned int textureSlot)
     glUniform1i(uniform.id, textureSlot);
     return true;
 }
-
 
 bool Shader::setLights(Light* value, const glm::vec4& ambient, const glm::mat4& viewTransform)
 {
@@ -474,6 +525,10 @@ void Shader::bind()
     case BlendType::AlphaBlending:
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        break;
+    case BlendType::AdditiveBlending:
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
         break;
     }
 }

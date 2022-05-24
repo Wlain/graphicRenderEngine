@@ -7,8 +7,8 @@
 #include "light.h"
 #include "texture.h"
 
-#include <glm/glm.hpp>
 #include <map>
+#include <vector>
 namespace re
 {
 class Texture;
@@ -18,7 +18,8 @@ public:
     enum class BlendType
     {
         Disabled,
-        AlphaBlending
+        AlphaBlending,   // src minus one alpha
+        AdditiveBlending // one alpha, one
     };
 
     enum class UniformType
@@ -41,7 +42,7 @@ public:
     };
 
 public:
-    static Shader* createShader(const char* vertexShader, const char* fragmentShader);
+    static Shader* createShader(const char* vertexShader, const char* fragmentShader, bool particleLayout = false);
     /// Unlit model.
     // Attributes
     // "color" vec4 (default (1,1,1,1))
@@ -63,6 +64,8 @@ public:
     // "color" vec4 (default (1,1,1,1))
     // "tex" Texture* (default font texture)
     static Shader* getFont();
+
+    static Shader* getStandardParticles();
 
     ~Shader();
     bool contains(const char* name);
@@ -93,6 +96,7 @@ private:
     inline static Shader* s_debugNormals{ nullptr };
     inline static Shader* s_standard{ nullptr };
     inline static Shader* s_font{ nullptr };
+    inline static Shader* s_standardParticles{ nullptr };
 
 private:
     friend class Mesh;
