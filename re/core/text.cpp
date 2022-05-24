@@ -13,9 +13,9 @@ namespace re
 Mesh* Text::createTextMesh(const char* text)
 {
     size_t size = strlen(text);
-    std::vector<glm::vec3> vertices(size * 6);
-    std::vector<glm::vec3> normals(size * 6);
-    std::vector<glm::vec2> uvs(size * 6);
+    std::vector<glm::vec3> vertices;
+    std::vector<glm::vec3> normals;
+    std::vector<glm::vec2> uvs;
     int sizeOfChar = 32;
     int charsPerRow = 16;
     for (int i = 0; i < size; i++)

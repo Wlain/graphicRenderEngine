@@ -80,42 +80,7 @@ Shader* Shader::getDebugUV()
 
 Shader* Shader::getDebugNormals()
 {
-    if (s_font != nullptr)
-    {
-        return s_font;
-    }
-    const char* vertexShader = R"(#version 330
-        in vec4 position;
-        in vec3 normal;
-        in vec2 uv;
-        out vec2 vUV;
-
-        uniform mat4 model;
-        uniform mat4 view;
-        uniform mat4 projection;
-
-        void main(void) {
-            gl_Position = projection * view * model * position;
-            vUV = uv;
-        }
-        )";
-    const char* fragmentShader = R"(#version 330
-        out vec4 fragColor;
-        in vec2 vUV;
-
-        uniform vec4 color;
-        uniform sampler2D tex;
-
-        void main(void)
-        {
-            fragColor = color * texture(tex, vUV);
-        }
-    )";
-    s_font = createShader(vertexShader, fragmentShader);
-    s_font->setVector("color", glm::vec4(1));
-    s_font->setTexture("tex", Texture::getFontTexture());
-    s_font->setBlend(BlendType::AlphaBlending);
-    return s_font;
+    return nullptr;
 }
 
 Shader* Shader::getStandard()
@@ -157,7 +122,7 @@ Shader* Shader::getStandard()
 
         uniform vec4 lightPosType[4];
         uniform vec4 lightColorRange[4];
-        uniform vec4 lightSpecular;
+        uniform float specularity;
 
         vec3 computeLight()
         {
@@ -194,12 +159,12 @@ Shader* Shader::getStandard()
                    lightColor += (att * diffuseFrac * thisDiffuse) * lightColorRange[i].xyz;
                 }
                 // specular light
-                if (lightSpecular[i] > 0)
+                if (specularity > 0)
                 {
                     float nDotHV = dot(normal, H);
                     if (nDotHV > 0)
                     {
-                       float pf = pow(nDotHV, lightSpecular[i]);
+                       float pf = pow(nDotHV, specularity);
                        lightColor += vec3(att * diffuseFrac * diffuseFrac * pf); // white specular highlights
                     }
                }
@@ -211,18 +176,54 @@ Shader* Shader::getStandard()
         {
             vec4 color = color * texture(tex, vUV);
             vec3 light = computeLight();
-            fragColor = color + vec4(light, 1.0);
+            fragColor = color * vec4(light, 1.0);
         }
     )";
     s_standard = createShader(vertexShader, fragmentShader);
     s_standard->setVector("color", glm::vec4(1));
-    //    s_standard->setTexture("tex", Texture::getWhiteTexture());
+    s_standard->setTexture("tex", Texture::getWhiteTexture());
+    s_standard->setFloat("specularity", 0);
     return s_standard;
 }
 
 Shader* Shader::getFont()
 {
-    return nullptr;
+    if (s_font != nullptr)
+    {
+        return s_font;
+    }
+    const char* vertexShader = R"(#version 330
+        in vec4 position;
+        in vec3 normal;
+        in vec2 uv;
+        out vec2 vUV;
+
+        uniform mat4 model;
+        uniform mat4 view;
+        uniform mat4 projection;
+
+        void main(void) {
+            gl_Position = projection * view * model * position;
+            vUV = uv;
+        }
+        )";
+    const char* fragmentShader = R"(#version 330
+        out vec4 fragColor;
+        in vec2 vUV;
+
+        uniform vec4 color;
+        uniform sampler2D tex;
+
+        void main(void)
+        {
+            fragColor = color * texture(tex, vUV);
+        }
+    )";
+    s_font = createShader(vertexShader, fragmentShader);
+    s_font->setVector("color", glm::vec4(1));
+    s_font->setTexture("tex", Texture::getFontTexture());
+    s_font->setBlend(BlendType::AlphaBlending);
+    return s_font;
 }
 
 Texture::~Texture()
@@ -336,18 +337,15 @@ bool Shader::setLights(Light* value, const glm::vec4& ambient, const glm::mat4& 
     glUniform4fv(location, 1, glm::value_ptr(ambient));
     location = glGetUniformLocation(m_id, "lightPosType");
     GLint location2 = glGetUniformLocation(m_id, "lightColorRange");
-    GLint location3 = glGetUniformLocation(m_id, "lightSpecular");
-    if (location == -1 || location2 == -1 || location3 == -1)
+    if (location == -1 || location2 == -1)
     {
         LOG_ERROR("Set light not implemented!");
         return false;
     }
     glm::vec4 lightPosType[4];
     glm::vec4 lightColorRange[4];
-    glm::vec4 lightSpecular;
     for (int i = 0; i < 4; ++i)
     {
-        lightSpecular[i] = value[i].specularity;
         if (value[i].type == Light::Type::Point)
         {
             lightPosType[i] = glm::vec4(value[i].position, 1);
@@ -367,7 +365,6 @@ bool Shader::setLights(Light* value, const glm::vec4& ambient, const glm::mat4& 
     }
     glUniform4fv(location, 4, glm::value_ptr(lightPosType[0]));
     glUniform4fv(location2, 4, glm::value_ptr(lightColorRange[0]));
-    glUniform4fv(location3, 1, glm::value_ptr(lightSpecular));
     return true;
 }
 
@@ -432,6 +429,48 @@ Shader* Shader::getUnlit()
     return s_unlit;
 }
 
+Shader* Shader::getUnlitSprite()
+{
+    if (s_unlitSprite != nullptr)
+    {
+        return s_unlitSprite;
+    }
+    const char* vertexShader = R"(#version 330
+        in vec4 position;
+        in vec3 normal;
+        in vec2 uv;
+        out vec2 vUV;
+
+        uniform mat4 model;
+        uniform mat4 view;
+        uniform mat4 projection;
+
+        void main(void)
+        {
+            gl_Position = projection * view * model * position;
+            vUV = uv;
+        }
+        )";
+    const char* fragmentShader = R"(#version 140
+        out vec4 fragColor;
+        in vec2 vUV;
+
+        uniform vec4 color;
+        uniform sampler2D tex;
+
+        void main(void)
+        {
+            fragColor = color * texture(tex, vUV);
+        }
+    )";
+    s_unlitSprite = createShader(vertexShader, fragmentShader);
+    s_unlitSprite->setVector("color", glm::vec4(1));
+    s_unlitSprite->setTexture("tex", Texture::getWhiteTexture());
+    s_unlitSprite->setBlend(BlendType::AlphaBlending);
+    s_unlitSprite->setDepthTest(false);
+    return s_unlitSprite;
+}
+
 bool Shader::setTexture(const char* name, Texture* texture, unsigned int textureSlot)
 {
     glUseProgram(m_id);
@@ -446,5 +485,4 @@ bool Shader::setTexture(const char* name, Texture* texture, unsigned int texture
     glUniform1i(location, textureSlot);
     return true;
 }
-
 } // namespace re

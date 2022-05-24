@@ -23,9 +23,7 @@ struct Light
     glm::vec3 direction{};
     glm::vec3 color{};
     float range{};
-    // 0 = no specular
-    float specularity{};
-    Light(Type type, const glm::vec3& position, const glm::vec3& direction, const glm::vec3& color, float range, float specularity);
+    Light(Type type, const glm::vec3& position, const glm::vec3& direction, const glm::vec3& color, float range);
 };
 } // namespace re
 

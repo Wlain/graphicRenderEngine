@@ -22,7 +22,7 @@ void Camera::perspectiveProjection(float fieldOfViewY, float viewportWidth, floa
     m_projectionTransform = glm::perspectiveFov(glm::radians(fieldOfViewY), viewportWidth, viewportHeight, nearPlane, farPlane);
 }
 
-void Camera::orthographicProjection(float left, float right, float bottom, float top, float zNear, float zFar)
+void Camera::setOrthographicProjection(float left, float right, float bottom, float top, float zNear, float zFar)
 {
     m_projectionTransform = glm::ortho(left, right, bottom, top, zNear, zFar);
 }
@@ -38,9 +38,5 @@ void Camera::setViewport(int x, int y, int width, int height)
         glViewport(x, y, width, height);
         glScissor(x, y, width, height);
     }
-}
-
-void Camera::setWindowCoordinates(int width, int height)
-{
 }
 } // namespace re

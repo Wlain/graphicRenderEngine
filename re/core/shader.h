@@ -22,10 +22,26 @@ public:
 
 public:
     static Shader* createShader(const char* vertexShader, const char* fragmentShader);
+    /// Unlit model.
+    // Attributes
+    // "color" vec4 (default (1,1,1,1))
+    // "tex" Texture* (default white texture)
     static Shader* getUnlit();
+    // Attributes
+    // "color" vec4 (default (1,1,1,1))
+    // "tex" Texture* (default white texture)
+    static Shader* getUnlitSprite();
     static Shader* getDebugUV();
     static Shader* getDebugNormals();
+    /// Phong Light Model. Uses light objects and ambient light set in simpleRenderEngine.
+    // Attributes
+    // "color" vec4 (default (1,1,1,1))
+    // "tex" Texture* (default white texture)
+    // "specularity" float (default 0 = no specularity)
     static Shader* getStandard();
+    /// Creates a shader for font rendering
+    // "color" vec4 (default (1,1,1,1))
+    // "tex" Texture* (default font texture)
     static Shader* getFont();
 
     ~Shader();
@@ -51,6 +67,7 @@ private:
 
 private:
     inline static Shader* s_unlit{ nullptr }; // 无灯光
+    inline static Shader* s_unlitSprite{ nullptr };
     inline static Shader* s_debugUV{ nullptr };
     inline static Shader* s_debugNormals{ nullptr };
     inline static Shader* s_standard{ nullptr };

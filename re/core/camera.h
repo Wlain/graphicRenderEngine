@@ -14,13 +14,12 @@ public:
     Camera();
     void lookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up);
     void perspectiveProjection(float fieldOfViewY, float viewportWidth, float viewportHeight, float nearPlane, float farPlane);
-    void orthographicProjection(float left, float right, float bottom, float top, float zNear, float zFar);
+    void setOrthographicProjection(float left, float right, float bottom, float top, float zNear, float zFar);
     inline void setViewTransform(const glm::mat4& viewTransform) { m_viewTransform = viewTransform; }
     inline void setProjectionTransform(const glm::mat4& projectionTransform) { m_projectionTransform = projectionTransform; }
     inline glm::mat4 getViewTransform() const { return m_viewTransform; }
     inline glm::mat4 getProjectionTransform() const { return m_projectionTransform; };
     void setViewport(int x, int y, int width, int height);
-    void setWindowCoordinates(int width = -1, int height = -1);
 
 private:
     glm::mat4 m_viewTransform{ 1.0f };

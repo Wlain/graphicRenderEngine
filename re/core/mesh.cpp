@@ -29,15 +29,12 @@ void Mesh::bind() const
 
 void Mesh::update(std::vector<glm::vec3>& vertexPositions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& uvs)
 {
+    m_vertexPositions = vertexPositions;
+    m_normals = normals;
+    m_uvs = uvs;
     m_vertexCount = (int32_t)vertexPositions.size();
-    if (normals.size() < m_vertexCount)
-    {
-        normals.resize(m_vertexCount, { 0.0f, 0.0f, 0.0f });
-    }
-    if (uvs.size() < m_vertexCount)
-    {
-        uvs.resize(m_vertexCount, { 0.0f, 0.0f });
-    }
+    bool hasNormals = m_normals.size() == vertexPositions.size();
+    bool hasUVs = m_uvs.size() == vertexPositions.size();
     // interleave data
     int floatsPerVertex = 8;
     std::vector<float> interleavedData(m_vertexCount * floatsPerVertex);
@@ -46,10 +43,10 @@ void Mesh::update(std::vector<glm::vec3>& vertexPositions, std::vector<glm::vec3
         for (int j = 0; j < 3; ++j)
         {
             interleavedData[i * 8 + j] = vertexPositions[i][j];
-            interleavedData[i * 8 + j + 3] = normals[i][j];
+            interleavedData[i * 8 + j + 3] = hasNormals ? normals[i][j] : 0.0f;
             if (j < 2)
             {
-                interleavedData[i * 8 + j + 6] = uvs[i][j];
+                interleavedData[i * 8 + j + 6] = hasUVs ? uvs[i][j] : 0.0f;
             }
         }
     }
@@ -166,7 +163,7 @@ Mesh* Mesh::createSphere()
     // create indices
     for (int j = 0; j < stacks; j++)
     {
-        for (int i = 0; i <= slices; i++)
+        for (int i = 0; i < slices; i++)
         {
             glm::u8vec2 offset[] = {
                 // first triangle
@@ -191,5 +188,4 @@ Mesh* Mesh::createSphere()
     auto* mesh = new Mesh(finalPosition, finalNormals, finalUVs, Topology::Triangles);
     return mesh;
 }
-
 } // namespace re

@@ -40,17 +40,17 @@ void sphereTest()
     bool point = true;
     if (point)
     {
-        r.setLight(0, { Light::Type::Point, { 0, 2, 1 }, { 0, 0, 0 }, { 1, 0, 0 }, 10, 5 });
-        r.setLight(1, { Light::Type::Point, { 2, 0, 1 }, { 0, 0, 0 }, { 0, 1, 0 }, 10, 10 });
-        r.setLight(2, { Light::Type::Point, { 0, -2, 1 }, { 0, 0, 0 }, { 0, 0, 1 }, 10, 20 });
-        r.setLight(3, { Light::Type::Point, { -2, 0, 1 }, { 0, 0, 0 }, { 1, 1, 1 }, 10, 40 });
+        r.setLight(0, { Light::Type::Point, { 0, 2, 1 }, { 0, 0, 0 }, { 1, 0, 0 }, 10 });
+        r.setLight(1, { Light::Type::Point, { 2, 0, 1 }, { 0, 0, 0 }, { 0, 1, 0 }, 10 });
+        r.setLight(2, { Light::Type::Point, { 0, -2, 1 }, { 0, 0, 0 }, { 0, 0, 1 }, 100 });
+        r.setLight(3, { Light::Type::Point, { -2, 0, 1 }, { 0, 0, 0 }, { 1, 1, 1 }, 100 });
     }
     else
     {
-        r.setLight(0, { Light::Type::Directional, { 0, 0, 0 }, { 0, 1, 0 }, { 1, 0, 0 }, 10, 10 });
-        r.setLight(1, { Light::Type::Directional, { 0, 0, 0 }, { 1, 0, 0 }, { 0, 1, 0 }, 10, 10 });
-        r.setLight(2, { Light::Type::Directional, { 0, 0, 0 }, { 0, -1, 0 }, { 0, 0, 1 }, 10, 10 });
-        r.setLight(3, { Light::Type::Directional, { 0, 0, 0 }, { -1, 0, 0 }, { 1, 1, 1 }, 10, 10 });
+        r.setLight(0, { Light::Type::Directional, { 0, 0, 0 }, { 0, 1, 0 }, { 1, 0, 0 }, 10 });
+        r.setLight(1, { Light::Type::Directional, { 0, 0, 0 }, { 1, 0, 0 }, { 0, 1, 0 }, 10 });
+        r.setLight(2, { Light::Type::Directional, { 0, 0, 0 }, { 0, -1, 0 }, { 0, 0, 1 }, 10 });
+        r.setLight(3, { Light::Type::Directional, { 0, 0, 0 }, { -1, 0, 0 }, { 1, 1, 1 }, 10 });
     }
 
     while (!glfwWindowShouldClose(window))

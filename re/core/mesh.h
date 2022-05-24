@@ -30,15 +30,23 @@ public:
     static Mesh* createSphere();
 
 public:
-    Mesh(std::vector<glm::vec3> &vertexPositions, std::vector<glm::vec3> &normals, std::vector<glm::vec2> &uvs, Mesh::Topology topology);
+    Mesh(std::vector<glm::vec3>& vertexPositions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& uvs, Mesh::Topology topology);
     ~Mesh();
-    void update(std::vector<glm::vec3> &vertexPositions, std::vector<glm::vec3> &normals, std::vector<glm::vec2> &uvs);
+    void update(std::vector<glm::vec3>& vertexPositions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& uvs);
     inline int32_t getVertexCount() const { return m_vertexCount; }
     inline Topology topology() const { return m_topology; }
+    const std::vector<glm::vec3>& getVertexPositions() const { return m_vertexPositions; }
+    const std::vector<glm::vec3>& getNormals() const { return m_normals; }
+    const std::vector<glm::vec2>& getUvs() const { return m_uvs; }
 
 private:
     void bind() const;
+
+private:
     friend class Renderer;
+    std::vector<glm::vec3> m_vertexPositions;
+    std::vector<glm::vec3> m_normals;
+    std::vector<glm::vec2> m_uvs;
     Topology m_topology{ Topology::Triangles }; // mesh拓扑结构
     uint32_t m_vbo{ 0 };
     uint32_t m_vao{ 0 };

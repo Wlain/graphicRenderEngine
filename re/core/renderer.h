@@ -40,11 +40,16 @@ public:
     void clearScreen(const glm::vec4& color, bool clearColorBuffer = true, bool clearDepthBuffer = true);
     // Update window with OpenGL rendering
     void swapWindow();
+    inline glm::ivec2& size()
+    {
+        glfwGetFramebufferSize(m_window, &m_size.x, &m_size.y);
+        return m_size;
+    }
 
 public:
     static constexpr int s_maxSceneLights{ 4 };
     static constexpr int s_rgVersionMajor{ 0 };
-    static constexpr int s_rgVersionMinor{ 1 };
+    static constexpr int s_rgVersionMinor{ 2 };
     inline static Renderer* s_instance{ nullptr };
 
 private:
@@ -53,6 +58,7 @@ private:
     Camera m_defaultCamera;
     Camera* m_camera{ nullptr };
     GLFWwindow* m_window{ nullptr };
+    glm::ivec2 m_size;
 };
 } // namespace re
 #endif //SIMPLERENDERENGINE_RENDERER_H
