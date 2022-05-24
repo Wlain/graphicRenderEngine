@@ -19,7 +19,7 @@ Renderer::Renderer(GLFWwindow* window) :
     m_camera = &m_defaultCamera;
     glfwMakeContextCurrent(window);
     LOG_INFO("OpenGL version {}", glGetString(GL_VERSION));
-    LOG_INFO("rg version {}.{}", s_rgVersionMajor, s_rgVersionMinor);
+    LOG_INFO("rg version {}.{}.{}", s_rgVersionMajor, s_rgVersionMinor, s_rgVersionPoint);
     // setup opengl context
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
@@ -124,6 +124,10 @@ void Renderer::setupShader(const glm::mat4& modelTransform, Shader* shader)
     {
         auto normalMatrix = transpose(inverse((glm::mat3)(m_camera->getViewTransform() * modelTransform)));
         shader->set("normalMat", normalMatrix);
+    }
+    if (shader->getType("viewHeight").type != Shader::UniformType::Invalid)
+    {
+        shader->set("viewHeight", (float)m_camera->m_viewportHeight);
     }
     shader->setLights(m_sceneLights, m_ambientLight, m_camera->getViewTransform());
 }

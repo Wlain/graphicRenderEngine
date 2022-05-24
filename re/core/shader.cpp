@@ -236,10 +236,13 @@ Shader* Shader::getStandardParticles()
         in vec4 uv;
         out mat3 vUVMat;
         out vec4 vColor;
+        out vec3 uvSize;
 
         uniform mat4 model;
         uniform mat4 view;
         uniform mat4 projection;
+        uniform float viewHeight;
+
         mat3 translate(vec2 p)
         {
          return mat3(1.0,0.0,0.0,
@@ -273,26 +276,31 @@ Shader* Shader::getStandardParticles()
                 {
                     zDist = 0.0;
                 }
-                gl_PointSize = position.w * zDist;
+                gl_PointSize = viewHeight * position.w * zDist;
             }
             else
             {
-                gl_PointSize = position.w * projection[0][0] * projection[1][1] * 0.5; // average x,y scale in orthographic projection
+                gl_PointSize = 0.1 * position.w * viewHeight; // average x,y scale in orthographic projection
             }
             vUVMat = translate(uv.xy)*scale(uv.z) * translate(vec2(0.5,0.5))*rotate(uv.w) * translate(vec2(-0.5,-0.5));
             vColor = color;
+            uvSize = uv.xyz;
         }
     )";
     const char* fragmentShader = R"(#version 140
         out vec4 fragColor;
         in mat3 vUVMat;
         in vec4 vColor;
+        in vec3 uvSize;
 
         uniform sampler2D tex;
         uniform int isSplit;
         void main(void)
         {
             vec2 uv = (isSplit == 1) ? gl_PointCoord : (vUVMat * vec3(gl_PointCoord,1.0)).xy;
+            if (uv != clamp(uv, uvSize.xy, uvSize.xy + uvSize.zz)){
+                discard;
+            }
             vec4 c = vColor * texture(tex, uv);
             fragColor = c;
         }

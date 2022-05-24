@@ -25,7 +25,7 @@ ParticleMesh* createParticles()
     std::vector<float> empty;
     std::vector<float> sizes;
     positions.emplace_back(0, 0, 0);
-    sizes.emplace_back(1000.0f);
+    sizes.emplace_back(10.0f);
     return new ParticleMesh(positions, colors, uvCenter, empty, empty, sizes);
 }
 
@@ -75,6 +75,7 @@ void spriteTest()
         glfwTerminate();
     }
     Renderer r{ window };
+    r.getCamera()->setViewport(0, 0, s_canvasWidth / 100, s_canvasHeight / 100);
     r.getCamera()->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
     r.getCamera()->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
     auto* shaderParticle = Shader::getStandardParticles();
@@ -89,7 +90,7 @@ void spriteTest()
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
-        r.clearScreen({ 0.0f, 0.0f, 0.0f, 1.0f });
+        r.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
         updateParticlesAnimation(time, spriteUV, uvSize, uvRotation);
         updateParticles(particleMesh, spriteUV, uvSize, uvRotation, size);
         r.render(particleMesh, glm::mat4(1), shaderParticle);

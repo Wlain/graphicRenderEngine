@@ -46,10 +46,12 @@ public:
 
 public:
     static constexpr int s_maxSceneLights{ 4 };
-    static constexpr int s_rgVersionMajor{ 0 };
-    static constexpr int s_rgVersionMinor{ 2 };
+    static constexpr int s_rgVersionMajor{ 1 };
+    static constexpr int s_rgVersionMinor{ 0 };
+    static constexpr int s_rgVersionPoint{ 0 };
     inline static Renderer* s_instance{ nullptr };
     friend class Camera;
+    friend class Renderer;
 
 private:
     glm::vec4 m_ambientLight = glm::vec4(0.2f, 0.2f, 0.2f, 0.2f);

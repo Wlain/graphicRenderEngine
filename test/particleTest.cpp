@@ -32,7 +32,7 @@ ParticleMesh* createParticles(int size = 2500)
     {
         positions.push_back(glm::linearRand(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1)));
         colors.push_back(glm::linearRand(glm::vec4(0, 0, 0, 0), glm::vec4(1, 1, 1, 1)));
-        sizes.push_back(glm::linearRand(0.0f, 500.0f));
+        sizes.push_back(glm::linearRand(0.0f, 1.0f));
     }
     return new ParticleMesh(positions, colors, uvs, scaleAndRotate, scaleAndRotate, sizes);
 }
@@ -54,8 +54,9 @@ void particleTest()
         glfwTerminate();
     }
     Renderer r{ window };
-    r.getCamera()->setLookAt({ 0.0f, 0.0f, 4.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-    r.getCamera()->setPerspectiveProjection(45.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
+    r.getCamera()->setViewport(0, 0, s_canvasWidth, s_canvasHeight);
+    r.getCamera()->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+    r.getCamera()->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
     auto* shader = Shader::getStandard();
     shader->set("specularity", 20.0f);
     auto* shaderParticle = Shader::getStandardParticles();
