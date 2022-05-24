@@ -7,11 +7,11 @@
 #include "glCommonDefine.h"
 namespace re
 {
-ParticleMesh::ParticleMesh(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec4>& colors, const std::vector<glm::vec4>& uvs, const std::vector<float>& particleSizes)
+ParticleMesh::ParticleMesh(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec4>& colors, const std::vector<glm::vec2>& uvCenter, const std::vector<float>& uvSize, const std::vector<float>& uvRotation, const std::vector<float>& particleSizes)
 {
     glGenBuffers(1, &m_vbo);
     glGenVertexArrays(1, &m_vao);
-    update(vertexPositions, colors, uvs, particleSizes);
+    update(vertexPositions, colors, uvCenter, uvSize, uvRotation, particleSizes);
 }
 
 ParticleMesh::~ParticleMesh()
@@ -20,23 +20,28 @@ ParticleMesh::~ParticleMesh()
     glDeleteBuffers(1, &m_vbo);
 }
 
-void ParticleMesh::update(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec4>& colors, const std::vector<glm::vec4>& uvs, const std::vector<float>& particleSizes)
+void ParticleMesh::update(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec4>& colors, const std::vector<glm::vec2>& uvCenter, const std::vector<float>& uvSize, const std::vector<float>& uvRotation, const std::vector<float>& particleSizes)
 {
     m_vertexPositions = vertexPositions;
     m_colors = colors;
-    m_uvs = uvs;
+    m_uvCenter = uvCenter;
+    m_uvSize = uvSize;
+    m_uvRotation = uvRotation;
     m_particleSizes = particleSizes;
     m_vertexCount = (int)vertexPositions.size();
-    bool hasColors = colors.size() == vertexPositions.size();
-    bool hasUVs = uvs.size() == vertexPositions.size();
-    bool hasParticleSizes = particleSizes.size() == vertexPositions.size();
+    bool hasColors = colors.size() == m_vertexCount;
+    bool hasUvSize = uvSize.size() == m_vertexCount;
+    bool hasUvCenter = uvCenter.size() == m_vertexCount;
+    bool hasUvRotation = uvRotation.size() == m_vertexCount;
+    bool hasParticleSizes = particleSizes.size() == m_vertexCount;
     // interleave data
     int floatsPerVertex = 12;
-    std::vector<float> interleavedData(vertexPositions.size() * floatsPerVertex);
-    for (int i = 0; i < vertexPositions.size(); i++)
+    std::vector<float> interleavedData(m_vertexCount * floatsPerVertex);
+    for (int i = 0; i < m_vertexCount; i++)
     {
         for (int j = 0; j < 4; j++)
         {
+            // position
             if (j < 3)
             {
                 interleavedData[i * floatsPerVertex + j] = vertexPositions[i][j];
@@ -45,9 +50,21 @@ void ParticleMesh::update(const std::vector<glm::vec3>& vertexPositions, const s
             {
                 interleavedData[i * floatsPerVertex + j] = hasParticleSizes ? particleSizes[i] : 1.0f;
             }
-            interleavedData[i * floatsPerVertex + j + 4] = hasColors ? colors[i][j] : 0.0f;
-            // default uv values [0,0,1,1]
-            interleavedData[i * floatsPerVertex + j + 8] = hasUVs ? uvs[i][j] : (j < 2 ? 0.0f : 1.0f);
+            // color
+            interleavedData[i * floatsPerVertex + j + 4] = hasColors ? colors[i][j] : 1.0f;
+            // uv
+            if (j < 2)
+            {
+                interleavedData[i * floatsPerVertex + j + 8] = hasUvCenter ? uvCenter[i][j] : 0.5f;
+            }
+            else if (j == 2)
+            {
+                interleavedData[i * floatsPerVertex + j + 8] = hasUvSize ? uvSize[i] : 1.0f;
+            }
+            else if (j == 3)
+            {
+                interleavedData[i * floatsPerVertex + j + 8] = hasUvRotation ? uvRotation[i] : 0.0f;
+            }
         }
     }
     glBindVertexArray(m_vao);

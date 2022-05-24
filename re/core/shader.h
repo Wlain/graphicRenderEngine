@@ -21,7 +21,7 @@ public:
         AlphaBlending,   // 根据 alpha值将表面与背景混合（src alpha ,one minus src alpha）
         AdditiveBlending // 根据 alpha 值添加光线（src alpha,one）
     };
-    
+
     enum class UniformType
     {
         Int,
@@ -102,10 +102,11 @@ private:
     friend class Mesh;
     friend class Renderer;
     BlendType m_blending{ BlendType::Disabled };
+    std::map<std::string, Uniform> m_uniforms;
     unsigned int m_id{ 0 };
     bool m_depthTest{ true };
     bool m_depthWrite{ true };
-    std::map<std::string, Uniform> m_uniforms;
+    bool m_particleLayout{false};
 };
 } // namespace re
 

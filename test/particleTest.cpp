@@ -10,31 +10,33 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/random.hpp>
 #include <glm/gtx/euler_angles.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
 using namespace re;
 
 static int s_canvasWidth = 640;
 static int s_canvasHeight = 480;
 static constexpr char* title = "particleTest";
-
+namespace
+{
 ParticleMesh* createParticles(int size = 2500)
 {
     std::vector<glm::vec3> positions;
     std::vector<glm::vec4> colors;
-    std::vector<glm::vec4> uvs;
     std::vector<float> sizes;
+    std::vector<glm::vec2> uvs;
+    std::vector<float> scaleAndRotate;
     for (int i = 0; i < size; i++)
     {
         positions.push_back(glm::linearRand(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1)));
         colors.push_back(glm::linearRand(glm::vec4(0, 0, 0, 0), glm::vec4(1, 1, 1, 1)));
         sizes.push_back(glm::linearRand(0.0f, 500.0f));
     }
-    return new ParticleMesh(positions, colors, uvs, sizes);
+    return new ParticleMesh(positions, colors, uvs, scaleAndRotate, scaleAndRotate, sizes);
 }
-
+} // namespace
 void particleTest()
 {
     LOG_INFO("{}", title);
@@ -59,6 +61,7 @@ void particleTest()
     shader->set("tex", Texture::createTextureFromFile(GET_CURRENT("test/resources/test.jpg"), true), 1);
     auto* shaderParticle = Shader::getStandardParticles();
     shaderParticle->set("tex", Texture::getAlphaSphereTexture());
+    shaderParticle->set("isSplit", 1);
     auto* particleMesh = createParticles();
     Mesh* mesh = Mesh::createCube();
     r.setLight(0, { Light::Type::Point, { 0, 1, 0 }, { 0, 0, 0 }, { 1, 0, 0 }, 2 });
@@ -70,7 +73,7 @@ void particleTest()
     {
         /// 渲染
         r.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
-        r.render(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)) * glm::scale(glm::mat4(1),{0.3f,0.3f,0.3f}), shader);
+        r.render(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)) * glm::scale(glm::mat4(1), { 0.3f, 0.3f, 0.3f }), shader);
         r.render(particleMesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), shaderParticle);
         r.swapWindow();
     }
