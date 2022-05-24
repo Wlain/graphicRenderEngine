@@ -8,6 +8,7 @@
 #include "texture.h"
 
 #include <glm/glm.hpp>
+#include <map>
 namespace re
 {
 class Texture;
@@ -18,6 +19,25 @@ public:
     {
         Disabled,
         AlphaBlending
+    };
+
+    enum class UniformType
+    {
+        Int,
+        Float,
+        Mat3,
+        Mat4,
+        Vec4,
+        Texture,
+        Invalid
+    };
+
+    struct Uniform
+    {
+        int id;
+        UniformType type;
+        // 1 means not array
+        int arrayCount;
     };
 
 public:
@@ -45,6 +65,8 @@ public:
     static Shader* getFont();
 
     ~Shader();
+    bool contains(const char* name);
+    Uniform getType(const char* name);
     bool set(const char* name, glm::mat4 value);
     bool set(const char* name, glm::mat3 value);
     bool set(const char* name, glm::vec4 value);
@@ -62,8 +84,7 @@ private:
     Shader();
     void bind();
     bool setLights(Light value[4], const glm::vec4& ambient, const glm::mat4& viewTransform);
-    friend class Mesh;
-    friend class Renderer;
+    void updateUniforms();
 
 private:
     inline static Shader* s_unlit{ nullptr }; // 无灯光
@@ -74,10 +95,13 @@ private:
     inline static Shader* s_font{ nullptr };
 
 private:
+    friend class Mesh;
+    friend class Renderer;
     BlendType m_blending{ BlendType::Disabled };
     unsigned int m_id{ 0 };
     bool m_depthTest{ true };
     bool m_depthWrite{ true };
+    std::map<std::string, Uniform> m_uniforms;
 };
 } // namespace re
 

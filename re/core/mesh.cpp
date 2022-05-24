@@ -5,6 +5,7 @@
 #include "mesh.h"
 
 #include "glCommonDefine.h"
+
 #include <glm/gtc/constants.hpp>
 namespace re
 {
@@ -12,26 +13,38 @@ Mesh::Mesh(std::vector<glm::vec3>& vertexPositions, std::vector<glm::vec3>& norm
     m_topology(topology)
 {
     glGenBuffers(1, &m_vbo);
+    glGenBuffers(1, &m_ebo);
     glGenVertexArrays(1, &m_vao);
     update(vertexPositions, normals, uvs);
+}
+
+Mesh::Mesh(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs, const std::vector<uint16_t>& indices, Mesh::Topology meshTopology)
+{
+    glGenBuffers(1, &m_vbo);
+    glGenBuffers(1, &m_ebo);
+    glGenVertexArrays(1, &m_vao);
+    update(vertexPositions, normals, uvs, indices);
 }
 
 Mesh::~Mesh()
 {
     glDeleteVertexArrays(1, &m_vao);
+    glDeleteBuffers(1, &m_ebo);
     glDeleteBuffers(1, &m_vbo);
 }
 
 void Mesh::bind() const
 {
     glBindVertexArray(m_vao);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indices.empty() ? 0 : m_ebo);
 }
 
-void Mesh::update(std::vector<glm::vec3>& vertexPositions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& uvs)
+void Mesh::update(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs, const std::vector<uint16_t>& indices)
 {
     m_vertexPositions = vertexPositions;
     m_normals = normals;
     m_uvs = uvs;
+    m_indices = indices;
     m_vertexCount = (int32_t)vertexPositions.size();
     bool hasNormals = m_normals.size() == vertexPositions.size();
     bool hasUVs = m_uvs.size() == vertexPositions.size();
@@ -61,18 +74,37 @@ void Mesh::update(std::vector<glm::vec3>& vertexPositions, std::vector<glm::vec3
         glEnableVertexAttribArray(i);
         glVertexAttribPointer(i, length[i], GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(offset[i] * sizeof(float)));
     }
+    if (!m_indices.empty())
+    {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+        GLsizeiptr indicesSize = indices.size() * sizeof(uint16_t);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesSize, indices.data(), GL_STATIC_DRAW);
+    }
+}
+
+void Mesh::update(std::vector<glm::vec3>& vertexPositions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& uvs)
+{
+    std::vector<uint16_t> indices;
+    update(vertexPositions, normals, uvs, indices);
 }
 
 Mesh* Mesh::createQuad()
 {
-    std::vector<glm::vec3> vertices({ glm::vec3{ 1, -1, 0 }, glm::vec3{ 1, 1, 0 },
-                                      glm::vec3{ -1, -1, 0 }, glm::vec3{ -1, -1, 0 },
-                                      glm::vec3{ 1, 1, 0 }, glm::vec3{ -1, 1, 0 } });
-    std::vector<glm::vec3> normals(6, glm::vec3{ 0, 0, 1 });
-    std::vector<glm::vec2> uvs({ glm::vec2{ 1, 0 }, glm::vec2{ 1, 1 }, glm::vec2{ 0, 0 },
-                                 glm::vec2{ 0, 0 }, glm::vec2{ 1, 1 },
+    std::vector<glm::vec3> vertices({ glm::vec3{ 1, -1, 0 },
+                                      glm::vec3{ 1, 1, 0 },
+                                      glm::vec3{ -1, -1, 0 },
+                                      glm::vec3{ -1, 1, 0 } });
+
+    std::vector<glm::vec3> normals(4, glm::vec3{ 0, 0, 1 });
+    std::vector<glm::vec2> uvs({ glm::vec2{ 1, 0 },
+                                 glm::vec2{ 1, 1 },
+                                 glm::vec2{ 0, 0 },
                                  glm::vec2{ 0, 1 } });
-    Mesh* mesh = new Mesh(vertices, normals, uvs, Topology::Triangles);
+    std::vector<uint16_t> indices = {
+        0, 1, 2,
+        2, 1, 3
+    };
+    Mesh* mesh = new Mesh(vertices, normals, uvs, indices, Topology::Triangles);
     return mesh;
 }
 

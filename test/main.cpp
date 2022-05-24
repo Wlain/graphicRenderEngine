@@ -6,6 +6,6 @@ extern void guiTest();
 
 int main()
 {
-    guiTest();
+    cubeTexTest();
     return 0;
 }

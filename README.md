@@ -5,6 +5,7 @@ This is a simple render engine based on OpenGL in MAC-OS
 * glfw
 * glm
 * spdlog
-
+* imageui
+* stb
 
 

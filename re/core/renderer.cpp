@@ -20,7 +20,6 @@ Renderer::Renderer(GLFWwindow* window) :
     LOG_INFO("OpenGL version {}", glGetString(GL_VERSION));
     LOG_INFO("rg version {}.{}", s_rgVersionMajor, s_rgVersionMinor);
     // setup opengl context
-    glEnable(GL_CULL_FACE);
 }
 
 Renderer::~Renderer() = default;
@@ -54,7 +53,15 @@ void Renderer::render(Mesh* mesh, const glm::mat4& modelTransform, Shader* shade
     shader->set("normalMat", normalMatrix);
     shader->setLights(m_sceneLights, m_ambientLight, m_camera->getViewTransform());
     mesh->bind();
-    glDrawArrays((GLenum)mesh->topology(), 0, mesh->getVertexCount());
+    int indexCount = mesh->getIndices().size();
+    if (indexCount == 0)
+    {
+        glDrawArrays((GLenum)mesh->topology(), 0, mesh->getVertexCount());
+    }
+    else
+    {
+        glDrawElements((GLenum)mesh->topology(), indexCount, GL_UNSIGNED_SHORT, 0);
+    }
 }
 
 void Renderer::setCamera(Camera* camera)

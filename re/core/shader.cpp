@@ -5,9 +5,9 @@
 #include "shader.h"
 
 #include "commonMacro.h"
+#include "glCommonDefine.h"
 #include "texture.h"
 
-#include "glCommonDefine.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <string>
 #include <vector>
@@ -174,9 +174,9 @@ Shader* Shader::getStandard()
 
         void main(void)
         {
-            vec4 color = color * texture(tex, vUV);
+            vec4 c = color * texture(tex, vUV);
             vec3 light = computeLight();
-            fragColor = color * vec4(light, 1.0);
+            fragColor = c * vec4(light, 1.0);
         }
     )";
     s_standard = createShader(vertexShader, fragmentShader);
@@ -253,6 +253,7 @@ Shader* Shader::createShader(const char* vertexShader, const char* fragmentShade
         delete shader;
         return nullptr;
     }
+    shader->updateUniforms();
     return shader;
 }
 
@@ -269,77 +270,144 @@ Shader::~Shader()
 bool Shader::set(const char* name, glm::mat4 value)
 {
     glUseProgram(m_id);
-    GLint location = glGetUniformLocation(m_id, name);
-    if (location == -1)
+    auto uniform = getType(name);
+    if (uniform.id == -1)
     {
 #ifdef DEBUG
         LOG_ERROR("Cannot find shader uniform!");
 #endif
         return false;
     }
-    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+#ifndef NDEBUG
+    if (uniform.type != UniformType::Mat4)
+    {
+        LOG_ERROR("Invalid shader uniform type for {}", name);
+    }
+    if (uniform.arrayCount != 1)
+    {
+        LOG_ERROR("Invalid shader uniform array count for {}", name);
+    }
+#endif
+    glUniformMatrix4fv(uniform.id, 1, GL_FALSE, glm::value_ptr(value));
     return true;
 }
 
 bool Shader::set(const char* name, glm::mat3 value)
 {
     glUseProgram(m_id);
-    GLint location = glGetUniformLocation(m_id, name);
-    if (location == -1)
+    auto uniform = getType(name);
+    if (uniform.id == -1)
     {
 #ifdef DEBUG
         LOG_ERROR("Cannot find shader uniform!");
 #endif
         return false;
     }
-    glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(value));
+#ifndef NDEBUG
+    if (uniform.type != UniformType::Mat3)
+    {
+        LOG_ERROR("Invalid shader uniform type for {}", name);
+    }
+    if (uniform.arrayCount != 1)
+    {
+        LOG_ERROR("Invalid shader uniform array count for {}", name);
+    }
+#endif
+    glUniformMatrix3fv(uniform.id, 1, GL_FALSE, glm::value_ptr(value));
     return true;
 }
 
 bool Shader::set(const char* name, glm::vec4 value)
 {
     glUseProgram(m_id);
-    GLint location = glGetUniformLocation(m_id, name);
-    if (location == -1)
+    auto uniform = getType(name);
+    if (uniform.id == -1)
     {
 #ifdef DEBUG
         LOG_ERROR("Cannot find shader uniform!");
 #endif
         return false;
     }
-    glUniform4fv(location, 1, glm::value_ptr(value));
+#ifndef NDEBUG
+    if (uniform.type != UniformType::Vec4)
+    {
+        LOG_ERROR("Invalid shader uniform type for {}", name);
+    }
+    if (uniform.arrayCount != 1)
+    {
+        LOG_ERROR("Invalid shader uniform array count for {}", name);
+    }
+#endif
+    glUniform4fv(uniform.id, 1, glm::value_ptr(value));
     return true;
 }
 
 bool Shader::set(const char* name, float value)
 {
     glUseProgram(m_id);
-    GLint location = glGetUniformLocation(m_id, name);
-    if (location == -1)
+    auto uniform = getType(name);
+    if (uniform.id == -1)
     {
 #ifdef DEBUG
         LOG_ERROR("Cannot find shader uniform!");
 #endif
         return false;
     }
-    glUniform1f(location, value);
+#ifndef NDEBUG
+    if (uniform.type != UniformType::Float)
+    {
+        LOG_ERROR("Invalid shader uniform type for {}", name);
+    }
+#endif
+    glUniform1f(uniform.id, value);
     return true;
 }
 
 bool Shader::set(const char* name, int value)
 {
     glUseProgram(m_id);
-    GLint location = glGetUniformLocation(m_id, name);
-    if (location == -1)
+    auto uniform = getType(name);
+    if (uniform.id == -1)
     {
 #ifdef DEBUG
         LOG_ERROR("Cannot find shader uniform!");
 #endif
         return false;
     }
-    glUniform1i(location, value);
+#ifndef NDEBUG
+    if (uniform.type != UniformType::Int)
+    {
+        LOG_ERROR("Invalid shader uniform type for {}", name);
+    }
+#endif
+    glUniform1i(uniform.id, value);
     return true;
 }
+
+
+bool Shader::set(const char* name, Texture* texture, unsigned int textureSlot)
+{
+    glUseProgram(m_id);
+    auto uniform = getType(name);
+    if (uniform.id == -1)
+    {
+#ifdef DEBUG
+        LOG_ERROR("Cannot find shader uniform!");
+#endif
+        return false;
+    }
+#ifndef NDEBUG
+    if (uniform.type != UniformType::Texture)
+    {
+        LOG_ERROR("Invalid shader uniform type for {}", name);
+    }
+#endif
+    glActiveTexture(GL_TEXTURE0 + textureSlot);
+    glBindTexture(GL_TEXTURE_2D, texture->m_id);
+    glUniform1i(uniform.id, textureSlot);
+    return true;
+}
+
 
 bool Shader::setLights(Light* value, const glm::vec4& ambient, const glm::mat4& viewTransform)
 {
@@ -489,21 +557,64 @@ Shader* Shader::getUnlitSprite()
     return s_unlitSprite;
 }
 
-bool Shader::set(const char* name, Texture* texture, unsigned int textureSlot)
+bool Shader::contains(const char* name)
 {
-    glUseProgram(m_id);
-    GLint location = glGetUniformLocation(m_id, name);
-    if (location == -1)
-    {
-#ifdef DEBUG
-        LOG_ERROR("Cannot find shader uniform!");
-#endif
-        return false;
-    }
+    return m_uniforms.find(name) != m_uniforms.end();
+}
 
-    glActiveTexture(GL_TEXTURE0 + textureSlot);
-    glBindTexture(GL_TEXTURE_2D, texture->m_id);
-    glUniform1i(location, textureSlot);
-    return true;
+Shader::Uniform Shader::getType(const char* name)
+{
+    auto res = m_uniforms.find(name);
+    if (res != m_uniforms.end())
+    {
+        return m_uniforms[name];
+    }
+    else
+    {
+        return { -1, UniformType::Invalid, -1 };
+    }
+}
+
+void Shader::updateUniforms()
+{
+    m_uniforms.clear();
+    GLint uniformCount;
+    glGetProgramiv(m_id, GL_ACTIVE_UNIFORMS, &uniformCount);
+    UniformType uniformType = UniformType::Invalid;
+    for (int i = 0; i < uniformCount; i++)
+    {
+        const int nameSize = 50;
+        GLchar name[nameSize];
+        GLsizei nameLength;
+        GLint size;
+        GLenum type;
+        glGetActiveUniform(m_id, i, nameSize, &nameLength, &size, &type, name);
+        switch (type)
+        {
+        case GL_FLOAT:
+            uniformType = UniformType::Float;
+            break;
+        case GL_FLOAT_VEC4:
+            uniformType = UniformType::Vec4;
+            break;
+        case GL_INT:
+            uniformType = UniformType::Int;
+            break;
+        case GL_FLOAT_MAT3:
+            uniformType = UniformType::Mat3;
+            break;
+        case GL_FLOAT_MAT4:
+            uniformType = UniformType::Mat4;
+            break;
+        case GL_SAMPLER_2D:
+            uniformType = UniformType::Texture;
+            break;
+        default:
+            LOG_ERROR("Unsupported shader type {}, name {}", type, name);
+        }
+
+        GLint location = glGetUniformLocation(m_id, name);
+        m_uniforms[name] = { location, uniformType, size };
+    }
 }
 } // namespace re

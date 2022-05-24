@@ -2,24 +2,24 @@
 // Created by william on 2022/5/24.
 //
 
-#include "core/text.h"
-
 #include "commonMacro.h"
 #include "core/mesh.h"
 #include "core/renderer.h"
 #include "core/shader.h"
+#include "core/texture.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/euler_angles.hpp>
 
 using namespace re;
 
 static int s_canvasWidth = 640;
 static int s_canvasHeight = 480;
-static constexpr char* title = "textText";
+static constexpr char* title = "quadTest";
 
-void textText()
+void quadTest()
 {
     LOG_INFO("{}", title);
     glfwInit();
@@ -36,17 +36,16 @@ void textText()
         glfwTerminate();
     }
     Renderer r{ window };
-    r.getCamera()->setOrthographicProjection(0.0f, s_canvasWidth, 0.0f, s_canvasHeight, -1.f, 1.f);
-    r.getCamera()->setViewTransform(glm::mat4(1));
-    auto* fontShader = Shader::getFont();
-    // create a text mesh (pivot point in lower left corner)
-    auto* mesh = Text::createTextMesh("hello world");
-    auto m = glm::mat4(1);
+    r.getCamera()->setLookAt({ 0.0f, 0.0f, 4.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+    r.getCamera()->setPerspectiveProjection(45.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
+    Shader* shader = Shader::getUnlit();
+    shader->set("tex", Texture::createTextureFromFile(GET_CURRENT("test/resources/test.jpg"), true));
+    Mesh* mesh = Mesh::createQuad();
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
         r.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
-        r.render(mesh, glm::translate(m, glm::vec3(s_canvasWidth / 4, s_canvasHeight / 2, 0.0)), fontShader);
+        r.render(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), shader);
         r.swapWindow();
     }
     glfwTerminate();
