@@ -145,6 +145,7 @@ Shader* Shader::getStandard()
                 {
                     vec3 lightVector = lightPosType[i].xyz - vEyePos;
                     float lightRange = lightColorRange[i].w;
+                    float lightVectorLength = length(lightVector);
                     lightDirection = lightVector/lightVectorLength;
                     if (lightRange <= 0.0)
                     {
