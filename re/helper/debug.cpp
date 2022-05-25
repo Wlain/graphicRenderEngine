@@ -8,6 +8,7 @@
 #include "core/mesh.h"
 #include "core/renderer.h"
 #include "core/shader.h"
+#include "core/texture.h"
 #include "glCommonDefine.h"
 
 #include <vector>
@@ -29,12 +30,13 @@ void Debug::drawLine(glm::vec3 from, glm::vec3 to)
     std::vector<glm::vec3> vertices = { from, to };
     std::vector<glm::vec3> normals = { glm::vec3{ 0 }, glm::vec3{ 0 } };
     std::vector<glm::vec2> uvs = { glm::vec2{ 0 }, glm::vec2{ 0 } };
-    auto* mesh = new Mesh(vertices, normals, uvs, Mesh::Topology::Lines);
+    Mesh mesh(vertices, normals, uvs, Mesh::Topology::Lines);
     auto* shader = Shader::getUnlit();
     shader->set("color", s_color);
+    shader->set("tex", Texture::getWhiteTexture());
     if (Renderer::s_instance != nullptr)
     {
-        Renderer::s_instance->render(mesh, glm::mat4(1), shader);
+        Renderer::s_instance->render(&mesh, glm::mat4(1), shader);
     }
 }
 
@@ -60,6 +62,20 @@ void Debug::checkGLError()
             LOG_ERROR("GL_INVALID_FRAMEBUFFER_OPERATION");
             break;
         }
+    }
+}
+
+void Debug::drawLineStrip(const std::vector<glm::vec3>& vertices)
+{
+    std::vector<glm::vec3> normals;
+    std::vector<glm::vec2> uvs;
+    Mesh mesh(vertices, normals, uvs, Mesh::Topology::LineStrip);
+    auto* shader = Shader::getUnlit();
+    shader->set("color", s_color);
+    shader->set("tex", Texture::getWhiteTexture());
+    if (Renderer::s_instance != nullptr)
+    {
+        Renderer::s_instance->render(&mesh, glm::mat4(1), shader);
     }
 }
 } // namespace re

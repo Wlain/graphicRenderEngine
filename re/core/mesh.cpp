@@ -9,7 +9,7 @@
 #include <glm/gtc/constants.hpp>
 namespace re
 {
-Mesh::Mesh(std::vector<glm::vec3>& vertexPositions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& uvs, Mesh::Topology topology) :
+Mesh::Mesh(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs, Mesh::Topology topology) :
     m_topology(topology)
 {
     glGenBuffers(1, &m_vbo);
@@ -66,14 +66,7 @@ void Mesh::update(const std::vector<glm::vec3>& vertexPositions, const std::vect
     glBindVertexArray(m_vao);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * interleavedData.size(), interleavedData.data(), GL_STATIC_DRAW);
-    // bind vertex attributes (position, normal, uv)
-    int length[3] = { 3, 3, 2 };
-    int offset[3] = { 0, 3, 6 };
-    for (int i = 0; i < 3; i++)
-    {
-        glEnableVertexAttribArray(i);
-        glVertexAttribPointer(i, length[i], GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(offset[i] * sizeof(float)));
-    }
+    setVertexAttributePointers();
     if (!m_indices.empty())
     {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
@@ -82,7 +75,19 @@ void Mesh::update(const std::vector<glm::vec3>& vertexPositions, const std::vect
     }
 }
 
-void Mesh::update(std::vector<glm::vec3>& vertexPositions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& uvs)
+void Mesh::setVertexAttributePointers()
+{
+    // bind vertex attributes (position, normal, uv)
+    int length[3] = { 3, 3, 2 };
+    int offset[3] = { 0, 3, 6 };
+    for (int i = 0; i < 3; i++)
+    {
+        glEnableVertexAttribArray(i);
+        glVertexAttribPointer(i, length[i], GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(offset[i] * sizeof(float)));
+    }
+}
+
+void Mesh::update(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs)
 {
     std::vector<uint16_t> indices;
     update(vertexPositions, normals, uvs, indices);

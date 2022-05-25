@@ -22,6 +22,7 @@ struct Light
     glm::vec3 position{};
     glm::vec3 direction{};
     glm::vec3 color{};
+    // 0 : means no attenuation
     float range{};
     Light(Type type, const glm::vec3& position, const glm::vec3& direction, const glm::vec3& color, float range);
 };

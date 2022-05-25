@@ -25,6 +25,7 @@ public:
 
 private:
     void bind();
+    void setVertexAttributePointers();
 
 private:
     uint32_t m_vbo{ 0 };

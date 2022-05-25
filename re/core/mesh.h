@@ -21,7 +21,10 @@ public:
     {
         Points = 0x0000,
         Lines = 0x0001,
-        Triangles = 0x0004
+        LineStrip = 0x0003,
+        Triangles = 0x0004,
+        TriangleStrip = 0x0005,
+        TriangleFan = 0x0006
     };
 
 public:
@@ -30,10 +33,10 @@ public:
     static Mesh* createSphere();
 
 public:
-    Mesh(std::vector<glm::vec3>& vertexPositions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& uvs, Mesh::Topology topology);
+    Mesh(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs, Mesh::Topology topology);
     Mesh(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs, const std::vector<uint16_t>& indices, Mesh::Topology meshTopology = Mesh::Topology::Triangles);
     ~Mesh();
-    void update(std::vector<glm::vec3>& vertexPositions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& uvs);
+    void update(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs);
     void update(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs, const std::vector<uint16_t>& indices);
     inline int32_t getVertexCount() const { return m_vertexCount; }
     inline Topology topology() const { return m_topology; }
@@ -44,6 +47,7 @@ public:
 
 private:
     void bind() const;
+    void setVertexAttributePointers();
 
 private:
     friend class Renderer;

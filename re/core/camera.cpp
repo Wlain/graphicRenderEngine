@@ -14,7 +14,7 @@ Camera::Camera()
 {
     if (Renderer::s_instance)
     {
-        glfwGetFramebufferSize(Rende∑rer::s_instance->m_window, &m_viewportWidth, &m_viewportHeight);
+        glfwGetFramebufferSize(Renderer::s_instance->m_window, &m_viewportWidth, &m_viewportHeight);
     }
 }
 

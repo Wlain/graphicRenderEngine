@@ -35,12 +35,12 @@ file(GLOB IMAGE_UI_SRC
         3rdparty/imgui/backends/imgui_impl_opengl3.*
         3rdparty/imgui/*.cpp)
 
-file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS ${IMAGE_UI_SRC} re/*.cpp)
-file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${SOURCE_FILES}  test/*.cpp )
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${IMAGE_UI_SRC} re/*.cpp test/*.cpp)
 
 add_executable(simpleRenderEngine ${SOURCES})
-add_library(re SHARED ${SOURCE_FILES})
 
 # 链接库
-target_link_libraries(re glfw glm spdlog ${EXTRA_LIBS})
 target_link_libraries(simpleRenderEngine re)
+
+include_directories(re)
+add_subdirectory(re)
