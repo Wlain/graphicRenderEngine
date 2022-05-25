@@ -143,12 +143,18 @@ Shader* Shader::getStandard()
                 }
                 else if (isPoint)
                 {
-                   vec3 lightVector = lightPosType[i].xyz - vEyePos;
-                   float lightVectorLength = length(lightVector);
-                   lightDirection = lightVector/lightVectorLength;
-                   att = pow(1.0-1/lightColorRange[i].w,2.0); // non physical range based attenuation
+                    vec3 lightVector = lightPosType[i].xyz - vEyePos;
+                    float lightRange = lightColorRange[i].w;
+                    lightDirection = lightVector/lightVectorLength;
+                    if (lightVectorLength >= lightRange)
+                    {
+                        att = 0.0;
+                    } else
+                    {
+                        att = pow(1.0-lightVectorLength/lightRange,1.5); // non physical range based attenuation
+                    }
                } else {
-                   continue;
+                    continue;
                }
                 vec3 H = normalize(lightDirection - vEyePos);
                 // diffuse light
