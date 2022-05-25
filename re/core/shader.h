@@ -60,10 +60,6 @@ public:
     // "tex" Texture* (default white texture)
     // "specularity" float (default 0 = no specularity)
     static Shader* getStandard();
-    /// Creates a shader for font rendering
-    // "color" vec4 (default (1,1,1,1))
-    // "tex" Texture* (default font texture)
-    static Shader* getFont();
     static Shader* getStandardParticles();
     static void translateToGLSLES(std::string &source, bool vertexShader);
 

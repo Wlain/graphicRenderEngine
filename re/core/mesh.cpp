@@ -1,3 +1,4 @@
+
 //
 // Created by william on 2022/5/22.
 //
@@ -9,15 +10,6 @@
 #include <glm/gtc/constants.hpp>
 namespace re
 {
-Mesh::Mesh(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs, Mesh::Topology topology) :
-    m_topology(topology)
-{
-    glGenBuffers(1, &m_vbo);
-    glGenBuffers(1, &m_ebo);
-    glGenVertexArrays(1, &m_vao);
-    update(vertexPositions, normals, uvs);
-}
-
 Mesh::Mesh(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs, const std::vector<uint16_t>& indices, Mesh::Topology meshTopology)
 {
     glGenBuffers(1, &m_vbo);
@@ -70,7 +62,7 @@ void Mesh::update(const std::vector<glm::vec3>& vertexPositions, const std::vect
     if (!m_indices.empty())
     {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
-        GLsizeiptr indicesSize = indices.size() * sizeof(uint16_t);
+        uint32_t indicesSize = indices.size() * sizeof(uint16_t);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesSize, indices.data(), GL_STATIC_DRAW);
     }
 }
@@ -85,12 +77,6 @@ void Mesh::setVertexAttributePointers()
         glEnableVertexAttribArray(i);
         glVertexAttribPointer(i, length[i], GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(offset[i] * sizeof(float)));
     }
-}
-
-void Mesh::update(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs)
-{
-    std::vector<uint16_t> indices;
-    update(vertexPositions, normals, uvs, indices);
 }
 
 Mesh* Mesh::createQuad()
@@ -160,7 +146,12 @@ Mesh* Mesh::createCube()
         vec3{0, -1, 0}, vec3{0, -1, 0}, vec3{0, -1, 0}, vec3{0, -1, 0},
     });
     // clang-format on
-    auto* mesh = new Mesh(positions, normals, uvs, Topology::Triangles);
+    auto* mesh = Mesh::create()
+                     .withVertexPosition(positions)
+                     .withNormal(normals)
+                     .withUvs(uvs)
+                     .withMeshTopology(Topology::Triangles)
+                     .build();
     return mesh;
 }
 
@@ -222,7 +213,68 @@ Mesh* Mesh::createSphere()
             }
         }
     }
-    auto* mesh = new Mesh(finalPosition, finalNormals, finalUVs, Topology::Triangles);
+    auto* mesh = Mesh::create()
+                     .withVertexPosition(finalPosition)
+                     .withNormal(finalNormals)
+                     .withUvs(finalUVs)
+                     .withMeshTopology(Topology::Triangles)
+                     .build();
     return mesh;
+}
+
+Mesh::MeshBuilder Mesh::create()
+{
+    return {};
+}
+
+Mesh::MeshBuilder Mesh::update()
+{
+    Mesh::MeshBuilder res;
+    res.m_updateMesh = this;
+    return res;
+}
+
+Mesh::MeshBuilder& Mesh::MeshBuilder::withVertexPosition(const std::vector<glm::vec3>& position)
+{
+    m_vertexPositions = position;
+    return *this;
+}
+
+Mesh::MeshBuilder& Mesh::MeshBuilder::withNormal(const std::vector<glm::vec3>& normal)
+{
+    m_normals = normal;
+    return *this;
+}
+
+Mesh::MeshBuilder& Mesh::MeshBuilder::withUvs(const std::vector<glm::vec2>& uv)
+{
+    m_uvs = uv;
+    return *this;
+}
+
+Mesh::MeshBuilder& Mesh::MeshBuilder::withMeshTopology(Mesh::Topology topology)
+{
+    m_topology = topology;
+    return *this;
+}
+
+Mesh::MeshBuilder& Mesh::MeshBuilder::withIndices(const std::vector<uint16_t>& indices)
+{
+    m_indices = indices;
+    return *this;
+}
+
+Mesh* Mesh::MeshBuilder::build()
+{
+    if (m_updateMesh != nullptr)
+    {
+        m_updateMesh->update(m_vertexPositions, m_normals, m_uvs, m_indices);
+        return m_updateMesh;
+    }
+    else
+    {
+        auto* mesh = new Mesh(m_vertexPositions, m_normals, m_uvs, m_indices, m_topology);
+        return mesh;
+    }
 }
 } // namespace re

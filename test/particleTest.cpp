@@ -54,6 +54,7 @@ void particleTest()
         glfwTerminate();
     }
     Renderer r{ window };
+
     r.getCamera()->setViewport(0, 0, s_canvasWidth, s_canvasHeight);
     r.getCamera()->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
     r.getCamera()->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);

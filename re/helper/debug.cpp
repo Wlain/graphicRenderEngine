@@ -30,13 +30,18 @@ void Debug::drawLine(glm::vec3 from, glm::vec3 to)
     std::vector<glm::vec3> vertices = { from, to };
     std::vector<glm::vec3> normals = { glm::vec3{ 0 }, glm::vec3{ 0 } };
     std::vector<glm::vec2> uvs = { glm::vec2{ 0 }, glm::vec2{ 0 } };
-    Mesh mesh(vertices, normals, uvs, Mesh::Topology::Lines);
+    auto mesh = std::unique_ptr<Mesh>(Mesh::create()
+                                          .withVertexPosition(vertices)
+                                          .withNormal(normals)
+                                          .withUvs(uvs)
+                                          .withMeshTopology(Mesh::Topology::Lines)
+                                          .build());
     auto* shader = Shader::getUnlit();
     shader->set("color", s_color);
     shader->set("tex", Texture::getWhiteTexture());
     if (Renderer::s_instance != nullptr)
     {
-        Renderer::s_instance->render(&mesh, glm::mat4(1), shader);
+        Renderer::s_instance->render(mesh.get(), glm::mat4(1), shader);
     }
 }
 
@@ -69,13 +74,18 @@ void Debug::drawLineStrip(const std::vector<glm::vec3>& vertices)
 {
     std::vector<glm::vec3> normals;
     std::vector<glm::vec2> uvs;
-    Mesh mesh(vertices, normals, uvs, Mesh::Topology::LineStrip);
+    auto mesh = std::unique_ptr<Mesh>(Mesh::create()
+                                          .withVertexPosition(vertices)
+                                          .withNormal(normals)
+                                          .withUvs(uvs)
+                                          .withMeshTopology(Mesh::Topology::Lines)
+                                          .build());
     auto* shader = Shader::getUnlit();
     shader->set("color", s_color);
     shader->set("tex", Texture::getWhiteTexture());
     if (Renderer::s_instance != nullptr)
     {
-        Renderer::s_instance->render(&mesh, glm::mat4(1), shader);
+        Renderer::s_instance->render(mesh.get(), glm::mat4(1), shader);
     }
 }
 } // namespace re

@@ -197,46 +197,6 @@ Shader* Shader::getStandard()
     return s_standard;
 }
 
-Shader* Shader::getFont()
-{
-    if (s_font != nullptr)
-    {
-        return s_font;
-    }
-    const char* vertexShader = R"(#version 330
-        in vec4 position;
-        in vec3 normal;
-        in vec2 uv;
-        out vec2 vUV;
-
-        uniform mat4 model;
-        uniform mat4 view;
-        uniform mat4 projection;
-
-        void main(void) {
-            gl_Position = projection * view * model * position;
-            vUV = uv;
-        }
-        )";
-    const char* fragmentShader = R"(#version 330
-        out vec4 fragColor;
-        in vec2 vUV;
-
-        uniform vec4 color;
-        uniform sampler2D tex;
-
-        void main(void)
-        {
-            fragColor = color * texture(tex, vUV);
-        }
-    )";
-    s_font = createShader(vertexShader, fragmentShader);
-    s_font->set("color", glm::vec4(1));
-    s_font->set("tex", Texture::getFontTexture());
-    s_font->setBlend(BlendType::AlphaBlending);
-    return s_font;
-}
-
 Shader* Shader::getStandardParticles()
 {
     if (s_standardParticles != nullptr)

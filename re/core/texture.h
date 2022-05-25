@@ -69,7 +69,7 @@ public:
 
 private:
     Texture(const char* data, int width, int height, uint32_t format);
-    void updateTextureSampler(bool filterSampling, bool wrapTextureCoordinates);
+    void updateTextureSampler(bool filterSampling, bool wrapTextureCoordinates) const;
 
 private:
     inline static Texture* s_whiteTexture{ nullptr };

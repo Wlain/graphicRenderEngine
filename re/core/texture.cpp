@@ -15,7 +15,7 @@
 
 namespace
 {
-static std::vector<char> readAllBytes(char const* filename)
+std::vector<char> readAllBytes(char const* filename)
 {
     using namespace std;
     ifstream ifs(filename, std::ios::binary | std::ios::ate);
@@ -178,7 +178,7 @@ Texture* Texture::getSphereTexture()
 
 Texture::TextureBuilder Texture::create()
 {
-    return Texture::TextureBuilder();
+    return {};
 }
 
 Texture::Texture(const char* data, int width, int height, uint32_t format)
@@ -200,7 +200,7 @@ Texture::~Texture()
     glDeleteTextures(1, &m_info.id);
 }
 
-void Texture::updateTextureSampler(bool filterSampling, bool wrapTextureCoordinates)
+void Texture::updateTextureSampler(bool filterSampling, bool wrapTextureCoordinates) const
 {
     glBindTexture(GL_TEXTURE_2D, m_info.id);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapTextureCoordinates ? GL_REPEAT : GL_CLAMP_TO_EDGE);

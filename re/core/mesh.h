@@ -1,3 +1,9 @@
+// Copyright (c) 2022-2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+// Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+// Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+// Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+// Vestibulum commodo. Ut rhoncus gravida arcu.
+
 //
 // Created by william on 2022/5/22.
 //
@@ -27,17 +33,38 @@ public:
         TriangleFan = 0x0006
     };
 
+    class MeshBuilder
+    {
+    public:
+        MeshBuilder& withVertexPosition(const std::vector<glm::vec3>& position);
+        MeshBuilder& withNormal(const std::vector<glm::vec3>& normal);
+        MeshBuilder& withUvs(const std::vector<glm::vec2>& uv);
+        MeshBuilder& withMeshTopology(Topology topology);
+        MeshBuilder& withIndices(const std::vector<uint16_t>& indices);
+        Mesh* build();
+
+    private:
+        MeshBuilder() = default;
+        std::vector<glm::vec3> m_vertexPositions;
+        std::vector<glm::vec3> m_normals;
+        std::vector<glm::vec2> m_uvs;
+        std::vector<uint16_t> m_indices;
+        Topology m_topology{ Topology::Triangles }; // mesh拓扑结构
+        Mesh* m_updateMesh = nullptr;
+        friend class Mesh;
+    };
+
 public:
     static Mesh* createQuad();
     static Mesh* createCube();
     static Mesh* createSphere();
+    static MeshBuilder create();
 
 public:
-    Mesh(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs, Mesh::Topology topology);
     Mesh(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs, const std::vector<uint16_t>& indices, Mesh::Topology meshTopology = Mesh::Topology::Triangles);
     ~Mesh();
-    void update(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs);
     void update(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs, const std::vector<uint16_t>& indices);
+    MeshBuilder update();
     inline int32_t getVertexCount() const { return m_vertexCount; }
     inline Topology topology() const { return m_topology; }
     const std::vector<glm::vec3>& getVertexPositions() const { return m_vertexPositions; }

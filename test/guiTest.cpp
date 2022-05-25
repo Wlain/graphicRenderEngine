@@ -5,7 +5,6 @@
 #include "core/mesh.h"
 #include "core/renderer.h"
 #include "core/shader.h"
-#include "core/text.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
