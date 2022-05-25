@@ -31,27 +31,97 @@ static std::vector<char> readAllBytes(char const* filename)
     ifs.read(&result[0], pos);
     return result;
 }
+
+bool isPowerOfTwo(unsigned int x)
+{
+    // 例如：8:1000 7:111  8 & 7 == 0
+    return ((x != 0) && !(x & (x - 1)));
+}
 } // namespace
 
 namespace re
 {
-Texture* Texture::createTextureFromFile(const char* filePath, bool generateMipmaps)
+
+Texture::TextureBuilder& Texture::TextureBuilder::withGenerateMipmaps(bool enable)
 {
-    int width{};
-    int height{};
-    int channels{};
-    stbi_set_flip_vertically_on_load(true);
-    int desireComp = STBI_rgb_alpha;
-    auto pixelsData = readAllBytes(filePath);
-    unsigned char* data = stbi_load_from_memory((stbi_uc const*)pixelsData.data(), pixelsData.size(), &width, &height, &channels, desireComp);
-    stbi_set_flip_vertically_on_load(false);
-    if (data)
+    m_info.generateMipmap = enable;
+    return *this;
+}
+
+Texture::TextureBuilder& Texture::TextureBuilder::withFilterSampling(bool enable)
+{
+    m_info.filterSampling = enable;
+    return *this;
+}
+
+Texture::TextureBuilder& Texture::TextureBuilder::withWrappedTextureCoordinates(bool enable)
+{
+    m_info.wrapTextureCoordinates = enable;
+    return *this;
+}
+
+Texture::TextureBuilder& Texture::TextureBuilder::withFile(const char* filename)
+{
+    m_filename = filename;
+    return *this;
+}
+
+Texture::TextureBuilder& Texture::TextureBuilder::withRGBData(const char* data, int width, int height)
+{
+    m_data = data;
+    m_info.width = width;
+    m_info.height = height;
+    m_info.format = PixelFormat::RGB;
+    return *this;
+}
+
+Texture::TextureBuilder& Texture::TextureBuilder::withRGBAData(const char* data, int width, int height)
+{
+    m_data = data;
+    m_info.width = width;
+    m_info.height = height;
+    m_info.format = PixelFormat::RGBA;
+    return *this;
+}
+
+Texture::TextureBuilder& Texture::TextureBuilder::withWhiteData(int width, int height)
+{
+    char one = (char)0xff;
+    m_dataOne = std::vector<char>(width * height * 4, one);
+    m_info.width = width;
+    m_info.height = height;
+    m_info.format = PixelFormat::RGBA;
+    return *this;
+}
+
+Texture* Texture::TextureBuilder::build()
+{
+    std::vector<char> fileData;
+    bool useStb = false;
+    if (m_filename != nullptr)
     {
-        auto* texture = new Texture((const char*)data, width, height, GL_RGBA, generateMipmaps);
-        stbi_image_free(data);
-        return texture;
+        useStb = true;
+        int desireComp = STBI_rgb_alpha;
+        stbi_set_flip_vertically_on_load(true);
+        auto pixelsData = readAllBytes(m_filename);
+        m_data = (char*)stbi_load_from_memory((stbi_uc const*)pixelsData.data(), pixelsData.size(), &m_info.width, &m_info.height, &m_info.channels, desireComp);
+        stbi_set_flip_vertically_on_load(false);
     }
-    return nullptr;
+    if (m_data == nullptr && !m_dataOne.empty())
+    {
+        m_data = m_dataOne.data();
+    }
+    auto* texture = new Texture(m_data, m_info.width, m_info.height, GL_RGBA);
+    if (useStb)
+    {
+        stbi_image_free((void*)m_data);
+    }
+    if (m_info.generateMipmap)
+    {
+        texture->invokeGenerateMipmap();
+    }
+    texture->updateTextureSampler(m_info.filterSampling, m_info.wrapTextureCoordinates);
+    return texture;
 }
 
 Texture* Texture::getWhiteTexture()
@@ -60,9 +130,7 @@ Texture* Texture::getWhiteTexture()
     {
         return s_whiteTexture;
     }
-    char one = (char)0xff;
-    std::vector<char> data(2 * 2 * 4, one);
-    s_whiteTexture = createFromMem(data.data(), 2, 2, true);
+    s_whiteTexture = create().withWhiteData().withFilterSampling(false).build();
     return s_whiteTexture;
 }
 
@@ -79,7 +147,7 @@ Texture* Texture::getFontTexture()
     int desireComp = STBI_rgb_alpha;
     unsigned char* data = stbi_load_from_memory((stbi_uc const*)fontPng, sizeof(fontPng), &width, &height, &channels, desireComp);
     stbi_set_flip_vertically_on_load(false);
-    s_fontTexture = new Texture((const char*)data, width, height, GL_RGBA, true);
+    s_fontTexture = new Texture((const char*)data, width, height, GL_RGBA);
     stbi_image_free(data);
     return s_fontTexture;
 }
@@ -104,43 +172,42 @@ Texture* Texture::getSphereTexture()
             data[x * size * 4 + y * 4 + 3] = (char)255;
         }
     }
-    s_sphereTexture = createFromMem(data.data(), size, size, true);
+    s_sphereTexture = create().withRGBAData(data.data(), size, size).build();
     return s_sphereTexture;
 }
 
-Texture* Texture::createFromMem(const char* data, int width, int height, bool generateMipmaps)
+Texture::TextureBuilder Texture::create()
 {
-    return new Texture(data, width, height, GL_RGBA, generateMipmaps);
+    return Texture::TextureBuilder();
 }
 
-Texture::Texture(const char* data, int width, int height, uint32_t format, bool generateMipmaps)
+Texture::Texture(const char* data, int width, int height, uint32_t format)
 {
     m_info.width = width;
     m_info.height = height;
-    m_info.generateMipmap = generateMipmaps;
-    glGenTextures(1, &m_id);
-    GLenum target = GL_TEXTURE_2D;
+    glGenTextures(1, &m_info.id);
+    m_info.target = GL_TEXTURE_2D;
     GLint mipmapLevel = 0;
     GLint internalFormat = GL_RGBA;
     GLint border = 0;
     GLenum type = GL_UNSIGNED_BYTE;
-    glBindTexture(target, m_id);
-    glTexImage2D(target, mipmapLevel, internalFormat, width, height, border, format, type, data);
-    updateTextureSampler();
-    if (generateMipmaps)
-    {
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
+    glBindTexture(m_info.target, m_info.id);
+    glTexImage2D(m_info.target, mipmapLevel, internalFormat, width, height, border, format, type, data);
 }
 
-void Texture::updateTextureSampler() const
+Texture::~Texture()
 {
-    glBindTexture(GL_TEXTURE_2D, m_id);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_info.wrapTextureCoordinates ? GL_REPEAT : GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_info.wrapTextureCoordinates ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+    glDeleteTextures(1, &m_info.id);
+}
+
+void Texture::updateTextureSampler(bool filterSampling, bool wrapTextureCoordinates)
+{
+    glBindTexture(GL_TEXTURE_2D, m_info.id);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapTextureCoordinates ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapTextureCoordinates ? GL_REPEAT : GL_CLAMP_TO_EDGE);
     GLint minification;
     GLint magnification;
-    if (m_info.filterSampling)
+    if (filterSampling)
     {
         minification = GL_NEAREST;
         magnification = GL_NEAREST;
@@ -157,5 +224,18 @@ void Texture::updateTextureSampler() const
     }
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magnification);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minification);
+}
+
+void Texture::invokeGenerateMipmap()
+{
+    if(isPowerOfTwo((uint32_t)m_info.width) &&  isPowerOfTwo((uint32_t)m_info.height))
+    {
+        LOG_ERROR("Ignore mipmaps for textures not power of two");
+    }
+    else
+    {
+        m_info.generateMipmap = true;
+        glGenerateMipmap(m_info.target);
+    }
 }
 } // namespace re

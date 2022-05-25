@@ -64,9 +64,10 @@ public:
     // "color" vec4 (default (1,1,1,1))
     // "tex" Texture* (default font texture)
     static Shader* getFont();
-
     static Shader* getStandardParticles();
+    static void translateToGLSLES(std::string &source, bool vertexShader);
 
+public:
     ~Shader();
     bool contains(const char* name);
     Uniform getType(const char* name);

@@ -72,7 +72,7 @@ void particleTest()
     {
         /// 渲染
         r.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
-        shader->set("tex", Texture::createTextureFromFile(GET_CURRENT("test/resources/test.jpg"), true));
+        shader->set("tex", Texture::create().withFile(GET_CURRENT("test/resources/test.jpg")).build());
         r.render(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)) * glm::scale(glm::mat4(1), { 0.3f, 0.3f, 0.3f }), shader);
         shaderParticle->set("tex", Texture::getSphereTexture(), true);
         r.render(particleMesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), shaderParticle);

@@ -156,9 +156,11 @@ Shader* Shader::getStandard()
                     {
                         att = pow(1.0-lightVectorLength/lightRange,1.5); // non physical range based attenuation
                     }
-               } else {
+                }
+                else
+                {
                     continue;
-               }
+                }
                 // diffuse light
                 float thisDiffuse = max(0.0,dot(lightDirection, normal));
                 if (thisDiffuse > 0.0)
@@ -320,11 +322,6 @@ Shader* Shader::getStandardParticles()
     s_standardParticles->setBlend(BlendType::AdditiveBlending);
     s_standardParticles->setDepthWrite(false);
     return s_standardParticles;
-}
-
-Texture::~Texture()
-{
-    glDeleteTextures(1, &m_id);
 }
 
 Shader* Shader::createShader(const char* vertexShader, const char* fragmentShader, bool particleLayout)
@@ -499,7 +496,7 @@ bool Shader::set(const char* name, Texture* texture, unsigned int textureSlot)
     }
 #endif
     glActiveTexture(GL_TEXTURE0 + textureSlot);
-    glBindTexture(GL_TEXTURE_2D, texture->m_id);
+    glBindTexture(GL_TEXTURE_2D, texture->m_info.id);
     glUniform1i(uniform.id, textureSlot);
     return true;
 }

@@ -79,7 +79,7 @@ void spriteTest()
     r.getCamera()->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
     r.getCamera()->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
     auto* shaderParticle = Shader::getStandardParticles();
-    shaderParticle->set("tex", Texture::createTextureFromFile(GET_CURRENT("test/resources/sprite.png"), true));
+    shaderParticle->set("tex", Texture::create().withFile(GET_CURRENT("test/resources/sprite.png")).build());
     ParticleMesh* particleMesh = createParticles();
     glm::vec4 spriteColor = glm::vec4(114, 144, 154, 255);
     glm::vec2 spriteUV = glm::vec2(0, 0);
