@@ -66,6 +66,8 @@ public:
     inline bool isFilterSampling() const { return m_info.filterSampling; }
     inline bool isWrapTextureCoordinates() const { return m_info.wrapTextureCoordinates; }
     void invokeGenerateMipmap();
+    // get size of the texture in bytes on GPU
+    size_t getDataSize();
 
 private:
     Texture(const char* data, int width, int height, uint32_t format);

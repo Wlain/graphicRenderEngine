@@ -9,6 +9,6 @@ extern void spriteTest();
 
 int main()
 {
-    particleTest();
+    guiTest();
     return 0;
 }

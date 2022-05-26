@@ -6,6 +6,8 @@
 #include "mesh.h"
 
 #include "glCommonDefine.h"
+#include "renderStats.h"
+#include "renderer.h"
 
 #include <glm/gtc/constants.hpp>
 namespace re
@@ -20,6 +22,9 @@ Mesh::Mesh(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm:
 
 Mesh::~Mesh()
 {
+    RenderStats& renderStats = Renderer::s_instance->m_renderStatsCurrent;
+    renderStats.meshBytes -= getDataSize();
+    renderStats.meshCount--;
     glDeleteVertexArrays(1, &m_vao);
     glDeleteBuffers(1, &m_ebo);
     glDeleteBuffers(1, &m_vbo);
@@ -114,6 +119,18 @@ Mesh::MeshBuilder Mesh::update()
     builder.m_indices = m_indices;
     builder.m_topology = m_topology;
     return builder;
+}
+
+size_t Mesh::getDataSize()
+{
+    size_t size = 0;
+    size += m_vertexCount * (sizeof(glm::vec3) + // position
+                             sizeof(glm::vec3) + // normals
+                             sizeof(glm::vec4) + // uvs
+                             sizeof(glm::vec4) + // colors
+                             sizeof(float));     // particle size
+    size += m_indices.size() * sizeof(uint16_t);
+    return size;
 }
 
 Mesh::MeshBuilder& Mesh::MeshBuilder::withQuad()
@@ -280,7 +297,6 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withUvs(const std::vector<glm::vec4>& uv)
     return *this;
 }
 
-
 Mesh::MeshBuilder& Mesh::MeshBuilder::withColors(const std::vector<glm::vec4>& colors)
 {
     m_colors = colors;
@@ -307,16 +323,22 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withIndices(const std::vector<uint16_t>& i
 
 Mesh* Mesh::MeshBuilder::build()
 {
+    // update stats
+    RenderStats& renderStats = Renderer::s_instance->m_renderStatsCurrent;
+    Mesh* mesh;
     if (m_updateMesh != nullptr)
     {
+        renderStats.meshBytes -= m_updateMesh->getDataSize();
         m_updateMesh->update(m_vertexPositions, m_normals, m_uvs, m_colors, m_particleSize, m_indices, m_topology);
-        return m_updateMesh;
+        mesh = m_updateMesh;
     }
     else
     {
-        auto* mesh = new Mesh(m_vertexPositions, m_normals, m_uvs, m_colors, m_particleSize, m_indices, m_topology);
-        return mesh;
+        mesh = new Mesh(m_vertexPositions, m_normals, m_uvs, m_colors, m_particleSize, m_indices, m_topology);
+        renderStats.meshCount++;
     }
+    renderStats.meshBytes += mesh->getDataSize();
+    return mesh;
 }
 
 } // namespace re

@@ -41,7 +41,7 @@ void guiTest()
     r.getCamera()->setPerspectiveProjection(60, 640, 480, 0.1, 100);
     auto* shader = Shader::getStandard();
     auto* mesh = Mesh::create().withCube().build();
-    static float f = 0.0f;
+    float specularity = 20.0f;
     //  init imageui
     ImGui::CreateContext();
     // 设置样式
@@ -50,21 +50,25 @@ void guiTest()
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
     ImVec4 clearColor = ImColor(114, 144, 154);
-    shader->set("specularity", 20.0f);
     r.setLight(0, Light::create().withPointLight({ 0, 0, 10 }).withColor({ 1, 0, 0 }).withRange(50).build());
-
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
         r.clearScreen({ clearColor.x, clearColor.y, clearColor.z, 1.0f });
+        shader->set("specularity", specularity);
         r.render(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), shader);
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-        ImGui::Begin("Hello, world!");
-        ImGui::SliderFloat("float", &f, 0.0f, 20.0f);
+        ImGui::Begin("guiTest");
+        ImGui::SliderFloat("specularity", &specularity, 0.0f, 40.0f);
         ImGui::ColorEdit3("clear color", (float*)&clearColor);
         ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        auto& renderStats = r.getRenderStats();
+        float bytesToMB = 1.0f; /// (1024 * 1024);
+        ImGui::Text("re draw-calls %i meshes %i (%.2fbytes) textures %i (%.2fbytes) shaders %i", renderStats.drawCalls,
+                    renderStats.meshCount, renderStats.meshBytes * bytesToMB, renderStats.textureCount,
+                    renderStats.textureBytes * bytesToMB, renderStats.shaderCount);
         ImGui::End();
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

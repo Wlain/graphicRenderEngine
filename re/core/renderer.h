@@ -7,6 +7,7 @@
 #include "camera.h"
 #include "light.h"
 #include "mesh.h"
+#include "renderStats.h"
 
 #include <GLFW/glfw3.h>
 #include <algorithm>
@@ -43,26 +44,36 @@ public:
     void swapWindow();
     void setupShader(const glm::mat4& modelTransform, Shader* shader);
     // flush GPU command buffer (must be called when profiling GPU time - should not be called when not profiling)
-    void finishGPUCommandBuffer()
+    inline void finishGPUCommandBuffer() const
     {
         glFlush();
     }
+    // return stats of the last rendered frame
+    // only data maintained by re is included
+    inline const RenderStats& getRenderStats() const { return m_renderStatsLast; }
 
 public:
     static constexpr int s_maxSceneLights{ 4 };
-    static constexpr int s_rgVersionMajor{ 1 };
+    static constexpr int s_rgVersionMajor{ 2 };
     static constexpr int s_rgVersionMinor{ 0 };
-    static constexpr int s_rgVersionPoint{ 2 };
+    static constexpr int s_rgVersionPoint{ 0 };
     inline static Renderer* s_instance{ nullptr };
-    friend class Camera;
-    friend class Renderer;
 
 private:
+    RenderStats m_renderStatsLast{};
+    RenderStats m_renderStatsCurrent{};
     glm::vec4 m_ambientLight = glm::vec4(0.2f, 0.2f, 0.2f, 0.2f);
     Light m_sceneLights[s_maxSceneLights];
     Camera m_defaultCamera;
     Camera* m_camera{ nullptr };
     GLFWwindow* m_window{ nullptr };
+
+    friend class Mesh;
+    friend class Mesh::MeshBuilder;
+    friend class Shader;
+    friend class Shader;
+    friend class Texture;
+    friend class Camera;
 };
 } // namespace re
 #endif //SIMPLERENDERENGINE_RENDERER_H

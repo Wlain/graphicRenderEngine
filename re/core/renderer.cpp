@@ -25,6 +25,14 @@ Renderer::Renderer(GLFWwindow* window) :
     glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_LOWER_LEFT);
     glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
     glfwGetFramebufferSize(m_window, &m_camera->m_viewportWidth, &m_camera->m_viewportHeight);
+    // reset render stats
+    m_renderStatsCurrent.frame = 0;
+    m_renderStatsCurrent.meshCount = 0;
+    m_renderStatsCurrent.meshBytes = 0;
+    m_renderStatsCurrent.textureCount = 0;
+    m_renderStatsCurrent.textureBytes = 0;
+    m_renderStatsCurrent.drawCalls = 0;
+    m_renderStatsLast = m_renderStatsCurrent;
 }
 
 Renderer::~Renderer() = default;
@@ -50,6 +58,7 @@ void Renderer::render(Mesh* mesh, const glm::mat4& modelTransform, Shader* shade
         LOG_ERROR("Renderer::render:can not render,camera is null");
         return;
     }
+    m_renderStatsCurrent.drawCalls++;
     setupShader(modelTransform, shader);
     mesh->bind();
     int indexCount = mesh->getIndices().size();
@@ -89,6 +98,9 @@ void Renderer::swapWindow()
 {
     if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(m_window, true);
+    m_renderStatsLast = m_renderStatsCurrent;
+    m_renderStatsCurrent.frame++;
+    m_renderStatsCurrent.drawCalls = 0;
     glfwSwapBuffers(m_window);
     glfwPollEvents();
 }

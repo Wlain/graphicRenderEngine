@@ -6,6 +6,7 @@
 
 #include "commonMacro.h"
 #include "glCommonDefine.h"
+#include "renderer.h"
 #include "texture.h"
 
 #include <algorithm>
@@ -425,11 +426,13 @@ Shader* Shader::getStandardParticles()
 Shader::Shader()
 {
     m_id = glCreateProgram();
+    Renderer::s_instance->m_renderStatsCurrent.shaderCount++;
 }
 
 Shader::~Shader()
 {
     glDeleteShader(m_id);
+    Renderer::s_instance->m_renderStatsCurrent.shaderCount--;
 }
 
 bool Shader::set(const char* name, glm::mat4 value)
@@ -751,5 +754,20 @@ bool Shader::build(const char* vertexShader, const char* fragmentShader)
     }
     updateUniforms();
     return true;
+}
+
+size_t Texture::getDataSize()
+{
+    int size = m_info.width * m_info.height * 4;
+    if (m_info.generateMipmap)
+    {
+        size += (int)((1.0f / 3.0f) * size);
+    }
+    // six sides
+    if (m_info.target == GL_TEXTURE_CUBE_MAP)
+    {
+        size *= 6;
+    }
+    return size;
 }
 } // namespace re

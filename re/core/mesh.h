@@ -77,6 +77,8 @@ public:
     const std::vector<glm::vec4>& getColors() const { return m_colors; }
     const std::vector<float>& getParticleSize() const { return m_particleSize; }
     const std::vector<uint16_t>& getIndices() const { return m_indices; }
+    // get size of the mesh in bytes on GPU
+    size_t getDataSize();
 
 private:
     void bind() const;

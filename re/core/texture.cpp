@@ -7,6 +7,7 @@
 #include "commonMacro.h"
 #include "font.inl"
 #include "glCommonDefine.h"
+#include "renderer.h"
 
 #include <fstream>
 #include <glm/glm.hpp>
@@ -41,7 +42,6 @@ bool isPowerOfTwo(unsigned int x)
 
 namespace re
 {
-
 Texture::TextureBuilder& Texture::TextureBuilder::withGenerateMipmaps(bool enable)
 {
     m_info.generateMipmap = enable;
@@ -193,11 +193,19 @@ Texture::Texture(const char* data, int width, int height, uint32_t format)
     GLenum type = GL_UNSIGNED_BYTE;
     glBindTexture(m_info.target, m_info.id);
     glTexImage2D(m_info.target, mipmapLevel, internalFormat, width, height, border, format, type, data);
+    // update stats
+    RenderStats& renderStats = Renderer::s_instance->m_renderStatsCurrent;
+    renderStats.textureCount++;
+    renderStats.textureBytes += getDataSize();
 }
 
 Texture::~Texture()
 {
     glDeleteTextures(1, &m_info.id);
+    // update stats
+    RenderStats& renderStats = Renderer::s_instance->m_renderStatsCurrent;
+    renderStats.textureCount--;
+    renderStats.textureBytes -= getDataSize();
 }
 
 void Texture::updateTextureSampler(bool filterSampling, bool wrapTextureCoordinates) const
@@ -228,7 +236,7 @@ void Texture::updateTextureSampler(bool filterSampling, bool wrapTextureCoordina
 
 void Texture::invokeGenerateMipmap()
 {
-    if(isPowerOfTwo((uint32_t)m_info.width) &&  isPowerOfTwo((uint32_t)m_info.height))
+    if (isPowerOfTwo((uint32_t)m_info.width) && isPowerOfTwo((uint32_t)m_info.height))
     {
         LOG_ERROR("Ignore mipmaps for textures not power of two");
     }
