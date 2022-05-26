@@ -44,7 +44,7 @@ public:
     void swapWindow();
     void setupShader(const glm::mat4& modelTransform, Shader* shader);
     // flush GPU command buffer (must be called when profiling GPU time - should not be called when not profiling)
-    void flush()
+    void finishGPUCommandBuffer()
     {
         glFlush();
     }

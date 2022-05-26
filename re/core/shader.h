@@ -1,3 +1,9 @@
+// Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+// Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+// Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+// Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+// Vestibulum commodo. Ut rhoncus gravida arcu.
+
 //
 // Created by william on 2022/5/22.
 //
@@ -7,6 +13,7 @@
 #include "light.h"
 #include "texture.h"
 
+#include <string>
 #include <vector>
 namespace re
 {
@@ -34,14 +41,42 @@ public:
 
     struct Uniform
     {
-        char* name[50];
-        int id{-1};
-        UniformType type{UniformType::Invalid};
+        Uniform(const char* _name, int32_t _location, UniformType _type, int32_t _count) :
+            name(_name), location(_location), type(_type), arrayCount(_count) {}
+        Uniform() = default;
+        std::string name;
+        int32_t location{ -1 };
+        UniformType type{ UniformType::Invalid };
         // 1 means not array
-        int arrayCount{-1};
+        int32_t arrayCount{ -1 };
+    };
+
+    struct ShaderBuilder
+    {
+        ShaderBuilder& withSource(const char* vertexShader, const char* fragmentShader);
+        ShaderBuilder& withSourceStandard();
+        ShaderBuilder& withSourceUnlit();
+        ShaderBuilder& withSourceUnlitSprite();
+        ShaderBuilder& withSourceStandardParticles();
+        ShaderBuilder& withDepthTest(bool enable);
+        ShaderBuilder& withDepthWrite(bool enable);
+        ShaderBuilder& withBlend(BlendType blendType);
+        ShaderBuilder& withParticleLayout(bool enable);
+        Shader* build();
+    public:
+        ShaderBuilder() = default;
+        const char* m_vertexShaderStr{ nullptr };
+        const char* m_fragmentShaderStr{ nullptr };
+        BlendType m_blendType{ BlendType::Disabled };
+        unsigned int m_id{ 0 };
+        bool m_depthTest{ true };
+        bool m_depthWrite{ true };
+        bool m_particleLayout{ false };
+        friend class Shader;
     };
 
 public:
+    static ShaderBuilder create();
     static Shader* createShader(const char* vertexShader, const char* fragmentShader, bool particleLayout = false);
     /// Unlit model.
     // Attributes
@@ -52,8 +87,6 @@ public:
     // "color" vec4 (default (1,1,1,1))
     // "tex" Texture* (default white texture)
     static Shader* getUnlitSprite();
-    static Shader* getDebugUV();
-    static Shader* getDebugNormals();
     /// Phong Light Model. Uses light objects and ambient light set in simpleRenderEngine.
     // Attributes
     // "color" vec4 (default (1,1,1,1))
@@ -61,7 +94,6 @@ public:
     // "specularity" float (default 0 = no specularity)
     static Shader* getStandard();
     static Shader* getStandardParticles();
-    static void translateToGLSLES(std::string &source, bool vertexShader);
 
 public:
     ~Shader();
@@ -73,15 +105,16 @@ public:
     bool set(const char* name, float value);
     bool set(const char* name, int value);
     bool set(const char* name, Texture* texture, unsigned int textureSlot = 0);
-    inline void setDepthTest(bool enable) { m_depthTest = enable; }
+    //    inline void setDepthTest(bool enable) { m_depthTest = enable; }
     inline bool isDepthTest() const { return m_depthTest; }
-    inline void setDepthWrite(bool enable) { m_depthWrite = enable; }
+    //    inline void setDepthWrite(bool enable) { m_depthWrite = enable; }
     inline bool isDepthWrite() const { return m_depthWrite; }
-    inline void setBlend(BlendType type) { m_blending = type; }
-    inline BlendType getBlend() const { return m_blending; }
+    //    inline void setBlend(BlendType type) { m_blending = type; }
+    inline BlendType getBlend() const { return m_blendType; }
 
 private:
     Shader();
+    bool build(const char* vertexShader, const char* fragmentShader, bool particleLayout);
     void bind();
     bool setLights(Light value[4], const glm::vec4& ambient, const glm::mat4& viewTransform);
     void updateUniforms();
@@ -98,12 +131,12 @@ private:
 private:
     friend class Mesh;
     friend class Renderer;
-    BlendType m_blending{ BlendType::Disabled };
+    BlendType m_blendType{ BlendType::Disabled };
     std::vector<Uniform> m_uniforms;
     unsigned int m_id{ 0 };
     bool m_depthTest{ true };
     bool m_depthWrite{ true };
-    bool m_particleLayout{false};
+    bool m_particleLayout{ false };
 };
 } // namespace re
 
