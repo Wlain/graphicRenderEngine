@@ -42,16 +42,16 @@ void sphereTest()
     if (point)
     {
         r.setLight(0, Light::create().withPointLight({ 0, 2, 1 }).withColor({ 1, 0, 0 }).withRange(10).build());
-        r.setLight(0, Light::create().withPointLight( { 2, 0, 1 }).withColor({ 0, 1, 0 }).withRange(10).build());
-        r.setLight(0, Light::create().withPointLight({ 0, -2, 1 }).withColor({ 0, 0, 1 }).withRange(10).build());
-        r.setLight(0, Light::create().withPointLight({ -2, 0, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
+        r.setLight(1, Light::create().withPointLight( { 2, 0, 1 }).withColor({ 0, 1, 0 }).withRange(10).build());
+        r.setLight(2, Light::create().withPointLight({ 0, -2, 1 }).withColor({ 0, 0, 1 }).withRange(10).build());
+        r.setLight(3, Light::create().withPointLight({ -2, 0, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
     }
     else
     {
         r.setLight(0, Light::create().withDirectionalLight({ 0, 1, 1 }).withColor({ 1, 0, 0 }).withRange(10).build());
-        r.setLight(0, Light::create().withDirectionalLight( { 1, 0, 1 }).withColor({ 0, 1, 0 }).withRange(10).build());
-        r.setLight(0, Light::create().withDirectionalLight({ 0, -1, 1 }).withColor({ 0, 0, 1 }).withRange(10).build());
-        r.setLight(0, Light::create().withDirectionalLight({ -1, 0, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
+        r.setLight(1, Light::create().withDirectionalLight( { 1, 0, 1 }).withColor({ 0, 1, 0 }).withRange(10).build());
+        r.setLight(2, Light::create().withDirectionalLight({ 0, -1, 1 }).withColor({ 0, 0, 1 }).withRange(10).build());
+        r.setLight(3, Light::create().withDirectionalLight({ -1, 0, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
     }
 
     while (!glfwWindowShouldClose(window))
