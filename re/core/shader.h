@@ -51,8 +51,9 @@ public:
         int32_t arrayCount{ -1 };
     };
 
-    struct ShaderBuilder
+    class ShaderBuilder
     {
+    public:
         ShaderBuilder& withSource(const char* vertexShader, const char* fragmentShader);
         ShaderBuilder& withSourceStandard();
         ShaderBuilder& withSourceUnlit();
@@ -63,7 +64,8 @@ public:
         ShaderBuilder& withBlend(BlendType blendType);
         ShaderBuilder& withParticleLayout(bool enable);
         Shader* build();
-    public:
+
+    private:
         ShaderBuilder() = default;
         const char* m_vertexShaderStr{ nullptr };
         const char* m_fragmentShaderStr{ nullptr };

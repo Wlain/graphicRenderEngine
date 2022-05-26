@@ -41,7 +41,7 @@ void guiTest()
     r.getCamera()->setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
     r.getCamera()->setPerspectiveProjection(60, 640, 480, 0.1, 100);
     auto* shader = Shader::getStandard();
-    auto* mesh = Mesh::createCube();
+    auto* mesh = Mesh::create().withCube().build();
     static float f = 0.0f;
     //  init imageui
     ImGui::CreateContext();
@@ -52,7 +52,8 @@ void guiTest()
     ImGui_ImplOpenGL3_Init("#version 330");
     ImVec4 clearColor = ImColor(114, 144, 154);
     shader->set("specularity", 20.0f);
-    r.setLight(0, Light(Light::Type::Point, { 0, 0, 10 }, { 0, 0, 0 }, { 1, 0, 0 }, 50));
+    r.setLight(0, Light::create().withPointLight({ 0, 0, 10 }).withColor({ 1, 0, 0 }).withRange(50).build());
+
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染

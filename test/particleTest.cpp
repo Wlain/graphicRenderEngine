@@ -63,11 +63,12 @@ void particleTest()
     auto* shaderParticle = Shader::getStandardParticles();
     shaderParticle->set("isSplit", 1);
     auto* particleMesh = createParticles();
-    Mesh* mesh = Mesh::createCube();
-    r.setLight(0, { Light::Type::Point, { 0, 1, 0 }, { 0, 0, 0 }, { 1, 0, 0 }, 2 });
-    r.setLight(1, { Light::Type::Point, { 1, 0, 0 }, { 0, 0, 0 }, { 0, 1, 0 }, 2 });
-    r.setLight(2, { Light::Type::Point, { 0, -1, 0 }, { 0, 0, 0 }, { 0, 0, 1 }, 2 });
-    r.setLight(3, { Light::Type::Point, { -1, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }, 2 });
+    auto* mesh = Mesh::create().withCube().build();
+
+    r.setLight(0, Light::create().withPointLight({ 0, 2, 1 }).withColor({ 1, 0, 0 }).withRange(10).build());
+    r.setLight(1, Light::create().withPointLight( { 2, 0, 1 }).withColor({ 0, 1, 0 }).withRange(10).build());
+    r.setLight(2, Light::create().withPointLight({ 0, -2, 1 }).withColor({ 0, 0, 1 }).withRange(10).build());
+    r.setLight(3, Light::create().withPointLight({ -2, 0, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
 
     while (!glfwWindowShouldClose(window))
     {

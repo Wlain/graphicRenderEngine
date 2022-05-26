@@ -38,8 +38,8 @@ void sphereTest2()
     r.getCamera()->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
     r.getCamera()->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
     Shader* shader = Shader::getStandard();
-    Mesh* mesh = Mesh::createSphere();
-    r.setLight(0, { Light::Type::Directional, { 0, 0, 0 }, glm::normalize(glm::vec3(1, 1, 1)), { 1, 1, 1 }, 10 });
+    auto* mesh = Mesh::create().withSphere().build();
+    r.setLight(0, Light::create().withDirectionalLight({ 0, 2, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
     glm::mat4 pos1 = glm::translate(glm::mat4(1), { -1, 0, 0 });
     glm::mat4 pos2 = glm::translate(glm::mat4(1), { 1, 0, 0 });
     while (!glfwWindowShouldClose(window))

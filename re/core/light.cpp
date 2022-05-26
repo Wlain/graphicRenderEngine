@@ -6,10 +6,56 @@
 namespace re
 {
 Light::Light() = default;
-Light::~Light() = default;
 
-Light::Light(Type type, const glm::vec3& position, const glm::vec3& direction, const glm::vec3& color, float range) :
-    type(type), position(position), direction(direction), color(color), range(range)
-{}
+Light::LightBuilder::~LightBuilder()
+{
+    delete m_light;
+}
 
+Light::LightBuilder::LightBuilder() :
+    m_light{ new Light() }
+{
+}
+
+Light::LightBuilder Light::create()
+{
+    return {};
+}
+
+Light::LightBuilder& Light::LightBuilder::withPointLight(glm::vec3 pos)
+{
+    m_type = Type::Point;
+    m_position = pos;
+    return *this;
+}
+
+Light::LightBuilder& Light::LightBuilder::withDirectionalLight(glm::vec3 dir)
+{
+    m_type = Type::Directional;
+    m_direction = dir;
+    return *this;
+}
+
+Light::LightBuilder& Light::LightBuilder::withColor(glm::vec3 col)
+{
+    m_color = col;
+    return *this;
+}
+
+Light::LightBuilder& Light::LightBuilder::withRange(float _range)
+{
+    m_range = _range;
+    return *this;
+}
+
+Light& Light::LightBuilder::build()
+{
+    auto& light = *m_light;
+    light.position = m_position;
+    light.direction = m_direction;
+    light.color = m_color;
+    light.range = m_range;
+    light.type = m_type;
+    return *m_light;
+}
 } // namespace re

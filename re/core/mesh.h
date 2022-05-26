@@ -36,6 +36,9 @@ public:
     class MeshBuilder
     {
     public:
+        MeshBuilder& withQuad();
+        MeshBuilder& withCube();
+        MeshBuilder& withSphere();
         MeshBuilder& withVertexPosition(const std::vector<glm::vec3>& position);
         MeshBuilder& withNormal(const std::vector<glm::vec3>& normal);
         MeshBuilder& withUvs(const std::vector<glm::vec2>& uv);
@@ -55,9 +58,6 @@ public:
     };
 
 public:
-    static Mesh* createQuad();
-    static Mesh* createCube();
-    static Mesh* createSphere();
     static MeshBuilder create();
 
 public:

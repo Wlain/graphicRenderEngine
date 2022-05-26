@@ -37,21 +37,21 @@ void sphereTest()
     r.getCamera()->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
     r.getCamera()->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
     Shader* shader = Shader::getStandard();
-    Mesh* mesh = Mesh::createSphere();
+    auto* mesh = Mesh::create().withSphere().build();
     bool point = true;
     if (point)
     {
-        r.setLight(0, { Light::Type::Point, { 0, 2, 1 }, { 0, 0, 0 }, { 1, 0, 0 }, 10 });
-        r.setLight(1, { Light::Type::Point, { 2, 0, 1 }, { 0, 0, 0 }, { 0, 1, 0 }, 10 });
-        r.setLight(2, { Light::Type::Point, { 0, -2, 1 }, { 0, 0, 0 }, { 0, 0, 1 }, 100 });
-        r.setLight(3, { Light::Type::Point, { -2, 0, 1 }, { 0, 0, 0 }, { 1, 1, 1 }, 100 });
+        r.setLight(0, Light::create().withPointLight({ 0, 2, 1 }).withColor({ 1, 0, 0 }).withRange(10).build());
+        r.setLight(0, Light::create().withPointLight( { 2, 0, 1 }).withColor({ 0, 1, 0 }).withRange(10).build());
+        r.setLight(0, Light::create().withPointLight({ 0, -2, 1 }).withColor({ 0, 0, 1 }).withRange(10).build());
+        r.setLight(0, Light::create().withPointLight({ -2, 0, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
     }
     else
     {
-        r.setLight(0, { Light::Type::Directional, { 0, 0, 0 }, { 0, 1, 0 }, { 1, 0, 0 }, 10 });
-        r.setLight(1, { Light::Type::Directional, { 0, 0, 0 }, { 1, 0, 0 }, { 0, 1, 0 }, 10 });
-        r.setLight(2, { Light::Type::Directional, { 0, 0, 0 }, { 0, -1, 0 }, { 0, 0, 1 }, 10 });
-        r.setLight(3, { Light::Type::Directional, { 0, 0, 0 }, { -1, 0, 0 }, { 1, 1, 1 }, 10 });
+        r.setLight(0, Light::create().withDirectionalLight({ 0, 1, 1 }).withColor({ 1, 0, 0 }).withRange(10).build());
+        r.setLight(0, Light::create().withDirectionalLight( { 1, 0, 1 }).withColor({ 0, 1, 0 }).withRange(10).build());
+        r.setLight(0, Light::create().withDirectionalLight({ 0, -1, 1 }).withColor({ 0, 0, 1 }).withRange(10).build());
+        r.setLight(0, Light::create().withDirectionalLight({ -1, 0, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
     }
 
     while (!glfwWindowShouldClose(window))

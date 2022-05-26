@@ -79,7 +79,19 @@ void Mesh::setVertexAttributePointers()
     }
 }
 
-Mesh* Mesh::createQuad()
+Mesh::MeshBuilder Mesh::create()
+{
+    return {};
+}
+
+Mesh::MeshBuilder Mesh::update()
+{
+    Mesh::MeshBuilder res;
+    res.m_updateMesh = this;
+    return res;
+}
+
+Mesh::MeshBuilder& Mesh::MeshBuilder::withQuad()
 {
     std::vector<glm::vec3> vertices({ glm::vec3{ 1, -1, 0 },
                                       glm::vec3{ 1, 1, 0 },
@@ -95,11 +107,15 @@ Mesh* Mesh::createQuad()
         0, 1, 2,
         2, 1, 3
     };
-    Mesh* mesh = new Mesh(vertices, normals, uvs, indices, Topology::Triangles);
-    return mesh;
+    withVertexPosition(vertices);
+    withNormal(normals);
+    withUvs(uvs);
+    withIndices(indices);
+    withMeshTopology(Topology::Triangles);
+    return *this;
 }
 
-Mesh* Mesh::createCube()
+Mesh::MeshBuilder& Mesh::MeshBuilder::withCube()
 {
     using namespace glm;
     float length = 1.0f;
@@ -146,16 +162,14 @@ Mesh* Mesh::createCube()
         vec3{0, -1, 0}, vec3{0, -1, 0}, vec3{0, -1, 0}, vec3{0, -1, 0},
     });
     // clang-format on
-    auto* mesh = Mesh::create()
-                     .withVertexPosition(positions)
-                     .withNormal(normals)
-                     .withUvs(uvs)
-                     .withMeshTopology(Topology::Triangles)
-                     .build();
-    return mesh;
+    withVertexPosition(positions);
+    withNormal(normals);
+    withUvs(uvs);
+    withMeshTopology(Topology::Triangles);
+    return *this;
 }
 
-Mesh* Mesh::createSphere()
+Mesh::MeshBuilder& Mesh::MeshBuilder::withSphere()
 {
     using namespace glm;
     int stacks = 8;
@@ -213,25 +227,11 @@ Mesh* Mesh::createSphere()
             }
         }
     }
-    auto* mesh = Mesh::create()
-                     .withVertexPosition(finalPosition)
-                     .withNormal(finalNormals)
-                     .withUvs(finalUVs)
-                     .withMeshTopology(Topology::Triangles)
-                     .build();
-    return mesh;
-}
-
-Mesh::MeshBuilder Mesh::create()
-{
-    return {};
-}
-
-Mesh::MeshBuilder Mesh::update()
-{
-    Mesh::MeshBuilder res;
-    res.m_updateMesh = this;
-    return res;
+    withVertexPosition(finalPosition);
+    withNormal(finalNormals);
+    withUvs(finalUVs);
+    withMeshTopology(Topology::Triangles);
+    return *this;
 }
 
 Mesh::MeshBuilder& Mesh::MeshBuilder::withVertexPosition(const std::vector<glm::vec3>& position)
@@ -277,4 +277,5 @@ Mesh* Mesh::MeshBuilder::build()
         return mesh;
     }
 }
+
 } // namespace re

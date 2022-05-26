@@ -40,7 +40,7 @@ void quadTest()
     r.getCamera()->setPerspectiveProjection(45.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
     Shader* shader = Shader::getUnlit();
     shader->set("tex", Texture::create().withFile(GET_CURRENT("test/resources/test.jpg")).build());
-    Mesh* mesh = Mesh::createQuad();
+    auto* mesh = Mesh::create().withQuad().build();
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
