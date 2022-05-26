@@ -62,7 +62,6 @@ public:
         ShaderBuilder& withDepthTest(bool enable);
         ShaderBuilder& withDepthWrite(bool enable);
         ShaderBuilder& withBlend(BlendType blendType);
-        ShaderBuilder& withParticleLayout(bool enable);
         Shader* build();
 
     private:
@@ -73,13 +72,11 @@ public:
         unsigned int m_id{ 0 };
         bool m_depthTest{ true };
         bool m_depthWrite{ true };
-        bool m_particleLayout{ false };
         friend class Shader;
     };
 
 public:
     static ShaderBuilder create();
-    static Shader* createShader(const char* vertexShader, const char* fragmentShader, bool particleLayout = false);
     /// Unlit model.
     // Attributes
     // "color" vec4 (default (1,1,1,1))
@@ -116,7 +113,7 @@ public:
 
 private:
     Shader();
-    bool build(const char* vertexShader, const char* fragmentShader, bool particleLayout);
+    bool build(const char* vertexShader, const char* fragmentShader);
     void bind();
     bool setLights(Light value[4], const glm::vec4& ambient, const glm::mat4& viewTransform);
     void updateUniforms();
@@ -138,7 +135,6 @@ private:
     unsigned int m_id{ 0 };
     bool m_depthTest{ true };
     bool m_depthWrite{ true };
-    bool m_particleLayout{ false };
 };
 } // namespace re
 

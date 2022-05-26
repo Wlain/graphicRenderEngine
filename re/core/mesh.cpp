@@ -10,12 +10,12 @@
 #include <glm/gtc/constants.hpp>
 namespace re
 {
-Mesh::Mesh(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs, const std::vector<uint16_t>& indices, Mesh::Topology meshTopology)
+Mesh::Mesh(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec4>& uvs, const std::vector<glm::vec4>& colors, std::vector<float> particleSize, const std::vector<uint16_t>& indices, Topology meshTopology)
 {
     glGenBuffers(1, &m_vbo);
     glGenBuffers(1, &m_ebo);
     glGenVertexArrays(1, &m_vao);
-    update(vertexPositions, normals, uvs, indices);
+    update(vertexPositions, normals, uvs, colors, particleSize, indices, meshTopology);
 }
 
 Mesh::~Mesh()
@@ -31,28 +31,45 @@ void Mesh::bind() const
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indices.empty() ? 0 : m_ebo);
 }
 
-void Mesh::update(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs, const std::vector<uint16_t>& indices)
+void Mesh::update(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec4>& uvs, const std::vector<glm::vec4>& colors, std::vector<float> particleSize, const std::vector<uint16_t>& indices, Topology meshTopology)
 {
     m_vertexPositions = vertexPositions;
     m_normals = normals;
     m_uvs = uvs;
+    m_colors = colors;
+    m_particleSize = particleSize;
     m_indices = indices;
+    m_topology = meshTopology;
     m_vertexCount = (int32_t)vertexPositions.size();
     bool hasNormals = m_normals.size() == vertexPositions.size();
-    bool hasUVs = m_uvs.size() == vertexPositions.size();
+    bool hasUvs = m_uvs.size() == vertexPositions.size();
+    bool hasColors = m_colors.size() == vertexPositions.size();
+    bool hasParticleSize = m_particleSize.size() == vertexPositions.size();
     // interleave data
-    int floatsPerVertex = 8;
+    int floatsPerVertex = 15;
     std::vector<float> interleavedData(m_vertexCount * floatsPerVertex);
     for (int i = 0; i < m_vertexCount; ++i)
     {
-        for (int j = 0; j < 3; ++j)
+        for (int j = 0; j < 4; ++j)
         {
-            interleavedData[i * floatsPerVertex + j] = vertexPositions[i][j];
-            interleavedData[i * floatsPerVertex + j + 3] = hasNormals ? normals[i][j] : 0.0f;
-            if (j < 2)
+            // position
+            if (j < 3)
             {
-                interleavedData[i * floatsPerVertex + j + 6] = hasUVs ? uvs[i][j] : 0.0f;
+                interleavedData[i * floatsPerVertex + j] = vertexPositions[i][j];
             }
+            else
+            {
+                interleavedData[i * floatsPerVertex + j] = hasParticleSize ? particleSize[i] : 1.0f;
+            }
+            // normals
+            if (j < 3)
+            {
+                interleavedData[i * floatsPerVertex + j + 4] = hasNormals ? normals[i][j] : 0.0f;
+            }
+            // uv
+            interleavedData[i * floatsPerVertex + j + 7] = hasUvs ? uvs[i][j] : (j == 2 ? 1.0f : 0.0f);
+            // colors
+            interleavedData[i * floatsPerVertex + j + 11] = hasColors ? colors[i][j] : 1.0f;
         }
     }
     glBindVertexArray(m_vao);
@@ -69,13 +86,14 @@ void Mesh::update(const std::vector<glm::vec3>& vertexPositions, const std::vect
 
 void Mesh::setVertexAttributePointers()
 {
-    // bind vertex attributes (position, normal, uv)
-    int length[3] = { 3, 3, 2 };
-    int offset[3] = { 0, 3, 6 };
-    for (int i = 0; i < 3; i++)
+    // bind vertex attributes (position, normal, uv, colors)
+    int length[4] = { 4, 3, 4, 4 };
+    int offset[4] = { 0, 4, 7, 11 };
+    int floatsPerVertex = 15;
+    for (int i = 0; i < 4; ++i)
     {
         glEnableVertexAttribArray(i);
-        glVertexAttribPointer(i, length[i], GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(offset[i] * sizeof(float)));
+        glVertexAttribPointer(i, length[i], GL_FLOAT, GL_FALSE, floatsPerVertex * sizeof(float), (void*)(offset[i] * sizeof(float)));
     }
 }
 
@@ -86,23 +104,30 @@ Mesh::MeshBuilder Mesh::create()
 
 Mesh::MeshBuilder Mesh::update()
 {
-    Mesh::MeshBuilder res;
-    res.m_updateMesh = this;
-    return res;
+    Mesh::MeshBuilder builder;
+    builder.m_updateMesh = this;
+    builder.m_vertexPositions = m_vertexPositions;
+    builder.m_normals = m_normals;
+    builder.m_uvs = m_uvs;
+    builder.m_particleSize = m_particleSize;
+    builder.m_colors = m_colors;
+    builder.m_indices = m_indices;
+    builder.m_topology = m_topology;
+    return builder;
 }
 
 Mesh::MeshBuilder& Mesh::MeshBuilder::withQuad()
 {
-    std::vector<glm::vec3> vertices({ glm::vec3{ 1, -1, 0 },
-                                      glm::vec3{ 1, 1, 0 },
-                                      glm::vec3{ -1, -1, 0 },
-                                      glm::vec3{ -1, 1, 0 } });
+    std::vector<glm::vec3> vertices({ { 1, -1, 0 },
+                                      { 1, 1, 0 },
+                                      { -1, -1, 0 },
+                                      { -1, 1, 0 } });
 
     std::vector<glm::vec3> normals(4, glm::vec3{ 0, 0, 1 });
-    std::vector<glm::vec2> uvs({ glm::vec2{ 1, 0 },
-                                 glm::vec2{ 1, 1 },
-                                 glm::vec2{ 0, 0 },
-                                 glm::vec2{ 0, 1 } });
+    std::vector<glm::vec4> uvs({ { 1, 0, 0, 0 },
+                                 { 1, 1, 0, 0 },
+                                 { 0, 0, 0, 0 },
+                                 { 0, 1, 0, 0 } });
     std::vector<uint16_t> indices = {
         0, 1, 2,
         2, 1, 3
@@ -126,15 +151,15 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withCube()
     //  | |v6---|-|v7
     //  |/      |/
     //  v2------v3
-    vec3 p[] = { vec3{ length, length, length },
-                 vec3{ -length, length, length },
-                 vec3{ -length, -length, length },
-                 vec3{ length, -length, length },
+    vec3 p[] = { { length, length, length },
+                 { -length, length, length },
+                 { -length, -length, length },
+                 { length, -length, length },
 
-                 vec3{ length, length, -length },
-                 vec3{ -length, length, -length },
-                 vec3{ -length, -length, -length },
-                 vec3{ length, -length, -length } };
+                 { length, length, -length },
+                 { -length, length, -length },
+                 { -length, -length, -length },
+                 { length, -length, -length } };
     std::vector<vec3> positions({
         p[0], p[1], p[2], p[0], p[2], p[3], // v0-v1-v2-v3
         p[4], p[0], p[3], p[4], p[3], p[7], // v4-v0-v3-v7
@@ -143,23 +168,26 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withCube()
         p[4], p[5], p[1], p[4], p[1], p[0], // v1-v5-v6-v2
         p[3], p[2], p[6], p[3], p[6], p[7], // v1-v5-v6-v2
     });
-    vec2 u[] = { vec2(1, 1), vec2(0, 1), vec2(0, 0), vec2(1, 0) };
+    vec4 u[] = { { 1, 1, 0, 0 },
+                 { 0, 1, 0, 0 },
+                 { 0, 0, 0, 0 },
+                 { 1, 0, 0, 0 } };
     // clang-format off
-    std::vector<vec2> uvs({
+    std::vector<vec4> uvs({
         u[0], u[1], u[2], u[0], u[2], u[3], u[0], u[1], u[2], u[0], u[2], u[3],
         u[0], u[1], u[2], u[0], u[2], u[3], u[0], u[1], u[2], u[0], u[2], u[3],
         u[0], u[1], u[2], u[0], u[2], u[3], u[0], u[1], u[2], u[0], u[2], u[3],
     });
     std::vector<vec3> normals({
-        vec3{0, 0, 1},  vec3{0, 0, 1},  vec3{0, 0, 1},  vec3{0, 0, 1},
-        vec3{0, 0, 1},  vec3{0, 0, 1},  vec3{1, 0, 0},  vec3{1, 0, 0},
-        vec3{1, 0, 0},  vec3{1, 0, 0},  vec3{1, 0, 0},  vec3{1, 0, 0},
-        vec3{0, 0, -1}, vec3{0, 0, -1}, vec3{0, 0, -1}, vec3{0, 0, -1},
-        vec3{0, 0, -1}, vec3{0, 0, -1}, vec3{-1, 0, 0}, vec3{-1, 0, 0},
-        vec3{-1, 0, 0}, vec3{-1, 0, 0}, vec3{-1, 0, 0}, vec3{-1, 0, 0},
-        vec3{0, 1, 0},  vec3{0, 1, 0},  vec3{0, 1, 0},  vec3{0, 1, 0},
-        vec3{0, 1, 0},  vec3{0, 1, 0},  vec3{0, -1, 0}, vec3{0, -1, 0},
-        vec3{0, -1, 0}, vec3{0, -1, 0}, vec3{0, -1, 0}, vec3{0, -1, 0},
+        {0, 0, 1},  {0, 0, 1},  {0, 0, 1},  {0, 0, 1},
+        {0, 0, 1},  {0, 0, 1},  {1, 0, 0},  {1, 0, 0},
+        {1, 0, 0},  {1, 0, 0},  {1, 0, 0},  {1, 0, 0},
+        {0, 0, -1}, {0, 0, -1}, {0, 0, -1}, {0, 0, -1},
+        {0, 0, -1}, {0, 0, -1}, {-1, 0, 0}, {-1, 0, 0},
+        {-1, 0, 0}, {-1, 0, 0}, {-1, 0, 0}, {-1, 0, 0},
+        {0, 1, 0},  {0, 1, 0},  {0, 1, 0},  {0, 1, 0},
+        {0, 1, 0},  {0, 1, 0},  {0, -1, 0}, {0, -1, 0},
+        {0, -1, 0}, {0, -1, 0}, {0, -1, 0}, {0, -1, 0},
     });
     // clang-format on
     withVertexPosition(positions);
@@ -178,7 +206,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withSphere()
     size_t vertexCount = ((stacks + 1) * slices);
     std::vector<vec3> vertices{ vertexCount };
     std::vector<vec3> normals{ vertexCount };
-    std::vector<vec2> uvs{ vertexCount };
+    std::vector<vec4> uvs{ vertexCount };
     int index = 0;
     // create vertices
     for (int j = 0; j <= stacks; j++)
@@ -194,14 +222,14 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withSphere()
             vec3 normal{ cosLong * cosLat1, sinLat1, sinLong * cosLat1 };
             normal = normalize(normal);
             normals[index] = normal;
-            uvs[index] = vec2{ 1 - (float)i / (float)slices, (float)j / (float)stacks };
+            uvs[index] = vec4{ 1 - (float)i / (float)slices, (float)j / (float)stacks, 0, 0 };
             vertices[index] = normal * radius;
             index++;
         }
     }
     std::vector<vec3> finalPosition;
     std::vector<vec3> finalNormals;
-    std::vector<vec2> finalUVs;
+    std::vector<vec4> finalUVs;
     // create indices
     for (int j = 0; j < stacks; j++)
     {
@@ -209,14 +237,14 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withSphere()
         {
             glm::u8vec2 offset[] = {
                 // first triangle
-                glm::u8vec2{ i, j },
-                glm::u8vec2{ (i + 1) % slices, j + 1 },
-                glm::u8vec2{ (i + 1) % slices, j },
+                { i, j },
+                { (i + 1) % slices, j + 1 },
+                { (i + 1) % slices, j },
 
                 // second triangle
-                glm::u8vec2{ i, j },
-                glm::u8vec2{ i, j + 1 },
-                glm::u8vec2{ (i + 1) % slices, j + 1 }
+                { i, j },
+                { i, j + 1 },
+                { (i + 1) % slices, j + 1 }
             };
             for (const auto& o : offset)
             {
@@ -246,9 +274,22 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withNormal(const std::vector<glm::vec3>& n
     return *this;
 }
 
-Mesh::MeshBuilder& Mesh::MeshBuilder::withUvs(const std::vector<glm::vec2>& uv)
+Mesh::MeshBuilder& Mesh::MeshBuilder::withUvs(const std::vector<glm::vec4>& uv)
 {
     m_uvs = uv;
+    return *this;
+}
+
+
+Mesh::MeshBuilder& Mesh::MeshBuilder::withColors(const std::vector<glm::vec4>& colors)
+{
+    m_colors = colors;
+    return *this;
+}
+
+Mesh::MeshBuilder& Mesh::MeshBuilder::withParticleSize(const std::vector<float>& particleSize)
+{
+    m_particleSize = particleSize;
     return *this;
 }
 
@@ -268,12 +309,12 @@ Mesh* Mesh::MeshBuilder::build()
 {
     if (m_updateMesh != nullptr)
     {
-        m_updateMesh->update(m_vertexPositions, m_normals, m_uvs, m_indices);
+        m_updateMesh->update(m_vertexPositions, m_normals, m_uvs, m_colors, m_particleSize, m_indices, m_topology);
         return m_updateMesh;
     }
     else
     {
-        auto* mesh = new Mesh(m_vertexPositions, m_normals, m_uvs, m_indices, m_topology);
+        auto* mesh = new Mesh(m_vertexPositions, m_normals, m_uvs, m_colors, m_particleSize, m_indices, m_topology);
         return mesh;
     }
 }

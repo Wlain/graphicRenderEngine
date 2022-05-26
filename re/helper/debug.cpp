@@ -28,12 +28,8 @@ void Debug::setColor(const glm::vec4& color)
 void Debug::drawLine(glm::vec3 from, glm::vec3 to)
 {
     std::vector<glm::vec3> vertices = { from, to };
-    std::vector<glm::vec3> normals = { glm::vec3{ 0 }, glm::vec3{ 0 } };
-    std::vector<glm::vec2> uvs = { glm::vec2{ 0 }, glm::vec2{ 0 } };
     auto mesh = std::unique_ptr<Mesh>(Mesh::create()
                                           .withVertexPosition(vertices)
-                                          .withNormal(normals)
-                                          .withUvs(uvs)
                                           .withMeshTopology(Mesh::Topology::Lines)
                                           .build());
     auto* shader = Shader::getUnlit();
@@ -72,12 +68,8 @@ void Debug::checkGLError()
 
 void Debug::drawLineStrip(const std::vector<glm::vec3>& vertices)
 {
-    std::vector<glm::vec3> normals;
-    std::vector<glm::vec2> uvs;
     auto mesh = std::unique_ptr<Mesh>(Mesh::create()
                                           .withVertexPosition(vertices)
-                                          .withNormal(normals)
-                                          .withUvs(uvs)
                                           .withMeshTopology(Mesh::Topology::Lines)
                                           .build());
     auto* shader = Shader::getUnlit();

@@ -6,7 +6,6 @@
 
 #include "commonMacro.h"
 #include "mesh.h"
-#include "particleMesh.h"
 #include "shader.h"
 
 // render engine
@@ -62,18 +61,6 @@ void Renderer::render(Mesh* mesh, const glm::mat4& modelTransform, Shader* shade
     {
         glDrawElements((GLenum)mesh->topology(), indexCount, GL_UNSIGNED_SHORT, 0);
     }
-}
-
-void Renderer::render(ParticleMesh* mesh, glm::mat4 modelTransform, Shader* shader)
-{
-    if (m_camera == nullptr)
-    {
-        LOG_ERROR("Renderer::render:can not render,camera is null");
-        return;
-    }
-    setupShader(modelTransform, shader);
-    mesh->bind();
-    glDrawArrays((GLenum)Mesh::Topology::Points, 0, mesh->getVertexCount());
 }
 
 void Renderer::setCamera(Camera* camera)

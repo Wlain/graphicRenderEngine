@@ -17,7 +17,7 @@ using namespace re;
 
 static int s_canvasWidth = 640;
 static int s_canvasHeight = 480;
-static constexpr char* title = "quadTest";
+static constexpr const char* title = "quadTest";
 
 void quadTest()
 {

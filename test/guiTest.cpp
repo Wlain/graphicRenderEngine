@@ -11,7 +11,6 @@
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 
@@ -19,7 +18,7 @@ using namespace re;
 
 static int s_canvasWidth = 640;
 static int s_canvasHeight = 480;
-static constexpr char* title = "guiTest";
+static constexpr const char* title = "guiTest";
 
 void guiTest()
 {

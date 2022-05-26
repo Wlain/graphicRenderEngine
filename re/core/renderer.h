@@ -6,7 +6,7 @@
 #define SIMPLERENDERENGINE_RENDERER_H
 #include "camera.h"
 #include "light.h"
-#include "particleMesh.h"
+#include "mesh.h"
 
 #include <GLFW/glfw3.h>
 #include <algorithm>
@@ -26,7 +26,6 @@ public:
     void setLight(int lightIndex, const Light& light);
     Light& getLight(int lightIndex);
     void render(Mesh* mesh, const glm::mat4& modelTransform, Shader* shader);
-    void render(ParticleMesh* mesh, glm::mat4 modelTransform, Shader* shader);
     void setCamera(Camera* camera);
     inline Camera* getCamera() const { return m_camera; }
     inline Camera* getDefaultCamera() { return &m_defaultCamera; }

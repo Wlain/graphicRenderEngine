@@ -41,7 +41,9 @@ public:
         MeshBuilder& withSphere();
         MeshBuilder& withVertexPosition(const std::vector<glm::vec3>& position);
         MeshBuilder& withNormal(const std::vector<glm::vec3>& normal);
-        MeshBuilder& withUvs(const std::vector<glm::vec2>& uv);
+        MeshBuilder& withUvs(const std::vector<glm::vec4>& uv);
+        MeshBuilder& withColors(const std::vector<glm::vec4> &colors);
+        MeshBuilder& withParticleSize(const std::vector<float> &particleSize);
         MeshBuilder& withMeshTopology(Topology topology);
         MeshBuilder& withIndices(const std::vector<uint16_t>& indices);
         Mesh* build();
@@ -50,7 +52,9 @@ public:
         MeshBuilder() = default;
         std::vector<glm::vec3> m_vertexPositions;
         std::vector<glm::vec3> m_normals;
-        std::vector<glm::vec2> m_uvs;
+        std::vector<glm::vec4> m_uvs;
+        std::vector<glm::vec4> m_colors;
+        std::vector<float> m_particleSize;
         std::vector<uint16_t> m_indices;
         Topology m_topology{ Topology::Triangles }; // mesh拓扑结构
         Mesh* m_updateMesh = nullptr;
@@ -59,17 +63,19 @@ public:
 
 public:
     static MeshBuilder create();
+    MeshBuilder update();
 
 public:
-    Mesh(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs, const std::vector<uint16_t>& indices, Mesh::Topology meshTopology = Mesh::Topology::Triangles);
+    Mesh(const std::vector<glm::vec3> &vertexPositions, const std::vector<glm::vec3> &normals, const std::vector<glm::vec4> &uvs, const std::vector<glm::vec4> &colors,std::vector<float> particleSize, const std::vector<uint16_t> &indices, Topology meshTopology);
     ~Mesh();
-    void update(const std::vector<glm::vec3>& vertexPositions, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& uvs, const std::vector<uint16_t>& indices);
-    MeshBuilder update();
+    void update(const std::vector<glm::vec3> &vertexPositions, const std::vector<glm::vec3> &normals, const std::vector<glm::vec4> &uvs, const std::vector<glm::vec4> &colors, std::vector<float> particleSize, const std::vector<uint16_t> &indices, Topology meshTopology);
     inline int32_t getVertexCount() const { return m_vertexCount; }
     inline Topology topology() const { return m_topology; }
     const std::vector<glm::vec3>& getVertexPositions() const { return m_vertexPositions; }
     const std::vector<glm::vec3>& getNormals() const { return m_normals; }
-    const std::vector<glm::vec2>& getUvs() const { return m_uvs; }
+    const std::vector<glm::vec4>& getUvs() const { return m_uvs; }
+    const std::vector<glm::vec4>& getColors() const { return m_colors; }
+    const std::vector<float>& getParticleSize() const { return m_particleSize; }
     const std::vector<uint16_t>& getIndices() const { return m_indices; }
 
 private:
@@ -80,7 +86,9 @@ private:
     friend class Renderer;
     std::vector<glm::vec3> m_vertexPositions;
     std::vector<glm::vec3> m_normals;
-    std::vector<glm::vec2> m_uvs;
+    std::vector<glm::vec4> m_uvs;
+    std::vector<glm::vec4> m_colors;
+    std::vector<float> m_particleSize;
     std::vector<uint16_t> m_indices;
     Topology m_topology{ Topology::Triangles }; // mesh拓扑结构
     uint32_t m_vbo{ 0 };

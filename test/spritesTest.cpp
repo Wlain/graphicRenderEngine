@@ -14,19 +14,24 @@ using namespace re;
 
 static int s_canvasWidth = 640;
 static int s_canvasHeight = 480;
-static constexpr char* title = "spriteTest";
+static constexpr const char* title = "spriteTest";
 namespace
 {
-ParticleMesh* createParticles()
+Mesh* createParticles()
 {
     std::vector<glm::vec3> positions;
     std::vector<glm::vec4> colors;
     std::vector<glm::vec2> uvCenter;
-    std::vector<float> empty;
     std::vector<float> sizes;
     positions.emplace_back(0, 0, 0);
     sizes.emplace_back(10.0f);
-    return new ParticleMesh(positions, colors, uvCenter, empty, empty, sizes);
+    return Mesh::create()
+        .withVertexPosition(positions)
+        .withColors(colors)
+        .withUvs(colors)
+        .withParticleSize(sizes)
+        .withMeshTopology(Mesh::Topology::Points)
+        .build();
 }
 
 void updateParticlesAnimation(float time, glm::vec2& pos, float& size, float& rotation)
@@ -39,22 +44,19 @@ void updateParticlesAnimation(float time, glm::vec2& pos, float& size, float& ro
     rotation = 0;
 }
 
-void updateParticles(ParticleMesh* particleMesh, glm::vec2 uv, float uvSize, float rotation, float size)
+void updateParticles(Mesh* mesh, glm::vec2 uv, float uvSize, float rotation, float size)
 {
     std::vector<glm::vec3> positions;
-    std::vector<glm::vec4> colors;
-    std::vector<glm::vec2> uvCenter;
-    std::vector<float> uvSizes;
-    std::vector<float> uvRotations;
+    std::vector<glm::vec4> uvs;
     std::vector<float> sizes;
-
     positions.emplace_back(0, 0, 0);
-    uvCenter.push_back(uv);
-    uvSizes.push_back(uvSize);
-    uvRotations.push_back(rotation);
+    uvs.emplace_back(uv.x, uv.y, uvSize, rotation);
     sizes.push_back(size);
-
-    particleMesh->update(positions, colors, uvCenter, uvSizes, uvRotations, sizes);
+    mesh->update()
+        .withVertexPosition(positions)
+        .withUvs(uvs)
+        .withParticleSize(sizes)
+        .build();
 }
 } // namespace
 
@@ -80,9 +82,9 @@ void spriteTest()
     r.getCamera()->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
     auto* shaderParticle = Shader::getStandardParticles();
     shaderParticle->set("tex", Texture::create().withFile(GET_CURRENT("test/resources/sprite.png")).build());
-    ParticleMesh* particleMesh = createParticles();
-    glm::vec4 spriteColor = glm::vec4(114, 144, 154, 255);
-    glm::vec2 spriteUV = glm::vec2(0, 0);
+    auto* particleMesh = createParticles();
+    auto spriteColor = glm::vec4(114, 144, 154, 255);
+    auto spriteUV = glm::vec2(0, 0);
     float uvSize = 1.0;
     float uvRotation = 0.0;
     float size = 2000.0f;

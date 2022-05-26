@@ -254,8 +254,9 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandardParticles()
 {
     m_vertexShaderStr = R"(#version 140
         in vec4 position;
-        in vec4 color;
+        in vec3 normal;
         in vec4 uv;
+        in vec4 color;
         out mat3 vUVMat;
         out vec4 vColor;
         out vec3 uvSize;
@@ -320,7 +321,8 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandardParticles()
         void main(void)
         {
             vec2 uv = (isSplit == 1) ? gl_PointCoord : (vUVMat * vec3(gl_PointCoord,1.0)).xy;
-            if (uv != clamp(uv, uvSize.xy, uvSize.xy + uvSize.zz)){
+            if (uv != clamp(uv, uvSize.xy, uvSize.xy + uvSize.zz))
+            {
                 discard;
             }
             vec4 c = vColor * texture(tex, uv);
@@ -347,16 +349,10 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withBlend(Shader::BlendType blendT
     return *this;
 }
 
-Shader::ShaderBuilder& Shader::ShaderBuilder::withParticleLayout(bool enable)
-{
-    m_particleLayout = enable;
-    return *this;
-}
-
 Shader* Shader::ShaderBuilder::build()
 {
     auto* shader = new Shader();
-    if (!shader->build(m_vertexShaderStr, m_fragmentShaderStr, m_particleLayout))
+    if (!shader->build(m_vertexShaderStr, m_fragmentShaderStr))
     {
         delete shader;
         return nullptr;
@@ -421,7 +417,6 @@ Shader* Shader::getStandardParticles()
                               .withSourceStandardParticles()
                               .withBlend(BlendType::AdditiveBlending)
                               .withDepthWrite(false)
-                              .withParticleLayout(true)
                               .build();
     s_standardParticles->set("tex", Texture::getSphereTexture());
     return s_standardParticles;
@@ -730,9 +725,8 @@ Shader::ShaderBuilder Shader::create()
     return {};
 }
 
-bool Shader::build(const char* vertexShader, const char* fragmentShader, bool particleLayout)
+bool Shader::build(const char* vertexShader, const char* fragmentShader)
 {
-    m_particleLayout = particleLayout;
     std::vector<const char*> shaderSrc{ vertexShader, fragmentShader };
     std::vector<GLenum> shaderTypes{ GL_VERTEX_SHADER, GL_FRAGMENT_SHADER };
     for (int i = 0; i < 2; i++)
@@ -745,9 +739,8 @@ bool Shader::build(const char* vertexShader, const char* fragmentShader, bool pa
         }
         glAttachShader(m_id, s);
     }
-    // enforce layout
-    std::string attributeNames[3] = { "position", particleLayout ? "color" : "normal", "uv" };
-    for (int i = 0; i < 3; i++)
+    std::string attributeNames[4] = { "position", "normal", "uv", "color" };
+    for (int i = 0; i < 4; i++)
     {
         glBindAttribLocation(m_id, i, attributeNames[i].c_str());
     }

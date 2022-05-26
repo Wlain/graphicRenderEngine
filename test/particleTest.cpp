@@ -18,25 +18,29 @@ using namespace re;
 
 static int s_canvasWidth = 640;
 static int s_canvasHeight = 480;
-static constexpr char* title = "particleTest";
+static constexpr const char* title = "particleTest";
 namespace
 {
-ParticleMesh* createParticles(int size = 2500)
+Mesh* createParticles(int size = 2500)
 {
     std::vector<glm::vec3> positions;
     std::vector<glm::vec4> colors;
     std::vector<float> sizes;
-    std::vector<glm::vec2> uvs;
-    std::vector<float> scaleAndRotate;
     for (int i = 0; i < size; i++)
     {
         positions.push_back(glm::linearRand(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1)));
         colors.push_back(glm::linearRand(glm::vec4(0, 0, 0, 0), glm::vec4(1, 1, 1, 1)));
         sizes.push_back(glm::linearRand(0.0f, 1.0f));
     }
-    return new ParticleMesh(positions, colors, uvs, scaleAndRotate, scaleAndRotate, sizes);
+    return Mesh::create()
+        .withVertexPosition(positions)
+        .withColors(colors)
+        .withParticleSize(sizes)
+        .withMeshTopology(Mesh::Topology::Points)
+        .build();
 }
 } // namespace
+
 void particleTest()
 {
     LOG_INFO("{}", title);
@@ -66,7 +70,7 @@ void particleTest()
     auto* mesh = Mesh::create().withCube().build();
 
     r.setLight(0, Light::create().withPointLight({ 0, 2, 1 }).withColor({ 1, 0, 0 }).withRange(10).build());
-    r.setLight(1, Light::create().withPointLight( { 2, 0, 1 }).withColor({ 0, 1, 0 }).withRange(10).build());
+    r.setLight(1, Light::create().withPointLight({ 2, 0, 1 }).withColor({ 0, 1, 0 }).withRange(10).build());
     r.setLight(2, Light::create().withPointLight({ 0, -2, 1 }).withColor({ 0, 0, 1 }).withRange(10).build());
     r.setLight(3, Light::create().withPointLight({ -2, 0, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
 
