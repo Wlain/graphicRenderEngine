@@ -10,6 +10,6 @@ extern void cubeMapText();
 
 int main()
 {
-    cubeMapText();
+    particleTest();
     return 0;
 }

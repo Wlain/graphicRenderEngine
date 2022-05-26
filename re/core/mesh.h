@@ -1,16 +1,10 @@
-// Copyright (c) 2022-2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-// Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
-// Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
-// Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
-// Vestibulum commodo. Ut rhoncus gravida arcu.
-
 //
 // Created by william on 2022/5/22.
 //
 
 #ifndef SIMPLERENDERENGINE_MESH_H
 #define SIMPLERENDERENGINE_MESH_H
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
 #include "shader.h"
 
 #include <cstdlib>
@@ -85,7 +79,6 @@ private:
     void setVertexAttributePointers();
 
 private:
-    friend class Renderer;
     std::vector<glm::vec3> m_vertexPositions;
     std::vector<glm::vec3> m_normals;
     std::vector<glm::vec4> m_uvs;
@@ -97,6 +90,7 @@ private:
     uint32_t m_vao{ 0 };
     uint32_t m_ebo{ 0 };
     int32_t m_vertexCount{ 0 };
+    friend class RenderPass;
 };
 } // namespace re
 

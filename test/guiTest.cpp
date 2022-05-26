@@ -5,6 +5,7 @@
 #include "core/mesh.h"
 #include "core/renderer.h"
 #include "core/shader.h"
+#include "core/worldLights.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
@@ -37,8 +38,9 @@ void guiTest()
         glfwTerminate();
     }
     Renderer r{ window };
-    r.getCamera()->setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
-    r.getCamera()->setPerspectiveProjection(60, 640, 480, 0.1, 100);
+    auto camera = std::make_unique<Camera>();
+    camera->setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
+    camera->setPerspectiveProjection(60, 640, 480, 0.1, 100);
     auto* shader = Shader::getStandard();
     auto* mesh = Mesh::create().withCube().build();
     float specularity = 20.0f;
@@ -50,13 +52,18 @@ void guiTest()
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
     ImVec4 clearColor = ImColor(114, 144, 154);
-    r.setLight(0, Light::create().withPointLight({ 0, 0, 10 }).withColor({ 1, 0, 0 }).withRange(50).build());
+    auto worldLights = std::make_unique<WorldLights>();
+    worldLights->addLight(Light::create().withPointLight({ 0, 0, 10 }).withColor({ 1, 0, 0 }).withRange(50).build());
+    auto renderPass = r.createRenderPass()
+                          .withCamera(*camera)
+                          .withWorldLights(worldLights.get())
+                          .build();
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
-        r.clearScreen({ clearColor.x, clearColor.y, clearColor.z, 1.0f });
+        renderPass.clearScreen({ clearColor.x, clearColor.y, clearColor.z, 1.0f });
         shader->set("specularity", specularity);
-        r.render(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), shader);
+        renderPass.draw(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), shader);
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();

@@ -7,6 +7,7 @@
 #include "camera.h"
 #include "light.h"
 #include "mesh.h"
+#include "renderPass.h"
 #include "renderStats.h"
 
 #include <GLFW/glfw3.h>
@@ -24,33 +25,17 @@ class Renderer
 public:
     explicit Renderer(GLFWwindow* window);
     ~Renderer();
-    void setLight(int lightIndex, const Light& light);
-    Light& getLight(int lightIndex);
-    void render(Mesh* mesh, const glm::mat4& modelTransform, Shader* shader);
-    void setCamera(Camera* camera);
-    inline Camera* getCamera() const { return m_camera; }
-    inline Camera* getDefaultCamera() { return &m_defaultCamera; }
-    inline const glm::vec3 getAmbientLight() const
-    {
-        return glm::vec3(m_ambientLight);
-    }
-    inline void setAmbientLight(glm::vec3& ambientLight)
-    {
-        float maxAmbient = std::max(ambientLight.x, std::max(ambientLight.y, ambientLight.z));
-        m_ambientLight = glm::vec4(ambientLight, maxAmbient);
-    }
-    void clearScreen(const glm::vec4& color, bool clearColorBuffer = true, bool clearDepthBuffer = true);
+    RenderPass::RenderPassBuilder createRenderPass();
     // Update window with OpenGL rendering
     void swapWindow();
-    void setupShader(const glm::mat4& modelTransform, Shader* shader);
     // flush GPU command buffer (must be called when profiling GPU time - should not be called when not profiling)
     inline void finishGPUCommandBuffer() const
     {
         glFlush();
     }
-    // return stats of the last rendered frame
-    // only data maintained by re is included
+    // return stats of the last rendered frame,only data maintained by re is included
     inline const RenderStats& getRenderStats() const { return m_renderStatsLast; }
+    glm::ivec2 getWindowSize();
 
 public:
     static constexpr int s_maxSceneLights{ 4 };
@@ -62,10 +47,6 @@ public:
 private:
     RenderStats m_renderStatsLast{};
     RenderStats m_renderStatsCurrent{};
-    glm::vec4 m_ambientLight = glm::vec4(0.2f, 0.2f, 0.2f, 0.2f);
-    Light m_sceneLights[s_maxSceneLights];
-    Camera m_defaultCamera;
-    Camera* m_camera{ nullptr };
     GLFWwindow* m_window{ nullptr };
 
     friend class Mesh;

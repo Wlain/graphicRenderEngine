@@ -78,9 +78,10 @@ void spriteTest()
         glfwTerminate();
     }
     Renderer r{ window };
-    r.getCamera()->setViewport(0, 0, s_canvasWidth / 100, s_canvasHeight / 100);
-    r.getCamera()->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-    r.getCamera()->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
+    auto camera = std::make_unique<Camera>();
+    camera->setViewport(0, 0, s_canvasWidth / 100, s_canvasHeight / 100);
+    camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+    camera->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
     auto* shaderParticle = Shader::getStandardParticles();
     shaderParticle->set("tex", Texture::create().withFile(GET_CURRENT("test/resources/sprite.png")).build());
     auto* particleMesh = createParticles();
@@ -90,13 +91,16 @@ void spriteTest()
     float uvRotation = 0.0;
     float size = 2000.0f;
     float time = 0;
+    auto renderPass = r.createRenderPass()
+                          .withCamera(*camera)
+                          .build();
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
-        r.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
+        renderPass.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
         updateParticlesAnimation(time, spriteUV, uvSize, uvRotation);
         updateParticles(particleMesh, spriteUV, uvSize, uvRotation, size);
-        r.render(particleMesh, glm::mat4(1), shaderParticle);
+        renderPass.draw(particleMesh, glm::mat4(1), shaderParticle);
         r.swapWindow();
         time += 0.016f;
     }

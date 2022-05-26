@@ -32,7 +32,7 @@ private:
     int m_viewportY{};
     int m_viewportWidth{};
     int m_viewportHeight{};
-    friend class Renderer;
+    friend class RenderPass;
 };
 } // namespace re
 

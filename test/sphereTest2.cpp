@@ -6,6 +6,7 @@
 #include "core/mesh.h"
 #include "core/renderer.h"
 #include "core/shader.h"
+#include "core/worldLights.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -35,25 +36,31 @@ void sphereTest2()
         glfwTerminate();
     }
     Renderer r{ window };
-    r.getCamera()->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-    r.getCamera()->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
+    auto camera = std::make_unique<Camera>();
+    camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+    camera->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
     Shader* shader = Shader::getStandard();
     auto* mesh = Mesh::create().withSphere().build();
-    r.setLight(0, Light::create().withDirectionalLight({ 0, 2, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
+    auto worldLights = std::make_unique<WorldLights>();
+    worldLights->addLight(Light::create().withDirectionalLight({ 0, 2, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
     glm::mat4 pos1 = glm::translate(glm::mat4(1), { -1, 0, 0 });
     glm::mat4 pos2 = glm::translate(glm::mat4(1), { 1, 0, 0 });
+    auto renderPass = r.createRenderPass()
+                          .withCamera(*camera)
+                          .withWorldLights(worldLights.get())
+                          .build();
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
-        r.clearScreen({ 1, 0, 0, 1 });
+        renderPass.clearScreen({ 1, 0, 0, 1 });
         shader->set("color", { 1, 1, 1, 1 });
         shader->set("specularity", 50.0f);
         shader->set("tex", Texture::getWhiteTexture());
-        r.render(mesh, pos1, shader);
+        renderPass.draw(mesh, pos1, shader);
         shader->set("color", { 1, 0, 0, 1 });
         shader->set("specularity", 0.0f);
         shader->set("tex", Texture::getWhiteTexture());
-        r.render(mesh, pos2, shader);
+        renderPass.draw(mesh, pos2, shader);
         r.swapWindow();
     }
     glfwTerminate();

@@ -12,7 +12,6 @@
 #include "core/mesh.h"
 #include "core/renderer.h"
 #include "core/shader.h"
-#include "helper/debug.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -73,9 +72,9 @@ void cubeMapText()
     glm::vec3 eye{ 0, 0, 3 };
     glm::vec3 at{ 0, 0, 0 };
     glm::vec3 up{ 0, 1, 0 };
-    r.getCamera()->setLookAt(eye, at, up);
-    r.getCamera()->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
-
+    auto camera = std::make_unique<Camera>();
+    camera->setLookAt(eye, at, up);
+    camera->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
     Shader* shader = Shader::create().withSource(vertexShaderStr, fragmentShaderStr).build();
     auto* tex = Texture::create()
                     .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posx.png"), Texture::TextureCubemapSide::PositiveX)
@@ -87,13 +86,15 @@ void cubeMapText()
                     .build();
 
     shader->set("tex", tex);
-
     auto* mesh = Mesh::create().withSphere().build();
+    auto renderPass = r.createRenderPass()
+                          .withCamera(*camera)
+                          .build();
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
-        r.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
-        r.render(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), shader);
+        renderPass.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
+        renderPass.draw(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), shader);
         r.swapWindow();
     }
     glfwTerminate();

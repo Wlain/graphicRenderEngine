@@ -1,9 +1,3 @@
-// Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-// Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
-// Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
-// Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
-// Vestibulum commodo. Ut rhoncus gravida arcu.
-
 //
 // Created by william on 2022/5/22.
 //
@@ -18,6 +12,7 @@
 namespace re
 {
 class Texture;
+class WorldLights;
 class Shader
 {
 public:
@@ -116,7 +111,7 @@ private:
     Shader();
     bool build(const char* vertexShader, const char* fragmentShader);
     void bind();
-    bool setLights(Light value[4], const glm::vec4& ambient, const glm::mat4& viewTransform);
+    bool setLights(WorldLights* worldLights, const glm::mat4& viewTransform);
     void updateUniforms();
 
 private:
@@ -129,13 +124,13 @@ private:
     inline static Shader* s_standardParticles{ nullptr };
 
 private:
-    friend class Mesh;
-    friend class Renderer;
     BlendType m_blendType{ BlendType::Disabled };
     std::vector<Uniform> m_uniforms;
     unsigned int m_id{ 0 };
     bool m_depthTest{ true };
     bool m_depthWrite{ true };
+    friend class Mesh;
+    friend class RenderPass;
 };
 } // namespace re
 

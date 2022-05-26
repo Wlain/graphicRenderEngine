@@ -39,10 +39,5 @@ void Camera::setViewport(int x, int y, int width, int height)
     m_viewportY = y;
     m_viewportWidth = width;
     m_viewportHeight = height;
-    if (Renderer::s_instance->getCamera() == this)
-    {
-        glViewport(x, y, width, height);
-        glScissor(x, y, width, height);
-    }
 }
 } // namespace re

@@ -5,6 +5,7 @@
 #include "core/mesh.h"
 #include "core/renderer.h"
 #include "core/shader.h"
+#include "core/worldLights.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -34,20 +35,28 @@ void cubeTest()
         glfwTerminate();
     }
     Renderer r{ window };
-    r.getCamera()->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-    r.getCamera()->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
-    Shader* shader = Shader::getStandard();
+    int w, h;
+    auto camera = std::make_unique<Camera>();
+    camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+    glfwGetWindowSize(window, &w, &h);
+    camera->setViewport(0, 0, w, h);
+    camera->setPerspectiveProjection(60.0f, w, h, 0.1f, 100.0f);
+    auto shader = std::unique_ptr<Shader>(Shader::getStandard());
     shader->set("tex", Texture::getFontTexture());
-    auto* mesh = Mesh::create().withCube().build();
-    r.setLight(0, Light::create().withPointLight({ 0, 2, 1 }).withColor({ 0, 0, 0 }).withRange(2).build());
-    r.setLight(1, Light::create().withPointLight({ 3, 0, 0 }).withColor({ 0, 1, 0 }).withRange(20).build());
-    r.setLight(2, Light::create().withPointLight({ 0, -3, 0 }).withColor({ 0, 0, 1 }).withRange(20).build());
-    r.setLight(3, Light::create().withPointLight({ -3, 0, 0 }).withColor({ 1, 1, 1 }).withRange(20).build());
+    auto mesh = std::unique_ptr<Mesh>(Mesh::create().withCube().build());
+    auto worldLights = std::make_unique<WorldLights>();
+    worldLights->addLight(Light::create().withPointLight({ 3, 0, 0 }).withColor({ 0, 1, 0 }).withRange(20).build());
+    worldLights->addLight(Light::create().withPointLight({ 0, -3, 0 }).withColor({ 0, 0, 1 }).withRange(20).build());
+    worldLights->addLight(Light::create().withPointLight({ -3, 0, 0 }).withColor({ 1, 1, 1 }).withRange(20).build());
+    auto renderPass = r.createRenderPass()
+                          .withCamera(*camera)
+                          .withWorldLights(worldLights.get())
+                          .build();
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
-        r.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
-        r.render(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), shader);
+        renderPass.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
+        renderPass.draw(mesh.get(), glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), shader.get());
         r.swapWindow();
     }
     glfwTerminate();

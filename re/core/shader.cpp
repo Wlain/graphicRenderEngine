@@ -8,6 +8,7 @@
 #include "glCommonDefine.h"
 #include "renderer.h"
 #include "texture.h"
+#include "worldLights.h"
 
 #include <algorithm>
 #include <glm/gtc/type_ptr.hpp>
@@ -575,35 +576,36 @@ bool Shader::set(const char* name, Texture* texture, unsigned int textureSlot)
     return true;
 }
 
-bool Shader::setLights(Light* value, const glm::vec4& ambient, const glm::mat4& viewTransform)
+bool Shader::setLights(WorldLights* worldLights, const glm::mat4& viewTransform)
 {
     glUseProgram(m_id);
     auto uniform = getType("ambientLight");
     if (uniform.location != -1)
     {
-        glUniform4fv(uniform.location, 1, glm::value_ptr(ambient));
+        glUniform4fv(uniform.location, 1, glm::value_ptr(worldLights->ambientLight));
     }
 
     glm::vec4 lightPosType[4];
     glm::vec4 lightColorRange[4];
     for (int i = 0; i < 4; i++)
     {
-        if (value[i].type == Light::Type::Point)
+        auto light = (worldLights == nullptr) ? nullptr : worldLights->getLight(i);
+        if (light == nullptr || light->type == Light::Type::Unused)
         {
-            lightPosType[i] = glm::vec4(value[i].position, 1);
-        }
-        else if (value[i].type == Light::Type::Directional)
-        {
-            lightPosType[i] = glm::vec4(value[i].direction, 0);
-        }
-        else if (value[i].type == Light::Type::Unused)
-        {
-            lightPosType[i] = glm::vec4(value[i].direction, 2);
+            lightPosType[i] = glm::vec4(0.0f, 0.0f, 0.0f, 2);
             continue;
+        }
+        else if (light[i].type == Light::Type::Directional)
+        {
+            lightPosType[i] = glm::vec4(light[i].direction, 0);
+        }
+        else if (light[i].type == Light::Type::Point)
+        {
+            lightPosType[i] = glm::vec4(light[i].position, 1);
         }
         // transform to eye space
         lightPosType[i] = viewTransform * lightPosType[i];
-        lightColorRange[i] = glm::vec4(value[i].color, value[i].range);
+        lightColorRange[i] = glm::vec4(light[i].color, light[i].range);
     }
     uniform = getType("lightPosType");
     if (uniform.location != -1)
