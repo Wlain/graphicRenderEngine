@@ -217,8 +217,8 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withCube()
 Mesh::MeshBuilder& Mesh::MeshBuilder::withSphere()
 {
     using namespace glm;
-    int stacks = 8;
-    int slices = 16;
+    int stacks = 16;
+    int slices = 32;
     float radius = 1.0f;
     size_t vertexCount = ((stacks + 1) * slices);
     std::vector<vec3> vertices{ vertexCount };

@@ -28,7 +28,7 @@ void cubeTest()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
     // glfw window creation
-    auto window = glfwCreateWindow(s_canvasWidth, s_canvasHeight, "hello world", nullptr, nullptr);
+    auto window = glfwCreateWindow(s_canvasWidth, s_canvasHeight, title, nullptr, nullptr);
     if (window == nullptr)
     {
         glfwTerminate();
@@ -43,7 +43,6 @@ void cubeTest()
     r.setLight(1, Light::create().withPointLight({ 3, 0, 0 }).withColor({ 0, 1, 0 }).withRange(20).build());
     r.setLight(2, Light::create().withPointLight({ 0, -3, 0 }).withColor({ 0, 0, 1 }).withRange(20).build());
     r.setLight(3, Light::create().withPointLight({ -3, 0, 0 }).withColor({ 1, 1, 1 }).withRange(20).build());
-    r.setCamera(r.getCamera());
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染

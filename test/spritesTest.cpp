@@ -15,6 +15,7 @@ using namespace re;
 static int s_canvasWidth = 640;
 static int s_canvasHeight = 480;
 static constexpr const char* title = "spriteTest";
+
 namespace
 {
 Mesh* createParticles()

@@ -37,7 +37,7 @@ file(GLOB IMAGE_UI_SRC
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${IMAGE_UI_SRC} re/*.cpp test/*.cpp)
 
-add_executable(simpleRenderEngine ${SOURCES} re/core/renderStats.cpp re/core/renderStats.h)
+add_executable(simpleRenderEngine ${SOURCES} re/core/renderStats.cpp re/core/renderStats.h test/cubeMapTest.cpp)
 
 # 链接库
 target_link_libraries(simpleRenderEngine re)

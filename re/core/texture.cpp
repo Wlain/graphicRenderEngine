@@ -62,66 +62,92 @@ Texture::TextureBuilder& Texture::TextureBuilder::withWrappedTextureCoordinates(
 
 Texture::TextureBuilder& Texture::TextureBuilder::withFile(const char* filename)
 {
-    m_filename = filename;
-    return *this;
-}
-
-Texture::TextureBuilder& Texture::TextureBuilder::withRGBData(const char* data, int width, int height)
-{
-    m_data = data;
-    m_info.width = width;
-    m_info.height = height;
-    m_info.format = PixelFormat::RGB;
+    m_info.target = GL_TEXTURE_2D;
+    GLint mipmapLevel = 0;
+    GLint internalFormat = GL_RGBA;
+    GLint border = 0;
+    GLenum type = GL_UNSIGNED_BYTE;
+    int desireComp = STBI_rgb_alpha;
+    stbi_set_flip_vertically_on_load(true);
+    auto pixelsData = readAllBytes(filename);
+    auto* data = (char*)stbi_load_from_memory((stbi_uc const*)pixelsData.data(), pixelsData.size(), &m_info.width, &m_info.height, &m_info.channels, desireComp);
+    stbi_set_flip_vertically_on_load(false);
+    glBindTexture(m_info.target, m_info.id);
+    glTexImage2D(m_info.target, mipmapLevel, internalFormat, m_info.width, m_info.height, border, GL_RGBA, type, data);
+    stbi_image_free((void*)data);
     return *this;
 }
 
 Texture::TextureBuilder& Texture::TextureBuilder::withRGBAData(const char* data, int width, int height)
 {
-    m_data = data;
     m_info.width = width;
     m_info.height = height;
     m_info.format = PixelFormat::RGBA;
+    m_info.target = GL_TEXTURE_2D;
+    GLint mipmapLevel = 0;
+    GLint internalFormat = GL_RGBA;
+    GLint border = 0;
+    GLenum type = GL_UNSIGNED_BYTE;
+    glBindTexture(m_info.target, m_info.id);
+    glTexImage2D(m_info.target, mipmapLevel, internalFormat, m_info.width, m_info.height, border, GL_RGBA, type, data);
     return *this;
 }
 
 Texture::TextureBuilder& Texture::TextureBuilder::withWhiteData(int width, int height)
 {
     char one = (char)0xff;
-    m_dataOne = std::vector<char>(width * height * 4, one);
-    m_info.width = width;
-    m_info.height = height;
-    m_info.format = PixelFormat::RGBA;
+    std::vector<char> dataOne(width * height * 4, one);
+    withRGBAData(dataOne.data(), width, height);
     return *this;
 }
 
 Texture* Texture::TextureBuilder::build()
 {
-    std::vector<char> fileData;
-    bool useStb = false;
-    if (m_filename != nullptr)
+    if (m_info.target == 0)
     {
-        useStb = true;
-        int desireComp = STBI_rgb_alpha;
-        stbi_set_flip_vertically_on_load(true);
-        auto pixelsData = readAllBytes(m_filename);
-        m_data = (char*)stbi_load_from_memory((stbi_uc const*)pixelsData.data(), pixelsData.size(), &m_info.width, &m_info.height, &m_info.channels, desireComp);
-        stbi_set_flip_vertically_on_load(false);
+        std::runtime_error("texture contain no data");
     }
-    if (m_data == nullptr && !m_dataOne.empty())
+    if (m_info.id == 0)
     {
-        m_data = m_dataOne.data();
+        throw std::runtime_error("Texture is already build");
     }
-    auto* texture = new Texture(m_data, m_info.width, m_info.height, GL_RGBA);
-    if (useStb)
-    {
-        stbi_image_free((void*)m_data);
-    }
+    auto* texture = new Texture(m_info.id, m_info.width, m_info.height, m_info.target);
     if (m_info.generateMipmap)
     {
         texture->invokeGenerateMipmap();
     }
     texture->updateTextureSampler(m_info.filterSampling, m_info.wrapTextureCoordinates);
+    m_info.id = 0;
     return texture;
+}
+
+Texture::TextureBuilder::~TextureBuilder()
+{
+    if (m_info.id != 0)
+    {
+        glDeleteTextures(1, &m_info.id);
+    }
+}
+
+Texture::TextureBuilder::TextureBuilder()
+{
+    glGenTextures(1, &m_info.id);
+}
+
+Texture::TextureBuilder& Texture::TextureBuilder::withFileCubeMap(const char* filename, Texture::TextureCubemapSide side)
+{
+    m_info.target = GL_TEXTURE_CUBE_MAP;
+    GLint mipmapLevel = 0;
+    GLint internalFormat = GL_RGBA;
+    GLint border = 0;
+    GLenum type = GL_UNSIGNED_BYTE;
+    int desireComp = STBI_rgb_alpha;
+    auto pixelsData = readAllBytes(filename);
+    auto* data = (unsigned char*)stbi_load_from_memory((stbi_uc const*)pixelsData.data(), pixelsData.size(), &m_info.width, &m_info.height, &m_info.channels, desireComp);
+    glBindTexture(m_info.target, m_info.id);
+    glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + (uint32_t)side, mipmapLevel, internalFormat, m_info.width, m_info.height, border, GL_RGBA, type, data);
+    stbi_image_free((void*)data);
+    return *this;
 }
 
 Texture* Texture::getWhiteTexture()
@@ -147,7 +173,7 @@ Texture* Texture::getFontTexture()
     int desireComp = STBI_rgb_alpha;
     unsigned char* data = stbi_load_from_memory((stbi_uc const*)fontPng, sizeof(fontPng), &width, &height, &channels, desireComp);
     stbi_set_flip_vertically_on_load(false);
-    s_fontTexture = new Texture((const char*)data, width, height, GL_RGBA);
+    s_fontTexture = Texture::create().withRGBAData((const char*)data, width, height).build();
     stbi_image_free(data);
     return s_fontTexture;
 }
@@ -181,18 +207,12 @@ Texture::TextureBuilder Texture::create()
     return {};
 }
 
-Texture::Texture(const char* data, int width, int height, uint32_t format)
+Texture::Texture(int32_t id, int width, int height, uint32_t target)
 {
+    m_info.id = id;
     m_info.width = width;
-    m_info.height = height;
-    glGenTextures(1, &m_info.id);
-    m_info.target = GL_TEXTURE_2D;
-    GLint mipmapLevel = 0;
-    GLint internalFormat = GL_RGBA;
-    GLint border = 0;
-    GLenum type = GL_UNSIGNED_BYTE;
-    glBindTexture(m_info.target, m_info.id);
-    glTexImage2D(m_info.target, mipmapLevel, internalFormat, width, height, border, format, type, data);
+    m_info.width = width;
+    m_info.target = target;
     // update stats
     RenderStats& renderStats = Renderer::s_instance->m_renderStatsCurrent;
     renderStats.textureCount++;
@@ -210,9 +230,9 @@ Texture::~Texture()
 
 void Texture::updateTextureSampler(bool filterSampling, bool wrapTextureCoordinates) const
 {
-    glBindTexture(GL_TEXTURE_2D, m_info.id);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapTextureCoordinates ? GL_REPEAT : GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapTextureCoordinates ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+    glBindTexture(m_info.target, m_info.id);
+    glTexParameteri(m_info.target, GL_TEXTURE_WRAP_S, wrapTextureCoordinates ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+    glTexParameteri(m_info.target, GL_TEXTURE_WRAP_T, wrapTextureCoordinates ? GL_REPEAT : GL_CLAMP_TO_EDGE);
     GLint minification;
     GLint magnification;
     if (filterSampling)
@@ -230,8 +250,8 @@ void Texture::updateTextureSampler(bool filterSampling, bool wrapTextureCoordina
         minification = GL_LINEAR;
         magnification = GL_LINEAR;
     }
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magnification);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minification);
+    glTexParameteri(m_info.target, GL_TEXTURE_MAG_FILTER, magnification);
+    glTexParameteri(m_info.target, GL_TEXTURE_MIN_FILTER, minification);
 }
 
 void Texture::invokeGenerateMipmap()

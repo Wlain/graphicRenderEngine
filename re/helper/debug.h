@@ -4,6 +4,7 @@
 
 #ifndef SIMPLERENDERENGINE_DEBUG_H
 #define SIMPLERENDERENGINE_DEBUG_H
+#include "core/mesh.h"
 #include <glm/glm.hpp>
 #include <vector>
 
@@ -15,7 +16,7 @@ public:
     static glm::vec4 getColor();
     static void setColor(const glm::vec4& color);
     static void drawLine(glm::vec3 from, glm::vec3 to);
-    static void drawLineStrip(const std::vector<glm::vec3>& vertices);
+    static void drawLines(const std::vector<glm::vec3>& vertices, Mesh::Topology topology = Mesh::Topology::LineStrip);
     static void checkGLError();
 
 private:

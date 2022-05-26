@@ -564,13 +564,13 @@ bool Shader::set(const char* name, Texture* texture, unsigned int textureSlot)
         return false;
     }
 #ifndef NDEBUG
-    if (uniform.type != UniformType::Texture)
+    if (uniform.type != UniformType::Texture && uniform.type != UniformType::TextureCube)
     {
         LOG_ERROR("Invalid shader uniform type for {}", name);
     }
 #endif
     glActiveTexture(GL_TEXTURE0 + textureSlot);
-    glBindTexture(GL_TEXTURE_2D, texture->m_info.id);
+    glBindTexture(texture->m_info.target, texture->m_info.id);
     glUniform1i(uniform.location, textureSlot);
     return true;
 }
@@ -708,6 +708,9 @@ void Shader::updateUniforms()
             break;
         case GL_SAMPLER_2D:
             uniformType = UniformType::Texture;
+            break;
+        case GL_SAMPLER_CUBE:
+            uniformType = UniformType::TextureCube;
             break;
         default:
             LOG_ERROR("Unsupported shader type {}, name {}", type, name);

@@ -1,3 +1,9 @@
+// Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+// Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+// Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+// Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+// Vestibulum commodo. Ut rhoncus gravida arcu.
+
 //
 // Created by william on 2022/5/22.
 //
@@ -17,6 +23,16 @@ public:
         RGB
     };
 
+    enum class TextureCubemapSide
+    {
+        PositiveX,
+        NegativeX,
+        PositiveY,
+        NegativeY,
+        PositiveZ,
+        NegativeZ
+    };
+
     struct Info
     {
         PixelFormat format = PixelFormat::RGBA;
@@ -34,23 +50,23 @@ public:
     class TextureBuilder
     {
     public:
+        ~TextureBuilder();
         TextureBuilder& withGenerateMipmaps(bool enable);
         // if true texture sampling is filtered (bi-linear or tri-linear sampling) otherwise use point sampling.
         TextureBuilder& withFilterSampling(bool enable);
         TextureBuilder& withWrappedTextureCoordinates(bool enable);
         TextureBuilder& withFile(const char* filename);
-        TextureBuilder& withRGBData(const char* data, int width, int height);
+        TextureBuilder& withFileCubeMap(const char* filename, TextureCubemapSide side);
         TextureBuilder& withRGBAData(const char* data, int width, int height);
         TextureBuilder& withWhiteData(int width = 2, int height = 2);
         Texture* build();
-        TextureBuilder() = default;
-        friend class Texture;
+
+    private:
+        TextureBuilder();
 
     public:
-        std::vector<char> m_dataOne;
-        const char* m_data = nullptr;
-        const char* m_filename = nullptr;
         Info m_info{};
+        friend class Texture;
     };
 
 public:
@@ -70,7 +86,7 @@ public:
     size_t getDataSize();
 
 private:
-    Texture(const char* data, int width, int height, uint32_t format);
+    Texture(int32_t id, int width, int height, uint32_t target);
     void updateTextureSampler(bool filterSampling, bool wrapTextureCoordinates) const;
 
 private:

@@ -36,7 +36,8 @@ public:
         Mat4,
         Vec4,
         Texture,
-        Invalid
+        Invalid,
+        TextureCube
     };
 
     struct Uniform

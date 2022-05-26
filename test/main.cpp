@@ -6,9 +6,10 @@ extern void guiTest();
 extern void quadTest();
 extern void particleTest();
 extern void spriteTest();
+extern void cubeMapText();
 
 int main()
 {
-    guiTest();
+    cubeMapText();
     return 0;
 }

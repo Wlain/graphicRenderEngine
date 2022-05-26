@@ -27,18 +27,8 @@ void Debug::setColor(const glm::vec4& color)
 
 void Debug::drawLine(glm::vec3 from, glm::vec3 to)
 {
-    std::vector<glm::vec3> vertices = { from, to };
-    auto mesh = std::unique_ptr<Mesh>(Mesh::create()
-                                          .withVertexPosition(vertices)
-                                          .withMeshTopology(Mesh::Topology::Lines)
-                                          .build());
-    auto* shader = Shader::getUnlit();
-    shader->set("color", s_color);
-    shader->set("tex", Texture::getWhiteTexture());
-    if (Renderer::s_instance != nullptr)
-    {
-        Renderer::s_instance->render(mesh.get(), glm::mat4(1), shader);
-    }
+    std::vector<glm::vec3> verts = { from, to };
+    drawLines(verts);
 }
 
 void Debug::checkGLError()
@@ -66,11 +56,11 @@ void Debug::checkGLError()
     }
 }
 
-void Debug::drawLineStrip(const std::vector<glm::vec3>& vertices)
+void Debug::drawLines(const std::vector<glm::vec3>& vertices, Mesh::Topology topology)
 {
     auto mesh = std::unique_ptr<Mesh>(Mesh::create()
                                           .withVertexPosition(vertices)
-                                          .withMeshTopology(Mesh::Topology::Lines)
+                                          .withMeshTopology(topology)
                                           .build());
     auto* shader = Shader::getUnlit();
     shader->set("color", s_color);

@@ -21,7 +21,7 @@ Renderer::Renderer(GLFWwindow* window) :
     LOG_INFO("rg version {}.{}.{}", s_rgVersionMajor, s_rgVersionMinor, s_rgVersionPoint);
     // setup opengl context
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
+//    glEnable(GL_CULL_FACE);
     glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_LOWER_LEFT);
     glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
     glfwGetFramebufferSize(m_window, &m_camera->m_viewportWidth, &m_camera->m_viewportHeight);
