@@ -11,4 +11,8 @@
 #include "worldLights.h"
 namespace re
 {
+WorldLights::WorldLights()
+{
+    setAmbientLight(glm::vec3(0.2, 0.2, 0.2));
 }
+} // namespace re

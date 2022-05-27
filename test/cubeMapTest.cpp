@@ -9,6 +9,7 @@
 //
 
 #include "commonMacro.h"
+#include "core/material.h"
 #include "core/mesh.h"
 #include "core/renderer.h"
 #include "core/shader.h"
@@ -30,13 +31,13 @@ static constexpr const char* vertexShaderStr = R"(#version 330
         in vec2 uv;
         out vec3 vNormal;
 
-        uniform mat4 model;
-        uniform mat4 view;
-        uniform mat4 projection;
-        uniform mat3 normalMat;
+        uniform mat4 g_model;
+        uniform mat4 g_view;
+        uniform mat4 g_projection;
+        uniform mat3 g_normalMat;
 
         void main(void) {
-            gl_Position = projection * view * model * position;
+            gl_Position = g_projection * g_view * g_model * position;
             vNormal = normal;
         }
     )";
@@ -75,7 +76,8 @@ void cubeMapText()
     auto camera = std::make_unique<Camera>();
     camera->setLookAt(eye, at, up);
     camera->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
-    Shader* shader = Shader::create().withSource(vertexShaderStr, fragmentShaderStr).build();
+    auto* shader = Shader::create().withSource(vertexShaderStr, fragmentShaderStr).build();
+    auto* material = new Material(shader);
     auto* tex = Texture::create()
                     .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posx.png"), Texture::TextureCubemapSide::PositiveX)
                     .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negx.png"), Texture::TextureCubemapSide::NegativeX)
@@ -85,7 +87,7 @@ void cubeMapText()
                     .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negz.png"), Texture::TextureCubemapSide::NegativeZ)
                     .build();
 
-    shader->set("tex", tex);
+    material->setTexture(tex);
     auto* mesh = Mesh::create().withSphere().build();
     auto renderPass = r.createRenderPass()
                           .withCamera(*camera)
@@ -94,7 +96,7 @@ void cubeMapText()
     {
         /// 渲染
         renderPass.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
-        renderPass.draw(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), shader);
+        renderPass.draw(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), material);
         r.swapWindow();
     }
     glfwTerminate();

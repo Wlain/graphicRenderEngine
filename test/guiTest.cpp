@@ -2,6 +2,7 @@
 // Created by william on 2022/5/24.
 //
 #include "commonMacro.h"
+#include "core/material.h"
 #include "core/mesh.h"
 #include "core/renderer.h"
 #include "core/shader.h"
@@ -42,6 +43,8 @@ void guiTest()
     camera->setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
     camera->setPerspectiveProjection(60, 640, 480, 0.1, 100);
     auto* shader = Shader::getStandard();
+    auto* material = new Material(shader);
+    material->setShader(shader);
     auto* mesh = Mesh::create().withCube().build();
     float specularity = 20.0f;
     //  init imageui
@@ -62,8 +65,8 @@ void guiTest()
     {
         /// 渲染
         renderPass.clearScreen({ clearColor.x, clearColor.y, clearColor.z, 1.0f });
-        shader->set("specularity", specularity);
-        renderPass.draw(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), shader);
+        material->setSpecularity(specularity);
+        renderPass.draw(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), material);
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();

@@ -5,7 +5,10 @@
 #include "renderPass.h"
 
 #include "glCommonDefine.h"
+#include "material.h"
 #include "renderStats.h"
+
+#include <glm/gtc/type_ptr.hpp>
 namespace re
 {
 RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withName(const std::string& name)
@@ -74,17 +77,28 @@ void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 col
     auto* shader = Shader::create()
                        .withSourceUnlit()
                        .build();
-    shader->set("color", color);
-    shader->set("tex", Texture::getWhiteTexture());
-    draw(mesh, glm::mat4(1), shader);
+    static Material material{ shader };
+    material.setColor(color);
+    draw(mesh, glm::mat4(1), &material);
     delete mesh;
 }
 
-void RenderPass::draw(Mesh* mesh, glm::mat4 modelTransform, Shader* shader)
+void RenderPass::draw(Mesh* mesh, glm::mat4 modelTransform, Material* material)
 {
     m_renderStats->drawCalls++;
-    setupShader(modelTransform, shader);
-    mesh->bind();
+    setupShader(modelTransform, material->getShader());
+    if (material != m_lastBoundMaterial)
+    {
+        m_renderStats->stateChangesMaterial++;
+        m_lastBoundMaterial = material;
+        material->bind();
+    }
+    if (mesh != m_lastBoundMesh)
+    {
+        m_renderStats->stateChangesMesh++;
+        m_lastBoundMesh = mesh;
+        mesh->bind();
+    }
     int indexCount = mesh->getIndices().size();
     if (indexCount == 0)
     {
@@ -106,28 +120,54 @@ RenderPass::RenderPass(Camera&& camera, WorldLights* worldLights, RenderStats* r
 
 void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
 {
-    shader->bind();
-    if (shader->getType("model").type != Shader::UniformType::Invalid)
+
+    if (m_lastBoundShader == shader)
     {
-        shader->set("model", modelTransform);
+        // model
+        if (shader->m_uniformLocationModel != -1)
+        {
+            glUniformMatrix4fv(shader->m_uniformLocationModel, 1, GL_FALSE, glm::value_ptr(modelTransform));
+        }
+        // normal
+        if (shader->m_uniformLocationNormal != -1)
+        {
+            auto normalMatrix = transpose(inverse((glm::mat3)(m_camera.getViewTransform() * modelTransform)));
+            glUniformMatrix3fv(shader->m_uniformLocationNormal, 1, GL_FALSE, glm::value_ptr(normalMatrix));
+        }
     }
-    if (shader->getType("view").type != Shader::UniformType::Invalid)
+    else
     {
-        shader->set("view", m_camera.getViewTransform());
+        shader->bind();
+        m_renderStats->stateChangesShader++;
+        m_lastBoundShader = shader;
+        // model
+        if (shader->m_uniformLocationModel != -1)
+        {
+            glUniformMatrix4fv(shader->m_uniformLocationModel, 1, GL_FALSE, glm::value_ptr(modelTransform));
+        }
+        // view
+        if (shader->m_uniformLocationView != -1)
+        {
+            glUniformMatrix4fv(shader->m_uniformLocationView, 1, GL_FALSE, glm::value_ptr(m_camera.m_viewTransform));
+        }
+        // projection
+        if (shader->m_uniformLocationProjection != -1)
+        {
+            glUniformMatrix4fv(shader->m_uniformLocationProjection, 1, GL_FALSE, glm::value_ptr(m_camera.m_projectionTransform));
+        }
+        // normal
+        if (shader->m_uniformLocationNormal != -1)
+        {
+            auto normalMatrix = transpose(inverse((glm::mat3)(m_camera.getViewTransform() * modelTransform)));
+            glUniformMatrix3fv(shader->m_uniformLocationNormal, 1, GL_FALSE, glm::value_ptr(normalMatrix));
+        }
+        // viewport
+        if (shader->m_uniformLocationViewport != -1)
+        {
+            glm::vec4 viewport((float)m_camera.m_viewportWidth, (float)m_camera.m_viewportHeight, 0, 0);
+            glUniform4fv(shader->m_uniformLocationViewport, 1, glm::value_ptr(viewport));
+        }
+        shader->setLights(m_worldLights, m_camera.getViewTransform());
     }
-    if (shader->getType("projection").type != Shader::UniformType::Invalid)
-    {
-        shader->set("projection", m_camera.getProjectionTransform());
-    }
-    if (shader->getType("normalMat").type != Shader::UniformType::Invalid)
-    {
-        auto normalMatrix = transpose(inverse((glm::mat3)(m_camera.getViewTransform() * modelTransform)));
-        shader->set("normalMat", normalMatrix);
-    }
-    if (shader->getType("viewHeight").type != Shader::UniformType::Invalid)
-    {
-        shader->set("viewHeight", (float)m_camera.m_viewportHeight);
-    }
-    shader->setLights(m_worldLights, m_camera.getViewTransform());
 }
 } // namespace re

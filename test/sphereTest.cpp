@@ -7,6 +7,7 @@
 #include "core/renderer.h"
 #include "core/shader.h"
 #include "core/worldLights.h"
+#include "core/material.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -38,7 +39,7 @@ void sphereTest()
     auto camera = std::make_unique<Camera>();
     camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
     camera->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
-    Shader* shader = Shader::getStandard();
+    auto* material = new Material(Shader::getStandard());
     auto* mesh = Mesh::create().withSphere().build();
     bool point = true;
     auto worldLights = std::make_unique<WorldLights>();
@@ -64,7 +65,7 @@ void sphereTest()
     {
         /// 渲染
         renderPass.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
-        renderPass.draw(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), shader);
+        renderPass.draw(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), material);
         r.swapWindow();
     }
     glfwTerminate();

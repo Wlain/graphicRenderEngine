@@ -3,6 +3,7 @@
 //
 
 #include "commonMacro.h"
+#include "core/material.h"
 #include "core/mesh.h"
 #include "core/renderer.h"
 #include "core/shader.h"
@@ -39,12 +40,19 @@ void sphereTest2()
     auto camera = std::make_unique<Camera>();
     camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
     camera->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
-    Shader* shader = Shader::getStandard();
+    auto* shader = Shader::getStandard();
+    auto* material1 = new Material(shader);
+    material1->setColor({ 1, 1, 1, 1 });
+    material1->setSpecularity( 50.0f);
+    glm::mat4 pos1 = glm::translate(glm::mat4(1), { -1, 0, 0 });
+
+    auto* material2 = new Material(shader);
+    material2->setColor({ 1, 0, 0, 1 });
+    material2->setSpecularity(0.0f);
+    glm::mat4 pos2 = glm::translate(glm::mat4(1), { 1, 0, 0 });
     auto* mesh = Mesh::create().withSphere().build();
     auto worldLights = std::make_unique<WorldLights>();
     worldLights->addLight(Light::create().withDirectionalLight({ 0, 2, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
-    glm::mat4 pos1 = glm::translate(glm::mat4(1), { -1, 0, 0 });
-    glm::mat4 pos2 = glm::translate(glm::mat4(1), { 1, 0, 0 });
     auto renderPass = r.createRenderPass()
                           .withCamera(*camera)
                           .withWorldLights(worldLights.get())
@@ -53,14 +61,8 @@ void sphereTest2()
     {
         /// 渲染
         renderPass.clearScreen({ 1, 0, 0, 1 });
-        shader->set("color", { 1, 1, 1, 1 });
-        shader->set("specularity", 50.0f);
-        shader->set("tex", Texture::getWhiteTexture());
-        renderPass.draw(mesh, pos1, shader);
-        shader->set("color", { 1, 0, 0, 1 });
-        shader->set("specularity", 0.0f);
-        shader->set("tex", Texture::getWhiteTexture());
-        renderPass.draw(mesh, pos2, shader);
+        renderPass.draw(mesh, pos1, material1);
+        renderPass.draw(mesh, pos2, material2);
         r.swapWindow();
     }
     glfwTerminate();

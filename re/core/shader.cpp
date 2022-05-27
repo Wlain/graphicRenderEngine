@@ -42,11 +42,12 @@ void logCurrentCompileException(GLuint shader, GLenum type)
     LOG_ERROR("{}\n, {} error", errorLog.data(), typeStr);
 }
 
-bool compileShader(const char* source, GLenum type, GLuint& shader)
+bool compileShader(std::string_view source, GLenum type, GLuint& shader)
 {
     shader = glCreateShader(type);
-    auto length = (GLint)strlen(source);
-    glShaderSource(shader, 1, &source, &length);
+    auto stringPtr = source.data();
+    auto length = (GLint)strlen(stringPtr);
+    glShaderSource(shader, 1, &stringPtr, &length);
     glCompileShader(shader);
     GLint success = 0;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
@@ -77,7 +78,7 @@ bool linkProgram(GLuint shaderProgram)
 }
 } // namespace
 
-Shader::ShaderBuilder& Shader::ShaderBuilder::withSource(const char* vertexShader, const char* fragmentShader)
+Shader::ShaderBuilder& Shader::ShaderBuilder::withSource(std::string_view vertexShader, std::string_view fragmentShader)
 {
     m_vertexShaderStr = vertexShader;
     m_fragmentShaderStr = fragmentShader;
@@ -94,17 +95,17 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandard()
         out vec2 vUV;
         out vec3 vEyePos;
 
-        uniform mat4 model;
-        uniform mat4 view;
-        uniform mat4 projection;
-        uniform mat3 normalMat;
+        uniform mat4 g_model;
+        uniform mat4 g_view;
+        uniform mat4 g_projection;
+        uniform mat3 g_normalMat;
 
         void main(void) {
-            vec4 eyePos = view * model * position;
+            vec4 eyePos = g_view * g_model * position;
             vEyePos = eyePos.xyz;
-            vNormal = normalMat * normal;
+            vNormal = normalize(g_normalMat * normal);
             vUV = uv;
-            gl_Position = projection * eyePos;
+            gl_Position = g_projection * eyePos;
         }
     )";
     m_fragmentShaderStr = R"(#version 330
@@ -113,34 +114,34 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandard()
         in vec2 vUV;
         in vec3 vEyePos;
 
-        uniform vec4 ambientLight;
+        uniform vec4 g_ambientLight;
         uniform vec4 color;
         uniform sampler2D tex;
 
-        uniform vec4 lightPosType[4];
-        uniform vec4 lightColorRange[4];
+        uniform vec4 g_lightPosType[4];
+        uniform vec4 g_lightColorRange[4];
         uniform float specularity;
 
         vec3 computeLight()
         {
-            vec3 lightColor = ambientLight.xyz;
+            vec3 lightColor = g_ambientLight.xyz;
             vec3 normal = normalize(vNormal);
 
-            float diffuseFrac = 1.0 - ambientLight.w;
+            float diffuseFrac = 1.0 - g_ambientLight.w;
             for (int i = 0; i < 4; i++)
             {
-                bool isDirectional = lightPosType[i].w == 0.0;
-                bool isPoint       = lightPosType[i].w == 1.0;
+                bool isDirectional = g_lightPosType[i].w == 0.0;
+                bool isPoint       = g_lightPosType[i].w == 1.0;
                 vec3 lightDirection;
                 float att = 1.0;
                 if (isDirectional)
                 {
-                    lightDirection = normalize(lightPosType[i].xyz);
+                    lightDirection = normalize(g_lightPosType[i].xyz);
                 }
                 else if (isPoint)
                 {
-                    vec3 lightVector = lightPosType[i].xyz - vEyePos;
-                    float lightRange = lightColorRange[i].w;
+                    vec3 lightVector = g_lightPosType[i].xyz - vEyePos;
+                    float lightRange = g_lightColorRange[i].w;
                     float lightVectorLength = length(lightVector);
                     lightDirection = lightVector/lightVectorLength;
                     if (lightRange <= 0.0)
@@ -162,7 +163,7 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandard()
                 float thisDiffuse = max(0.0,dot(lightDirection, normal));
                 if (thisDiffuse > 0.0)
                 {
-                   lightColor += (att * diffuseFrac * thisDiffuse) * lightColorRange[i].xyz;
+                   lightColor += (att * diffuseFrac * thisDiffuse) * g_lightColorRange[i].xyz;
                 }
                 // specular light
                 if (specularity > 0)
@@ -197,13 +198,13 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceUnlit()
         in vec2 uv;
         out vec2 vUV;
 
-        uniform mat4 model;
-        uniform mat4 view;
-        uniform mat4 projection;
+        uniform mat4 g_model;
+        uniform mat4 g_view;
+        uniform mat4 g_projection;
 
         void main(void) {
             vUV = uv;
-            gl_Position = projection * view * model * position;
+            gl_Position = g_projection * g_view * g_model * position;
         }
     )";
     m_fragmentShaderStr = R"(#version 330
@@ -227,17 +228,17 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceUnlitSprite()
         in vec2 uv;
         out vec2 vUV;
 
-        uniform mat4 model;
-        uniform mat4 view;
-        uniform mat4 projection;
+        uniform mat4 g_model;
+        uniform mat4 g_view;
+        uniform mat4 g_projection;
 
         void main(void)
         {
-            gl_Position = projection * view * model * position;
+            gl_Position = g_projection * g_view * g_model * position;
             vUV = uv;
         }
         )";
-    m_fragmentShaderStr = R"(#version 140
+    m_fragmentShaderStr = R"(#version 330
         out vec4 fragColor;
         in vec2 vUV;
 
@@ -254,7 +255,7 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceUnlitSprite()
 
 Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandardParticles()
 {
-    m_vertexShaderStr = R"(#version 140
+    m_vertexShaderStr = R"(#version 330
         in vec4 position;
         in vec3 normal;
         in vec4 uv;
@@ -263,10 +264,10 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandardParticles()
         out vec4 vColor;
         out vec3 uvSize;
 
-        uniform mat4 model;
-        uniform mat4 view;
-        uniform mat4 projection;
-        uniform float viewHeight;
+        uniform mat4 g_model;
+        uniform mat4 g_view;
+        uniform mat4 g_projection;
+        uniform vec4 g_viewport;
 
         mat3 translate(vec2 p)
         {
@@ -293,36 +294,35 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandardParticles()
 
         void main(void) {
             vec4 pos = vec4( position.xyz, 1.0);
-            gl_Position = projection * view * model * pos;
-            if (projection[2][3] != 0){ // if perspective projection
+            gl_Position = g_projection * g_view * g_model * pos;
+            if (g_projection[2][3] != 0){ // if perspective projection
                 vec3 ndc = gl_Position.xyz / gl_Position.w ; // perspective divide.
                 float zDist = 1.0- ndc.z ; // 1 is close (right up in your face,)
                 if (zDist < 0.0 || zDist > 1.0)
                 {
                     zDist = 0.0;
                 }
-                gl_PointSize = viewHeight * position.w * zDist;
+                gl_PointSize = g_viewport.y * position.w * zDist;
             }
             else
             {
-                gl_PointSize = 0.1 * position.w * viewHeight; // average x,y scale in orthographic projection
+                gl_PointSize = 0.1 * position.w * g_viewport.y; // average x,y scale in orthographic projection
             }
             vUVMat = translate(uv.xy)*scale(uv.z) * translate(vec2(0.5,0.5))*rotate(uv.w) * translate(vec2(-0.5,-0.5));
             vColor = color;
             uvSize = uv.xyz;
         }
     )";
-    m_fragmentShaderStr = R"(#version 140
+    m_fragmentShaderStr = R"(#version 330
         out vec4 fragColor;
         in mat3 vUVMat;
         in vec4 vColor;
         in vec3 uvSize;
 
         uniform sampler2D tex;
-        uniform int isSplit;
         void main(void)
         {
-            vec2 uv = (isSplit == 1) ? gl_PointCoord : (vUVMat * vec3(gl_PointCoord,1.0)).xy;
+            vec2 uv = (vUVMat * vec3(gl_PointCoord,1.0)).xy;
             if (uv != clamp(uv, uvSize.xy, uvSize.xy + uvSize.zz))
             {
                 discard;
@@ -374,8 +374,6 @@ Shader* Shader::getUnlit()
     s_unlit = Shader::create()
                   .withSourceUnlit()
                   .build();
-    s_unlit->set("color", glm::vec4(1.0f));
-    s_unlit->set("tex", Texture::getWhiteTexture());
     return s_unlit;
 }
 
@@ -391,8 +389,6 @@ Shader* Shader::getUnlitSprite()
                         .withBlend(BlendType::AlphaBlending)
                         .withDepthWrite(false)
                         .build();
-    s_unlitSprite->set("color", glm::vec4(1));
-    s_unlitSprite->set("tex", Texture::getWhiteTexture());
     return s_unlitSprite;
 }
 
@@ -403,9 +399,6 @@ Shader* Shader::getStandard()
         return s_standard;
     }
     s_standard = Shader::create().withSourceStandard().build();
-    s_standard->set("color", glm::vec4(1));
-    s_standard->set("tex", Texture::getWhiteTexture());
-    s_standard->set("specularity", 0.0f);
     return s_standard;
 }
 
@@ -420,7 +413,6 @@ Shader* Shader::getStandardParticles()
                               .withBlend(BlendType::AdditiveBlending)
                               .withDepthWrite(false)
                               .build();
-    s_standardParticles->set("tex", Texture::getSphereTexture());
     return s_standardParticles;
 }
 
@@ -436,194 +428,44 @@ Shader::~Shader()
     Renderer::s_instance->m_renderStatsCurrent.shaderCount--;
 }
 
-bool Shader::set(const char* name, glm::mat4 value)
-{
-    glUseProgram(m_id);
-    auto uniform = getType(name);
-    if (uniform.location == -1)
-    {
-#ifdef DEBUG
-        LOG_ERROR("Cannot find shader uniform!");
-#endif
-        return false;
-    }
-#ifndef NDEBUG
-    if (uniform.type != UniformType::Mat4)
-    {
-        LOG_ERROR("Invalid shader uniform type for {}", name);
-    }
-    if (uniform.arrayCount != 1)
-    {
-        LOG_ERROR("Invalid shader uniform array count for {}", name);
-    }
-#endif
-    glUniformMatrix4fv(uniform.location, 1, GL_FALSE, glm::value_ptr(value));
-    return true;
-}
-
-bool Shader::set(const char* name, glm::mat3 value)
-{
-    glUseProgram(m_id);
-    auto uniform = getType(name);
-    if (uniform.location == -1)
-    {
-#ifdef DEBUG
-        LOG_ERROR("Cannot find shader uniform!");
-#endif
-        return false;
-    }
-#ifndef NDEBUG
-    if (uniform.type != UniformType::Mat3)
-    {
-        LOG_ERROR("Invalid shader uniform type for {}", name);
-    }
-    if (uniform.arrayCount != 1)
-    {
-        LOG_ERROR("Invalid shader uniform array count for {}", name);
-    }
-#endif
-    glUniformMatrix3fv(uniform.location, 1, GL_FALSE, glm::value_ptr(value));
-    return true;
-}
-
-bool Shader::set(const char* name, glm::vec4 value)
-{
-    glUseProgram(m_id);
-    auto uniform = getType(name);
-    if (uniform.location == -1)
-    {
-#ifdef DEBUG
-        LOG_ERROR("Cannot find shader uniform!");
-#endif
-        return false;
-    }
-#ifndef NDEBUG
-    if (uniform.type != UniformType::Vec4)
-    {
-        LOG_ERROR("Invalid shader uniform type for {}", name);
-    }
-    if (uniform.arrayCount != 1)
-    {
-        LOG_ERROR("Invalid shader uniform array count for {}", name);
-    }
-#endif
-    glUniform4fv(uniform.location, 1, glm::value_ptr(value));
-    return true;
-}
-
-bool Shader::set(const char* name, float value)
-{
-    glUseProgram(m_id);
-    auto uniform = getType(name);
-    if (uniform.location == -1)
-    {
-#ifdef DEBUG
-        LOG_ERROR("Cannot find shader uniform!");
-#endif
-        return false;
-    }
-#ifndef NDEBUG
-    if (uniform.type != UniformType::Float)
-    {
-        LOG_ERROR("Invalid shader uniform type for {}", name);
-    }
-#endif
-    glUniform1f(uniform.location, value);
-    return true;
-}
-
-bool Shader::set(const char* name, int value)
-{
-    glUseProgram(m_id);
-    auto uniform = getType(name);
-    if (uniform.location == -1)
-    {
-#ifdef DEBUG
-        LOG_ERROR("Cannot find shader uniform!");
-#endif
-        return false;
-    }
-#ifndef NDEBUG
-    if (uniform.type != UniformType::Int)
-    {
-        LOG_ERROR("Invalid shader uniform type for {}", name);
-    }
-#endif
-    glUniform1i(uniform.location, value);
-    return true;
-}
-
-bool Shader::set(const char* name, Texture* texture, unsigned int textureSlot)
-{
-    glUseProgram(m_id);
-    auto uniform = getType(name);
-    if (uniform.location == -1)
-    {
-#ifdef DEBUG
-        LOG_ERROR("Cannot find shader uniform!");
-#endif
-        return false;
-    }
-#ifndef NDEBUG
-    if (uniform.type != UniformType::Texture && uniform.type != UniformType::TextureCube)
-    {
-        LOG_ERROR("Invalid shader uniform type for {}", name);
-    }
-#endif
-    glActiveTexture(GL_TEXTURE0 + textureSlot);
-    glBindTexture(texture->m_info.target, texture->m_info.id);
-    glUniform1i(uniform.location, textureSlot);
-    return true;
-}
-
 bool Shader::setLights(WorldLights* worldLights, const glm::mat4& viewTransform)
 {
-    glUseProgram(m_id);
-    auto uniform = getType("ambientLight");
-    if (uniform.location != -1)
+    if (m_uniformLocationAmbientLight != -1 && worldLights)
     {
-        glUniform4fv(uniform.location, 1, glm::value_ptr(worldLights->ambientLight));
+        glUniform4fv(m_uniformLocationAmbientLight, 1, glm::value_ptr(worldLights->ambientLight));
     }
-
-    glm::vec4 lightPosType[4];
-    glm::vec4 lightColorRange[4];
-    for (int i = 0; i < 4; i++)
+    if (m_uniformLocationLightPosType != -1 && m_uniformLocationLightColorRange != -1)
     {
-        auto light = (worldLights == nullptr) ? nullptr : worldLights->getLight(i);
-        if (light == nullptr || light->type == Light::Type::Unused)
+        glm::vec4 lightPosType[4];
+        glm::vec4 lightColorRange[4];
+        for (int i = 0; i < 4; i++)
         {
-            lightPosType[i] = glm::vec4(0.0f, 0.0f, 0.0f, 2);
-            continue;
+            auto light = (worldLights == nullptr) ? nullptr : worldLights->getLight(i);
+            if (light == nullptr || light->type == Light::Type::Unused)
+            {
+                lightPosType[i] = glm::vec4(0.0f, 0.0f, 0.0f, 2);
+                continue;
+            }
+            else if (light[i].type == Light::Type::Directional)
+            {
+                lightPosType[i] = glm::vec4(light[i].direction, 0);
+            }
+            else if (light[i].type == Light::Type::Point)
+            {
+                lightPosType[i] = glm::vec4(light[i].position, 1);
+            }
+            // transform to eye space
+            lightPosType[i] = viewTransform * lightPosType[i];
+            lightColorRange[i] = glm::vec4(light[i].color, light[i].range);
         }
-        else if (light[i].type == Light::Type::Directional)
+        if (m_uniformLocationLightPosType != -1)
         {
-            lightPosType[i] = glm::vec4(light[i].direction, 0);
+            glUniform4fv(m_uniformLocationLightPosType, 4, glm::value_ptr(lightPosType[0]));
         }
-        else if (light[i].type == Light::Type::Point)
+        if (m_uniformLocationLightColorRange != -1)
         {
-            lightPosType[i] = glm::vec4(light[i].position, 1);
+            glUniform4fv(m_uniformLocationLightColorRange, 4, glm::value_ptr(lightColorRange[0]));
         }
-        // transform to eye space
-        lightPosType[i] = viewTransform * lightPosType[i];
-        lightColorRange[i] = glm::vec4(light[i].color, light[i].range);
-    }
-    uniform = getType("lightPosType");
-    if (uniform.location != -1)
-    {
-        if (uniform.arrayCount != 4)
-        {
-            LOG_ERROR("Invalid shader uniform array count for lightPosType");
-        }
-        glUniform4fv(uniform.location, 4, glm::value_ptr(lightPosType[0]));
-    }
-    uniform = getType("lightColorRange");
-    if (uniform.location != -1)
-    {
-        if (uniform.arrayCount != 4)
-        {
-            LOG_ERROR("Invalid shader uniform array count for lightColorRange");
-        }
-        glUniform4fv(uniform.location, 4, glm::value_ptr(lightColorRange[0]));
     }
     return true;
 }
@@ -657,9 +499,13 @@ void Shader::bind()
         LOG_ERROR("err");
         break;
     }
+    // 第一个参数代表：即将绘制的片源因子，也就是源因子
+    // 第二个参数代表：framebuffer里面存储的颜色，也就是目标因子
+    // glEnable(GL_BLEND);
+    // glBlendFunc(GL_ZERO, GL_ONE); // 此时，代表全部用framebuffer里存储的颜色,反之同理
 }
 
-bool Shader::contains(const char* name)
+bool Shader::contains(std::string_view name)
 {
     bool result = std::any_of(m_uniforms.begin(), m_uniforms.end(), [&](const auto& u) {
         return u.name == name;
@@ -667,7 +513,7 @@ bool Shader::contains(const char* name)
     return result;
 }
 
-Shader::Uniform Shader::getType(const char* name)
+Shader::Uniform Shader::getType(std::string_view name)
 {
     for (const auto& u : m_uniforms)
     {
@@ -679,6 +525,14 @@ Shader::Uniform Shader::getType(const char* name)
 
 void Shader::updateUniforms()
 {
+    m_uniformLocationModel = -1;
+    m_uniformLocationView = -1;
+    m_uniformLocationProjection = -1;
+    m_uniformLocationNormal = -1;
+    m_uniformLocationViewport = -1;
+    m_uniformLocationAmbientLight = -1;
+    m_uniformLocationLightPosType = -1;
+    m_uniformLocationLightColorRange = -1;
     m_uniforms.clear();
     GLint uniformCount;
     glGetProgramiv(m_id, GL_ACTIVE_UNIFORMS, &uniformCount);
@@ -723,8 +577,103 @@ void Shader::updateUniforms()
         {
             *bracketIndex = '\0';
         }
+        bool isGlobalUniform = name[0] == 'g' && name[1] == '_';
         GLint location = glGetUniformLocation(m_id, name);
-        m_uniforms.emplace_back(name, location, uniformType, size);
+        if (!isGlobalUniform)
+        {
+            m_uniforms.emplace_back(name, location, uniformType, size);
+        }
+        else
+        {
+            if (strcmp(name, "g_model") == 0)
+            {
+                if (uniformType == UniformType::Mat4)
+                {
+                    m_uniformLocationModel = location;
+                }
+                else
+                {
+                    LOG_ERROR("Invalid g_model uniform type. Expected mat4.");
+                }
+            }
+            if (strcmp(name, "g_view") == 0)
+            {
+                if (uniformType == UniformType::Mat4)
+                {
+                    m_uniformLocationView = location;
+                }
+                else
+                {
+                    LOG_ERROR("Invalid g_view uniform type. Expected mat4.");
+                }
+            }
+            if (strcmp(name, "g_projection") == 0)
+            {
+                if (uniformType == UniformType::Mat4)
+                {
+                    m_uniformLocationProjection = location;
+                }
+                else
+                {
+                    LOG_ERROR("Invalid g_projection uniform type. Expected mat4.");
+                }
+            }
+            if (strcmp(name, "g_normalMat") == 0)
+            {
+                if (uniformType == UniformType::Mat3)
+                {
+                    m_uniformLocationNormal = location;
+                }
+                else
+                {
+                    LOG_ERROR("Invalid g_normal uniform type. Expected mat3.");
+                }
+            }
+            if (strcmp(name, "g_viewport") == 0)
+            {
+                if (uniformType == UniformType::Vec4)
+                {
+                    m_uniformLocationViewport = location;
+                }
+                else
+                {
+                    LOG_ERROR("Invalid g_normal uniform type. Expected vec4.");
+                }
+            }
+            if (strcmp(name, "g_ambientLight") == 0)
+            {
+                if (uniformType == UniformType::Vec4)
+                {
+                    m_uniformLocationAmbientLight = location;
+                }
+                else
+                {
+                    LOG_ERROR("Invalid g_ambientLight uniform type. Expected vec4.");
+                }
+            }
+            if (strcmp(name, "g_lightPosType") == 0)
+            {
+                if (uniformType == UniformType::Vec4 && size == 4)
+                {
+                    m_uniformLocationLightPosType = location;
+                }
+                else
+                {
+                    LOG_ERROR("Invalid g_lightPosType uniform type. Expected vec4[4].");
+                }
+            }
+            if (strcmp(name, "g_lightColorRange") == 0)
+            {
+                if (uniformType == UniformType::Vec4 && size == 4)
+                {
+                    m_uniformLocationLightColorRange = location;
+                }
+                else
+                {
+                    LOG_ERROR("Invalid g_lightPosType uniform type. Expected vec4[4].");
+                }
+            }
+        }
     }
 }
 
@@ -733,9 +682,9 @@ Shader::ShaderBuilder Shader::create()
     return {};
 }
 
-bool Shader::build(const char* vertexShader, const char* fragmentShader)
+bool Shader::build(std::string_view vertexShader, std::string_view fragmentShader)
 {
-    std::vector<const char*> shaderSrc{ vertexShader, fragmentShader };
+    std::vector<std::string> shaderSrc{ vertexShader.data(), fragmentShader.data() };
     std::vector<GLenum> shaderTypes{ GL_VERTEX_SHADER, GL_FRAGMENT_SHADER };
     for (int i = 0; i < 2; i++)
     {

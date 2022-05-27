@@ -13,6 +13,7 @@ namespace re
 {
 class Texture;
 class WorldLights;
+class Material;
 class Shader
 {
 public:
@@ -38,10 +39,10 @@ public:
     struct Uniform
     {
         Uniform(const char* _name, int32_t _location, UniformType _type, int32_t _count) :
-            name(_name), location(_location), type(_type), arrayCount(_count) {}
+            name(_name), id(_location), type(_type), arrayCount(_count) {}
         Uniform() = default;
         std::string name;
-        int32_t location{ -1 };
+        int32_t id{ -1 };
         UniformType type{ UniformType::Invalid };
         // 1 means not array
         int32_t arrayCount{ -1 };
@@ -50,7 +51,7 @@ public:
     class ShaderBuilder
     {
     public:
-        ShaderBuilder& withSource(const char* vertexShader, const char* fragmentShader);
+        ShaderBuilder& withSource(std::string_view vertexShader, std::string_view fragmentShader);
         ShaderBuilder& withSourceStandard();
         ShaderBuilder& withSourceUnlit();
         ShaderBuilder& withSourceUnlitSprite();
@@ -62,8 +63,8 @@ public:
 
     private:
         ShaderBuilder() = default;
-        const char* m_vertexShaderStr{ nullptr };
-        const char* m_fragmentShaderStr{ nullptr };
+        std::string m_vertexShaderStr;
+        std::string m_fragmentShaderStr;
         BlendType m_blendType{ BlendType::Disabled };
         unsigned int m_id{ 0 };
         bool m_depthTest{ true };
@@ -77,6 +78,7 @@ public:
     // Attributes
     // "color" vec4 (default (1,1,1,1))
     // "tex" Texture* (default white texture)
+    // "specular" float (default 0.0) (means no specular)
     static Shader* getUnlit();
     // Attributes
     // "color" vec4 (default (1,1,1,1))
@@ -88,18 +90,13 @@ public:
     // "tex" Texture* (default white texture)
     // "specularity" float (default 0 = no specularity)
     static Shader* getStandard();
+
     static Shader* getStandardParticles();
 
 public:
     ~Shader();
-    bool contains(const char* name);
-    Uniform getType(const char* name);
-    bool set(const char* name, glm::mat4 value);
-    bool set(const char* name, glm::mat3 value);
-    bool set(const char* name, glm::vec4 value);
-    bool set(const char* name, float value);
-    bool set(const char* name, int value);
-    bool set(const char* name, Texture* texture, unsigned int textureSlot = 0);
+    bool contains(std::string_view name);
+    Uniform getType(std::string_view name);
     //    inline void setDepthTest(bool enable) { m_depthTest = enable; }
     inline bool isDepthTest() const { return m_depthTest; }
     //    inline void setDepthWrite(bool enable) { m_depthWrite = enable; }
@@ -109,7 +106,7 @@ public:
 
 private:
     Shader();
-    bool build(const char* vertexShader, const char* fragmentShader);
+    bool build(std::string_view vertexShader, std::string_view fragmentShader);
     void bind();
     bool setLights(WorldLights* worldLights, const glm::mat4& viewTransform);
     void updateUniforms();
@@ -129,9 +126,19 @@ private:
     unsigned int m_id{ 0 };
     bool m_depthTest{ true };
     bool m_depthWrite{ true };
+    int m_uniformLocationModel{ -1 };
+    int m_uniformLocationView{ -1 };
+    int m_uniformLocationProjection{ -1 };
+    int m_uniformLocationNormal{ -1 };
+    int m_uniformLocationViewport{ -1 };
+    int m_uniformLocationAmbientLight{ -1 };
+    int m_uniformLocationLightPosType{ -1 };
+    int m_uniformLocationLightColorRange{ -1 };
     friend class Mesh;
     friend class RenderPass;
+    friend class Material;
 };
+
 } // namespace re
 
 #endif //SIMPLERENDERENGINE_SHADER_H

@@ -21,6 +21,9 @@ struct RenderStats
     int textureBytes{ 0 };
     int shaderCount{ 0 };
     int drawCalls{ 0 };
+    int stateChangesShader{ 0 };
+    int stateChangesMaterial{ 0 };
+    int stateChangesMesh{ 0 };
 };
 } // namespace re
 #endif //SIMPLERENDERENGINE_RENDERSTATS_H

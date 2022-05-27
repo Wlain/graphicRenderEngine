@@ -2,6 +2,7 @@
 // Created by william on 2022/5/24.
 //
 #include "commonMacro.h"
+#include "core/material.h"
 #include "core/mesh.h"
 #include "core/renderer.h"
 #include "core/shader.h"
@@ -83,7 +84,8 @@ void spriteTest()
     camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
     camera->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
     auto* shaderParticle = Shader::getStandardParticles();
-    shaderParticle->set("tex", Texture::create().withFile(GET_CURRENT("test/resources/sprite.png")).build());
+    auto* material = new Material(shaderParticle);
+    material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/sprite.png")).build());
     auto* particleMesh = createParticles();
     auto spriteColor = glm::vec4(114, 144, 154, 255);
     auto spriteUV = glm::vec2(0, 0);
@@ -100,7 +102,7 @@ void spriteTest()
         renderPass.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
         updateParticlesAnimation(time, spriteUV, uvSize, uvRotation);
         updateParticles(particleMesh, spriteUV, uvSize, uvRotation, size);
-        renderPass.draw(particleMesh, glm::mat4(1), shaderParticle);
+        renderPass.draw(particleMesh, glm::mat4(1), material);
         r.swapWindow();
         time += 0.016f;
     }

@@ -15,6 +15,7 @@ class Light;
 
 struct WorldLights
 {
+    WorldLights();
     inline size_t addLight(const Light& light)
     {
         lights.push_back(light);
@@ -35,15 +36,15 @@ struct WorldLights
         }
         return &lights[index];
     }
-    inline int lightCount() const { return lights.size(); }
+    inline size_t lightCount() const { return lights.size(); }
     inline void setAmbientLight(const glm::vec3& light)
     {
-        float maxAmbient = std::max(ambientLight.x, std::max(ambientLight.y, ambientLight.z));
+        float maxAmbient = std::max(light.x, std::max(light.y, light.z));
         ambientLight = glm::vec4(light, maxAmbient);
     }
 
 public:
-    glm::vec4 ambientLight = glm::vec4(0.2f, 0.2f, 0.2f, 0.2f);
+    glm::vec4 ambientLight;
     std::vector<Light> lights;
 };
 } // namespace re

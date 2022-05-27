@@ -202,6 +202,11 @@ Texture* Texture::getSphereTexture()
     return s_sphereTexture;
 }
 
+Texture* Texture::getCubeMapTexture()
+{
+    return nullptr;
+}
+
 Texture::TextureBuilder Texture::create()
 {
     return {};
@@ -265,5 +270,10 @@ void Texture::invokeGenerateMipmap()
         m_info.generateMipmap = true;
         glGenerateMipmap(m_info.target);
     }
+}
+
+bool Texture::isCubeMap() const
+{
+    return m_info.target != GL_TEXTURE_2D;
 }
 } // namespace re

@@ -13,6 +13,7 @@ namespace re
 class Renderer;
 class Shader;
 class RenderStats;
+class Material;
 //渲染通道封装了一些渲染状态，并允许添加 drawcall，注意，一次只能有一个渲染传递对象处于活动状态。
 class RenderPass
 {
@@ -44,13 +45,16 @@ public:
     virtual ~RenderPass();
     void clearScreen(glm::vec4 color, bool clearColorBuffer = true, bool clearDepthBuffer = true, bool clearStencil = false);
     void drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }, Mesh::Topology meshTopology = Mesh::Topology::LineStrip);
-    void draw(Mesh* mesh, glm::mat4 modelTransform, Shader* shader);
+    void draw(Mesh* mesh, glm::mat4 modelTransform, Material* material);
 
 private:
     RenderPass(Camera&& camera, WorldLights* worldLights, RenderStats* renderStats);
     void setupShader(const glm::mat4& modelTransform, Shader* shader);
 
 private:
+    Shader* m_lastBoundShader = { nullptr };
+    Material* m_lastBoundMaterial = { nullptr };
+    Mesh* m_lastBoundMesh = { nullptr };
     Camera m_camera{};
     WorldLights* m_worldLights{ nullptr };
     RenderStats* m_renderStats{ nullptr };

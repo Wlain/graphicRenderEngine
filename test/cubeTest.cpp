@@ -2,6 +2,7 @@
 // Created by william on 2022/5/22.
 //
 #include "commonMacro.h"
+#include "core/material.h"
 #include "core/mesh.h"
 #include "core/renderer.h"
 #include "core/shader.h"
@@ -42,7 +43,8 @@ void cubeTest()
     camera->setViewport(0, 0, w, h);
     camera->setPerspectiveProjection(60.0f, w, h, 0.1f, 100.0f);
     auto shader = std::unique_ptr<Shader>(Shader::getStandard());
-    shader->set("tex", Texture::getFontTexture());
+    auto* material = new Material(shader.get());
+    material->setTexture(Texture::getFontTexture());
     auto mesh = std::unique_ptr<Mesh>(Mesh::create().withCube().build());
     auto worldLights = std::make_unique<WorldLights>();
     worldLights->addLight(Light::create().withPointLight({ 3, 0, 0 }).withColor({ 0, 1, 0 }).withRange(20).build());
@@ -56,7 +58,7 @@ void cubeTest()
     {
         /// 渲染
         renderPass.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
-        renderPass.draw(mesh.get(), glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), shader.get());
+        renderPass.draw(mesh.get(), glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), material);
         r.swapWindow();
     }
     glfwTerminate();

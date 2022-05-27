@@ -7,6 +7,7 @@
 #include "core/renderer.h"
 #include "core/shader.h"
 #include "core/texture.h"
+#include "core/material.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -39,15 +40,15 @@ void quadTest()
     auto camera = std::make_unique<Camera>();
     camera->setLookAt({ 0.0f, 0.0f, 4.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
     camera->setPerspectiveProjection(45.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
-    Shader* shader = Shader::getUnlit();
-    shader->set("tex", Texture::create().withFile(GET_CURRENT("test/resources/test.jpg")).build());
+    auto* material = new Material(Shader::getUnlit());
+    material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/test.jpg")).build());
     auto* mesh = Mesh::create().withQuad().build();
     auto renderPass = r.createRenderPass().withCamera(*camera).build();
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
         renderPass.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
-        renderPass.draw(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), shader);
+        renderPass.draw(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), material);
         r.swapWindow();
     }
     glfwTerminate();

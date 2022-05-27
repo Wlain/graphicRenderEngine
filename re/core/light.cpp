@@ -32,7 +32,7 @@ Light::LightBuilder& Light::LightBuilder::withPointLight(glm::vec3 pos)
 Light::LightBuilder& Light::LightBuilder::withDirectionalLight(glm::vec3 dir)
 {
     m_type = Type::Directional;
-    m_direction = dir;
+    m_direction = glm::normalize(dir);
     return *this;
 }
 

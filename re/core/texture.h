@@ -12,6 +12,7 @@
 #define SIMPLERENDERENGINE_TEXTURE_H
 #include <cstdlib>
 #include <vector>
+
 namespace re
 {
 class Texture
@@ -74,6 +75,7 @@ public:
     static Texture* getWhiteTexture();
     static Texture* getFontTexture();
     static Texture* getSphereTexture();
+    static Texture* getCubeMapTexture();
     ~Texture();
 
 public:
@@ -81,6 +83,7 @@ public:
     inline int height() const { return m_info.height; }
     inline bool isFilterSampling() const { return m_info.filterSampling; }
     inline bool isWrapTextureCoordinates() const { return m_info.wrapTextureCoordinates; }
+    bool isCubeMap() const;
     void invokeGenerateMipmap();
     // get size of the texture in bytes on GPU
     size_t getDataSize();
@@ -93,10 +96,12 @@ private:
     inline static Texture* s_whiteTexture{ nullptr };
     inline static Texture* s_fontTexture{ nullptr };
     inline static Texture* s_sphereTexture{ nullptr };
+    inline static Texture* s_cubeMapTexture{ nullptr };
 
 private:
-    friend class Shader;
     Info m_info{};
+    friend class Shader;
+    friend class Material;
 };
 } // namespace re
 
