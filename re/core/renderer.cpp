@@ -5,15 +5,24 @@
 #include "renderer.h"
 
 #include "commonMacro.h"
-
+#include "guiCommonDefine.h"
 // render engine
 namespace re
 {
 Renderer::Renderer(GLFWwindow* window) :
     m_window(window)
 {
+    if (s_instance != nullptr)
+    {
+        LOG_ERROR("multiple versions of Renderer initialized. Only a single instance is supported.");
+    }
     s_instance = this;
     glfwMakeContextCurrent(window);
+    // initialize ImGUI
+    ImGui::CreateContext();
+    // 设置平台和渲染器
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 330");
     LOG_INFO("OpenGL version {}", glGetString(GL_VERSION));
     LOG_INFO("rg version {}.{}.{}", s_rgVersionMajor, s_rgVersionMinor, s_rgVersionPoint);
     // setup opengl context
@@ -57,7 +66,7 @@ glm::ivec2 Renderer::getWindowSize()
 {
     {
         glm::ivec2 size;
-        glfwGetFramebufferSize(m_window, & size.r, &size.g);
+        glfwGetFramebufferSize(m_window, &size.r, &size.g);
         return size;
     }
 }

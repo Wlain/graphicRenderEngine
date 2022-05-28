@@ -430,7 +430,15 @@ Shader::~Shader()
 
 bool Shader::setLights(WorldLights* worldLights, const glm::mat4& viewTransform)
 {
-    if (m_uniformLocationAmbientLight != -1 && worldLights)
+    if (worldLights == nullptr)
+    {
+        glUniform4f(m_uniformLocationAmbientLight, 0, 0, 0, 0);
+        static float noLight[4 * 4] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        glUniform4fv(m_uniformLocationLightPosType, 4, noLight);
+        glUniform4fv(m_uniformLocationLightColorRange, 4, noLight);
+        return false;
+    }
+    if (m_uniformLocationAmbientLight != -1)
     {
         glUniform4fv(m_uniformLocationAmbientLight, 1, glm::value_ptr(worldLights->ambientLight));
     }

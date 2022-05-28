@@ -5,9 +5,7 @@
 #include "renderPass.h"
 
 #include "glCommonDefine.h"
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
+#include "guiCommonDefine.h"
 #include "material.h"
 #include "renderStats.h"
 #include "renderer.h"
@@ -148,7 +146,7 @@ RenderPass::RenderPass(Camera&& camera, WorldLights* worldLights, RenderStats* r
     m_camera(camera), m_worldLights(worldLights), m_renderStats(renderStats), m_gui(gui)
 {
     if (m_instance) m_instance->finish();
-//    glEnable(GL_SCISSOR_TEST);
+    //    glEnable(GL_SCISSOR_TEST);
     glScissor(m_camera.m_viewportX, m_camera.m_viewportY, m_camera.m_viewportWidth, m_camera.m_viewportHeight);
     glViewport(m_camera.m_viewportX, m_camera.m_viewportY, m_camera.m_viewportWidth, m_camera.m_viewportHeight);
     m_instance = this;

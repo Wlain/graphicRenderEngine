@@ -7,9 +7,7 @@
 #include "core/renderer.h"
 #include "core/shader.h"
 #include "core/worldLights.h"
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
+#include "guiCommonDefine.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -47,13 +45,6 @@ void guiTest()
     material->setShader(shader);
     auto* mesh = Mesh::create().withCube().build();
     float specularity = 20.0f;
-    //  init imageui
-    ImGui::CreateContext();
-    // 设置样式
-    ImGui::StyleColorsDark();
-    // 设置平台和渲染器
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init("#version 330");
     ImVec4 clearColor = ImColor(114, 144, 154);
     auto worldLights = std::make_unique<WorldLights>();
     worldLights->addLight(Light::create().withPointLight({ 0, 0, 10 }).withColor({ 1, 0, 0 }).withRange(50).build());
@@ -77,5 +68,4 @@ void guiTest()
         r.swapWindow();
     }
     glfwTerminate();
-//    exit(EXIT_SUCCESS);
 }
