@@ -57,19 +57,13 @@ void guiTest()
     ImVec4 clearColor = ImColor(114, 144, 154);
     auto worldLights = std::make_unique<WorldLights>();
     worldLights->addLight(Light::create().withPointLight({ 0, 0, 10 }).withColor({ 1, 0, 0 }).withRange(50).build());
-    auto renderPass = r.createRenderPass()
-                          .withCamera(*camera)
-                          .withWorldLights(worldLights.get())
-                          .build();
+
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
-        renderPass.clearScreen({ clearColor.x, clearColor.y, clearColor.z, 1.0f });
+        auto renderPass = r.createRenderPass().withCamera(*camera).withWorldLights(worldLights.get()).withGUI(true).build();
         material->setSpecularity(specularity);
         renderPass.draw(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), material);
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
         ImGui::Begin("guiTest");
         ImGui::SliderFloat("specularity", &specularity, 0.0f, 40.0f);
         ImGui::ColorEdit3("clear color", (float*)&clearColor);
@@ -80,10 +74,8 @@ void guiTest()
                     renderStats.meshCount, renderStats.meshBytes * bytesToMB, renderStats.textureCount,
                     renderStats.textureBytes * bytesToMB, renderStats.shaderCount);
         ImGui::End();
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         r.swapWindow();
     }
     glfwTerminate();
-    exit(EXIT_SUCCESS);
+//    exit(EXIT_SUCCESS);
 }

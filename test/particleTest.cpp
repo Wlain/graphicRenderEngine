@@ -61,7 +61,7 @@ void particleTest()
     }
     Renderer r{ window };
     auto camera = std::make_unique<Camera>();
-    camera->setViewport(0, 0, s_canvasWidth, s_canvasHeight);
+
     camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
     camera->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
     auto* shader = Shader::getStandard();
@@ -78,15 +78,11 @@ void particleTest()
     worldLights->addLight(Light::create().withPointLight({ 2, 0, 5 }).withColor({ 0, 1, 0 }).withRange(10).build());
     worldLights->addLight(Light::create().withPointLight({ 0, -2, 5 }).withColor({ 0, 0, 1 }).withRange(10).build());
     worldLights->addLight(Light::create().withPointLight({ -2, 0, 5 }).withColor({ 1, 1, 1 }).withRange(10).build());
-    auto renderPass = r.createRenderPass()
-                          .withCamera(*camera)
-                          .withWorldLights(worldLights.get())
-                          .build();
 
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
-        renderPass.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
+        auto renderPass = r.createRenderPass().withCamera(*camera).withWorldLights(worldLights.get()).build();
         renderPass.draw(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)) * glm::scale(glm::mat4(1), { 0.3f, 0.3f, 0.3f }), material);
         renderPass.draw(particleMesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), materialParticle);
         r.swapWindow();

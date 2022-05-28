@@ -43,11 +43,10 @@ void quadTest()
     auto* material = new Material(Shader::getUnlit());
     material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/test.jpg")).build());
     auto* mesh = Mesh::create().withQuad().build();
-    auto renderPass = r.createRenderPass().withCamera(*camera).build();
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
-        renderPass.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
+        auto renderPass = r.createRenderPass().withCamera(*camera).build();
         renderPass.draw(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), material);
         r.swapWindow();
     }

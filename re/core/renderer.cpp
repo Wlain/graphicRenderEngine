@@ -40,6 +40,10 @@ RenderPass::RenderPassBuilder Renderer::createRenderPass()
 
 void Renderer::swapWindow()
 {
+    if (RenderPass::m_instance)
+    {
+        RenderPass::m_instance->finish();
+    }
     if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(m_window, true);
     m_renderStatsLast = m_renderStatsCurrent;
@@ -53,7 +57,7 @@ glm::ivec2 Renderer::getWindowSize()
 {
     {
         glm::ivec2 size;
-        glfwGetWindowSize(m_window, &size.r, &size.g);
+        glfwGetFramebufferSize(m_window, & size.r, &size.g);
         return size;
     }
 }

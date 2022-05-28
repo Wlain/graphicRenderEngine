@@ -53,14 +53,14 @@ void sphereTest2()
     auto* mesh = Mesh::create().withSphere().build();
     auto worldLights = std::make_unique<WorldLights>();
     worldLights->addLight(Light::create().withDirectionalLight({ 0, 2, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
-    auto renderPass = r.createRenderPass()
-                          .withCamera(*camera)
-                          .withWorldLights(worldLights.get())
-                          .build();
+
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
-        renderPass.clearScreen({ 1, 0, 0, 1 });
+        auto renderPass = r.createRenderPass()
+                              .withCamera(*camera)
+                              .withWorldLights(worldLights.get())
+                              .build();
         renderPass.draw(mesh, pos1, material1);
         renderPass.draw(mesh, pos2, material2);
         r.swapWindow();

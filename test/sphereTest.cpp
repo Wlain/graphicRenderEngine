@@ -57,14 +57,14 @@ void sphereTest()
         worldLights->addLight(Light::create().withDirectionalLight({ 0, -1, 1 }).withColor({ 0, 0, 1 }).withRange(10).build());
         worldLights->addLight(Light::create().withDirectionalLight({ -1, 0, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
     }
-    auto renderPass = r.createRenderPass()
-                          .withCamera(*camera)
-                          .withWorldLights(worldLights.get())
-                          .build();
+
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
-        renderPass.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
+        auto renderPass = r.createRenderPass()
+                              .withCamera(*camera)
+                              .withWorldLights(worldLights.get())
+                              .build();
         renderPass.draw(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), material);
         r.swapWindow();
     }

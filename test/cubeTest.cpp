@@ -36,12 +36,9 @@ void cubeTest()
         glfwTerminate();
     }
     Renderer r{ window };
-    int w, h;
     auto camera = std::make_unique<Camera>();
-    camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-    glfwGetWindowSize(window, &w, &h);
-    camera->setViewport(0, 0, w, h);
-    camera->setPerspectiveProjection(60.0f, w, h, 0.1f, 100.0f);
+    camera->setLookAt({ 0.0f, 0.0f, 4.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+    camera->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasWidth, 0.1f, 100.0f);
     auto shader = std::unique_ptr<Shader>(Shader::getStandard());
     auto* material = new Material(shader.get());
     material->setTexture(Texture::getFontTexture());
@@ -50,14 +47,10 @@ void cubeTest()
     worldLights->addLight(Light::create().withPointLight({ 3, 0, 0 }).withColor({ 0, 1, 0 }).withRange(20).build());
     worldLights->addLight(Light::create().withPointLight({ 0, -3, 0 }).withColor({ 0, 0, 1 }).withRange(20).build());
     worldLights->addLight(Light::create().withPointLight({ -3, 0, 0 }).withColor({ 1, 1, 1 }).withRange(20).build());
-    auto renderPass = r.createRenderPass()
-                          .withCamera(*camera)
-                          .withWorldLights(worldLights.get())
-                          .build();
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
-        renderPass.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
+        auto renderPass = r.createRenderPass().withCamera(*camera).withWorldLights(worldLights.get()).build();
         renderPass.draw(mesh.get(), glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), material);
         r.swapWindow();
     }

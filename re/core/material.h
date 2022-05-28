@@ -42,9 +42,6 @@ public:
     bool set(std::string_view uniformName, Texture*);
     template <typename T>
     T get(std::string_view uniformName);
-    bool deleteUniform(std::string_view uniformName);
-    std::vector<std::string> getUniformNames();
-    Shader::UniformType getUniformType(std::string_view uniformName);
 
 private:
     template <typename T>

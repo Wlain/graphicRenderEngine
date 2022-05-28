@@ -240,20 +240,4 @@ bool Material::set(std::string_view uniformName, Texture* value)
     }
     return false;
 }
-
-bool Material::deleteUniform(std::string_view uniformName)
-{
-    return false;
-}
-
-std::vector<std::string> Material::getUniformNames()
-{
-    return {};
-}
-
-Shader::UniformType Material::getUniformType(std::string_view uniformName)
-{
-    return {};
-}
-
 } // namespace re

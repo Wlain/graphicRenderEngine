@@ -499,7 +499,7 @@ void Shader::bind()
         LOG_ERROR("err");
         break;
     }
-    // 第一个参数代表：即将绘制的片源因子，也就是源因子
+    // 第一个参数代表：即将绘制的片元因子，也就是源因子
     // 第二个参数代表：framebuffer里面存储的颜色，也就是目标因子
     // glEnable(GL_BLEND);
     // glBlendFunc(GL_ZERO, GL_ONE); // 此时，代表全部用framebuffer里存储的颜色,反之同理

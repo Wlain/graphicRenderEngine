@@ -5,8 +5,12 @@
 #include "renderPass.h"
 
 #include "glCommonDefine.h"
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 #include "material.h"
 #include "renderStats.h"
+#include "renderer.h"
 
 #include <glm/gtc/type_ptr.hpp>
 namespace re
@@ -31,7 +35,32 @@ RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withWorldLights(Wo
 
 RenderPass RenderPass::RenderPassBuilder::build()
 {
-    return { std::move(m_camera), m_worldLights, m_renderStats };
+    GLbitfield clear = 0;
+    if (m_clearColor)
+    {
+        glClearColor(m_clearColorValue.r, m_clearColorValue.g, m_clearColorValue.b, m_clearColorValue.a);
+        clear |= GL_COLOR_BUFFER_BIT;
+    }
+    if (m_clearDepth)
+    {
+        glClearDepth(m_clearDepthValue);
+        glDepthMask(GL_TRUE);
+        clear |= GL_DEPTH_BUFFER_BIT;
+    }
+    if (m_clearStencil)
+    {
+        glClearStencil(m_clearStencilValue);
+        clear |= GL_STENCIL_BUFFER_BIT;
+    }
+    if (clear) glClear(clear);
+    if (m_gui)
+    {
+        // Start the Dear ImGui frame
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+    }
+    return { std::move(m_camera), m_worldLights, m_renderStats, m_gui };
 }
 
 RenderPass::RenderPassBuilder::RenderPassBuilder(RenderStats* renderStats) :
@@ -39,37 +68,41 @@ RenderPass::RenderPassBuilder::RenderPassBuilder(RenderStats* renderStats) :
 {
 }
 
+RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withClearColor(bool enabled, glm::vec4 color)
+{
+    m_clearColor = enabled;
+    m_clearColorValue = color;
+    return *this;
+}
+
+RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withClearDepth(bool enabled, float value)
+{
+    m_clearDepthValue = enabled;
+    m_clearDepthValue = value;
+    return *this;
+}
+RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withClearStencil(bool enabled, int value)
+{
+    m_clearStencil = enabled;
+    m_clearStencilValue = value;
+    return *this;
+}
+RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withGUI(bool enabled)
+{
+    m_gui = enabled;
+    return *this;
+}
+
 RenderPass::RenderPassBuilder re::RenderPass::create()
 {
     return {};
 }
 
-RenderPass::~RenderPass()
-{
-    if (m_currentRenderPass == this)
-    {
-        m_currentRenderPass = nullptr;
-    }
-}
-
-void RenderPass::clearScreen(glm::vec4 color, bool clearColorBuffer, bool clearDepthBuffer, bool clearStencil)
-{
-    glClearColor(color.r, color.g, color.b, color.a);
-    GLbitfield clear = 0;
-    if (clearColorBuffer)
-    {
-        clear |= GL_COLOR_BUFFER_BIT;
-    }
-    if (clearDepthBuffer)
-    {
-        glDepthMask(GL_TRUE);
-        clear |= GL_DEPTH_BUFFER_BIT;
-    }
-    glClear(clear);
-}
+RenderPass::~RenderPass() = default;
 
 void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color, Mesh::Topology meshTopology)
 {
+    ASSERT(m_instance != nullptr);
     auto* mesh = Mesh::create()
                      .withVertexPosition(vertices)
                      .withMeshTopology(meshTopology)
@@ -85,6 +118,7 @@ void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 col
 
 void RenderPass::draw(Mesh* mesh, glm::mat4 modelTransform, Material* material)
 {
+    ASSERT(m_instance != nullptr);
     m_renderStats->drawCalls++;
     setupShader(modelTransform, material->getShader());
     if (material != m_lastBoundMaterial)
@@ -110,17 +144,18 @@ void RenderPass::draw(Mesh* mesh, glm::mat4 modelTransform, Material* material)
     }
 }
 
-RenderPass::RenderPass(Camera&& camera, WorldLights* worldLights, RenderStats* renderStats) :
-    m_camera(camera), m_worldLights(worldLights), m_renderStats(renderStats)
+RenderPass::RenderPass(Camera&& camera, WorldLights* worldLights, RenderStats* renderStats, bool gui) :
+    m_camera(camera), m_worldLights(worldLights), m_renderStats(renderStats), m_gui(gui)
 {
-    m_currentRenderPass = this;
-    glViewport(m_camera.m_viewportX, m_camera.m_viewportY, m_camera.m_viewportWidth, m_camera.m_viewportHeight);
+    if (m_instance) m_instance->finish();
+//    glEnable(GL_SCISSOR_TEST);
     glScissor(m_camera.m_viewportX, m_camera.m_viewportY, m_camera.m_viewportWidth, m_camera.m_viewportHeight);
+    glViewport(m_camera.m_viewportX, m_camera.m_viewportY, m_camera.m_viewportWidth, m_camera.m_viewportHeight);
+    m_instance = this;
 }
 
 void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
 {
-
     if (m_lastBoundShader == shader)
     {
         // model
@@ -169,5 +204,16 @@ void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
         }
         shader->setLights(m_worldLights, m_camera.getViewTransform());
     }
+}
+
+void RenderPass::finish()
+{
+    ASSERT(m_instance != nullptr);
+    if (m_gui)
+    {
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
+    m_instance = nullptr;
 }
 } // namespace re

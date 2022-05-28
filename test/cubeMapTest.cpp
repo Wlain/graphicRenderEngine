@@ -89,13 +89,11 @@ void cubeMapText()
 
     material->setTexture(tex);
     auto* mesh = Mesh::create().withSphere().build();
-    auto renderPass = r.createRenderPass()
-                          .withCamera(*camera)
-                          .build();
+
     while (!glfwWindowShouldClose(window))
     {
         /// 渲染
-        renderPass.clearScreen({ 1.0f, 0.0f, 0.0f, 1.0f });
+        auto renderPass = r.createRenderPass().withCamera(*camera).build();
         renderPass.draw(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), material);
         r.swapWindow();
     }

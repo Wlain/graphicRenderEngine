@@ -55,6 +55,7 @@ private:
     friend class Shader;
     friend class Texture;
     friend class Camera;
+    friend class RenderPass;
 };
 } // namespace re
 #endif //SIMPLERENDERENGINE_RENDERER_H

@@ -24,6 +24,14 @@ public:
         RenderPassBuilder& withName(const std::string& name);
         RenderPassBuilder& withCamera(const Camera& camera);
         RenderPassBuilder& withWorldLights(WorldLights* worldLights);
+        // Set the clear color.Default enabled with the color value {1.0,0.0,0.0,1.0}
+        RenderPassBuilder& withClearColor(bool enabled = true, glm::vec4 color = { 0, 0, 0, 1 });
+        // Set the clear depth. Value is clamped between [0.0;1.0], Default: enabled with depth value 1.0
+        RenderPassBuilder& withClearDepth(bool enabled = true, float value = 1);
+        // Set the clear depth. Value is clamped between, Default: disabled
+        RenderPassBuilder& withClearStencil(bool enabled = false, int value = 0);
+        // calls ImGui::Render() in the end of the renderpass
+        RenderPassBuilder& withGUI(bool enabled = true);
         RenderPass build();
 
     private:
@@ -31,6 +39,13 @@ public:
         RenderPassBuilder() = default;
 
     private:
+        glm::vec4 m_clearColorValue = { 1, 0, 0, 1 };
+        float m_clearDepthValue{ 1.0f };
+        int m_clearStencilValue{ 0 };
+        bool m_clearDepth{ true };
+        bool m_clearStencil{ false };
+        bool m_clearColor{ true };
+        bool m_gui{ false };
         std::string m_name;
         WorldLights* m_worldLights{ nullptr };
         RenderStats* m_renderStats{ nullptr };
@@ -43,13 +58,13 @@ public:
     RenderPass() = default;
     static RenderPassBuilder create();
     virtual ~RenderPass();
-    void clearScreen(glm::vec4 color, bool clearColorBuffer = true, bool clearDepthBuffer = true, bool clearStencil = false);
     void drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }, Mesh::Topology meshTopology = Mesh::Topology::LineStrip);
     void draw(Mesh* mesh, glm::mat4 modelTransform, Material* material);
 
 private:
-    RenderPass(Camera&& camera, WorldLights* worldLights, RenderStats* renderStats);
+    RenderPass(Camera&& camera, WorldLights* worldLights, RenderStats* renderStats, bool gui);
     void setupShader(const glm::mat4& modelTransform, Shader* shader);
+    void finish();
 
 private:
     Shader* m_lastBoundShader = { nullptr };
@@ -58,7 +73,8 @@ private:
     Camera m_camera{};
     WorldLights* m_worldLights{ nullptr };
     RenderStats* m_renderStats{ nullptr };
-    inline static RenderPass* m_currentRenderPass{ nullptr };
+    inline static RenderPass* m_instance{ nullptr };
+    bool m_gui{ false };
     friend class Renderer;
 };
 } // namespace re
