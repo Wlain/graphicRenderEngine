@@ -7,6 +7,7 @@
 #include "light.h"
 #include "texture.h"
 
+#include <map>
 #include <string>
 #include <vector>
 namespace re
@@ -14,6 +15,7 @@ namespace re
 class Texture;
 class WorldLights;
 class Material;
+class Mesh;
 class Shader
 {
 public:
@@ -39,13 +41,20 @@ public:
     struct Uniform
     {
         Uniform(const char* _name, int32_t _location, UniformType _type, int32_t _count) :
-            name(_name), id(_location), type(_type), arrayCount(_count) {}
+            name(_name), id(_location), type(_type), arraySize(_count) {}
         Uniform() = default;
         std::string name;
         int32_t id{ -1 };
         UniformType type{ UniformType::Invalid };
         // 1 means not array
-        int32_t arrayCount{ -1 };
+        int32_t arraySize{ -1 };
+    };
+
+    struct ShaderAttribute
+    {
+        int32_t position;
+        unsigned int type;
+        int32_t arraySize;
     };
 
     class ShaderBuilder
@@ -90,26 +99,32 @@ public:
     // "tex" Texture* (default white texture)
     // "specularity" float (default 0 = no specularity)
     static Shader* getStandard();
-
+    // StandardParticles
+    // Attributes
+    // "tex" Texture* (default alpha sphere texture)
     static Shader* getStandardParticles();
 
 public:
     ~Shader();
-    bool contains(std::string_view name);
-    Uniform getType(std::string_view name);
-    //    inline void setDepthTest(bool enable) { m_depthTest = enable; }
+    Uniform getUniformType(std::string_view name);
+    // return {element type, element count}
+    std::pair<int, int> getAttributeType(std::string_view name);
     inline bool isDepthTest() const { return m_depthTest; }
-    //    inline void setDepthWrite(bool enable) { m_depthWrite = enable; }
     inline bool isDepthWrite() const { return m_depthWrite; }
-    //    inline void setBlend(BlendType type) { m_blending = type; }
     inline BlendType getBlend() const { return m_blendType; }
+
+    std::vector<std::string> getAttributeNames();
+    std::vector<std::string> getUniformNames();
+
+    // 验证网格属性。如果无效，则将 info 变量设置为错误消息。此方法只应用于debug
+    bool validateMesh(Mesh* mesh, std::string& info);
 
 private:
     Shader();
     bool build(std::string_view vertexShader, std::string_view fragmentShader);
     void bind();
     bool setLights(WorldLights* worldLights, const glm::mat4& viewTransform);
-    void updateUniforms();
+    void updateUniformsAndAttributes();
 
 private:
     inline static Shader* s_unlit{ nullptr }; // 无灯光
@@ -123,6 +138,7 @@ private:
 private:
     BlendType m_blendType{ BlendType::Disabled };
     std::vector<Uniform> m_uniforms;
+    std::map<std::string, ShaderAttribute> m_attributes;
     unsigned int m_id{ 0 };
     bool m_depthTest{ true };
     bool m_depthWrite{ true };

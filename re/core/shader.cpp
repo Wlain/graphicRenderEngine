@@ -88,9 +88,9 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSource(std::string_view vertex
 Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandard()
 {
     m_vertexShaderStr = R"(#version 330
-        in vec4 position;
+        in vec3 position;
         in vec3 normal;
-        in vec2 uv;
+        in vec4 uv;
         out vec3 vNormal;
         out vec2 vUV;
         out vec3 vEyePos;
@@ -101,10 +101,10 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandard()
         uniform mat3 g_normalMat;
 
         void main(void) {
-            vec4 eyePos = g_view * g_model * position;
+            vec4 eyePos = g_view * g_model * vec4(position, 1.0);
             vEyePos = eyePos.xyz;
             vNormal = normalize(g_normalMat * normal);
-            vUV = uv;
+            vUV = uv.xy;
             gl_Position = g_projection * eyePos;
         }
     )";
@@ -193,9 +193,9 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandard()
 Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceUnlit()
 {
     m_vertexShaderStr = R"(#version 330
-        in vec4 position;
+        in vec3 position;
         in vec3 normal;
-        in vec2 uv;
+        in vec4 uv;
         out vec2 vUV;
 
         uniform mat4 g_model;
@@ -203,8 +203,8 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceUnlit()
         uniform mat4 g_projection;
 
         void main(void) {
-            vUV = uv;
-            gl_Position = g_projection * g_view * g_model * position;
+            vUV = uv.xy;
+            gl_Position = g_projection * g_view * g_model * vec4(position, 1.0);
         }
     )";
     m_fragmentShaderStr = R"(#version 330
@@ -223,9 +223,9 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceUnlit()
 Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceUnlitSprite()
 {
     m_vertexShaderStr = R"(#version 330
-        in vec4 position;
+        in vec3 position;
         in vec3 normal;
-        in vec2 uv;
+        in vec4 uv;
         out vec2 vUV;
 
         uniform mat4 g_model;
@@ -234,8 +234,8 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceUnlitSprite()
 
         void main(void)
         {
-            gl_Position = g_projection * g_view * g_model * position;
-            vUV = uv;
+            gl_Position = g_projection * g_view * g_model * vec4(position, 1.0);
+            vUV = uv.xy;
         }
         )";
     m_fragmentShaderStr = R"(#version 330
@@ -253,13 +253,16 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceUnlitSprite()
     return *this;
 }
 
+// 这个着色器中使用的粒子大小取决于屏幕大小的高度(使粒子分辨率独立)
+// 对于透视投影，在高度为600的视窗中，粒子的大小以屏幕空间大小定义，距离为1.0。
+// 对于正交影图，粒子的大小在高度为600的视窗中以屏幕空间大小定义。
 Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandardParticles()
 {
     m_vertexShaderStr = R"(#version 330
-        in vec4 position;
-        in vec3 normal;
+        in vec3 position;
         in vec4 uv;
         in vec4 color;
+        in float particleSize;
         out mat3 vUVMat;
         out vec4 vColor;
         out vec3 uvSize;
@@ -293,20 +296,15 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandardParticles()
         }
 
         void main(void) {
-            vec4 pos = vec4( position.xyz, 1.0);
+            vec4 pos = vec4(position, 1.0);
+            vec4 eyeSpacePos = g_view * g_model * pos;
             gl_Position = g_projection * g_view * g_model * pos;
             if (g_projection[2][3] != 0){ // if perspective projection
-                vec3 ndc = gl_Position.xyz / gl_Position.w ; // perspective divide.
-                float zDist = 1.0- ndc.z ; // 1 is close (right up in your face,)
-                if (zDist < 0.0 || zDist > 1.0)
-                {
-                    zDist = 0.0;
-                }
-                gl_PointSize = g_viewport.y * position.w * zDist;
+                 gl_PointSize = ((g_viewport.y / 600.0) * particleSize * 1.0 / -eyeSpacePos.z);
             }
             else
             {
-                gl_PointSize = 0.1 * position.w * g_viewport.y; // average x,y scale in orthographic projection
+                gl_PointSize = particleSize*(g_viewport.y / 600.0);
             }
             vUVMat = translate(uv.xy)*scale(uv.z) * translate(vec2(0.5,0.5))*rotate(uv.w) * translate(vec2(-0.5,-0.5));
             vColor = color;
@@ -448,7 +446,7 @@ bool Shader::setLights(WorldLights* worldLights, const glm::mat4& viewTransform)
         glm::vec4 lightColorRange[4];
         for (int i = 0; i < 4; i++)
         {
-            auto light = (worldLights == nullptr) ? nullptr : worldLights->getLight(i);
+            auto light = worldLights->getLight(i);
             if (light == nullptr || light->type == Light::Type::Unused)
             {
                 lightPosType[i] = glm::vec4(0.0f, 0.0f, 0.0f, 2);
@@ -513,15 +511,7 @@ void Shader::bind()
     // glBlendFunc(GL_ZERO, GL_ONE); // 此时，代表全部用framebuffer里存储的颜色,反之同理
 }
 
-bool Shader::contains(std::string_view name)
-{
-    bool result = std::any_of(m_uniforms.begin(), m_uniforms.end(), [&](const auto& u) {
-        return u.name == name;
-    });
-    return result;
-}
-
-Shader::Uniform Shader::getType(std::string_view name)
+Shader::Uniform Shader::getUniformType(std::string_view name)
 {
     for (const auto& u : m_uniforms)
     {
@@ -531,8 +521,9 @@ Shader::Uniform Shader::getType(std::string_view name)
     return {};
 }
 
-void Shader::updateUniforms()
+void Shader::updateUniformsAndAttributes()
 {
+    // update uniforms
     m_uniformLocationModel = -1;
     m_uniformLocationView = -1;
     m_uniformLocationProjection = -1;
@@ -683,6 +674,23 @@ void Shader::updateUniforms()
             }
         }
     }
+
+    // update attributes
+    m_attributes.clear();
+    int attributeCount;
+    glGetProgramiv(m_id, GL_ACTIVE_ATTRIBUTES, &attributeCount);
+
+    for (int i = 0; i < attributeCount; ++i)
+    {
+        const int nameSize = 50;
+        GLchar name[nameSize];
+        GLsizei nameLength;
+        GLint size;
+        GLenum type;
+        glGetActiveAttrib(m_id, i, nameSize, &nameLength, &size, &type, name);
+        auto location = glGetAttribLocation(m_id, name);
+        m_attributes[std::string(name)] = { location, type, size };
+    }
 }
 
 Shader::ShaderBuilder Shader::create()
@@ -704,18 +712,43 @@ bool Shader::build(std::string_view vertexShader, std::string_view fragmentShade
         }
         glAttachShader(m_id, s);
     }
-    std::string attributeNames[4] = { "position", "normal", "uv", "color" };
-    for (int i = 0; i < 4; i++)
-    {
-        glBindAttribLocation(m_id, i, attributeNames[i].c_str());
-    }
     bool linked = linkProgram(m_id);
     if (!linked)
     {
         return false;
     }
-    updateUniforms();
+    updateUniformsAndAttributes();
     return true;
+}
+
+std::vector<std::string> Shader::getAttributeNames()
+{
+    std::vector<std::string> names;
+    for (auto& u : m_attributes)
+    {
+        names.push_back(u.first);
+    }
+    return names;
+}
+
+std::vector<std::string> Shader::getUniformNames()
+{
+    std::vector<std::string> names;
+    for (auto& u : m_uniforms)
+    {
+        names.push_back(u.name);
+    }
+    return names;
+}
+
+std::pair<int, int> Shader::getAttributeType(std::string_view name)
+{
+    auto ret = m_attributes.find(name.data());
+    if (ret != m_attributes.end())
+    {
+        return { ret->second.type, ret->second.arraySize };
+    }
+    return { -1, -1 };
 }
 
 size_t Texture::getDataSize()
@@ -731,5 +764,44 @@ size_t Texture::getDataSize()
         size *= 6;
     }
     return size;
+}
+
+bool Shader::validateMesh(Mesh* mesh, std::string& info)
+{
+    bool valid = true;
+    for (auto& shaderVertexAttribute : m_attributes)
+    {
+        auto meshType = mesh->getType(shaderVertexAttribute.first);
+        if (meshType.first == -1)
+        {
+            valid = false;
+            info += "Cannot find vertex attribute '" + shaderVertexAttribute.first + "' in mesh of type ";
+            if (shaderVertexAttribute.second.type == GL_FLOAT)
+            {
+                info += "float";
+            }
+            else if (shaderVertexAttribute.second.type == GL_FLOAT_VEC2)
+            {
+                info += "vec2";
+            }
+            else if (shaderVertexAttribute.second.type == GL_FLOAT_VEC3)
+            {
+                info += "vec3";
+            }
+            else if (shaderVertexAttribute.second.type == GL_FLOAT_VEC4)
+            {
+                info += "vec4";
+            }
+            else if (shaderVertexAttribute.second.type == GL_INT_VEC4)
+            {
+                info += "ivec4";
+            }
+            info += "\n";
+        }
+        else
+        {
+        }
+    }
+    return valid;
 }
 } // namespace re

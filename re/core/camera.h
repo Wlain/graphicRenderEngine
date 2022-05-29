@@ -13,7 +13,7 @@ class Camera
 public:
     Camera();
     void setLookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up);
-    void setPerspectiveProjection(float fieldOfViewY, float viewportWidth, float viewportHeight, float nearPlane, float farPlane);
+    void setPerspectiveProjection(float fieldOfViewY, float nearPlane, float farPlane);
     // left left plane of projection
     // right right plane of projection
     // bottom bottom plane of projection
@@ -26,12 +26,15 @@ public:
     void setViewport(int x, int y, int width, int height);
 
 private:
+    void lazyInstantiateViewport();
+
+private:
     glm::mat4 m_viewTransform{ 1.0f };
     glm::mat4 m_projectionTransform{ 1.0f };
     int m_viewportX{};
     int m_viewportY{};
-    int m_viewportWidth{};
-    int m_viewportHeight{};
+    int m_viewportWidth{ -1 };
+    int m_viewportHeight{ -1 };
     friend class RenderPass;
 };
 } // namespace re

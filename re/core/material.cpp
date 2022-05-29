@@ -118,7 +118,7 @@ void Material::setName(std::string_view name)
 template <>
 Texture* Material::get(std::string_view uniformName)
 {
-    auto t = m_shader->getType(uniformName.data());
+    auto t = m_shader->getUniformType(uniformName.data());
     if (t.type != Shader::UniformType::Texture && t.type != Shader::UniformType::TextureCube)
     {
         return nullptr;
@@ -136,7 +136,7 @@ Texture* Material::get(std::string_view uniformName)
 template <>
 glm::vec4 Material::get(std::string_view uniformName)
 {
-    auto t = m_shader->getType(uniformName.data());
+    auto t = m_shader->getUniformType(uniformName.data());
     if (t.type != Shader::UniformType::Vec4)
     {
         return glm::vec4{ 0.0 };
@@ -154,7 +154,7 @@ glm::vec4 Material::get(std::string_view uniformName)
 template <>
 float Material::get(std::string_view uniformName)
 {
-    auto t = m_shader->getType(uniformName.data());
+    auto t = m_shader->getUniformType(uniformName.data());
     if (t.type != Shader::UniformType::Float)
     {
         return 0.0f;
@@ -201,7 +201,7 @@ bool Material::setTexture(Texture* texture)
 
 bool Material::set(std::string_view uniformName, const glm::vec4& value)
 {
-    auto type = m_shader->getType(uniformName.data());
+    auto type = m_shader->getUniformType(uniformName.data());
     for (auto& v : m_vectorValues)
     {
         if (v.id == type.id)
@@ -215,7 +215,7 @@ bool Material::set(std::string_view uniformName, const glm::vec4& value)
 
 bool Material::set(std::string_view uniformName, float value)
 {
-    auto type = m_shader->getType(uniformName.data());
+    auto type = m_shader->getUniformType(uniformName.data());
     for (auto& v : m_floatValues)
     {
         if (v.id == type.id)
@@ -227,14 +227,14 @@ bool Material::set(std::string_view uniformName, float value)
     return false;
 }
 
-bool Material::set(std::string_view uniformName, Texture* value)
+bool Material::set(std::string_view uniformName, Texture* texture)
 {
-    auto type = m_shader->getType(uniformName.data());
+    auto type = m_shader->getUniformType(uniformName.data());
     for (auto& v : m_textureValues)
     {
         if (v.id == type.id)
         {
-            v.value = value;
+            v.value = texture;
             return true;
         }
     }

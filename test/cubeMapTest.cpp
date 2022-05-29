@@ -8,25 +8,17 @@
 // Created by william on 2022/5/26.
 //
 
+#include "basicProject.h"
 #include "commonMacro.h"
-#include "core/material.h"
-#include "core/mesh.h"
-#include "core/renderer.h"
-#include "core/shader.h"
 
-#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 
-using namespace re;
-
-static int s_canvasWidth = 640;
-static int s_canvasHeight = 480;
-static constexpr const char* title = "cubeMapText";
-
-static constexpr const char* vertexShaderStr = R"(#version 330
-        in vec4 position;
+namespace
+{
+constexpr const char* vertexShaderStr = R"(#version 330
+        in vec3 position;
         in vec3 normal;
         in vec2 uv;
         out vec3 vNormal;
@@ -37,11 +29,11 @@ static constexpr const char* vertexShaderStr = R"(#version 330
         uniform mat3 g_normalMat;
 
         void main(void) {
-            gl_Position = g_projection * g_view * g_model * position;
+            gl_Position = g_projection * g_view * g_model * vec4(position, 1.0);
             vNormal = normal;
         }
     )";
-static constexpr const char* fragmentShaderStr = R"(#version 330
+constexpr const char* fragmentShaderStr = R"(#version 330
         out vec4 fragColor;
         in vec3 vNormal;
 
@@ -52,51 +44,48 @@ static constexpr const char* fragmentShaderStr = R"(#version 330
             fragColor = texture(tex, vNormal);
         }
     )";
+} // namespace
+
+class CubeMapExample : public BasicProject
+{
+public:
+    using BasicProject::BasicProject;
+    ~CubeMapExample() override = default;
+    void run() override
+    {
+        glm::vec3 eye{ 0, 0, 3 };
+        glm::vec3 at{ 0, 0, 0 };
+        glm::vec3 up{ 0, 1, 0 };
+        m_camera.setLookAt(eye, at, up);
+        m_camera.setPerspectiveProjection(60.0f, 0.1f, 100.0f);
+        m_shader = std::unique_ptr<Shader>(Shader::create().withSource(vertexShaderStr, fragmentShaderStr).build());
+        m_material = std::make_unique<Material>(m_shader.get());
+        auto* tex = Texture::create()
+                        .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posx.png"), Texture::CubeMapSide::PositiveX)
+                        .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negx.png"), Texture::CubeMapSide::NegativeX)
+                        .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posy.png"), Texture::CubeMapSide::PositiveY)
+                        .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negy.png"), Texture::CubeMapSide::NegativeY)
+                        .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posz.png"), Texture::CubeMapSide::PositiveZ)
+                        .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negz.png"), Texture::CubeMapSide::NegativeZ)
+                        .build();
+        m_material->setTexture(tex);
+        m_mesh.reset(Mesh::create().withSphere().build());
+        BasicProject::run();
+    }
+    void render(Renderer* r) override
+    {
+        /// 渲染
+        auto renderPass = r->createRenderPass().withCamera(m_camera).build();
+        renderPass.draw(m_mesh.get(), glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material.get());
+    }
+    void setTitle() override
+    {
+        m_renderer.setWindowTitle("CubeMapExample");
+    }
+};
 
 void cubeMapText()
 {
-    LOG_INFO("{}", title);
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-    // glfw window creation
-    auto window = glfwCreateWindow(s_canvasWidth, s_canvasHeight, title, nullptr, nullptr);
-    if (window == nullptr)
-    {
-        glfwTerminate();
-    }
-    Renderer r{ window };
-    glm::vec3 eye{ 0, 0, 3 };
-    glm::vec3 at{ 0, 0, 0 };
-    glm::vec3 up{ 0, 1, 0 };
-    auto camera = std::make_unique<Camera>();
-    camera->setLookAt(eye, at, up);
-    camera->setPerspectiveProjection(60.0f, s_canvasWidth, s_canvasHeight, 0.1f, 100.0f);
-    auto* shader = Shader::create().withSource(vertexShaderStr, fragmentShaderStr).build();
-    auto* material = new Material(shader);
-    auto* tex = Texture::create()
-                    .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posx.png"), Texture::TextureCubemapSide::PositiveX)
-                    .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negx.png"), Texture::TextureCubemapSide::NegativeX)
-                    .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posy.png"), Texture::TextureCubemapSide::PositiveY)
-                    .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negy.png"), Texture::TextureCubemapSide::NegativeY)
-                    .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posz.png"), Texture::TextureCubemapSide::PositiveZ)
-                    .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negz.png"), Texture::TextureCubemapSide::NegativeZ)
-                    .build();
-
-    material->setTexture(tex);
-    auto* mesh = Mesh::create().withSphere().build();
-
-    while (!glfwWindowShouldClose(window))
-    {
-        /// 渲染
-        auto renderPass = r.createRenderPass().withCamera(*camera).build();
-        renderPass.draw(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), material);
-        r.swapWindow();
-    }
-    glfwTerminate();
-    exit(EXIT_SUCCESS);
+    CubeMapExample test;
+    test.run();
 }

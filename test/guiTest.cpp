@@ -1,71 +1,63 @@
 //
 // Created by william on 2022/5/24.
 //
+#include "basicProject.h"
 #include "commonMacro.h"
-#include "core/material.h"
-#include "core/mesh.h"
-#include "core/renderer.h"
-#include "core/shader.h"
-#include "core/worldLights.h"
 #include "guiCommonDefine.h"
 
-#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 
 using namespace re;
 
-static int s_canvasWidth = 640;
-static int s_canvasHeight = 480;
-static constexpr const char* title = "guiTest";
-
-void guiTest()
+class GuiExamples : public BasicProject
 {
-    LOG_INFO("{}", title);
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-    // glfw window creation
-    auto window = glfwCreateWindow(s_canvasWidth, s_canvasHeight, title, nullptr, nullptr);
-    if (window == nullptr)
-    {
-        glfwTerminate();
-    }
-    Renderer r{ window };
-    auto camera = std::make_unique<Camera>();
-    camera->setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
-    camera->setPerspectiveProjection(60, 640, 480, 0.1, 100);
-    auto* shader = Shader::getStandard();
-    auto* material = new Material(shader);
-    material->setShader(shader);
-    auto* mesh = Mesh::create().withCube().build();
-    float specularity = 20.0f;
-    ImVec4 clearColor = ImColor(114, 144, 154);
-    auto worldLights = std::make_unique<WorldLights>();
-    worldLights->addLight(Light::create().withPointLight({ 0, 0, 10 }).withColor({ 1, 0, 0 }).withRange(50).build());
+public:
+    using BasicProject::BasicProject;
+    ~GuiExamples() override = default;
 
-    while (!glfwWindowShouldClose(window))
+    void run() override
     {
-        /// 渲染
-        auto renderPass = r.createRenderPass().withCamera(*camera).withWorldLights(worldLights.get()).withGUI(true).build();
-        material->setSpecularity(specularity);
-        renderPass.draw(mesh, glm::eulerAngleY(glm::radians(360 * (float)glfwGetTime() * 0.1f)), material);
+        m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
+        m_camera.setPerspectiveProjection(60, 0.1, 100);
+        m_shader = std::unique_ptr<Shader>(Shader::getStandard());
+        m_material = std::make_unique<Material>(m_shader.get());
+        m_mesh.reset(Mesh::create().withCube().build());
+        m_worldLights = std::make_unique<WorldLights>();
+        m_worldLights->addLight(Light::create().withPointLight({ 0, 0, 10 }).withColor({ 1, 0, 0 }).withRange(50).build());
+        BasicProject::run();
+    }
+
+    void render(Renderer* r) override
+    {
+        auto renderPass = r->createRenderPass().withCamera(m_camera).withWorldLights(m_worldLights.get()).withGUI(true).build();
+        m_material->setSpecularity(m_specularity);
+        renderPass.draw(m_mesh.get(), glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_material.get());
         ImGui::Begin("guiTest");
-        ImGui::SliderFloat("specularity", &specularity, 0.0f, 40.0f);
-        ImGui::ColorEdit3("clear color", (float*)&clearColor);
+        ImGui::SliderFloat("specularity", &m_specularity, 0.0f, 40.0f);
+        ImGui::ColorEdit3("clear color", (float*)&m_clearColor);
         ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        auto& renderStats = r.getRenderStats();
+        auto& renderStats = r->getRenderStats();
         float bytesToMB = 1.0f; /// (1024 * 1024);
         ImGui::Text("re draw-calls %i meshes %i (%.2fbytes) textures %i (%.2fbytes) shaders %i", renderStats.drawCalls,
                     renderStats.meshCount, renderStats.meshBytes * bytesToMB, renderStats.textureCount,
                     renderStats.textureBytes * bytesToMB, renderStats.shaderCount);
         ImGui::End();
-        r.swapWindow();
     }
-    glfwTerminate();
+
+    void setTitle() override
+    {
+        m_renderer.setWindowTitle("GuiExamples");
+    }
+
+private:
+    float m_specularity = 20.0f;
+    ImVec4 m_clearColor = ImColor(114, 144, 154);
+};
+
+void guiTest()
+{
+    GuiExamples test;
+    test.run();
 }

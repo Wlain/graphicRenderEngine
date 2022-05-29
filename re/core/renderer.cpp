@@ -53,8 +53,6 @@ void Renderer::swapWindow()
     {
         RenderPass::m_instance->finish();
     }
-    if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(m_window, true);
     m_renderStatsLast = m_renderStatsCurrent;
     m_renderStatsCurrent.frame++;
     m_renderStatsCurrent.drawCalls = 0;
@@ -64,10 +62,8 @@ void Renderer::swapWindow()
 
 glm::ivec2 Renderer::getWindowSize()
 {
-    {
-        glm::ivec2 size;
-        glfwGetFramebufferSize(m_window, &size.r, &size.g);
-        return size;
-    }
+    glm::ivec2 size;
+    glfwGetFramebufferSize(m_window, &size.r, &size.g);
+    return size;
 }
 } // namespace re

@@ -102,7 +102,7 @@ void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 col
 {
     ASSERT(m_instance != nullptr);
     auto* mesh = Mesh::create()
-                     .withVertexPosition(vertices)
+                     .withPosition(vertices)
                      .withMeshTopology(meshTopology)
                      .build();
     auto* shader = Shader::create()
@@ -129,7 +129,7 @@ void RenderPass::draw(Mesh* mesh, glm::mat4 modelTransform, Material* material)
     {
         m_renderStats->stateChangesMesh++;
         m_lastBoundMesh = mesh;
-        mesh->bind();
+        mesh->bind(material->getShader());
     }
     int indexCount = mesh->getIndices().size();
     if (indexCount == 0)
@@ -147,6 +147,7 @@ RenderPass::RenderPass(Camera&& camera, WorldLights* worldLights, RenderStats* r
 {
     if (m_instance) m_instance->finish();
     //    glEnable(GL_SCISSOR_TEST);
+    m_camera.lazyInstantiateViewport();
     glScissor(m_camera.m_viewportX, m_camera.m_viewportY, m_camera.m_viewportWidth, m_camera.m_viewportHeight);
     glViewport(m_camera.m_viewportX, m_camera.m_viewportY, m_camera.m_viewportWidth, m_camera.m_viewportHeight);
     m_instance = this;
@@ -197,7 +198,7 @@ void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
         // viewport
         if (shader->m_uniformLocationViewport != -1)
         {
-            glm::vec4 viewport((float)m_camera.m_viewportWidth, (float)m_camera.m_viewportHeight, 0, 0);
+            glm::vec4 viewport((float)m_camera.m_viewportWidth, (float)m_camera.m_viewportHeight, (float)m_camera.m_viewportX, (float)m_camera.m_viewportY);
             glUniform4fv(shader->m_uniformLocationViewport, 1, glm::value_ptr(viewport));
         }
         shader->setLights(m_worldLights, m_camera.getViewTransform());

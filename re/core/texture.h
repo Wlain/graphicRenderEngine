@@ -24,7 +24,7 @@ public:
         RGB
     };
 
-    enum class TextureCubemapSide
+    enum class CubeMapSide
     {
         PositiveX,
         NegativeX,
@@ -57,9 +57,9 @@ public:
         TextureBuilder& withFilterSampling(bool enable);
         TextureBuilder& withWrappedTextureCoordinates(bool enable);
         TextureBuilder& withFile(const char* filename);
-        TextureBuilder& withFileCubeMap(const char* filename, TextureCubemapSide side);
+        TextureBuilder& withFileCubeMap(const char* filename, CubeMapSide side);
         TextureBuilder& withRGBAData(const char* data, int width, int height);
-        TextureBuilder& withWhiteData(int width = 2, int height = 2);
+        TextureBuilder& withWhiteData(int width = 1, int height = 1);
         Texture* build();
 
     private:

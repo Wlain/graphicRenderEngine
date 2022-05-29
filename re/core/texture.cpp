@@ -134,7 +134,7 @@ Texture::TextureBuilder::TextureBuilder()
     glGenTextures(1, &m_info.id);
 }
 
-Texture::TextureBuilder& Texture::TextureBuilder::withFileCubeMap(const char* filename, Texture::TextureCubemapSide side)
+Texture::TextureBuilder& Texture::TextureBuilder::withFileCubeMap(const char* filename, Texture::CubeMapSide side)
 {
     m_info.target = GL_TEXTURE_CUBE_MAP;
     GLint mipmapLevel = 0;
@@ -216,7 +216,7 @@ Texture::Texture(int32_t id, int width, int height, uint32_t target)
 {
     m_info.id = id;
     m_info.width = width;
-    m_info.width = width;
+    m_info.height = height;
     m_info.target = target;
     // update stats
     RenderStats& renderStats = Renderer::s_instance->m_renderStatsCurrent;

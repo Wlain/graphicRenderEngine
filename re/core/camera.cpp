@@ -12,12 +12,7 @@ namespace re
 {
 Camera::Camera()
 {
-    if (Renderer::s_instance)
-    {
-        auto size = Renderer::s_instance->getWindowSize();
-        m_viewportWidth = size.x;
-        m_viewportHeight = size.y;
-    }
+    lazyInstantiateViewport();
 }
 
 void Camera::setLookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up)
@@ -25,9 +20,10 @@ void Camera::setLookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up)
     m_viewTransform = glm::lookAt(eye, at, up);
 }
 
-void Camera::setPerspectiveProjection(float fieldOfViewY, float viewportWidth, float viewportHeight, float nearPlane, float farPlane)
+void Camera::setPerspectiveProjection(float fieldOfViewY, float nearPlane, float farPlane)
 {
-    m_projectionTransform = glm::perspectiveFov(glm::radians(fieldOfViewY), viewportWidth, viewportHeight, nearPlane, farPlane);
+    lazyInstantiateViewport();
+    m_projectionTransform = glm::perspectiveFov(glm::radians(fieldOfViewY), (float)m_viewportWidth, (float)m_viewportHeight, nearPlane, farPlane);
 }
 
 void Camera::setOrthographicProjection(float left, float right, float bottom, float top, float zNear, float zFar)
@@ -42,4 +38,15 @@ void Camera::setViewport(int x, int y, int width, int height)
     m_viewportWidth = width;
     m_viewportHeight = height;
 }
+
+void Camera::lazyInstantiateViewport()
+{
+    if (Renderer::s_instance && m_viewportWidth == -1)
+    {
+        auto size = Renderer::s_instance->getWindowSize();
+        m_viewportWidth = size.x;
+        m_viewportHeight = size.y;
+    }
+}
+
 } // namespace re

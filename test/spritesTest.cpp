@@ -1,21 +1,12 @@
 //
 // Created by william on 2022/5/24.
 //
+#include "basicProject.h"
 #include "commonMacro.h"
-#include "core/material.h"
-#include "core/mesh.h"
-#include "core/renderer.h"
-#include "core/shader.h"
-#include "core/texture.h"
 
-#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
 using namespace re;
-
-static int s_canvasWidth = 640;
-static int s_canvasHeight = 480;
-static constexpr const char* title = "spriteTest";
 
 namespace
 {
@@ -23,30 +14,30 @@ Mesh* createParticles()
 {
     std::vector<glm::vec3> positions;
     std::vector<glm::vec4> colors;
-    std::vector<glm::vec2> uvCenter;
+    std::vector<glm::vec4> uvs;
     std::vector<float> sizes;
     positions.emplace_back(0, 0, 0);
+    colors.emplace_back(1, 1, 1, 1);
     sizes.emplace_back(10.0f);
     return Mesh::create()
-        .withVertexPosition(positions)
-        .withColors(colors)
-        .withUvs(colors)
+        .withPosition(positions)
+        .withColor(colors)
+        .withUv(uvs)
         .withParticleSize(sizes)
         .withMeshTopology(Mesh::Topology::Points)
         .build();
 }
 
-void updateParticlesAnimation(float time, glm::vec2& pos, float& size, float& rotation)
+void updateParticlesAnimation(float time, glm::vec4& pos, float& size, float& rotation)
 {
     int frame = ((int)(time * 10)) % 16;
     int frameX = 3 - frame % 4;
     int frameY = frame / 4;
-    pos = glm::vec2(frameX * 0.25f, frameY * 0.25f);
+    pos = glm::vec4(frameX * 0.25f, frameY * 0.25f, 0.0f, rotation);
     size = 0.25f;
-    rotation = 0;
 }
 
-void updateParticles(Mesh* mesh, glm::vec2 uv, float uvSize, float rotation, float size)
+void updateParticles(Mesh* mesh, glm::vec4 uv, float uvSize, float rotation, float size)
 {
     std::vector<glm::vec3> positions;
     std::vector<glm::vec4> uvs;
@@ -55,56 +46,52 @@ void updateParticles(Mesh* mesh, glm::vec2 uv, float uvSize, float rotation, flo
     uvs.emplace_back(uv.x, uv.y, uvSize, rotation);
     sizes.push_back(size);
     mesh->update()
-        .withVertexPosition(positions)
-        .withUvs(uvs)
+        .withPosition(positions)
+        .withUv(uvs)
         .withParticleSize(sizes)
         .build();
 }
 } // namespace
 
+class SpritesExample : public BasicProject
+{
+public:
+    using BasicProject::BasicProject;
+    ~SpritesExample() = default;
+
+    void run() override
+    {
+        m_camera.setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+        m_camera.setPerspectiveProjection(60, 0.1, 100);
+        m_shader = std::unique_ptr<Shader>(Shader::getStandardParticles());
+        m_material = std::make_unique<Material>(m_shader.get());
+        m_material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/sprite.png")).build());
+        m_mesh.reset(createParticles());
+        BasicProject::run();
+    }
+
+    void render(Renderer* r) override
+    {
+        auto renderPass = r->createRenderPass().withCamera(m_camera).build();
+        updateParticlesAnimation(m_totalTime, spriteUV, m_uvSize, m_uvRotation);
+        updateParticles(m_mesh.get(), spriteUV, m_uvSize, m_uvRotation, m_spritesize);
+        renderPass.draw(m_mesh.get(), glm::mat4(1), m_material.get());
+    }
+
+    void setTitle() override
+    {
+        m_renderer.setWindowTitle("SpritesExample");
+    }
+
+private:
+    glm::vec4 spriteUV{ 0 };
+    float m_uvSize{ 1.0 };
+    float m_uvRotation{ 1.0f };
+    float m_spritesize{ 500.0f };
+};
+
 void spriteTest()
 {
-    LOG_INFO("{}", title);
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-    // glfw window creation
-    auto window = glfwCreateWindow(s_canvasWidth, s_canvasHeight, title, nullptr, nullptr);
-    if (window == nullptr)
-    {
-        glfwTerminate();
-    }
-    Renderer r{ window };
-    auto camera = std::make_unique<Camera>();
-    auto canvasSize = r.getWindowSize();
-    camera->setViewport(0, 0, canvasSize.x / 6, canvasSize.y / 6);
-    camera->setLookAt({ 0.0f, 0.0f, 50.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-    camera->setPerspectiveProjection(60.0f, canvasSize.x, canvasSize.y, 0.1f, 100.0f);
-    auto* shaderParticle = Shader::getStandardParticles();
-    auto* material = new Material(shaderParticle);
-    material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/sprite.png")).build());
-    auto* particleMesh = createParticles();
-    auto spriteColor = glm::vec4(114, 144, 154, 255);
-    auto spriteUV = glm::vec2(0, 0);
-    float uvSize = 1.0;
-    float uvRotation = 0.0;
-    float spritesize = 2000.0f;
-    float time = 0;
-    while (!glfwWindowShouldClose(window))
-    {
-        /// 渲染
-        auto renderPass = r.createRenderPass().withCamera(*camera).build();
-        updateParticlesAnimation(time, spriteUV, uvSize, uvRotation);
-        updateParticles(particleMesh, spriteUV, uvSize, uvRotation, spritesize);
-        glViewport(0, 0, canvasSize.x, canvasSize.y);
-        renderPass.draw(particleMesh, glm::mat4(1), material);
-        r.swapWindow();
-        time += 0.016f;
-    }
-    glfwTerminate();
-    exit(EXIT_SUCCESS);
+    SpritesExample test;
+    test.run();
 }
