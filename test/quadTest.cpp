@@ -22,10 +22,10 @@ public:
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
         m_camera->setPerspectiveProjection(60, 0.1, 100);
-        m_shader = std::unique_ptr<Shader>(Shader::getUnlit());
-        m_material = std::make_unique<Material>(m_shader.get());
+        m_shader = Shader::getUnlit();
+        m_material = std::make_unique<Material>(m_shader);
         m_material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/test.jpg")).build());
-        m_mesh.reset(Mesh::create().withQuad().build());
+        m_mesh = Mesh::create().withQuad().build();
         BasicProject::run();
     }
 
@@ -33,7 +33,7 @@ public:
     {
         /// 渲染
         auto renderPass = r->createRenderPass().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
-        renderPass.draw(m_mesh.get(), glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_material.get());
+        renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_material.get());
     }
 
     void setTitle() override

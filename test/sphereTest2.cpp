@@ -21,16 +21,16 @@ public:
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
         m_camera->setPerspectiveProjection(60, 0.1, 100);
-        m_shader = std::unique_ptr<Shader>(Shader::getStandard());
-        m_material = std::make_unique<Material>(m_shader.get());
+        m_shader = Shader::getStandard();
+        m_material = std::make_unique<Material>(m_shader);
         m_material->setColor({ 1, 1, 1, 1 });
         m_material->setSpecularity(50.0f);
         m_pos1 = glm::translate(glm::mat4(1), { -1, 0, 0 });
-        m_material2 = std::make_unique<Material>(m_shader.get());
+        m_material2 = std::make_unique<Material>(m_shader);
         m_material2->setColor({ 1, 0, 0, 1 });
         m_material2->setSpecularity(0.0f);
         m_pos2 = glm::translate(glm::mat4(1), { 1, 0, 0 });
-        m_mesh.reset(Mesh::create().withSphere().build());
+        m_mesh = Mesh::create().withSphere().build();
         m_worldLights = std::make_unique<WorldLights>();
         m_worldLights->addLight(Light::create().withDirectionalLight({ 0, 2, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
         BasicProject::run();
@@ -40,8 +40,8 @@ public:
     {
         /// 渲染
         auto renderPass = r->createRenderPass().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
-        renderPass.draw(m_mesh.get(), m_pos1, m_material.get());
-        renderPass.draw(m_mesh.get(), m_pos2, m_material2.get());
+        renderPass.draw(m_mesh, m_pos1, m_material.get());
+        renderPass.draw(m_mesh, m_pos2, m_material2.get());
     }
 
     void setTitle() override

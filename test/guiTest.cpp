@@ -22,9 +22,9 @@ public:
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
         m_camera->setPerspectiveProjection(60, 0.1, 100);
-        m_shader = std::unique_ptr<Shader>(Shader::getStandard());
-        m_material = std::make_unique<Material>(m_shader.get());
-        m_mesh.reset(Mesh::create().withCube().build());
+        m_shader = Shader::getStandard();
+        m_material = std::make_unique<Material>(m_shader);
+        m_mesh = Mesh::create().withCube().build();
         m_worldLights = std::make_unique<WorldLights>();
         m_worldLights->addLight(Light::create().withPointLight({ 0, 0, 10 }).withColor({ 1, 0, 0 }).withRange(50).build());
         BasicProject::run();
@@ -34,7 +34,7 @@ public:
     {
         auto renderPass = r->createRenderPass().withCamera(*m_camera).withWorldLights(m_worldLights.get()).withGUI(true).build();
         m_material->setSpecularity(m_specularity);
-        renderPass.draw(m_mesh.get(), glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_material.get());
+        renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_material.get());
         ImGui::Begin("guiTest");
         ImGui::SliderFloat("specularity", &m_specularity, 0.0f, 40.0f);
         ImGui::ColorEdit3("clear color", (float*)&m_clearColor);

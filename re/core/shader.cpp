@@ -348,21 +348,21 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withBlend(Shader::BlendType blendT
     return *this;
 }
 
-Shader* Shader::ShaderBuilder::build()
+std::shared_ptr<Shader> Shader::ShaderBuilder::build()
 {
     auto* shader = new Shader();
     if (!shader->build(m_vertexShaderStr, m_fragmentShaderStr))
     {
         delete shader;
-        return nullptr;
+        return {};
     }
     shader->m_depthTest = m_depthTest;
     shader->m_depthWrite = m_depthWrite;
     shader->m_blendType = m_blendType;
-    return shader;
+    return std::shared_ptr<Shader>(shader);
 }
 
-Shader* Shader::getUnlit()
+std::shared_ptr<Shader> Shader::getUnlit()
 {
     if (s_unlit != nullptr)
     {
@@ -374,7 +374,7 @@ Shader* Shader::getUnlit()
     return s_unlit;
 }
 
-Shader* Shader::getUnlitSprite()
+std::shared_ptr<Shader> Shader::getUnlitSprite()
 {
     if (s_unlitSprite != nullptr)
     {
@@ -389,7 +389,7 @@ Shader* Shader::getUnlitSprite()
     return s_unlitSprite;
 }
 
-Shader* Shader::getStandard()
+std::shared_ptr<Shader> Shader::getStandard()
 {
     if (s_standard != nullptr)
     {
@@ -399,7 +399,7 @@ Shader* Shader::getStandard()
     return s_standard;
 }
 
-Shader* Shader::getStandardParticles()
+std::shared_ptr<Shader> Shader::getStandardParticles()
 {
     if (s_standardParticles != nullptr)
     {
@@ -425,8 +425,11 @@ Shader::Shader()
 
 Shader::~Shader()
 {
-    glDeleteShader(m_id);
-    Renderer::s_instance->m_renderStatsCurrent.shaderCount--;
+    if (Renderer::s_instance)
+    {
+        glDeleteShader(m_id);
+        Renderer::s_instance->m_renderStatsCurrent.shaderCount--;
+    }
 }
 
 bool Shader::setLights(WorldLights* worldLights, const glm::mat4& viewTransform)

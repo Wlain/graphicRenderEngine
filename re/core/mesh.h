@@ -16,7 +16,7 @@ namespace re
 {
 class Shader;
 
-class Mesh
+class Mesh : public std::enable_shared_from_this<Mesh>
 {
 public:
     enum class Topology : uint8_t
@@ -47,7 +47,7 @@ public:
         MeshBuilder& withUniform(std::string_view name, const std::vector<glm::i32vec4>& values);
         MeshBuilder& withMeshTopology(Topology topology);
         MeshBuilder& withIndices(const std::vector<uint16_t>& indices);
-        Mesh* build();
+        std::shared_ptr<Mesh> build();
 
     private:
         MeshBuilder() = default;
@@ -70,7 +70,7 @@ public:
     MeshBuilder update();
 
 public:
-    ~Mesh();
+    virtual ~Mesh();
     inline int32_t getVertexCount() const { return m_vertexCount; }
     inline Topology topology() const { return m_topology; }
     inline const std::vector<uint16_t>& getIndices() const { return m_indices; }

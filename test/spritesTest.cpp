@@ -3,14 +3,14 @@
 //
 #include "basicProject.h"
 #include "commonMacro.h"
-//#include <iostream>
+
 #include <glm/glm.hpp>
 
 using namespace re;
 
 namespace
 {
-Mesh* createParticles()
+std::shared_ptr<Mesh> createParticles()
 {
     std::vector<glm::vec3> positions;
     std::vector<glm::vec4> colors;
@@ -64,10 +64,10 @@ public:
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
         m_camera->setPerspectiveProjection(60, 0.1, 100);
-        m_shader = std::unique_ptr<Shader>(Shader::getStandardParticles());
-        m_material = std::make_unique<Material>(m_shader.get());
+        m_shader = Shader::getStandardParticles();
+        m_material = std::make_unique<Material>(m_shader);
         m_material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/sprite.png")).build());
-        m_mesh.reset(createParticles());
+        m_mesh = createParticles();
         BasicProject::run();
     }
 
@@ -76,7 +76,7 @@ public:
         auto renderPass = r->createRenderPass().withCamera(*m_camera).build();
         updateParticlesAnimation(m_totalTime, spriteUV, m_uvSize, m_uvRotation);
         updateParticles(m_mesh.get(), spriteUV, m_uvSize, m_uvRotation, m_spritesize);
-        renderPass.draw(m_mesh.get(), glm::mat4(1), m_material.get());
+        renderPass.draw(m_mesh, glm::mat4(1), m_material.get());
     }
 
     void setTitle() override

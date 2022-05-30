@@ -24,12 +24,12 @@ public:
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
         m_camera->setPerspectiveProjection(60, 0.1, 100);
-        m_shader = std::unique_ptr<Shader>(Shader::getUnlit());
-        m_material = std::make_unique<Material>(m_shader.get());
+        m_shader = Shader::getUnlit();
+        m_material = std::make_unique<Material>(m_shader);
         m_material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/test.jpg")).build());
-        m_mesh.reset(Mesh::create()
-                         .withCube()
-                         .build());
+        m_mesh = Mesh::create()
+                     .withCube()
+                     .build();
         BasicProject::run();
     }
 
@@ -41,7 +41,7 @@ public:
     void render(Renderer* r) override
     {
         auto renderPass = r->createRenderPass().withCamera(*m_camera).withClearColor(true, { 1, 0, 0, 1 }).build();
-        renderPass.draw(m_mesh.get(), glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material.get());
+        renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material.get());
     }
 };
 

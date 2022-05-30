@@ -102,26 +102,25 @@ void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 col
 {
     ASSERT(m_instance != nullptr);
     // 使用static变量，共享mesh
-    static auto* mesh = Mesh::create()
-                            .withPositions(vertices)
-                            .withMeshTopology(meshTopology)
-                            .build();
-    // 使用static变量，共享shader
-    static auto* shader = Shader::create()
-                              .withSourceUnlit()
-                              .build();
-    static Material material{ shader };
+    static std::shared_ptr<Mesh> mesh = Mesh::create()
+                                            .withPositions(vertices)
+                                            .withMeshTopology(meshTopology)
+                                            .build();
+    static Material material{ Shader::getUnlit() };
     material.setColor(color);
     // 更新共享的mesh
     mesh->update().withPositions(vertices).withMeshTopology(meshTopology).build();
     draw(mesh, glm::mat4(1), &material);
 }
 
-void RenderPass::draw(Mesh* mesh, glm::mat4 modelTransform, Material* material)
+void RenderPass::draw(const std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTransform, Material* material)
 {
     ASSERT(m_instance != nullptr);
+    auto* mesh = meshPtr.get();
+    auto* shader = material->getShader().get();
+    assert(mesh != nullptr);
     m_renderStats->drawCalls++;
-    setupShader(modelTransform, material->getShader());
+    setupShader(modelTransform, shader);
     if (material != m_lastBoundMaterial)
     {
         m_renderStats->stateChangesMaterial++;
@@ -133,7 +132,7 @@ void RenderPass::draw(Mesh* mesh, glm::mat4 modelTransform, Material* material)
         m_renderStats->stateChangesMesh++;
         m_lastBoundMesh = mesh;
     }
-    mesh->bind(material->getShader());
+    mesh->bind(shader);
     int indexCount = mesh->getIndices().size();
     if (indexCount == 0)
     {

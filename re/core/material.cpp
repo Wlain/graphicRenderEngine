@@ -23,23 +23,17 @@ Material::Material()
     {
         throw std::runtime_error("Cannot instantiate re::Material before re::Renderer is created.");
     }
-    m_shader = Shader::create()
-                   .withSourceStandard()
-                   .build();
-    setShader(m_shader);
+    setShader(Shader::getStandard());
     m_name = "Undefined material";
 }
 
-Material::Material(Shader* shader)
+Material::Material(const std::shared_ptr<Shader>& shader)
 {
     setShader(shader);
     m_name = "Undefined material";
 }
 
-Material::~Material()
-{
-    delete m_shader;
-};
+Material::~Material() = default;
 
 void Material::bind()
 {
@@ -60,12 +54,12 @@ void Material::bind()
     }
 }
 
-Shader* Material::getShader() const
+const std::shared_ptr<Shader>& Material::getShader() const
 {
     return m_shader;
 }
 
-void Material::setShader(Shader* shader)
+void Material::setShader(const std::shared_ptr<Shader>& shader)
 {
     m_shader = shader;
     m_textureValues.clear();

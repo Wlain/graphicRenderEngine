@@ -22,10 +22,10 @@ public:
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
         m_camera->setPerspectiveProjection(60, 0.1, 100);
-        m_shader = std::unique_ptr<Shader>(Shader::getStandard());
-        m_material = MAKE_UNIQUE(m_material, m_shader.get());
+        m_shader = Shader::getStandard();
+        m_material = MAKE_UNIQUE(m_material, m_shader);
         m_material->setTexture(Texture::getFontTexture());
-        m_mesh.reset(Mesh::create().withCube().build());
+        m_mesh = Mesh::create().withCube().build();
         m_worldLights = std::make_unique<WorldLights>();
         m_worldLights->addLight(Light::create().withPointLight({ 3, 0, 0 }).withColor({ 0, 1, 0 }).withRange(20).build());
         m_worldLights->addLight(Light::create().withPointLight({ 0, -3, 0 }).withColor({ 0, 0, 1 }).withRange(20).build());
@@ -37,7 +37,7 @@ public:
     {
         /// 渲染
         auto renderPass = r->createRenderPass().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
-        renderPass.draw(m_mesh.get(), glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material.get());
+        renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material.get());
     }
 
     void setTitle() override

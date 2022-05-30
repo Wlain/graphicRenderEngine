@@ -23,11 +23,11 @@ class Material
 {
 public:
     Material();
-    Material(Shader* shader);
+    Material(const std::shared_ptr<Shader>& shader);
     ~Material();
     void bind();
-    Shader* getShader() const;
-    void setShader(Shader* shader);
+    const std::shared_ptr<Shader>& getShader() const;
+    void setShader(const std::shared_ptr<Shader>& shader);
     const std::string& getName() const;
     void setName(std::string_view name);
     // uniform parameters
@@ -53,7 +53,7 @@ private:
 
 private:
     std::string m_name;
-    Shader* m_shader{ nullptr };
+    std::shared_ptr<Shader> m_shader;
     std::vector<Uniform<Texture*>> m_textureValues;
     std::vector<Uniform<glm::vec4>> m_vectorValues;
     std::vector<Uniform<float>> m_floatValues;

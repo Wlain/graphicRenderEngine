@@ -25,9 +25,12 @@ Mesh::Mesh(std::map<std::string, std::vector<float>>& attributesFloat, std::map<
 
 Mesh::~Mesh()
 {
-    RenderStats& renderStats = Renderer::s_instance->m_renderStatsCurrent;
-    renderStats.meshBytes -= getDataSize();
-    renderStats.meshCount--;
+    if (Renderer::s_instance)
+    {
+        RenderStats& renderStats = Renderer::s_instance->m_renderStatsCurrent;
+        renderStats.meshBytes -= getDataSize();
+        renderStats.meshCount--;
+    }
     for (auto obj : m_shaderToVao)
     {
         glDeleteVertexArrays(1, &(obj.second));
@@ -555,7 +558,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withIndices(const std::vector<uint16_t>& i
     return *this;
 }
 
-Mesh* Mesh::MeshBuilder::build()
+std::shared_ptr<Mesh> Mesh::MeshBuilder::build()
 {
     // update stats
     RenderStats& renderStats = Renderer::s_instance->m_renderStatsCurrent;
@@ -564,15 +567,15 @@ Mesh* Mesh::MeshBuilder::build()
     {
         renderStats.meshBytes -= m_updateMesh->getDataSize();
         m_updateMesh->update(m_attributesFloat, m_attributesVec2, m_attributesVec3, m_attributesVec4, m_attributesIVec4, m_indices, m_topology);
-        mesh = m_updateMesh;
+        renderStats.meshBytes += mesh->getDataSize();
+        return m_updateMesh->shared_from_this();
     }
     else
     {
-        mesh = new Mesh(m_attributesFloat, m_attributesVec2, m_attributesVec3, m_attributesVec4, m_attributesIVec4, m_indices, m_topology);
+        auto* mesh = new Mesh(m_attributesFloat, m_attributesVec2, m_attributesVec3, m_attributesVec4, m_attributesIVec4, m_indices, m_topology);
         renderStats.meshCount++;
+        return std::shared_ptr<Mesh>(mesh);
     }
-    renderStats.meshBytes += mesh->getDataSize();
-    return mesh;
 }
 
 Mesh::MeshBuilder& Mesh::MeshBuilder::withUniform(std::string_view name, const std::vector<float>& values)

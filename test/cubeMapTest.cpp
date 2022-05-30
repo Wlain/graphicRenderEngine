@@ -59,8 +59,8 @@ public:
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt(eye, at, up);
         m_camera->setPerspectiveProjection(60.0f, 0.1f, 100.0f);
-        m_shader = std::unique_ptr<Shader>(Shader::create().withSource(vertexShaderStr, fragmentShaderStr).build());
-        m_material = std::make_unique<Material>(m_shader.get());
+        m_shader = Shader::create().withSource(vertexShaderStr, fragmentShaderStr).build();
+        m_material = std::make_unique<Material>(m_shader);
         auto* tex = Texture::create()
                         .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posx.png"), Texture::CubeMapSide::PositiveX)
                         .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negx.png"), Texture::CubeMapSide::NegativeX)
@@ -70,14 +70,14 @@ public:
                         .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negz.png"), Texture::CubeMapSide::NegativeZ)
                         .build();
         m_material->setTexture(tex);
-        m_mesh.reset(Mesh::create().withSphere().build());
+        m_mesh = Mesh::create().withSphere().build();
         BasicProject::run();
     }
     void render(Renderer* r) override
     {
         /// 渲染
         auto renderPass = r->createRenderPass().withCamera(*m_camera).build();
-        renderPass.draw(m_mesh.get(), glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material.get());
+        renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material.get());
     }
     void setTitle() override
     {

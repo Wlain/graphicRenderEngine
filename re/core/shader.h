@@ -70,7 +70,7 @@ public:
         ShaderBuilder& withDepthTest(bool enable);
         ShaderBuilder& withDepthWrite(bool enable);
         ShaderBuilder& withBlend(BlendType blendType);
-        Shader* build();
+        std::shared_ptr<Shader> build();
     private:
         ShaderBuilder() = default;
 
@@ -91,21 +91,21 @@ public:
     // "color" vec4 (default (1,1,1,1))
     // "tex" Texture* (default white texture)
     // "specular" float (default 0.0) (means no specular)
-    static Shader* getUnlit();
+    static std::shared_ptr<Shader> getUnlit();
     // Attributes
     // "color" vec4 (default (1,1,1,1))
     // "tex" Texture* (default white texture)
-    static Shader* getUnlitSprite();
+    static std::shared_ptr<Shader> getUnlitSprite();
     /// Phong Light Model. Uses light objects and ambient light set in simpleRenderEngine.
     // Attributes
     // "color" vec4 (default (1,1,1,1))
     // "tex" Texture* (default white texture)
     // "specularity" float (default 0 = no specularity)
-    static Shader* getStandard();
+    static std::shared_ptr<Shader> getStandard();
     // StandardParticles
     // Attributes
     // "tex" Texture* (default alpha sphere texture)
-    static Shader* getStandardParticles();
+    static std::shared_ptr<Shader> getStandardParticles();
 
 public:
     ~Shader();
@@ -130,13 +130,13 @@ private:
     void updateUniformsAndAttributes();
 
 private:
-    inline static Shader* s_unlit{ nullptr }; // 无灯光
-    inline static Shader* s_unlitSprite{ nullptr };
-    inline static Shader* s_debugUV{ nullptr };
-    inline static Shader* s_debugNormals{ nullptr };
-    inline static Shader* s_standard{ nullptr };
-    inline static Shader* s_font{ nullptr };
-    inline static Shader* s_standardParticles{ nullptr };
+    inline static std::shared_ptr<Shader> s_unlit{ nullptr }; // 无灯光
+    inline static std::shared_ptr<Shader> s_unlitSprite{ nullptr };
+    inline static std::shared_ptr<Shader> s_debugUV{ nullptr };
+    inline static std::shared_ptr<Shader> s_debugNormals{ nullptr };
+    inline static std::shared_ptr<Shader> s_standard{ nullptr };
+    inline static std::shared_ptr<Shader> s_font{ nullptr };
+    inline static std::shared_ptr<Shader> s_standardParticles{ nullptr };
 
 private:
     BlendType m_blendType{ BlendType::Disabled };
