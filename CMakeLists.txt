@@ -9,6 +9,8 @@ add_definitions(-DCURRENT_PROJECT_DIR="${PROJECT_SOURCE_DIR}/")
 
 # glfw
 add_subdirectory(3rdparty/glfw)
+# glew
+add_subdirectory(3rdparty/glew/build/cmake)
 # glm
 add_subdirectory(3rdparty/glm)
 # spdlog
@@ -26,6 +28,7 @@ include_directories(
         ${PROJECT_SOURCE_DIR}/re/utils
         ${PROJECT_SOURCE_DIR}/test
         ${PROJECT_SOURCE_DIR}/3rdparty
+        ${PROJECT_SOURCE_DIR}/3rdparty/glew/include
         ${PROJECT_SOURCE_DIR}/3rdparty/imgui
         ${PROJECT_SOURCE_DIR}/3rdparty/imgui/backends)
 

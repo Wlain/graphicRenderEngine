@@ -35,11 +35,11 @@ public:
         MeshBuilder& withQuad();
         MeshBuilder& withCube();
         MeshBuilder& withSphere();
-        MeshBuilder& withPosition(const std::vector<glm::vec3>& position);
-        MeshBuilder& withNormal(const std::vector<glm::vec3>& normal);
-        MeshBuilder& withUv(const std::vector<glm::vec4>& uv);
-        MeshBuilder& withColor(const std::vector<glm::vec4>& colors);
-        MeshBuilder& withParticleSize(const std::vector<float>& particleSize);
+        MeshBuilder& withPositions(const std::vector<glm::vec3>& position);
+        MeshBuilder& withNormals(const std::vector<glm::vec3>& normal);
+        MeshBuilder& withUvs(const std::vector<glm::vec4>& uv);
+        MeshBuilder& withColors(const std::vector<glm::vec4>& colors);
+        MeshBuilder& withParticleSizes(const std::vector<float>& particleSize);
         MeshBuilder& withUniform(std::string_view name, const std::vector<float>& values);
         MeshBuilder& withUniform(std::string_view name, const std::vector<glm::vec2>& values);
         MeshBuilder& withUniform(std::string_view name, const std::vector<glm::vec3>& values);
@@ -51,6 +51,9 @@ public:
 
     private:
         MeshBuilder() = default;
+        MeshBuilder(const MeshBuilder&) = default;
+
+    private:
         std::map<std::string, std::vector<float>> m_attributesFloat;
         std::map<std::string, std::vector<glm::vec2>> m_attributesVec2;
         std::map<std::string, std::vector<glm::vec3>> m_attributesVec3;
@@ -71,11 +74,11 @@ public:
     inline int32_t getVertexCount() const { return m_vertexCount; }
     inline Topology topology() const { return m_topology; }
     inline const std::vector<uint16_t>& getIndices() const { return m_indices; }
-    std::vector<glm::vec3> getPosition();
-    std::vector<glm::vec3> getNormal();
-    std::vector<glm::vec4> getUV();
-    std::vector<glm::vec4> getColor();
-    std::vector<float> getParticleSize();
+    std::vector<glm::vec3> getPositions();
+    std::vector<glm::vec3> getNormals();
+    std::vector<glm::vec4> getUVs();
+    std::vector<glm::vec4> getColors();
+    std::vector<float> getParticleSizes();
     template <typename T>
     T get(std::string_view attributeName);
     std::pair<int, int> getType(std::string_view name);

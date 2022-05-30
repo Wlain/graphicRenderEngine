@@ -27,10 +27,10 @@ Mesh* createParticles(int size = 2500)
         uvs.emplace_back(0, 0, 1, 1);
     }
     return Mesh::create()
-        .withPosition(positions)
-        .withColor(colors)
-        .withParticleSize(sizes)
-        .withUv(uvs)
+        .withPositions(positions)
+        .withColors(colors)
+        .withParticleSizes(sizes)
+        .withUvs(uvs)
         .withMeshTopology(Mesh::Topology::Points)
         .build();
 }

@@ -101,17 +101,20 @@ RenderPass::~RenderPass() = default;
 void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color, Mesh::Topology meshTopology)
 {
     ASSERT(m_instance != nullptr);
-    auto* mesh = Mesh::create()
-                     .withPosition(vertices)
-                     .withMeshTopology(meshTopology)
-                     .build();
-    auto* shader = Shader::create()
-                       .withSourceUnlit()
-                       .build();
+    // 使用static变量，共享mesh
+    static auto* mesh = Mesh::create()
+                            .withPositions(vertices)
+                            .withMeshTopology(meshTopology)
+                            .build();
+    // 使用static变量，共享shader
+    static auto* shader = Shader::create()
+                              .withSourceUnlit()
+                              .build();
     static Material material{ shader };
     material.setColor(color);
+    // 更新共享的mesh
+    mesh->update().withPositions(vertices).withMeshTopology(meshTopology).build();
     draw(mesh, glm::mat4(1), &material);
-    delete mesh;
 }
 
 void RenderPass::draw(Mesh* mesh, glm::mat4 modelTransform, Material* material)
@@ -129,8 +132,8 @@ void RenderPass::draw(Mesh* mesh, glm::mat4 modelTransform, Material* material)
     {
         m_renderStats->stateChangesMesh++;
         m_lastBoundMesh = mesh;
-        mesh->bind(material->getShader());
     }
+    mesh->bind(material->getShader());
     int indexCount = mesh->getIndices().size();
     if (indexCount == 0)
     {
@@ -147,7 +150,6 @@ RenderPass::RenderPass(Camera&& camera, WorldLights* worldLights, RenderStats* r
 {
     if (m_instance) m_instance->finish();
     //    glEnable(GL_SCISSOR_TEST);
-    m_camera.lazyInstantiateViewport();
     glScissor(m_camera.m_viewportX, m_camera.m_viewportY, m_camera.m_viewportWidth, m_camera.m_viewportHeight);
     glViewport(m_camera.m_viewportX, m_camera.m_viewportY, m_camera.m_viewportWidth, m_camera.m_viewportHeight);
     m_instance = this;

@@ -21,6 +21,7 @@ public:
     class RenderPassBuilder
     {
     public:
+        RenderPassBuilder(const RenderPassBuilder& r) = delete;
         RenderPassBuilder& withName(const std::string& name);
         RenderPassBuilder& withCamera(const Camera& camera);
         RenderPassBuilder& withWorldLights(WorldLights* worldLights);
@@ -35,8 +36,8 @@ public:
         RenderPass build();
 
     private:
-        RenderPassBuilder(RenderStats* renderStats);
         RenderPassBuilder() = default;
+        RenderPassBuilder(RenderStats* renderStats);
 
     private:
         glm::vec4 m_clearColorValue = { 1, 0, 0, 1 };

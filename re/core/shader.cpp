@@ -114,7 +114,7 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandard()
         in vec2 vUV;
         in vec3 vEyePos;
 
-        uniform vec4 g_ambientLight;
+        uniform vec3 g_ambientLight;
         uniform vec4 color;
         uniform sampler2D tex;
 
@@ -127,7 +127,6 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandard()
             vec3 lightColor = g_ambientLight.xyz;
             vec3 normal = normalize(vNormal);
 
-            float diffuseFrac = 1.0 - g_ambientLight.w;
             for (int i = 0; i < 4; i++)
             {
                 bool isDirectional = g_lightPosType[i].w == 0.0;
@@ -163,7 +162,7 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandard()
                 float thisDiffuse = max(0.0,dot(lightDirection, normal));
                 if (thisDiffuse > 0.0)
                 {
-                   lightColor += (att * diffuseFrac * thisDiffuse) * g_lightColorRange[i].xyz;
+                   lightColor += (att * thisDiffuse) * g_lightColorRange[i].xyz;
                 }
                 // specular light
                 if (specularity > 0)
@@ -173,7 +172,7 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandard()
                     if (nDotHV > 0)
                     {
                         float pf = pow(nDotHV, specularity);
-                        lightColor += vec3(att * diffuseFrac * pf); // white specular highlights
+                        lightColor += vec3(att * pf); // white specular highlights
                     }
                }
             }
@@ -416,6 +415,10 @@ Shader* Shader::getStandardParticles()
 
 Shader::Shader()
 {
+    if (!Renderer::s_instance)
+    {
+        throw std::runtime_error("Cannot instantiate re::Shader before re::Renderer is created.");
+    }
     m_id = glCreateProgram();
     Renderer::s_instance->m_renderStatsCurrent.shaderCount++;
 }
@@ -430,7 +433,7 @@ bool Shader::setLights(WorldLights* worldLights, const glm::mat4& viewTransform)
 {
     if (worldLights == nullptr)
     {
-        glUniform4f(m_uniformLocationAmbientLight, 0, 0, 0, 0);
+        glUniform3f(m_uniformLocationAmbientLight, 0, 0, 0);
         static float noLight[4 * 4] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         glUniform4fv(m_uniformLocationLightPosType, 4, noLight);
         glUniform4fv(m_uniformLocationLightColorRange, 4, noLight);
@@ -438,7 +441,7 @@ bool Shader::setLights(WorldLights* worldLights, const glm::mat4& viewTransform)
     }
     if (m_uniformLocationAmbientLight != -1)
     {
-        glUniform4fv(m_uniformLocationAmbientLight, 1, glm::value_ptr(worldLights->ambientLight));
+        glUniform3fv(m_uniformLocationAmbientLight, 1, glm::value_ptr(worldLights->ambientLight));
     }
     if (m_uniformLocationLightPosType != -1 && m_uniformLocationLightColorRange != -1)
     {
@@ -552,6 +555,9 @@ void Shader::updateUniformsAndAttributes()
         case GL_FLOAT_VEC4:
             uniformType = UniformType::Vec4;
             break;
+        case GL_FLOAT_VEC3:
+            uniformType = UniformType::Vec3;
+            break;
         case GL_INT:
             uniformType = UniformType::Int;
             break;
@@ -641,13 +647,13 @@ void Shader::updateUniformsAndAttributes()
             }
             if (strcmp(name, "g_ambientLight") == 0)
             {
-                if (uniformType == UniformType::Vec4)
+                if (uniformType == UniformType::Vec3)
                 {
                     m_uniformLocationAmbientLight = location;
                 }
                 else
                 {
-                    LOG_ERROR("Invalid g_ambientLight uniform type. Expected vec4.");
+                    LOG_ERROR("Invalid g_ambientLight uniform type. Expected vec3.");
                 }
             }
             if (strcmp(name, "g_lightPosType") == 0)

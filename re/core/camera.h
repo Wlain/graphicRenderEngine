@@ -24,10 +24,7 @@ public:
     inline glm::mat4 getViewTransform() const { return m_viewTransform; }
     inline glm::mat4 getProjectionTransform() const { return m_projectionTransform; };
     void setViewport(int x, int y, int width, int height);
-
-private:
-    void lazyInstantiateViewport();
-
+    
 private:
     glm::mat4 m_viewTransform{ 1.0f };
     glm::mat4 m_projectionTransform{ 1.0f };

@@ -96,6 +96,7 @@ public:
     {
         /// 渲染
         auto renderPass = r->createRenderPass().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
+        drawCross(renderPass, { 2, 2, 2 });
         drawCross(renderPass, { -2, -2, -2 });
         // Show Label (with invisible window)
         for (int i = 0; i < m_worldLights->lightCount(); i++)

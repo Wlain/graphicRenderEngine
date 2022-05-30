@@ -5,12 +5,12 @@
 #ifndef SIMPLERENDERENGINE_RENDERER_H
 #define SIMPLERENDERENGINE_RENDERER_H
 #include "camera.h"
+#include "glCommonDefine.h"
 #include "light.h"
 #include "mesh.h"
 #include "renderPass.h"
 #include "renderStats.h"
 
-#include <GLFW/glfw3.h>
 #include <algorithm>
 #include <glm/glm.hpp>
 namespace re
@@ -41,7 +41,7 @@ public:
     static constexpr int s_maxSceneLights{ 4 };
     static constexpr int s_rgVersionMajor{ 2 };
     static constexpr int s_rgVersionMinor{ 1 };
-    static constexpr int s_rgVersionPoint{ 1 };
+    static constexpr int s_rgVersionPoint{ 2 };
     inline static Renderer* s_instance{ nullptr };
 
 private:

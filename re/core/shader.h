@@ -33,6 +33,7 @@ public:
         Mat3,
         Mat4,
         Vec4,
+        Vec3,
         Texture,
         Invalid,
         TextureCube
@@ -60,6 +61,7 @@ public:
     class ShaderBuilder
     {
     public:
+        ShaderBuilder(const ShaderBuilder&) = delete;
         ShaderBuilder& withSource(std::string_view vertexShader, std::string_view fragmentShader);
         ShaderBuilder& withSourceStandard();
         ShaderBuilder& withSourceUnlit();
@@ -69,9 +71,10 @@ public:
         ShaderBuilder& withDepthWrite(bool enable);
         ShaderBuilder& withBlend(BlendType blendType);
         Shader* build();
-
     private:
         ShaderBuilder() = default;
+
+    private:
         std::string m_vertexShaderStr;
         std::string m_fragmentShaderStr;
         BlendType m_blendType{ BlendType::Disabled };

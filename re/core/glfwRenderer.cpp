@@ -9,7 +9,61 @@
 //
 #include "glfwRenderer.h"
 
+#include "glCommonDefine.h"
 #include "renderer.h"
+
+#define SRE_DEBUG_CONTEXT 1
+#ifdef SRE_DEBUG_CONTEXT
+void GLAPIENTRY openglCallbackFunction(GLenum source,
+                                       GLenum type,
+                                       GLuint id,
+                                       GLenum severity,
+                                       GLsizei length,
+                                       const GLchar* message,
+                                       const void* userParam)
+{
+    LOG_INFO("---------------------opengl-callback-start------------");
+    LOG_INFO("message: {}", message);
+    LOG_INFO("type: ");
+    switch (type)
+    {
+    case GL_DEBUG_TYPE_ERROR:
+        LOG_ERROR("ERROR");
+        break;
+    case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
+        LOG_ERROR("DEPRECATED_BEHAVIOR");
+        break;
+    case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
+        LOG_ERROR("UNDEFINED_BEHAVIOR");
+        break;
+    case GL_DEBUG_TYPE_PORTABILITY:
+        LOG_ERROR("PORTABILITY");
+        break;
+    case GL_DEBUG_TYPE_PERFORMANCE:
+        LOG_ERROR("PERFORMANCE");
+        break;
+    case GL_DEBUG_TYPE_OTHER:
+        LOG_ERROR("OTHER");
+        break;
+    }
+
+    LOG_INFO("id: {}", id);
+    LOG_INFO("severity: ");
+    switch (severity)
+    {
+    case GL_DEBUG_SEVERITY_LOW:
+        LOG_ERROR("LOW");
+        break;
+    case GL_DEBUG_SEVERITY_MEDIUM:
+        LOG_ERROR("MEDIUM");
+        break;
+    case GL_DEBUG_SEVERITY_HIGH:
+        LOG_ERROR("HIGH");
+        break;
+    }
+    LOG_ERROR("---------------------opengl-callback-end--------------");
+}
+#endif
 
 namespace re
 {
@@ -36,6 +90,10 @@ void GLFWRenderer::init()
     if (!m_window)
     {
         glfwInit();
+        glfwWindowHint(GLFW_CONTEXT_DEBUG, true);
+#ifdef RE_DEBUG_CONTEXT
+        glfwWindowHint(GLFW_SRGB_CAPABLE, true);
+#endif
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -49,6 +107,27 @@ void GLFWRenderer::init()
             glfwTerminate();
         }
         m_renderer = new Renderer(m_window);
+
+#ifdef SRE_DEBUG_CONTEXT
+        if (glDebugMessageCallback)
+        {
+            LOG_INFO("Register OpenGL debug callback ");
+            glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+            glDebugMessageCallback(openglCallbackFunction, nullptr);
+            GLuint unusedIds = 0;
+            glDebugMessageControl(GL_DONT_CARE,
+                                  GL_DONT_CARE,
+                                  GL_DONT_CARE,
+                                  0,
+                                  &unusedIds,
+                                  true);
+        }
+        else
+        {
+            LOG_INFO("glDebugMessageCallback not available");
+        }
+#endif
+        glEnable(GL_FRAMEBUFFER_SRGB);
     }
 }
 

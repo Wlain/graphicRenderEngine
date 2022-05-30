@@ -51,6 +51,7 @@ public:
     class TextureBuilder
     {
     public:
+        TextureBuilder(const TextureBuilder&) = delete;
         ~TextureBuilder();
         TextureBuilder& withGenerateMipmaps(bool enable);
         // if true texture sampling is filtered (bi-linear or tri-linear sampling) otherwise use point sampling.

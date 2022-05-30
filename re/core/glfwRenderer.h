@@ -10,8 +10,7 @@
 
 #ifndef SIMPLERENDERENGINE_GLFWRENDERER_H
 #define SIMPLERENDERENGINE_GLFWRENDERER_H
-
-#include <GLFW/glfw3.h>
+#include "glCommonDefine.h"
 #include <functional>
 #include <glm/glm.hpp>
 #include <string>

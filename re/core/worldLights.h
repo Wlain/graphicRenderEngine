@@ -39,12 +39,11 @@ struct WorldLights
     inline size_t lightCount() const { return lights.size(); }
     inline void setAmbientLight(const glm::vec3& light)
     {
-        float maxAmbient = std::max(light.x, std::max(light.y, light.z));
-        ambientLight = glm::vec4(light, maxAmbient);
+        ambientLight = light;
     }
 
 public:
-    glm::vec4 ambientLight;
+    glm::vec3 ambientLight;
     std::vector<Light> lights;
 };
 } // namespace re

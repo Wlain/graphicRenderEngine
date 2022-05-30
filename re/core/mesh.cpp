@@ -14,6 +14,10 @@ namespace re
 {
 Mesh::Mesh(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, const std::vector<uint16_t>& indices, Mesh::Topology meshTopology)
 {
+    if (!Renderer::s_instance)
+    {
+        throw std::runtime_error("Cannot instantiate re::Mesh before re::Renderer is created.");
+    }
     glGenBuffers(1, &m_vbo);
     glGenBuffers(1, &m_ebo);
     update(attributesFloat, attributesVec2, attributesVec3, attributesVec4, attributesIVec4, indices, meshTopology);
@@ -247,7 +251,7 @@ size_t Mesh::getDataSize()
     return m_totalBytesPerVertex;
 }
 
-std::vector<glm::vec3> Mesh::getPosition()
+std::vector<glm::vec3> Mesh::getPositions()
 {
     std::vector<glm::vec3> position;
     auto ref = m_attributesVec3.find("position");
@@ -258,7 +262,7 @@ std::vector<glm::vec3> Mesh::getPosition()
     return position;
 }
 
-std::vector<glm::vec3> Mesh::getNormal()
+std::vector<glm::vec3> Mesh::getNormals()
 {
     std::vector<glm::vec3> normal;
     auto ref = m_attributesVec3.find("normal");
@@ -269,7 +273,7 @@ std::vector<glm::vec3> Mesh::getNormal()
     return normal;
 }
 
-std::vector<glm::vec4> Mesh::getUV()
+std::vector<glm::vec4> Mesh::getUVs()
 {
     std::vector<glm::vec4> uv;
     auto ref = m_attributesVec4.find("uv");
@@ -280,7 +284,7 @@ std::vector<glm::vec4> Mesh::getUV()
     return uv;
 }
 
-std::vector<glm::vec4> Mesh::getColor()
+std::vector<glm::vec4> Mesh::getColors()
 {
     std::vector<glm::vec4> color;
     auto ref = m_attributesVec4.find("color");
@@ -291,7 +295,7 @@ std::vector<glm::vec4> Mesh::getColor()
     return color;
 }
 
-std::vector<float> Mesh::getParticleSize()
+std::vector<float> Mesh::getParticleSizes()
 {
     std::vector<float> particleSize;
     auto ref = m_attributesFloat.find("particleSize");
@@ -379,9 +383,9 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withQuad()
         0, 1, 2,
         2, 1, 3
     };
-    withPosition(vertices);
-    withNormal(normals);
-    withUv(uvs);
+    withPositions(vertices);
+    withNormals(normals);
+    withUvs(uvs);
     withIndices(indices);
     withMeshTopology(Topology::Triangles);
     return *this;
@@ -437,9 +441,9 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withCube()
         {0, -1, 0}, {0, -1, 0}, {0, -1, 0}, {0, -1, 0},
     });
     // clang-format on
-    withPosition(positions);
-    withNormal(normals);
-    withUv(uvs);
+    withPositions(positions);
+    withNormals(normals);
+    withUvs(uvs);
     withMeshTopology(Topology::Triangles);
     return *this;
 }
@@ -502,38 +506,38 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withSphere()
             }
         }
     }
-    withPosition(finalPosition);
-    withNormal(finalNormals);
-    withUv(finalUVs);
+    withPositions(finalPosition);
+    withNormals(finalNormals);
+    withUvs(finalUVs);
     withMeshTopology(Topology::Triangles);
     return *this;
 }
 
-Mesh::MeshBuilder& Mesh::MeshBuilder::withPosition(const std::vector<glm::vec3>& position)
+Mesh::MeshBuilder& Mesh::MeshBuilder::withPositions(const std::vector<glm::vec3>& position)
 {
     withUniform("position", position);
     return *this;
 }
 
-Mesh::MeshBuilder& Mesh::MeshBuilder::withNormal(const std::vector<glm::vec3>& normal)
+Mesh::MeshBuilder& Mesh::MeshBuilder::withNormals(const std::vector<glm::vec3>& normal)
 {
     withUniform("normal", normal);
     return *this;
 }
 
-Mesh::MeshBuilder& Mesh::MeshBuilder::withUv(const std::vector<glm::vec4>& uvs)
+Mesh::MeshBuilder& Mesh::MeshBuilder::withUvs(const std::vector<glm::vec4>& uv)
 {
-    withUniform("uv", uvs);
+    withUniform("uv", uv);
     return *this;
 }
 
-Mesh::MeshBuilder& Mesh::MeshBuilder::withColor(const std::vector<glm::vec4>& colors)
+Mesh::MeshBuilder& Mesh::MeshBuilder::withColors(const std::vector<glm::vec4>& colors)
 {
     withUniform("color", colors);
     return *this;
 }
 
-Mesh::MeshBuilder& Mesh::MeshBuilder::withParticleSize(const std::vector<float>& particleSize)
+Mesh::MeshBuilder& Mesh::MeshBuilder::withParticleSizes(const std::vector<float>& particleSize)
 {
     withUniform("particleSize", particleSize);
     return *this;

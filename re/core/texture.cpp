@@ -14,6 +14,13 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 
+#ifndef GL_SRGB_ALPHA
+    #define GL_SRGB_ALPHA 0x8C42
+#endif
+#ifndef GL_SRGB
+    #define GL_SRGB 0x8C40
+#endif
+
 namespace
 {
 std::vector<char> readAllBytes(char const* filename)
@@ -64,16 +71,19 @@ Texture::TextureBuilder& Texture::TextureBuilder::withFile(const char* filename)
 {
     m_info.target = GL_TEXTURE_2D;
     GLint mipmapLevel = 0;
-    GLint internalFormat = GL_RGBA;
+    GLint internalFormat = GL_SRGB_ALPHA; //hasSRGB() ? GL_SRGB_ALPHA : GL_RGBA;
     GLint border = 0;
     GLenum type = GL_UNSIGNED_BYTE;
+    checkGLError();
     int desireComp = STBI_rgb_alpha;
     stbi_set_flip_vertically_on_load(true);
     auto pixelsData = readAllBytes(filename);
     auto* data = (char*)stbi_load_from_memory((stbi_uc const*)pixelsData.data(), pixelsData.size(), &m_info.width, &m_info.height, &m_info.channels, desireComp);
     stbi_set_flip_vertically_on_load(false);
     glBindTexture(m_info.target, m_info.id);
+    checkGLError();
     glTexImage2D(m_info.target, mipmapLevel, internalFormat, m_info.width, m_info.height, border, GL_RGBA, type, data);
+    checkGLError();
     stbi_image_free((void*)data);
     return *this;
 }
@@ -84,12 +94,15 @@ Texture::TextureBuilder& Texture::TextureBuilder::withRGBAData(const char* data,
     m_info.height = height;
     m_info.format = PixelFormat::RGBA;
     m_info.target = GL_TEXTURE_2D;
+    checkGLError();
     GLint mipmapLevel = 0;
-    GLint internalFormat = GL_RGBA;
+    GLint internalFormat = GL_SRGB_ALPHA; //hasSRGB() ? GL_SRGB_ALPHA : GL_RGBA;
     GLint border = 0;
     GLenum type = GL_UNSIGNED_BYTE;
     glBindTexture(m_info.target, m_info.id);
+    checkGLError();
     glTexImage2D(m_info.target, mipmapLevel, internalFormat, m_info.width, m_info.height, border, GL_RGBA, type, data);
+    checkGLError();
     return *this;
 }
 
@@ -214,6 +227,10 @@ Texture::TextureBuilder Texture::create()
 
 Texture::Texture(int32_t id, int width, int height, uint32_t target)
 {
+    if (!Renderer::s_instance)
+    {
+        throw std::runtime_error("Cannot instantiate re::Texture before re::Renderer is created.");
+    }
     m_info.id = id;
     m_info.width = width;
     m_info.height = height;

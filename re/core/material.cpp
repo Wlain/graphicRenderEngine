@@ -11,12 +11,18 @@
 #include "material.h"
 
 #include "glCommonDefine.h"
+#include "renderer.h"
 
 #include <glm/gtc/type_ptr.hpp>
+
 namespace re
 {
 Material::Material()
 {
+    if (!Renderer::s_instance)
+    {
+        throw std::runtime_error("Cannot instantiate re::Material before re::Renderer is created.");
+    }
     m_shader = Shader::create()
                    .withSourceStandard()
                    .build();

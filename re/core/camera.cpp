@@ -12,7 +12,13 @@ namespace re
 {
 Camera::Camera()
 {
-    lazyInstantiateViewport();
+    if (!Renderer::s_instance)
+    {
+        throw std::runtime_error("Cannot instantiate re::Camera before re::Renderer is created.");
+    }
+    auto size = Renderer::s_instance->getWindowSize();
+    m_viewportWidth = size.x;
+    m_viewportHeight = size.y;
 }
 
 void Camera::setLookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up)
@@ -22,7 +28,6 @@ void Camera::setLookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up)
 
 void Camera::setPerspectiveProjection(float fieldOfViewY, float nearPlane, float farPlane)
 {
-    lazyInstantiateViewport();
     m_projectionTransform = glm::perspectiveFov(glm::radians(fieldOfViewY), (float)m_viewportWidth, (float)m_viewportHeight, nearPlane, farPlane);
 }
 
@@ -37,16 +42,6 @@ void Camera::setViewport(int x, int y, int width, int height)
     m_viewportY = y;
     m_viewportWidth = width;
     m_viewportHeight = height;
-}
-
-void Camera::lazyInstantiateViewport()
-{
-    if (Renderer::s_instance && m_viewportWidth == -1)
-    {
-        auto size = Renderer::s_instance->getWindowSize();
-        m_viewportWidth = size.x;
-        m_viewportHeight = size.y;
-    }
 }
 
 } // namespace re

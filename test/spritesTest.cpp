@@ -3,7 +3,7 @@
 //
 #include "basicProject.h"
 #include "commonMacro.h"
-
+//#include <iostream>
 #include <glm/glm.hpp>
 
 using namespace re;
@@ -20,10 +20,10 @@ Mesh* createParticles()
     colors.emplace_back(1, 1, 1, 1);
     sizes.emplace_back(10.0f);
     return Mesh::create()
-        .withPosition(positions)
-        .withColor(colors)
-        .withUv(uvs)
-        .withParticleSize(sizes)
+        .withPositions(positions)
+        .withColors(colors)
+        .withUvs(uvs)
+        .withParticleSizes(sizes)
         .withMeshTopology(Mesh::Topology::Points)
         .build();
 }
@@ -46,9 +46,9 @@ void updateParticles(Mesh* mesh, glm::vec4 uv, float uvSize, float rotation, flo
     uvs.emplace_back(uv.x, uv.y, uvSize, rotation);
     sizes.push_back(size);
     mesh->update()
-        .withPosition(positions)
-        .withUv(uvs)
-        .withParticleSize(sizes)
+        .withPositions(positions)
+        .withUvs(uvs)
+        .withParticleSizes(sizes)
         .build();
 }
 } // namespace

@@ -5,11 +5,13 @@
 #ifndef SIMPLERENDERENGINE_GLCOMMONDEFINE_H
 #define SIMPLERENDERENGINE_GLCOMMONDEFINE_H
 #include "commonMacro.h"
-#if defined __APPLE__
-    #include <OpenGL/gl3.h>
-#else
 
-#endif
+//#define GLFW_INCLUDE_GLCOREARB
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <sstream>
+#include <string>
 
 // For internal debugging of gl errors
 inline void checkGLError()
@@ -35,6 +37,42 @@ inline void checkGLError()
             break;
         }
     }
+}
+
+inline bool hasExtension(std::string_view extensionName)
+{
+    // std::string extension = (const char*)glGetString(GL_EXTENSIONS); crash !!
+    int NumberOfExtensions;
+    glGetIntegerv(GL_NUM_EXTENSIONS, &NumberOfExtensions);
+    for (int i = 0; i < NumberOfExtensions; i++)
+    {
+        const char* e = (const char*)glGetStringi(GL_EXTENSIONS, i);
+        if (extensionName == e)
+        {
+            LOG_INFO("find Extension:{}", e);
+            return true;
+        }
+    }
+    return false;
+}
+inline std::vector<std::string> listExtension()
+{
+    // std::string extension = (const char*)glGetString(GL_EXTENSIONS); crash !!
+    int NumberOfExtensions;
+    glGetIntegerv(GL_NUM_EXTENSIONS, &NumberOfExtensions);
+    std::vector<std::string> extensions;
+    for (int i = 0; i < NumberOfExtensions; i++)
+    {
+        const char* e = (const char*)glGetStringi(GL_EXTENSIONS, i);
+        extensions.emplace_back(e);
+    }
+    return extensions;
+}
+
+inline bool hasSRGB()
+{
+    static bool res = hasExtension("GL_EXT_sRGB");
+    return res;
 }
 
 #endif //SIMPLERENDERENGINE_GLCOMMONDEFINE_H

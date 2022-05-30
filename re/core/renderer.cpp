@@ -3,7 +3,6 @@
 //
 
 #include "renderer.h"
-
 #include "commonMacro.h"
 #include "guiCommonDefine.h"
 // render engine
@@ -18,6 +17,10 @@ Renderer::Renderer(GLFWwindow* window) :
     }
     s_instance = this;
     glfwMakeContextCurrent(window);
+    if (glewInit() != GLEW_OK)
+    {
+        exit(EXIT_FAILURE);
+    }
     // initialize ImGUI
     ImGui::CreateContext();
     // 设置平台和渲染器
