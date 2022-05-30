@@ -164,6 +164,7 @@ void Mesh::update(std::map<std::string, std::vector<float>>& attributesFloat, st
         GLsizeiptr indicesSize = indices.size() * sizeof(uint16_t);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesSize, indices.data(), GL_STATIC_DRAW);
     }
+    m_indices = std::move(indices);
     m_attributesFloat = std::move(attributesFloat);
     m_attributesVec2 = std::move(attributesVec2);
     m_attributesVec3 = std::move(attributesVec3);
@@ -394,10 +395,9 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withQuad()
     return *this;
 }
 
-Mesh::MeshBuilder& Mesh::MeshBuilder::withCube()
+Mesh::MeshBuilder& Mesh::MeshBuilder::withCube(float length)
 {
     using namespace glm;
-    float length = 1.0f;
     //    v5----- v4
     //   /|      /|
     //  v1------v0|
@@ -451,13 +451,10 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withCube()
     return *this;
 }
 
-Mesh::MeshBuilder& Mesh::MeshBuilder::withSphere()
+Mesh::MeshBuilder& Mesh::MeshBuilder::withSphere(int stacks, int slices, float radius)
 {
     using namespace glm;
-    int stacks = 16;
-    int slices = 32;
-    float radius = 1.0f;
-    size_t vertexCount = ((stacks + 1) * slices);
+    size_t vertexCount = ((stacks + 1) * slices + 1);
     std::vector<vec3> vertices{ vertexCount };
     std::vector<vec3> normals{ vertexCount };
     std::vector<vec4> uvs{ vertexCount };
@@ -468,7 +465,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withSphere()
         float latitude1 = (glm::pi<float>() / (float)stacks) * (float)j - (glm::pi<float>() / 2);
         float sinLat1 = sin(latitude1);
         float cosLat1 = cos(latitude1);
-        for (int i = 0; i < slices; i++)
+        for (int i = 0; i <= slices; i++)
         {
             float longitude = ((glm::pi<float>() * 2) / (float)slices) * (float)i;
             float sinLong = sin(longitude);
@@ -485,24 +482,24 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withSphere()
     std::vector<vec3> finalNormals;
     std::vector<vec4> finalUVs;
     // create indices
-    for (int j = 0; j < stacks; j++)
+    for (int j = 0; j <= stacks; j++)
     {
-        for (int i = 0; i < slices; i++)
+        for (int i = 0; i <= slices; i++)
         {
             glm::u8vec2 offset[] = {
                 // first triangle
                 { i, j },
-                { (i + 1) % slices, j + 1 },
-                { (i + 1) % slices, j },
+                { (i + 1) % (slices+1), j + 1 },
+                { (i + 1) % (slices+1), j },
 
                 // second triangle
                 { i, j },
                 { i, j + 1 },
-                { (i + 1) % slices, j + 1 }
+                { (i + 1) % (slices+1), j + 1 }
             };
             for (const auto& o : offset)
             {
-                index = o[1] * slices + o[0];
+                index = o[1] * (slices+1) + o[0];
                 finalPosition.push_back(vertices[index]);
                 finalNormals.push_back(normals[index]);
                 finalUVs.push_back(uvs[index]);

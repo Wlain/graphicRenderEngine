@@ -33,8 +33,8 @@ public:
     {
     public:
         MeshBuilder& withQuad();
-        MeshBuilder& withCube();
-        MeshBuilder& withSphere();
+        MeshBuilder& withCube(float length = 1);
+        MeshBuilder& withSphere(int stacks = 16, int slices = 32, float radius = 1);
         MeshBuilder& withPositions(const std::vector<glm::vec3>& position);
         MeshBuilder& withNormals(const std::vector<glm::vec3>& normal);
         MeshBuilder& withUvs(const std::vector<glm::vec4>& uv);

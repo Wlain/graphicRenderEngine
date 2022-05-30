@@ -294,6 +294,6 @@ void Texture::invokeGenerateMipmap()
 
 bool Texture::isCubeMap() const
 {
-    return m_info.target != GL_TEXTURE_2D;
+    return m_info.target == GL_TEXTURE_CUBE_MAP;
 }
 } // namespace re

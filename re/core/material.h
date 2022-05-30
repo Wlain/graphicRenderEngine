@@ -25,7 +25,6 @@ public:
     Material() = delete;
     Material(const std::shared_ptr<Shader>& shader);
     ~Material();
-    void bind();
     const std::shared_ptr<Shader>& getShader() const;
     void setShader(const std::shared_ptr<Shader>& shader);
     const std::string& getName() const;
@@ -44,6 +43,9 @@ public:
     T get(std::string_view uniformName);
 
 private:
+    void bind();
+
+private:
     template <typename T>
     struct Uniform
     {
@@ -58,6 +60,7 @@ private:
     std::vector<Uniform<glm::vec4>> m_vectorValues;
     std::vector<Uniform<float>> m_floatValues;
     friend class Shader;
+    friend class RenderPass;
 };
 
 } // namespace re

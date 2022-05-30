@@ -751,16 +751,6 @@ std::vector<std::string> Shader::getUniformNames()
     return names;
 }
 
-std::pair<int, int> Shader::getAttributeType(std::string_view name)
-{
-    auto ret = m_attributes.find(name.data());
-    if (ret != m_attributes.end())
-    {
-        return { ret->second.type, ret->second.arraySize };
-    }
-    return { -1, -1 };
-}
-
 size_t Texture::getDataSize() const
 {
     int size = m_info.width * m_info.height * 4;

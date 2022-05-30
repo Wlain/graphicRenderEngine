@@ -111,8 +111,6 @@ public:
 public:
     ~Shader();
     Uniform getUniformType(std::string_view name);
-    // return {element type, element count}
-    std::pair<int, int> getAttributeType(std::string_view name);
     inline bool isDepthTest() const { return m_depthTest; }
     inline bool isDepthWrite() const { return m_depthWrite; }
     inline BlendType getBlend() const { return m_blendType; }
