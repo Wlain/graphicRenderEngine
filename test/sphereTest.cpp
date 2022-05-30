@@ -6,7 +6,6 @@
 #include "commonMacro.h"
 #include "core/worldLights.h"
 
-#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
@@ -20,8 +19,9 @@ public:
 
     void run() override
     {
-        m_camera.setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-        m_camera.setPerspectiveProjection(60, 0.1, 100);
+        m_camera = MAKE_UNIQUE(m_camera);
+        m_camera->setLookAt(m_eye, m_at, m_up);
+        m_camera->setPerspectiveProjection(60, 0.1, 100);
         m_shader = std::unique_ptr<Shader>(Shader::getStandard());
         m_material = std::make_unique<Material>(m_shader.get());
         m_mesh.reset(Mesh::create().withSphere().build());
@@ -44,17 +44,84 @@ public:
         BasicProject::run();
     }
 
+    void drawCross(RenderPass& rp, const glm::vec3& p, float size = 0.3f)
+    {
+        rp.drawLines({ p - glm::vec3{ size, 0, 0 },
+                       p + glm::vec3{ size, 0, 0 },
+                       p - glm::vec3{ 0, size, 0 },
+                       p + glm::vec3{ 0, size, 0 },
+                       p - glm::vec3{ 0, 0, size },
+                       p + glm::vec3{ 0, 0, size } },
+                     { 0, 1, 0, 1 });
+    }
+
+    void drawLight(RenderPass& rp, Light* l, float size)
+    {
+        if (l->type == Light::Type::Point)
+        {
+            drawCross(rp, l->position, size);
+        }
+        if (l->type == Light::Type::Directional)
+        {
+            rp.drawLines({ l->position, l->position - l->direction * size * 2.0f }, { 1, 1, 0, 1 });
+        }
+    }
+
+    void update(float deltaTime) override
+    {
+        if (m_animatedCamera)
+        {
+            m_eye = {
+                sin(m_totalTime * -0.2) * 5.0f,
+                sin(m_totalTime * -0.4) * 0.5f,
+                cos(m_totalTime * -0.2) * 5.0f,
+            };
+        }
+        m_camera->setLookAt(m_eye, m_at, m_up);
+        if (m_animatedLight)
+        {
+            for (int i = 0; i < m_worldLights->lightCount(); ++i)
+            {
+                m_worldLights->getLight(i)->position = {
+                    sin(m_totalTime + i * i) * 1.5f,
+                    sin(m_totalTime * 2 + i * i) * 0.5f,
+                    cos(m_totalTime + i * i) * 1.5f,
+                };
+            }
+        }
+        BasicProject::update(deltaTime);
+    }
+
     void render(Renderer* r) override
     {
         /// 渲染
-        auto renderPass = r->createRenderPass().withCamera(m_camera).withWorldLights(m_worldLights.get()).build();
-        renderPass.draw(m_mesh.get(), glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_material.get());
+        auto renderPass = r->createRenderPass().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
+        drawCross(renderPass, { -2, -2, -2 });
+        // Show Label (with invisible window)
+        for (int i = 0; i < m_worldLights->lightCount(); i++)
+        {
+            auto l = m_worldLights->getLight(i);
+            if (m_debugLight)
+            {
+                drawLight(renderPass, l, m_debugLightSize);
+            }
+        }
+        renderPass.draw(m_mesh.get(), glm::eulerAngleY(m_totalTime * 30), m_material.get());
     }
 
     void setTitle() override
     {
         m_renderer.setWindowTitle("SphereExample");
     }
+
+private:
+    glm::vec3 m_eye{ 0, 0, 5 };
+    glm::vec3 m_at{ 0, 0, 0 };
+    glm::vec3 m_up{ 0, 1, 0 };
+    bool m_debugLight = true;
+    bool m_animatedLight = true;
+    bool m_animatedCamera = true;
+    float m_debugLightSize = 0.2;
 };
 
 void sphereTest()

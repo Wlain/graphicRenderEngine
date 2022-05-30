@@ -43,8 +43,9 @@ public:
     ~ParticleExample() override = default;
     void run() override
     {
-        m_camera.setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-        m_camera.setPerspectiveProjection(60.0f, 0.1f, 100.0f);
+        m_camera = MAKE_UNIQUE(m_camera);
+        m_camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+        m_camera->setPerspectiveProjection(60.0f, 0.1f, 100.0f);
         m_shader.reset(Shader::getStandard());
         m_material = std::make_unique<Material>(m_shader.get());
         m_material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/test.jpg")).build());
@@ -63,7 +64,7 @@ public:
     }
     void render(Renderer* r) override
     {
-        auto renderPass = r->createRenderPass().withCamera(m_camera).withWorldLights(m_worldLights.get()).build();
+        auto renderPass = r->createRenderPass().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
         renderPass.draw(m_mesh.get(), glm::eulerAngleY(glm::radians(30.0f * m_totalTime)) * glm::scale(glm::mat4(1), { 0.3f, 0.3f, 0.3f }), m_material.get());
         renderPass.draw(m_particleMesh.get(), glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_particleMaterial.get());
     }

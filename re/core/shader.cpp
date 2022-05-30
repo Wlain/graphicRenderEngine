@@ -452,17 +452,17 @@ bool Shader::setLights(WorldLights* worldLights, const glm::mat4& viewTransform)
                 lightPosType[i] = glm::vec4(0.0f, 0.0f, 0.0f, 2);
                 continue;
             }
-            else if (light[i].type == Light::Type::Directional)
+            else if (light->type == Light::Type::Directional)
             {
-                lightPosType[i] = glm::vec4(light[i].direction, 0);
+                lightPosType[i] = glm::vec4(light->direction, 0);
             }
-            else if (light[i].type == Light::Type::Point)
+            else if (light->type == Light::Type::Point)
             {
-                lightPosType[i] = glm::vec4(light[i].position, 1);
+                lightPosType[i] = glm::vec4(light->position, 1);
             }
             // transform to eye space
             lightPosType[i] = viewTransform * lightPosType[i];
-            lightColorRange[i] = glm::vec4(light[i].color, light[i].range);
+            lightColorRange[i] = glm::vec4(light->color, light->range);
         }
         if (m_uniformLocationLightPosType != -1)
         {

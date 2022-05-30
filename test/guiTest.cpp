@@ -19,8 +19,9 @@ public:
 
     void run() override
     {
-        m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
-        m_camera.setPerspectiveProjection(60, 0.1, 100);
+        m_camera = MAKE_UNIQUE(m_camera);
+        m_camera->setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
+        m_camera->setPerspectiveProjection(60, 0.1, 100);
         m_shader = std::unique_ptr<Shader>(Shader::getStandard());
         m_material = std::make_unique<Material>(m_shader.get());
         m_mesh.reset(Mesh::create().withCube().build());
@@ -31,7 +32,7 @@ public:
 
     void render(Renderer* r) override
     {
-        auto renderPass = r->createRenderPass().withCamera(m_camera).withWorldLights(m_worldLights.get()).withGUI(true).build();
+        auto renderPass = r->createRenderPass().withCamera(*m_camera).withWorldLights(m_worldLights.get()).withGUI(true).build();
         m_material->setSpecularity(m_specularity);
         renderPass.draw(m_mesh.get(), glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_material.get());
         ImGui::Begin("guiTest");

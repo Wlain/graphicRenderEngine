@@ -61,8 +61,9 @@ public:
 
     void run() override
     {
-        m_camera.setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-        m_camera.setPerspectiveProjection(60, 0.1, 100);
+        m_camera = MAKE_UNIQUE(m_camera);
+        m_camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+        m_camera->setPerspectiveProjection(60, 0.1, 100);
         m_shader = std::unique_ptr<Shader>(Shader::getStandardParticles());
         m_material = std::make_unique<Material>(m_shader.get());
         m_material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/sprite.png")).build());
@@ -72,7 +73,7 @@ public:
 
     void render(Renderer* r) override
     {
-        auto renderPass = r->createRenderPass().withCamera(m_camera).build();
+        auto renderPass = r->createRenderPass().withCamera(*m_camera).build();
         updateParticlesAnimation(m_totalTime, spriteUV, m_uvSize, m_uvRotation);
         updateParticles(m_mesh.get(), spriteUV, m_uvSize, m_uvRotation, m_spritesize);
         renderPass.draw(m_mesh.get(), glm::mat4(1), m_material.get());

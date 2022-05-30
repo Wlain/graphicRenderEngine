@@ -42,7 +42,7 @@ public:
 
 protected:
     GLFWRenderer m_renderer;
-    Camera m_camera;
+    std::unique_ptr<Camera> m_camera;
     std::unique_ptr<Shader> m_shader;
     std::unique_ptr<Material> m_material;
     std::unique_ptr<Mesh> m_mesh;

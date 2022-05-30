@@ -58,7 +58,7 @@ public:
     RenderPass() = default;
     static RenderPassBuilder create();
     virtual ~RenderPass();
-    void drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }, Mesh::Topology meshTopology = Mesh::Topology::LineStrip);
+    void drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }, Mesh::Topology meshTopology = Mesh::Topology::Lines);
     void draw(Mesh* mesh, glm::mat4 modelTransform, Material* material);
 
 private:
