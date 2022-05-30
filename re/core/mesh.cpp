@@ -454,7 +454,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withCube(float length)
 Mesh::MeshBuilder& Mesh::MeshBuilder::withSphere(int stacks, int slices, float radius)
 {
     using namespace glm;
-    size_t vertexCount = ((stacks + 1) * slices + 1);
+    size_t vertexCount = ((stacks + 1) * (slices + 1));
     std::vector<vec3> vertices{ vertexCount };
     std::vector<vec3> normals{ vertexCount };
     std::vector<vec4> uvs{ vertexCount };
@@ -482,24 +482,24 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withSphere(int stacks, int slices, float r
     std::vector<vec3> finalNormals;
     std::vector<vec4> finalUVs;
     // create indices
-    for (int j = 0; j <= stacks; j++)
+    for (int j = 0; j < stacks; j++)
     {
         for (int i = 0; i <= slices; i++)
         {
             glm::u8vec2 offset[] = {
                 // first triangle
                 { i, j },
-                { (i + 1) % (slices+1), j + 1 },
-                { (i + 1) % (slices+1), j },
+                { (i + 1) % (slices + 1), j + 1 },
+                { (i + 1) % (slices + 1), j },
 
                 // second triangle
                 { i, j },
                 { i, j + 1 },
-                { (i + 1) % (slices+1), j + 1 }
+                { (i + 1) % (slices + 1), j + 1 }
             };
             for (const auto& o : offset)
             {
-                index = o[1] * (slices+1) + o[0];
+                index = o[1] * (slices + 1) + o[0];
                 finalPosition.push_back(vertices[index]);
                 finalNormals.push_back(normals[index]);
                 finalUVs.push_back(uvs[index]);

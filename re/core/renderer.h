@@ -35,13 +35,14 @@ public:
     }
     // return stats of the last rendered frame,only data maintained by re is included
     inline const RenderStats& getRenderStats() const { return m_renderStatsLast; }
+    glm::ivec2 getFramebufferSize();
     glm::ivec2 getWindowSize();
 
 public:
     static constexpr int s_maxSceneLights{ 4 };
     static constexpr int s_rgVersionMajor{ 2 };
     static constexpr int s_rgVersionMinor{ 2 };
-    static constexpr int s_rgVersionPoint{ 0 };
+    static constexpr int s_rgVersionPoint{ 1 };
     inline static Renderer* s_instance{ nullptr };
 
 private:

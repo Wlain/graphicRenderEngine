@@ -16,7 +16,7 @@ Camera::Camera()
     {
         throw std::runtime_error("Cannot instantiate re::Camera before re::Renderer is created.");
     }
-    auto size = Renderer::s_instance->getWindowSize();
+    auto size = Renderer::s_instance->getFramebufferSize();
     m_viewportWidth = size.x;
     m_viewportHeight = size.y;
 }

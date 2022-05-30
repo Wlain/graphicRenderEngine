@@ -27,8 +27,16 @@ public:
         m_renderer.m_frameRender = [&](Renderer* r) {
             render(r);
         };
+        m_renderer.m_frameResize = [&](int width, int height) {
+            resize(width, height);
+        };
+        m_renderer.m_mouseEvent = [&](int xPos, int yPos) {
+            touchEvent(xPos, yPos);
+        };
         m_renderer.startEventLoop();
     }
+    virtual void resize(int width, int height) {}
+    virtual void touchEvent(double xPos, double yPos) {}
     virtual void render(Renderer* r){};
     virtual void update(float deltaTime)
     {

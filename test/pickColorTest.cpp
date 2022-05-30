@@ -1,0 +1,112 @@
+// Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+// Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+// Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+// Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+// Vestibulum commodo. Ut rhoncus gravida arcu.
+
+//
+// Created by william on 2022/5/30.
+//
+#include "basicProject.h"
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/transform.hpp>
+class PickColorExample : public BasicProject
+{
+public:
+    using BasicProject::BasicProject;
+    ~PickColorExample() override = default;
+
+    void run() override
+    {
+        m_camera = MAKE_UNIQUE(m_camera);
+        m_camera->setLookAt({ 0, 0, 6 }, { 0, 0, 0 }, { 0, 1, 0 });
+        m_camera->setPerspectiveProjection(60, 0.1, 100);
+        for (int i = 0; i < 3; i++)
+        {
+            m_material[i] = Shader::getUnlit()->createMaterial();
+            glm::vec4 color(0, 0, 0, 1);
+            color[i] = 1;
+            m_material[i]->setColor(color);
+        }
+        m_mesh[0] = Mesh::create()
+                        .withQuad()
+                        .build();
+        m_mesh[1] = Mesh::create()
+                        .withSphere()
+                        .build();
+        m_mesh[2] = Mesh::create()
+                        .withCube()
+                        .build();
+        BasicProject::run();
+    }
+    void render(Renderer* r) override
+    {
+        auto renderPass = r->createRenderPass()
+                              .withCamera(*m_camera)
+                              .withClearColor(true, { 0, 0, 0, 1 })
+                              .build();
+        int index = 0;
+        for (int x = 0; x < 2; x++)
+        {
+            for (int y = 0; y < 2; y++)
+            {
+                if (index < 3)
+                {
+                    renderPass.draw(m_mesh[index], glm::translate(glm::vec3(-1.5 + x * 3, -1.5 + y * 3, 0)), m_material[index]);
+                }
+                index++;
+            }
+        }
+        // read pixel values from defualt framebuffer (before gui is rendered)
+        auto pixelValues = renderPass.readPixels(m_mouseX, m_mouseY);
+        // render color using imgui
+        LOG_INFO("m_mouse[{}, {}]", m_mouseX, m_mouseY);
+        LOG_INFO("color:[{}, {}, {}, {}]", pixelValues[0].x, pixelValues[0].y, pixelValues[0].z, pixelValues[0].w);
+        if (pixelValues[0].x > 0)
+        {
+            LOG_INFO("");
+        }
+        if (pixelValues[0].y > 0)
+        {
+            LOG_INFO("");
+        }
+        if (pixelValues[0].z > 0)
+        {
+            LOG_INFO("");
+        }
+    }
+    void update(float deltaTime) override
+    {
+        BasicProject::update(deltaTime);
+    }
+    void setTitle() override
+    {
+        m_renderer.setWindowTitle("PickColorExample");
+    }
+
+    void resize(int width, int height) override
+    {
+        BasicProject::resize(width, height);
+    }
+    void touchEvent(double xPos, double yPos) override
+    {
+        auto framebufferSize = m_renderer.getFramebuffeSize();
+        auto windowsSize = m_renderer.getWindowSize();
+        auto ratio = framebufferSize.x / windowsSize.x;
+        // 坐标映射
+        m_mouseX = std::clamp((int)(xPos * ratio), 0, windowsSize.x * (int)ratio);
+        m_mouseY = std::clamp((int)(windowsSize.y - yPos) * (int)ratio, 0, windowsSize.y * (int)ratio);
+    }
+
+private:
+    std::shared_ptr<Material> m_material[3];
+    std::shared_ptr<Mesh> m_mesh[3];
+    int m_mouseX;
+    int m_mouseY;
+};
+
+void pickColorTest()
+{
+    PickColorExample test;
+    test.run();
+}

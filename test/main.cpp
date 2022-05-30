@@ -7,9 +7,10 @@ extern void quadTest();
 extern void particleTest();
 extern void spriteTest();
 extern void cubeMapText();
+extern void pickColorTest();
 
 int main()
 {
-    quadTest();
+    pickColorTest();
     return 0;
 }

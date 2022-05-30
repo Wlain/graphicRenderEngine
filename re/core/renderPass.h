@@ -61,6 +61,7 @@ public:
     virtual ~RenderPass();
     void drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }, Mesh::Topology meshTopology = Mesh::Topology::Lines);
     void draw(const std::shared_ptr<Mesh>& mesh, glm::mat4 modelTransform, std::shared_ptr<Material>& material);
+    std::vector<glm::vec4> readPixels(unsigned int x, unsigned int y, unsigned int width = 1, unsigned int height = 1);
 
 private:
     RenderPass(Camera&& camera, WorldLights* worldLights, RenderStats* renderStats, bool gui);

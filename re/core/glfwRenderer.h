@@ -11,6 +11,7 @@
 #ifndef SIMPLERENDERENGINE_GLFWRENDERER_H
 #define SIMPLERENDERENGINE_GLFWRENDERER_H
 #include "glCommonDefine.h"
+
 #include <functional>
 #include <glm/glm.hpp>
 #include <string>
@@ -34,13 +35,15 @@ public:
     // The render loop will stop running when the frame is complete.
     void stopEventLoop();
     GLFWwindow* getGlfwWindow();
+    glm::ivec2 getFramebuffeSize();
     glm::ivec2 getWindowSize();
-
 private:
     void frame(float deltaTimeSec);
     GLFWRenderer(const GLFWRenderer&) = delete;
 
 public:
+    std::function<void(int width, int height)> m_frameResize;
+    std::function<void(double xPos, double yPos)> m_mouseEvent;
     // event handlers (assigned empty default handlers)
     std::function<void(float deltaTimeSec)> m_frameUpdate;
     // Subscript be render events. The `Renderer::swapFrame()` is automatically invoked after the callback.

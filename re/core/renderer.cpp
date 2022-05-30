@@ -3,6 +3,7 @@
 //
 
 #include "renderer.h"
+
 #include "commonMacro.h"
 #include "guiCommonDefine.h"
 // render engine
@@ -63,10 +64,17 @@ void Renderer::swapWindow()
     glfwPollEvents();
 }
 
-glm::ivec2 Renderer::getWindowSize()
+glm::ivec2 Renderer::getFramebufferSize()
 {
     glm::ivec2 size;
     glfwGetFramebufferSize(m_window, &size.r, &size.g);
+    return size;
+}
+
+glm::ivec2 Renderer::getWindowSize()
+{
+    glm::ivec2 size;
+    glfwGetWindowSize(m_window, &size.r, &size.g);
     return size;
 }
 } // namespace re

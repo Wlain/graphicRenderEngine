@@ -102,6 +102,15 @@ void GLFWRenderer::init()
 #endif
         // glfw window creation
         m_window = glfwCreateWindow(m_windowWidth, m_windowHeight, m_windowTitle.c_str(), nullptr, nullptr);
+        glfwSetWindowUserPointer(m_window, this);
+        glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
+            auto* app = reinterpret_cast<GLFWRenderer*>(glfwGetWindowUserPointer(window));
+            app->m_frameResize(width, height);
+        });
+        glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xPos, double yPos) {
+            auto* app = reinterpret_cast<GLFWRenderer*>(glfwGetWindowUserPointer(window));
+            app->m_mouseEvent(xPos, yPos);
+        });
         if (m_window == nullptr)
         {
             glfwTerminate();
@@ -189,6 +198,11 @@ void GLFWRenderer::frame(float deltaTimeSec)
     m_frameUpdate(deltaTimeSec);
     m_frameRender(m_renderer);
     m_renderer->swapWindow();
+}
+
+glm::ivec2 GLFWRenderer::getFramebuffeSize()
+{
+    return m_renderer->getFramebufferSize();
 }
 
 glm::ivec2 GLFWRenderer::getWindowSize()
