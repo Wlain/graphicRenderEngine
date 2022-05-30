@@ -17,16 +17,6 @@
 
 namespace re
 {
-Material::Material()
-{
-    if (!Renderer::s_instance)
-    {
-        throw std::runtime_error("Cannot instantiate re::Material before re::Renderer is created.");
-    }
-    setShader(Shader::getStandard());
-    m_name = "Undefined material";
-}
-
 Material::Material(const std::shared_ptr<Shader>& shader)
 {
     setShader(shader);

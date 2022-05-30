@@ -10,8 +10,9 @@
 #include "texture.h"
 #include "worldLights.h"
 
-#include <algorithm>
+#include "material.h"
 #include <glm/gtc/type_ptr.hpp>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -813,4 +814,10 @@ bool Shader::validateMesh(Mesh* mesh, std::string& info)
     }
     return valid;
 }
+
+std::shared_ptr<Material> Shader::createMaterial()
+{
+    return std::make_shared<Material>(shared_from_this());
+}
+
 } // namespace re

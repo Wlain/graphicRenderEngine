@@ -43,8 +43,7 @@ public:
 protected:
     GLFWRenderer m_renderer;
     std::unique_ptr<Camera> m_camera;
-    std::shared_ptr<Shader> m_shader;
-    std::unique_ptr<Material> m_material;
+    std::shared_ptr<Material> m_material;
     std::shared_ptr<Mesh> m_mesh;
     std::unique_ptr<WorldLights> m_worldLights;
     float m_deltaTime{ 0.0f };

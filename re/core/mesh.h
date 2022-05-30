@@ -70,7 +70,7 @@ public:
     MeshBuilder update();
 
 public:
-    virtual ~Mesh();
+    ~Mesh();
     inline int32_t getVertexCount() const { return m_vertexCount; }
     inline Topology topology() const { return m_topology; }
     inline const std::vector<uint16_t>& getIndices() const { return m_indices; }

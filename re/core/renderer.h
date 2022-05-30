@@ -41,7 +41,7 @@ public:
     static constexpr int s_maxSceneLights{ 4 };
     static constexpr int s_rgVersionMajor{ 2 };
     static constexpr int s_rgVersionMinor{ 1 };
-    static constexpr int s_rgVersionPoint{ 3 };
+    static constexpr int s_rgVersionPoint{ 4 };
     inline static Renderer* s_instance{ nullptr };
 
 private:

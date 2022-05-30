@@ -106,17 +106,18 @@ void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 col
                                             .withPositions(vertices)
                                             .withMeshTopology(meshTopology)
                                             .build();
-    static Material material{ Shader::getUnlit() };
-    material.setColor(color);
+    static auto material = Shader::getUnlit()->createMaterial();
+    material->setColor(color);
     // 更新共享的mesh
     mesh->update().withPositions(vertices).withMeshTopology(meshTopology).build();
-    draw(mesh, glm::mat4(1), &material);
+    draw(mesh, glm::mat4(1), material);
 }
 
-void RenderPass::draw(const std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTransform, Material* material)
+void RenderPass::draw(const std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTransform, std::shared_ptr<Material>& materialPtr)
 {
     ASSERT(m_instance != nullptr);
     auto* mesh = meshPtr.get();
+    auto* material = materialPtr.get();
     auto* shader = material->getShader().get();
     assert(mesh != nullptr);
     m_renderStats->drawCalls++;

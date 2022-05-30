@@ -22,13 +22,13 @@ public:
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
         m_camera->setPerspectiveProjection(60.0f, 0.1f, 100.0f);
-        m_shader = Shader::getStandard();
-        m_material = std::make_unique<Material>(m_shader);
+        auto shader = Shader::getStandard();
+        m_material = shader->createMaterial();
         m_material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/test.jpg")).build());
         m_material->setSpecularity(20.0f);
         m_mesh = Mesh::create().withCube().build();
-        m_particleShader = Shader::getStandardParticles();
-        m_particleMaterial = std::make_unique<Material>(m_particleShader);
+        auto particleShader = Shader::getStandardParticles();
+        m_particleMaterial = particleShader->createMaterial();
         m_particleMaterial->setTexture(Texture::getSphereTexture());
         m_particleMesh = createParticles();
         m_worldLights = std::make_unique<WorldLights>();
@@ -41,8 +41,8 @@ public:
     void render(Renderer* r) override
     {
         auto renderPass = r->createRenderPass().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
-        renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)) * glm::scale(glm::mat4(1), { 0.3f, 0.3f, 0.3f }), m_material.get());
-        renderPass.draw(m_particleMesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_particleMaterial.get());
+        renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)) * glm::scale(glm::mat4(1), { 0.3f, 0.3f, 0.3f }), m_material);
+        renderPass.draw(m_particleMesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_particleMaterial);
     }
     void setTitle() override
     {
@@ -74,7 +74,7 @@ public:
 private:
     std::shared_ptr<Mesh> m_particleMesh;
     std::shared_ptr<Shader> m_particleShader;
-    std::unique_ptr<Material> m_particleMaterial;
+    std::shared_ptr<Material> m_particleMaterial;
 };
 
 void particleTest()

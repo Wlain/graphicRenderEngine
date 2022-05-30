@@ -22,7 +22,7 @@ class Texture;
 class Material
 {
 public:
-    Material();
+    Material() = delete;
     Material(const std::shared_ptr<Shader>& shader);
     ~Material();
     void bind();
@@ -57,6 +57,7 @@ private:
     std::vector<Uniform<Texture*>> m_textureValues;
     std::vector<Uniform<glm::vec4>> m_vectorValues;
     std::vector<Uniform<float>> m_floatValues;
+    friend class Shader;
 };
 
 } // namespace re

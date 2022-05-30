@@ -16,7 +16,7 @@ class Texture;
 class WorldLights;
 class Material;
 class Mesh;
-class Shader
+class Shader : public std::enable_shared_from_this<Shader>
 {
 public:
     enum class BlendType
@@ -71,6 +71,7 @@ public:
         ShaderBuilder& withDepthWrite(bool enable);
         ShaderBuilder& withBlend(BlendType blendType);
         std::shared_ptr<Shader> build();
+
     private:
         ShaderBuilder() = default;
 
@@ -121,6 +122,7 @@ public:
 
     // 验证网格属性。如果无效，则将 info 变量设置为错误消息。此方法只应用于debug
     bool validateMesh(Mesh* mesh, std::string& info);
+    std::shared_ptr<Material> createMaterial();
 
 private:
     Shader();

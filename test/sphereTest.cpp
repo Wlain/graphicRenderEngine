@@ -22,8 +22,8 @@ public:
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt(m_eye, m_at, m_up);
         m_camera->setPerspectiveProjection(60, 0.1, 100);
-        m_shader = Shader::getStandard();
-        m_material = std::make_unique<Material>(m_shader);
+        auto shader = Shader::getStandard();
+        m_material = shader->createMaterial();
         m_mesh = Mesh::create().withSphere().build();
         m_worldLights = std::make_unique<WorldLights>();
         bool point = true;
@@ -107,7 +107,7 @@ public:
                 drawLight(renderPass, l, m_debugLightSize);
             }
         }
-        renderPass.draw(m_mesh, glm::eulerAngleY(m_totalTime * 30), m_material.get());
+        renderPass.draw(m_mesh, glm::eulerAngleY(m_totalTime * 30), m_material);
     }
 
     void setTitle() override
