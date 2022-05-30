@@ -114,7 +114,7 @@ Texture::TextureBuilder& Texture::TextureBuilder::withWhiteData(int width, int h
     return *this;
 }
 
-Texture* Texture::TextureBuilder::build()
+std::shared_ptr<Texture> Texture::TextureBuilder::build()
 {
     if (m_info.target == 0)
     {
@@ -131,7 +131,7 @@ Texture* Texture::TextureBuilder::build()
     }
     texture->updateTextureSampler(m_info.filterSampling, m_info.wrapTextureCoordinates);
     m_info.id = 0;
-    return texture;
+    return std::shared_ptr<Texture>(texture);
 }
 
 Texture::TextureBuilder::~TextureBuilder()
@@ -163,7 +163,7 @@ Texture::TextureBuilder& Texture::TextureBuilder::withFileCubeMap(const char* fi
     return *this;
 }
 
-Texture* Texture::getWhiteTexture()
+std::shared_ptr<Texture> Texture::getWhiteTexture()
 {
     if (s_whiteTexture != nullptr)
     {
@@ -173,7 +173,7 @@ Texture* Texture::getWhiteTexture()
     return s_whiteTexture;
 }
 
-Texture* Texture::getFontTexture()
+std::shared_ptr<Texture> Texture::getFontTexture()
 {
     if (s_fontTexture != nullptr)
     {
@@ -191,7 +191,7 @@ Texture* Texture::getFontTexture()
     return s_fontTexture;
 }
 
-Texture* Texture::getSphereTexture()
+std::shared_ptr<Texture> Texture::getSphereTexture()
 {
     if (s_sphereTexture != nullptr)
     {
@@ -215,7 +215,7 @@ Texture* Texture::getSphereTexture()
     return s_sphereTexture;
 }
 
-Texture* Texture::getCubeMapTexture()
+std::shared_ptr<Texture> Texture::getCubeMapTexture()
 {
     return nullptr;
 }
@@ -243,11 +243,14 @@ Texture::Texture(int32_t id, int width, int height, uint32_t target)
 
 Texture::~Texture()
 {
-    glDeleteTextures(1, &m_info.id);
-    // update stats
-    RenderStats& renderStats = Renderer::s_instance->m_renderStatsCurrent;
-    renderStats.textureCount--;
-    renderStats.textureBytes -= getDataSize();
+    if (Renderer::s_instance)
+    {
+        // update stats
+        RenderStats& renderStats = Renderer::s_instance->m_renderStatsCurrent;
+        renderStats.textureCount--;
+        renderStats.textureBytes -= getDataSize();
+        glDeleteTextures(1, &m_info.id);
+    }
 }
 
 void Texture::updateTextureSampler(bool filterSampling, bool wrapTextureCoordinates) const

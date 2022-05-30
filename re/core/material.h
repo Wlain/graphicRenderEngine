@@ -35,11 +35,11 @@ public:
     bool setColor(const glm::vec4& color);
     float getSpecularity();
     bool setSpecularity(float specularity);
-    Texture* getTexture();
-    bool setTexture(Texture* texture);
+    std::shared_ptr<Texture> getTexture();
+    bool setTexture(std::shared_ptr<Texture> texture);
     bool set(std::string_view uniformName, const glm::vec4& value);
     bool set(std::string_view uniformName, float value);
-    bool set(std::string_view uniformName, Texture*);
+    bool set(std::string_view uniformName, std::shared_ptr<Texture>);
     template <typename T>
     T get(std::string_view uniformName);
 
@@ -54,7 +54,7 @@ private:
 private:
     std::string m_name;
     std::shared_ptr<Shader> m_shader;
-    std::vector<Uniform<Texture*>> m_textureValues;
+    std::vector<Uniform<std::shared_ptr<Texture>>> m_textureValues;
     std::vector<Uniform<glm::vec4>> m_vectorValues;
     std::vector<Uniform<float>> m_floatValues;
     friend class Shader;

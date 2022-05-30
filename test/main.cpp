@@ -10,6 +10,6 @@ extern void cubeMapText();
 
 int main()
 {
-    cubeTest();
+    cubeMapText();
     return 0;
 }

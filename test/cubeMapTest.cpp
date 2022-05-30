@@ -61,7 +61,7 @@ public:
         m_camera->setPerspectiveProjection(60.0f, 0.1f, 100.0f);
         auto shader = Shader::create().withSource(vertexShaderStr, fragmentShaderStr).build();
         m_material = shader->createMaterial();
-        auto* tex = Texture::create()
+        auto tex = Texture::create()
                         .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posx.png"), Texture::CubeMapSide::PositiveX)
                         .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negx.png"), Texture::CubeMapSide::NegativeX)
                         .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posy.png"), Texture::CubeMapSide::PositiveY)

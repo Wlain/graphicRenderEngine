@@ -68,14 +68,14 @@ void Material::setShader(const std::shared_ptr<Shader>& shader)
         }
         break;
         case Shader::UniformType::Texture: {
-            Uniform<Texture*> uniform{};
+            Uniform<std::shared_ptr<Texture>> uniform{};
             uniform.id = u.id;
             uniform.value = Texture::getWhiteTexture();
             m_textureValues.push_back(uniform);
         }
         break;
         case Shader::UniformType::TextureCube: {
-            Uniform<Texture*> uniform{};
+            Uniform<std::shared_ptr<Texture>> uniform{};
             uniform.id = u.id;
             uniform.value = Texture::getCubeMapTexture();
             m_textureValues.push_back(uniform);
@@ -106,7 +106,7 @@ void Material::setName(std::string_view name)
 }
 
 template <>
-Texture* Material::get(std::string_view uniformName)
+std::shared_ptr<Texture> Material::get(std::string_view uniformName)
 {
     auto t = m_shader->getUniformType(uniformName.data());
     if (t.type != Shader::UniformType::Texture && t.type != Shader::UniformType::TextureCube)
@@ -179,12 +179,12 @@ bool Material::setSpecularity(float specularity)
     return set("specularity", specularity);
 }
 
-Texture* Material::getTexture()
+std::shared_ptr<Texture> Material::getTexture()
 {
-    return get<Texture*>("tex");
+    return get<std::shared_ptr<Texture>>("tex");
 }
 
-bool Material::setTexture(Texture* texture)
+bool Material::setTexture(std::shared_ptr<Texture> texture)
 {
     return set("tex", texture);
 }
@@ -217,7 +217,7 @@ bool Material::set(std::string_view uniformName, float value)
     return false;
 }
 
-bool Material::set(std::string_view uniformName, Texture* texture)
+bool Material::set(std::string_view uniformName, std::shared_ptr<Texture> texture)
 {
     auto type = m_shader->getUniformType(uniformName.data());
     for (auto& v : m_textureValues)

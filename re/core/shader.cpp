@@ -761,7 +761,7 @@ std::pair<int, int> Shader::getAttributeType(std::string_view name)
     return { -1, -1 };
 }
 
-size_t Texture::getDataSize()
+size_t Texture::getDataSize() const
 {
     int size = m_info.width * m_info.height * 4;
     if (m_info.generateMipmap)

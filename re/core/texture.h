@@ -61,7 +61,7 @@ public:
         TextureBuilder& withFileCubeMap(const char* filename, CubeMapSide side);
         TextureBuilder& withRGBAData(const char* data, int width, int height);
         TextureBuilder& withWhiteData(int width = 1, int height = 1);
-        Texture* build();
+        std::shared_ptr<Texture> build();
 
     private:
         TextureBuilder();
@@ -73,10 +73,10 @@ public:
 
 public:
     static TextureBuilder create();
-    static Texture* getWhiteTexture();
-    static Texture* getFontTexture();
-    static Texture* getSphereTexture();
-    static Texture* getCubeMapTexture();
+    static std::shared_ptr<Texture> getWhiteTexture();
+    static std::shared_ptr<Texture> getFontTexture();
+    static std::shared_ptr<Texture> getSphereTexture();
+    static std::shared_ptr<Texture> getCubeMapTexture();
     ~Texture();
 
 public:
@@ -87,17 +87,17 @@ public:
     bool isCubeMap() const;
     void invokeGenerateMipmap();
     // get size of the texture in bytes on GPU
-    size_t getDataSize();
+    size_t getDataSize() const;
 
 private:
     Texture(int32_t id, int width, int height, uint32_t target);
     void updateTextureSampler(bool filterSampling, bool wrapTextureCoordinates) const;
 
 private:
-    inline static Texture* s_whiteTexture{ nullptr };
-    inline static Texture* s_fontTexture{ nullptr };
-    inline static Texture* s_sphereTexture{ nullptr };
-    inline static Texture* s_cubeMapTexture{ nullptr };
+    inline static std::shared_ptr<Texture> s_whiteTexture{ nullptr };
+    inline static std::shared_ptr<Texture> s_fontTexture{ nullptr };
+    inline static std::shared_ptr<Texture> s_sphereTexture{ nullptr };
+    inline static std::shared_ptr<Texture> s_cubeMapTexture{ nullptr };
 
 private:
     Info m_info{};
