@@ -47,7 +47,7 @@ public:
     // event handlers (assigned empty default handlers)
     std::function<void(float deltaTimeSec)> m_frameUpdate;
     // Subscript be render events. The `Renderer::swapFrame()` is automatically invoked after the callback.
-    std::function<void(Renderer* renderer)> m_frameRender;
+    std::function<void()> m_frameRender;
 
 private:
     Renderer* m_renderer{ nullptr };

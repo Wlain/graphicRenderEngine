@@ -25,7 +25,6 @@ class Renderer
 public:
     explicit Renderer(GLFWwindow* window);
     ~Renderer();
-    RenderPass::RenderPassBuilder createRenderPass();
     // Update window with OpenGL rendering
     void swapWindow();
     // flush GPU command buffer (must be called when profiling GPU time - should not be called when not profiling)
@@ -42,7 +41,7 @@ public:
     static constexpr int s_maxSceneLights{ 4 };
     static constexpr int s_rgVersionMajor{ 2 };
     static constexpr int s_rgVersionMinor{ 2 };
-    static constexpr int s_rgVersionPoint{ 1 };
+    static constexpr int s_rgVersionPoint{ 2 };
     inline static Renderer* s_instance{ nullptr };
 
 private:

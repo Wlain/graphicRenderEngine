@@ -17,7 +17,7 @@ public:
     using BasicProject::BasicProject;
     ~SphereExample() override = default;
 
-    void run() override
+    void initialize() override
     {
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt(m_eye, m_at, m_up);
@@ -41,7 +41,6 @@ public:
             m_worldLights->addLight(Light::create().withDirectionalLight({ 0, -1, 1 }).withColor({ 0, 0, 1 }).withRange(10).build());
             m_worldLights->addLight(Light::create().withDirectionalLight({ -1, 0, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
         }
-        BasicProject::run();
     }
 
     void drawCross(RenderPass& rp, const glm::vec3& p, float size = 0.3f)
@@ -92,10 +91,10 @@ public:
         BasicProject::update(deltaTime);
     }
 
-    void render(Renderer* r) override
+    void render() override
     {
         /// 渲染
-        auto renderPass = r->createRenderPass().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
+        auto renderPass = RenderPass::create().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
         drawCross(renderPass, { 2, 2, 2 });
         drawCross(renderPass, { -2, -2, -2 });
         // Show Label (with invisible window)
@@ -112,7 +111,7 @@ public:
 
     void setTitle() override
     {
-        m_renderer.setWindowTitle("SphereExample");
+        m_title = "SphereExample";
     }
 
 private:

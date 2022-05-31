@@ -68,7 +68,7 @@ void GLAPIENTRY openglCallbackFunction(GLenum source,
 namespace re
 {
 GLFWRenderer::GLFWRenderer() :
-    m_frameRender([](Renderer*) {}),
+    m_frameRender([]() {}),
     m_frameUpdate([](float) {}),
     m_windowTitle("simpleRenderEngine" + std::to_string(Renderer::s_rgVersionMajor) + "." + std::to_string(Renderer::s_rgVersionMinor) + "." + std::to_string(Renderer::s_rgVersionPoint))
 {
@@ -196,7 +196,7 @@ void GLFWRenderer::frame(float deltaTimeSec)
         m_running = false;
     }
     m_frameUpdate(deltaTimeSec);
-    m_frameRender(m_renderer);
+    m_frameRender();
     m_renderer->swapWindow();
 }
 

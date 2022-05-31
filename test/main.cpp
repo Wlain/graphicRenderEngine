@@ -8,9 +8,9 @@ extern void particleTest();
 extern void spriteTest();
 extern void cubeMapText();
 extern void pickColorTest();
-
+extern void RenderToFrameBufferTest();
 int main()
 {
-    pickColorTest();
+    RenderToFrameBufferTest();
     return 0;
 }

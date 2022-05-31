@@ -17,7 +17,7 @@ public:
     using BasicProject::BasicProject;
     ~GuiExamples() override = default;
 
-    void run() override
+    void initialize() override
     {
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
@@ -27,19 +27,18 @@ public:
         m_mesh = Mesh::create().withCube().build();
         m_worldLights = std::make_unique<WorldLights>();
         m_worldLights->addLight(Light::create().withPointLight({ 0, 0, 10 }).withColor({ 1, 0, 0 }).withRange(50).build());
-        BasicProject::run();
     }
 
-    void render(Renderer* r) override
+    void render() override
     {
-        auto renderPass = r->createRenderPass().withCamera(*m_camera).withWorldLights(m_worldLights.get()).withGUI(true).build();
+        auto renderPass = RenderPass::create().withCamera(*m_camera).withWorldLights(m_worldLights.get()).withGUI(true).build();
         m_material->setSpecularity(m_specularity);
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_material);
         ImGui::Begin("guiTest");
         ImGui::SliderFloat("specularity", &m_specularity, 0.0f, 40.0f);
         ImGui::ColorEdit3("clear color", (float*)&m_clearColor);
         ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        auto& renderStats = r->getRenderStats();
+        auto& renderStats = Renderer::s_instance->getRenderStats();
         float bytesToMB = 1.0f; /// (1024 * 1024);
         ImGui::Text("re draw-calls %i meshes %i (%.2fbytes) textures %i (%.2fbytes) shaders %i", renderStats.drawCalls,
                     renderStats.meshCount, renderStats.meshBytes * bytesToMB, renderStats.textureCount,
@@ -49,7 +48,7 @@ public:
 
     void setTitle() override
     {
-        m_renderer.setWindowTitle("GuiExamples");
+        m_title = "GuiExamples";
     }
 
 private:

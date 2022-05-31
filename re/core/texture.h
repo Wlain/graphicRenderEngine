@@ -103,6 +103,8 @@ private:
     Info m_info{};
     friend class Shader;
     friend class Material;
+    friend class RenderPass;
+    friend class FrameBuffer;
 };
 } // namespace re
 

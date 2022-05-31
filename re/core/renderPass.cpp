@@ -33,32 +33,56 @@ RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withWorldLights(Wo
 
 RenderPass RenderPass::RenderPassBuilder::build()
 {
-    GLbitfield clear = 0;
-    if (m_clearColor)
+    return RenderPass(*this);
+}
+
+RenderPass::RenderPass(RenderPass::RenderPassBuilder& builder) :
+    m_camera(builder.m_camera), m_worldLights(builder.m_worldLights), m_renderStats(builder.m_renderStats), m_framebuffer(builder.m_framebuffer)
+{
+    if (s_instance)
     {
-        glClearColor(m_clearColorValue.r, m_clearColorValue.g, m_clearColorValue.b, m_clearColorValue.a);
+        finish();
+    }
+    glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffer != nullptr ? m_framebuffer->m_fbo : 0);
+
+    GLbitfield clear = 0;
+    if (builder.m_clearColor)
+    {
+        glClearColor(builder.m_clearColorValue.r, builder.m_clearColorValue.g, builder.m_clearColorValue.b, builder.m_clearColorValue.a);
         clear |= GL_COLOR_BUFFER_BIT;
     }
-    if (m_clearDepth)
+    if (builder.m_clearDepth)
     {
-        glClearDepth(m_clearDepthValue);
+        glClearDepth(builder.m_clearDepthValue);
         glDepthMask(GL_TRUE);
         clear |= GL_DEPTH_BUFFER_BIT;
     }
-    if (m_clearStencil)
+    if (builder.m_clearStencil)
     {
-        glClearStencil(m_clearStencilValue);
+        glClearStencil(builder.m_clearStencilValue);
         clear |= GL_STENCIL_BUFFER_BIT;
     }
     if (clear) glClear(clear);
-    if (m_gui)
+    if (builder.m_gui)
     {
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
     }
-    return { std::move(m_camera), m_worldLights, m_renderStats, m_gui };
+    auto framebufferSize = static_cast<glm::vec2>(Renderer::s_instance->getFramebufferSize());
+    if (m_framebuffer)
+    {
+        framebufferSize = m_framebuffer->m_size;
+    }
+    m_viewportOffset = static_cast<glm::uvec2>(m_camera.m_viewportOffset * framebufferSize);
+    m_viewportSize = static_cast<glm::uvec2>(framebufferSize * m_camera.m_viewportSize);
+    m_projection = m_camera.getProjectionTransform(framebufferSize);
+    //    glEnable(GL_SCISSOR_TEST);
+    glScissor(m_viewportOffset.x, m_viewportOffset.y, m_viewportSize.x, m_viewportSize.y);
+    glViewport(m_viewportOffset.x, m_viewportOffset.y, m_viewportSize.x, m_viewportSize.y);
+    s_instance = true;
+    s_lastGui = builder.m_gui;
 }
 
 RenderPass::RenderPassBuilder::RenderPassBuilder(RenderStats* renderStats) :
@@ -85,22 +109,29 @@ RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withClearStencil(b
     m_clearStencilValue = value;
     return *this;
 }
+
 RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withGUI(bool enabled)
 {
     m_gui = enabled;
     return *this;
 }
 
+RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withFramebuffer(const std::shared_ptr<FrameBuffer>& framebuffer)
+{
+    m_framebuffer = framebuffer;
+    return *this;
+}
+
 RenderPass::RenderPassBuilder re::RenderPass::create()
 {
-    return {};
+    return { &Renderer::s_instance->m_renderStatsCurrent };
 }
 
 RenderPass::~RenderPass() = default;
 
 void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color, Mesh::Topology meshTopology)
 {
-    ASSERT(m_instance != nullptr);
+    ASSERT(s_instance);
     // 使用static变量，共享mesh
     static std::shared_ptr<Mesh> mesh = Mesh::create()
                                             .withPositions(vertices)
@@ -115,7 +146,7 @@ void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 col
 
 void RenderPass::draw(const std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTransform, std::shared_ptr<Material>& materialPtr)
 {
-    ASSERT(m_instance != nullptr);
+    ASSERT(s_instance);
     auto* mesh = meshPtr.get();
     auto* material = materialPtr.get();
     auto* shader = material->getShader().get();
@@ -143,16 +174,6 @@ void RenderPass::draw(const std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTrans
     {
         glDrawElements((GLenum)mesh->topology(), indexCount, GL_UNSIGNED_SHORT, 0);
     }
-}
-
-RenderPass::RenderPass(Camera&& camera, WorldLights* worldLights, RenderStats* renderStats, bool gui) :
-    m_camera(camera), m_worldLights(worldLights), m_renderStats(renderStats), m_gui(gui)
-{
-    if (m_instance) m_instance->finish();
-    //    glEnable(GL_SCISSOR_TEST);
-    glScissor(m_camera.m_viewportX, m_camera.m_viewportY, m_camera.m_viewportWidth, m_camera.m_viewportHeight);
-    glViewport(m_camera.m_viewportX, m_camera.m_viewportY, m_camera.m_viewportWidth, m_camera.m_viewportHeight);
-    m_instance = this;
 }
 
 void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
@@ -189,7 +210,7 @@ void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
         // projection
         if (shader->m_uniformLocationProjection != -1)
         {
-            glUniformMatrix4fv(shader->m_uniformLocationProjection, 1, GL_FALSE, glm::value_ptr(m_camera.m_projectionTransform));
+            glUniformMatrix4fv(shader->m_uniformLocationProjection, 1, GL_FALSE, glm::value_ptr(m_projection));
         }
         // normal
         if (shader->m_uniformLocationNormal != -1)
@@ -200,7 +221,7 @@ void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
         // viewport
         if (shader->m_uniformLocationViewport != -1)
         {
-            glm::vec4 viewport((float)m_camera.m_viewportWidth, (float)m_camera.m_viewportHeight, (float)m_camera.m_viewportX, (float)m_camera.m_viewportY);
+            glm::vec4 viewport((float)m_viewportSize.x, (float)m_viewportSize.y, (float)m_viewportOffset.x, (float)m_viewportOffset.y);
             glUniform4fv(shader->m_uniformLocationViewport, 1, glm::value_ptr(viewport));
         }
         shader->setLights(m_worldLights, m_camera.getViewTransform());
@@ -209,13 +230,27 @@ void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
 
 void RenderPass::finish()
 {
-    ASSERT(m_instance != nullptr);
-    if (m_gui)
+    ASSERT(s_instance);
+    if (s_lastGui)
     {
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
-    m_instance = nullptr;
+    if (s_lastFramebuffer)
+    {
+        for (auto& tex : s_lastFramebuffer->m_textures)
+        {
+            if (tex->m_info.generateMipmap)
+            {
+                glBindTexture(tex->m_info.target, tex->m_info.id);
+                glGenerateMipmap(tex->m_info.target);
+                glBindTexture(tex->m_info.target, 0);
+            }
+        }
+    }
+    s_lastFramebuffer.reset();
+    s_instance = false;
+    s_lastGui = false;
 }
 
 std::vector<glm::vec4> RenderPass::readPixels(unsigned int x, unsigned int y, unsigned int width, unsigned int height)

@@ -16,7 +16,7 @@ class SphereExample2 : public BasicProject
 public:
     using BasicProject::BasicProject;
     ~SphereExample2() override = default;
-    void run() override
+    void initialize() override
     {
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
@@ -33,20 +33,19 @@ public:
         m_mesh = Mesh::create().withSphere().build();
         m_worldLights = std::make_unique<WorldLights>();
         m_worldLights->addLight(Light::create().withDirectionalLight({ 0, 2, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
-        BasicProject::run();
     }
 
-    void render(Renderer* r) override
+    void render() override
     {
         /// 渲染
-        auto renderPass = r->createRenderPass().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
+        auto renderPass = RenderPass::create().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
         renderPass.draw(m_mesh, m_pos1, m_material);
         renderPass.draw(m_mesh, m_pos2, m_material2);
     }
 
     void setTitle() override
     {
-        m_renderer.setWindowTitle("SphereExample2");
+        m_title = "SphereExample2";
     }
 
 private:

@@ -51,7 +51,7 @@ class CubeMapExample : public BasicProject
 public:
     using BasicProject::BasicProject;
     ~CubeMapExample() override = default;
-    void run() override
+    void initialize() override
     {
         glm::vec3 eye{ 0, 0, 3 };
         glm::vec3 at{ 0, 0, 0 };
@@ -62,26 +62,24 @@ public:
         auto shader = Shader::create().withSource(vertexShaderStr, fragmentShaderStr).build();
         m_material = shader->createMaterial();
         auto tex = Texture::create()
-                        .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posx.png"), Texture::CubeMapSide::PositiveX)
-                        .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negx.png"), Texture::CubeMapSide::NegativeX)
-                        .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posy.png"), Texture::CubeMapSide::PositiveY)
-                        .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negy.png"), Texture::CubeMapSide::NegativeY)
-                        .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posz.png"), Texture::CubeMapSide::PositiveZ)
-                        .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negz.png"), Texture::CubeMapSide::NegativeZ)
-                        .build();
+                       .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posx.png"), Texture::CubeMapSide::PositiveX)
+                       .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negx.png"), Texture::CubeMapSide::NegativeX)
+                       .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posy.png"), Texture::CubeMapSide::PositiveY)
+                       .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negy.png"), Texture::CubeMapSide::NegativeY)
+                       .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posz.png"), Texture::CubeMapSide::PositiveZ)
+                       .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negz.png"), Texture::CubeMapSide::NegativeZ)
+                       .build();
         m_material->setTexture(tex);
         m_mesh = Mesh::create().withSphere().build();
-        BasicProject::run();
     }
-    void render(Renderer* r) override
+    void render() override
     {
-        /// 渲染
-        auto renderPass = r->createRenderPass().withCamera(*m_camera).build();
+        auto renderPass = RenderPass::create().withCamera(*m_camera).build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material);
     }
     void setTitle() override
     {
-        m_renderer.setWindowTitle("CubeMapExample");
+        m_title = "CubeMapExample";
     }
 };
 

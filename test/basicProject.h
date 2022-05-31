@@ -20,12 +20,13 @@ public:
     virtual ~BasicProject() = default;
     virtual void run()
     {
-        setTitle();
+        initialize();
+        m_renderer.setWindowTitle(m_title);
         m_renderer.m_frameUpdate = [&](float deltaTime) {
             update(deltaTime);
         };
-        m_renderer.m_frameRender = [&](Renderer* r) {
-            render(r);
+        m_renderer.m_frameRender = [&]() {
+            render();
         };
         m_renderer.m_frameResize = [&](int width, int height) {
             resize(width, height);
@@ -35,9 +36,10 @@ public:
         };
         m_renderer.startEventLoop();
     }
+    virtual void initialize() {}
     virtual void resize(int width, int height) {}
     virtual void touchEvent(double xPos, double yPos) {}
-    virtual void render(Renderer* r){};
+    virtual void render(){};
     virtual void update(float deltaTime)
     {
         m_deltaTime = deltaTime;
@@ -45,10 +47,10 @@ public:
     }
     virtual void setTitle()
     {
-        m_renderer.setWindowTitle("BasicProject");
     }
 
 protected:
+    std::string m_title{ "BasicProject" };
     GLFWRenderer m_renderer;
     std::unique_ptr<Camera> m_camera;
     std::shared_ptr<Material> m_material;

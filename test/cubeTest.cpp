@@ -17,7 +17,7 @@ public:
     using BasicProject::BasicProject;
     ~CubeExample() = default;
 
-    void run() override
+    void initialize() override
     {
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
@@ -30,19 +30,17 @@ public:
         m_worldLights->addLight(Light::create().withPointLight({ 3, 0, 0 }).withColor({ 0, 1, 0 }).withRange(20).build());
         m_worldLights->addLight(Light::create().withPointLight({ 0, -3, 0 }).withColor({ 0, 0, 1 }).withRange(20).build());
         m_worldLights->addLight(Light::create().withPointLight({ -3, 0, 0 }).withColor({ 1, 1, 1 }).withRange(20).build());
-        BasicProject::run();
     }
 
-    void render(Renderer* r) override
+    void render() override
     {
-        /// 渲染
-        auto renderPass = r->createRenderPass().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
+        auto renderPass = RenderPass::create().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material);
     }
 
     void setTitle() override
     {
-        m_renderer.setWindowTitle("CubeExample");
+        m_title = "CubeExample";
     }
 };
 

@@ -6,11 +6,11 @@
 
 #include "commonMacro.h"
 #include "glCommonDefine.h"
+#include "material.h"
 #include "renderer.h"
 #include "texture.h"
 #include "worldLights.h"
 
-#include "material.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <memory>
 #include <string>

@@ -46,16 +46,11 @@ Renderer::Renderer(GLFWwindow* window) :
 
 Renderer::~Renderer() = default;
 
-RenderPass::RenderPassBuilder Renderer::createRenderPass()
-{
-    return { &m_renderStatsCurrent };
-}
-
 void Renderer::swapWindow()
 {
-    if (RenderPass::m_instance)
+    if (RenderPass::s_instance)
     {
-        RenderPass::m_instance->finish();
+        RenderPass::finish();
     }
     m_renderStatsLast = m_renderStatsCurrent;
     m_renderStatsCurrent.frame++;

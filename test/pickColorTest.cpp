@@ -16,7 +16,7 @@ public:
     using BasicProject::BasicProject;
     ~PickColorExample() override = default;
 
-    void run() override
+    void initialize() override
     {
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0, 0, 6 }, { 0, 0, 0 }, { 0, 1, 0 });
@@ -37,11 +37,10 @@ public:
         m_mesh[2] = Mesh::create()
                         .withCube()
                         .build();
-        BasicProject::run();
     }
-    void render(Renderer* r) override
+    void render() override
     {
-        auto renderPass = r->createRenderPass()
+        auto renderPass = RenderPass::create()
                               .withCamera(*m_camera)
                               .withClearColor(true, { 0, 0, 0, 1 })
                               .build();
@@ -81,7 +80,7 @@ public:
     }
     void setTitle() override
     {
-        m_renderer.setWindowTitle("PickColorExample");
+        m_title = "PickColorExample";
     }
 
     void resize(int width, int height) override

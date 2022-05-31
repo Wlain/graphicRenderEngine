@@ -32,19 +32,27 @@ public:
     class MeshBuilder
     {
     public:
+        // quad x,y = [-1;1] and z=0, UV=[0;1], normals=(0,0,1)
         MeshBuilder& withQuad();
+        // cube mesh including UV coordinates, positions and normals
         MeshBuilder& withCube(float length = 1);
+        // sphere mesh including UV coordinates, positions and normals
         MeshBuilder& withSphere(int stacks = 16, int slices = 32, float radius = 1);
+        // set vertex attribute "position" of type vec3
         MeshBuilder& withPositions(const std::vector<glm::vec3>& position);
+        // set vertex attribute "normal" of type vec3
         MeshBuilder& withNormals(const std::vector<glm::vec3>& normal);
+        // set vertex attribute "uv" of type vec4(treated as two sets of texture coordinates))
         MeshBuilder& withUvs(const std::vector<glm::vec4>& uv);
+        // set vertex attribute "colors" of type vec4
         MeshBuilder& withColors(const std::vector<glm::vec4>& colors);
+        // set vertex attribute "particleSize" of type float
         MeshBuilder& withParticleSizes(const std::vector<float>& particleSize);
-        MeshBuilder& withUniform(std::string_view name, const std::vector<float>& values);
-        MeshBuilder& withUniform(std::string_view name, const std::vector<glm::vec2>& values);
-        MeshBuilder& withUniform(std::string_view name, const std::vector<glm::vec3>& values);
-        MeshBuilder& withUniform(std::string_view name, const std::vector<glm::vec4>& values);
-        MeshBuilder& withUniform(std::string_view name, const std::vector<glm::i32vec4>& values);
+        MeshBuilder& withAttribute(std::string_view name, const std::vector<float>& values);
+        MeshBuilder& withAttribute(std::string_view name, const std::vector<glm::vec2>& values);
+        MeshBuilder& withAttribute(std::string_view name, const std::vector<glm::vec3>& values);
+        MeshBuilder& withAttribute(std::string_view name, const std::vector<glm::vec4>& values);
+        MeshBuilder& withAttribute(std::string_view name, const std::vector<glm::i32vec4>& values);
         MeshBuilder& withMeshTopology(Topology topology);
         MeshBuilder& withIndices(const std::vector<uint16_t>& indices);
         std::shared_ptr<Mesh> build();

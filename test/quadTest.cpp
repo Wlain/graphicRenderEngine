@@ -17,7 +17,7 @@ public:
     using BasicProject::BasicProject;
     ~QuadExample() = default;
 
-    void run() override
+    void initialize() override
     {
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
@@ -26,19 +26,18 @@ public:
         m_material = shader->createMaterial();
         m_material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/test.jpg")).build());
         m_mesh = Mesh::create().withQuad().build();
-        BasicProject::run();
     }
 
-    void render(Renderer* r) override
+    void render() override
     {
         /// 渲染
-        auto renderPass = r->createRenderPass().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
+        auto renderPass = RenderPass::create().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_material);
     }
 
     void setTitle() override
     {
-        m_renderer.setWindowTitle("QuadExample");
+        m_title = "QuadExample";
     }
 };
 

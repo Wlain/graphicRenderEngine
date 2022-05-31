@@ -19,7 +19,7 @@ class CubeTexExample : public BasicProject
 public:
     using BasicProject::BasicProject;
     ~CubeTexExample() override = default;
-    void run() override
+    void initialize() override
     {
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
@@ -30,17 +30,16 @@ public:
         m_mesh = Mesh::create()
                      .withCube()
                      .build();
-        BasicProject::run();
     }
 
     void setTitle() override
     {
-        BasicProject::setTitle();
+        m_title = "CubeTexExample";
     }
 
-    void render(Renderer* r) override
+    void render() override
     {
-        auto renderPass = r->createRenderPass().withCamera(*m_camera).withClearColor(true, { 1, 0, 0, 1 }).build();
+        auto renderPass = RenderPass::create().withCamera(*m_camera).withClearColor(true, { 1, 0, 0, 1 }).build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material);
     }
 };

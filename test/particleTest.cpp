@@ -17,7 +17,7 @@ class ParticleExample : public BasicProject
 public:
     using BasicProject::BasicProject;
     ~ParticleExample() override = default;
-    void run() override
+    void initialize() override
     {
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
@@ -36,17 +36,16 @@ public:
         m_worldLights->addLight(Light::create().withPointLight({ 2, 0, 5 }).withColor({ 0, 1, 0 }).withRange(10).build());
         m_worldLights->addLight(Light::create().withPointLight({ 0, -2, 5 }).withColor({ 0, 0, 1 }).withRange(10).build());
         m_worldLights->addLight(Light::create().withPointLight({ -2, 0, 5 }).withColor({ 1, 1, 1 }).withRange(10).build());
-        BasicProject::run();
     }
-    void render(Renderer* r) override
+    void render() override
     {
-        auto renderPass = r->createRenderPass().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
+        auto renderPass = RenderPass::create().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)) * glm::scale(glm::mat4(1), { 0.3f, 0.3f, 0.3f }), m_material);
         renderPass.draw(m_particleMesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_particleMaterial);
     }
     void setTitle() override
     {
-        m_renderer.setWindowTitle("ParticleExample");
+        m_title = "ParticleExample";
     }
 
     std::shared_ptr<Mesh> createParticles(int size = 2500)

@@ -59,7 +59,7 @@ public:
     using BasicProject::BasicProject;
     ~SpritesExample() = default;
 
-    void run() override
+    void initialize() override
     {
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
@@ -68,12 +68,11 @@ public:
         m_material = shader->createMaterial();
         m_material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/sprite.png")).build());
         m_mesh = createParticles();
-        BasicProject::run();
     }
 
-    void render(Renderer* r) override
+    void render() override
     {
-        auto renderPass = r->createRenderPass().withCamera(*m_camera).build();
+        auto renderPass = RenderPass::create().withCamera(*m_camera).build();
         updateParticlesAnimation(m_totalTime, spriteUV, m_uvSize, m_uvRotation);
         updateParticles(m_mesh.get(), spriteUV, m_uvSize, m_uvRotation, m_spritesize);
         renderPass.draw(m_mesh, glm::mat4(1), m_material);
@@ -81,7 +80,7 @@ public:
 
     void setTitle() override
     {
-        m_renderer.setWindowTitle("SpritesExample");
+        m_title = "SpritesExample";
     }
 
 private:

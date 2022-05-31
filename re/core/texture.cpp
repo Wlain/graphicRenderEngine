@@ -125,6 +125,7 @@ std::shared_ptr<Texture> Texture::TextureBuilder::build()
         throw std::runtime_error("Texture is already build");
     }
     auto* texture = new Texture(m_info.id, m_info.width, m_info.height, m_info.target);
+    texture->m_info.generateMipmap = m_info.generateMipmap;
     if (m_info.generateMipmap)
     {
         texture->invokeGenerateMipmap();

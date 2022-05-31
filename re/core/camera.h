@@ -11,27 +11,50 @@ namespace re
 class Camera
 {
 public:
+    // 默认是正交投影：eye:(0,0,0)，看向z负轴，使用正交投影，[-1,1]
     Camera();
     void setLookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up);
     void setPerspectiveProjection(float fieldOfViewY, float nearPlane, float farPlane);
-    // left left plane of projection
-    // right right plane of projection
-    // bottom bottom plane of projection
-    // top top plane of projection
-    void setOrthographicProjection(float left, float right, float bottom, float top, float zNear, float zFar);
+    void setOrthographicProjection(float orthographicSize, float nearPlane, float farPlane);
+    void setWindowCoordinates();
     inline void setViewTransform(const glm::mat4& viewTransform) { m_viewTransform = viewTransform; }
-    inline void setProjectionTransform(const glm::mat4& projectionTransform) { m_projectionTransform = projectionTransform; }
+    void setProjectionTransform(const glm::mat4& projectionTransform);
     inline glm::mat4 getViewTransform() const { return m_viewTransform; }
-    inline glm::mat4 getProjectionTransform() const { return m_projectionTransform; };
-    void setViewport(int x, int y, int width, int height);
-    
+    glm::mat4 getProjectionTransform(const glm::uvec2& viewportSize);
+    void setViewport(const glm::vec2& offset, const glm::vec2& size);
+
+private:
+    enum class ProjectionType
+    {
+        Perspective,
+        Orthographic,
+        OrthographicWindow,
+        Custom
+    };
+
+    union ProjectionValue
+    {
+        struct
+        {
+            float fieldOfViewY;
+            float nearPlane;
+            float farPlane;
+        } perspective;
+        struct
+        {
+            float orthographicSize;
+            float nearPlane;
+            float farPlane;
+        } orthographic;
+        float customProjectionMatrix[16];
+    };
+
 private:
     glm::mat4 m_viewTransform{ 1.0f };
-    glm::mat4 m_projectionTransform{ 1.0f };
-    int m_viewportX{};
-    int m_viewportY{};
-    int m_viewportWidth{ -1 };
-    int m_viewportHeight{ -1 };
+    ProjectionValue m_projectionValue{ 1.0f };
+    ProjectionType m_projectionType = ProjectionType::Orthographic;
+    glm::vec2 m_viewportOffset = glm::vec2{ 0, 0 };
+    glm::vec2 m_viewportSize = glm::vec2{ 1, 1 };
     friend class RenderPass;
 };
 } // namespace re

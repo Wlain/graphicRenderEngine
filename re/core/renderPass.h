@@ -5,6 +5,7 @@
 #ifndef SIMPLERENDERENGINE_RENDERPASS_H
 #define SIMPLERENDERENGINE_RENDERPASS_H
 #include "camera.h"
+#include "framebuffer.h"
 #include "mesh.h"
 
 #include <string>
@@ -14,6 +15,7 @@ class Renderer;
 class Shader;
 class RenderStats;
 class Material;
+class FrameBuffer;
 //渲染通道封装了一些渲染状态，并允许添加 drawcall，注意，一次只能有一个渲染传递对象处于活动状态。
 class RenderPass
 {
@@ -33,6 +35,7 @@ public:
         RenderPassBuilder& withClearStencil(bool enabled = false, int value = 0);
         // calls ImGui::Render() in the end of the renderpass
         RenderPassBuilder& withGUI(bool enabled = true);
+        RenderPassBuilder& withFramebuffer(const std::shared_ptr<FrameBuffer>& framebuffer);
         RenderPass build();
 
     private:
@@ -50,6 +53,7 @@ public:
         std::string m_name;
         WorldLights* m_worldLights{ nullptr };
         RenderStats* m_renderStats{ nullptr };
+        std::shared_ptr<FrameBuffer> m_framebuffer;
         Camera m_camera;
         friend class Renderer;
         friend class RenderPass;
@@ -57,26 +61,33 @@ public:
 
 public:
     RenderPass() = default;
-    static RenderPassBuilder create();
+    static RenderPassBuilder create(); // Create a RenderPass
     virtual ~RenderPass();
     void drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }, Mesh::Topology meshTopology = Mesh::Topology::Lines);
     void draw(const std::shared_ptr<Mesh>& mesh, glm::mat4 modelTransform, std::shared_ptr<Material>& material);
     std::vector<glm::vec4> readPixels(unsigned int x, unsigned int y, unsigned int width = 1, unsigned int height = 1);
 
 private:
-    RenderPass(Camera&& camera, WorldLights* worldLights, RenderStats* renderStats, bool gui);
+    RenderPass(RenderPass::RenderPassBuilder& builder);
     void setupShader(const glm::mat4& modelTransform, Shader* shader);
-    void finish();
+    static void finish();
 
 private:
+    inline static bool s_instance{ false };
+    inline static bool s_lastGui{ false };
+    inline static std::shared_ptr<FrameBuffer> s_lastFramebuffer;
+
+private:
+    std::shared_ptr<FrameBuffer> m_framebuffer;
     Shader* m_lastBoundShader = { nullptr };
     Material* m_lastBoundMaterial = { nullptr };
     Mesh* m_lastBoundMesh = { nullptr };
     Camera m_camera{};
     WorldLights* m_worldLights{ nullptr };
     RenderStats* m_renderStats{ nullptr };
-    inline static RenderPass* m_instance{ nullptr };
-    bool m_gui{ false };
+    glm::mat4 m_projection;
+    glm::uvec2 m_viewportOffset;
+    glm::uvec2 m_viewportSize;
     friend class Renderer;
 };
 } // namespace re

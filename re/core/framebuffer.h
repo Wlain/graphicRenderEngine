@@ -1,0 +1,53 @@
+// Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+// Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+// Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+// Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+// Vestibulum commodo. Ut rhoncus gravida arcu.
+
+//
+// Created by william on 2022/5/31.
+//
+
+#ifndef SIMPLERENDERENGINE_FRAMEBUFFER_H
+#define SIMPLERENDERENGINE_FRAMEBUFFER_H
+#include <glm/glm.hpp>
+#include <vector>
+
+namespace re
+{
+class RenderPass;
+class Texture;
+
+class FrameBuffer
+{
+public:
+    class FrameBufferBuilder
+    {
+    public:
+        FrameBufferBuilder& withTexture(const std::shared_ptr<Texture>& texture);
+        std::shared_ptr<FrameBuffer> build();
+
+    private:
+        std::vector<std::shared_ptr<Texture>> m_textures;
+        glm::uvec2 m_size;
+        FrameBufferBuilder() = default;
+        FrameBufferBuilder(const FrameBufferBuilder&) = default;
+        friend class FrameBuffer;
+    };
+
+public:
+    ~FrameBuffer();
+    static FrameBufferBuilder create();
+    static int getMaximumColorAttachments();
+
+public:
+    FrameBuffer();
+    std::vector<std::shared_ptr<Texture>> m_textures;
+    uint32_t m_fbo{ 0 };
+    uint32_t m_rbo{ 0 };
+    glm::uvec2 m_size;
+    friend class RenderPass;
+};
+} // namespace re
+
+#endif //SIMPLERENDERENGINE_FRAMEBUFFER_H

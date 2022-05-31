@@ -36,8 +36,7 @@ struct Light
         glm::vec3 m_direction{};
         glm::vec3 m_color{};
         Light* m_light{};
-        // 0 : means no attenuation
-        float m_range{};
+        float m_range{}; // the range of a point light (due to attenuation),range == 0 means no attenuation
         friend class Light;
     };
 

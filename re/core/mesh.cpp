@@ -341,7 +341,7 @@ const std::vector<glm::vec4>& Mesh::get(std::string_view uniformName)
 }
 
 template <>
-const std::vector<glm::ivec4>& Mesh::get(std::string_view uniformName)
+const std::vector<glm::i32vec4>& Mesh::get(std::string_view uniformName)
 {
     return m_attributesIVec4[uniformName.data()];
 }
@@ -515,31 +515,31 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withSphere(int stacks, int slices, float r
 
 Mesh::MeshBuilder& Mesh::MeshBuilder::withPositions(const std::vector<glm::vec3>& position)
 {
-    withUniform("position", position);
+    withAttribute("position", position);
     return *this;
 }
 
 Mesh::MeshBuilder& Mesh::MeshBuilder::withNormals(const std::vector<glm::vec3>& normal)
 {
-    withUniform("normal", normal);
+    withAttribute("normal", normal);
     return *this;
 }
 
 Mesh::MeshBuilder& Mesh::MeshBuilder::withUvs(const std::vector<glm::vec4>& uv)
 {
-    withUniform("uv", uv);
+    withAttribute("uv", uv);
     return *this;
 }
 
 Mesh::MeshBuilder& Mesh::MeshBuilder::withColors(const std::vector<glm::vec4>& colors)
 {
-    withUniform("color", colors);
+    withAttribute("color", colors);
     return *this;
 }
 
 Mesh::MeshBuilder& Mesh::MeshBuilder::withParticleSizes(const std::vector<float>& particleSize)
 {
-    withUniform("particleSize", particleSize);
+    withAttribute("particleSize", particleSize);
     return *this;
 }
 
@@ -575,7 +575,7 @@ std::shared_ptr<Mesh> Mesh::MeshBuilder::build()
     }
 }
 
-Mesh::MeshBuilder& Mesh::MeshBuilder::withUniform(std::string_view name, const std::vector<float>& values)
+Mesh::MeshBuilder& Mesh::MeshBuilder::withAttribute(std::string_view name, const std::vector<float>& values)
 {
     if (m_updateMesh != nullptr && m_attributesFloat.find(name.data()) == m_attributesFloat.end())
     {
@@ -588,7 +588,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withUniform(std::string_view name, const s
     return *this;
 }
 
-Mesh::MeshBuilder& Mesh::MeshBuilder::withUniform(std::string_view name, const std::vector<glm::vec2>& values)
+Mesh::MeshBuilder& Mesh::MeshBuilder::withAttribute(std::string_view name, const std::vector<glm::vec2>& values)
 {
     if (m_updateMesh != nullptr && m_attributesVec2.find(name.data()) == m_attributesVec2.end())
     {
@@ -601,7 +601,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withUniform(std::string_view name, const s
     return *this;
 }
 
-Mesh::MeshBuilder& Mesh::MeshBuilder::withUniform(std::string_view name, const std::vector<glm::vec3>& values)
+Mesh::MeshBuilder& Mesh::MeshBuilder::withAttribute(std::string_view name, const std::vector<glm::vec3>& values)
 {
     if (m_updateMesh != nullptr && m_attributesVec3.find(name.data()) == m_attributesVec3.end())
     {
@@ -614,7 +614,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withUniform(std::string_view name, const s
     return *this;
 }
 
-Mesh::MeshBuilder& Mesh::MeshBuilder::withUniform(std::string_view name, const std::vector<glm::vec4>& values)
+Mesh::MeshBuilder& Mesh::MeshBuilder::withAttribute(std::string_view name, const std::vector<glm::vec4>& values)
 {
     if (m_updateMesh != nullptr && m_attributesVec4.find(name.data()) == m_attributesVec4.end())
     {
@@ -627,7 +627,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withUniform(std::string_view name, const s
     return *this;
 }
 
-Mesh::MeshBuilder& Mesh::MeshBuilder::withUniform(std::string_view name, const std::vector<glm::i32vec4>& values)
+Mesh::MeshBuilder& Mesh::MeshBuilder::withAttribute(std::string_view name, const std::vector<glm::i32vec4>& values)
 {
     if (m_updateMesh != nullptr && m_attributesIVec4.find(name.data()) == m_attributesIVec4.end())
     {
