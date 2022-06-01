@@ -7,6 +7,7 @@
 #include "camera.h"
 #include "framebuffer.h"
 #include "mesh.h"
+#include "spriteBatch.h"
 
 #include <string>
 namespace re
@@ -49,7 +50,7 @@ public:
         bool m_clearDepth{ true };
         bool m_clearStencil{ false };
         bool m_clearColor{ true };
-        bool m_gui{ false };
+        bool m_gui{ true };
         std::string m_name;
         WorldLights* m_worldLights{ nullptr };
         RenderStats* m_renderStats{ nullptr };
@@ -66,9 +67,11 @@ public:
     void drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }, Mesh::Topology meshTopology = Mesh::Topology::Lines);
     void draw(const std::shared_ptr<Mesh>& mesh, glm::mat4 modelTransform, std::shared_ptr<Material>& material);
     void draw(std::shared_ptr<Mesh>& mesh, glm::mat4 modelTransform, std::vector<std::shared_ptr<Material>>& materials);
+    void draw(std::shared_ptr<SpriteBatch>& spriteBatch, glm::mat4 modelTransform = glm::mat4(1));
     std::vector<glm::vec4> readPixels(unsigned int x, unsigned int y, unsigned int width = 1, unsigned int height = 1);
     // flush GPU command buffer (must be called when profiling GPU time - should not be called when not profiling)
     void finishGPUCommandBuffer() const;
+
 private:
     RenderPass(RenderPass::RenderPassBuilder& builder);
     void setupShader(const glm::mat4& modelTransform, Shader* shader);

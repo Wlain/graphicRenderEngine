@@ -214,6 +214,16 @@ void RenderPass::draw(std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTransform, 
     }
 }
 
+void RenderPass::draw(std::shared_ptr<SpriteBatch>& spriteBatch, glm::mat4 modelTransform)
+{
+    if (spriteBatch == nullptr) return;
+
+    for (int i = 0; i < spriteBatch->m_materials.size(); i++)
+    {
+        draw(spriteBatch->m_spriteMeshes[i], modelTransform, spriteBatch->m_materials[i]);
+    }
+}
+
 void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
 {
     if (m_lastBoundShader == shader)

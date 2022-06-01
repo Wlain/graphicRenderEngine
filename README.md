@@ -8,5 +8,6 @@ This is a simple render engine based on OpenGL in MAC-OS
 * spdlog
 * imageui
 * stb
+* json11
 
 

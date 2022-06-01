@@ -96,7 +96,7 @@ public:
     // get the local axis aligned bounding box (AABB)
     std::array<glm::vec3, 2> getBoundsMinMax();
     // get size of the mesh in bytes on GPU
-    size_t getDataSize();
+    int getDataSize();
 
 private:
     struct Attribute

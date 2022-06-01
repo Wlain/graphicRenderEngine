@@ -3,11 +3,8 @@
 //
 
 #include "basicProject.h"
-#include "core/camera.h"
 #include "core/modelImporter.h"
-#include "guiCommonDefine.h"
 
-#include <filesystem>
 #include <glm/glm.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>

@@ -273,7 +273,7 @@ Mesh::MeshBuilder Mesh::update()
     return builder;
 }
 
-size_t Mesh::getDataSize()
+int Mesh::getDataSize()
 {
     return m_totalBytesPerVertex;
 }
@@ -600,7 +600,7 @@ std::shared_ptr<Mesh> Mesh::MeshBuilder::build()
     {
         renderStats.meshBytes -= m_updateMesh->getDataSize();
         m_updateMesh->update(m_attributesFloat, m_attributesVec2, m_attributesVec3, m_attributesVec4, m_attributesIVec4, m_indices, m_topologies);
-        renderStats.meshBytes += mesh->getDataSize();
+        renderStats.meshBytes += m_updateMesh->getDataSize();
         return m_updateMesh->shared_from_this();
     }
     else

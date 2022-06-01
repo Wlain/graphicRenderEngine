@@ -72,7 +72,7 @@ glm::mat4 Camera::getProjectionTransform(const glm::uvec2& viewportSize)
         return glm::ortho<float>(-sizeX, sizeX, -m_projectionValue.orthographic.orthographicSize, m_projectionValue.orthographic.orthographicSize, m_projectionValue.orthographic.nearPlane, m_projectionValue.orthographic.farPlane);
     }
     case ProjectionType::OrthographicWindow:
-        return glm::ortho<float>(0, 0, viewportSize.x, viewportSize.y, 1.0f, -1.0f);
+        return glm::ortho<float>(0, viewportSize.x, 0, viewportSize.y, 1.0f, -1.0f);
     case ProjectionType::Perspective:
         return glm::perspectiveFov<float>(m_projectionValue.perspective.fieldOfViewY,
                                           viewportSize.x,

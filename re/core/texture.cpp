@@ -9,11 +9,11 @@
 #include "glCommonDefine.h"
 #include "renderer.h"
 
-#include <fstream>
 #include <glm/glm.hpp>
 #define STB_IMAGE_IMPLEMENTATION
-#include <stb/stb_image.h>
+#include "utils.h"
 
+#include <stb/stb_image.h>
 #ifndef GL_SRGB_ALPHA
     #define GL_SRGB_ALPHA 0x8C42
 #endif
@@ -23,23 +23,6 @@
 
 namespace
 {
-std::vector<char> readAllBytes(char const* filename)
-{
-    using namespace std;
-    ifstream ifs(filename, std::ios::binary | std::ios::ate);
-    ifstream::pos_type pos = ifs.tellg();
-    if (pos < 0)
-    {
-        LOG_ERROR("Cannot read {}", filename);
-        return {};
-    }
-    std::vector<char> result(pos);
-
-    ifs.seekg(0, ios::beg);
-    ifs.read(&result[0], pos);
-    return result;
-}
-
 bool isPowerOfTwo(unsigned int x)
 {
     // 例如：8:1000 7:111  8 & 7 == 0
@@ -77,7 +60,7 @@ Texture::TextureBuilder& Texture::TextureBuilder::withFile(std::string_view file
     checkGLError();
     int desireComp = STBI_rgb_alpha;
     stbi_set_flip_vertically_on_load(true);
-    auto pixelsData = readAllBytes(filename.data());
+    auto pixelsData = getFileContents(filename.data());
     auto* data = (char*)stbi_load_from_memory((stbi_uc const*)pixelsData.data(), pixelsData.size(), &m_info.width, &m_info.height, &m_info.channels, desireComp);
     stbi_set_flip_vertically_on_load(false);
     glBindTexture(m_info.target, m_info.id);
@@ -163,7 +146,7 @@ Texture::TextureBuilder& Texture::TextureBuilder::withFileCubeMap(std::string_vi
     GLint border = 0;
     GLenum type = GL_UNSIGNED_BYTE;
     int desireComp = STBI_rgb_alpha;
-    auto pixelsData = readAllBytes(filename.data());
+    auto pixelsData = getFileContents(filename.data());
     auto* data = (unsigned char*)stbi_load_from_memory((stbi_uc const*)pixelsData.data(), pixelsData.size(), &m_info.width, &m_info.height, &m_info.channels, desireComp);
     glBindTexture(m_info.target, m_info.id);
     glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + (uint32_t)side, mipmapLevel, internalFormat, m_info.width, m_info.height, border, GL_RGBA, type, data);

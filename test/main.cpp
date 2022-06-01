@@ -10,9 +10,10 @@ extern void cubeMapText();
 extern void pickColorTest();
 extern void RenderToFrameBufferTest();
 extern void objTest();
+extern void spritesBatchTest();
 
 int main()
 {
-    objTest();
+    spritesBatchTest();
     return 0;
 }

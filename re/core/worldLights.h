@@ -25,7 +25,7 @@ struct WorldLights
     inline void removeLight(int index)
     {
         ASSERT(index < lights.size());
-        lights.erase(lights.begin() + index);
+        lights.erase(lights.cbegin() + index);
     }
 
     inline Light* getLight(int index)

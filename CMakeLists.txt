@@ -15,6 +15,8 @@ add_subdirectory(3rdparty/glew/build/cmake)
 add_subdirectory(3rdparty/glm)
 # spdlog
 add_subdirectory(3rdparty/spdlog)
+# json11
+add_subdirectory(3rdparty/json11)
 
 if (APPLE)
     INCLUDE_DIRECTORIES(/System/Library/Frameworks)

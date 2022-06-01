@@ -6,8 +6,8 @@
 
 #include "commonMacro.h"
 #include "mesh.h"
+#include "utils.h"
 
-#include <fstream>
 #include <glm/glm.hpp>
 #include <sstream>
 #include <unordered_map>
@@ -17,22 +17,6 @@ namespace
 {
 const char kPathSeparator = '/';
 const char kNonPathSeparator = '/';
-
-std::string getFileContents(const std::filesystem::path& filename)
-{
-    std::ifstream in{ filename, std::ios::in | std::ios::binary };
-    if (in)
-    {
-        std::string contents;
-        in.seekg(0, std::ios::end);
-        contents.resize(in.tellg());
-        in.seekg(0, std::ios::beg);
-        in.read(&contents[0], contents.size());
-        in.close();
-        return contents;
-    }
-    throw(errno);
-}
 
 std::string replaceAll(std::string& s, const std::string& search, const std::string& replace)
 {
@@ -550,7 +534,7 @@ std::shared_ptr<Mesh> ModelImporter::importObj(const std::filesystem::path& path
     for (int i = 0; i < indices.size(); i++)
     {
         std::string parentPath = path.parent_path().c_str();
-        outModelMaterials.push_back(createMaterial(indices[i].materialName, materials, parentPath+'/'));
+        outModelMaterials.push_back(createMaterial(indices[i].materialName, materials, parentPath + '/'));
         meshBuilder.withIndices(indices[i].vertexIndices, Mesh::Topology::Triangles, i);
     }
 
