@@ -8,6 +8,8 @@
 
 #include <glm/glm.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
+#include "guiCommonDefine.h"
+
 #include <glm/gtx/euler_angles.hpp>
 using namespace re;
 
@@ -26,21 +28,6 @@ public:
         m_material = shader->createMaterial();
         m_mesh = Mesh::create().withSphere().build();
         m_worldLights = std::make_unique<WorldLights>();
-        bool point = true;
-        if (point)
-        {
-            m_worldLights->addLight(Light::create().withPointLight({ 0, 2, 1 }).withColor({ 1, 0, 0 }).withRange(10).build());
-            m_worldLights->addLight(Light::create().withPointLight({ 2, 0, 1 }).withColor({ 0, 1, 0 }).withRange(10).build());
-            m_worldLights->addLight(Light::create().withPointLight({ 0, -2, 1 }).withColor({ 0, 0, 1 }).withRange(10).build());
-            m_worldLights->addLight(Light::create().withPointLight({ -2, 0, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
-        }
-        else
-        {
-            m_worldLights->addLight(Light::create().withDirectionalLight({ 0, 1, 1 }).withColor({ 1, 0, 0 }).withRange(10).build());
-            m_worldLights->addLight(Light::create().withDirectionalLight({ 1, 0, 1 }).withColor({ 0, 1, 0 }).withRange(10).build());
-            m_worldLights->addLight(Light::create().withDirectionalLight({ 0, -1, 1 }).withColor({ 0, 0, 1 }).withRange(10).build());
-            m_worldLights->addLight(Light::create().withDirectionalLight({ -1, 0, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
-        }
     }
 
     void drawCross(RenderPass& rp, const glm::vec3& p, float size = 0.3f)
@@ -107,6 +94,27 @@ public:
             }
         }
         renderPass.draw(m_mesh, glm::eulerAngleY(m_totalTime * 30), m_material);
+        ImGui::Checkbox("is point light ", &m_isPointLight);
+        if (m_lastPointLight != m_isPointLight)
+        {
+            if (m_isPointLight)
+            {
+                m_worldLights->removeAllLight();
+                m_worldLights->addLight(Light::create().withPointLight({ 0, 2, 1 }).withColor({ 1, 0, 0 }).withRange(10).build());
+                m_worldLights->addLight(Light::create().withPointLight({ 2, 0, 1 }).withColor({ 0, 1, 0 }).withRange(10).build());
+                m_worldLights->addLight(Light::create().withPointLight({ 0, -2, 1 }).withColor({ 0, 0, 1 }).withRange(10).build());
+                m_worldLights->addLight(Light::create().withPointLight({ -2, 0, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
+            }
+            else
+            {
+                m_worldLights->removeAllLight();
+                m_worldLights->addLight(Light::create().withDirectionalLight({ 0, 1, 1 }).withColor({ 1, 0, 0 }).withRange(10).build());
+                m_worldLights->addLight(Light::create().withDirectionalLight({ 1, 0, 1 }).withColor({ 0, 1, 0 }).withRange(10).build());
+                m_worldLights->addLight(Light::create().withDirectionalLight({ 0, -1, 1 }).withColor({ 0, 0, 1 }).withRange(10).build());
+                m_worldLights->addLight(Light::create().withDirectionalLight({ -1, 0, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
+            }
+        }
+        m_lastPointLight = m_isPointLight;
     }
 
     void setTitle() override
@@ -118,6 +126,8 @@ private:
     glm::vec3 m_eye{ 0, 0, 5 };
     glm::vec3 m_at{ 0, 0, 0 };
     glm::vec3 m_up{ 0, 1, 0 };
+    bool m_isPointLight{ true };
+    bool m_lastPointLight{ false };
     bool m_debugLight = true;
     bool m_animatedLight = true;
     bool m_animatedCamera = true;

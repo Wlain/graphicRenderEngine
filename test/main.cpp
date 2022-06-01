@@ -11,9 +11,10 @@ extern void pickColorTest();
 extern void RenderToFrameBufferTest();
 extern void objTest();
 extern void spritesBatchTest();
+extern void drawLineTest();
 
 int main()
 {
-    spritesBatchTest();
+    sphereTest();
     return 0;
 }

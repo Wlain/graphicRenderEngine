@@ -28,6 +28,12 @@ struct WorldLights
         lights.erase(lights.cbegin() + index);
     }
 
+    inline void removeAllLight()
+    {
+        lights.clear();
+        lights.shrink_to_fit();
+    }
+
     inline Light* getLight(int index)
     {
         if (index >= lights.size())
