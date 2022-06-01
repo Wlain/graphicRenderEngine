@@ -34,11 +34,15 @@ public:
         m_renderer.m_mouseEvent = [&](int xPos, int yPos) {
             touchEvent(xPos, yPos);
         };
+        m_renderer.m_dropEvent = [&](int count, const char** paths) {
+            dropEvent(count, paths);
+        };
         m_renderer.startEventLoop();
     }
     virtual void initialize() {}
     virtual void resize(int width, int height) {}
     virtual void touchEvent(double xPos, double yPos) {}
+    virtual void dropEvent(int count, const char** paths) {}
     virtual void render(){};
     virtual void update(float deltaTime)
     {

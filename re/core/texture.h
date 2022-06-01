@@ -11,6 +11,7 @@
 #ifndef SIMPLERENDERENGINE_TEXTURE_H
 #define SIMPLERENDERENGINE_TEXTURE_H
 #include <cstdlib>
+#include <string_view>
 #include <vector>
 
 namespace re
@@ -57,8 +58,8 @@ public:
         // if true texture sampling is filtered (bi-linear or tri-linear sampling) otherwise use point sampling.
         TextureBuilder& withFilterSampling(bool enable);
         TextureBuilder& withWrappedTextureCoordinates(bool enable);
-        TextureBuilder& withFile(const char* filename);
-        TextureBuilder& withFileCubeMap(const char* filename, CubeMapSide side);
+        TextureBuilder& withFile(std::string_view filename);
+        TextureBuilder& withFileCubeMap(std::string_view filename, CubeMapSide side);
         TextureBuilder& withRGBAData(const char* data, int width, int height);
         TextureBuilder& withWhiteData(int width = 1, int height = 1);
         std::shared_ptr<Texture> build();

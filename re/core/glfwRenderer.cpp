@@ -111,6 +111,10 @@ void GLFWRenderer::init()
             auto* app = reinterpret_cast<GLFWRenderer*>(glfwGetWindowUserPointer(window));
             app->m_mouseEvent(xPos, yPos);
         });
+        glfwSetDropCallback(m_window, [](GLFWwindow* window, int count, const char** paths) {
+            auto* app = reinterpret_cast<GLFWRenderer*>(glfwGetWindowUserPointer(window));
+            app->m_dropEvent(count, paths);
+        });
         if (m_window == nullptr)
         {
             glfwTerminate();

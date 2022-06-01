@@ -11,7 +11,8 @@
 #include <glm/glm.hpp>
 #include <map>
 #include <vector>
-//  创建网格后，顶点属性的数量和类型不能更改, 顶点允许update
+// 创建网格后，顶点属性的数量和类型不能更改, 顶点允许update,
+// 每个网格可以有多个索引集与之关联，这允许使用多种材质进行渲染
 namespace re
 {
 class Shader;
@@ -54,7 +55,7 @@ public:
         MeshBuilder& withAttribute(std::string_view name, const std::vector<glm::vec4>& values);
         MeshBuilder& withAttribute(std::string_view name, const std::vector<glm::i32vec4>& values);
         MeshBuilder& withMeshTopology(Topology topology);
-        MeshBuilder& withIndices(const std::vector<uint16_t>& indices);
+        MeshBuilder& withIndices(const std::vector<uint16_t>& indices, Mesh::Topology topology = Mesh::Topology::Triangles, int indexSet = 0);
         std::shared_ptr<Mesh> build();
 
     private:
@@ -67,8 +68,8 @@ public:
         std::map<std::string, std::vector<glm::vec3>> m_attributesVec3;
         std::map<std::string, std::vector<glm::vec4>> m_attributesVec4;
         std::map<std::string, std::vector<glm::i32vec4>> m_attributesIVec4;
-        std::vector<uint16_t> m_indices;
-        Topology m_topology{ Topology::Triangles }; // mesh拓扑结构
+        std::vector<std::vector<uint16_t>> m_indices;
+        std::vector<Topology> m_topologies; // mesh拓扑结构
         Mesh* m_updateMesh{ nullptr };
         friend class Mesh;
     };
@@ -80,8 +81,9 @@ public:
 public:
     ~Mesh();
     inline int32_t getVertexCount() const { return m_vertexCount; }
-    inline Topology topology() const { return m_topology; }
-    inline const std::vector<uint16_t>& getIndices() const { return m_indices; }
+    inline Topology getMeshTopology(int indexSet = 0) const { return m_topologies[indexSet]; }
+    inline const std::vector<uint16_t>& getIndices(int indexSet = 0) const { return m_indices[indexSet]; }
+    inline size_t getIndexSets() const { return m_indices.size(); }
     std::vector<glm::vec3> getPositions();
     std::vector<glm::vec3> getNormals();
     std::vector<glm::vec4> getUVs();
@@ -104,10 +106,10 @@ private:
         int dataType;      // 数据类型:eg:GL_FLOAT
         int attributeType; // 属性类型:eg:GL_FLOAT_VEC3
     };
-    void bind(Shader* shader);
+    void bind(Shader* shader, int indexSet);
     void setVertexAttributePointers(Shader* shader);
-    Mesh(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, const std::vector<uint16_t>& indices, Mesh::Topology meshTopology);
-    void update(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, const std::vector<uint16_t>& indices, Mesh::Topology meshTopology);
+    Mesh(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, std::vector<std::vector<uint16_t>>& indices, std::vector<Topology>& meshTopology);
+    void update(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, std::vector<std::vector<uint16_t>>& indices, std::vector<Topology>& meshTopology);
 
 private:
     std::map<std::string, Attribute> m_attributeByName;
@@ -116,12 +118,12 @@ private:
     std::map<std::string, std::vector<glm::vec3>> m_attributesVec3;
     std::map<std::string, std::vector<glm::vec4>> m_attributesVec4;
     std::map<std::string, std::vector<glm::i32vec4>> m_attributesIVec4;
-    std::vector<uint16_t> m_indices;
-    Topology m_topology{ Topology::Triangles }; // mesh拓扑结构
+    std::vector<std::vector<uint16_t>> m_indices;
+    std::vector<Topology> m_topologies; // mesh拓扑结构
     std::array<glm::vec3, 2> m_boundsMinMax;
     std::map<unsigned int, unsigned int> m_shaderToVao;
     uint32_t m_vbo{ 0 };
-    uint32_t m_ebo{ 0 };
+    std::vector<uint32_t> m_ebos;
     int32_t m_vertexCount{ 0 };
     int m_totalBytesPerVertex{ 0 };
     friend class RenderPass;

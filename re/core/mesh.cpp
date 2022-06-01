@@ -12,14 +12,13 @@
 #include <glm/gtc/constants.hpp>
 namespace re
 {
-Mesh::Mesh(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, const std::vector<uint16_t>& indices, Mesh::Topology meshTopology)
+Mesh::Mesh(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, std::vector<std::vector<uint16_t>>& indices, std::vector<Topology>& meshTopology)
 {
     if (!Renderer::s_instance)
     {
         throw std::runtime_error("Cannot instantiate re::Mesh before re::Renderer is created.");
     }
     glGenBuffers(1, &m_vbo);
-    glGenBuffers(1, &m_ebo);
     update(attributesFloat, attributesVec2, attributesVec3, attributesVec4, attributesIVec4, indices, meshTopology);
 }
 
@@ -35,11 +34,11 @@ Mesh::~Mesh()
     {
         glDeleteVertexArrays(1, &(obj.second));
     }
-    glDeleteBuffers(1, &m_ebo);
+    glDeleteBuffers(m_ebos.size(), m_ebos.data());
     glDeleteBuffers(1, &m_vbo);
 }
 
-void Mesh::bind(Shader* shader)
+void Mesh::bind(Shader* shader, int indexSet)
 {
     auto res = m_shaderToVao.find(shader->m_id);
     if (res != m_shaderToVao.end())
@@ -55,13 +54,12 @@ void Mesh::bind(Shader* shader)
         setVertexAttributePointers(shader);
         m_shaderToVao[shader->m_id] = index;
     }
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indices.empty() ? 0 : m_ebo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indices.empty() ? 0 : m_ebos[indexSet]);
 }
 
-void Mesh::update(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, const std::vector<uint16_t>& indices, Mesh::Topology meshTopology)
+void Mesh::update(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, std::vector<std::vector<uint16_t>>& indices, std::vector<Topology>& meshTopology)
 {
     m_indices = indices;
-    m_topology = meshTopology;
     m_vertexCount = 0;
     m_totalBytesPerVertex = 0;
     for (const auto& obj : m_shaderToVao)
@@ -160,10 +158,35 @@ void Mesh::update(std::map<std::string, std::vector<float>>& attributesFloat, st
 
     if (!indices.empty())
     {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
-        GLsizeiptr indicesSize = indices.size() * sizeof(uint16_t);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesSize, indices.data(), GL_STATIC_DRAW);
+        for (int i = 0; i < m_indices.size(); i++)
+        {
+            uint32_t ebo;
+            if (i >= m_ebos.size())
+            {
+                glGenBuffers(1, &ebo);
+                m_ebos.push_back(ebo);
+            }
+            else
+            {
+                ebo = m_ebos[i];
+            }
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+            GLsizeiptr indicesSize = indices[i].size() * sizeof(uint16_t);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesSize, indices[i].data(), GL_STATIC_DRAW);
+        }
     }
+    m_boundsMinMax[0] = glm::vec3{ std::numeric_limits<float>::max() };
+    m_boundsMinMax[1] = glm::vec3{ -std::numeric_limits<float>::max() };
+    auto pos = attributesVec3.find("position");
+    if (pos != attributesVec3.end())
+    {
+        for (const auto& v : pos->second)
+        {
+            m_boundsMinMax[0] = glm::min(m_boundsMinMax[0], v);
+            m_boundsMinMax[1] = glm::max(m_boundsMinMax[1], v);
+        }
+    }
+    m_topologies = std::move(meshTopology);
     m_indices = std::move(indices);
     m_attributesFloat = std::move(attributesFloat);
     m_attributesVec2 = std::move(attributesVec2);
@@ -246,7 +269,7 @@ Mesh::MeshBuilder Mesh::update()
     builder.m_attributesVec4 = m_attributesVec4;
     builder.m_attributesIVec4 = m_attributesIVec4;
     builder.m_indices = m_indices;
-    builder.m_topology = m_topology;
+    builder.m_topologies = m_topologies;
     return builder;
 }
 
@@ -545,13 +568,26 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withParticleSizes(const std::vector<float>
 
 Mesh::MeshBuilder& Mesh::MeshBuilder::withMeshTopology(Mesh::Topology topology)
 {
-    m_topology = topology;
+    if (m_topologies.empty())
+    {
+        m_topologies.push_back({});
+    }
+    m_topologies[0] = topology;
     return *this;
 }
 
-Mesh::MeshBuilder& Mesh::MeshBuilder::withIndices(const std::vector<uint16_t>& indices)
+Mesh::MeshBuilder& Mesh::MeshBuilder::withIndices(const std::vector<uint16_t>& indices, Topology topology, int indexSet)
 {
-    m_indices = indices;
+    while (indexSet >= m_indices.size())
+    {
+        m_indices.push_back({});
+    }
+    while (indexSet >= m_topologies.size())
+    {
+        m_topologies.push_back({});
+    }
+    m_indices[indexSet] = indices;
+    m_topologies[indexSet] = topology;
     return *this;
 }
 
@@ -563,13 +599,13 @@ std::shared_ptr<Mesh> Mesh::MeshBuilder::build()
     if (m_updateMesh != nullptr)
     {
         renderStats.meshBytes -= m_updateMesh->getDataSize();
-        m_updateMesh->update(m_attributesFloat, m_attributesVec2, m_attributesVec3, m_attributesVec4, m_attributesIVec4, m_indices, m_topology);
+        m_updateMesh->update(m_attributesFloat, m_attributesVec2, m_attributesVec3, m_attributesVec4, m_attributesIVec4, m_indices, m_topologies);
         renderStats.meshBytes += mesh->getDataSize();
         return m_updateMesh->shared_from_this();
     }
     else
     {
-        auto* mesh = new Mesh(m_attributesFloat, m_attributesVec2, m_attributesVec3, m_attributesVec4, m_attributesIVec4, m_indices, m_topology);
+        auto* mesh = new Mesh(m_attributesFloat, m_attributesVec2, m_attributesVec3, m_attributesVec4, m_attributesIVec4, m_indices, m_topologies);
         renderStats.meshCount++;
         return std::shared_ptr<Mesh>(mesh);
     }

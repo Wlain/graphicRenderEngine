@@ -27,11 +27,6 @@ public:
     ~Renderer();
     // Update window with OpenGL rendering
     void swapWindow();
-    // flush GPU command buffer (must be called when profiling GPU time - should not be called when not profiling)
-    inline void finishGPUCommandBuffer() const
-    {
-        glFlush();
-    }
     // return stats of the last rendered frame,only data maintained by re is included
     inline const RenderStats& getRenderStats() const { return m_renderStatsLast; }
     glm::ivec2 getFramebufferSize();
@@ -41,7 +36,7 @@ public:
     static constexpr int s_maxSceneLights{ 4 };
     static constexpr int s_rgVersionMajor{ 2 };
     static constexpr int s_rgVersionMinor{ 2 };
-    static constexpr int s_rgVersionPoint{ 2 };
+    static constexpr int s_rgVersionPoint{ 3 };
     inline static Renderer* s_instance{ nullptr };
 
 private:

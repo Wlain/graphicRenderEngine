@@ -67,7 +67,7 @@ Texture::TextureBuilder& Texture::TextureBuilder::withWrappedTextureCoordinates(
     return *this;
 }
 
-Texture::TextureBuilder& Texture::TextureBuilder::withFile(const char* filename)
+Texture::TextureBuilder& Texture::TextureBuilder::withFile(std::string_view filename)
 {
     m_info.target = GL_TEXTURE_2D;
     GLint mipmapLevel = 0;
@@ -77,10 +77,17 @@ Texture::TextureBuilder& Texture::TextureBuilder::withFile(const char* filename)
     checkGLError();
     int desireComp = STBI_rgb_alpha;
     stbi_set_flip_vertically_on_load(true);
-    auto pixelsData = readAllBytes(filename);
+    auto pixelsData = readAllBytes(filename.data());
     auto* data = (char*)stbi_load_from_memory((stbi_uc const*)pixelsData.data(), pixelsData.size(), &m_info.width, &m_info.height, &m_info.channels, desireComp);
     stbi_set_flip_vertically_on_load(false);
     glBindTexture(m_info.target, m_info.id);
+    if (!isPowerOfTwo(m_info.width) || !isPowerOfTwo(m_info.height))
+    {
+        LOG_INFO("Texture {} is not power of two (was {} x {}) filter sampling and mipmapping disabled ", filename, m_info.width, m_info.height);
+        m_info.filterSampling = false;
+        m_info.generateMipmap = false;
+    }
+
     checkGLError();
     glTexImage2D(m_info.target, mipmapLevel, internalFormat, m_info.width, m_info.height, border, GL_RGBA, type, data);
     checkGLError();
@@ -148,7 +155,7 @@ Texture::TextureBuilder::TextureBuilder()
     glGenTextures(1, &m_info.id);
 }
 
-Texture::TextureBuilder& Texture::TextureBuilder::withFileCubeMap(const char* filename, Texture::CubeMapSide side)
+Texture::TextureBuilder& Texture::TextureBuilder::withFileCubeMap(std::string_view filename, Texture::CubeMapSide side)
 {
     m_info.target = GL_TEXTURE_CUBE_MAP;
     GLint mipmapLevel = 0;
@@ -156,7 +163,7 @@ Texture::TextureBuilder& Texture::TextureBuilder::withFileCubeMap(const char* fi
     GLint border = 0;
     GLenum type = GL_UNSIGNED_BYTE;
     int desireComp = STBI_rgb_alpha;
-    auto pixelsData = readAllBytes(filename);
+    auto pixelsData = readAllBytes(filename.data());
     auto* data = (unsigned char*)stbi_load_from_memory((stbi_uc const*)pixelsData.data(), pixelsData.size(), &m_info.width, &m_info.height, &m_info.channels, desireComp);
     glBindTexture(m_info.target, m_info.id);
     glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + (uint32_t)side, mipmapLevel, internalFormat, m_info.width, m_info.height, border, GL_RGBA, type, data);

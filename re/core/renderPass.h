@@ -65,8 +65,10 @@ public:
     virtual ~RenderPass();
     void drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }, Mesh::Topology meshTopology = Mesh::Topology::Lines);
     void draw(const std::shared_ptr<Mesh>& mesh, glm::mat4 modelTransform, std::shared_ptr<Material>& material);
+    void draw(std::shared_ptr<Mesh>& mesh, glm::mat4 modelTransform, std::vector<std::shared_ptr<Material>>& materials);
     std::vector<glm::vec4> readPixels(unsigned int x, unsigned int y, unsigned int width = 1, unsigned int height = 1);
-
+    // flush GPU command buffer (must be called when profiling GPU time - should not be called when not profiling)
+    void finishGPUCommandBuffer() const;
 private:
     RenderPass(RenderPass::RenderPassBuilder& builder);
     void setupShader(const glm::mat4& modelTransform, Shader* shader);

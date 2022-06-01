@@ -44,6 +44,7 @@ private:
 public:
     std::function<void(int width, int height)> m_frameResize;
     std::function<void(double xPos, double yPos)> m_mouseEvent;
+    std::function<void(int count, const char** paths)> m_dropEvent;
     // event handlers (assigned empty default handlers)
     std::function<void(float deltaTimeSec)> m_frameUpdate;
     // Subscript be render events. The `Renderer::swapFrame()` is automatically invoked after the callback.
