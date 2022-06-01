@@ -62,6 +62,7 @@ public:
         }
         else
         {
+            m_spriteBatch.reset();
             static const char** namesPtr = new const char*[names.size()];
             for (int i = 0; i < names.size(); i++)
             {

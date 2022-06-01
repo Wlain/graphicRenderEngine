@@ -18,9 +18,12 @@ Renderer::Renderer(GLFWwindow* window) :
     }
     s_instance = this;
     glfwMakeContextCurrent(window);
-    if (glewInit() != GLEW_OK)
+    GLenum err = glewInit();
+    if (err != GLEW_OK)
     {
         exit(EXIT_FAILURE);
+        /* Problem: glewInit failed, something is seriously wrong. */
+        LOG_FATAL("Error initializing OpenGL using GLEW: {}", glewGetErrorString(err));
     }
     // initialize ImGUI
     ImGui::CreateContext();

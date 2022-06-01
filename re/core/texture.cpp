@@ -230,16 +230,19 @@ Texture::Texture(int32_t id, int width, int height, uint32_t target)
     RenderStats& renderStats = Renderer::s_instance->m_renderStatsCurrent;
     renderStats.textureCount++;
     renderStats.textureBytes += getDataSize();
+    Renderer::s_instance->m_textures.emplace_back(this);
 }
 
 Texture::~Texture()
 {
-    if (Renderer::s_instance)
+    auto r = Renderer::s_instance;
+    if (r != nullptr)
     {
         // update stats
-        RenderStats& renderStats = Renderer::s_instance->m_renderStatsCurrent;
+        RenderStats& renderStats = r->m_renderStatsCurrent;
         renderStats.textureCount--;
         renderStats.textureBytes -= getDataSize();
+        r->m_textures.erase(std::remove(r->m_textures.begin(), r->m_textures.end(), this));
         glDeleteTextures(1, &m_info.id);
     }
 }

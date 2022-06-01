@@ -36,13 +36,16 @@ public:
     static constexpr int s_maxSceneLights{ 4 };
     static constexpr int s_rgVersionMajor{ 2 };
     static constexpr int s_rgVersionMinor{ 3 };
-    static constexpr int s_rgVersionPoint{ 0 };
+    static constexpr int s_rgVersionPoint{ 1 };
     inline static Renderer* s_instance{ nullptr };
 
 private:
     RenderStats m_renderStatsLast{};
     RenderStats m_renderStatsCurrent{};
     GLFWwindow* m_window{ nullptr };
+    std::vector<Mesh*> m_meshes;
+    std::vector<Shader*> m_shaders;
+    std::vector<Texture*> m_textures;
 
     friend class Mesh;
     friend class Mesh::MeshBuilder;

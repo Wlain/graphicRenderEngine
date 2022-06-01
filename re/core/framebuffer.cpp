@@ -99,7 +99,7 @@ std::shared_ptr<FrameBuffer> FrameBuffer::FrameBufferBuilder::build()
 
 FrameBuffer::~FrameBuffer()
 {
-    if (m_rbo)
+    if (m_rbo != 0)
     {
         glDeleteRenderbuffers(1, &m_rbo);
     }

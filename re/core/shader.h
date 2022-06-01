@@ -121,6 +121,7 @@ public:
     // 验证网格属性。如果无效，则将 info 变量设置为错误消息。此方法只应用于debug
     bool validateMesh(Mesh* mesh, std::string& info);
     std::shared_ptr<Material> createMaterial();
+    const char* c_str(UniformType u);
 
 private:
     Shader();

@@ -8,13 +8,13 @@ extern void particleTest();
 extern void spriteTest();
 extern void cubeMapText();
 extern void pickColorTest();
-extern void RenderToFrameBufferTest();
+extern void renderToFrameBufferTest();
 extern void objTest();
 extern void spritesBatchTest();
 extern void drawLineTest();
 
 int main()
 {
-    sphereTest();
+    cubeTest();
     return 0;
 }

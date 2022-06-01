@@ -125,6 +125,7 @@ private:
     uint32_t m_vbo{ 0 };
     std::vector<uint32_t> m_ebos;
     int32_t m_vertexCount{ 0 };
+    int m_dataSize{ 0 };
     int m_totalBytesPerVertex{ 0 };
     friend class RenderPass;
 };

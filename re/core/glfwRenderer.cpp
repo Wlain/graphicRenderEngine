@@ -22,46 +22,48 @@ void GLAPIENTRY openglCallbackFunction(GLenum source,
                                        const GLchar* message,
                                        const void* userParam)
 {
-    LOG_INFO("---------------------opengl-callback-start------------");
-    LOG_INFO("message: {}", message);
-    LOG_INFO("type: ");
+    const char* typeStr;
     switch (type)
     {
     case GL_DEBUG_TYPE_ERROR:
-        LOG_ERROR("ERROR");
+        typeStr = "ERROR";
         break;
     case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
-        LOG_ERROR("DEPRECATED_BEHAVIOR");
+        typeStr = "DEPRECATED_BEHAVIOR";
         break;
     case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
-        LOG_ERROR("UNDEFINED_BEHAVIOR");
+        typeStr = "UNDEFINED_BEHAVIOR";
         break;
     case GL_DEBUG_TYPE_PORTABILITY:
-        LOG_ERROR("PORTABILITY");
+        typeStr = "PORTABILITY";
         break;
     case GL_DEBUG_TYPE_PERFORMANCE:
-        LOG_ERROR("PERFORMANCE");
+        typeStr = "PERFORMANCE";
         break;
     case GL_DEBUG_TYPE_OTHER:
-        LOG_ERROR("OTHER");
+        typeStr = "OTHER";
         break;
     }
-
-    LOG_INFO("id: {}", id);
-    LOG_INFO("severity: ");
+    const char* severityStr;
     switch (severity)
     {
     case GL_DEBUG_SEVERITY_LOW:
-        LOG_ERROR("LOW");
+        severityStr = "LOW";
         break;
     case GL_DEBUG_SEVERITY_MEDIUM:
-        LOG_ERROR("MEDIUM");
+        severityStr = "MEDIUM";
         break;
     case GL_DEBUG_SEVERITY_HIGH:
-        LOG_ERROR("HIGH");
+        severityStr = "HIGH";
         break;
     }
-    LOG_ERROR("---------------------opengl-callback-end--------------");
+    LOG_ERROR("---------------------opengl-callback-start------------\n"
+              "message: {}\n"
+              "type: {}\n"
+              "id: {}\n"
+              "severity: {}\n"
+              "---------------------opengl-callback-end--------------",
+              message, typeStr, id, severityStr);
 }
 #endif
 

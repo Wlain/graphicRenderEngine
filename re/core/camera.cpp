@@ -9,6 +9,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/string_cast.hpp>
 namespace re
 {
 Camera::Camera()
@@ -16,14 +18,16 @@ Camera::Camera()
     m_projectionValue.orthographic.orthographicSize = 1;
     m_projectionValue.orthographic.nearPlane = -1;
     m_projectionValue.orthographic.farPlane = 1;
-    if (!Renderer::s_instance)
-    {
-        throw std::runtime_error("Cannot instantiate re::Camera before re::Renderer is created.");
-    }
 }
 
 void Camera::setLookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up)
 {
+    if (glm::length(eye - at) < std::numeric_limits<float>::epsilon())
+    {
+        auto eyeStr = glm::to_string(eye);
+        auto atStr = glm::to_string(at);
+        LOG_WARN("Camera::setLookAt() invalid parameters. eye ({}) must be different from at ({})", eyeStr.c_str(), atStr.c_str());
+    }
     setViewTransform(glm::lookAt<float>(eye, at, up));
 }
 
@@ -67,16 +71,16 @@ glm::mat4 Camera::getProjectionTransform(const glm::uvec2& viewportSize)
     case ProjectionType::Custom:
         return glm::make_mat4(m_projectionValue.customProjectionMatrix);
     case ProjectionType::Orthographic: {
-        float aspect = viewportSize.x / (float)viewportSize.y;
+        float aspect = (float)viewportSize.x / (float)viewportSize.y;
         float sizeX = aspect * m_projectionValue.orthographic.orthographicSize;
         return glm::ortho<float>(-sizeX, sizeX, -m_projectionValue.orthographic.orthographicSize, m_projectionValue.orthographic.orthographicSize, m_projectionValue.orthographic.nearPlane, m_projectionValue.orthographic.farPlane);
     }
     case ProjectionType::OrthographicWindow:
-        return glm::ortho<float>(0, viewportSize.x, 0, viewportSize.y, 1.0f, -1.0f);
+        return glm::ortho<float>(0, (float)viewportSize.x, 0, (float)viewportSize.y, 1.0f, -1.0f);
     case ProjectionType::Perspective:
         return glm::perspectiveFov<float>(m_projectionValue.perspective.fieldOfViewY,
-                                          viewportSize.x,
-                                          viewportSize.y,
+                                          (float)viewportSize.x,
+                                          (float)viewportSize.y,
                                           m_projectionValue.perspective.nearPlane,
                                           m_projectionValue.perspective.farPlane);
     }

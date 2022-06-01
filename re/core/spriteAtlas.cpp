@@ -54,18 +54,10 @@ Sprite SpriteAtlas::get(std::string_view name)
 {
     if (m_sprites.find(name.data()) == m_sprites.end())
     {
-        for (auto& s : m_sprites)
-        {
-            LOG_ERROR("{} {}", s.first, (name == s.first));
-        }
-        LOG_ERROR("Not found {} sprites.size:{}", name, m_sprites.size());
+        LOG_WARN("Cannot find sprite {} in spriteatlas",name.data());
+        return {};
     }
     auto s = m_sprites[name.data()];
-    const auto& ref = m_sprites[name.data()];
-    if (ref.m_spriteSize.x == 0)
-    {
-        LOG_ERROR("ref {} ", glm::to_string(ref.m_spriteSize));
-    }
     return s;
 }
 

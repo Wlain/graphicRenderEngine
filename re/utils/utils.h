@@ -20,9 +20,13 @@ static std::string getFileContents(const std::filesystem::path& filename)
     {
         std::string contents;
         in.seekg(0, std::ios::end);
-        contents.resize(in.tellg());
-        in.seekg(0, std::ios::beg);
-        in.read(&contents[0], contents.size());
+        auto size = in.tellg();
+        if (size > 0)
+        {
+            contents.resize((std::string::size_type)size);
+            in.seekg(0, std::ios::beg);
+            in.read(&contents[0], contents.size());
+        }
         in.close();
         return contents;
     }

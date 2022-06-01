@@ -63,7 +63,7 @@ private:
     std::shared_ptr<Material> m_materialOffscreen;
 };
 
-void RenderToFrameBufferTest()
+void renderToFrameBufferTest()
 {
     RenderToFrameBufferExample test;
     test.run();

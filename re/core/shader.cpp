@@ -421,7 +421,7 @@ Shader::Shader()
 {
     if (!Renderer::s_instance)
     {
-        throw std::runtime_error("Cannot instantiate re::Shader before re::Renderer is created.");
+        LOG_FATAL("Cannot instantiate re::Shader before re::Renderer is created.");
     }
     m_id = glCreateProgram();
     Renderer::s_instance->m_renderStatsCurrent.shaderCount++;
@@ -429,10 +429,12 @@ Shader::Shader()
 
 Shader::~Shader()
 {
-    if (Renderer::s_instance)
+    auto r = Renderer::s_instance;
+    if (r != nullptr)
     {
+        r->m_renderStatsCurrent.shaderCount--;
+        r->m_shaders.erase(std::remove(r->m_shaders.begin(), r->m_shaders.end(), this));
         glDeleteShader(m_id);
-        Renderer::s_instance->m_renderStatsCurrent.shaderCount--;
     }
 }
 
@@ -512,7 +514,7 @@ void Shader::bind()
         glBlendFunc(GL_SRC_ALPHA, GL_ONE);
         break;
     default:
-        LOG_ERROR("err");
+        LOG_ERROR("Invalid blend value - was {}", (int)m_blendType);
         break;
     }
     // 第一个参数代表：即将绘制的片元因子，也就是源因子
@@ -605,7 +607,7 @@ void Shader::updateUniformsAndAttributes()
                 }
                 else
                 {
-                    LOG_ERROR("Invalid g_model uniform type. Expected mat4.");
+                    LOG_ERROR("Invalid g_model uniform type. Expected mat4.was {}", c_str(uniformType));
                 }
             }
             if (strcmp(name, "g_view") == 0)
@@ -616,7 +618,7 @@ void Shader::updateUniformsAndAttributes()
                 }
                 else
                 {
-                    LOG_ERROR("Invalid g_view uniform type. Expected mat4.");
+                    LOG_ERROR("Invalid g_view uniform type. Expected mat4.was {}", c_str(uniformType));
                 }
             }
             if (strcmp(name, "g_projection") == 0)
@@ -627,7 +629,7 @@ void Shader::updateUniformsAndAttributes()
                 }
                 else
                 {
-                    LOG_ERROR("Invalid g_projection uniform type. Expected mat4.");
+                    LOG_ERROR("Invalid g_projection uniform type. Expected mat4.was {}", c_str(uniformType));
                 }
             }
             if (strcmp(name, "g_normalMat") == 0)
@@ -638,7 +640,7 @@ void Shader::updateUniformsAndAttributes()
                 }
                 else
                 {
-                    LOG_ERROR("Invalid g_normal uniform type. Expected mat3.");
+                    LOG_ERROR("Invalid g_normal uniform type. Expected mat3.was {}", c_str(uniformType));
                 }
             }
             if (strcmp(name, "g_viewport") == 0)
@@ -649,7 +651,7 @@ void Shader::updateUniformsAndAttributes()
                 }
                 else
                 {
-                    LOG_ERROR("Invalid g_normal uniform type. Expected vec4.");
+                    LOG_ERROR("Invalid g_normal uniform type. Expected vec4.was {}", c_str(uniformType));
                 }
             }
             if (strcmp(name, "g_ambientLight") == 0)
@@ -660,7 +662,7 @@ void Shader::updateUniformsAndAttributes()
                 }
                 else
                 {
-                    LOG_ERROR("Invalid g_ambientLight uniform type. Expected vec3.");
+                    LOG_ERROR("Invalid g_ambientLight uniform type. Expected vec3.was {}", c_str(uniformType));
                 }
             }
             if (strcmp(name, "g_lightPosType") == 0)
@@ -671,7 +673,7 @@ void Shader::updateUniformsAndAttributes()
                 }
                 else
                 {
-                    LOG_ERROR("Invalid g_lightPosType uniform type. Expected vec4[4].");
+                    LOG_ERROR("Invalid g_lightPosType uniform type. Expected vec4[4].was {}", c_str(uniformType));
                 }
             }
             if (strcmp(name, "g_lightColorRange") == 0)
@@ -682,7 +684,7 @@ void Shader::updateUniformsAndAttributes()
                 }
                 else
                 {
-                    LOG_ERROR("Invalid g_lightPosType uniform type. Expected vec4[4].");
+                    LOG_ERROR("Invalid g_lightPosType uniform type. Expected vec4[4].was {}", c_str(uniformType));
                 }
             }
         }
@@ -811,6 +813,31 @@ bool Shader::validateMesh(Mesh* mesh, std::string& info)
 std::shared_ptr<Material> Shader::createMaterial()
 {
     return std::make_shared<Material>(shared_from_this());
+}
+
+const char* Shader::c_str(Shader::UniformType u)
+{
+    switch (u)
+    {
+    case UniformType::Int:
+        return "int";
+    case UniformType::Float:
+        return "float";
+    case UniformType::Mat3:
+        return "mat3";
+    case UniformType::Mat4:
+        return "mat4";
+    case UniformType::Vec3:
+        return "vec3";
+    case UniformType::Vec4:
+        return "vec4";
+    case UniformType::Texture:
+        return "texture";
+    case UniformType::TextureCube:
+        return "textureCube";
+    case UniformType::Invalid:
+        return "invalid";
+    }
 }
 
 } // namespace re

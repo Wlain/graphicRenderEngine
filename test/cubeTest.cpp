@@ -4,6 +4,7 @@
 #include "basicProject.h"
 #include "commonMacro.h"
 #include "core/worldLights.h"
+#include "guiCommonDefine.h"
 
 #include <glm/glm.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
@@ -34,14 +35,20 @@ public:
 
     void render() override
     {
+        m_camera->setLookAt(m_eye, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+        m_camera->setPerspectiveProjection(60, 0.1, 100);
         auto renderPass = RenderPass::create().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material);
+        ImGui::DragFloat3(":eye", &m_eye[0]);
     }
 
     void setTitle() override
     {
         m_title = "CubeExample";
     }
+
+private:
+    glm::vec3 m_eye{ 0.0f, 0.0f, 3.0f };
 };
 
 void cubeTest()
