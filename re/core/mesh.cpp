@@ -405,12 +405,12 @@ std::array<glm::vec3, 2> Mesh::getBoundsMinMax()
     return m_boundsMinMax;
 }
 
-Mesh::MeshBuilder& Mesh::MeshBuilder::withQuad()
+Mesh::MeshBuilder& Mesh::MeshBuilder::withQuad(float size)
 {
-    std::vector<glm::vec3> vertices({ { 1, -1, 0 },
-                                      { 1, 1, 0 },
-                                      { -1, -1, 0 },
-                                      { -1, 1, 0 } });
+    std::vector<glm::vec3> vertices({ { size, -size, 0 },
+                                      { size, size, 0 },
+                                      { -size, -size, 0 },
+                                      { -size, size, 0 } });
 
     std::vector<glm::vec3> normals(4, glm::vec3{ 0, 0, 1 });
     std::vector<glm::vec4> uvs({ { 1, 0, 0, 0 },

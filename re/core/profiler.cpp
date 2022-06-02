@@ -366,7 +366,7 @@ void Profiler::showShader(Shader* shader)
         ImGui::LabelText("Blending", "%s", s.c_str());
         ImGui::LabelText("Depth test", "%s", shader->isDepthTest() ? "true" : "false");
         ImGui::LabelText("Depth write", "%s", shader->isDepthWrite() ? "true" : "false");
-
+        ImGui::LabelText("Offset","factor: %.1f units: %.1f",shader->getOffset().x,shader->getOffset().y);
         ImGui::TreePop();
     }
 }

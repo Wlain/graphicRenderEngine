@@ -35,7 +35,7 @@ public:
     {
     public:
         // quad x,y = [-1;1] and z=0, UV=[0;1], normals=(0,0,1)
-        MeshBuilder& withQuad();
+        MeshBuilder& withQuad(float size = 1);
         // cube mesh including UV coordinates, positions and normals
         MeshBuilder& withCube(float length = 1);
         // sphere mesh including UV coordinates, positions and normals

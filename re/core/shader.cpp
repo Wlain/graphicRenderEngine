@@ -374,7 +374,15 @@ std::shared_ptr<Shader> Shader::ShaderBuilder::build()
     shader->m_depthWrite = m_depthWrite;
     shader->m_blendType = m_blendType;
     shader->m_name = m_name;
+    shader->m_offset = m_offset;
     return std::shared_ptr<Shader>(shader);
+}
+
+Shader::ShaderBuilder& Shader::ShaderBuilder::withOffset(float factor, float units)
+{
+    m_offset.x = factor;
+    m_offset.y = units;
+    return *this;
 }
 
 std::shared_ptr<Shader> Shader::getUnlit()
@@ -539,6 +547,20 @@ void Shader::bind()
     // 第二个参数代表：framebuffer里面存储的颜色，也就是目标因子
     // glEnable(GL_BLEND);
     // glBlendFunc(GL_ZERO, GL_ONE); // 此时，代表全部用framebuffer里存储的颜色,反之同理
+
+    if (offset.x == 0 && offset.y == 0)
+    {
+        glDisable(GL_POLYGON_OFFSET_FILL);
+        glDisable(GL_POLYGON_OFFSET_LINE);
+        glDisable(GL_POLYGON_OFFSET_POINT);
+    }
+    else
+    {
+        glEnable(GL_POLYGON_OFFSET_FILL);
+        glEnable(GL_POLYGON_OFFSET_LINE);
+        glEnable(GL_POLYGON_OFFSET_POINT);
+        glPolygonOffset(offset.x, offset.y);
+    }
 }
 
 Shader::Uniform Shader::getUniformType(std::string_view name)
