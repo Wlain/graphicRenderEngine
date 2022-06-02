@@ -12,9 +12,10 @@ extern void renderToFrameBufferTest();
 extern void objTest();
 extern void spritesBatchTest();
 extern void drawLineTest();
+extern void polygonOffsetTest();
 
 int main()
 {
-    renderToFrameBufferTest();
+    polygonOffsetTest();
     return 0;
 }

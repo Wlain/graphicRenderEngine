@@ -548,7 +548,7 @@ void Shader::bind()
     // glEnable(GL_BLEND);
     // glBlendFunc(GL_ZERO, GL_ONE); // 此时，代表全部用framebuffer里存储的颜色,反之同理
 
-    if (offset.x == 0 && offset.y == 0)
+    if (m_offset.x == 0 && m_offset.y == 0)
     {
         glDisable(GL_POLYGON_OFFSET_FILL);
         glDisable(GL_POLYGON_OFFSET_LINE);
@@ -559,7 +559,7 @@ void Shader::bind()
         glEnable(GL_POLYGON_OFFSET_FILL);
         glEnable(GL_POLYGON_OFFSET_LINE);
         glEnable(GL_POLYGON_OFFSET_POINT);
-        glPolygonOffset(offset.x, offset.y);
+        glPolygonOffset(m_offset.x, m_offset.y);
     }
 }
 
