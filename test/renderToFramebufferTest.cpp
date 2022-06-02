@@ -27,7 +27,7 @@ public:
         m_camera = std::make_unique<Camera>();
         m_camera->setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
         m_camera->setPerspectiveProjection(60, 0.1, 100);
-        m_texture = Texture::create().withRGBAData(nullptr, 1024, 1024).build();
+        m_texture = Texture::create().withRGBAData(nullptr, 1024, 1024).withName("Create Texture").build();
         m_framebuffer = FrameBuffer::create().withTexture(m_texture).build();
         m_materialOffscreen = Shader::getStandard()->createMaterial();
         m_material = Shader::getStandard()->createMaterial();

@@ -36,13 +36,14 @@ public:
     static constexpr int s_maxSceneLights{ 4 };
     static constexpr int s_rgVersionMajor{ 2 };
     static constexpr int s_rgVersionMinor{ 3 };
-    static constexpr int s_rgVersionPoint{ 1 };
+    static constexpr int s_rgVersionPoint{ 2 };
     inline static Renderer* s_instance{ nullptr };
 
 private:
     RenderStats m_renderStatsLast{};
     RenderStats m_renderStatsCurrent{};
     GLFWwindow* m_window{ nullptr };
+    std::vector<FrameBuffer*> m_fbos;
     std::vector<Mesh*> m_meshes;
     std::vector<Shader*> m_shaders;
     std::vector<Texture*> m_textures;
@@ -54,6 +55,8 @@ private:
     friend class Texture;
     friend class Camera;
     friend class RenderPass;
+    friend class Profiler;
+    friend class FrameBuffer;
 };
 } // namespace re
 #endif //SIMPLERENDERENGINE_RENDERER_H

@@ -166,7 +166,7 @@ void RenderPass::draw(const std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTrans
         m_lastBoundMesh = mesh;
     }
     mesh->bind(shader, 0);
-    if (mesh->getIndexSets() == 0)
+    if (mesh->getIndicesSet() == 0)
     {
         glDrawArrays((GLenum)mesh->getMeshTopology(), 0, mesh->getVertexCount());
     }

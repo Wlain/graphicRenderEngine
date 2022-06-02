@@ -52,6 +52,10 @@ Texture::TextureBuilder& Texture::TextureBuilder::withWrappedTextureCoordinates(
 
 Texture::TextureBuilder& Texture::TextureBuilder::withFile(std::string_view filename)
 {
+    if (m_info.name.empty())
+    {
+        m_info.name = filename;
+    }
     m_info.target = GL_TEXTURE_2D;
     GLint mipmapLevel = 0;
     GLint internalFormat = GL_SRGB_ALPHA; //hasSRGB() ? GL_SRGB_ALPHA : GL_RGBA;
@@ -104,6 +108,12 @@ Texture::TextureBuilder& Texture::TextureBuilder::withWhiteData(int width, int h
     return *this;
 }
 
+Texture::TextureBuilder& Texture::TextureBuilder::withName(std::string_view name)
+{
+    m_info.name = name;
+    return *this;
+}
+
 std::shared_ptr<Texture> Texture::TextureBuilder::build()
 {
     if (m_info.target == 0)
@@ -114,7 +124,11 @@ std::shared_ptr<Texture> Texture::TextureBuilder::build()
     {
         throw std::runtime_error("Texture is already build");
     }
-    auto* texture = new Texture(m_info.id, m_info.width, m_info.height, m_info.target);
+    if (m_info.name.empty())
+    {
+        m_info.name = "Unnamed Texture";
+    }
+    auto* texture = new Texture(m_info.id, m_info.width, m_info.height, m_info.target, m_info.name);
     texture->m_info.generateMipmap = m_info.generateMipmap;
     if (m_info.generateMipmap)
     {
@@ -140,6 +154,10 @@ Texture::TextureBuilder::TextureBuilder()
 
 Texture::TextureBuilder& Texture::TextureBuilder::withFileCubeMap(std::string_view filename, Texture::CubeMapSide side)
 {
+    if (m_info.name.empty())
+    {
+        m_info.name = filename;
+    }
     m_info.target = GL_TEXTURE_CUBE_MAP;
     GLint mipmapLevel = 0;
     GLint internalFormat = GL_RGBA;
@@ -160,7 +178,7 @@ std::shared_ptr<Texture> Texture::getWhiteTexture()
     {
         return s_whiteTexture;
     }
-    s_whiteTexture = create().withWhiteData().withFilterSampling(false).build();
+    s_whiteTexture = create().withWhiteData().withFilterSampling(false).withName("White Texture").build();
     return s_whiteTexture;
 }
 
@@ -177,7 +195,7 @@ std::shared_ptr<Texture> Texture::getFontTexture()
     int desireComp = STBI_rgb_alpha;
     unsigned char* data = stbi_load_from_memory((stbi_uc const*)fontPng, sizeof(fontPng), &width, &height, &channels, desireComp);
     stbi_set_flip_vertically_on_load(false);
-    s_fontTexture = Texture::create().withRGBAData((const char*)data, width, height).build();
+    s_fontTexture = Texture::create().withRGBAData((const char*)data, width, height).withName("Font Texture").build();
     stbi_image_free(data);
     return s_fontTexture;
 }
@@ -202,7 +220,7 @@ std::shared_ptr<Texture> Texture::getSphereTexture()
             data[x * size * 4 + y * 4 + 3] = (char)255;
         }
     }
-    s_sphereTexture = create().withRGBAData(data.data(), size, size).build();
+    s_sphereTexture = create().withRGBAData(data.data(), size, size).withName("Sphere Texture").build();
     return s_sphereTexture;
 }
 
@@ -216,7 +234,7 @@ Texture::TextureBuilder Texture::create()
     return {};
 }
 
-Texture::Texture(int32_t id, int width, int height, uint32_t target)
+Texture::Texture(int32_t id, int width, int height, uint32_t target, std::string name)
 {
     if (!Renderer::s_instance)
     {
@@ -226,22 +244,27 @@ Texture::Texture(int32_t id, int width, int height, uint32_t target)
     m_info.width = width;
     m_info.height = height;
     m_info.target = target;
+    m_info.name = name;
     // update stats
     RenderStats& renderStats = Renderer::s_instance->m_renderStatsCurrent;
     renderStats.textureCount++;
-    renderStats.textureBytes += getDataSize();
+    auto dataSize = getDataSize();
+    renderStats.textureBytes += dataSize;
+    renderStats.textureBytesAllocated += dataSize;
     Renderer::s_instance->m_textures.emplace_back(this);
 }
 
 Texture::~Texture()
 {
-    auto r = Renderer::s_instance;
+    auto* r = Renderer::s_instance;
     if (r != nullptr)
     {
         // update stats
         RenderStats& renderStats = r->m_renderStatsCurrent;
         renderStats.textureCount--;
-        renderStats.textureBytes -= getDataSize();
+        auto datasize = getDataSize();
+        renderStats.textureBytes -= datasize;
+        renderStats.textureBytesDeallocated += datasize;
         r->m_textures.erase(std::remove(r->m_textures.begin(), r->m_textures.end(), this));
         glDeleteTextures(1, &m_info.id);
     }

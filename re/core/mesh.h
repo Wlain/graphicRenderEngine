@@ -4,6 +4,7 @@
 
 #ifndef SIMPLERENDERENGINE_MESH_H
 #define SIMPLERENDERENGINE_MESH_H
+#include "renderStats.h"
 #include "shader.h"
 
 #include <array>
@@ -56,6 +57,7 @@ public:
         MeshBuilder& withAttribute(std::string_view name, const std::vector<glm::i32vec4>& values);
         MeshBuilder& withMeshTopology(Topology topology);
         MeshBuilder& withIndices(const std::vector<uint16_t>& indices, Mesh::Topology topology = Mesh::Topology::Triangles, int indexSet = 0);
+        MeshBuilder& withName(std::string_view name);
         std::shared_ptr<Mesh> build();
 
     private:
@@ -70,6 +72,7 @@ public:
         std::map<std::string, std::vector<glm::i32vec4>> m_attributesIVec4;
         std::vector<std::vector<uint16_t>> m_indices;
         std::vector<Topology> m_topologies; // mesh拓扑结构
+        std::string m_name;
         Mesh* m_updateMesh{ nullptr };
         friend class Mesh;
     };
@@ -83,7 +86,8 @@ public:
     inline int32_t getVertexCount() const { return m_vertexCount; }
     inline Topology getMeshTopology(int indexSet = 0) const { return m_topologies[indexSet]; }
     inline const std::vector<uint16_t>& getIndices(int indexSet = 0) const { return m_indices[indexSet]; }
-    inline size_t getIndexSets() const { return m_indices.size(); }
+    inline int getIndicesSize(int indexSet) { return m_indices[indexSet].size(); }
+    inline size_t getIndicesSet() const { return m_indices.size(); }
     std::vector<glm::vec3> getPositions();
     std::vector<glm::vec3> getNormals();
     std::vector<glm::vec4> getUVs();
@@ -92,11 +96,12 @@ public:
     template <typename T>
     T get(std::string_view attributeName);
     std::pair<int, int> getType(std::string_view name);
-    std::vector<std::string> getNames();
+    std::vector<std::string> getAttributeNames();
     // get the local axis aligned bounding box (AABB)
     std::array<glm::vec3, 2> getBoundsMinMax();
     // get size of the mesh in bytes on GPU
     int getDataSize();
+    inline const std::string& name() const { return m_name; }
 
 private:
     struct Attribute
@@ -108,8 +113,10 @@ private:
     };
     void bind(Shader* shader, int indexSet);
     void setVertexAttributePointers(Shader* shader);
-    Mesh(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, std::vector<std::vector<uint16_t>>& indices, std::vector<Topology>& meshTopology);
-    void update(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, std::vector<std::vector<uint16_t>>& indices, std::vector<Topology>& meshTopology);
+    Mesh(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4,
+         std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, std::vector<std::vector<uint16_t>>& indices, std::vector<Topology>& meshTopology, std::string_view name, RenderStats& renderStats);
+    void update(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4,
+                std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, std::vector<std::vector<uint16_t>>& indices, std::vector<Topology>& meshTopology, std::string_view name, RenderStats& renderStats);
 
 private:
     std::map<std::string, Attribute> m_attributeByName;
@@ -124,6 +131,7 @@ private:
     std::map<unsigned int, unsigned int> m_shaderToVao;
     uint32_t m_vbo{ 0 };
     std::vector<uint32_t> m_ebos;
+    std::string m_name;
     int32_t m_vertexCount{ 0 };
     int m_dataSize{ 0 };
     int m_totalBytesPerVertex{ 0 };

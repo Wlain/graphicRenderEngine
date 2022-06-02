@@ -49,7 +49,7 @@ public:
         {
             LOG_INFO("{}", m->getName());
         }
-        LOG_INFO("{} {}", m_materials.size(), m_mesh->getIndexSets());
+        LOG_INFO("{} {}", m_materials.size(), m_mesh->getIndicesSet());
         auto bounds = m_mesh->getBoundsMinMax();
         m_farPlane = glm::length(bounds[1] - bounds[0]);
         m_camera->setLookAt({ 0, 1, m_farPlane }, { 0, 0, 0 }, { 0, 1, 0 });

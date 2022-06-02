@@ -15,6 +15,6 @@ extern void drawLineTest();
 
 int main()
 {
-    cubeTest();
+    renderToFrameBufferTest();
     return 0;
 }

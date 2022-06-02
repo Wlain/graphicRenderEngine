@@ -12,24 +12,26 @@
 #include <glm/gtc/constants.hpp>
 namespace re
 {
-Mesh::Mesh(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, std::vector<std::vector<uint16_t>>& indices, std::vector<Topology>& meshTopology)
+Mesh::Mesh(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, std::vector<std::vector<uint16_t>>& indices, std::vector<Topology>& meshTopology, std::string_view name, RenderStats& renderStats)
 {
     if (Renderer::s_instance == nullptr)
     {
         throw std::runtime_error("Cannot instantiate re::Mesh before re::Renderer is created.");
     }
     glGenBuffers(1, &m_vbo);
-    update(attributesFloat, attributesVec2, attributesVec3, attributesVec4, attributesIVec4, indices, meshTopology);
+    update(attributesFloat, attributesVec2, attributesVec3, attributesVec4, attributesIVec4, indices, meshTopology, name, renderStats);
     Renderer::s_instance->m_meshes.emplace_back(this);
 }
 
 Mesh::~Mesh()
 {
-    auto r = Renderer::s_instance;
+    auto* r = Renderer::s_instance;
     if (r != nullptr)
     {
         RenderStats& renderStats = r->m_renderStatsCurrent;
-        renderStats.meshBytes -= getDataSize();
+        auto dataSize = getDataSize();
+        renderStats.meshBytes -= dataSize;
+        renderStats.meshBytesDeallocated += dataSize;
         renderStats.meshCount--;
         // 指定删除某个元素
         r->m_meshes.erase(std::remove(r->m_meshes.begin(), r->m_meshes.end(), this));
@@ -61,7 +63,7 @@ void Mesh::bind(Shader* shader, int indexSet)
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indices.empty() ? 0 : m_ebos[indexSet]);
 }
 
-void Mesh::update(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, std::vector<std::vector<uint16_t>>& indices, std::vector<Topology>& meshTopology)
+void Mesh::update(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, std::vector<std::vector<uint16_t>>& indices, std::vector<Topology>& meshTopology, std::string_view name, RenderStats& renderStats)
 {
     m_indices = indices;
     m_vertexCount = 0;
@@ -192,6 +194,9 @@ void Mesh::update(std::map<std::string, std::vector<float>>& attributesFloat, st
         }
     }
     m_dataSize = m_totalBytesPerVertex * m_vertexCount;
+    renderStats.meshBytes += m_dataSize;
+    renderStats.meshBytesAllocated += m_dataSize;
+    m_name = name;
     m_topologies = std::move(meshTopology);
     m_indices = std::move(indices);
     m_attributesFloat = std::move(attributesFloat);
@@ -385,7 +390,7 @@ std::pair<int, int> Mesh::getType(std::string_view name)
     return { -1, -1 };
 }
 
-std::vector<std::string> Mesh::getNames()
+std::vector<std::string> Mesh::getAttributeNames()
 {
     std::vector<std::string> names;
     for (auto& u : m_attributeByName)
@@ -419,6 +424,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withQuad()
     withPositions(vertices);
     withNormals(normals);
     withUvs(uvs);
+    withName("Quad Mesh");
     withIndices(indices);
     withMeshTopology(Topology::Triangles);
     return *this;
@@ -476,6 +482,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withCube(float length)
     withPositions(positions);
     withNormals(normals);
     withUvs(uvs);
+    withName("Cube Mesh");
     withMeshTopology(Topology::Triangles);
     return *this;
 }
@@ -538,6 +545,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withSphere(int stacks, int slices, float r
     withPositions(finalPosition);
     withNormals(finalNormals);
     withUvs(finalUVs);
+    withName("Sphere Mesh");
     withMeshTopology(Topology::Triangles);
     return *this;
 }
@@ -597,20 +605,30 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withIndices(const std::vector<uint16_t>& i
     return *this;
 }
 
+Mesh::MeshBuilder& Mesh::MeshBuilder::withName(std::string_view name)
+{
+    m_name = name;
+    return *this;
+}
+
 std::shared_ptr<Mesh> Mesh::MeshBuilder::build()
 {
     // update stats
     RenderStats& renderStats = Renderer::s_instance->m_renderStatsCurrent;
+    if (m_name.empty())
+    {
+        m_name = "Unnamed Mesh";
+    }
+
     if (m_updateMesh != nullptr)
     {
         renderStats.meshBytes -= m_updateMesh->getDataSize();
-        m_updateMesh->update(m_attributesFloat, m_attributesVec2, m_attributesVec3, m_attributesVec4, m_attributesIVec4, m_indices, m_topologies);
+        m_updateMesh->update(m_attributesFloat, m_attributesVec2, m_attributesVec3, m_attributesVec4, m_attributesIVec4, m_indices, m_topologies, m_name, renderStats);
         renderStats.meshBytes += m_updateMesh->getDataSize();
         return m_updateMesh->shared_from_this();
     }
-    auto* mesh = new Mesh(m_attributesFloat, m_attributesVec2, m_attributesVec3, m_attributesVec4, m_attributesIVec4, m_indices, m_topologies);
+    auto* mesh = new Mesh(m_attributesFloat, m_attributesVec2, m_attributesVec3, m_attributesVec4, m_attributesIVec4, m_indices, m_topologies, m_name, renderStats);
     renderStats.meshCount++;
-    renderStats.meshBytes += mesh->getDataSize();
     return std::shared_ptr<Mesh>(mesh);
 }
 

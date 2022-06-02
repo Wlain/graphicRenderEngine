@@ -11,6 +11,7 @@
 #ifndef SIMPLERENDERENGINE_TEXTURE_H
 #define SIMPLERENDERENGINE_TEXTURE_H
 #include <cstdlib>
+#include <string>
 #include <string_view>
 #include <vector>
 
@@ -38,6 +39,7 @@ public:
     struct Info
     {
         PixelFormat format = PixelFormat::RGBA;
+        std::string name;
         int width = 0;
         int height = 0;
         int channels = 0;
@@ -62,6 +64,7 @@ public:
         TextureBuilder& withFileCubeMap(std::string_view filename, CubeMapSide side);
         TextureBuilder& withRGBAData(const char* data, int width, int height);
         TextureBuilder& withWhiteData(int width = 1, int height = 1);
+        TextureBuilder& withName(std::string_view name);
         std::shared_ptr<Texture> build();
 
     private:
@@ -83,6 +86,7 @@ public:
 public:
     inline int width() const { return m_info.width; }
     inline int height() const { return m_info.height; }
+    inline const std::string& name() const { return m_info.name; }
     inline bool isFilterSampling() const { return m_info.filterSampling; }
     inline bool isWrapTextureCoordinates() const { return m_info.wrapTextureCoordinates; }
     bool isCubeMap() const;
@@ -91,7 +95,7 @@ public:
     size_t getDataSize() const;
 
 private:
-    Texture(int32_t id, int width, int height, uint32_t target);
+    Texture(int32_t id, int width, int height, uint32_t target, std::string string);
     void updateTextureSampler(bool filterSampling, bool wrapTextureCoordinates) const;
 
 private:
@@ -106,6 +110,7 @@ private:
     friend class Material;
     friend class RenderPass;
     friend class FrameBuffer;
+    friend class Profiler;
 };
 } // namespace re
 

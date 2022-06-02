@@ -11,6 +11,7 @@
 #include "framebuffer.h"
 
 #include "glCommonDefine.h"
+#include "renderer.h"
 #include "texture.h"
 namespace re
 {
@@ -65,9 +66,20 @@ FrameBuffer::FrameBufferBuilder& FrameBuffer::FrameBufferBuilder::withTexture(co
     m_textures.push_back(texture);
     return *this;
 }
+
+FrameBuffer::FrameBufferBuilder& FrameBuffer::FrameBufferBuilder::withName(std::string_view name)
+{
+    m_name = name;
+    return *this;
+}
+
 std::shared_ptr<FrameBuffer> FrameBuffer::FrameBufferBuilder::build()
 {
-    auto framebuffer = new FrameBuffer();
+    if (m_name.empty())
+    {
+        m_name = "Unnamed Framebuffer";
+    }
+    auto framebuffer = new FrameBuffer(m_name);
     framebuffer->m_size = m_size;
     glGenRenderbuffers(1, &framebuffer->m_rbo);
     glBindRenderbuffer(GL_RENDERBUFFER, framebuffer->m_rbo);
@@ -103,7 +115,12 @@ FrameBuffer::~FrameBuffer()
     {
         glDeleteRenderbuffers(1, &m_rbo);
     }
-    glDeleteFramebuffers(1, &m_rbo);
+    auto* r = Renderer::s_instance;
+    if (r != nullptr)
+    {
+        r->m_fbos.erase(std::remove(r->m_fbos.begin(), r->m_fbos.end(), this));
+        glDeleteFramebuffers(1, &m_fbo);
+    }
 }
 
 FrameBuffer::FrameBufferBuilder FrameBuffer::create()
@@ -116,5 +133,9 @@ int FrameBuffer::getMaximumColorAttachments()
     return 1;
 }
 
-FrameBuffer::FrameBuffer() = default;
+FrameBuffer::FrameBuffer(std::string_view name) :
+    m_name(name)
+{
+    Renderer::s_instance->m_fbos.emplace_back(this);
+}
 } // namespace re

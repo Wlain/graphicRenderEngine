@@ -352,8 +352,18 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withBlend(Shader::BlendType blendT
     return *this;
 }
 
+Shader::ShaderBuilder& Shader::ShaderBuilder::withName(std::string_view name)
+{
+    m_name = name;
+    return *this;
+}
+
 std::shared_ptr<Shader> Shader::ShaderBuilder::build()
 {
+    if (m_name.empty())
+    {
+        m_name = "Unnamed shader";
+    }
     auto* shader = new Shader();
     if (!shader->build(m_vertexShaderStr, m_fragmentShaderStr))
     {
@@ -363,6 +373,7 @@ std::shared_ptr<Shader> Shader::ShaderBuilder::build()
     shader->m_depthTest = m_depthTest;
     shader->m_depthWrite = m_depthWrite;
     shader->m_blendType = m_blendType;
+    shader->m_name = m_name;
     return std::shared_ptr<Shader>(shader);
 }
 
@@ -374,6 +385,7 @@ std::shared_ptr<Shader> Shader::getUnlit()
     }
     s_unlit = Shader::create()
                   .withSourceUnlit()
+                  .withName("Unlit")
                   .build();
     return s_unlit;
 }
@@ -389,6 +401,7 @@ std::shared_ptr<Shader> Shader::getUnlitSprite()
                         .withSourceUnlitSprite()
                         .withBlend(BlendType::AlphaBlending)
                         .withDepthWrite(false)
+                        .withName("Unlit Sprite")
                         .build();
     return s_unlitSprite;
 }
@@ -399,7 +412,10 @@ std::shared_ptr<Shader> Shader::getStandard()
     {
         return s_standard;
     }
-    s_standard = Shader::create().withSourceStandard().build();
+    s_standard = Shader::create()
+                     .withSourceStandard()
+                     .withName("Standard")
+                     .build();
     return s_standard;
 }
 
@@ -413,6 +429,7 @@ std::shared_ptr<Shader> Shader::getStandardParticles()
                               .withSourceStandardParticles()
                               .withBlend(BlendType::AdditiveBlending)
                               .withDepthWrite(false)
+                              .withName("Standard Particles")
                               .build();
     return s_standardParticles;
 }
@@ -425,11 +442,12 @@ Shader::Shader()
     }
     m_id = glCreateProgram();
     Renderer::s_instance->m_renderStatsCurrent.shaderCount++;
+    Renderer::s_instance->m_shaders.emplace_back(this);
 }
 
 Shader::~Shader()
 {
-    auto r = Renderer::s_instance;
+    auto* r = Renderer::s_instance;
     if (r != nullptr)
     {
         r->m_renderStatsCurrent.shaderCount--;
@@ -838,6 +856,12 @@ const char* Shader::c_str(Shader::UniformType u)
     case UniformType::Invalid:
         return "invalid";
     }
+}
+
+std::pair<int, int> Shader::getAttibuteType(const std::string& name)
+{
+    auto res = m_attributes[name];
+    return { res.type, res.arraySize };
 }
 
 } // namespace re

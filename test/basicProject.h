@@ -3,6 +3,7 @@
 //
 #include "core/glfwRenderer.h"
 #include "core/material.h"
+#include "core/profiler.h"
 #include "core/renderer.h"
 #include "core/shader.h"
 #include "core/worldLights.h"
@@ -12,7 +13,8 @@ using namespace re;
 class BasicProject
 {
 public:
-    BasicProject()
+    BasicProject() :
+        m_renderer{}, m_profiler{ 300, &m_renderer }
     {
         m_renderer.init();
     };
@@ -21,12 +23,18 @@ public:
     virtual void run()
     {
         initialize();
+        setTitle();
         m_renderer.setWindowTitle(m_title);
         m_renderer.m_frameUpdate = [&](float deltaTime) {
             update(deltaTime);
         };
         m_renderer.m_frameRender = [&]() {
             render();
+            if (m_enableProfiling)
+            {
+                m_profiler.update();
+                m_profiler.gui();
+            }
         };
         m_renderer.m_frameResize = [&](int width, int height) {
             resize(width, height);
@@ -49,17 +57,17 @@ public:
         m_deltaTime = deltaTime;
         m_totalTime += m_deltaTime;
     }
-    virtual void setTitle()
-    {
-    }
+    virtual void setTitle() = 0;
 
 protected:
     std::string m_title{ "BasicProject" };
     GLFWRenderer m_renderer;
+    Profiler m_profiler;
     std::unique_ptr<Camera> m_camera;
     std::shared_ptr<Material> m_material;
     std::shared_ptr<Mesh> m_mesh;
     std::unique_ptr<WorldLights> m_worldLights;
     float m_deltaTime{ 0.0f };
     float m_totalTime{ 0.0f };
+    bool m_enableProfiling{ true };
 };

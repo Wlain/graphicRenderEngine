@@ -24,6 +24,10 @@ struct RenderStats
     int stateChangesShader{ 0 };
     int stateChangesMaterial{ 0 };
     int stateChangesMesh{ 0 };
+    int textureBytesAllocated = 0;   // size of allocated textures in bytes this frame
+    int textureBytesDeallocated = 0; // size of deallocated textures in bytes this frame
+    int meshBytesAllocated = 0;      // size of allocated meshes in bytes this frame
+    int meshBytesDeallocated = 0;    // size of deallocated meshes in bytes this frame
 };
 } // namespace re
 #endif //SIMPLERENDERENGINE_RENDERSTATS_H

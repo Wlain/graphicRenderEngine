@@ -11,6 +11,8 @@
 #ifndef SIMPLERENDERENGINE_FRAMEBUFFER_H
 #define SIMPLERENDERENGINE_FRAMEBUFFER_H
 #include <glm/glm.hpp>
+#include <string>
+#include <string_view>
 #include <vector>
 
 namespace re
@@ -25,10 +27,12 @@ public:
     {
     public:
         FrameBufferBuilder& withTexture(const std::shared_ptr<Texture>& texture);
+        FrameBufferBuilder& withName(std::string_view name);
         std::shared_ptr<FrameBuffer> build();
 
     private:
         std::vector<std::shared_ptr<Texture>> m_textures;
+        std::string m_name;
         glm::uvec2 m_size;
         FrameBufferBuilder() = default;
         FrameBufferBuilder(const FrameBufferBuilder&) = default;
@@ -36,13 +40,15 @@ public:
     };
 
 public:
+    FrameBuffer(std::string_view name);
     ~FrameBuffer();
+    inline const std::string& name() const { return m_name; }
     static FrameBufferBuilder create();
     static int getMaximumColorAttachments();
 
 public:
-    FrameBuffer();
     std::vector<std::shared_ptr<Texture>> m_textures;
+    std::string m_name;
     uint32_t m_fbo{ 0 };
     uint32_t m_rbo{ 0 };
     glm::uvec2 m_size;

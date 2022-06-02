@@ -58,21 +58,6 @@ public:
         }
         // read pixel values from defualt framebuffer (before gui is rendered)
         auto pixelValues = renderPass.readPixels(m_mouseX, m_mouseY);
-        // render color using imgui
-        LOG_INFO("m_mouse[{}, {}]", m_mouseX, m_mouseY);
-        LOG_INFO("color:[{}, {}, {}, {}]", pixelValues[0].x, pixelValues[0].y, pixelValues[0].z, pixelValues[0].w);
-        if (pixelValues[0].x > 0)
-        {
-            LOG_INFO("");
-        }
-        if (pixelValues[0].y > 0)
-        {
-            LOG_INFO("");
-        }
-        if (pixelValues[0].z > 0)
-        {
-            LOG_INFO("");
-        }
     }
     void update(float deltaTime) override
     {

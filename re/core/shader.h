@@ -70,6 +70,7 @@ public:
         ShaderBuilder& withDepthTest(bool enable);
         ShaderBuilder& withDepthWrite(bool enable);
         ShaderBuilder& withBlend(BlendType blendType);
+        ShaderBuilder& withName(std::string_view name);
         std::shared_ptr<Shader> build();
 
     private:
@@ -78,6 +79,7 @@ public:
     private:
         std::string m_vertexShaderStr;
         std::string m_fragmentShaderStr;
+        std::string m_name;
         BlendType m_blendType{ BlendType::Disabled };
         unsigned int m_id{ 0 };
         bool m_depthTest{ true };
@@ -111,9 +113,12 @@ public:
 public:
     ~Shader();
     Uniform getUniformType(std::string_view name);
+    //return type sizeof attribute
+    std::pair<int, int> getAttibuteType(const std::string& name);
     inline bool isDepthTest() const { return m_depthTest; }
     inline bool isDepthWrite() const { return m_depthWrite; }
     inline BlendType getBlend() const { return m_blendType; }
+    inline const std::string& name() const { return m_name; }
 
     std::vector<std::string> getAttributeNames();
     std::vector<std::string> getUniformNames();
@@ -143,6 +148,7 @@ private:
     BlendType m_blendType{ BlendType::Disabled };
     std::vector<Uniform> m_uniforms;
     std::map<std::string, ShaderAttribute> m_attributes;
+    std::string m_name;
     unsigned int m_id{ 0 };
     bool m_depthTest{ true };
     bool m_depthWrite{ true };
@@ -157,6 +163,7 @@ private:
     friend class Mesh;
     friend class RenderPass;
     friend class Material;
+    friend class Profiler;
 };
 
 } // namespace re
