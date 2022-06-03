@@ -330,7 +330,7 @@ void Profiler::showShader(Shader* shader)
             auto attributeNames = shader->getAttributeNames();
             for (const auto& a : attributeNames)
             {
-                auto type = shader->getAttibuteType(a);
+                auto type = shader->getAttributeType(a);
                 std::string typeStr = glEnumToString(type.first);
                 typeStr = appendSize(typeStr, type.second);
                 ImGui::LabelText(a.c_str(), "%s", typeStr.c_str());

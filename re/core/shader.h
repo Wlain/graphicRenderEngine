@@ -39,6 +39,13 @@ public:
         TextureCube
     };
 
+    enum class CullFace
+    {
+        Front,
+        Back,
+        None
+    };
+
     struct Uniform
     {
         Uniform(const char* _name, int32_t _location, UniformType _type, int32_t _count) :
@@ -71,7 +78,8 @@ public:
         ShaderBuilder& withDepthWrite(bool enable);
         ShaderBuilder& withBlend(BlendType blendType);
         ShaderBuilder& withName(std::string_view name);
-        ShaderBuilder& withOffset(float factor, float units); // 设置用于计算深度值的缩放比例和单位(注意: WebGL1.0/OpenGL ES 2.0只影响多边形填充)
+        ShaderBuilder& withOffset(float factor, float units); // 设置用于计算深度值的缩放比例和单位
+        ShaderBuilder& withCullFace(CullFace face);
         std::shared_ptr<Shader> build();
 
     private:
@@ -82,6 +90,7 @@ public:
         std::string m_fragmentShaderStr;
         std::string m_name;
         BlendType m_blendType{ BlendType::Disabled };
+        CullFace m_cullFace{ CullFace::Back };
         glm::vec2 m_offset = { 0, 0 };
         unsigned int m_id{ 0 };
         bool m_depthTest{ true };
@@ -116,7 +125,7 @@ public:
     ~Shader();
     Uniform getUniformType(std::string_view name);
     //return type sizeof attribute
-    std::pair<int, int> getAttibuteType(const std::string& name);
+    std::pair<int, int> getAttributeType(const std::string& name);
     inline bool isDepthTest() const { return m_depthTest; }
     inline bool isDepthWrite() const { return m_depthWrite; }
     inline BlendType getBlend() const { return m_blendType; }
@@ -149,6 +158,7 @@ private:
 
 private:
     BlendType m_blendType{ BlendType::Disabled };
+    CullFace m_cullFace{ CullFace::Back };
     std::vector<Uniform> m_uniforms;
     std::map<std::string, ShaderAttribute> m_attributes;
     glm::vec2 m_offset = glm::vec2(0, 0);

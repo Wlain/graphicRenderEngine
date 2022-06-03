@@ -370,6 +370,7 @@ std::shared_ptr<Shader> Shader::ShaderBuilder::build()
         delete shader;
         return {};
     }
+    shader->m_cullFace = m_cullFace;
     shader->m_depthTest = m_depthTest;
     shader->m_depthWrite = m_depthWrite;
     shader->m_blendType = m_blendType;
@@ -382,6 +383,12 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withOffset(float factor, float uni
 {
     m_offset.x = factor;
     m_offset.y = units;
+    return *this;
+}
+
+Shader::ShaderBuilder& Shader::ShaderBuilder::withCullFace(Shader::CullFace face)
+{
+    m_cullFace = face;
     return *this;
 }
 
@@ -524,6 +531,15 @@ void Shader::bind()
     else
     {
         glDisable(GL_DEPTH_TEST);
+    }
+    if (m_cullFace == CullFace::None)
+    {
+        glDisable(GL_CULL_FACE);
+    }
+    else
+    {
+        glEnable(GL_CULL_FACE);
+        glCullFace(m_cullFace == CullFace::Back ? GL_BACK : GL_FRONT);
     }
     glDepthMask(m_depthWrite ? GL_TRUE : GL_FALSE);
     switch (m_blendType)
@@ -880,7 +896,7 @@ const char* Shader::c_str(Shader::UniformType u)
     }
 }
 
-std::pair<int, int> Shader::getAttibuteType(const std::string& name)
+std::pair<int, int> Shader::getAttributeType(const std::string& name)
 {
     auto res = m_attributes[name];
     return { res.type, res.arraySize };

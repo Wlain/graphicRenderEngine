@@ -22,7 +22,11 @@ public:
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
         m_camera->setPerspectiveProjection(60, 0.1, 100);
-        auto shader = Shader::getUnlit();
+        auto shader = Shader::create()
+                          .withSourceUnlit()
+                          .withName("Unlit")
+                          .withCullFace(Shader::CullFace::None)
+                          .build();
         m_material = shader->createMaterial();
         m_material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/test.jpg")).build());
         m_mesh = Mesh::create().withQuad().build();

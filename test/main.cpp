@@ -16,6 +16,6 @@ extern void polygonOffsetTest();
 
 int main()
 {
-    polygonOffsetTest();
+    quadTest();
     return 0;
 }

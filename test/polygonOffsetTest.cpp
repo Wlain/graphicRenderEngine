@@ -23,7 +23,7 @@ public:
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
 
-        m_material = Shader::create().withSourceStandard().build()->createMaterial();
+        m_material = Shader::create().withSourceStandard().withCullFace(Shader::CullFace::None).build()->createMaterial();
         m_material->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
         m_material->setSpecularity(20.0f);
 
@@ -31,20 +31,20 @@ public:
         m_material2->setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
         m_material2->setSpecularity(20.0f);
 
-        m_mesh = Mesh::create().withQuad(100.9999999f).build();
-        m_mesh2 = Mesh::create().withQuad(100.000001f).build();
+        m_mesh = Mesh::create().withQuad(10.9999999f).build();
+        m_mesh2 = Mesh::create().withQuad(10.000001f).build();
         m_worldLights = MAKE_UNIQUE(m_worldLights);
         m_worldLights->setAmbientLight({ 0.5, 0.5, 0.5 });
-        m_worldLights->addLight(Light::create().withPointLight({ 0, 3, 0 }).withColor({ 1, 0, 0 }).withRange(20).build());
-        m_worldLights->addLight(Light::create().withPointLight({ 3, 0, 0 }).withColor({ 0, 1, 0 }).withRange(20).build());
-        m_worldLights->addLight(Light::create().withPointLight({ 0, -3, 0 }).withColor({ 0, 0, 1 }).withRange(20).build());
-        m_worldLights->addLight(Light::create().withPointLight({ -3, 0, 0 }).withColor({ 1, 1, 1 }).withRange(20).build());
+        m_worldLights->addLight(Light::create().withPointLight({ 0, 3, 10 }).withColor({ 1, 0, 0 }).withRange(20).build());
+        m_worldLights->addLight(Light::create().withPointLight({ 3, 0, 10 }).withColor({ 0, 1, 0 }).withRange(20).build());
+        m_worldLights->addLight(Light::create().withPointLight({ 0, -3, 10 }).withColor({ 0, 0, 1 }).withRange(20).build());
+        m_worldLights->addLight(Light::create().withPointLight({ -3, 0, 10 }).withColor({ 1, 1, 1 }).withRange(20).build());
     }
     void render() override
     {
         m_camera->setPerspectiveProjection(60, 0.001, 10000000);
         glm::mat4 rot = glm::eulerAngleY(glm::radians(30.0f * m_totalTime)) * glm::eulerAngleX(glm::radians((float)sin((float)30.0f * m_totalTime) * 30.8f));
-        m_camera->setLookAt((glm::vec3)(rot * glm::vec4(0, 0, 5, 1)), { 0, 0, 0 }, { 0, 1, 0 });
+        m_camera->setLookAt((glm::vec3)(rot * glm::vec4(0, 0, 30, 1)), { 0, 0, 0 }, { 0, 1, 0 });
         auto renderPass = RenderPass::create()
                               .withCamera(*m_camera)
                               .withWorldLights(m_worldLights.get())
