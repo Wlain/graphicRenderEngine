@@ -76,6 +76,8 @@ public:
     {
         auto renderPass = RenderPass::create().withCamera(*m_camera).build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material);
+        m_profiler.update();
+        m_profiler.gui();
     }
     void setTitle() override
     {

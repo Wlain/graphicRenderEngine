@@ -60,8 +60,9 @@ public:
             m_material2->setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
             m_material2->setSpecularity(20.0f);
         }
-
         ImGui::Checkbox("Rotate", &m_rotate);
+        m_profiler.update();
+        m_profiler.gui();
     }
     void setTitle() override
     {

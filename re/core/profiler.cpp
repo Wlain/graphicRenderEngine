@@ -13,7 +13,9 @@
 #include "sprite.h"
 #include "spriteAtlas.h"
 #include "texture.h"
-
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/euler_angles.hpp>
+#include <glm/gtx/transform.hpp>
 #include <string>
 
 namespace re
@@ -101,17 +103,22 @@ Profiler::Profiler(int frames, GLFWRenderer* renderer) :
 
 void Profiler::update()
 {
+    m_usedTextures = 0;
     auto deltaTime = (float)m_timer.elapsedMicro();
+    m_time += deltaTime;
     m_stats[m_frameCount % m_frames] = Renderer::s_instance->getRenderStats();
     m_milliseconds[m_frameCount % m_frames] = deltaTime;
     m_frameCount++;
 }
 
-void Profiler::gui()
+void Profiler::gui(bool useWindow)
 {
     auto* r = Renderer::s_instance;
-    static bool open = true;
-    ImGui::Begin("re Renderer", &open);
+    if (useWindow)
+    {
+        static bool open = true;
+        ImGui::Begin("re Renderer", &open);
+    }
     if (ImGui::CollapsingHeader("Renderer"))
     {
         ImGui::LabelText("Window size", "%ix%i", r->getWindowSize().x, r->getWindowSize().y);
@@ -264,7 +271,7 @@ void Profiler::gui()
 
     if (!r->m_fbos.empty())
     {
-        if (ImGui::LabelText("FrameBuffer objects"))
+        if (ImGui::CollapsingHeader("FrameBuffer objects"))
         {
             for (auto fbo : r->m_fbos)
             {
@@ -272,7 +279,10 @@ void Profiler::gui()
             }
         }
     }
-    ImGui::End();
+    if (useWindow)
+    {
+        ImGui::End();
+    }
 }
 
 void Profiler::showTexture(Texture* tex)
@@ -287,7 +297,7 @@ void Profiler::showTexture(Texture* tex)
         ImGui::LabelText("Data size", "%f MB", tex->getDataSize() / (1000 * 1000.0f));
         if (!tex->isCubeMap())
         {
-            ImGui::Image(reinterpret_cast<ImTextureID>(tex->m_info.id), ImVec2(100, 100));
+            ImGui::Image(reinterpret_cast<ImTextureID>(tex->m_info.id), ImVec2(m_previewSize, m_previewSize));
         }
         ImGui::TreePop();
     }
@@ -314,13 +324,13 @@ void Profiler::showMesh(Mesh* mesh)
         }
         if (ImGui::TreeNode("Index sets"))
         {
-            if (mesh->getIndicesSet() == 0)
+            if (mesh->getIndexSets() == 0)
             {
                 ImGui::LabelText("", "None");
             }
             else
             {
-                for (int i = 0; i < mesh->getIndicesSet(); i++)
+                for (int i = 0; i < mesh->getIndexSets(); i++)
                 {
                     char res[128];
                     sprintf(res, "Index %i size", i);
@@ -329,6 +339,40 @@ void Profiler::showMesh(Mesh* mesh)
             }
             ImGui::TreePop();
         }
+        initFramebuffer();
+        Camera camera;
+        camera.setPerspectiveProjection(60, 0.1, 10);
+        camera.setLookAt({ 0, 0, 4 }, { 0, 0, 0 }, { 0, 1, 0 });
+        auto offscreenTexture = getTmpTexture();
+        m_framebuffer->setTexture(offscreenTexture);
+
+        auto renderToTexturePass = RenderPass::create()
+                                       .withCamera(camera)
+                                       .withWorldLights(&m_worldLights)
+                                       .withFramebuffer(m_framebuffer)
+                                       .withClearColor(true, { 0, 0, 0, 1 })
+                                       .withGUI(false)
+                                       .build();
+        static auto litMat = Shader::getStandard()->createMaterial();
+        static auto unlitMat = Shader::getUnlit()->createMaterial();
+        bool hasNormals = mesh->getNormals().size() > 0;
+        auto mat = hasNormals ? litMat : unlitMat;
+        auto sharedPtrMesh = mesh->shared_from_this();
+        float rotationSpeed = 0.0001f;
+
+        auto bounds = mesh->getBoundsMinMax();
+        auto center = (bounds[1] + bounds[0]) * 0.5f;
+        auto offset = -center;
+        auto scale = bounds[1] - bounds[0];
+        float maxS = std::max({ scale.x, scale.y, scale.z });
+
+        std::vector<std::shared_ptr<Material>> mats;
+        for (int m = 0; m < std::max((size_t)1, sharedPtrMesh->getIndexSets()); m++)
+        {
+            mats.push_back(mat);
+        }
+        renderToTexturePass.draw(sharedPtrMesh, glm::eulerAngleY(glm::radians(rotationSpeed * m_time)) * glm::scale(glm::vec3{ 2.0f / maxS, 2.0f / maxS, 2.0f / maxS }) * glm::translate(offset), mats);
+        ImGui::Image(reinterpret_cast<ImTextureID>(offscreenTexture->m_info.id), ImVec2(m_previewSize, m_previewSize), { 0, 1 }, { 1, 0 }, { 1, 1, 1, 1 }, { 0, 0, 0, 1 });
         ImGui::TreePop();
     }
 }
@@ -380,6 +424,28 @@ void Profiler::showShader(Shader* shader)
         ImGui::LabelText("Depth test", "%s", shader->isDepthTest() ? "true" : "false");
         ImGui::LabelText("Depth write", "%s", shader->isDepthWrite() ? "true" : "false");
         ImGui::LabelText("Offset", "factor: %.1f units: %.1f", shader->getOffset().x, shader->getOffset().y);
+        initFramebuffer();
+        auto mat = shader->createMaterial();
+
+        static auto mesh = Mesh::create().withSphere().build();
+
+        Camera camera;
+        camera.setPerspectiveProjection(60, 0.1, 10);
+        camera.setLookAt({ 0, 0, 4 }, { 0, 0, 0 }, { 0, 1, 0 });
+        auto offscreenTexture = getTmpTexture();
+        m_framebuffer->setTexture(offscreenTexture);
+        auto renderToTexturePass = RenderPass::create()
+                                       .withCamera(camera)
+                                       .withWorldLights(&m_worldLights)
+                                       .withFramebuffer(m_framebuffer)
+                                       .withClearColor(true, { 0, 0, 0, 1 })
+                                       .withGUI(false)
+                                       .build();
+        float rotationSpeed = 0.001f;
+
+        renderToTexturePass.draw(mesh, glm::eulerAngleY(m_time * rotationSpeed), mat);
+
+        ImGui::Image(reinterpret_cast<ImTextureID>(offscreenTexture->m_info.id), ImVec2(m_previewSize, m_previewSize), { 0, 1 }, { 1, 0 }, { 1, 1, 1, 1 }, { 0, 0, 0, 1 });
         ImGui::TreePop();
     }
 }
@@ -425,10 +491,36 @@ void Profiler::showSpriteAtlas(SpriteAtlas* pAtlas)
             auto tex = sprite.m_texture;
             auto uv0 = ImVec2((sprite.getSpritePos().x) / (float)tex->width(), (sprite.getSpritePos().y + sprite.getSpriteSize().y) / (float)tex->height());
             auto uv1 = ImVec2((sprite.getSpritePos().x + sprite.getSpriteSize().x) / (float)tex->width(), (sprite.getSpritePos().y) / (float)tex->height());
-            ImGui::Image(reinterpret_cast<ImTextureID>(tex->m_info.id), ImVec2(100.0f / sprite.getSpriteSize().y * (float)sprite.getSpriteSize().x, 100), uv0, uv1,
+            ImGui::Image(reinterpret_cast<ImTextureID>(tex->m_info.id), ImVec2(m_previewSize / sprite.getSpriteSize().y * (float)sprite.getSpriteSize().x, m_previewSize), uv0, uv1,
                          { 1, 1, 1, 1 }, { 0, 0, 0, 1 });
         }
         ImGui::TreePop();
+    }
+}
+
+std::shared_ptr<Texture> Profiler::getTmpTexture()
+{
+    if (m_usedTextures < m_offscreenTextures.size())
+    {
+        int index = m_usedTextures;
+        m_usedTextures++;
+        return m_offscreenTextures[index];
+    }
+    auto offscreenTex = Texture::create().withRGBAData(nullptr, 1024, 1024).build();
+    m_offscreenTextures.push_back(offscreenTex);
+    m_usedTextures++;
+    return offscreenTex;
+}
+
+void Profiler::initFramebuffer()
+{
+    if (m_framebuffer == nullptr)
+    {
+        m_framebuffer = FrameBuffer::create().withTexture(getTmpTexture()).build();
+
+        m_worldLights.setAmbientLight({ 0.2, 0.2, 0.2 });
+        auto light = Light::create().withPointLight({ 0, 0, 4 }).build();
+        m_worldLights.addLight(light);
     }
 }
 } // namespace re

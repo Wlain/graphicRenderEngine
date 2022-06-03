@@ -38,6 +38,8 @@ public:
                               .withClearColor(true, { 0, 0, 0, 1 })
                               .build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_materials);
+        m_profiler.update();
+        m_profiler.gui();
     }
 
     void loadObjFile(std::string file)
@@ -49,7 +51,7 @@ public:
         {
             LOG_INFO("{}", m->getName());
         }
-        LOG_INFO("{} {}", m_materials.size(), m_mesh->getIndicesSet());
+        LOG_INFO("{} {}", m_materials.size(), m_mesh->getIndexSets());
         auto bounds = m_mesh->getBoundsMinMax();
         m_farPlane = glm::length(bounds[1] - bounds[0]);
         m_camera->setLookAt({ 0, 1, m_farPlane }, { 0, 0, 0 }, { 0, 1, 0 });

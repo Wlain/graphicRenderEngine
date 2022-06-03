@@ -44,7 +44,7 @@ Mesh::~Mesh()
     glDeleteBuffers(1, &m_vbo);
 }
 
-void Mesh::bind(Shader* shader, int indexSet)
+void Mesh::bind(Shader* shader)
 {
     auto res = m_shaderToVao.find(shader->m_id);
     if (res != m_shaderToVao.end())
@@ -60,6 +60,10 @@ void Mesh::bind(Shader* shader, int indexSet)
         setVertexAttributePointers(shader);
         m_shaderToVao[shader->m_id] = index;
     }
+}
+
+void Mesh::bindIndexSet(int indexSet)
+{
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indices.empty() ? 0 : m_ebos[indexSet]);
 }
 

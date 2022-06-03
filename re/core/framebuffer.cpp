@@ -138,4 +138,26 @@ FrameBuffer::FrameBuffer(std::string_view name) :
 {
     Renderer::s_instance->m_fbos.emplace_back(this);
 }
+
+void FrameBuffer::setTexture(std::shared_ptr<Texture> tex, int index)
+{
+    m_textures[index] = tex;
+    m_dirty = true;
+}
+
+void FrameBuffer::bind()
+{
+    glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+    if (m_dirty)
+    {
+        for (int i = 0; i < m_textures.size(); i++)
+        {
+            for (unsigned i = 0; i < m_textures.size(); i++)
+            {
+                glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, m_textures[i]->m_info.id, 0);
+            }
+        }
+        m_dirty = false;
+    }
+}
 } // namespace re

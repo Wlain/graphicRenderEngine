@@ -16,6 +16,6 @@ extern void polygonOffsetTest();
 
 int main()
 {
-    spritesBatchTest();
+    sphereTest2();
     return 0;
 }

@@ -24,7 +24,6 @@ public:
     class RenderPassBuilder
     {
     public:
-        RenderPassBuilder(const RenderPassBuilder& r) = delete;
         RenderPassBuilder& withName(const std::string& name);
         RenderPassBuilder& withCamera(const Camera& camera);
         RenderPassBuilder& withWorldLights(WorldLights* worldLights);
@@ -36,7 +35,7 @@ public:
         RenderPassBuilder& withClearStencil(bool enabled = false, int value = 0);
         // calls ImGui::Render() in the end of the renderpass
         RenderPassBuilder& withGUI(bool enabled = true);
-        RenderPassBuilder& withFramebuffer(const std::shared_ptr<FrameBuffer>& framebuffer);
+        RenderPassBuilder& withFramebuffer(std::shared_ptr<FrameBuffer> framebuffer);
         RenderPass build();
 
     private:
@@ -75,21 +74,20 @@ public:
 private:
     RenderPass(RenderPass::RenderPassBuilder& builder);
     void setupShader(const glm::mat4& modelTransform, Shader* shader);
+    void bind(bool newFrame);
     static void finish();
+    void finishInstance();
 
 private:
-    inline static bool s_instance{ false };
-    inline static bool s_lastGui{ false };
+    inline static RenderPass* s_instance{ nullptr };
     inline static std::shared_ptr<FrameBuffer> s_lastFramebuffer;
 
 private:
-    std::shared_ptr<FrameBuffer> m_framebuffer;
+    RenderPass::RenderPassBuilder m_builder;
+    RenderPass* m_lastPass{ nullptr };
     Shader* m_lastBoundShader = { nullptr };
     Material* m_lastBoundMaterial = { nullptr };
     Mesh* m_lastBoundMesh = { nullptr };
-    Camera m_camera{};
-    WorldLights* m_worldLights{ nullptr };
-    RenderStats* m_renderStats{ nullptr };
     glm::mat4 m_projection;
     glm::uvec2 m_viewportOffset;
     glm::uvec2 m_viewportSize;

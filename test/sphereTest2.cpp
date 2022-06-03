@@ -41,6 +41,8 @@ public:
         auto renderPass = RenderPass::create().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
         renderPass.draw(m_mesh, m_pos1, m_material);
         renderPass.draw(m_mesh, m_pos2, m_material2);
+        m_profiler.update();
+        m_profiler.gui();
     }
 
     void setTitle() override

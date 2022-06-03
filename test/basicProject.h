@@ -30,11 +30,6 @@ public:
         };
         m_renderer.m_frameRender = [&]() {
             render();
-            if (m_enableProfiling)
-            {
-                m_profiler.update();
-                m_profiler.gui();
-            }
         };
         m_renderer.m_frameResize = [&](int width, int height) {
             resize(width, height);

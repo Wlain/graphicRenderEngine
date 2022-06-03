@@ -87,7 +87,7 @@ public:
     inline Topology getMeshTopology(int indexSet = 0) const { return m_topologies[indexSet]; }
     inline const std::vector<uint16_t>& getIndices(int indexSet = 0) const { return m_indices[indexSet]; }
     inline int getIndicesSize(int indexSet) { return m_indices[indexSet].size(); }
-    inline size_t getIndicesSet() const { return m_indices.size(); }
+    inline size_t getIndexSets() const { return m_indices.size(); }
     std::vector<glm::vec3> getPositions();
     std::vector<glm::vec3> getNormals();
     std::vector<glm::vec4> getUVs();
@@ -111,7 +111,8 @@ private:
         int dataType;      // 数据类型:eg:GL_FLOAT
         int attributeType; // 属性类型:eg:GL_FLOAT_VEC3
     };
-    void bind(Shader* shader, int indexSet);
+    void bind(Shader* shader);
+    void bindIndexSet(int indexSet);
     void setVertexAttributePointers(Shader* shader);
     Mesh(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4,
          std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, std::vector<std::vector<uint16_t>>& indices, std::vector<Topology>& meshTopology, std::string_view name, RenderStats& renderStats);

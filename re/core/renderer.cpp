@@ -51,7 +51,7 @@ Renderer::~Renderer() = default;
 
 void Renderer::swapWindow()
 {
-    if (RenderPass::s_instance)
+    if (RenderPass::s_instance != nullptr)
     {
         RenderPass::finish();
     }

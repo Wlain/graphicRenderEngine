@@ -49,6 +49,7 @@ public:
                               .withCamera(*m_camera)
                               .withWorldLights(m_worldLights.get())
                               .withClearColor(true, { 1, 0, 0, 1 })
+                              .withGUI(false)
                               .build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_material);
     }

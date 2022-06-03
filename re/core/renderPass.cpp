@@ -37,52 +37,9 @@ RenderPass RenderPass::RenderPassBuilder::build()
 }
 
 RenderPass::RenderPass(RenderPass::RenderPassBuilder& builder) :
-    m_camera(builder.m_camera), m_worldLights(builder.m_worldLights), m_renderStats(builder.m_renderStats), m_framebuffer(builder.m_framebuffer)
+    m_builder(builder), m_lastPass(s_instance)
 {
-    if (s_instance)
-    {
-        finish();
-    }
-    glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffer != nullptr ? m_framebuffer->m_fbo : 0);
-
-    GLbitfield clear = 0;
-    if (builder.m_clearColor)
-    {
-        glClearColor(builder.m_clearColorValue.r, builder.m_clearColorValue.g, builder.m_clearColorValue.b, builder.m_clearColorValue.a);
-        clear |= GL_COLOR_BUFFER_BIT;
-    }
-    if (builder.m_clearDepth)
-    {
-        glClearDepth(builder.m_clearDepthValue);
-        glDepthMask(GL_TRUE);
-        clear |= GL_DEPTH_BUFFER_BIT;
-    }
-    if (builder.m_clearStencil)
-    {
-        glClearStencil(builder.m_clearStencilValue);
-        clear |= GL_STENCIL_BUFFER_BIT;
-    }
-    if (clear) glClear(clear);
-    if (builder.m_gui)
-    {
-        // Start the Dear ImGui frame
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-    }
-    auto framebufferSize = static_cast<glm::vec2>(Renderer::s_instance->getFramebufferSize());
-    if (m_framebuffer)
-    {
-        framebufferSize = m_framebuffer->m_size;
-    }
-    m_viewportOffset = static_cast<glm::uvec2>(m_camera.m_viewportOffset * framebufferSize);
-    m_viewportSize = static_cast<glm::uvec2>(framebufferSize * m_camera.m_viewportSize);
-    m_projection = m_camera.getProjectionTransform(framebufferSize);
-    //    glEnable(GL_SCISSOR_TEST);
-    glScissor(m_viewportOffset.x, m_viewportOffset.y, m_viewportSize.x, m_viewportSize.y);
-    glViewport(m_viewportOffset.x, m_viewportOffset.y, m_viewportSize.x, m_viewportSize.y);
-    s_instance = true;
-    s_lastGui = builder.m_gui;
+    bind(true);
 }
 
 RenderPass::RenderPassBuilder::RenderPassBuilder(RenderStats* renderStats) :
@@ -116,9 +73,9 @@ RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withGUI(bool enabl
     return *this;
 }
 
-RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withFramebuffer(const std::shared_ptr<FrameBuffer>& framebuffer)
+RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withFramebuffer(std::shared_ptr<FrameBuffer> framebuffer)
 {
-    m_framebuffer = framebuffer;
+    m_framebuffer = std::move(framebuffer);
     return *this;
 }
 
@@ -127,7 +84,13 @@ RenderPass::RenderPassBuilder re::RenderPass::create()
     return { &Renderer::s_instance->m_renderStatsCurrent };
 }
 
-RenderPass::~RenderPass() = default;
+RenderPass::~RenderPass()
+{
+    if (RenderPass::s_instance == this)
+    {
+        finish();
+    }
+}
 
 void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color, Mesh::Topology meshTopology)
 {
@@ -151,22 +114,23 @@ void RenderPass::draw(const std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTrans
     auto* material = materialPtr.get();
     auto* shader = material->getShader().get();
     assert(mesh != nullptr);
-    m_renderStats->drawCalls++;
+    m_builder.m_renderStats->drawCalls++;
     setupShader(modelTransform, shader);
     if (material != m_lastBoundMaterial)
     {
-        m_renderStats->stateChangesMaterial++;
+        m_builder.m_renderStats->stateChangesMaterial++;
         m_lastBoundMaterial = material;
         m_lastBoundMesh = nullptr; // force mesh to rebind
         material->bind();
     }
     if (mesh != m_lastBoundMesh)
     {
-        m_renderStats->stateChangesMesh++;
+        m_builder.m_renderStats->stateChangesMesh++;
         m_lastBoundMesh = mesh;
     }
-    mesh->bind(shader, 0);
-    if (mesh->getIndicesSet() == 0)
+    mesh->bind(shader);
+    mesh->bindIndexSet(0);
+    if (mesh->getIndexSets() == 0)
     {
         glDrawArrays((GLenum)mesh->getMeshTopology(), 0, mesh->getVertexCount());
     }
@@ -194,20 +158,21 @@ void RenderPass::draw(std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTransform, 
         auto* shader = material->getShader().get();
 
         assert(mesh != nullptr);
-        m_renderStats->drawCalls++;
+        m_builder.m_renderStats->drawCalls++;
         setupShader(modelTransform, shader);
         if (material != m_lastBoundMaterial)
         {
-            m_renderStats->stateChangesMaterial++;
+            m_builder.m_renderStats->stateChangesMaterial++;
             m_lastBoundMaterial = material;
             m_lastBoundMesh = nullptr; // force mesh to rebind
             material->bind();
         }
         if (mesh != m_lastBoundMesh)
         {
-            m_renderStats->stateChangesMesh++;
+            m_builder.m_renderStats->stateChangesMesh++;
             m_lastBoundMesh = mesh;
-            mesh->bind(shader, i);
+            mesh->bind(shader);
+            mesh->bindIndexSet(i);
         }
         auto indexCount = (GLsizei)mesh->getIndices(0).size();
         glDrawElements((GLenum)mesh->getMeshTopology(), indexCount, GL_UNSIGNED_SHORT, 0);
@@ -236,14 +201,14 @@ void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
         // normal
         if (shader->m_uniformLocationNormal != -1)
         {
-            auto normalMatrix = transpose(inverse((glm::mat3)(m_camera.getViewTransform() * modelTransform)));
+            auto normalMatrix = transpose(inverse((glm::mat3)(m_builder.m_camera.getViewTransform() * modelTransform)));
             glUniformMatrix3fv(shader->m_uniformLocationNormal, 1, GL_FALSE, glm::value_ptr(normalMatrix));
         }
     }
     else
     {
         shader->bind();
-        m_renderStats->stateChangesShader++;
+        m_builder.m_renderStats->stateChangesShader++;
         m_lastBoundShader = shader;
         // model
         if (shader->m_uniformLocationModel != -1)
@@ -253,7 +218,7 @@ void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
         // view
         if (shader->m_uniformLocationView != -1)
         {
-            glUniformMatrix4fv(shader->m_uniformLocationView, 1, GL_FALSE, glm::value_ptr(m_camera.m_viewTransform));
+            glUniformMatrix4fv(shader->m_uniformLocationView, 1, GL_FALSE, glm::value_ptr(m_builder.m_camera.m_viewTransform));
         }
         // projection
         if (shader->m_uniformLocationProjection != -1)
@@ -263,7 +228,7 @@ void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
         // normal
         if (shader->m_uniformLocationNormal != -1)
         {
-            auto normalMatrix = transpose(inverse((glm::mat3)(m_camera.getViewTransform() * modelTransform)));
+            auto normalMatrix = transpose(inverse((glm::mat3)(m_builder.m_camera.getViewTransform() * modelTransform)));
             glUniformMatrix3fv(shader->m_uniformLocationNormal, 1, GL_FALSE, glm::value_ptr(normalMatrix));
         }
         // viewport
@@ -272,33 +237,25 @@ void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
             glm::vec4 viewport((float)m_viewportSize.x, (float)m_viewportSize.y, (float)m_viewportOffset.x, (float)m_viewportOffset.y);
             glUniform4fv(shader->m_uniformLocationViewport, 1, glm::value_ptr(viewport));
         }
-        shader->setLights(m_worldLights, m_camera.getViewTransform());
+        shader->setLights(m_builder.m_worldLights, m_builder.m_camera.getViewTransform());
     }
 }
 
 void RenderPass::finish()
 {
-    ASSERT(s_instance);
-    if (s_lastGui)
+    if (s_instance != nullptr)
     {
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-    }
-    if (s_lastFramebuffer)
-    {
-        for (auto& tex : s_lastFramebuffer->m_textures)
+        s_instance->finishInstance();
+        if (s_instance->m_lastPass)
         {
-            if (tex->m_info.generateMipmap)
-            {
-                glBindTexture(tex->m_info.target, tex->m_info.id);
-                glGenerateMipmap(tex->m_info.target);
-                glBindTexture(tex->m_info.target, 0);
-            }
+            s_instance = s_instance->m_lastPass;
+            s_instance->bind(false);
+        }
+        else
+        {
+            s_instance = nullptr;
         }
     }
-    s_lastFramebuffer.reset();
-    s_instance = false;
-    s_lastGui = false;
 }
 
 std::vector<glm::vec4> RenderPass::readPixels(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
@@ -319,5 +276,78 @@ std::vector<glm::vec4> RenderPass::readPixels(unsigned int x, unsigned int y, un
 void RenderPass::finishGPUCommandBuffer() const
 {
     glFlush();
+}
+
+void RenderPass::bind(bool newFrame)
+{
+    s_instance = this;
+    if (m_builder.m_framebuffer != nullptr)
+    {
+        m_builder.m_framebuffer->bind();
+    }
+    else
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
+    if (newFrame)
+    {
+        GLbitfield clear = 0;
+        if (m_builder.m_clearColor)
+        {
+            glClearColor(m_builder.m_clearColorValue.r, m_builder.m_clearColorValue.g, m_builder.m_clearColorValue.b, m_builder.m_clearColorValue.a);
+            clear |= GL_COLOR_BUFFER_BIT;
+        }
+        if (m_builder.m_clearDepth)
+        {
+            glClearDepth(m_builder.m_clearDepthValue);
+            glDepthMask(GL_TRUE);
+            clear |= GL_DEPTH_BUFFER_BIT;
+        }
+        if (m_builder.m_clearStencil)
+        {
+            glClearStencil(m_builder.m_clearStencilValue);
+            clear |= GL_STENCIL_BUFFER_BIT;
+        }
+        if (clear) glClear(clear);
+        if (m_builder.m_gui)
+        {
+            // Start the Dear ImGui frame
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
+        }
+    }
+    auto framebufferSize = static_cast<glm::vec2>(Renderer::s_instance->getFramebufferSize());
+    if (m_builder.m_framebuffer)
+    {
+        framebufferSize = m_builder.m_framebuffer->m_size;
+    }
+    m_viewportOffset = static_cast<glm::uvec2>(m_builder.m_camera.m_viewportOffset * framebufferSize);
+    m_viewportSize = static_cast<glm::uvec2>(framebufferSize * m_builder.m_camera.m_viewportSize);
+    m_projection = m_builder.m_camera.getProjectionTransform(framebufferSize);
+    glScissor(m_viewportOffset.x, m_viewportOffset.y, m_viewportSize.x, m_viewportSize.y);
+    glViewport(m_viewportOffset.x, m_viewportOffset.y, m_viewportSize.x, m_viewportSize.y);
+}
+
+void RenderPass::finishInstance()
+{
+    if (m_builder.m_gui)
+    {
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    if (s_lastFramebuffer)
+    {
+        for (auto& tex : s_lastFramebuffer->m_textures)
+        {
+            if (tex->m_info.generateMipmap)
+            {
+                glBindTexture(tex->m_info.target, tex->m_info.id);
+                glGenerateMipmap(tex->m_info.target);
+                glBindTexture(tex->m_info.target, 0);
+            }
+        }
+    }
 }
 } // namespace re

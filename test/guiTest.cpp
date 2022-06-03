@@ -42,6 +42,8 @@ public:
         ImGui::Text("re draw-calls %i meshes %i (%.2fbytes) textures %i (%.2fbytes) shaders %i", renderStats.drawCalls,
                     renderStats.meshCount, renderStats.meshBytes * bytesToMB, renderStats.textureCount,
                     renderStats.textureBytes * bytesToMB, renderStats.shaderCount);
+        m_profiler.update();
+        m_profiler.gui();
     }
 
     void setTitle() override
