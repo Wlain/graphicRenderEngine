@@ -20,6 +20,8 @@ public:
     public:
         SpriteBatchBuilder& withShader(std::shared_ptr<Shader> shader);
         SpriteBatchBuilder& addSprite(const Sprite& sprite);
+        template <typename T>
+        SpriteBatchBuilder& addSprite(T first, const T last);
         std::shared_ptr<SpriteBatch> build();
 
     private:

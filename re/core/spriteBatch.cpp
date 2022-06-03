@@ -29,6 +29,13 @@ SpriteBatch::SpriteBatchBuilder::SpriteBatchBuilder()
     m_shader = Shader::getUnlitSprite();
 }
 
+template <typename T>
+SpriteBatch::SpriteBatchBuilder& SpriteBatch::SpriteBatchBuilder::addSprite(T first, const T last)
+{
+    m_sprites.insert(m_sprites.end(), first, last);
+    return *this;
+}
+
 SpriteBatch::SpriteBatchBuilder SpriteBatch::create()
 {
     return {};

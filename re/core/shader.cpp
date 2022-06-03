@@ -893,6 +893,8 @@ const char* Shader::c_str(Shader::UniformType u)
         return "textureCube";
     case UniformType::Invalid:
         return "invalid";
+    default:
+        return "unknown";
     }
 }
 
