@@ -47,6 +47,7 @@ private:
     std::vector<Mesh*> m_meshes;
     std::vector<Shader*> m_shaders;
     std::vector<Texture*> m_textures;
+    std::vector<SpriteAtlas*> m_spriteAtlases;
 
     friend class Mesh;
     friend class Mesh::MeshBuilder;
@@ -57,6 +58,7 @@ private:
     friend class RenderPass;
     friend class Profiler;
     friend class FrameBuffer;
+    friend class SpriteAtlas;
 };
 } // namespace re
 #endif //SIMPLERENDERENGINE_RENDERER_H

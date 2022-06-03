@@ -17,6 +17,7 @@ class GLFWRenderer;
 class Mesh;
 class Shader;
 class FrameBuffer;
+class SpriteAtlas;
 
 class Profiler
 {
@@ -30,7 +31,8 @@ private:
     void showTexture(Texture* tex);
     void showMesh(Mesh* mesh);
     void showShader(Shader* shader);
-    static void showFramebufferObject(FrameBuffer* fbo);
+    void showFramebufferObject(FrameBuffer* fbo);
+    void showSpriteAtlas(SpriteAtlas* pAtlas);
 
 private:
     std::vector<RenderStats> m_stats;

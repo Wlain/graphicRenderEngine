@@ -10,6 +10,8 @@
 #include "mesh.h"
 #include "renderer.h"
 #include "shader.h"
+#include "sprite.h"
+#include "spriteAtlas.h"
 #include "texture.h"
 
 #include <string>
@@ -248,15 +250,25 @@ void Profiler::gui()
             ImGui::LabelText("", "No meshes");
         }
     }
-    if (ImGui::CollapsingHeader("Framebuffer objects"))
+    if (!r->m_spriteAtlases.empty())
     {
-        for (auto fbo : r->m_fbos)
+        if (ImGui::CollapsingHeader("SpriteAtlases"))
         {
-            showFramebufferObject(fbo);
+            for (auto atlas : r->m_spriteAtlases)
+            {
+                showSpriteAtlas(atlas);
+            }
         }
-        if (r->m_fbos.empty())
+    }
+
+    if (!r->m_fbos.empty())
+    {
+        if (ImGui::LabelText("FrameBuffer objects"))
         {
-            ImGui::LabelText("", "No framebuffer objects");
+            for (auto fbo : r->m_fbos)
+            {
+                showFramebufferObject(fbo);
+            }
         }
     }
     ImGui::End();
@@ -366,7 +378,7 @@ void Profiler::showShader(Shader* shader)
         ImGui::LabelText("Blending", "%s", s.c_str());
         ImGui::LabelText("Depth test", "%s", shader->isDepthTest() ? "true" : "false");
         ImGui::LabelText("Depth write", "%s", shader->isDepthWrite() ? "true" : "false");
-        ImGui::LabelText("Offset","factor: %.1f units: %.1f",shader->getOffset().x,shader->getOffset().y);
+        ImGui::LabelText("Offset", "factor: %.1f units: %.1f", shader->getOffset().x, shader->getOffset().y);
         ImGui::TreePop();
     }
 }
@@ -376,6 +388,45 @@ void Profiler::showFramebufferObject(FrameBuffer* fbo)
     std::string s = fbo->name() + "##" + std::to_string((u_int64_t)fbo);
     if (ImGui::TreeNode(s.c_str()))
     {
+        ImGui::TreePop();
+    }
+}
+
+void Profiler::showSpriteAtlas(SpriteAtlas* pAtlas)
+{
+    std::string s = pAtlas->getAtlasName() + "##" + std::to_string((u_int64_t)pAtlas);
+    if (ImGui::TreeNode(s.c_str()))
+    {
+        std::stringstream ss;
+        for (auto& str : pAtlas->getNames())
+        {
+            ss << str << '\0';
+        }
+        ss << '\0';
+        auto ss_str = ss.str();
+        static std::map<SpriteAtlas*, int> spriteAtlasSelection;
+        auto elem = spriteAtlasSelection.find(pAtlas);
+        if (elem == spriteAtlasSelection.end())
+        {
+            spriteAtlasSelection.insert({ pAtlas, -1 });
+            elem = spriteAtlasSelection.find(pAtlas);
+        }
+        int* index = &elem->second;
+        ImGui::Combo("Sprite names", index, ss_str.c_str());
+
+        if (*index != -1)
+        {
+            auto name = pAtlas->getNames()[*index];
+            Sprite sprite = pAtlas->get(name);
+            ImGui::LabelText("Sprite anchor", "%.2fx%.2f", sprite.getSpriteAnchor().x, sprite.getSpriteAnchor().y);
+            ImGui::LabelText("Sprite size", "%ix%i", sprite.getSpriteSize().x, sprite.getSpriteSize().y);
+            ImGui::LabelText("Sprite pos", "%ix%i", sprite.getSpritePos().x, sprite.getSpritePos().y);
+            auto tex = sprite.m_texture;
+            auto uv0 = ImVec2((sprite.getSpritePos().x) / (float)tex->width(), (sprite.getSpritePos().y + sprite.getSpriteSize().y) / (float)tex->height());
+            auto uv1 = ImVec2((sprite.getSpritePos().x + sprite.getSpriteSize().x) / (float)tex->width(), (sprite.getSpritePos().y) / (float)tex->height());
+            ImGui::Image(reinterpret_cast<ImTextureID>(tex->m_info.id), ImVec2(100.0f / sprite.getSpriteSize().y * (float)sprite.getSpriteSize().x, 100), uv0, uv1,
+                         { 1, 1, 1, 1 }, { 0, 0, 0, 1 });
+        }
         ImGui::TreePop();
     }
 }

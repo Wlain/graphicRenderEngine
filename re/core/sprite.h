@@ -6,6 +6,7 @@
 #define SIMPLERENDERENGINE_SPRITE_H
 #include <array>
 #include <glm/glm.hpp>
+#include <string>
 /// 精灵图集
 namespace re
 {
@@ -37,7 +38,7 @@ public:
 
     const glm::ivec2& getSpritePos() const;
     const glm::ivec2& getSpriteSize() const;
-    const glm::ivec2& getScaleAnchor() const; // 锚点
+    const glm::vec2& getSpriteAnchor() const; // 锚点
     // 获取AABB 8个顶点的世界坐标
     std::array<glm::vec2, 4> getCorners() const;
     std::array<glm::vec2, 4> getUvs();
@@ -58,6 +59,7 @@ private:
     int m_orderInBatch{ 0 };
     friend class SpriteAtlas;
     friend class SpriteBatch;
+    friend class Profiler;
 };
 } // namespace re
 

@@ -113,7 +113,7 @@ const glm::ivec2& Sprite::getSpriteSize() const
     return m_spriteSize;
 }
 
-const glm::ivec2& Sprite::getScaleAnchor() const
+const glm::vec2& Sprite::getSpriteAnchor() const
 {
     return m_spriteAnchor;
 }
