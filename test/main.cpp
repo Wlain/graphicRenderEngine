@@ -16,6 +16,6 @@ extern void polygonOffsetTest();
 
 int main()
 {
-    sphereTest2();
+    pickColorTest();
     return 0;
 }

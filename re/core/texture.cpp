@@ -178,7 +178,7 @@ std::shared_ptr<Texture> Texture::getWhiteTexture()
     {
         return s_whiteTexture;
     }
-    s_whiteTexture = create().withWhiteData().withFilterSampling(false).withName("White Texture").build();
+    s_whiteTexture = create().withWhiteData().withFilterSampling(false).withName("re Default White Texture").build();
     return s_whiteTexture;
 }
 
@@ -195,7 +195,7 @@ std::shared_ptr<Texture> Texture::getFontTexture()
     int desireComp = STBI_rgb_alpha;
     unsigned char* data = stbi_load_from_memory((stbi_uc const*)fontPng, sizeof(fontPng), &width, &height, &channels, desireComp);
     stbi_set_flip_vertically_on_load(false);
-    s_fontTexture = Texture::create().withRGBAData((const char*)data, width, height).withName("Font Texture").build();
+    s_fontTexture = Texture::create().withRGBAData((const char*)data, width, height).withName("re Default Font Texture").build();
     stbi_image_free(data);
     return s_fontTexture;
 }
@@ -220,7 +220,7 @@ std::shared_ptr<Texture> Texture::getSphereTexture()
             data[x * size * 4 + y * 4 + 3] = (char)255;
         }
     }
-    s_sphereTexture = create().withRGBAData(data.data(), size, size).withName("Sphere Texture").build();
+    s_sphereTexture = create().withRGBAData(data.data(), size, size).withName("re Default Sphere Texture").build();
     return s_sphereTexture;
 }
 

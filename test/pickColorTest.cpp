@@ -1,9 +1,3 @@
-// Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-// Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
-// Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
-// Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
-// Vestibulum commodo. Ut rhoncus gravida arcu.
-
 //
 // Created by william on 2022/5/30.
 //
@@ -21,11 +15,11 @@ public:
         m_camera = MAKE_UNIQUE(m_camera);
         m_camera->setLookAt({ 0, 0, 6 }, { 0, 0, 0 }, { 0, 1, 0 });
         m_camera->setPerspectiveProjection(60, 0.1, 100);
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
             m_material[i] = Shader::getUnlit()->createMaterial();
-            glm::vec4 color(0, 0, 0, 1);
-            color[i] = 1;
+            glm::vec4 color(1, 1, 1, 1);
+            color[i] = 0;
             m_material[i]->setColor(color);
         }
         m_mesh[0] = Mesh::create()
@@ -36,6 +30,9 @@ public:
                         .build();
         m_mesh[2] = Mesh::create()
                         .withCube()
+                        .build();
+        m_mesh[3] = Mesh::create()
+                        .withTorus()
                         .build();
     }
     void render() override
@@ -49,7 +46,7 @@ public:
         {
             for (int y = 0; y < 2; y++)
             {
-                if (index < 3)
+                if (index < 4)
                 {
                     renderPass.draw(m_mesh[index], glm::translate(glm::vec3(-1.5 + x * 3, -1.5 + y * 3, 0)), m_material[index]);
                 }
@@ -85,8 +82,8 @@ public:
     }
 
 private:
-    std::shared_ptr<Material> m_material[3];
-    std::shared_ptr<Mesh> m_mesh[3];
+    std::shared_ptr<Material> m_material[4];
+    std::shared_ptr<Mesh> m_mesh[4];
     int m_mouseX;
     int m_mouseY;
 };

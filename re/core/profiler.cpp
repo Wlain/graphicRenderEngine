@@ -517,7 +517,7 @@ void Profiler::initFramebuffer()
     if (m_framebuffer == nullptr)
     {
         m_framebuffer = FrameBuffer::create().withTexture(getTmpTexture()).build();
-
+        m_usedTextures = 0; // 避免额外的纹理构造
         m_worldLights.setAmbientLight({ 0.2, 0.2, 0.2 });
         auto light = Light::create().withPointLight({ 0, 0, 4 }).build();
         m_worldLights.addLight(light);

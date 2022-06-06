@@ -10,6 +10,7 @@
 #include "renderer.h"
 
 #include <glm/gtc/constants.hpp>
+#include <iomanip>
 namespace re
 {
 Mesh::Mesh(std::map<std::string, std::vector<float>>& attributesFloat, std::map<std::string, std::vector<glm::vec2>>& attributesVec2, std::map<std::string, std::vector<glm::vec3>>& attributesVec3, std::map<std::string, std::vector<glm::vec4>>& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>& attributesIVec4, std::vector<std::vector<uint16_t>>& indices, std::vector<Topology>& meshTopology, std::string_view name, RenderStats& renderStats)
@@ -411,6 +412,12 @@ std::array<glm::vec3, 2> Mesh::getBoundsMinMax()
 
 Mesh::MeshBuilder& Mesh::MeshBuilder::withQuad(float size)
 {
+    if (m_name.empty())
+    {
+        std::stringstream ss;
+        ss << "re Quad -" << std::setprecision(2) << size;
+        m_name = ss.str();
+    }
     std::vector<glm::vec3> vertices({ { size, -size, 0 },
                                       { size, size, 0 },
                                       { -size, -size, 0 },
@@ -428,7 +435,6 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withQuad(float size)
     withPositions(vertices);
     withNormals(normals);
     withUvs(uvs);
-    withName("Quad Mesh");
     withIndices(indices);
     withMeshTopology(Topology::Triangles);
     return *this;
@@ -444,6 +450,12 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withCube(float length)
     //  | |v6---|-|v7
     //  |/      |/
     //  v2------v3
+    if (m_name.empty())
+    {
+        std::stringstream ss;
+        ss << "re Cube -" << std::setprecision(2) << length;
+        m_name = ss.str();
+    }
     vec3 p[] = { { length, length, length },
                  { -length, length, length },
                  { -length, -length, length },
@@ -486,7 +498,6 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withCube(float length)
     withPositions(positions);
     withNormals(normals);
     withUvs(uvs);
-    withName("Cube Mesh");
     withMeshTopology(Topology::Triangles);
     return *this;
 }
@@ -494,6 +505,12 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withCube(float length)
 Mesh::MeshBuilder& Mesh::MeshBuilder::withSphere(int stacks, int slices, float radius)
 {
     using namespace glm;
+    if (m_name.empty())
+    {
+        std::stringstream ss;
+        ss << "re Sphere " << stacks << "-" << slices << "-" << std::setprecision(2) << radius;
+        m_name = ss.str();
+    }
     size_t vertexCount = ((stacks + 1) * (slices + 1));
     std::vector<vec3> vertices{ vertexCount };
     std::vector<vec3> normals{ vertexCount };
@@ -549,7 +566,6 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withSphere(int stacks, int slices, float r
     withPositions(finalPosition);
     withNormals(finalNormals);
     withUvs(finalUVs);
-    withName("Sphere Mesh");
     withMeshTopology(Topology::Triangles);
     return *this;
 }
@@ -685,6 +701,83 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withAttribute(std::string_view name, const
     {
         m_attributesVec4[name.data()] = values;
     }
+    return *this;
+}
+
+Mesh::MeshBuilder& Mesh::MeshBuilder::withTorus(int segmentsC, int segmentsA, float radiusC, float radiusA)
+{
+    //  losely based on http://mathworld.wolfram.com/Torus.html
+    if (m_name.empty())
+    {
+        std::stringstream ss;
+        ss << "re Torus " << segmentsC << "-" << segmentsA << "-" << std::setprecision(2) << radiusC << "-" << radiusA;
+        m_name = ss.str();
+    }
+
+    auto vertexCount = (size_t)((segmentsC + 1) * (segmentsA + 1));
+    std::vector<glm::vec3> vertices{ vertexCount };
+    std::vector<glm::vec3> normals{ vertexCount };
+    std::vector<glm::vec4> uvs{ vertexCount };
+    int index = 0;
+
+    // create vertices
+    for (unsigned short j = 0; j <= segmentsC; j++)
+    {
+        for (int i = 0; i <= segmentsA; i++)
+        {
+            //vec3 normal = (vec3)normalize(normalD);
+            //normals[index] = normal;
+            float u = glm::two_pi<float>() * j / (float)segmentsC;
+            float v = glm::two_pi<float>() * i / (float)segmentsA;
+            glm::vec3 pos{
+                (radiusC + radiusA * cos(v)) * cos(u),
+                (radiusC + radiusA * cos(v)) * sin(u),
+                radiusA * sin(v)
+            };
+            glm::vec3 posOuter{
+                (radiusC + (radiusA * 2) * cos(v)) * cos(u),
+                (radiusC + (radiusA * 2) * cos(v)) * sin(u),
+                (radiusA * 2) * sin(v)
+            };
+            uvs[index] = glm::vec4{ 1 - j / (float)segmentsC, i / (float)segmentsA, 0, 0 };
+            vertices[index] = pos;
+            normals[index] = glm::normalize(posOuter - pos);
+            index++;
+        }
+    }
+    std::vector<glm::vec3> finalPosition;
+    std::vector<glm::vec3> finalNormals;
+    std::vector<glm::vec4> finalUVs;
+    // create indices
+    for (int j = 0; j < segmentsC; j++)
+    {
+        for (int i = 0; i <= segmentsA; i++)
+        {
+            glm::u8vec2 offset[] = {
+                // first triangle
+                { i, j },
+                { (i + 1) % (segmentsA + 1), j + 1 },
+                { (i + 1) % (segmentsA + 1), j },
+
+                // second triangle
+                { i, j },
+                { i, j + 1 },
+                { (i + 1) % (segmentsA + 1), j + 1 },
+
+            };
+            for (auto o : offset)
+            {
+                index = o[1] * (segmentsA + 1) + o[0];
+                finalPosition.push_back(vertices[index]);
+                finalNormals.push_back(normals[index]);
+                finalUVs.push_back(uvs[index]);
+            }
+        }
+    }
+    withPositions(finalPosition);
+    withNormals(finalNormals);
+    withUvs(finalUVs);
+    withMeshTopology(Mesh::Topology::Triangles);
     return *this;
 }
 
