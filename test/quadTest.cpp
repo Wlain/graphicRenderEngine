@@ -19,9 +19,8 @@ public:
 
     void initialize() override
     {
-        m_camera = MAKE_UNIQUE(m_camera);
-        m_camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-        m_camera->setPerspectiveProjection(60, 0.1, 100);
+        m_camera.setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+        m_camera.setPerspectiveProjection(60, 0.1, 100);
         auto shader = Shader::create()
                           .withSourceUnlit()
                           .withName("Unlit")
@@ -35,7 +34,7 @@ public:
     void render() override
     {
         /// 渲染
-        auto renderPass = RenderPass::create().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
+        auto renderPass = RenderPass::create().withCamera(m_camera).withWorldLights(m_worldLights.get()).build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_material);
     }
 

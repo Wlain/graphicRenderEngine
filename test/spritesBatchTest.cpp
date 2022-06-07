@@ -18,13 +18,12 @@ public:
     void initialize() override
     {
         m_spriteAtlas = SpriteAtlas::create(GET_CURRENT("test/resources/planetCute.json"), GET_CURRENT("test/resources/planetCute.png"));
-        m_camera = MAKE_UNIQUE(m_camera);
-        m_camera->setWindowCoordinates();
+        m_camera.setWindowCoordinates();
     }
     void render() override
     {
         auto renderPass = RenderPass::create()
-                              .withCamera(*m_camera)
+                              .withCamera(m_camera)
                               .withClearColor(true, { .3, .3, 1, 1 })
                               .build();
         auto names = m_spriteAtlas->getNames();

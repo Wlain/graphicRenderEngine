@@ -15,8 +15,7 @@ public:
     ~ObjExample() override = default;
     void initialize() override
     {
-        m_camera = MAKE_UNIQUE(m_camera);
-        m_camera->setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
+        m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
         auto material = Shader::getStandard()->createMaterial();
         material->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
         material->setSpecularity(20.0f);
@@ -28,12 +27,11 @@ public:
         m_worldLights->addLight(Light::create().withPointLight({ 3, 0, 0 }).withColor({ 0, 1, 0 }).withRange(20).build());
         m_worldLights->addLight(Light::create().withPointLight({ 0, -3, 0 }).withColor({ 0, 0, 1 }).withRange(20).build());
         m_worldLights->addLight(Light::create().withPointLight({ -3, 0, 0 }).withColor({ 1, 1, 1 }).withRange(20).build());
-        //        loadObjFile("/Users/william/Developer/demo/simpleRenderEngine/test/resources/obj-testfiles/empty_mat.obj");
     }
     void render() override
     {
         auto renderPass = RenderPass::create()
-                              .withCamera(*m_camera)
+                              .withCamera(m_camera)
                               .withWorldLights(m_worldLights.get())
                               .withClearColor(true, { 0, 0, 0, 1 })
                               .build();
@@ -54,8 +52,8 @@ public:
         LOG_INFO("{} {}", m_materials.size(), m_mesh->getIndexSets());
         auto bounds = m_mesh->getBoundsMinMax();
         m_farPlane = glm::length(bounds[1] - bounds[0]);
-        m_camera->setLookAt({ 0, 1, m_farPlane }, { 0, 0, 0 }, { 0, 1, 0 });
-        m_camera->setPerspectiveProjection(60, 0.1, m_farPlane * 2);
+        m_camera.setLookAt({ 0, 1, m_farPlane }, { 0, 0, 0 }, { 0, 1, 0 });
+        m_camera.setPerspectiveProjection(60, 0.1, m_farPlane * 2);
     }
 
     void dropEvent(int count, const char** paths) override

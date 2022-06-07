@@ -19,9 +19,8 @@ public:
 
     void initialize() override
     {
-        m_camera = MAKE_UNIQUE(m_camera);
-        m_camera->setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
-        m_camera->setPerspectiveProjection(60, 0.1, 100);
+        m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
+        m_camera.setPerspectiveProjection(60, 0.1, 100);
         auto shader = Shader::getStandard();
         m_material = shader->createMaterial();
         m_mesh = Mesh::create().withCube().build();
@@ -31,7 +30,7 @@ public:
 
     void render() override
     {
-        auto renderPass = RenderPass::create().withCamera(*m_camera).withClearColor(true, { m_clearColor.x, m_clearColor.y, m_clearColor.z, 1.0 }).withWorldLights(m_worldLights.get()).build();
+        auto renderPass = RenderPass::create().withCamera(m_camera).withClearColor(true, { m_clearColor.x, m_clearColor.y, m_clearColor.z, 1.0 }).withWorldLights(m_worldLights.get()).build();
         m_material->setSpecularity(m_specularity);
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_material);
         ImGui::SliderFloat("specularity", &m_specularity, 0.0f, 40.0f);

@@ -115,7 +115,7 @@ public:
     // "color" vec4 (default (1,1,1,1))
     // "tex" Texture* (default white texture)
     // "specularity" float (default 0 = no specularity)
-    static std::shared_ptr<Shader> getStandard();
+    static std::shared_ptr<Shader>& getStandard();
     // StandardParticles
     // Attributes
     // "tex" Texture* (default alpha sphere texture)

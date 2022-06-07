@@ -20,9 +20,8 @@ public:
 
     void initialize() override
     {
-        m_camera = MAKE_UNIQUE(m_camera);
-        m_camera->setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-        m_camera->setPerspectiveProjection(60, 0.1, 100);
+        m_camera.setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+        m_camera.setPerspectiveProjection(60, 0.1, 100);
         auto shader = Shader::getStandard();
         m_material = shader->createMaterial();
         m_material->setTexture(Texture::getFontTexture());
@@ -35,9 +34,9 @@ public:
 
     void render() override
     {
-        m_camera->setLookAt(m_eye, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-        m_camera->setPerspectiveProjection(60, 0.1, 100);
-        auto renderPass = RenderPass::create().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
+        m_camera.setLookAt(m_eye, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+        m_camera.setPerspectiveProjection(60, 0.1, 100);
+        auto renderPass = RenderPass::create().withCamera(m_camera).withWorldLights(m_worldLights.get()).build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material);
         ImGui::DragFloat3(":eye", &m_eye[0]);
     }

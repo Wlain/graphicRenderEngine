@@ -16,6 +16,6 @@ extern void polygonOffsetTest();
 
 int main()
 {
-    pickColorTest();
+    objTest();
     return 0;
 }

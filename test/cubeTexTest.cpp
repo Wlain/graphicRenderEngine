@@ -21,9 +21,8 @@ public:
     ~CubeTexExample() override = default;
     void initialize() override
     {
-        m_camera = MAKE_UNIQUE(m_camera);
-        m_camera->setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
-        m_camera->setPerspectiveProjection(60, 0.1, 100);
+        m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
+        m_camera.setPerspectiveProjection(60, 0.1, 100);
         auto shader = Shader::getUnlit();
         m_material = shader->createMaterial();
         m_material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/test.jpg")).build());
@@ -39,7 +38,7 @@ public:
 
     void render() override
     {
-        auto renderPass = RenderPass::create().withCamera(*m_camera).withClearColor(true, { 1, 0, 0, 1 }).build();
+        auto renderPass = RenderPass::create().withCamera(m_camera).withClearColor(true, { 1, 0, 0, 1 }).build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material);
     }
 };

@@ -21,9 +21,8 @@ public:
 
     void initialize() override
     {
-        m_camera = MAKE_UNIQUE(m_camera);
-        m_camera->setLookAt(m_eye, m_at, m_up);
-        m_camera->setPerspectiveProjection(60, 0.1, 100);
+        m_camera.setLookAt(m_eye, m_at, m_up);
+        m_camera.setPerspectiveProjection(60, 0.1, 100);
         auto shader = Shader::getStandard();
         m_material = shader->createMaterial();
         m_mesh = Mesh::create().withSphere().build();
@@ -63,7 +62,7 @@ public:
                 cos(m_totalTime * -0.2) * 5.0f,
             };
         }
-        m_camera->setLookAt(m_eye, m_at, m_up);
+        m_camera.setLookAt(m_eye, m_at, m_up);
         if (m_animatedLight)
         {
             for (int i = 0; i < m_worldLights->lightCount(); ++i)
@@ -81,7 +80,7 @@ public:
     void render() override
     {
         /// 渲染
-        auto renderPass = RenderPass::create().withCamera(*m_camera).withWorldLights(m_worldLights.get()).build();
+        auto renderPass = RenderPass::create().withCamera(m_camera).withWorldLights(m_worldLights.get()).build();
         drawCross(renderPass, { 2, 2, 2 });
         drawCross(renderPass, { -2, -2, -2 });
         // Show Label (with invisible window)

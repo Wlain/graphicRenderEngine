@@ -58,7 +58,7 @@ protected:
     std::string m_title{ "BasicProject" };
     GLFWRenderer m_renderer;
     Profiler m_profiler;
-    std::unique_ptr<Camera> m_camera;
+    Camera m_camera;
     std::shared_ptr<Material> m_material;
     std::shared_ptr<Mesh> m_mesh;
     std::unique_ptr<WorldLights> m_worldLights;

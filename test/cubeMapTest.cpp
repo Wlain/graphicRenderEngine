@@ -56,9 +56,8 @@ public:
         glm::vec3 eye{ 0, 0, 3 };
         glm::vec3 at{ 0, 0, 0 };
         glm::vec3 up{ 0, 1, 0 };
-        m_camera = MAKE_UNIQUE(m_camera);
-        m_camera->setLookAt(eye, at, up);
-        m_camera->setPerspectiveProjection(60.0f, 0.1f, 100.0f);
+        m_camera.setLookAt(eye, at, up);
+        m_camera.setPerspectiveProjection(60.0f, 0.1f, 100.0f);
         auto shader = Shader::create().withSource(vertexShaderStr, fragmentShaderStr).build();
         m_material = shader->createMaterial();
         auto tex = Texture::create()
@@ -74,7 +73,7 @@ public:
     }
     void render() override
     {
-        auto renderPass = RenderPass::create().withCamera(*m_camera).build();
+        auto renderPass = RenderPass::create().withCamera(m_camera).build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material);
         m_profiler.update();
         m_profiler.gui();

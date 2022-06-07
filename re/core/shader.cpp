@@ -421,7 +421,7 @@ std::shared_ptr<Shader> Shader::getUnlitSprite()
     return s_unlitSprite;
 }
 
-std::shared_ptr<Shader> Shader::getStandard()
+std::shared_ptr<Shader>& Shader::getStandard()
 {
     if (s_standard != nullptr)
     {
@@ -451,13 +451,13 @@ std::shared_ptr<Shader> Shader::getStandardParticles()
 
 Shader::Shader()
 {
-    if (!Renderer::s_instance)
+    auto* r = Renderer::s_instance;
+    if (r != nullptr)
     {
-        LOG_FATAL("Cannot instantiate re::Shader before re::Renderer is created.");
+        m_id = glCreateProgram();
+        r->m_renderStatsCurrent.shaderCount++;
+        r->m_shaders.emplace_back(this);
     }
-    m_id = glCreateProgram();
-    Renderer::s_instance->m_renderStatsCurrent.shaderCount++;
-    Renderer::s_instance->m_shaders.emplace_back(this);
 }
 
 Shader::~Shader()

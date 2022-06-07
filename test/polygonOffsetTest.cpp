@@ -20,8 +20,7 @@ public:
     ~PolygonOffsetExample() override = default;
     void initialize() override
     {
-        m_camera = MAKE_UNIQUE(m_camera);
-        m_camera->setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
+        m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
 
         m_material = Shader::create().withSourceStandard().withCullFace(Shader::CullFace::None).build()->createMaterial();
         m_material->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
@@ -42,11 +41,11 @@ public:
     }
     void render() override
     {
-        m_camera->setPerspectiveProjection(60, 0.001, 10000000);
+        m_camera.setPerspectiveProjection(60, 0.001, 10000000);
         glm::mat4 rot = glm::eulerAngleY(glm::radians(30.0f * m_totalTime)) * glm::eulerAngleX(glm::radians((float)sin((float)30.0f * m_totalTime) * 30.8f));
-        m_camera->setLookAt((glm::vec3)(rot * glm::vec4(0, 0, 30, 1)), { 0, 0, 0 }, { 0, 1, 0 });
+        m_camera.setLookAt((glm::vec3)(rot * glm::vec4(0, 0, 30, 1)), { 0, 0, 0 }, { 0, 1, 0 });
         auto renderPass = RenderPass::create()
-                              .withCamera(*m_camera)
+                              .withCamera(m_camera)
                               .withWorldLights(m_worldLights.get())
                               .withClearColor(true, { 1, 0, 0, 1 })
                               .build();

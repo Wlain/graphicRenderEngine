@@ -12,9 +12,8 @@ public:
 
     void initialize() override
     {
-        m_camera = MAKE_UNIQUE(m_camera);
-        m_camera->setLookAt({ 0, 0, 6 }, { 0, 0, 0 }, { 0, 1, 0 });
-        m_camera->setPerspectiveProjection(60, 0.1, 100);
+        m_camera.setLookAt({ 0, 0, 6 }, { 0, 0, 0 }, { 0, 1, 0 });
+        m_camera.setPerspectiveProjection(60, 0.1, 100);
         for (int i = 0; i < 4; i++)
         {
             m_material[i] = Shader::getUnlit()->createMaterial();
@@ -38,7 +37,7 @@ public:
     void render() override
     {
         auto renderPass = RenderPass::create()
-                              .withCamera(*m_camera)
+                              .withCamera(m_camera)
                               .withClearColor(true, { 0, 0, 0, 1 })
                               .build();
         int index = 0;

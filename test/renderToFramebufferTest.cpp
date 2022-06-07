@@ -24,9 +24,8 @@ public:
     ~RenderToFrameBufferExample() override = default;
     void initialize() override
     {
-        m_camera = std::make_unique<Camera>();
-        m_camera->setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
-        m_camera->setPerspectiveProjection(60, 0.1, 100);
+        m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
+        m_camera.setPerspectiveProjection(60, 0.1, 100);
         m_texture = Texture::create().withRGBAData(nullptr, 1024, 1024).withName("Create Texture").build();
         m_framebuffer = FrameBuffer::create().withTexture(m_texture).build();
         m_materialOffscreen = Shader::getStandard()->createMaterial();
@@ -39,14 +38,14 @@ public:
     void render() override
     {
         auto renderToTexturePass = RenderPass::create()
-                                       .withCamera(*m_camera)
+                                       .withCamera(m_camera)
                                        .withWorldLights(m_worldLights.get())
                                        .withFramebuffer(m_framebuffer)
                                        .withClearColor(true, { 0, 1, 1, 0 })
                                        .build();
         renderToTexturePass.draw(m_mesh, glm::eulerAngleY(glm::radians((float)m_totalTime * 30)), m_materialOffscreen);
         auto renderPass = RenderPass::create()
-                              .withCamera(*m_camera)
+                              .withCamera(m_camera)
                               .withWorldLights(m_worldLights.get())
                               .withClearColor(true, { 1, 0, 0, 1 })
                               .withGUI(false)
