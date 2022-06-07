@@ -1,3 +1,4 @@
+
 //
 // Created by william on 2022/5/26.
 //
@@ -62,17 +63,22 @@ public:
 public:
     RenderPass() = default;
     static RenderPassBuilder create(); // Create a RenderPass
+    RenderPass(const RenderPass&) = delete;
+    RenderPass(RenderPass&& rp);
+    RenderPass& operator=(RenderPass&& other);
     virtual ~RenderPass();
     void drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }, Mesh::Topology meshTopology = Mesh::Topology::Lines);
     void draw(const std::shared_ptr<Mesh>& mesh, glm::mat4 modelTransform, std::shared_ptr<Material>& material);
     void draw(std::shared_ptr<Mesh>& mesh, glm::mat4 modelTransform, std::vector<std::shared_ptr<Material>>& materials);
     void draw(std::shared_ptr<SpriteBatch>& spriteBatch, glm::mat4 modelTransform = glm::mat4(1));
+    void draw(std::shared_ptr<SpriteBatch>&& spriteBatch, glm::mat4 modelTransform = glm::mat4(1));
+
     std::vector<glm::vec4> readPixels(unsigned int x, unsigned int y, unsigned int width = 1, unsigned int height = 1);
     // flush GPU command buffer (must be called when profiling GPU time - should not be called when not profiling)
     void finishGPUCommandBuffer() const;
 
 private:
-    RenderPass(RenderPass::RenderPassBuilder& builder);
+    explicit RenderPass(RenderPass::RenderPassBuilder& builder);
     void setupShader(const glm::mat4& modelTransform, Shader* shader);
     void bind(bool newFrame);
     static void finish();
@@ -84,7 +90,6 @@ private:
 
 private:
     RenderPass::RenderPassBuilder m_builder;
-    RenderPass* m_lastPass{ nullptr };
     Shader* m_lastBoundShader = { nullptr };
     Material* m_lastBoundMaterial = { nullptr };
     Mesh* m_lastBoundMesh = { nullptr };

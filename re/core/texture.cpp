@@ -68,10 +68,15 @@ Texture::TextureBuilder& Texture::TextureBuilder::withFile(std::string_view file
     auto* data = (char*)stbi_load_from_memory((stbi_uc const*)pixelsData.data(), pixelsData.size(), &m_info.width, &m_info.height, &m_info.channels, desireComp);
     stbi_set_flip_vertically_on_load(false);
     glBindTexture(m_info.target, m_info.id);
-    if (!isPowerOfTwo(m_info.width) || !isPowerOfTwo(m_info.height))
+    bool isPOT = !isPowerOfTwo(m_info.width) || !isPowerOfTwo(m_info.height);
+    if (!isPOT && m_info.filterSampling)
     {
-        LOG_INFO("Texture {} is not power of two (was {} x {}) filter sampling and mipmapping disabled ", filename, m_info.width, m_info.height);
+        LOG_INFO("Texture {} is not power of two (was {} x {}) filter sampling", filename, m_info.width, m_info.height);
         m_info.filterSampling = false;
+    }
+    if (isPOT && m_info.generateMipmap)
+    {
+        LOG_INFO("Texture {} is not power of two (was {} x {}) mipmapping disabled ", filename, m_info.width, m_info.height);
         m_info.generateMipmap = false;
     }
 
@@ -265,7 +270,10 @@ Texture::~Texture()
         auto datasize = getDataSize();
         renderStats.textureBytes -= datasize;
         renderStats.textureBytesDeallocated += datasize;
-        r->m_textures.erase(std::remove(r->m_textures.begin(), r->m_textures.end(), this));
+        if (!r->m_textures.empty())
+        {
+            r->m_textures.erase(std::remove(r->m_textures.begin(), r->m_textures.end(), this));
+        }
         glDeleteTextures(1, &m_info.id);
     }
 }

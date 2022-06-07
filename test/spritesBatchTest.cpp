@@ -26,6 +26,11 @@ public:
                               .withCamera(m_camera)
                               .withClearColor(true, { .3, .3, 1, 1 })
                               .build();
+        //        auto spriteBatchBuilder = SpriteBatch::create();
+        //        auto sprite = m_spriteAtlas->get("lowerLeft.png");
+        //        sprite.setPosition({ 100, 100 });
+        //        spriteBatchBuilder.addSprite(sprite);
+        //        renderPass.draw(spriteBatchBuilder.build());
         auto names = m_spriteAtlas->getNames();
         static bool demoWorld = true;
         ImGui::Checkbox("RenderWorld", &demoWorld);
@@ -105,7 +110,7 @@ public:
         }
         auto& renderStats = Renderer::s_instance->getRenderStats();
         float bytesToMB = 1.0f / (1024 * 1024);
-        ImGui::Text("sre draw-calls %i meshes %i (%.2fMB) textures %i (%.2fMB) shaders %i", renderStats.drawCalls, renderStats.meshCount, renderStats.meshBytes * bytesToMB, renderStats.textureCount, renderStats.textureBytes * bytesToMB, renderStats.shaderCount);
+        ImGui::Text("re draw-calls %i meshes %i (%.2fMB) textures %i (%.2fMB) shaders %i", renderStats.drawCalls, renderStats.meshCount, renderStats.meshBytes * bytesToMB, renderStats.textureCount, renderStats.textureBytes * bytesToMB, renderStats.shaderCount);
         m_profiler.update();
         m_profiler.gui();
     }

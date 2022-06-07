@@ -35,7 +35,6 @@ std::shared_ptr<SpriteAtlas> SpriteAtlas::create(std::string_view jsonFile, std:
     }
     std::map<std::string, Sprite> sprites;
     auto& list = json["frames"].array_items();
-    auto& meta = json["meta"];
     auto texture = Texture::create().withFile(imageFile).build();
     for (auto& spriteElement : list)
     {
@@ -103,4 +102,5 @@ std::shared_ptr<SpriteAtlas> SpriteAtlas::createSingleSprite(const std::shared_p
     sprites.emplace(std::pair<std::string, Sprite>(name, std::move(sprite)));
     return std::shared_ptr<SpriteAtlas>(new SpriteAtlas(std::move(sprites), texture, std::string(name) + "_atlas"));
 }
+
 } // namespace re

@@ -40,7 +40,7 @@ public:
     };
 
 public:
-    FrameBuffer(std::string_view name);
+    explicit FrameBuffer(std::string_view name);
     ~FrameBuffer();
     inline const std::string& name() const { return m_name; }
     void setTexture(std::shared_ptr<Texture> tex, int index = 0);

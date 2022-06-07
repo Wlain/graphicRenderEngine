@@ -27,6 +27,7 @@ public:
     Sprite get(std::string_view name); // Return a copy of a Sprite object.
     std::vector<std::string> getNames();
     const std::string& getAtlasName() const { return m_atlasName; };
+    inline const std::shared_ptr<Texture>& getTexture() const { return m_texture; }; // return sprite texture
 
 private:
     SpriteAtlas(std::map<std::string, Sprite>&& sprites, std::shared_ptr<Texture> texture, std::string_view Atlas);

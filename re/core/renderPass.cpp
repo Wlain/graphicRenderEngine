@@ -37,7 +37,7 @@ RenderPass RenderPass::RenderPassBuilder::build()
 }
 
 RenderPass::RenderPass(RenderPass::RenderPassBuilder& builder) :
-    m_builder(builder), m_lastPass(s_instance)
+    m_builder(builder)
 {
     bind(true);
 }
@@ -89,12 +89,44 @@ RenderPass::~RenderPass()
     if (RenderPass::s_instance == this)
     {
         finish();
+        RenderPass::s_instance = nullptr;
     }
+}
+
+RenderPass::RenderPass(RenderPass&& rp)
+{
+    if (s_instance == &rp)
+    {
+        s_instance = this;
+    }
+    m_builder = rp.m_builder;
+    std::swap(m_lastBoundShader, rp.m_lastBoundShader);
+    std::swap(m_lastBoundMaterial, rp.m_lastBoundMaterial);
+    std::swap(m_lastBoundMesh, rp.m_lastBoundMesh);
+    std::swap(m_projection, rp.m_projection);
+    std::swap(m_viewportOffset, rp.m_viewportOffset);
+    std::swap(m_viewportSize, rp.m_viewportSize);
+}
+
+RenderPass& RenderPass::operator=(RenderPass&& rp)
+{
+    if (s_instance == &rp)
+    {
+        s_instance = this;
+    }
+    m_builder = rp.m_builder;
+    std::swap(m_lastBoundShader, rp.m_lastBoundShader);
+    std::swap(m_lastBoundMaterial, rp.m_lastBoundMaterial);
+    std::swap(m_lastBoundMesh, rp.m_lastBoundMesh);
+    std::swap(m_projection, rp.m_projection);
+    std::swap(m_viewportOffset, rp.m_viewportOffset);
+    std::swap(m_viewportSize, rp.m_viewportSize);
+    return *this;
 }
 
 void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color, Mesh::Topology meshTopology)
 {
-    ASSERT(s_instance);
+    ASSERT(s_instance == this && "You can only invoke methods on the currently bound renderpass");
     // 使用static变量，共享mesh
     static std::shared_ptr<Mesh> mesh = Mesh::create()
                                             .withPositions(vertices)
@@ -109,7 +141,7 @@ void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 col
 
 void RenderPass::draw(const std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTransform, std::shared_ptr<Material>& materialPtr)
 {
-    ASSERT(s_instance);
+    ASSERT(s_instance == this && "You can only invoke methods on the currently bound renderpass");
     auto* mesh = meshPtr.get();
     auto* material = materialPtr.get();
     auto* shader = material->getShader().get();
@@ -143,7 +175,7 @@ void RenderPass::draw(const std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTrans
 
 void RenderPass::draw(std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTransform, std::vector<std::shared_ptr<Material>>& materials)
 {
-    ASSERT(s_instance);
+    ASSERT(s_instance == this && "You can only invoke methods on the currently bound renderpass");
     if (materials.size() == 1)
     {
         draw(meshPtr, modelTransform, materials[0]);
@@ -181,6 +213,18 @@ void RenderPass::draw(std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTransform, 
 
 void RenderPass::draw(std::shared_ptr<SpriteBatch>& spriteBatch, glm::mat4 modelTransform)
 {
+    ASSERT(s_instance == this && "You can only invoke methods on the currently bound renderpass");
+    if (spriteBatch == nullptr) return;
+
+    for (int i = 0; i < spriteBatch->m_materials.size(); i++)
+    {
+        draw(spriteBatch->m_spriteMeshes[i], modelTransform, spriteBatch->m_materials[i]);
+    }
+}
+
+void RenderPass::draw(std::shared_ptr<SpriteBatch>&& spriteBatch, glm::mat4 modelTransform)
+{
+    ASSERT(s_instance == this && "You can only invoke methods on the currently bound renderpass");
     if (spriteBatch == nullptr) return;
 
     for (int i = 0; i < spriteBatch->m_materials.size(); i++)
@@ -246,15 +290,7 @@ void RenderPass::finish()
     if (s_instance != nullptr)
     {
         s_instance->finishInstance();
-        if (s_instance->m_lastPass)
-        {
-            s_instance = s_instance->m_lastPass;
-            s_instance->bind(false);
-        }
-        else
-        {
-            s_instance = nullptr;
-        }
+        s_instance = nullptr;
     }
 }
 
@@ -280,6 +316,10 @@ void RenderPass::finishGPUCommandBuffer() const
 
 void RenderPass::bind(bool newFrame)
 {
+    if (RenderPass::s_instance != nullptr)
+    {
+        RenderPass::s_instance->finishInstance();
+    }
     s_instance = this;
     if (m_builder.m_framebuffer != nullptr)
     {
@@ -289,6 +329,20 @@ void RenderPass::bind(bool newFrame)
     {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
+    auto framebufferSize = static_cast<glm::vec2>(Renderer::s_instance->getFramebufferSize());
+    if (m_builder.m_framebuffer)
+    {
+        framebufferSize = m_builder.m_framebuffer->m_size;
+    }
+    m_viewportOffset = static_cast<glm::uvec2>(m_builder.m_camera.m_viewportOffset * framebufferSize);
+    m_viewportSize = static_cast<glm::uvec2>(framebufferSize * m_builder.m_camera.m_viewportSize);
+    m_projection = m_builder.m_camera.getProjectionTransform(framebufferSize);
+    checkGLError();
+    glEnable(GL_SCISSOR_TEST);
+    glScissor(m_viewportOffset.x, m_viewportOffset.y, m_viewportSize.x, m_viewportSize.y);
+    checkGLError();
+    glViewport(m_viewportOffset.x, m_viewportOffset.y, m_viewportSize.x, m_viewportSize.y);
+    checkGLError();
     if (newFrame)
     {
         GLbitfield clear = 0;
@@ -317,16 +371,6 @@ void RenderPass::bind(bool newFrame)
             ImGui::NewFrame();
         }
     }
-    auto framebufferSize = static_cast<glm::vec2>(Renderer::s_instance->getFramebufferSize());
-    if (m_builder.m_framebuffer)
-    {
-        framebufferSize = m_builder.m_framebuffer->m_size;
-    }
-    m_viewportOffset = static_cast<glm::uvec2>(m_builder.m_camera.m_viewportOffset * framebufferSize);
-    m_viewportSize = static_cast<glm::uvec2>(framebufferSize * m_builder.m_camera.m_viewportSize);
-    m_projection = m_builder.m_camera.getProjectionTransform(framebufferSize);
-    glScissor(m_viewportOffset.x, m_viewportOffset.y, m_viewportSize.x, m_viewportSize.y);
-    glViewport(m_viewportOffset.x, m_viewportOffset.y, m_viewportSize.x, m_viewportSize.y);
 }
 
 void RenderPass::finishInstance()
@@ -350,4 +394,5 @@ void RenderPass::finishInstance()
         }
     }
 }
+
 } // namespace re

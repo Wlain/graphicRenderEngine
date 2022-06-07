@@ -23,7 +23,7 @@ class Material
 {
 public:
     Material() = delete;
-    Material(const std::shared_ptr<Shader>& shader);
+    explicit Material(const std::shared_ptr<Shader>& shader);
     ~Material();
     const std::shared_ptr<Shader>& getShader() const;
     void setShader(const std::shared_ptr<Shader>& shader);

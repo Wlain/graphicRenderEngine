@@ -89,7 +89,7 @@ void Material::setShader(const std::shared_ptr<Shader>& shader)
         }
         break;
         default:
-            LOG_ERROR("Unsupported type");
+            LOG_ERROR("'{}' Unsupported uniform type: {}. Only Vec4, Texture, TextureCube and Float is supported.", u.name.c_str(), (int)u.type);
             break;
         }
     }
