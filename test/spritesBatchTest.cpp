@@ -20,6 +20,7 @@ public:
         m_spriteAtlas = SpriteAtlas::create(GET_CURRENT("test/resources/planetCute.json"), GET_CURRENT("test/resources/planetCute.png"));
         m_camera.setWindowCoordinates();
     }
+
     void render() override
     {
         auto renderPass = RenderPass::create()

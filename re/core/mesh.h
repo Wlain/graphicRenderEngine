@@ -112,6 +112,8 @@ private:
         int elementCount;  // 元素个数
         int dataType;      // 数据类型:eg:GL_FLOAT
         int attributeType; // 属性类型:eg:GL_FLOAT_VEC3
+        int enabledAttributes[10];
+        int disabledAttributes[10];
     };
     void bind(Shader* shader);
     void bindIndexSet(int indexSet);
@@ -138,6 +140,10 @@ private:
     int32_t m_vertexCount{ 0 };
     int m_dataSize{ 0 };
     int m_totalBytesPerVertex{ 0 };
+    u_int16_t m_meshId;
+
+private:
+    inline static u_int16_t m_meshIdCount{ 0 };
     friend class RenderPass;
 };
 } // namespace re

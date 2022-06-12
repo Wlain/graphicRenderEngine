@@ -13,9 +13,10 @@ extern void objTest();
 extern void spritesBatchTest();
 extern void drawLineTest();
 extern void polygonOffsetTest();
+extern void vertexAttributeTest();
 
 int main()
 {
-    spritesBatchTest();
+    vertexAttributeTest();
     return 0;
 }

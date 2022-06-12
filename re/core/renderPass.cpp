@@ -102,7 +102,7 @@ RenderPass::RenderPass(RenderPass&& rp)
     m_builder = rp.m_builder;
     std::swap(m_lastBoundShader, rp.m_lastBoundShader);
     std::swap(m_lastBoundMaterial, rp.m_lastBoundMaterial);
-    std::swap(m_lastBoundMesh, rp.m_lastBoundMesh);
+    std::swap(m_lastBoundMeshId, rp.m_lastBoundMeshId);
     std::swap(m_projection, rp.m_projection);
     std::swap(m_viewportOffset, rp.m_viewportOffset);
     std::swap(m_viewportSize, rp.m_viewportSize);
@@ -117,7 +117,7 @@ RenderPass& RenderPass::operator=(RenderPass&& rp)
     m_builder = rp.m_builder;
     std::swap(m_lastBoundShader, rp.m_lastBoundShader);
     std::swap(m_lastBoundMaterial, rp.m_lastBoundMaterial);
-    std::swap(m_lastBoundMesh, rp.m_lastBoundMesh);
+    std::swap(m_lastBoundMeshId, rp.m_lastBoundMeshId);
     std::swap(m_projection, rp.m_projection);
     std::swap(m_viewportOffset, rp.m_viewportOffset);
     std::swap(m_viewportSize, rp.m_viewportSize);
@@ -128,10 +128,10 @@ void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 col
 {
     ASSERT(s_instance == this && "You can only invoke methods on the currently bound renderpass");
     // 使用static变量，共享mesh
-    static std::shared_ptr<Mesh> mesh = Mesh::create()
-                                            .withPositions(vertices)
-                                            .withMeshTopology(meshTopology)
-                                            .build();
+    static auto mesh = Mesh::create()
+                           .withPositions(vertices)
+                           .withMeshTopology(meshTopology)
+                           .build();
     static auto material = Shader::getUnlit()->createMaterial();
     material->setColor(color);
     // 更新共享的mesh
@@ -152,16 +152,16 @@ void RenderPass::draw(const std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTrans
     {
         m_builder.m_renderStats->stateChangesMaterial++;
         m_lastBoundMaterial = material;
-        m_lastBoundMesh = nullptr; // force mesh to rebind
+        m_lastBoundMeshId = -1; // force mesh to rebind
         material->bind();
     }
-    if (mesh != m_lastBoundMesh)
+    if (mesh->m_meshId != m_lastBoundMeshId)
     {
         m_builder.m_renderStats->stateChangesMesh++;
-        m_lastBoundMesh = mesh;
+        m_lastBoundMeshId = mesh->m_meshId;
+        mesh->bind(shader);
+        mesh->bindIndexSet(0);
     }
-    mesh->bind(shader);
-    mesh->bindIndexSet(0);
     if (mesh->getIndexSets() == 0)
     {
         glDrawArrays((GLenum)mesh->getMeshTopology(), 0, mesh->getVertexCount());
@@ -196,13 +196,13 @@ void RenderPass::draw(std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTransform, 
         {
             m_builder.m_renderStats->stateChangesMaterial++;
             m_lastBoundMaterial = material;
-            m_lastBoundMesh = nullptr; // force mesh to rebind
+            m_lastBoundMeshId = -1; // force mesh to rebind
             material->bind();
         }
-        if (mesh != m_lastBoundMesh)
+        if (mesh->m_meshId != m_lastBoundMeshId)
         {
             m_builder.m_renderStats->stateChangesMesh++;
-            m_lastBoundMesh = mesh;
+            m_lastBoundMeshId = mesh->m_meshId;
             mesh->bind(shader);
             mesh->bindIndexSet(i);
         }
@@ -290,6 +290,9 @@ void RenderPass::finish()
     if (s_instance != nullptr)
     {
         s_instance->finishInstance();
+#ifndef NDEBUG
+        checkGLError();
+#endif
         s_instance = nullptr;
     }
 }
@@ -337,12 +340,9 @@ void RenderPass::bind(bool newFrame)
     m_viewportOffset = static_cast<glm::uvec2>(m_builder.m_camera.m_viewportOffset * framebufferSize);
     m_viewportSize = static_cast<glm::uvec2>(framebufferSize * m_builder.m_camera.m_viewportSize);
     m_projection = m_builder.m_camera.getProjectionTransform(framebufferSize);
-    checkGLError();
     glEnable(GL_SCISSOR_TEST);
     glScissor(m_viewportOffset.x, m_viewportOffset.y, m_viewportSize.x, m_viewportSize.y);
-    checkGLError();
     glViewport(m_viewportOffset.x, m_viewportOffset.y, m_viewportSize.x, m_viewportSize.y);
-    checkGLError();
     if (newFrame)
     {
         GLbitfield clear = 0;

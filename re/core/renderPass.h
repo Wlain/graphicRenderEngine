@@ -92,7 +92,7 @@ private:
     RenderPass::RenderPassBuilder m_builder;
     Shader* m_lastBoundShader = { nullptr };
     Material* m_lastBoundMaterial = { nullptr };
-    Mesh* m_lastBoundMesh = { nullptr };
+    int64_t m_lastBoundMeshId = { -1 };
     glm::mat4 m_projection;
     glm::uvec2 m_viewportOffset;
     glm::uvec2 m_viewportSize;

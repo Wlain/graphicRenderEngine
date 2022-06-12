@@ -93,15 +93,12 @@ Texture::TextureBuilder& Texture::TextureBuilder::withRGBAData(const char* data,
     m_info.height = height;
     m_info.format = PixelFormat::RGBA;
     m_info.target = GL_TEXTURE_2D;
-    checkGLError();
     GLint mipmapLevel = 0;
     GLint internalFormat = GL_SRGB_ALPHA; //hasSRGB() ? GL_SRGB_ALPHA : GL_RGBA;
     GLint border = 0;
     GLenum type = GL_UNSIGNED_BYTE;
     glBindTexture(m_info.target, m_info.id);
-    checkGLError();
     glTexImage2D(m_info.target, mipmapLevel, internalFormat, m_info.width, m_info.height, border, GL_RGBA, type, data);
-    checkGLError();
     return *this;
 }
 

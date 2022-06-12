@@ -25,9 +25,9 @@ public:
     Material() = delete;
     explicit Material(const std::shared_ptr<Shader>& shader);
     ~Material();
-    const std::shared_ptr<Shader>& getShader() const;
+    [[nodiscard]] const std::shared_ptr<Shader>& getShader() const;
     void setShader(const std::shared_ptr<Shader>& shader);
-    const std::string& getName() const;
+    [[nodiscard]] const std::string& getName() const;
     void setName(std::string_view name);
     // uniform parameters
     glm::vec4 getColor();

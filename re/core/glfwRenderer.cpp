@@ -56,6 +56,9 @@ void GLAPIENTRY openglCallbackFunction(GLenum source,
     case GL_DEBUG_SEVERITY_HIGH:
         severityStr = "HIGH";
         break;
+    default:
+        severityStr = "Unknown";
+        break;
     }
     LOG_ERROR("---------------------opengl-callback-start------------\n"
               "message: {}\n"
@@ -136,10 +139,6 @@ void GLFWRenderer::init()
                                   0,
                                   &unusedIds,
                                   true);
-        }
-        else
-        {
-            LOG_INFO("glDebugMessageCallback not available");
         }
 #endif
         glEnable(GL_FRAMEBUFFER_SRGB);
