@@ -24,7 +24,7 @@ SpriteAtlas::~SpriteAtlas()
     }
 }
 
-std::shared_ptr<SpriteAtlas> SpriteAtlas::create(std::string_view jsonFile, std::string_view imageFile)
+std::shared_ptr<SpriteAtlas> SpriteAtlas::create(std::string_view jsonFile, std::string_view imageFile, bool flipAnchorY)
 {
     std::string err;
     const auto json = json11::Json::parse(getFileContents(jsonFile), err);
@@ -52,6 +52,9 @@ std::shared_ptr<SpriteAtlas> SpriteAtlas::create(std::string_view jsonFile, std:
         // 锚点
         float px = pivot["x"].number_value();
         float py = pivot["y"].number_value();
+        if (flipAnchorY){
+            py = 1.0f - py;
+        }
         Sprite sprite({ x, y }, { w, h }, { px, py }, texture.get());
         sprites.emplace(name, std::move(sprite));
     }

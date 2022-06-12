@@ -39,6 +39,8 @@ RenderPass RenderPass::RenderPassBuilder::build()
 RenderPass::RenderPass(RenderPass::RenderPassBuilder& builder) :
     m_builder(builder)
 {
+    lastInstance = RenderPass::s_instance;
+    RenderPass::s_instance = this;
     bind(true);
 }
 
@@ -81,7 +83,7 @@ RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withFramebuffer(st
 
 RenderPass::RenderPassBuilder re::RenderPass::create()
 {
-    return { &Renderer::s_instance->m_renderStatsCurrent };
+    return RenderPassBuilder(&Renderer::s_instance->m_renderStatsCurrent);
 }
 
 RenderPass::~RenderPass()
@@ -89,17 +91,23 @@ RenderPass::~RenderPass()
     if (RenderPass::s_instance == this)
     {
         finish();
-        RenderPass::s_instance = nullptr;
+        RenderPass::s_instance = lastInstance;
+        if (RenderPass::s_instance != nullptr)
+        {
+            RenderPass::s_instance->bind(false);
+        }
     }
 }
 
-RenderPass::RenderPass(RenderPass&& rp)
+RenderPass::RenderPass(RenderPass&& rp) noexcept
 {
+    ASSERT(s_instance == &rp);
     if (s_instance == &rp)
     {
         s_instance = this;
     }
     m_builder = rp.m_builder;
+    std::swap(lastInstance, rp.lastInstance);
     std::swap(m_lastBoundShader, rp.m_lastBoundShader);
     std::swap(m_lastBoundMaterial, rp.m_lastBoundMaterial);
     std::swap(m_lastBoundMeshId, rp.m_lastBoundMeshId);
@@ -108,7 +116,7 @@ RenderPass::RenderPass(RenderPass&& rp)
     std::swap(m_viewportSize, rp.m_viewportSize);
 }
 
-RenderPass& RenderPass::operator=(RenderPass&& rp)
+RenderPass& RenderPass::operator=(RenderPass&& rp) noexcept
 {
     if (s_instance == &rp)
     {
@@ -293,7 +301,6 @@ void RenderPass::finish()
 #ifndef NDEBUG
         checkGLError();
 #endif
-        s_instance = nullptr;
     }
 }
 
@@ -319,11 +326,6 @@ void RenderPass::finishGPUCommandBuffer() const
 
 void RenderPass::bind(bool newFrame)
 {
-    if (RenderPass::s_instance != nullptr)
-    {
-        RenderPass::s_instance->finishInstance();
-    }
-    s_instance = this;
     if (m_builder.m_framebuffer != nullptr)
     {
         m_builder.m_framebuffer->bind();
@@ -332,14 +334,9 @@ void RenderPass::bind(bool newFrame)
     {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
-    auto framebufferSize = static_cast<glm::vec2>(Renderer::s_instance->getFramebufferSize());
-    if (m_builder.m_framebuffer)
-    {
-        framebufferSize = m_builder.m_framebuffer->m_size;
-    }
+    auto framebufferSize = (m_builder.m_framebuffer != nullptr) ? m_builder.m_framebuffer->m_size : static_cast<glm::vec2>(Renderer::s_instance->getFramebufferSize());
     m_viewportOffset = static_cast<glm::uvec2>(m_builder.m_camera.m_viewportOffset * framebufferSize);
     m_viewportSize = static_cast<glm::uvec2>(framebufferSize * m_builder.m_camera.m_viewportSize);
-    m_projection = m_builder.m_camera.getProjectionTransform(framebufferSize);
     glEnable(GL_SCISSOR_TEST);
     glScissor(m_viewportOffset.x, m_viewportOffset.y, m_viewportSize.x, m_viewportSize.y);
     glViewport(m_viewportOffset.x, m_viewportOffset.y, m_viewportSize.x, m_viewportSize.y);
@@ -370,6 +367,12 @@ void RenderPass::bind(bool newFrame)
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
         }
+        m_projection = m_builder.m_camera.getProjectionTransform(framebufferSize);
+    }
+    else
+    {
+        m_lastBoundShader = nullptr;
+        m_lastBoundMaterial = nullptr;
     }
 }
 
@@ -393,6 +396,19 @@ void RenderPass::finishInstance()
             }
         }
     }
+}
+
+bool RenderPass::containsInstance(RenderPass* rp)
+{
+    if (lastInstance == rp)
+    {
+        return true;
+    }
+    if (lastInstance)
+    {
+        return lastInstance->containsInstance(rp);
+    }
+    return false;
 }
 
 } // namespace re

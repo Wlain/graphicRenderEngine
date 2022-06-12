@@ -23,12 +23,13 @@ class ParticleMesh;
 class Renderer
 {
 public:
-    explicit Renderer(GLFWwindow* window);
+    explicit Renderer(GLFWwindow* window,  bool vsync = true);
     ~Renderer();
     // Update window with OpenGL rendering
     void swapWindow();
     // return stats of the last rendered frame,only data maintained by re is included
     inline const RenderStats& getRenderStats() const { return m_renderStatsLast; }
+    inline bool usesVSync() const { return m_vsync;};
     glm::ivec2 getFramebufferSize();
     glm::ivec2 getWindowSize();
 
@@ -36,7 +37,7 @@ public:
     static constexpr int s_maxSceneLights{ 4 };
     static constexpr int s_rgVersionMajor{ 2 };
     static constexpr int s_rgVersionMinor{ 4 };
-    static constexpr int s_rgVersionPoint{ 2 };
+    static constexpr int s_rgVersionPoint{ 3 };
     inline static Renderer* s_instance{ nullptr };
 
 private:
@@ -48,6 +49,7 @@ private:
     std::vector<Shader*> m_shaders;
     std::vector<Texture*> m_textures;
     std::vector<SpriteAtlas*> m_spriteAtlases;
+    bool m_vsync;
 
     friend class Mesh;
     friend class Mesh::MeshBuilder;

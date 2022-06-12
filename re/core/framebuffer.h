@@ -55,7 +55,7 @@ private:
     std::string m_name;
     uint32_t m_fbo{ 0 };
     uint32_t m_rbo{ 0 };
-    glm::uvec2 m_size;
+    glm::vec2 m_size;
     bool m_dirty{ true };
     friend class RenderPass;
 };

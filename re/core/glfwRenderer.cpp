@@ -86,7 +86,7 @@ GLFWRenderer::~GLFWRenderer()
     glfwTerminate();
 }
 
-void GLFWRenderer::init()
+void GLFWRenderer::init(bool vsync)
 {
     if (m_running)
     {
@@ -124,7 +124,7 @@ void GLFWRenderer::init()
         {
             glfwTerminate();
         }
-        m_renderer = new Renderer(m_window);
+        m_renderer = new Renderer(m_window, vsync);
 
 #ifdef SRE_DEBUG_CONTEXT
         if (glDebugMessageCallback)

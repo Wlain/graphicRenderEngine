@@ -9,8 +9,8 @@
 // render engine
 namespace re
 {
-Renderer::Renderer(GLFWwindow* window) :
-    m_window(window)
+Renderer::Renderer(GLFWwindow* window, bool vsync) :
+    m_window(window), m_vsync(vsync)
 {
     if (s_instance != nullptr)
     {
@@ -18,6 +18,10 @@ Renderer::Renderer(GLFWwindow* window) :
     }
     s_instance = this;
     glfwMakeContextCurrent(window);
+    if(m_vsync)
+    {
+       glfwSwapInterval(1); // 开启垂直同步
+    }
     GLenum err = glewInit();
     if (err != GLEW_OK)
     {

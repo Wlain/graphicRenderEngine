@@ -26,7 +26,7 @@ public:
     GLFWRenderer();
     virtual ~GLFWRenderer();
     // Create the window and the graphics context (instantiates the re::Renderer).
-    void init();
+    void init(bool vsync = true);
     void setWindowTitle(std::string_view title);
 
     void setWindowSize(int width, int height);

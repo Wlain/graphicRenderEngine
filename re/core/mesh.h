@@ -100,7 +100,7 @@ public:
     std::pair<int, int> getType(std::string_view name);
     std::vector<std::string> getAttributeNames();
     // get the local axis aligned bounding box (AABB)
-    std::array<glm::vec3, 2> getBoundsMinMax();
+    const std::array<glm::vec3, 2>& getBoundsMinMax() const;
     // get size of the mesh in bytes on GPU
     int getDataSize();
     inline const std::string& name() const { return m_name; }

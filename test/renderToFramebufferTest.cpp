@@ -42,13 +42,14 @@ public:
                                        .withWorldLights(m_worldLights.get())
                                        .withFramebuffer(m_framebuffer)
                                        .withClearColor(true, { 0, 1, 1, 0 })
+                                       .withGUI(false)
                                        .build();
         renderToTexturePass.draw(m_mesh, glm::eulerAngleY(glm::radians((float)m_totalTime * 30)), m_materialOffscreen);
         auto renderPass = RenderPass::create()
                               .withCamera(m_camera)
                               .withWorldLights(m_worldLights.get())
                               .withClearColor(true, { 1, 0, 0, 1 })
-                              .withGUI(false)
+                              .withGUI(true)
                               .build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_material);
     }

@@ -224,9 +224,9 @@ void Mesh::setVertexAttributePointers(Shader* shader)
     {
         auto meshAttribute = m_attributeByName.find(shaderAttribute.first);
         bool attributeFoundInMesh = meshAttribute != m_attributeByName.end();
-        bool equalType = shaderAttribute.second.type == meshAttribute->second.attributeType ||
-            (shaderAttribute.second.type >= GL_FLOAT_VEC2 && shaderAttribute.second.type <= GL_FLOAT_VEC4 && shaderAttribute.second.type >= meshAttribute->second.attributeType) || (shaderAttribute.second.type >= GL_INT_VEC2 && shaderAttribute.second.type <= GL_INT_VEC4 && shaderAttribute.second.type >= meshAttribute->second.attributeType);
-        if (attributeFoundInMesh && equalType && shaderAttribute.second.arraySize == 1)
+        bool equalType = attributeFoundInMesh && (shaderAttribute.second.type == meshAttribute->second.attributeType ||
+            (shaderAttribute.second.type >= GL_FLOAT_VEC2 && shaderAttribute.second.type <= GL_FLOAT_VEC4 && shaderAttribute.second.type >= meshAttribute->second.attributeType) || (shaderAttribute.second.type >= GL_INT_VEC2 && shaderAttribute.second.type <= GL_INT_VEC4 && shaderAttribute.second.type >= meshAttribute->second.attributeType));
+        if (equalType && shaderAttribute.second.arraySize == 1)
         {
             glEnableVertexAttribArray(shaderAttribute.second.position);
             glVertexAttribPointer(shaderAttribute.second.position, meshAttribute->second.elementCount, meshAttribute->second.dataType, GL_FALSE, m_totalBytesPerVertex, (void*)(meshAttribute->second.offset));
@@ -409,7 +409,7 @@ std::vector<std::string> Mesh::getAttributeNames()
     return names;
 }
 
-std::array<glm::vec3, 2> Mesh::getBoundsMinMax()
+const std::array<glm::vec3, 2>& Mesh::getBoundsMinMax() const
 {
     return m_boundsMinMax;
 }
@@ -419,8 +419,8 @@ Mesh::Topology Mesh::getMeshTopology(int indexSet)
     if (m_topologies.empty())
     {
         m_topologies.emplace_back();
+        m_topologies[0] = Mesh::Topology::Triangles;
     }
-    m_topologies[0] = Topology::Triangles;
     return m_topologies[indexSet];
 }
 

@@ -123,6 +123,7 @@ void Profiler::gui(bool useWindow)
     {
         ImGui::LabelText("Window size", "%ix%i", r->getWindowSize().x, r->getWindowSize().y);
         ImGui::LabelText("Framebuffer size", "%ix%i", r->getFramebufferSize().x, r->getFramebufferSize().y);
+        ImGui::LabelText("VSync", "%s", r->usesVSync()?"true":"false");
     }
     if (ImGui::CollapsingHeader("Performance"))
     {

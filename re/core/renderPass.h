@@ -41,7 +41,7 @@ public:
 
     private:
         RenderPassBuilder() = default;
-        RenderPassBuilder(RenderStats* renderStats);
+        explicit RenderPassBuilder(RenderStats* renderStats);
 
     private:
         glm::vec4 m_clearColorValue = { 1, 0, 0, 1 };
@@ -64,8 +64,8 @@ public:
     RenderPass() = default;
     static RenderPassBuilder create(); // Create a RenderPass
     RenderPass(const RenderPass&) = delete;
-    RenderPass(RenderPass&& rp);
-    RenderPass& operator=(RenderPass&& other);
+    RenderPass(RenderPass&& rp) noexcept;
+    RenderPass& operator=(RenderPass&& other) noexcept;
     virtual ~RenderPass();
     void drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }, Mesh::Topology meshTopology = Mesh::Topology::Lines);
     void draw(const std::shared_ptr<Mesh>& mesh, glm::mat4 modelTransform, std::shared_ptr<Material>& material);
@@ -81,6 +81,7 @@ private:
     explicit RenderPass(RenderPass::RenderPassBuilder& builder);
     void setupShader(const glm::mat4& modelTransform, Shader* shader);
     void bind(bool newFrame);
+    bool containsInstance(RenderPass*);
     static void finish();
     void finishInstance();
 
@@ -92,6 +93,7 @@ private:
     RenderPass::RenderPassBuilder m_builder;
     Shader* m_lastBoundShader = { nullptr };
     Material* m_lastBoundMaterial = { nullptr };
+    RenderPass* lastInstance{ nullptr };
     int64_t m_lastBoundMeshId = { -1 };
     glm::mat4 m_projection;
     glm::uvec2 m_viewportOffset;

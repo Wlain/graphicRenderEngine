@@ -19,6 +19,6 @@ extern void customMeshLayoutDefaultValuesTest();
 
 int main()
 {
-    customMeshLayoutDefaultValuesTest();
+    cubeTest();
     return 0;
 }

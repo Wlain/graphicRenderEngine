@@ -14,7 +14,13 @@ public:
     ~VertexAttributeExample() override = default;
     void initialize() override
     {
-        m_material = Shader::getUnlit()->createMaterial();
+        m_material = Shader::create()
+                         .withSourceUnlit()
+                         .withName("Unlit")
+                         .withCullFace(Shader::CullFace::None)
+                         .build()
+                         ->createMaterial();
+
         std::vector<glm::vec3> pos{
             { 0, 0, 0 },
             { 1, 0, 0 },
@@ -22,14 +28,6 @@ public:
         };
 
         m_mesh = Mesh::create().withPositions(pos).withMeshTopology(Mesh::Topology::Triangles).build();
-        pos = {
-            { 0, 0, 0 },
-            { 1, 0, 0 },
-            { 1, 0, 0 },
-            { 0, -1, 0 },
-            { 0, -1, 0 },
-            { 0, 0, 0 },
-        };
     }
     void render() override
     {
