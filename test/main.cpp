@@ -14,9 +14,11 @@ extern void spritesBatchTest();
 extern void drawLineTest();
 extern void polygonOffsetTest();
 extern void vertexAttributeTest();
+extern void customMeshLayoutTest();
+extern void customMeshLayoutDefaultValuesTest();
 
 int main()
 {
-    vertexAttributeTest();
+    customMeshLayoutDefaultValuesTest();
     return 0;
 }

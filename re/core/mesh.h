@@ -86,7 +86,6 @@ public:
 public:
     ~Mesh();
     inline int32_t getVertexCount() const { return m_vertexCount; }
-    inline Topology getMeshTopology(int indexSet = 0) const { return m_topologies[indexSet]; }
     inline const std::vector<uint16_t>& getIndices(int indexSet = 0) const { return m_indices[indexSet]; }
     inline int getIndicesSize(int indexSet) { return m_indices[indexSet].size(); }
     inline size_t getIndexSets() const { return m_indices.size(); }
@@ -95,6 +94,7 @@ public:
     std::vector<glm::vec4> getUVs();
     std::vector<glm::vec4> getColors();
     std::vector<float> getParticleSizes();
+    Topology getMeshTopology(int indexSet = 0);
     template <typename T>
     T get(std::string_view attributeName);
     std::pair<int, int> getType(std::string_view name);
@@ -111,7 +111,7 @@ private:
         int offset;        // 偏移
         int elementCount;  // 元素个数
         int dataType;      // 数据类型:eg:GL_FLOAT
-        int attributeType; // 属性类型:eg:GL_FLOAT_VEC3
+        int attributeType; // 属性类型:eg:GL_BYTE, GL_UNSIGNED_BYTE, GL_SHORT, GL_UNSIGNED_SHORT, GL_INT, GL_UNSIGNED_INT
         int enabledAttributes[10];
         int disabledAttributes[10];
     };
@@ -140,10 +140,10 @@ private:
     int32_t m_vertexCount{ 0 };
     int m_dataSize{ 0 };
     int m_totalBytesPerVertex{ 0 };
-    u_int16_t m_meshId;
+    uint16_t m_meshId;
 
 private:
-    inline static u_int16_t m_meshIdCount{ 0 };
+    inline static uint16_t m_meshIdCount{ 0 };
     friend class RenderPass;
 };
 } // namespace re

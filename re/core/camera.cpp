@@ -83,8 +83,9 @@ glm::mat4 Camera::getProjectionTransform(const glm::uvec2& viewportSize)
                                           (float)viewportSize.y,
                                           m_projectionValue.perspective.nearPlane,
                                           m_projectionValue.perspective.farPlane);
+    default:
+        return glm::mat4(1);
     }
-    return glm::mat4(1);
 }
 
 } // namespace re

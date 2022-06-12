@@ -14,13 +14,7 @@ public:
     ~VertexAttributeExample() override = default;
     void initialize() override
     {
-        m_material = Shader::create()
-                         .withSourceUnlit()
-                         .withName("Unlit")
-                         .withCullFace(Shader::CullFace::None)
-                         .build()
-                         ->createMaterial();
-
+        m_material = Shader::getUnlit()->createMaterial();
         std::vector<glm::vec3> pos{
             { 0, 0, 0 },
             { 1, 0, 0 },
