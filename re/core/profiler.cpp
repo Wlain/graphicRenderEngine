@@ -121,9 +121,15 @@ void Profiler::gui(bool useWindow)
     }
     if (ImGui::CollapsingHeader("Renderer"))
     {
+        ImGui::LabelText("re Version", "%d.%d.%d", r->s_rgVersionMajor, r->s_rgVersionMinor, r->s_rgVersionPoint);
         ImGui::LabelText("Window size", "%ix%i", r->getWindowSize().x, r->getWindowSize().y);
         ImGui::LabelText("Framebuffer size", "%ix%i", r->getFramebufferSize().x, r->getFramebufferSize().y);
-        ImGui::LabelText("VSync", "%s", r->usesVSync()?"true":"false");
+        ImGui::LabelText("VSync", "%s", r->usesVSync() ? "true" : "false");
+        char* version = (char*)glGetString(GL_VERSION);
+        ImGui::LabelText("OpenGL version", version);
+        char* vendor = (char*)glGetString(GL_VENDOR);
+        ImGui::LabelText("OpenGL vendor", vendor);
+        ImGui::LabelText("IMGUI version", IMGUI_VERSION);
     }
     if (ImGui::CollapsingHeader("Performance"))
     {
@@ -294,6 +300,7 @@ void Profiler::showTexture(Texture* tex)
         ImGui::LabelText("Size", "%ix%i", tex->width(), tex->height());
         ImGui::LabelText("Cubemap", "%s", tex->isCubeMap() ? "true" : "false");
         ImGui::LabelText("Filtersampling", "%s", tex->isFilterSampling() ? "true" : "false");
+        ImGui::LabelText("Mipmapping", "%s", tex->isMipMapped() ? "true" : "false");
         ImGui::LabelText("Wrap tex-coords", "%s", tex->isWrapTextureCoordinates() ? "true" : "false");
         ImGui::LabelText("Data size", "%f MB", tex->getDataSize() / (1000 * 1000.0f));
         if (!tex->isCubeMap())
@@ -486,9 +493,9 @@ void Profiler::showSpriteAtlas(SpriteAtlas* pAtlas)
         {
             auto name = pAtlas->getNames()[*index];
             Sprite sprite = pAtlas->get(name);
-            ImGui::LabelText("Sprite anchor", "%.2fx%.2f", sprite.getSpriteAnchor().x, sprite.getSpriteAnchor().y);
-            ImGui::LabelText("Sprite size", "%ix%i", sprite.getSpriteSize().x, sprite.getSpriteSize().y);
-            ImGui::LabelText("Sprite pos", "%ix%i", sprite.getSpritePos().x, sprite.getSpritePos().y);
+            ImGui::LabelText("Sprite anchor", "%.2f%.2f", sprite.getSpriteAnchor().x, sprite.getSpriteAnchor().y);
+            ImGui::LabelText("Sprite size", "%i%i", sprite.getSpriteSize().x, sprite.getSpriteSize().y);
+            ImGui::LabelText("Sprite pos", "%i%i", sprite.getSpritePos().x, sprite.getSpritePos().y);
             auto tex = sprite.m_texture;
             auto uv0 = ImVec2((sprite.getSpritePos().x) / (float)tex->width(), (sprite.getSpritePos().y + sprite.getSpriteSize().y) / (float)tex->height());
             auto uv1 = ImVec2((sprite.getSpritePos().x + sprite.getSpriteSize().x) / (float)tex->width(), (sprite.getSpritePos().y) / (float)tex->height());

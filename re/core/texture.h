@@ -45,6 +45,7 @@ public:
         int channels = 0;
         uint32_t id = 0;
         uint32_t target = 0;
+        bool transparent; // 透明纹理
         bool generateMipmap = false;
         bool filterSampling = true;
         bool wrapTextureCoordinates = true;
@@ -90,6 +91,8 @@ public:
     inline bool isFilterSampling() const { return m_info.filterSampling; }
     inline bool isWrapTextureCoordinates() const { return m_info.wrapTextureCoordinates; }
     bool isCubeMap() const;
+    bool isMipMapped() const; // has texture mipmapped enabled
+    bool isTransparent() const;
     void invokeGenerateMipmap();
     // get size of the texture in bytes on GPU
     size_t getDataSize() const;

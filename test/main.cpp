@@ -16,9 +16,11 @@ extern void polygonOffsetTest();
 extern void vertexAttributeTest();
 extern void customMeshLayoutTest();
 extern void customMeshLayoutDefaultValuesTest();
+extern void textureTest();
+extern void multiCameraTest();
 
 int main()
 {
-    cubeTest();
+    spritesBatchTest();
     return 0;
 }

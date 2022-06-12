@@ -10,7 +10,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/euler_angles.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
 #include <glm/gtx/string_cast.hpp>
+#include <glm/gtx/transform.hpp>
 namespace re
 {
 Camera::Camera()
@@ -86,6 +89,45 @@ glm::mat4 Camera::getProjectionTransform(const glm::uvec2& viewportSize)
     default:
         return glm::mat4(1);
     }
+}
+
+void Camera::setPositionAndRotation(glm::vec3 position, glm::vec3 rotationEulersDegrees)
+{
+    auto rotationEulersRadians = glm::radians(rotationEulersDegrees);
+    auto viewTransform = glm::translate(position) * glm::eulerAngleXYZ(rotationEulersRadians.x, rotationEulersRadians.y, rotationEulersRadians.z);
+    setViewTransform(glm::inverse(viewTransform));
+}
+
+glm::vec3 Camera::getPosition()
+{
+    glm::vec3 scale;
+    glm::quat orientation;
+    glm::vec3 translation;
+    glm::vec3 skew;
+    glm::vec4 perspective;
+    glm::decompose(glm::inverse(m_viewTransform),
+                   scale,
+                   orientation,
+                   translation,
+                   skew,
+                   perspective);
+    return translation;
+}
+
+glm::vec3 Camera::getRotationEuler()
+{
+    glm::vec3 scale;
+    glm::quat orientation;
+    glm::vec3 translation;
+    glm::vec3 skew;
+    glm::vec4 perspective;
+    glm::decompose(glm::inverse(m_viewTransform),
+                   scale,
+                   orientation,
+                   translation,
+                   skew,
+                   perspective);
+    return glm::degrees(-glm::eulerAngles(orientation));
 }
 
 } // namespace re

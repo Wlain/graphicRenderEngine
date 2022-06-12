@@ -142,6 +142,9 @@ void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 col
                            .build();
     static auto material = Shader::getUnlit()->createMaterial();
     material->setColor(color);
+    // force reload of last bound material and mesh
+    m_lastBoundMaterial = nullptr;
+    m_lastBoundMeshId = -1;
     // 更新共享的mesh
     mesh->update().withPositions(vertices).withMeshTopology(meshTopology).build();
     draw(mesh, glm::mat4(1), material);

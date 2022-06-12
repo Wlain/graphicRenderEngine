@@ -71,6 +71,10 @@ SpriteBatch::SpriteBatch(std::shared_ptr<Shader> shader, std::vector<Sprite>&& s
         if (lastTexture && lastTexture != s.m_texture)
         {
             pushCurrentMesh();
+            vertices.clear();
+            colors.clear();
+            uvs.clear();
+            indices.clear();
         }
         lastTexture = s.m_texture;
         auto corners = s.getCorners();

@@ -26,6 +26,12 @@ SpriteAtlas::~SpriteAtlas()
 
 std::shared_ptr<SpriteAtlas> SpriteAtlas::create(std::string_view jsonFile, std::string_view imageFile, bool flipAnchorY)
 {
+    auto texture = Texture::create().withFile(imageFile).build();
+    return create(jsonFile, texture, flipAnchorY);
+}
+
+std::shared_ptr<SpriteAtlas> SpriteAtlas::create(std::string_view jsonFile, const std::shared_ptr<Texture>& texture, bool flipAnchorY)
+{
     std::string err;
     const auto json = json11::Json::parse(getFileContents(jsonFile), err);
     if (!err.empty())
@@ -35,7 +41,6 @@ std::shared_ptr<SpriteAtlas> SpriteAtlas::create(std::string_view jsonFile, std:
     }
     std::map<std::string, Sprite> sprites;
     auto& list = json["frames"].array_items();
-    auto texture = Texture::create().withFile(imageFile).build();
     for (auto& spriteElement : list)
     {
         std::string name = spriteElement["filename"].string_value();
@@ -52,7 +57,8 @@ std::shared_ptr<SpriteAtlas> SpriteAtlas::create(std::string_view jsonFile, std:
         // 锚点
         float px = pivot["x"].number_value();
         float py = pivot["y"].number_value();
-        if (flipAnchorY){
+        if (flipAnchorY)
+        {
             py = 1.0f - py;
         }
         Sprite sprite({ x, y }, { w, h }, { px, py }, texture.get());

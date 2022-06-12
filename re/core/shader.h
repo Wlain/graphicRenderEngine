@@ -179,7 +179,6 @@ private:
     friend class Material;
     friend class Profiler;
 };
-
 } // namespace re
 
 #endif //SIMPLERENDERENGINE_SHADER_H

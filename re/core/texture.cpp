@@ -28,6 +28,7 @@ bool isPowerOfTwo(unsigned int x)
     // 例如：8:1000 7:111  8 & 7 == 0
     return ((x != 0) && !(x & (x - 1)));
 }
+
 } // namespace
 
 namespace re
@@ -61,7 +62,6 @@ Texture::TextureBuilder& Texture::TextureBuilder::withFile(std::string_view file
     GLint internalFormat = GL_SRGB_ALPHA; //hasSRGB() ? GL_SRGB_ALPHA : GL_RGBA;
     GLint border = 0;
     GLenum type = GL_UNSIGNED_BYTE;
-    checkGLError();
     int desireComp = STBI_rgb_alpha;
     stbi_set_flip_vertically_on_load(true);
     auto pixelsData = getFileContents(filename.data());
@@ -318,4 +318,15 @@ bool Texture::isCubeMap() const
 {
     return m_info.target == GL_TEXTURE_CUBE_MAP;
 }
+
+bool Texture::isMipMapped() const
+{
+    return m_info.generateMipmap;
+}
+
+bool Texture::isTransparent() const
+{
+    return m_info.transparent;
+}
+
 } // namespace re

@@ -13,7 +13,13 @@ class Camera
 public:
     // 默认是正交投影：eye:(0,0,0)，看向z负轴，使用正交投影，[-1,1]
     Camera();
+    // set position of camera in world space (view transform) using
     void setLookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up);
+    // set the camera view transform using worldspace position and rotation is degrees
+    void setPositionAndRotation(glm::vec3 position, glm::vec3 rotationEulersDegrees);
+    // return the camera position (computed from the view transform)
+    glm::vec3 getPosition();
+    glm::vec3 getRotationEuler();
     void setPerspectiveProjection(float fieldOfViewY, float nearPlane, float farPlane);
     void setOrthographicProjection(float orthographicSize, float nearPlane, float farPlane);
     void setWindowCoordinates();
