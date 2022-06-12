@@ -60,7 +60,13 @@ SpriteBatch::SpriteBatch(std::shared_ptr<Shader> shader, std::vector<Sprite>&& s
     std::vector<uint16_t> indices;
     Texture* lastTexture = nullptr;
     auto pushCurrentMesh = [&]() {
-        m_spriteMeshes.push_back(Mesh::create().withPositions(vertices).withUvs(uvs).withColors(colors).withIndices(indices).build());
+        m_spriteMeshes.push_back(Mesh::create()
+                                     .withName(std::string("dynamicSpriteBatch") + std::to_string(m_spriteMeshes.size()))
+                                     .withPositions(vertices)
+                                     .withUvs(uvs)
+                                     .withColors(colors)
+                                     .withIndices(indices)
+                                     .build());
         auto material = shader->createMaterial();
         material->setTexture(lastTexture->shared_from_this());
         m_materials.push_back(material);

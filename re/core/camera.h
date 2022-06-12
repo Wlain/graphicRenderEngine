@@ -5,7 +5,7 @@
 #ifndef SIMPLERENDERENGINE_CAMERA_H
 #define SIMPLERENDERENGINE_CAMERA_H
 #include <glm/glm.hpp>
-
+#include <array>
 namespace re
 {
 class Camera
@@ -20,6 +20,8 @@ public:
     // return the camera position (computed from the view transform)
     glm::vec3 getPosition();
     glm::vec3 getRotationEuler();
+    // 获取屏幕点
+    std::array<glm::vec3,2> screenPointToRay(glm::vec2 position);
     void setPerspectiveProjection(float fieldOfViewY, float nearPlane, float farPlane);
     void setOrthographicProjection(float orthographicSize, float nearPlane, float farPlane);
     void setWindowCoordinates();
