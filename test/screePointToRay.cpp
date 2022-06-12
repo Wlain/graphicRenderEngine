@@ -5,6 +5,7 @@
 #include "basicProject.h"
 #include "guiCommonDefine.h"
 #define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtc/random.hpp>
 #include <glm/gtx/transform.hpp>
 
 class ScreePointToRayExample : public BasicProject
@@ -44,19 +45,55 @@ public:
         m_material->setColor({ 1, 1, 1, 1 });
         m_material->setSpecularity(0);
 
+        m_matPlane = Shader::getStandard()->createMaterial();
+        m_matPlane->setColor({ 1, 1, 1, 1 });
+        m_matPlane->setSpecularity(0);
+
         m_materia2 = Shader::getStandard()->createMaterial();
         m_materia2->setColor({ 1, 0, 0, 1 });
         m_materia2->setSpecularity(0);
     }
 
+    void updateMaterial(std::shared_ptr<Material>& mat)
+    {
+        mat->setColor(glm::vec4(glm::linearRand(0.0f, 1.0f), glm::linearRand(0.0f, 1.0f), glm::linearRand(0.0f, 1.0f), 1));
+    }
+
+    float rayToSphere(std::array<glm::vec3, 2> ray, glm::vec3 sphereCenter)
+    {
+        float d = dot(sphereCenter - ray[0], ray[1]);
+        if (d < 0)
+        {
+            d = 0;
+        }
+        glm::vec3 closestPoint = d * ray[1] + ray[0];
+        return glm::distance(closestPoint, sphereCenter);
+    }
+
     void touchEvent(double xPos, double yPos) override
     {
-        glm::vec2 pos = { xPos, yPos };
-        pos.y = Renderer::s_instance->getWindowSize().y - pos.y; // flip y axis
+        auto framebufferSize = m_renderer.getFramebuffeSize();
+        auto windowsSize = m_renderer.getWindowSize();
+        auto ratio = framebufferSize.x / windowsSize.x;
+        // 坐标映射
+        auto mouseX = std::clamp((int)(xPos * ratio), 0, windowsSize.x * (int)ratio);
+        auto mouseY = std::clamp((int)(windowsSize.y - yPos) * (int)ratio, 0, windowsSize.y * (int)ratio);
+
+        glm::vec2 pos = { mouseX, mouseY };
         auto res = m_camera.screenPointToRay(pos);
         m_raycastOrigin = res[0];
         m_raycastDirection = res[1];
         m_points = { { m_raycastOrigin, m_raycastOrigin + m_raycastDirection } };
+        float dist1 = rayToSphere(res, m_p1);
+        if (dist1 < 1)
+        {
+            updateMaterial(m_material);
+        }
+        float dist2 = rayToSphere(res, m_p2);
+        if (dist2 < 1)
+        {
+            updateMaterial(m_materia2);
+        }
     }
     void cameraGUI()
     {
@@ -100,8 +137,7 @@ public:
         checkGLError();
 
         ImGui::LabelText("Rightclick to shoot ray", "");
-        rp.draw(m_planeMesh, glm::translate(glm::vec3{ 0, -1.0f, 0 }) * glm::scale(glm::vec3{ 1, .01f, 1 }), m_material);
-
+        rp.draw(m_planeMesh, glm::translate(glm::vec3{ 0, -1.0f, 0 }) * glm::scale(glm::vec3{ 1, .01f, 1 }), m_matPlane);
         ImGui::LabelText("raycastOrigin", "%.1f,%.1f,%.1f", m_raycastOrigin.x, m_raycastOrigin.y, m_raycastOrigin.z);
         ImGui::LabelText("raycastDirection", "%.1f,%.1f,%.1f", m_raycastDirection.x, m_raycastDirection.y, m_raycastDirection.z);
 
@@ -126,6 +162,7 @@ private:
     glm::mat4 m_pos1 = glm::translate(glm::mat4(1), m_p1);
     glm::mat4 m_pos2 = glm::translate(glm::mat4(1), m_p2);
     std::shared_ptr<Material> m_materia2;
+    std::shared_ptr<Material> m_matPlane;
     // camera properties
     bool m_perspective = true;
     float m_fov = 60;
