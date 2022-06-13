@@ -132,18 +132,20 @@ glm::vec3 Camera::getRotationEuler()
 
 std::array<glm::vec3, 2> Camera::screenPointToRay(glm::vec2 position)
 {
-    glm::vec2 viewportSize = (glm::vec2)Renderer::s_instance->getFramebufferSize() *m_viewportSize;
+    glm::vec2 viewportSize = (glm::vec2)Renderer::s_instance->getFramebufferSize() * m_viewportSize;
+    // 将屏幕坐标归一化
     position = (position / viewportSize) * 2.0f - glm::vec2(1.0f);
+    // 获取pv矩阵
     auto viewProjection = getProjectionTransform(viewportSize) * m_viewTransform;
     auto invViewProjection = glm::inverse(viewProjection);
-
+    // 原始裁剪坐标
     glm::vec4 originClipSpace{ position, -1, 1 };
+    // 目标裁剪坐标
     glm::vec4 destClipSpace{ position, 1, 1 };
     glm::vec4 originClipSpaceWS = invViewProjection * originClipSpace;
     glm::vec4 destClipSpaceWS = invViewProjection * destClipSpace;
     glm::vec3 originClipSpaceWS3 = glm::vec3(originClipSpaceWS) / originClipSpaceWS.w;
     glm::vec3 destClipSpaceWS3 = glm::vec3(destClipSpaceWS) / destClipSpaceWS.w;
-
     return { originClipSpaceWS3, glm::normalize(destClipSpaceWS3 - originClipSpaceWS3) };
 }
 

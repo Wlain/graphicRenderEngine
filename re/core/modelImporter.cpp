@@ -18,6 +18,42 @@ namespace
 const char kPathSeparator = '/';
 const char kNonPathSeparator = '/';
 
+// trim from start (in place)
+static inline void ltrim(std::string& s)
+{
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
+                return !std::isspace(ch);
+            }));
+}
+
+// trim from end (in place)
+static inline void rtrim(std::string& s)
+{
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
+                return !std::isspace(ch);
+            }).base(),
+            s.end());
+}
+
+// trim from both ends (in place)
+static inline void trim(std::string& s)
+{
+    ltrim(s);
+    rtrim(s);
+}
+
+std::string concat(std::vector<std::string> v, int from)
+{
+    std::string res = v[from];
+    for (int i = from + 1; i < v.size(); i++)
+    {
+        res += " ";
+        res += v[i];
+    }
+    trim(res);
+    return res;
+}
+
 std::string replaceAll(std::string& s, const std::string& search, const std::string& replace)
 {
     for (size_t pos = 0;; pos += replace.length())
@@ -203,7 +239,8 @@ void parseMaterialLib(std::string& materialLib, std::vector<ObjMaterial>& materi
         if (tokens[0] == "newmtl")
         {
             glm::vec3 zero{ 0, 0, 0 };
-            ObjMaterial material{ replaceAll(tokens[1], "\r", ""), zero, zero, zero, 50, 1 };
+            auto name = concat(tokens, 1);
+            ObjMaterial material{ replaceAll(name, "\r", ""), zero, zero, zero, 50, 1 };
             materials.push_back(material);
         }
         else
@@ -316,9 +353,10 @@ std::shared_ptr<Material> createMaterial(std::string materialName, const std::ve
     const ObjMaterial* foundMat = nullptr;
     for (auto& v : matVector)
     {
-        if (v.name == materialName)
+        if (v.name == materialName || materialName.empty())
         {
             foundMat = &v;
+            break;
         }
     }
     if (foundMat == nullptr)
@@ -409,20 +447,20 @@ std::shared_ptr<Mesh> ModelImporter::importObj(const std::filesystem::path& path
         else if (tokens[0] == "mtllib")
         { // material library
             std::string parentPath = path.parent_path().c_str();
-            std::string materialLib = getFileContents(parentPath + '/' + tokens[1]);
+            std::string materialLib = getFileContents(parentPath + '/' + concat(tokens, 1));
             parseMaterialLib(materialLib, materials);
         }
         else if (tokens[0] == "usemtl")
         { // use material
-            materialChanges.push_back({ currentIndex, tokens[1] });
+            materialChanges.push_back({ currentIndex, concat(tokens, 1) });
         }
         else if (tokens[0] == "o")
         { // named object
-            namedObjects.push_back({ currentIndex, tokens[1] });
+            namedObjects.push_back({ currentIndex, concat(tokens, 1) });
         }
         else if (tokens[0] == "g")
         { // polygon group
-            polygonGroups.push_back({ currentIndex, tokens[1] });
+            polygonGroups.push_back({ currentIndex, concat(tokens, 1) });
         }
         else if (tokens[0] == "s")
         {                           // smoothing groups

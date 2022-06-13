@@ -21,6 +21,6 @@ extern void multiCameraTest();
 extern void screePointToRayTest();
 int main()
 {
-    screePointToRayTest();
+    objTest();
     return 0;
 }

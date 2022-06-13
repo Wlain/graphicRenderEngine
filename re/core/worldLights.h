@@ -47,6 +47,10 @@ struct WorldLights
     {
         ambientLight = light;
     }
+    inline const glm::vec3& getAmbientLight() const
+    {
+        return ambientLight;
+    }
 
 public:
     glm::vec3 ambientLight;
