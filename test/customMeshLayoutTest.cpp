@@ -46,7 +46,8 @@ public:
             }
         )";
         m_material = Shader::create()
-                         .withSource(vertexShaderSource, fragmentShaderSource)
+                         .withSourceString(vertexShaderSource, Shader::ShaderType::Vertex)
+                         .withSourceString(fragmentShaderSource, Shader::ShaderType::Fragment)
                          .build()
                          ->createMaterial();
     }

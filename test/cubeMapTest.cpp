@@ -58,7 +58,10 @@ public:
         glm::vec3 up{ 0, 1, 0 };
         m_camera.setLookAt(eye, at, up);
         m_camera.setPerspectiveProjection(60.0f, 0.1f, 100.0f);
-        auto shader = Shader::create().withSource(vertexShaderStr, fragmentShaderStr).build();
+        auto shader = Shader::create()
+                          .withSourceString(vertexShaderStr, Shader::ShaderType::Vertex)
+                          .withSourceString(fragmentShaderStr, Shader::ShaderType::Fragment)
+                          .build();
         m_material = shader->createMaterial();
         auto tex = Texture::create()
                        .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posx.png"), Texture::CubeMapSide::PositiveX)

@@ -61,6 +61,10 @@
 #define TWO_MATH_PI (MATH_PI * 2.0f)
 #define MATH_DEG_TO_RAD(x) ((x)*0.0174532925f)
 #define MATH_PIOVER2 1.57079632679489661923f
-#define MATH_EPSILON 0.000001f
+
+// 代码废弃
+#define DEPRECATED(X) [[deprecated(X)]]
+// 取消字节对齐
+#define PACK(__Declaration__) __Declaration__ __attribute__((__packed__))
 
 #endif //SIMPLERENDERENGINE_COMMONMACRO_H

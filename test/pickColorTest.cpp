@@ -54,7 +54,7 @@ public:
         }
         renderPass.finish();
         // read pixel values from defualt framebuffer (before gui is rendered)
-        auto pixelValues = renderPass.readPixels(m_mouseX, m_mouseY);
+        auto pixelValue = renderPass.readPixels(m_mouseX, m_mouseY);
     }
     void update(float deltaTime) override
     {

@@ -10,6 +10,8 @@
 
 #ifndef SIMPLERENDERENGINE_UTILS_H
 #define SIMPLERENDERENGINE_UTILS_H
+#include "commonMacro.h"
+
 #include <filesystem>
 #include <fstream>
 
@@ -30,6 +32,6 @@ static std::string getFileContents(const std::filesystem::path& filename)
         in.close();
         return contents;
     }
-    throw(errno);
+    LOG_ERROR("Error reading %s. Error code: %i", filename.c_str(), errno);
 }
 #endif //SIMPLERENDERENGINE_UTILS_H

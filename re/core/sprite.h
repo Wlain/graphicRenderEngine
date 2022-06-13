@@ -4,6 +4,8 @@
 
 #ifndef SIMPLERENDERENGINE_SPRITE_H
 #define SIMPLERENDERENGINE_SPRITE_H
+#include "commonMacro.h"
+
 #include <array>
 #include <glm/glm.hpp>
 #include <string>
@@ -59,12 +61,13 @@ private:
     union
     {
         uint64_t globalOrder;
-        struct
-        {
-            uint16_t drawOrder; // lowest priority
-            uint32_t texture;
-            uint16_t orderInBatch; // highest priority
-        } __attribute__((__packed__)) details;
+        PACK(struct
+             {
+                 uint16_t drawOrder; // lowest priority
+                 uint32_t texture;
+                 uint16_t orderInBatch; // highest priority
+             })
+        details;
     } m_order;
     friend class SpriteAtlas;
     friend class SpriteBatch;

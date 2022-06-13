@@ -4,6 +4,7 @@
 
 #ifndef SIMPLERENDERENGINE_SHADER_H
 #define SIMPLERENDERENGINE_SHADER_H
+#include "commonMacro.h"
 #include "light.h"
 #include "texture.h"
 
@@ -65,11 +66,24 @@ public:
         int32_t arraySize;
     };
 
+    enum class ShaderType
+    {
+        Vertex,
+        Fragment,
+        Geometry,
+        TessellationControl,
+        TessellationEvaluation,
+        NumberOfShaderTypes
+    };
+
     class ShaderBuilder
     {
     public:
         ShaderBuilder(const ShaderBuilder&) = delete;
+        DEPRECATED("Use ShaderType withSourceString() or withSourceFile() instead")
         ShaderBuilder& withSource(std::string_view vertexShader, std::string_view fragmentShader);
+        ShaderBuilder& withSourceString(std::string_view shaderSource, ShaderType shaderType);
+        ShaderBuilder& withSourceFile(std::string_view shaderFile, ShaderType shaderType);
         ShaderBuilder& withSourceStandard();
         ShaderBuilder& withSourceUnlit();
         ShaderBuilder& withSourceUnlitSprite();
@@ -86,8 +100,7 @@ public:
         ShaderBuilder() = default;
 
     private:
-        std::string m_vertexShaderStr;
-        std::string m_fragmentShaderStr;
+        std::map<ShaderType, std::string> m_shaderSources;
         std::string m_name;
         BlendType m_blendType{ BlendType::Disabled };
         CullFace m_cullFace{ CullFace::Back };
@@ -142,7 +155,7 @@ public:
 
 private:
     Shader();
-    bool build(std::string_view vertexShader, std::string_view fragmentShader);
+    bool build(const std::map<ShaderType,std::string>& shaderSources);
     void bind();
     bool setLights(WorldLights* worldLights, const glm::mat4& viewTransform);
     void updateUniformsAndAttributes();

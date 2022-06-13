@@ -224,8 +224,7 @@ void Mesh::setVertexAttributePointers(Shader* shader)
     {
         auto meshAttribute = m_attributeByName.find(shaderAttribute.first);
         bool attributeFoundInMesh = meshAttribute != m_attributeByName.end();
-        bool equalType = attributeFoundInMesh && (shaderAttribute.second.type == meshAttribute->second.attributeType ||
-            (shaderAttribute.second.type >= GL_FLOAT_VEC2 && shaderAttribute.second.type <= GL_FLOAT_VEC4 && shaderAttribute.second.type >= meshAttribute->second.attributeType) || (shaderAttribute.second.type >= GL_INT_VEC2 && shaderAttribute.second.type <= GL_INT_VEC4 && shaderAttribute.second.type >= meshAttribute->second.attributeType));
+        bool equalType = attributeFoundInMesh && (shaderAttribute.second.type == meshAttribute->second.attributeType || (shaderAttribute.second.type >= GL_FLOAT_VEC2 && shaderAttribute.second.type <= GL_FLOAT_VEC4 && shaderAttribute.second.type >= meshAttribute->second.attributeType) || (shaderAttribute.second.type >= GL_INT_VEC2 && shaderAttribute.second.type <= GL_INT_VEC4 && shaderAttribute.second.type >= meshAttribute->second.attributeType));
         if (equalType && shaderAttribute.second.arraySize == 1)
         {
             glEnableVertexAttribArray(shaderAttribute.second.position);
@@ -267,7 +266,7 @@ void Mesh::setVertexAttributePointers(Shader* shader)
                 glVertexAttrib1fv(shaderAttribute.second.position, a);
                 break;
             default:
-                throw std::runtime_error("Unhandled attribute type");
+                LOG_ERROR("Unhandled attribute type:{}", (int)shaderAttribute.second.type);
                 break;
             }
         }
