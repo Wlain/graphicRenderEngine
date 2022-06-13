@@ -4,6 +4,7 @@
 
 #include "spriteBatch.h"
 
+#include "commonMacro.h"
 #include "material.h"
 namespace re
 {
@@ -13,9 +14,16 @@ SpriteBatch::SpriteBatchBuilder& SpriteBatch::SpriteBatchBuilder::withShader(std
     return *this;
 }
 
-SpriteBatch::SpriteBatchBuilder& SpriteBatch::SpriteBatchBuilder::addSprite(const Sprite& sprite)
+SpriteBatch::SpriteBatchBuilder& SpriteBatch::SpriteBatchBuilder::addSprite(Sprite sprite)
 {
-    m_sprites.emplace_back(sprite);
+    size_t size = m_sprites.size();
+    if (size + 1 >= std::numeric_limits<uint16_t>::max())
+    {
+        LOG_ERROR("More than %i sprites in a batch ", std::numeric_limits<uint16_t>::max());
+        return *this;
+    }
+    sprite.m_order.details.drawOrder = static_cast<uint16_t>(size);
+    m_sprites.emplace_back(std::move(sprite));
     return *this;
 }
 
@@ -30,9 +38,23 @@ SpriteBatch::SpriteBatchBuilder::SpriteBatchBuilder()
 }
 
 template <typename T>
-SpriteBatch::SpriteBatchBuilder& SpriteBatch::SpriteBatchBuilder::addSprite(T first, const T last)
+SpriteBatch::SpriteBatchBuilder& SpriteBatch::SpriteBatchBuilder::addSprites(T first, const T last)
 {
-    m_sprites.insert(m_sprites.end(), first, last);
+    auto start = m_sprites.end();
+    int size = m_sprites.size();
+    start = m_sprites.insert(m_sprites.end(), first, last);
+    while (start != m_sprites.end())
+    {
+        (*start).m_order.details.drawOrder = static_cast<uint16_t>(size);
+        size++;
+        start++;
+    }
+    if (size >= std::numeric_limits<uint16_t>::max())
+    {
+        LOG_ERROR("More than %i sprites in a batch ", std::numeric_limits<uint16_t>::max());
+        m_sprites.resize(std::numeric_limits<uint16_t>::max());
+        return *this;
+    }
     return *this;
 }
 
@@ -44,15 +66,7 @@ SpriteBatch::SpriteBatchBuilder SpriteBatch::create()
 SpriteBatch::SpriteBatch(std::shared_ptr<Shader> shader, std::vector<Sprite>&& sprites)
 {
     std::sort(sprites.begin(), sprites.end(), [](const Sprite& a, const Sprite& b) {
-        if (a.m_orderInBatch < b.m_orderInBatch)
-        {
-            return true;
-        }
-        if (a.m_texture < b.m_texture)
-        {
-            return true;
-        }
-        return false;
+        return a.m_order.globalOrder > b.m_order.globalOrder;
     });
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec4> colors;

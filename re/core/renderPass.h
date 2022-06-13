@@ -21,6 +21,14 @@ class FrameBuffer;
 //渲染通道封装了一些渲染状态，并允许添加 drawcall，注意，一次只能有一个渲染传递对象处于活动状态。
 class RenderPass
 {
+private:
+    struct RenderQueueObj
+    {
+        std::shared_ptr<Mesh> mesh;
+        glm::mat4 modelTransform;
+        std::vector<std::shared_ptr<Material>> materials;
+    };
+
 public:
     class RenderPassBuilder
     {
@@ -76,28 +84,25 @@ public:
     std::vector<glm::vec4> readPixels(unsigned int x, unsigned int y, unsigned int width = 1, unsigned int height = 1);
     // flush GPU command buffer (must be called when profiling GPU time - should not be called when not profiling)
     void finishGPUCommandBuffer() const;
+    void finish();
+    bool isFinished();
 
 private:
     explicit RenderPass(RenderPass::RenderPassBuilder& builder);
     void setupShader(const glm::mat4& modelTransform, Shader* shader);
-    void bind(bool newFrame);
-    bool containsInstance(RenderPass*);
-    static void finish();
     void finishInstance();
-
-private:
-    inline static RenderPass* s_instance{ nullptr };
-    inline static std::shared_ptr<FrameBuffer> s_lastFramebuffer;
+    void drawInstance(RenderQueueObj& rqObj);                       // perform the actual rendering
 
 private:
     RenderPass::RenderPassBuilder m_builder;
     Shader* m_lastBoundShader = { nullptr };
     Material* m_lastBoundMaterial = { nullptr };
-    RenderPass* lastInstance{ nullptr };
     int64_t m_lastBoundMeshId = { -1 };
     glm::mat4 m_projection;
     glm::uvec2 m_viewportOffset;
     glm::uvec2 m_viewportSize;
+    std::vector<RenderQueueObj> m_renderQueue;
+    bool m_isFinished = false;
     friend class Renderer;
 };
 } // namespace re

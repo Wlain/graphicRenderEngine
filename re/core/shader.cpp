@@ -13,6 +13,7 @@
 
 #include <glm/gtc/type_ptr.hpp>
 #include <memory>
+#include <regex>
 #include <string>
 #include <vector>
 
@@ -119,8 +120,8 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandard()
         uniform vec4 color;
         uniform sampler2D tex;
 
-        uniform vec4 g_lightPosType[4];
-        uniform vec4 g_lightColorRange[4];
+        uniform vec4 g_lightPosType[SCENE_LIGHTS];
+        uniform vec4 g_lightColorRange[SCENE_LIGHTS];
         uniform float specularity;
 
         vec3 computeLight()
@@ -128,7 +129,7 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withSourceStandard()
             vec3 lightColor = g_ambientLight.xyz;
             vec3 normal = normalize(vNormal);
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < SCENE_LIGHTS; i++)
             {
                 bool isDirectional = g_lightPosType[i].w == 0.0;
                 bool isPoint       = g_lightPosType[i].w == 1.0;
@@ -360,6 +361,9 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withName(std::string_view name)
 
 std::shared_ptr<Shader> Shader::ShaderBuilder::build()
 {
+    // 正则替换
+    m_vertexShaderStr = std::regex_replace(m_vertexShaderStr, std::regex("SCENE_LIGHTS"), std::to_string(Renderer::s_maxSceneLights));
+    m_fragmentShaderStr = std::regex_replace(m_fragmentShaderStr, std::regex("SCENE_LIGHTS"), std::to_string(Renderer::s_maxSceneLights));
     if (m_name.empty())
     {
         m_name = "Unnamed shader";
@@ -479,9 +483,13 @@ bool Shader::setLights(WorldLights* worldLights, const glm::mat4& viewTransform)
     if (worldLights == nullptr)
     {
         glUniform3f(m_uniformLocationAmbientLight, 0, 0, 0);
-        static float noLight[4 * 4] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        glUniform4fv(m_uniformLocationLightPosType, 4, noLight);
-        glUniform4fv(m_uniformLocationLightColorRange, 4, noLight);
+        static float noLight[Renderer::s_maxSceneLights * 4];
+        for (int i = 0; i < Renderer::s_maxSceneLights * 4; i++)
+        {
+            noLight[i] = 0;
+        }
+        glUniform4fv(m_uniformLocationLightPosType, Renderer::s_maxSceneLights, noLight);
+        glUniform4fv(m_uniformLocationLightColorRange, Renderer::s_maxSceneLights, noLight);
         return false;
     }
     if (m_uniformLocationAmbientLight != -1)
@@ -490,9 +498,9 @@ bool Shader::setLights(WorldLights* worldLights, const glm::mat4& viewTransform)
     }
     if (m_uniformLocationLightPosType != -1 && m_uniformLocationLightColorRange != -1)
     {
-        glm::vec4 lightPosType[4];
-        glm::vec4 lightColorRange[4];
-        for (int i = 0; i < 4; i++)
+        glm::vec4 lightPosType[Renderer::s_maxSceneLights];
+        glm::vec4 lightColorRange[Renderer::s_maxSceneLights];
+        for (int i = 0; i < Renderer::s_maxSceneLights; i++)
         {
             auto light = worldLights->getLight(i);
             if (light == nullptr || light->type == Light::Type::Unused)
@@ -514,11 +522,11 @@ bool Shader::setLights(WorldLights* worldLights, const glm::mat4& viewTransform)
         }
         if (m_uniformLocationLightPosType != -1)
         {
-            glUniform4fv(m_uniformLocationLightPosType, 4, glm::value_ptr(lightPosType[0]));
+            glUniform4fv(m_uniformLocationLightPosType, Renderer::s_maxSceneLights, glm::value_ptr(lightPosType[0]));
         }
         if (m_uniformLocationLightColorRange != -1)
         {
-            glUniform4fv(m_uniformLocationLightColorRange, 4, glm::value_ptr(lightColorRange[0]));
+            glUniform4fv(m_uniformLocationLightColorRange, Renderer::s_maxSceneLights, glm::value_ptr(lightColorRange[0]));
         }
     }
     return true;
@@ -726,24 +734,24 @@ void Shader::updateUniformsAndAttributes()
             }
             if (strcmp(name, "g_lightPosType") == 0)
             {
-                if (uniformType == UniformType::Vec4 && size == 4)
+                if (uniformType == UniformType::Vec4 && size == Renderer::s_maxSceneLights)
                 {
                     m_uniformLocationLightPosType = location;
                 }
                 else
                 {
-                    LOG_ERROR("Invalid g_lightPosType uniform type. Expected vec4[4].was {}", c_str(uniformType));
+                    LOG_ERROR("Invalid g_lightPosType uniform type. Expected vec4[Renderer::s_maxSceneLights].was {}", c_str(uniformType));
                 }
             }
             if (strcmp(name, "g_lightColorRange") == 0)
             {
-                if (uniformType == UniformType::Vec4 && size == 4)
+                if (uniformType == UniformType::Vec4 && size == Renderer::s_maxSceneLights)
                 {
                     m_uniformLocationLightColorRange = location;
                 }
                 else
                 {
-                    LOG_ERROR("Invalid g_lightPosType uniform type. Expected vec4[4].was {}", c_str(uniformType));
+                    LOG_ERROR("Invalid g_lightPosType uniform type. Expected vec4[Renderer::s_maxSceneLights].was {}", c_str(uniformType));
                 }
             }
         }

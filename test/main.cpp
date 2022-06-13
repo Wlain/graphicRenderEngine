@@ -19,8 +19,9 @@ extern void customMeshLayoutDefaultValuesTest();
 extern void textureTest();
 extern void multiCameraTest();
 extern void screePointToRayTest();
+
 int main()
 {
-    objTest();
+    cubeTest();
     return 0;
 }

@@ -114,6 +114,7 @@ private:
     friend class RenderPass;
     friend class FrameBuffer;
     friend class Profiler;
+    friend class Sprite;
 };
 } // namespace re
 

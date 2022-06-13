@@ -17,6 +17,8 @@ Sprite::~Sprite() = default;
 Sprite::Sprite(glm::ivec2 spritePos, glm::ivec2 spriteSize, glm::vec2 spriteAnchor, Texture* texture) :
     m_spritePos(std::move(spritePos)), m_spriteSize(std::move(spriteSize)), m_spriteAnchor(std::move(spriteAnchor)), m_texture(texture)
 {
+    m_order.globalOrder = 0;
+    m_order.details.texture = (uint32_t)texture->m_info.id;
 }
 
 Sprite::Sprite(const Sprite& s) :
@@ -24,13 +26,13 @@ Sprite::Sprite(const Sprite& s) :
     m_position(s.m_position),
     m_scale(s.m_scale),
     m_flip(s.m_flip),
-    m_orderInBatch(s.m_orderInBatch),
     m_color(s.m_color),
     m_spritePos(s.m_spritePos),
     m_spriteSize(s.m_spriteSize),
     m_spriteAnchor(s.m_spriteAnchor),
     m_texture(s.m_texture)
 {
+    m_order.globalOrder = s.m_order.globalOrder;
 }
 
 float Sprite::getRotation() const
@@ -83,14 +85,14 @@ void Sprite::setFlip(const glm::bvec2& flip)
     m_flip = flip;
 }
 
-int Sprite::getOrderInBatch() const
+uint16_t Sprite::getOrderInBatch() const
 {
-    return m_orderInBatch;
+    return m_order.details.orderInBatch;
 }
 
-void Sprite::setOrderInBatch(int orderInBatch)
+void Sprite::setOrderInBatch(uint16_t orderInBatch)
 {
-    m_orderInBatch = orderInBatch;
+    m_order.details.orderInBatch = orderInBatch;
 }
 
 const glm::vec4& Sprite::getColor() const

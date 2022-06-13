@@ -55,10 +55,6 @@ Renderer::~Renderer() = default;
 
 void Renderer::swapWindow()
 {
-    if (RenderPass::s_instance != nullptr)
-    {
-        RenderPass::finish();
-    }
     m_renderStatsLast = m_renderStatsCurrent;
     m_renderStatsCurrent.frame++;
     m_renderStatsCurrent.drawCalls = 0;

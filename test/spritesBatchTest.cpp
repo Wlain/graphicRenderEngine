@@ -30,7 +30,7 @@ public:
         //        auto spriteBatchBuilder = SpriteBatch::create();
         //        auto sprite = m_spriteAtlas->get("lowerLeft.png");
         //        sprite.setPosition({ 100, 100 });
-        //        spriteBatchBuilder.addSprite(sprite);
+        //        spriteBatchBuilder.addSprites(sprite);
         //        renderPass.draw(spriteBatchBuilder.build());
         auto names = m_spriteAtlas->getNames();
         static bool demoWorld = true;

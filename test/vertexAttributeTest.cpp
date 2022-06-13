@@ -61,7 +61,6 @@ public:
         // update material
         material->setColor({ 0, 1, 0, 1 });
         renderPass.draw(mesh, glm::mat4(1), material);
-
         constexpr float offset = -0.2f;
         for (auto& v : verts)
         {

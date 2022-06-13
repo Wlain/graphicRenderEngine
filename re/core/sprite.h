@@ -30,8 +30,8 @@ public:
     const glm::bvec2& getFlip() const;
     void setFlip(const glm::bvec2& flip);
 
-    int getOrderInBatch() const;
-    void setOrderInBatch(int orderInBatch);
+    uint16_t getOrderInBatch() const;
+    void setOrderInBatch(uint16_t orderInBatch);
 
     const glm::vec4& getColor() const;
     void setColor(const glm::vec4& color);
@@ -56,7 +56,16 @@ private:
     glm::vec2 m_spriteAnchor{ 0.0f, 0.0f };
     Texture* m_texture{ nullptr };
     float m_rotation{ 0.0f };
-    int m_orderInBatch{ 0 };
+    union
+    {
+        uint64_t globalOrder;
+        struct
+        {
+            uint16_t drawOrder; // lowest priority
+            uint32_t texture;
+            uint16_t orderInBatch; // highest priority
+        } __attribute__((__packed__)) details;
+    } m_order;
     friend class SpriteAtlas;
     friend class SpriteBatch;
     friend class Profiler;
