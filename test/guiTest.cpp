@@ -21,7 +21,7 @@ public:
     {
         m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
         m_camera.setPerspectiveProjection(60, 0.1, 100);
-        auto shader = Shader::getStandard();
+        auto shader = Shader::getStandardBlinnPhong();
         m_material = shader->createMaterial();
         m_mesh = Mesh::create().withCube().build();
         m_worldLights = std::make_unique<WorldLights>();
@@ -31,7 +31,7 @@ public:
     void render() override
     {
         auto renderPass = RenderPass::create().withCamera(m_camera).withClearColor(true, { m_clearColor.x, m_clearColor.y, m_clearColor.z, 1.0 }).withWorldLights(m_worldLights.get()).build();
-        m_material->setSpecularity(m_specularity);
+        m_material->setSpecularity(Color(1, 1, 1, m_specularity));
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_material);
         ImGui::SliderFloat("specularity", &m_specularity, 0.0f, 40.0f);
         ImGui::ColorEdit3("clear color", (float*)&m_clearColor);
@@ -41,8 +41,8 @@ public:
         ImGui::Text("re draw-calls %i meshes %i (%.2fbytes) textures %i (%.2fbytes) shaders %i", renderStats.drawCalls,
                     renderStats.meshCount, renderStats.meshBytes * bytesToMB, renderStats.textureCount,
                     renderStats.textureBytes * bytesToMB, renderStats.shaderCount);
-        m_profiler.update();
-        m_profiler.gui();
+        m_inspector.update();
+        m_inspector.gui();
     }
 
     void setTitle() override

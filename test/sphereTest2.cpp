@@ -23,11 +23,11 @@ public:
         auto shader = Shader::getStandard();
         m_material = shader->createMaterial();
         m_material->setColor({ 1, 1, 1, 1 });
-        m_material->setSpecularity(50.0f);
+        m_material->setSpecularity({ 1, 1, 1, 50.0f });
         m_pos1 = glm::translate(glm::mat4(1), { -1, 0, 0 });
         m_material2 = shader->createMaterial();
         m_material2->setColor({ 1, 0, 0, 1 });
-        m_material2->setSpecularity(0.0f);
+        m_material2->setSpecularity({ 1, 1, 1, 0.0f });
         m_pos2 = glm::translate(glm::mat4(1), { 1, 0, 0 });
         m_mesh = Mesh::create().withSphere().build();
         m_worldLights = std::make_unique<WorldLights>();
@@ -40,8 +40,8 @@ public:
         auto renderPass = RenderPass::create().withCamera(m_camera).withWorldLights(m_worldLights.get()).build();
         renderPass.draw(m_mesh, m_pos1, m_material);
         renderPass.draw(m_mesh, m_pos2, m_material2);
-        m_profiler.update();
-        m_profiler.gui();
+        m_inspector.update();
+        m_inspector.gui();
     }
 
     void setTitle() override

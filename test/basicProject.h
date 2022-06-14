@@ -3,7 +3,7 @@
 //
 #include "core/glfwRenderer.h"
 #include "core/material.h"
-#include "core/profiler.h"
+#include "core/Inspector.h"
 #include "core/renderer.h"
 #include "core/shader.h"
 #include "core/worldLights.h"
@@ -14,7 +14,7 @@ class BasicProject
 {
 public:
     BasicProject() :
-        m_renderer{}, m_profiler{ 300, &m_renderer }
+        m_renderer{}, m_inspector{ 300, &m_renderer }
     {
         m_renderer.init();
     };
@@ -57,7 +57,7 @@ public:
 protected:
     std::string m_title{ "BasicProject" };
     GLFWRenderer m_renderer;
-    Profiler m_profiler;
+    Inspector m_inspector;
     Camera m_camera;
     std::shared_ptr<Material> m_material;
     std::shared_ptr<Mesh> m_mesh;

@@ -9,8 +9,8 @@ public:
     {
         RenderPass rp = RenderPass::create().withClearColor(true, { 0.0f, 0.0f, 0.0f, 1.0f }).build();
         rp.drawLines({ { -.5, -.5, 0 }, { .5, .5, 0 }, { -.5, .5, 0 }, { .5, -.5, 0 } });
-        m_profiler.update();
-        m_profiler.gui();
+        m_inspector.update();
+        m_inspector.gui();
     }
     void setTitle() override
     {

@@ -22,7 +22,8 @@ public:
         m_camera.setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
         m_camera.setPerspectiveProjection(60, 0.1, 100);
         auto shader = Shader::create()
-                          .withSourceUnlit()
+                          .withSourceFile("unlit_vert.glsl", Shader::ShaderType::Vertex)
+                          .withSourceFile("unlit_frag.glsl", Shader::ShaderType::Fragment)
                           .withName("Unlit")
                           .withCullFace(Shader::CullFace::None)
                           .build();

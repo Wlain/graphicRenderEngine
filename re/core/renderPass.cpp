@@ -53,10 +53,18 @@ RenderPass::RenderPassBuilder::RenderPassBuilder(RenderStats* renderStats) :
 {
 }
 
-RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withClearColor(bool enabled, glm::vec4 color)
+RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withClearColor(bool enabled, Color color)
 {
+    if (Renderer::s_instance->getRenderInfo().useFramebufferSRGB)
+    {
+        auto col3 = glm::convertSRGBToLinear(glm::vec3(color.r, color.g, color.b));
+        m_clearColorValue = { col3, color.a };
+    }
+    else
+    {
+        m_clearColorValue = { color.r, color.g, color.b, color.a };
+    }
     m_clearColor = enabled;
-    m_clearColorValue = color;
     return *this;
 }
 
@@ -121,7 +129,7 @@ RenderPass& RenderPass::operator=(RenderPass&& rp) noexcept
     return *this;
 }
 
-void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color, Mesh::Topology meshTopology)
+void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, Color color, Mesh::Topology meshTopology)
 {
     ASSERT(!m_isFinished && "RenderPass is finished. Can no longer be modified.");
     auto mesh = Mesh::create()
@@ -178,10 +186,15 @@ void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
             glUniformMatrix4fv(shader->m_uniformLocationModel, 1, GL_FALSE, glm::value_ptr(modelTransform));
         }
         // normal
-        if (shader->m_uniformLocationNormal != -1)
+        if (shader->m_uniformLocationModelViewInverseTranspose != -1)
         {
             auto normalMatrix = transpose(inverse((glm::mat3)(m_builder.m_camera.getViewTransform() * modelTransform)));
-            glUniformMatrix3fv(shader->m_uniformLocationNormal, 1, GL_FALSE, glm::value_ptr(normalMatrix));
+            glUniformMatrix3fv(shader->m_uniformLocationModelViewInverseTranspose, 1, GL_FALSE, glm::value_ptr(normalMatrix));
+        }
+        if (shader->m_uniformLocationModelInverseTranspose != -1)
+        {
+            auto normalMatrix = transpose(inverse((glm::mat3)modelTransform));
+            glUniformMatrix3fv(shader->m_uniformLocationModelInverseTranspose, 1, GL_FALSE, glm::value_ptr(normalMatrix));
         }
     }
     else
@@ -205,10 +218,15 @@ void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
             glUniformMatrix4fv(shader->m_uniformLocationProjection, 1, GL_FALSE, glm::value_ptr(m_projection));
         }
         // normal
-        if (shader->m_uniformLocationNormal != -1)
+        if (shader->m_uniformLocationModelViewInverseTranspose != -1)
         {
             auto normalMatrix = transpose(inverse((glm::mat3)(m_builder.m_camera.getViewTransform() * modelTransform)));
-            glUniformMatrix3fv(shader->m_uniformLocationNormal, 1, GL_FALSE, glm::value_ptr(normalMatrix));
+            glUniformMatrix3fv(shader->m_uniformLocationModelViewInverseTranspose, 1, GL_FALSE, glm::value_ptr(normalMatrix));
+        }
+        if (shader->m_uniformLocationModelInverseTranspose != -1)
+        {
+            auto normalMatrix = transpose(inverse((glm::mat3)modelTransform));
+            glUniformMatrix3fv(shader->m_uniformLocationModelInverseTranspose, 1, GL_FALSE, glm::value_ptr(normalMatrix));
         }
         // viewport
         if (shader->m_uniformLocationViewport != -1)
@@ -216,7 +234,12 @@ void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
             glm::vec4 viewport((float)m_viewportSize.x, (float)m_viewportSize.y, (float)m_viewportOffset.x, (float)m_viewportOffset.y);
             glUniform4fv(shader->m_uniformLocationViewport, 1, glm::value_ptr(viewport));
         }
-        shader->setLights(m_builder.m_worldLights, m_builder.m_camera.getViewTransform());
+        if (shader->m_uniformLocationCameraPosition != -1)
+        {
+            glm::vec4 cameraPos = glm::vec4(m_builder.m_camera.getPosition(), 1.0f);
+            glUniform4fv(shader->m_uniformLocationCameraPosition, 1, glm::value_ptr(cameraPos));
+        }
+        shader->setLights(m_builder.m_worldLights);
     }
 }
 
@@ -257,7 +280,7 @@ void RenderPass::finish()
     // 0u:表示无符号整型:0
     if (clear != 0u) glClear(clear);
 
-    m_projection = m_builder.m_camera.getProjectionTransform(framebufferSize);
+    m_projection = m_builder.m_camera.getProjectionTransform(m_viewportSize);
     for (auto& rqObj : m_renderQueue)
     {
         drawInstance(rqObj);
@@ -286,7 +309,7 @@ void RenderPass::finish()
 #endif
 }
 
-std::vector<glm::vec4> RenderPass::readPixels(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
+std::vector<Color> RenderPass::readPixels(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
 {
     ASSERT(m_isFinished);
     finish();
@@ -294,7 +317,7 @@ std::vector<glm::vec4> RenderPass::readPixels(unsigned int x, unsigned int y, un
     {
         m_builder.m_framebuffer->bind();
     }
-    std::vector<glm::vec4> res(width * height);
+    std::vector<Color> res(width * height);
     std::vector<glm::u8vec4> resUnsigned(width * height);
     glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, resUnsigned.data());
     for (int i = 0; i < resUnsigned.size(); i++)
@@ -304,7 +327,11 @@ std::vector<glm::vec4> RenderPass::readPixels(unsigned int x, unsigned int y, un
             res[i][j] = resUnsigned[i][j] / 255.0f;
         }
     }
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    // set default framebuffer
+    if (m_builder.m_framebuffer != nullptr)
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
     return res;
 }
 

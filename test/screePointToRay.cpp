@@ -41,22 +41,22 @@ public:
                                     .withRange(4)
                                     .build());
 
-        m_material = Shader::getStandard()->createMaterial();
+        m_material = Shader::getStandardBlinnPhong()->createMaterial();
         m_material->setColor({ 1, 1, 1, 1 });
-        m_material->setSpecularity(0);
+        m_material->setSpecularity(Color(0, 0, 0,0));
 
-        m_matPlane = Shader::getStandard()->createMaterial();
+        m_matPlane = Shader::getStandardBlinnPhong()->createMaterial();
         m_matPlane->setColor({ 1, 1, 1, 1 });
-        m_matPlane->setSpecularity(0);
+        m_matPlane->setSpecularity(Color(0, 0, 0,0));
 
-        m_materia2 = Shader::getStandard()->createMaterial();
+        m_materia2 = Shader::getStandardBlinnPhong()->createMaterial();
         m_materia2->setColor({ 1, 0, 0, 1 });
-        m_materia2->setSpecularity(0);
+        m_materia2->setSpecularity(Color(0, 0, 0,0));
     }
 
     void updateMaterial(std::shared_ptr<Material>& mat)
     {
-        mat->setColor(glm::vec4(glm::linearRand(0.0f, 1.0f), glm::linearRand(0.0f, 1.0f), glm::linearRand(0.0f, 1.0f), 1));
+        mat->setColor(Color(glm::linearRand(0.0f, 1.0f), glm::linearRand(0.0f, 1.0f), glm::linearRand(0.0f, 1.0f), 1));
     }
 
     float rayToSphere(std::array<glm::vec3, 2> ray, glm::vec3 sphereCenter)

@@ -17,7 +17,7 @@ public:
         for (int i = 0; i < 4; i++)
         {
             m_material[i] = Shader::getUnlit()->createMaterial();
-            glm::vec4 color(1, 1, 1, 1);
+            Color color(1, 1, 1, 1);
             color[i] = 0;
             m_material[i]->setColor(color);
         }

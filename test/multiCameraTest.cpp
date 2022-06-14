@@ -19,9 +19,9 @@ public:
         m_camera2.setPerspectiveProjection(60, 0.1, 100);
         m_camera2.setViewport({ 0, 0.8 }, { 0.2, 0.2 });
 
-        m_material = Shader::getStandard()->createMaterial();
+        m_material = Shader::getStandardBlinnPhong()->createMaterial();
         m_material->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-        m_material->setSpecularity(20.0f);
+        m_material->setSpecularity(Color(1, 1, 1, 20.0f));
 
         m_mesh = Mesh::create().withCube().build();
         m_worldLights = MAKE_UNIQUE(m_worldLights);

@@ -36,9 +36,9 @@ Light::LightBuilder& Light::LightBuilder::withDirectionalLight(glm::vec3 dir)
     return *this;
 }
 
-Light::LightBuilder& Light::LightBuilder::withColor(glm::vec3 col)
+Light::LightBuilder& Light::LightBuilder::withColor(Color color, float intensity)
 {
-    m_color = col;
+    m_color = glm::vec3(color.toLinear()) * intensity;
     return *this;
 }
 

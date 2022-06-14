@@ -37,7 +37,7 @@ public:
         RenderPassBuilder& withCamera(const Camera& camera);
         RenderPassBuilder& withWorldLights(WorldLights* worldLights);
         // Set the clear color.Default enabled with the color value {1.0,0.0,0.0,1.0}
-        RenderPassBuilder& withClearColor(bool enabled = true, glm::vec4 color = { 0, 0, 0, 1 });
+        RenderPassBuilder& withClearColor(bool enabled = true, Color color = { 0, 0, 0, 1 });
         // Set the clear depth. Value is clamped between [0.0;1.0], Default: enabled with depth value 1.0
         RenderPassBuilder& withClearDepth(bool enabled = true, float value = 1);
         // Set the clear depth. Value is clamped between, Default: disabled
@@ -75,13 +75,13 @@ public:
     RenderPass(RenderPass&& rp) noexcept;
     RenderPass& operator=(RenderPass&& other) noexcept;
     virtual ~RenderPass();
-    void drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }, Mesh::Topology meshTopology = Mesh::Topology::Lines);
+    void drawLines(const std::vector<glm::vec3>& vertices, Color color = { 1.0f, 1.0f, 1.0f, 1.0f }, Mesh::Topology meshTopology = Mesh::Topology::Lines);
     void draw(const std::shared_ptr<Mesh>& mesh, glm::mat4 modelTransform, std::shared_ptr<Material>& material);
     void draw(std::shared_ptr<Mesh>& mesh, glm::mat4 modelTransform, std::vector<std::shared_ptr<Material>>& materials);
     void draw(std::shared_ptr<SpriteBatch>& spriteBatch, glm::mat4 modelTransform = glm::mat4(1));
     void draw(std::shared_ptr<SpriteBatch>&& spriteBatch, glm::mat4 modelTransform = glm::mat4(1));
 
-    std::vector<glm::vec4> readPixels(unsigned int x, unsigned int y, unsigned int width = 1, unsigned int height = 1);
+    std::vector<Color> readPixels(unsigned int x, unsigned int y, unsigned int width = 1, unsigned int height = 1);
     // flush GPU command buffer (must be called when profiling GPU time - should not be called when not profiling)
     void finishGPUCommandBuffer() const;
     void finish();
@@ -90,8 +90,7 @@ public:
 private:
     explicit RenderPass(RenderPass::RenderPassBuilder& builder);
     void setupShader(const glm::mat4& modelTransform, Shader* shader);
-    void finishInstance();
-    void drawInstance(RenderQueueObj& rqObj);                       // perform the actual rendering
+    void drawInstance(RenderQueueObj& rqObj); // perform the actual rendering
 
 private:
     RenderPass::RenderPassBuilder m_builder;

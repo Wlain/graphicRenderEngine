@@ -12,18 +12,19 @@ public:
 
     void initialize() override
     {
-        std::vector<glm::vec4> positions({ { 0, 0.5, 0, 1 },
-                                           { -0.5, 0, 0, 1 },
-                                           { 0.5, 0, 0, 1 } });
+        std::vector<glm::vec3> positions({ { 0, 0.5, 0 },
+                                           { -0.5, 0, 0 },
+                                           { 0.5, 0, 0 } });
         std::vector<glm::vec4> colors({
             { 1, 0, 0, 1 },
             { 0, 1, 0, 1 },
             { 0, 0, 1, 1 },
         });
         m_mesh = Mesh::create()
-                     .withAttribute("posxyzw", positions)
+                     .withPositions(positions)
                      .withAttribute("color", colors)
                      .build();
+
         std::string vertexShaderSource = R"(#version 330
             in vec4 posxyzw;
             in vec4 color;
@@ -45,11 +46,7 @@ public:
                 fragColor = vColor;
             }
         )";
-        m_material = Shader::create()
-                         .withSourceString(vertexShaderSource, Shader::ShaderType::Vertex)
-                         .withSourceString(fragmentShaderSource, Shader::ShaderType::Fragment)
-                         .build()
-                         ->createMaterial();
+        m_material = Shader::getUnlit()->createMaterial({ { "S_VERTEX_COLOR", "1" } });
     }
 
     void render() override
