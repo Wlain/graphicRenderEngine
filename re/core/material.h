@@ -30,13 +30,14 @@ public:
     [[nodiscard]] const std::string& getName() const;
     void setName(std::string_view name);
     // uniform parameters
-    glm::vec4 getColor();
-    bool setColor(const glm::vec4& color);
+    Color getColor();
+    bool setColor(const Color& color);
     float getSpecularity();
     bool setSpecularity(float specularity);
     std::shared_ptr<Texture> getTexture();
     bool setTexture(std::shared_ptr<Texture> texture);
     bool set(std::string_view uniformName, const glm::vec4& value);
+    bool set(std::string_view uniformName, Color value);
     bool set(std::string_view uniformName, float value);
     bool set(std::string_view uniformName, std::shared_ptr<Texture>);
     template <typename T>

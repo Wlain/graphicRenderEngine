@@ -113,7 +113,7 @@ private:
     friend class Material;
     friend class RenderPass;
     friend class FrameBuffer;
-    friend class Profiler;
+    friend class Inspector;
     friend class Sprite;
 };
 } // namespace re

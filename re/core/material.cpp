@@ -26,7 +26,7 @@ void Material::bind()
     {
         glActiveTexture(GL_TEXTURE0 + slot);
         glBindTexture(v.value->m_info.target, v.value->m_info.id);
-        glUniform1i(v.id, slot);
+        glUniform1i(v.id, slot++);
     }
     for (const auto& v : m_vectorValues)
     {
@@ -118,6 +118,22 @@ std::shared_ptr<Texture> Material::get(std::string_view uniformName)
 }
 
 template <>
+Color Material::get(std::string_view uniformName)
+{
+    auto t = m_shader->getUniformType(uniformName.data());
+    for (auto& v : m_vectorValues)
+    {
+        if (v.id == t.id)
+        {
+            Color value;
+            value.setFromLinear(v.value);
+            return value;
+        }
+    }
+    return { 0.0, 0.0f, 0.0f, 0.0f };
+}
+
+template <>
 glm::vec4 Material::get(std::string_view uniformName)
 {
     auto t = m_shader->getUniformType(uniformName.data());
@@ -153,12 +169,12 @@ float Material::get(std::string_view uniformName)
     return 0.0f;
 }
 
-glm::vec4 Material::getColor()
+Color Material::getColor()
 {
-    return get<glm::vec4>("color");
+    return get<Color>("color");
 }
 
-bool Material::setColor(const glm::vec4& color)
+bool Material::setColor(const Color& color)
 {
     return set("color", color);
 }
@@ -193,6 +209,20 @@ bool Material::set(std::string_view uniformName, const glm::vec4& value)
             v.value = value;
             return true;
         }
+    }
+    return false;
+}
+
+bool Material::set(std::string_view uniformName, Color value)
+{
+    auto type = m_shader->getUniformType(uniformName.data());
+    for (auto& v : m_vectorValues)
+    {
+        if (v.id == type.id)
+        {
+            v.value = value.toLinear();
+        }
+        return true;
     }
     return false;
 }

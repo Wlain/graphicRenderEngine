@@ -2,8 +2,8 @@
 // Created by william on 2022/6/1.
 //
 
-#ifndef SIMPLERENDERENGINE_PROFILER_H
-#define SIMPLERENDERENGINE_PROFILER_H
+#ifndef SIMPLERENDERENGINE_INSPECTOR_H
+#define SIMPLERENDERENGINE_INSPECTOR_H
 #include "framebuffer.h"
 #include "renderStats.h"
 #include "timer.h"
@@ -21,10 +21,10 @@ class Shader;
 class FrameBuffer;
 class SpriteAtlas;
 
-class Profiler
+class Inspector
 {
 public:
-    explicit Profiler(int frames = 300, GLFWRenderer* renderer = nullptr);
+    explicit Inspector(int frames = 300, GLFWRenderer* renderer = nullptr);
 
     void update();
     void gui(bool useWindow = true);
@@ -55,4 +55,4 @@ private:
 };
 } // namespace re
 
-#endif //SIMPLERENDERENGINE_PROFILER_H
+#endif //SIMPLERENDERENGINE_INSPECTOR_H

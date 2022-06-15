@@ -4,6 +4,7 @@
 
 #include "modelImporter.h"
 
+#include "color.h"
 #include "commonMacro.h"
 #include "mesh.h"
 #include "utils.h"
@@ -103,6 +104,19 @@ glm::vec3 toVec3(std::vector<std::string>& tokens)
     return res;
 }
 
+Color toColorRGB(std::vector<std::string>& tokens)
+{
+    Color res{ 0, 0, 0 };
+    for (int i = 0; i < 3; i++)
+    {
+        if (i + 1 < tokens.size())
+        {
+            res[i] = (float)atof(tokens[i + 1].c_str());
+        }
+    }
+    return res;
+}
+
 // replace first occurrence of from in str with to
 bool replace(std::string& str, const std::string& from, const std::string& to)
 {
@@ -170,9 +184,9 @@ struct ObjTextureMap
 struct ObjMaterial
 {
     std::string name;
-    glm::vec3 ambientColor;    // Ka
-    glm::vec3 diffuseColor;    // Kd
-    glm::vec3 specularColor;   // Ks
+    Color ambientColor;        // Ka
+    Color diffuseColor;        // Kd
+    Color specularColor;       // Ks
     float specularCoefficient; // Ns
     float transparent;         // d or Tr
     std::vector<ObjIlluminationMode> illuminationModes;
@@ -238,7 +252,7 @@ void parseMaterialLib(std::string& materialLib, std::vector<ObjMaterial>& materi
         }
         if (tokens[0] == "newmtl")
         {
-            glm::vec3 zero{ 0, 0, 0 };
+            Color zero{ 0, 0, 0, 0 };
             auto name = concat(tokens, 1);
             ObjMaterial material{ replaceAll(name, "\r", ""), zero, zero, zero, 50, 1 };
             materials.push_back(material);
@@ -252,15 +266,15 @@ void parseMaterialLib(std::string& materialLib, std::vector<ObjMaterial>& materi
             ObjMaterial& currentMat = materials.back();
             if (tokens[0] == "Ka")
             {
-                currentMat.ambientColor = toVec3(tokens);
+                currentMat.ambientColor = toColorRGB(tokens);
             }
             else if (tokens[0] == "Kd")
             {
-                currentMat.diffuseColor = toVec3(tokens);
+                currentMat.diffuseColor = toColorRGB(tokens);
             }
             else if (tokens[0] == "Ks")
             {
-                currentMat.specularColor = toVec3(tokens);
+                currentMat.specularColor = toColorRGB(tokens);
             }
             else if (tokens[0] == "d")
             {
@@ -367,7 +381,7 @@ std::shared_ptr<Material> createMaterial(std::string materialName, const std::ve
     auto shader = Shader::getStandard();
     auto material = shader->createMaterial();
 
-    material->setColor({ foundMat->diffuseColor, 1.0 });
+    material->setColor(foundMat->diffuseColor);
     material->setSpecularity(foundMat->specularCoefficient);
     auto name = materialName;
     for (auto& map : foundMat->textureMaps)

@@ -121,7 +121,7 @@ RenderPass& RenderPass::operator=(RenderPass&& rp) noexcept
     return *this;
 }
 
-void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, glm::vec4 color, Mesh::Topology meshTopology)
+void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, Color color, Mesh::Topology meshTopology)
 {
     ASSERT(!m_isFinished && "RenderPass is finished. Can no longer be modified.");
     auto mesh = Mesh::create()

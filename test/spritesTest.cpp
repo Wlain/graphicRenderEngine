@@ -75,8 +75,8 @@ public:
         updateParticlesAnimation(m_totalTime, spriteUV, m_uvSize, m_uvRotation);
         updateParticles(m_mesh.get(), spriteUV, m_uvSize, m_uvRotation, m_spritesize);
         renderPass.draw(m_mesh, glm::mat4(1), m_material);
-        m_profiler.update();
-        m_profiler.gui();
+        m_inspector.update();
+        m_inspector.gui();
     }
 
     void setTitle() override

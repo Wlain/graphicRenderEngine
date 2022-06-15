@@ -112,8 +112,8 @@ public:
         auto& renderStats = Renderer::s_instance->getRenderStats();
         float bytesToMB = 1.0f / (1024 * 1024);
         ImGui::Text("re draw-calls %i meshes %i (%.2fMB) textures %i (%.2fMB) shaders %i", renderStats.drawCalls, renderStats.meshCount, renderStats.meshBytes * bytesToMB, renderStats.textureCount, renderStats.textureBytes * bytesToMB, renderStats.shaderCount);
-        m_profiler.update();
-        m_profiler.gui();
+        m_inspector.update();
+        m_inspector.gui();
     }
     void setTitle() override
     {

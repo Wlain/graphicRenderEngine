@@ -4,6 +4,8 @@
 
 #ifndef SIMPLERENDERENGINE_LIGHT_H
 #define SIMPLERENDERENGINE_LIGHT_H
+#include "color.h"
+
 #include <glm/glm.hpp>
 namespace re
 {
@@ -22,7 +24,7 @@ struct Light
         LightBuilder& withPointLight(glm::vec3 position);
         LightBuilder& withDirectionalLight(glm::vec3 direction);
         // light color.
-        LightBuilder& withColor(glm::vec3 color);
+        LightBuilder& withColor(Color color, float intensity = 1.0);
         // range only valid using point light
         LightBuilder& withRange(float range);
         Light& build();

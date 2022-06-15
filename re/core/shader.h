@@ -190,7 +190,7 @@ private:
     friend class Mesh;
     friend class RenderPass;
     friend class Material;
-    friend class Profiler;
+    friend class Inspector;
 };
 } // namespace re
 

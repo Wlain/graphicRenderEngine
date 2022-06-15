@@ -56,7 +56,7 @@ public:
 
     void updateMaterial(std::shared_ptr<Material>& mat)
     {
-        mat->setColor(glm::vec4(glm::linearRand(0.0f, 1.0f), glm::linearRand(0.0f, 1.0f), glm::linearRand(0.0f, 1.0f), 1));
+        mat->setColor(Color(glm::linearRand(0.0f, 1.0f), glm::linearRand(0.0f, 1.0f), glm::linearRand(0.0f, 1.0f), 1));
     }
 
     float rayToSphere(std::array<glm::vec3, 2> ray, glm::vec3 sphereCenter)

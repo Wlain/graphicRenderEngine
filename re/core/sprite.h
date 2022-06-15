@@ -71,7 +71,7 @@ private:
     } m_order;
     friend class SpriteAtlas;
     friend class SpriteBatch;
-    friend class Profiler;
+    friend class Inspector;
 };
 } // namespace re
 

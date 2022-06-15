@@ -54,11 +54,10 @@ private:
     friend class Mesh;
     friend class Mesh::MeshBuilder;
     friend class Shader;
-    friend class Shader;
     friend class Texture;
     friend class Camera;
     friend class RenderPass;
-    friend class Profiler;
+    friend class Inspector;
     friend class FrameBuffer;
     friend class SpriteAtlas;
 };

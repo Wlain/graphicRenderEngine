@@ -22,6 +22,6 @@ extern void screePointToRayTest();
 
 int main()
 {
-    pickColorTest();
+    screePointToRayTest();
     return 0;
 }

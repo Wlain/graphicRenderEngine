@@ -2,7 +2,7 @@
 // Created by william on 2022/6/1.
 //
 
-#include "profiler.h"
+#include "Inspector.h"
 
 #include "framebuffer.h"
 #include "glCommonDefine.h"
@@ -92,7 +92,7 @@ std::string glUniformToString(Shader::UniformType type)
     }
 }
 
-Profiler::Profiler(int frames, GLFWRenderer* renderer) :
+Inspector::Inspector(int frames, GLFWRenderer* renderer) :
     m_frames(frames), m_renderer(renderer)
 {
     m_stats.resize(frames);
@@ -101,7 +101,7 @@ Profiler::Profiler(int frames, GLFWRenderer* renderer) :
     m_data.resize(frames);
 }
 
-void Profiler::update()
+void Inspector::update()
 {
     m_usedTextures = 0;
     auto deltaTime = (float)m_timer.elapsedMicro();
@@ -111,7 +111,7 @@ void Profiler::update()
     m_frameCount++;
 }
 
-void Profiler::gui(bool useWindow)
+void Inspector::gui(bool useWindow)
 {
     auto* r = Renderer::s_instance;
     if (useWindow)
@@ -292,7 +292,7 @@ void Profiler::gui(bool useWindow)
     }
 }
 
-void Profiler::showTexture(Texture* tex)
+void Inspector::showTexture(Texture* tex)
 {
     std::string s = tex->name() + "##" + std::to_string((int64_t)tex);
     if (ImGui::TreeNode(s.c_str()))
@@ -311,7 +311,7 @@ void Profiler::showTexture(Texture* tex)
     }
 }
 
-void Profiler::showMesh(Mesh* mesh)
+void Inspector::showMesh(Mesh* mesh)
 {
     std::string s = mesh->name() + "##" + std::to_string((int64_t)mesh);
     if (ImGui::TreeNode(s.c_str()))
@@ -385,7 +385,7 @@ void Profiler::showMesh(Mesh* mesh)
     }
 }
 
-void Profiler::showShader(Shader* shader)
+void Inspector::showShader(Shader* shader)
 {
     std::string s = shader->name() + "##" + std::to_string((int64_t)shader);
     if (ImGui::TreeNode(s.c_str()))
@@ -458,7 +458,7 @@ void Profiler::showShader(Shader* shader)
     }
 }
 
-void Profiler::showFramebufferObject(FrameBuffer* fbo)
+void Inspector::showFramebufferObject(FrameBuffer* fbo)
 {
     std::string s = fbo->name() + "##" + std::to_string((int64_t)fbo);
     if (ImGui::TreeNode(s.c_str()))
@@ -467,7 +467,7 @@ void Profiler::showFramebufferObject(FrameBuffer* fbo)
     }
 }
 
-void Profiler::showSpriteAtlas(SpriteAtlas* pAtlas)
+void Inspector::showSpriteAtlas(SpriteAtlas* pAtlas)
 {
     std::string s = pAtlas->getAtlasName() + "##" + std::to_string((int64_t)pAtlas);
     if (ImGui::TreeNode(s.c_str()))
@@ -506,7 +506,7 @@ void Profiler::showSpriteAtlas(SpriteAtlas* pAtlas)
     }
 }
 
-std::shared_ptr<Texture> Profiler::getTmpTexture()
+std::shared_ptr<Texture> Inspector::getTmpTexture()
 {
     if (m_usedTextures < m_offscreenTextures.size())
     {
@@ -520,7 +520,7 @@ std::shared_ptr<Texture> Profiler::getTmpTexture()
     return offscreenTex;
 }
 
-void Profiler::initFramebuffer()
+void Inspector::initFramebuffer()
 {
     if (m_framebuffer == nullptr)
     {

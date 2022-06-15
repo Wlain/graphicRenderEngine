@@ -39,8 +39,8 @@ public:
                               .build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)) * glm::translate(m_offset), m_materials);
         lightGUI();
-        m_profiler.update();
-        m_profiler.gui();
+        m_inspector.update();
+        m_inspector.gui();
     }
 
     void loadObjFile(std::string file)
