@@ -360,7 +360,7 @@ std::shared_ptr<Material> createMaterial(std::string materialName, const std::ve
 {
     if (matVector.empty())
     {
-        auto shader = Shader::getStandard();
+        auto shader = Shader::getStandardBlinnPhong();
         auto material = shader->createMaterial();
         return material;
     }
@@ -378,11 +378,11 @@ std::shared_ptr<Material> createMaterial(std::string materialName, const std::ve
         LOG_ERROR("Could not find material {}", materialName);
         foundMat = matVector.data();
     }
-    auto shader = Shader::getStandard();
+    auto shader = Shader::getStandardBlinnPhong();
     auto material = shader->createMaterial();
 
     material->setColor(foundMat->diffuseColor);
-    material->setSpecularity(foundMat->specularCoefficient);
+    material->setSpecularity({ foundMat->specularColor.r, foundMat->specularColor.g, foundMat->specularColor.b, foundMat->specularCoefficient });
     auto name = materialName;
     for (auto& map : foundMat->textureMaps)
     {

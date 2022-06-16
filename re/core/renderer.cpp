@@ -18,9 +18,9 @@ Renderer::Renderer(GLFWwindow* window, bool vsync) :
     }
     s_instance = this;
     glfwMakeContextCurrent(window);
-    if(m_vsync)
+    if (m_vsync)
     {
-       glfwSwapInterval(1); // 开启垂直同步
+        glfwSwapInterval(1); // 开启垂直同步
     }
     GLenum err = glewInit();
     if (err != GLEW_OK)
@@ -74,5 +74,15 @@ glm::ivec2 Renderer::getWindowSize()
     glm::ivec2 size;
     glfwGetWindowSize(m_window, &size.r, &size.g);
     return size;
+}
+
+int Renderer::getMaxSceneLights()
+{
+    return maxSceneLights;
+}
+
+const Renderer::RenderInfo& re::Renderer::getRenderInfo()
+{
+    return m_renderInfo;
 }
 } // namespace re

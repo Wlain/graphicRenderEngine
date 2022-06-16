@@ -15,14 +15,15 @@ class QuadExample : public BasicProject
 {
 public:
     using BasicProject::BasicProject;
-    ~QuadExample() = default;
+    ~QuadExample() override = default;
 
     void initialize() override
     {
         m_camera.setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
         m_camera.setPerspectiveProjection(60, 0.1, 100);
         auto shader = Shader::create()
-                          .withSourceUnlit()
+                          .withSourceFile("unlit_vert.glsl", Shader::ShaderType::Vertex)
+                          .withSourceFile("unlit_frag.glsl", Shader::ShaderType::Fragment)
                           .withName("Unlit")
                           .withCullFace(Shader::CullFace::None)
                           .build();
@@ -36,6 +37,8 @@ public:
         /// 渲染
         auto renderPass = RenderPass::create().withCamera(m_camera).withWorldLights(m_worldLights.get()).build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_material);
+        m_inspector.update();
+        m_inspector.gui();
     }
 
     void setTitle() override

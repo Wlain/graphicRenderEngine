@@ -22,6 +22,6 @@ extern void screePointToRayTest();
 
 int main()
 {
-    screePointToRayTest();
+    quadTest();
     return 0;
 }
