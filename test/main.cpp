@@ -22,6 +22,6 @@ extern void screePointToRayTest();
 
 int main()
 {
-    particleTest();
+    objTest();
     return 0;
 }

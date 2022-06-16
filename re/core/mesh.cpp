@@ -123,8 +123,8 @@ void Mesh::update(std::map<std::string, std::vector<float>>&& attributesFloat, s
     }
     m_boundsMinMax[0] = glm::vec3{ std::numeric_limits<float>::max() };
     m_boundsMinMax[1] = glm::vec3{ -std::numeric_limits<float>::max() };
-    auto pos = attributesVec3.find("position");
-    if (pos != attributesVec3.end())
+    auto pos = m_attributesVec3.find("position");
+    if (pos != m_attributesVec3.end())
     {
         for (const auto& v : pos->second)
         {
@@ -215,7 +215,7 @@ Mesh::MeshBuilder Mesh::update()
     return builder;
 }
 
-int Mesh::getDataSize()
+int Mesh::getDataSize() const
 {
     return m_dataSize;
 }
@@ -706,7 +706,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withIndices(const std::vector<uint16_t>& i
 {
     while (indexSet >= m_indices.size())
     {
-        m_indices.push_back({});
+        m_indices.emplace_back();
     }
     while (indexSet >= m_topologies.size())
     {
@@ -814,7 +814,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withTorus(int segmentsC, int segmentsA, fl
     int index = 0;
 
     // create vertices
-    for (unsigned short j = 0; j <= segmentsC; j++)
+    for (int j = 0; j <= segmentsC; j++)
     {
         // outer circle
         float u = glm::two_pi<float>() * j / (float)segmentsC;
