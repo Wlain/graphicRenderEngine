@@ -20,14 +20,13 @@ public:
     {
         m_camera.setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
         m_camera.setPerspectiveProjection(60, 0.1, 100);
-        auto shader = Shader::getStandard();
-        m_material = shader->createMaterial();
+        m_material = Shader::getStandard()->createMaterial();
         m_material->setColor({ 1, 1, 1, 1 });
-        m_material->setSpecularity(50.0f);
+        m_material->setSpecularity({ 0, 0, 0, 50.0f });
         m_pos1 = glm::translate(glm::mat4(1), { -1, 0, 0 });
-        m_material2 = shader->createMaterial();
-        m_material2->setColor({ 1, 0, 0, 1 });
-        m_material2->setSpecularity(0.0f);
+        m_material2 = Shader::getUnlit()->createMaterial();
+        m_material2->setColor({ 1, 1, 0, 1 });
+        m_material2->setSpecularity({ 0, 0, 0, 0.0f });
         m_pos2 = glm::translate(glm::mat4(1), { 1, 0, 0 });
         m_mesh = Mesh::create().withSphere().build();
         m_worldLights = std::make_unique<WorldLights>();

@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON) # 设置指定的C++版本
 # modify flat to -std=c++20 rather than -std=gnu++20
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+add_definitions(-DCURRENT_EMBEDDED_DIR="${PROJECT_SOURCE_DIR}/re/embeddedDeps/")
 add_definitions(-DCURRENT_PROJECT_DIR="${PROJECT_SOURCE_DIR}/")
 
 # glfw

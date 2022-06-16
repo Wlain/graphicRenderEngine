@@ -36,20 +36,25 @@ public:
             m_textures.push_back(Texture::create().withFile(std::string(GET_CURRENT("test/resources/")) + s).build());
         }
         m_mesh = Mesh::create().withCube().build();
-        m_material = Shader::create().withSourceUnlit().withBlend(Shader::BlendType::AlphaBlending).build()->createMaterial();
+        m_material = Shader::create()
+                         .withSourceFile("texture_vert.glsl", Shader::ShaderType::Vertex)
+                         .withSourceFile("texture_frag.glsl", Shader::ShaderType::Fragment)
+                         .withBlend(Shader::BlendType::AlphaBlending)
+                         .build()
+                         ->createMaterial();
     }
 
     void render() override
     {
         auto renderPass = RenderPass::create()
                               .withCamera(m_camera)
-                              .withClearColor(true, {.3, .3, 1, 1})
+                              .withClearColor(true, { .3, .3, 1, 1 })
                               .build();
 
         ImGui::ListBox("Texture", &m_selection, m_filenames.data(), m_filenames.size());
         if (m_filenames[m_selection][5] == 'g')
         {
-            ImGui::LabelText("png type","Grayscale");
+            ImGui::LabelText("png type", "Grayscale");
         }
         if (m_filenames[m_selection][5] == 'c')
         {
@@ -64,7 +69,7 @@ public:
             ImGui::LabelText("png type", "Alpha");
         }
         ImGui::LabelText("Size", "%d x %d", m_textures[m_selection]->width(), m_textures[m_selection]->height());
-        ImGui::LabelText("Transparent", "%s", m_textures[m_selection]->isTransparent()?"true":"false");
+        ImGui::LabelText("Transparent", "%s", m_textures[m_selection]->isTransparent() ? "true" : "false");
 
         m_material->setTexture(m_textures[m_selection]);
         renderPass.draw(m_mesh, glm::mat4(1), m_material);

@@ -16,7 +16,7 @@ class CubeExample : public BasicProject
 {
 public:
     using BasicProject::BasicProject;
-    ~CubeExample() = default;
+    ~CubeExample() override = default;
 
     void initialize() override
     {
@@ -25,6 +25,7 @@ public:
         auto shader = Shader::getStandard();
         m_material = shader->createMaterial();
         m_material->setTexture(Texture::getFontTexture());
+        m_material->setSpecularity({0, 0, 0, 20});
         m_mesh = Mesh::create().withCube().build();
         m_worldLights = std::make_unique<WorldLights>();
         m_worldLights->addLight(Light::create().withPointLight({ 3, 0, 0 }).withColor({ 0, 1, 0 }).withRange(20).build());

@@ -22,13 +22,24 @@ public:
     {
         m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
 
-        m_material = Shader::create().withSourceStandard().withCullFace(Shader::CullFace::None).build()->createMaterial();
+        m_material = Shader::create()
+                         .withSourceFile("standard_vert.glsl", Shader::ShaderType::Vertex)
+                         .withSourceFile("standard_frag.glsl", Shader::ShaderType::Fragment)
+                         .withCullFace(Shader::CullFace::None)
+                         .build()
+                         ->createMaterial();
         m_material->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-        m_material->setSpecularity(20.0f);
+        m_material->setSpecularity({ 0, 0, 0, 20.0f });
 
-        m_material2 = Shader::create().withSourceStandard().withOffset(m_factor, m_offset).build()->createMaterial();
+        m_material2 = Shader::create()
+                          .withSourceFile("standard_vert.glsl", Shader::ShaderType::Vertex)
+                          .withSourceFile("standard_frag.glsl", Shader::ShaderType::Fragment)
+                          .withCullFace(Shader::CullFace::None)
+                          .withOffset(m_factor, m_offset)
+                          .build()
+                          ->createMaterial();
         m_material2->setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-        m_material2->setSpecularity(20.0f);
+        m_material2->setSpecularity({ 0, 0, 0, 20.0f });
 
         m_mesh = Mesh::create().withQuad(10.9999999f).build();
         m_mesh2 = Mesh::create().withQuad(10.000001f).build();
@@ -55,9 +66,15 @@ public:
         bool changed = ImGui::SliderFloat2("Factor/Offset", &m_factor, 0, 3);
         if (changed)
         {
-            m_material2 = Shader::create().withSourceStandard().withOffset(m_factor, m_offset).build()->createMaterial();
+            m_material2 = Shader::create()
+                              .withSourceFile("standard_vert.glsl", Shader::ShaderType::Vertex)
+                              .withSourceFile("standard_frag.glsl", Shader::ShaderType::Fragment)
+                              .withCullFace(Shader::CullFace::None)
+                              .withOffset(m_factor, m_offset)
+                              .build()
+                              ->createMaterial();
             m_material2->setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-            m_material2->setSpecularity(20.0f);
+            m_material2->setSpecularity({ 0, 0, 0, 20.0f });
         }
         ImGui::Checkbox("Rotate", &m_rotate);
         m_inspector.update();

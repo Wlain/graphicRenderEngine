@@ -10,6 +10,7 @@
 
 #ifndef SIMPLERENDERENGINE_MATERIAL_H
 #define SIMPLERENDERENGINE_MATERIAL_H
+#include "color.h"
 #include "shader.h"
 
 #include <glm/glm.hpp>
@@ -32,8 +33,13 @@ public:
     // uniform parameters
     Color getColor();
     bool setColor(const Color& color);
-    float getSpecularity();
-    bool setSpecularity(float specularity);
+    Color getSpecularity();
+    bool setSpecularity(Color specularity);
+    glm::vec2 getMetallicRoughness();
+    // 金属粗糙度
+    bool setMetallicRoughness(glm::vec2 metallicRoughness);
+    std::shared_ptr<Texture> getMetallicRoughnessTexture();
+    bool setMetallicRoughnessTexture(std::shared_ptr<Texture> texture);
     std::shared_ptr<Texture> getTexture();
     bool setTexture(std::shared_ptr<Texture> texture);
     bool set(std::string_view uniformName, const glm::vec4& value);

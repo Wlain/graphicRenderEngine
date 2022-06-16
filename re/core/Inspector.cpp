@@ -363,7 +363,7 @@ void Inspector::showMesh(Mesh* mesh)
                                        .build();
         static auto litMat = Shader::getStandard()->createMaterial();
         static auto unlitMat = Shader::getUnlit()->createMaterial();
-        bool hasNormals = mesh->getNormals().size() > 0;
+        bool hasNormals = !mesh->getNormals().empty();
         auto mat = hasNormals ? litMat : unlitMat;
         auto sharedPtrMesh = mesh->shared_from_this();
         float rotationSpeed = 0.0001f;
