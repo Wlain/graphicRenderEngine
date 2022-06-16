@@ -925,7 +925,7 @@ std::shared_ptr<Shader> Shader::getStandardBlinnPhong()
     s_standard = Shader::create()
                      .withSourceFile("standard_blinn_phong_vert.glsl", ShaderType::Vertex)
                      .withSourceFile("standard_blinn_phong_frag.glsl", ShaderType::Fragment)
-                     .withName("Standard")
+                     .withName("Standard Blinn Phong")
                      .build();
     return s_standard;
 }
