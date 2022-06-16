@@ -5,10 +5,15 @@
 #ifndef SIMPLERENDERENGINE_SHADER_H
 #define SIMPLERENDERENGINE_SHADER_H
 #include "commonMacro.h"
+#include "glCommonDefine.h"
 #include "light.h"
+#include "material.h"
 #include "texture.h"
+#include "renderer.h"
 
+#include <glm/gtc/color_space.hpp>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 namespace re
@@ -72,22 +77,29 @@ public:
         Fragment,
         Geometry,
         TessellationControl,
-        TessellationEvaluation,
-        NumberOfShaderTypes
+        TessellationEvaluation
+    };
+
+    enum class ResourceType
+    {
+        File,
+        Memory
+    };
+
+    struct Resource
+    {
+        ResourceType resourceType;
+        std::string value;
     };
 
     class ShaderBuilder
     {
     public:
-        ShaderBuilder(const ShaderBuilder&) = delete;
+        ShaderBuilder(const ShaderBuilder&) = default;
         DEPRECATED("Use ShaderType withSourceString() or withSourceFile() instead")
         ShaderBuilder& withSource(std::string_view vertexShader, std::string_view fragmentShader);
         ShaderBuilder& withSourceString(std::string_view shaderSource, ShaderType shaderType);
         ShaderBuilder& withSourceFile(std::string_view shaderFile, ShaderType shaderType);
-        ShaderBuilder& withSourceStandard();
-        ShaderBuilder& withSourceUnlit();
-        ShaderBuilder& withSourceUnlitSprite();
-        ShaderBuilder& withSourceStandardParticles();
         ShaderBuilder& withDepthTest(bool enable);
         ShaderBuilder& withDepthWrite(bool enable);
         ShaderBuilder& withBlend(BlendType blendType);
@@ -95,17 +107,22 @@ public:
         ShaderBuilder& withOffset(float factor, float units); // 设置用于计算深度值的缩放比例和单位
         ShaderBuilder& withCullFace(CullFace face);
         std::shared_ptr<Shader> build();
+        std::shared_ptr<Shader> build(std::vector<std::string>& errors);
 
     private:
         ShaderBuilder() = default;
+        explicit ShaderBuilder(Shader* shader);
+        bool build(std::map<ShaderType, Resource> shaderSources, std::vector<std::string>& errors);
+
 
     private:
-        std::map<ShaderType, std::string> m_shaderSources;
+        std::map<ShaderType, Resource> m_shaderSources;
+        std::map<std::string, std::string> m_specializationConstants;
         std::string m_name;
         BlendType m_blendType{ BlendType::Disabled };
         CullFace m_cullFace{ CullFace::Back };
-        glm::vec2 m_offset = { 0, 0 };
-        unsigned int m_id{ 0 };
+        glm::vec2 m_offset = { 0.0f, 0.0f };
+        Shader* updateShader{ nullptr };
         bool m_depthTest{ true };
         bool m_depthWrite{ true };
         friend class Shader;
@@ -113,26 +130,18 @@ public:
 
 public:
     static ShaderBuilder create();
-    /// Unlit model.
-    // Attributes
-    // "color" vec4 (default (1,1,1,1))
-    // "tex" Texture* (default white texture)
-    // "specular" float (default 0.0) (means no specular)
+    // Must end with build()
+    ShaderBuilder update();
     static std::shared_ptr<Shader> getUnlit();
-    // Attributes
-    // "color" vec4 (default (1,1,1,1))
-    // "tex" Texture* (default white texture)
     static std::shared_ptr<Shader> getUnlitSprite();
-    /// Phong Light Model. Uses light objects and ambient light set in simpleRenderEngine.
-    // Attributes
-    // "color" vec4 (default (1,1,1,1))
-    // "tex" Texture* (default white texture)
-    // "specularity" float (default 0 = no specularity)
+    DEPRECATED("Use getStandardPBR or getStandardBlinnPhong")
     static std::shared_ptr<Shader>& getStandard();
-    // StandardParticles
-    // Attributes
-    // "tex" Texture* (default alpha sphere texture)
     static std::shared_ptr<Shader> getStandardParticles();
+    static std::shared_ptr<Shader> getStandardPBR();
+    static std::shared_ptr<Shader> getStandardBlinnPhong();
+
+private:
+    static std::string getSource(const Resource& resource);
 
 public:
     ~Shader();
@@ -150,15 +159,21 @@ public:
 
     // 验证网格属性。如果无效，则将 info 变量设置为错误消息。此方法只应用于debug
     bool validateMesh(Mesh* mesh, std::string& info);
-    std::shared_ptr<Material> createMaterial();
-    const char* c_str(UniformType u);
+    const std::map<std::string, std::string>& getCurrentSpecializationConstants() const;
+    std::set<std::string> getAllSpecializationConstants();
+    std::shared_ptr<Material> createMaterial(std::map<std::string, std::string> specializationConstants = {});
+    const char* toStr(UniformType u);
+    uint32_t toId(ShaderType st);
 
 private:
     Shader();
-    bool build(const std::map<ShaderType,std::string>& shaderSources);
     void bind();
-    bool setLights(WorldLights* worldLights, const glm::mat4& viewTransform);
+    bool build(std::map<ShaderType, Resource> shaderSources, std::vector<std::string>& errors);
+    std::string precompile(std::string source, std::vector<std::string>& errors, uint32_t shaderType);
+    std::string insertPreprocessorDefines(std::string source, std::map<std::string, std::string>& specializationConstants, uint32_t shaderType);
+    bool setLights(WorldLights* worldLights);
     void updateUniformsAndAttributes();
+    bool compileShader(const Resource& resource, GLenum type, GLuint& shader, std::vector<std::string>& errors);
 
 private:
     inline static std::shared_ptr<Shader> s_unlit{ nullptr }; // 无灯光
@@ -168,22 +183,31 @@ private:
     inline static std::shared_ptr<Shader> s_standard{ nullptr };
     inline static std::shared_ptr<Shader> s_font{ nullptr };
     inline static std::shared_ptr<Shader> s_standardParticles{ nullptr };
+    inline static std::shared_ptr<Shader> s_standardPhong{ nullptr };
+    inline static long s_globalShaderCounter{ 0 };
 
 private:
     BlendType m_blendType{ BlendType::Disabled };
     CullFace m_cullFace{ CullFace::Back };
     std::vector<Uniform> m_uniforms;
     std::map<std::string, ShaderAttribute> m_attributes;
+    std::map<std::string, std::string> m_specializationConstants;
+    std::vector<std::weak_ptr<Shader>> m_specializations;
+    std::shared_ptr<Shader> m_parent = nullptr;
+    std::map<ShaderType, Resource> m_shaderSources;
     glm::vec2 m_offset = glm::vec2(0, 0);
     std::string m_name;
     unsigned int m_id{ 0 };
     bool m_depthTest{ true };
     bool m_depthWrite{ true };
+    long m_shaderUniqueId{ 0 };
     int m_uniformLocationModel{ -1 };
     int m_uniformLocationView{ -1 };
     int m_uniformLocationProjection{ -1 };
-    int m_uniformLocationNormal{ -1 };
+    int m_uniformLocationModelViewInverseTranspose{ -1 };
+    int m_uniformLocationModelInverseTranspose{ -1 };
     int m_uniformLocationViewport{ -1 };
+    int m_uniformLocationCameraPosition{ -1 };
     int m_uniformLocationAmbientLight{ -1 };
     int m_uniformLocationLightPosType{ -1 };
     int m_uniformLocationLightColorRange{ -1 };

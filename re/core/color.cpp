@@ -46,4 +46,12 @@ void Color::setFromLinear(glm::vec4 linear)
     }
     a = linear.w;
 }
+
+Color::Color(float value) :
+    r(value),
+    g(value),
+    b(value),
+    a(value)
+{
+}
 } // namespace re

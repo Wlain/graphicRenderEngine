@@ -33,7 +33,7 @@ public:
         auto renderPass = RenderPass::create().withCamera(m_camera).withClearColor(true, { m_clearColor.x, m_clearColor.y, m_clearColor.z, 1.0 }).withWorldLights(m_worldLights.get()).build();
         m_material->setSpecularity(m_specularity);
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_material);
-        ImGui::SliderFloat("specularity", &m_specularity, 0.0f, 40.0f);
+        ImGui::SliderFloat("specularity", &m_specularity.a, 0.0f, 40.0f);
         ImGui::ColorEdit3("clear color", (float*)&m_clearColor);
         ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         auto& renderStats = Renderer::s_instance->getRenderStats();
@@ -51,7 +51,7 @@ public:
     }
 
 private:
-    float m_specularity = 20.0f;
+    Color m_specularity = { 0, 0, 0, 20.0f };
     ImVec4 m_clearColor = ImColor(114, 144, 154);
 };
 

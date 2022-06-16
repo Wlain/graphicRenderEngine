@@ -15,7 +15,8 @@ public:
     void initialize() override
     {
         m_material = Shader::create()
-                         .withSourceUnlit()
+                         .withSourceFile("texture_vert.glsl", Shader::ShaderType::Vertex)
+                         .withSourceFile("texture_frag.glsl", Shader::ShaderType::Fragment)
                          .withName("Unlit")
                          .withCullFace(Shader::CullFace::None)
                          .build()

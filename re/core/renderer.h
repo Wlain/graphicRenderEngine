@@ -23,24 +23,33 @@ class ParticleMesh;
 class Renderer
 {
 public:
-    explicit Renderer(GLFWwindow* window,  bool vsync = true);
+    struct RenderInfo
+    {
+        bool useFramebufferSRGB = false;
+        bool supportTextureSamplerSRGB = false;
+        std::string graphicsAPIVersion;
+        std::string graphicsAPIVendor;
+    };
+    explicit Renderer(GLFWwindow* window, bool vsync = true);
     ~Renderer();
     // Update window with OpenGL rendering
     void swapWindow();
     // return stats of the last rendered frame,only data maintained by re is included
     inline const RenderStats& getRenderStats() const { return m_renderStatsLast; }
-    inline bool usesVSync() const { return m_vsync;};
+    inline bool usesVSync() const { return m_vsync; };
     glm::ivec2 getFramebufferSize();
     glm::ivec2 getWindowSize();
+    int getMaxSceneLights();
+    const RenderInfo& getRenderInfo();
 
 public:
-    static constexpr int s_maxSceneLights{ 4 };
     static constexpr int s_rgVersionMajor{ 3 };
     static constexpr int s_rgVersionMinor{ 0 };
     static constexpr int s_rgVersionPoint{ 0 };
     inline static Renderer* s_instance{ nullptr };
 
 private:
+    RenderInfo m_renderInfo;
     RenderStats m_renderStatsLast{};
     RenderStats m_renderStatsCurrent{};
     GLFWwindow* m_window{ nullptr };
@@ -49,7 +58,8 @@ private:
     std::vector<Shader*> m_shaders;
     std::vector<Texture*> m_textures;
     std::vector<SpriteAtlas*> m_spriteAtlases;
-    bool m_vsync;
+    int maxSceneLights{ 4 };
+    bool m_vsync{ false };
 
     friend class Mesh;
     friend class Mesh::MeshBuilder;
@@ -60,6 +70,7 @@ private:
     friend class Inspector;
     friend class FrameBuffer;
     friend class SpriteAtlas;
+    friend class Material;
 };
 } // namespace re
 #endif //SIMPLERENDERENGINE_RENDERER_H

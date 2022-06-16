@@ -382,7 +382,7 @@ std::shared_ptr<Material> createMaterial(std::string materialName, const std::ve
     auto material = shader->createMaterial();
 
     material->setColor(foundMat->diffuseColor);
-    material->setSpecularity(foundMat->specularCoefficient);
+    material->setSpecularity({ foundMat->specularColor.r, foundMat->specularColor.g, foundMat->specularColor.b, foundMat->specularCoefficient });
     auto name = materialName;
     for (auto& map : foundMat->textureMaps)
     {

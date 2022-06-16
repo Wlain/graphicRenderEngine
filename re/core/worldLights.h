@@ -51,8 +51,8 @@ struct WorldLights
     {
         return ambientLight;
     }
+    void clear();
 
-public:
     glm::vec3 ambientLight;
     std::vector<Light> lights;
 };

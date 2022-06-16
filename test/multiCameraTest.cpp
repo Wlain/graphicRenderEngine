@@ -21,7 +21,7 @@ public:
 
         m_material = Shader::getStandard()->createMaterial();
         m_material->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-        m_material->setSpecularity(20.0f);
+        m_material->setSpecularity({0, 0, 0, 20.0f});
 
         m_mesh = Mesh::create().withCube().build();
         m_worldLights = MAKE_UNIQUE(m_worldLights);

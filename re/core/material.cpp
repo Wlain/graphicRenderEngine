@@ -21,12 +21,12 @@ Material::~Material() = default;
 
 void Material::bind()
 {
-    uint32_t slot = 0;
+    uint32_t textureSlot = 0;
     for (const auto& v : m_textureValues)
     {
-        glActiveTexture(GL_TEXTURE0 + slot);
+        glActiveTexture(GL_TEXTURE0 + textureSlot);
         glBindTexture(v.value->m_info.target, v.value->m_info.id);
-        glUniform1i(v.id, slot++);
+        glUniform1i(v.id, textureSlot++);
     }
     for (const auto& v : m_vectorValues)
     {
@@ -137,10 +137,6 @@ template <>
 glm::vec4 Material::get(std::string_view uniformName)
 {
     auto t = m_shader->getUniformType(uniformName.data());
-    if (t.type != Shader::UniformType::Vec4)
-    {
-        return glm::vec4{ 0.0 };
-    }
     for (auto& v : m_vectorValues)
     {
         if (v.id == t.id)
@@ -155,10 +151,6 @@ template <>
 float Material::get(std::string_view uniformName)
 {
     auto t = m_shader->getUniformType(uniformName.data());
-    if (t.type != Shader::UniformType::Float)
-    {
-        return 0.0f;
-    }
     for (auto& v : m_floatValues)
     {
         if (v.id == t.id)
@@ -179,12 +171,12 @@ bool Material::setColor(const Color& color)
     return set("color", color);
 }
 
-float Material::getSpecularity()
+Color Material::getSpecularity()
 {
-    return get<float>("specularity");
+    return get<Color>("specularity");
 }
 
-bool Material::setSpecularity(float specularity)
+bool Material::setSpecularity(Color specularity)
 {
     return set("specularity", specularity);
 }
@@ -192,6 +184,26 @@ bool Material::setSpecularity(float specularity)
 std::shared_ptr<Texture> Material::getTexture()
 {
     return get<std::shared_ptr<Texture>>("tex");
+}
+
+glm::vec2 Material::getMetallicRoughness()
+{
+    return (glm::vec2)get<glm::vec4>("metallicRoughness");
+}
+
+bool Material::setMetallicRoughness(glm::vec2 metallicRoughness)
+{
+    return set("metallicRoughness", glm::vec4(metallicRoughness, 0, 0));
+}
+
+std::shared_ptr<Texture> Material::getMetallicRoughnessTexture()
+{
+    return get<std::shared_ptr<Texture>>("mrTex");
+}
+
+bool Material::setMetallicRoughnessTexture(std::shared_ptr<Texture> texture)
+{
+    return set("mrTex", texture);
 }
 
 bool Material::setTexture(std::shared_ptr<Texture> texture)
@@ -221,8 +233,8 @@ bool Material::set(std::string_view uniformName, Color value)
         if (v.id == type.id)
         {
             v.value = value.toLinear();
+            return true;
         }
-        return true;
     }
     return false;
 }
@@ -254,4 +266,5 @@ bool Material::set(std::string_view uniformName, std::shared_ptr<Texture> textur
     }
     return false;
 }
+
 } // namespace re
