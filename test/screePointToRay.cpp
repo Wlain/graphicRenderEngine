@@ -131,10 +131,10 @@ public:
 
         rp.draw(m_mesh, m_pos1, m_material);
 
-        checkGLError();
+        checkGlError();
         rp.draw(m_mesh, m_pos2, m_materia2);
 
-        checkGLError();
+        checkGlError();
 
         ImGui::LabelText("Rightclick to shoot ray", "");
         rp.draw(m_planeMesh, glm::translate(glm::vec3{ 0, -1.0f, 0 }) * glm::scale(glm::vec3{ 1, .01f, 1 }), m_matPlane);

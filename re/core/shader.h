@@ -8,8 +8,8 @@
 #include "glCommonDefine.h"
 #include "light.h"
 #include "material.h"
-#include "texture.h"
 #include "renderer.h"
+#include "texture.h"
 
 #include <glm/gtc/color_space.hpp>
 #include <map>
@@ -112,8 +112,6 @@ public:
     private:
         ShaderBuilder() = default;
         explicit ShaderBuilder(Shader* shader);
-        bool build(std::map<ShaderType, Resource> shaderSources, std::vector<std::string>& errors);
-
 
     private:
         std::map<ShaderType, Resource> m_shaderSources;

@@ -80,9 +80,9 @@ Texture::TextureBuilder& Texture::TextureBuilder::withFile(std::string_view file
         m_info.generateMipmap = false;
     }
 
-    checkGLError();
+    checkGlError();
     glTexImage2D(m_info.target, mipmapLevel, internalFormat, m_info.width, m_info.height, border, GL_RGBA, type, data);
-    checkGLError();
+    checkGlError();
     stbi_image_free((void*)data);
     return *this;
 }

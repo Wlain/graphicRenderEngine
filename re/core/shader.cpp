@@ -8,7 +8,6 @@
 #include "glCommonDefine.h"
 #include "material.h"
 #include "renderer.h"
-#include "shaderSource.inl"
 #include "texture.h"
 #include "utils/utils.h"
 #include "worldLights.h"
@@ -253,10 +252,6 @@ Shader::ShaderBuilder::ShaderBuilder(Shader* shader) :
 {
 }
 
-bool Shader::ShaderBuilder::build(std::map<ShaderType, Resource> shaderSources, std::vector<std::string>& errors)
-{
-    return false;
-}
 
 std::string Shader::getSource(const Shader::Resource& resource)
 {

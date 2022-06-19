@@ -305,7 +305,7 @@ void RenderPass::finish()
     }
     m_isFinished = true;
 #ifndef NDEBUG
-    checkGLError();
+    checkGlError();
 #endif
 }
 

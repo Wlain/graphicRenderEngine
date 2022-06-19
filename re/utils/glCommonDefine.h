@@ -13,8 +13,15 @@
 #include <sstream>
 #include <string>
 
+#define CHECK_GL(x)                 \
+    do                              \
+    {                               \
+        (x);                        \
+        checkGlError(TO_STRING(x)); \
+    } while (0)
+
 // For internal debugging of gl errors
-inline void checkGLError()
+inline void checkGlError()
 {
     for (GLenum err; (err = glGetError()) != GL_NO_ERROR;)
     {

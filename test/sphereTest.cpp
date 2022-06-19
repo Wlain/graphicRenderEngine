@@ -25,6 +25,7 @@ public:
         m_camera.setPerspectiveProjection(60, 0.1, 100);
         auto shader = Shader::getStandardBlinnPhong();
         m_material = shader->createMaterial();
+        m_material->setSpecularity(0.1);
         m_mesh = Mesh::create().withSphere().build();
         m_worldLights = std::make_unique<WorldLights>();
     }
@@ -114,6 +115,8 @@ public:
             }
         }
         m_lastPointLight = m_isPointLight;
+        m_inspector.update();
+        m_inspector.gui();
     }
 
     void setTitle() override
