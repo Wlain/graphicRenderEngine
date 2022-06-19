@@ -31,7 +31,7 @@ void main(void) {
     vNormal = normalize(g_model_it * normal);
     #endif
     vUV = uv.xy;
-    vWsPos = vWsPos.xyz;
+    vWsPos = wsPos.xyz;
     #ifdef S_VERTEX_COLOR
     vColor = color;
     #endif

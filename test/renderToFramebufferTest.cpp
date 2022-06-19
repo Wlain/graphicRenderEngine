@@ -1,9 +1,3 @@
-// Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-// Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
-// Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
-// Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
-// Vestibulum commodo. Ut rhoncus gravida arcu.
-
 //
 // Created by william on 2022/5/31.
 //
@@ -29,8 +23,8 @@ public:
         m_texture = Texture::create().withRGBAData(nullptr, 1024, 1024).withName("Create Texture").build();
         m_framebuffer = FrameBuffer::create().withTexture(m_texture).build();
         m_materialOffscreen = Shader::getStandardBlinnPhong()->createMaterial();
-        m_materialOffscreen->setSpecularity({1,1,1,120});
-        m_material = Shader::getStandard()->createMaterial();
+        m_materialOffscreen->setSpecularity({ 1, 1, 1, 120 });
+        m_material = Shader::getStandardBlinnPhong()->createMaterial();
         m_material->setTexture(m_texture);
         m_mesh = Mesh::create().withCube().build();
         m_worldLights = std::make_unique<WorldLights>();

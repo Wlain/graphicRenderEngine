@@ -205,7 +205,7 @@ void GLFWRenderer::frame(float deltaTimeSec)
     m_renderer->swapWindow();
 }
 
-glm::ivec2 GLFWRenderer::getFramebuffeSize()
+glm::ivec2 GLFWRenderer::getFrameBufferSize()
 {
     return m_renderer->getFramebufferSize();
 }

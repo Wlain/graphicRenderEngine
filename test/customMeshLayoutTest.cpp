@@ -4,6 +4,7 @@
 
 #include "basicProject.h"
 
+#include <map>
 class CustomMeshLayoutTest : public BasicProject
 {
 public:
@@ -12,44 +13,20 @@ public:
 
     void initialize() override
     {
-        std::vector<glm::vec4> positions({ { 0, 0.5, 0, 1 },
-                                           { -0.5, 0, 0, 1 },
-                                           { 0.5, 0, 0, 1 } });
+        std::vector<glm::vec3> positions({ { 0, 0.5, 0 },
+                                           { -0.5, 0, 0 },
+                                           { 0.5, 0, 0 } });
         std::vector<glm::vec4> colors({
             { 1, 0, 0, 1 },
             { 0, 1, 0, 1 },
             { 0, 0, 1, 1 },
         });
         m_mesh = Mesh::create()
-                     .withAttribute("posxyzw", positions)
+                     .withPositions(positions)
                      .withAttribute("color", colors)
                      .build();
-        std::string vertexShaderSource = R"(#version 330
-            in vec4 posxyzw;
-            in vec4 color;
-            out vec4 vColor;
-            uniform mat4 g_model;
-            uniform mat4 g_view;
-            uniform mat4 g_projection;
 
-            void main(void) {
-                gl_Position = g_projection * g_view * g_model * posxyzw;
-                vColor = color;
-            }
-        )";
-        std::string fragmentShaderSource = R"(#version 330
-            out vec4 fragColor;
-            in vec4 vColor;
-            void main(void)
-            {
-                fragColor = vColor;
-            }
-        )";
-        m_material = Shader::create()
-                         .withSourceString(vertexShaderSource, Shader::ShaderType::Vertex)
-                         .withSourceString(fragmentShaderSource, Shader::ShaderType::Fragment)
-                         .build()
-                         ->createMaterial();
+        m_material = Shader::getUnlit()->createMaterial({ { "S_VERTEX_COLOR", "1" } });
     }
 
     void render() override

@@ -97,7 +97,7 @@ SpriteBatch::SpriteBatch(std::shared_ptr<Shader> shader, std::vector<Sprite>&& s
             indices.clear();
         }
         lastTexture = s.m_texture;
-        auto corners = s.getCorners();
+        auto corners = s.getTrimmedCorners();
         auto cornerUvs = s.getUvs();
         auto idx = (int16_t)vertices.size();
         indices.push_back(idx);

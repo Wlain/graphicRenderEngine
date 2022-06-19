@@ -35,7 +35,7 @@ public:
     // The render loop will stop running when the frame is complete.
     void stopEventLoop();
     GLFWwindow* getGlfwWindow();
-    glm::ivec2 getFramebuffeSize();
+    glm::ivec2 getFrameBufferSize();
     glm::ivec2 getWindowSize();
 private:
     void frame(float deltaTimeSec);

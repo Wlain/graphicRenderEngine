@@ -28,9 +28,6 @@ public:
         m_renderer.m_frameUpdate = [&](float deltaTime) {
             update(deltaTime);
         };
-        m_renderer.m_frameRender = [&]() {
-            render();
-        };
         m_renderer.m_frameResize = [&](int width, int height) {
             resize(width, height);
         };
@@ -39,6 +36,9 @@ public:
         };
         m_renderer.m_dropEvent = [&](int count, const char** paths) {
             dropEvent(count, paths);
+        };
+        m_renderer.m_frameRender = [&]() {
+            render();
         };
         m_renderer.startEventLoop();
     }

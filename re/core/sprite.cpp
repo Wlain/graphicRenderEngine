@@ -14,8 +14,13 @@ namespace re
 Sprite::Sprite() = default;
 Sprite::~Sprite() = default;
 
-Sprite::Sprite(glm::ivec2 spritePos, glm::ivec2 spriteSize, glm::vec2 spriteAnchor, Texture* texture) :
-    m_spritePos(std::move(spritePos)), m_spriteSize(std::move(spriteSize)), m_spriteAnchor(std::move(spriteAnchor)), m_texture(texture)
+Sprite::Sprite(glm::ivec2 spritePos, glm::ivec2 spriteSize, glm::ivec2 spriteSourcePos, glm::ivec2 spriteSourceSize, glm::vec2 spriteAnchor, Texture* texture) :
+    m_spritePos(std::move(spritePos)),
+    m_spriteSize(std::move(spriteSize)),
+    m_spriteSourcePos(std::move(spriteSourcePos)),
+    m_spriteSourceSize(std::move(spriteSourceSize)),
+    m_spriteAnchor(std::move(spriteAnchor)),
+    m_texture(texture)
 {
     m_order.globalOrder = 0;
     m_order.details.texture = (uint32_t)texture->m_info.id;
@@ -120,7 +125,7 @@ const glm::vec2& Sprite::getSpriteAnchor() const
     return m_spriteAnchor;
 }
 
-std::array<glm::vec2, 4> Sprite::getCorners() const
+std::array<glm::vec2, 4> Sprite::getTrimmedCorners() const
 {
     float x0 = 0 - m_spriteAnchor.x * m_spriteSize.x;
     float x1 = m_spriteSize.x - m_spriteAnchor.x * m_spriteSize.x;
