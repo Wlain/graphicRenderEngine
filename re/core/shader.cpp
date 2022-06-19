@@ -829,7 +829,7 @@ std::shared_ptr<Material> Shader::createMaterial(std::map<std::string, std::stri
         res.m_name = m_name;
         res.m_offset = m_offset;
         res.m_shaderSources = m_shaderSources;
-        res.m_specializationConstants = specializationConstants;
+        res.m_specializationConstants = std::move(specializationConstants);
         auto specializedShader = res.build();
         if (specializedShader == nullptr)
         {
@@ -925,7 +925,7 @@ std::shared_ptr<Shader> Shader::getStandardBlinnPhong()
     s_standard = Shader::create()
                      .withSourceFile("standard_blinn_phong_vert.glsl", ShaderType::Vertex)
                      .withSourceFile("standard_blinn_phong_frag.glsl", ShaderType::Fragment)
-                     .withName("Standard")
+                     .withName("Standard Blinn Phong")
                      .build();
     return s_standard;
 }
@@ -933,7 +933,6 @@ std::shared_ptr<Shader> Shader::getStandardBlinnPhong()
 const std::map<std::string, std::string>& Shader::getCurrentSpecializationConstants() const
 {
     return m_specializationConstants;
-    ;
 }
 
 std::set<std::string> Shader::getAllSpecializationConstants()
@@ -969,6 +968,7 @@ std::string Shader::precompile(std::string source, std::vector<std::string>& err
 
 std::string Shader::insertPreprocessorDefines(std::string source, std::map<std::string, std::string>& specializationConstants, uint32_t shaderType)
 {
+    LOG_INFO("before insertPreprocessorDefines:source is:\n {}", source.c_str());
     std::stringstream ss;
     ss << "#define SI_LIGHTS " << Renderer::s_instance->getMaxSceneLights() << "\n";
     // add shader type
@@ -1025,6 +1025,7 @@ std::string Shader::insertPreprocessorDefines(std::string source, std::map<std::
         }
     }
     ss << "#line " << (lines + 1) << "\n";
+    LOG_INFO("after insertPreprocessorDefines:source is:\n {}", source.substr(0, insertPos + 1) + ss.str() + source.substr(insertPos + 1).c_str());
     return source.substr(0, insertPos + 1) +
         ss.str() +
         source.substr(insertPos + 1);

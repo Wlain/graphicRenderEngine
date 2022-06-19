@@ -30,7 +30,7 @@ public:
         std::string graphicsAPIVersion;
         std::string graphicsAPIVendor;
     };
-    explicit Renderer(GLFWwindow* window, bool vsync = true);
+    explicit Renderer(GLFWwindow* window, bool vsync = true, int maxSceneLights = 4);
     ~Renderer();
     // Update window with OpenGL rendering
     void swapWindow();
@@ -45,7 +45,7 @@ public:
 public:
     static constexpr int s_rgVersionMajor{ 3 };
     static constexpr int s_rgVersionMinor{ 0 };
-    static constexpr int s_rgVersionPoint{ 0 };
+    static constexpr int s_rgVersionPoint{ 1 };
     inline static Renderer* s_instance{ nullptr };
 
 private:
@@ -58,7 +58,7 @@ private:
     std::vector<Shader*> m_shaders;
     std::vector<Texture*> m_textures;
     std::vector<SpriteAtlas*> m_spriteAtlases;
-    int maxSceneLights{ 4 };
+    int m_maxSceneLights{ 4 };
     bool m_vsync{ false };
 
     friend class Mesh;

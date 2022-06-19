@@ -22,6 +22,6 @@ extern void screePointToRayTest();
 
 int main()
 {
-    objTest();
+    spritesBatchTest();
     return 0;
 }

@@ -23,7 +23,7 @@ public:
     {
         m_camera.setLookAt(m_eye, m_at, m_up);
         m_camera.setPerspectiveProjection(60, 0.1, 100);
-        auto shader = Shader::getStandard();
+        auto shader = Shader::getStandardBlinnPhong();
         m_material = shader->createMaterial();
         m_mesh = Mesh::create().withSphere().build();
         m_worldLights = std::make_unique<WorldLights>();

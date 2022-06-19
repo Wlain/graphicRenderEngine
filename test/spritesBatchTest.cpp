@@ -101,7 +101,7 @@ public:
             renderPass.draw(sb);
 
             std::vector<glm::vec3> lines;
-            auto spriteCorners = sprite.getCorners();
+            auto spriteCorners = sprite.getTrimmedCorners();
             for (int i = 0; i < 4; i++)
             {
                 lines.emplace_back(spriteCorners[i], 0);

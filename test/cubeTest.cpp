@@ -22,10 +22,11 @@ public:
     {
         m_camera.setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
         m_camera.setPerspectiveProjection(60, 0.1, 100);
-        auto shader = Shader::getStandard();
+        auto shader = Shader::getStandardBlinnPhong();
         m_material = shader->createMaterial();
         m_material->setTexture(Texture::getFontTexture());
-        m_material->setSpecularity({0, 0, 0, 20});
+        m_material->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+        m_material->setSpecularity({ 0.5, 0.5, 0.5, 180.0f });
         m_mesh = Mesh::create().withCube().build();
         m_worldLights = std::make_unique<WorldLights>();
         m_worldLights->addLight(Light::create().withPointLight({ 3, 0, 0 }).withColor({ 0, 1, 0 }).withRange(20).build());

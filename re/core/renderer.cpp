@@ -9,8 +9,8 @@
 // render engine
 namespace re
 {
-Renderer::Renderer(GLFWwindow* window, bool vsync) :
-    m_window(window), m_vsync(vsync)
+Renderer::Renderer(GLFWwindow* window, bool vsync, int maxSceneLights) :
+    m_window(window), m_vsync(vsync), m_maxSceneLights(maxSceneLights)
 {
     if (s_instance != nullptr)
     {
@@ -22,6 +22,9 @@ Renderer::Renderer(GLFWwindow* window, bool vsync) :
     {
         glfwSwapInterval(1); // 开启垂直同步
     }
+    m_renderInfo.useFramebufferSRGB = true;
+    m_renderInfo.supportTextureSamplerSRGB = true;
+    glEnable(GL_FRAMEBUFFER_SRGB);
     GLenum err = glewInit();
     if (err != GLEW_OK)
     {
@@ -34,7 +37,9 @@ Renderer::Renderer(GLFWwindow* window, bool vsync) :
     // 设置平台和渲染器
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
-    LOG_INFO("OpenGL version {}", glGetString(GL_VERSION));
+    m_renderInfo.graphicsAPIVersion = (char*)glGetString(GL_VERSION);
+    m_renderInfo.graphicsAPIVendor = (char*)glGetString(GL_VENDOR);
+    LOG_INFO("OpenGL version {}", m_renderInfo.graphicsAPIVersion.c_str());
     LOG_INFO("rg version {}.{}.{}", s_rgVersionMajor, s_rgVersionMinor, s_rgVersionPoint);
     // setup opengl context
     glEnable(GL_DEPTH_TEST);
@@ -78,7 +83,7 @@ glm::ivec2 Renderer::getWindowSize()
 
 int Renderer::getMaxSceneLights()
 {
-    return maxSceneLights;
+    return m_maxSceneLights;
 }
 
 const Renderer::RenderInfo& re::Renderer::getRenderInfo()

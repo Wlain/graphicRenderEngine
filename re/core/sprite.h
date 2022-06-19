@@ -42,11 +42,11 @@ public:
     const glm::ivec2& getSpriteSize() const;
     const glm::vec2& getSpriteAnchor() const; // 锚点
     // 获取AABB 8个顶点的世界坐标
-    std::array<glm::vec2, 4> getCorners() const;
+    std::array<glm::vec2, 4> getTrimmedCorners() const;
     std::array<glm::vec2, 4> getUvs();
 
 private:
-    Sprite(glm::ivec2 spritePos, glm::ivec2 spriteSize, glm::vec2 spriteAnchor, Texture* texture);
+    Sprite(glm::ivec2 spritePos, glm::ivec2 spriteSize, glm::ivec2 spriteSourcePos, glm::ivec2 spriteSourceSize, glm::vec2 spriteAnchor, Texture* texture);
 
 private:
     glm::vec4 m_color = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -56,6 +56,8 @@ private:
     glm::ivec2 m_spritePos{ 0.0f, 0.0f };
     glm::ivec2 m_spriteSize{ 0.0f, 0.0f };
     glm::vec2 m_spriteAnchor{ 0.0f, 0.0f };
+    glm::ivec2 m_spriteSourcePos{ 0, 0 };
+    glm::ivec2 m_spriteSourceSize{ 0, 0 };
     Texture* m_texture{ nullptr };
     float m_rotation{ 0.0f };
     union

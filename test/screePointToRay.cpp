@@ -72,7 +72,7 @@ public:
 
     void touchEvent(double xPos, double yPos) override
     {
-        auto framebufferSize = m_renderer.getFramebuffeSize();
+        auto framebufferSize = m_renderer.getFrameBufferSize();
         auto windowsSize = m_renderer.getWindowSize();
         auto ratio = framebufferSize.x / windowsSize.x;
         // 坐标映射

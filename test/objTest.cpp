@@ -18,9 +18,9 @@ public:
     void initialize() override
     {
         m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
-        auto material = Shader::getStandard()->createMaterial();
+        auto material = Shader::getStandardBlinnPhong()->createMaterial({ { "S_TANGENTS", "1" } });
         material->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-        material->setSpecularity({ 0, 0, 0, 20.0f });
+        material->setSpecularity({ 1, 1, 1, 20.0f });
         m_materials.push_back(material);
         m_mesh = Mesh::create().withCube().build();
         m_worldLights = MAKE_UNIQUE(m_worldLights);

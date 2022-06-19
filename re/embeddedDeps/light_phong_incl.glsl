@@ -6,6 +6,7 @@ uniform vec4 specularity;
 vec3 computeLight(vec3 wsPos, vec3 wsCameraPos, vec3 normal, out vec3 specularityOut){
     specularityOut = vec3(0.0, 0.0, 0.0);
     vec3 lightColor = vec3(0.0,0.0,0.0);
+    vec3 cam = normalize(wsCameraPos - wsPos);
     for (int i=0;i<SI_LIGHTS;i++){
         bool isDirectional = g_lightPosType[i].w == 0.0;
         bool isPoint       = g_lightPosType[i].w == 1.0;
@@ -30,18 +31,18 @@ vec3 computeLight(vec3 wsPos, vec3 wsCameraPos, vec3 normal, out vec3 specularit
         }
 
         // diffuse light
-        float thisDiffuse = max(0.0,dot(lightDirection, normal));
-        if (thisDiffuse > 0.0){
-            lightColor += (att * thisDiffuse) * g_lightColorRange[i].xyz;
+        float diffuse = max(0.0,dot(lightDirection, normal));
+        if (diffuse > 0.0){
+            lightColor += (att * diffuse) * g_lightColorRange[i].xyz;
         }
 
         // specular light
         if (specularity.a > 0.0){
-            vec3 H = normalize(lightDirection - normalize(wsPos - wsCameraPos));
+            vec3 H = normalize(lightDirection + cam);
             float nDotHV = dot(normal, H);
             if (nDotHV > 0.0){
                 float pf = pow(nDotHV, specularity.a);
-                specularityOut += specularity.rgb*pf; // white specular highlights
+                specularityOut += specularity.rgb * pf * att; // white specular highlights
             }
         }
     }

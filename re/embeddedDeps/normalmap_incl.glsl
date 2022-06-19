@@ -1,5 +1,6 @@
 #ifdef SI_VERTEX
-mat3 computeTBN(mat3 g_model_it, vec3 normal, vec4 tangent){
+mat3 computeTBN(mat3 g_model_it, vec3 normal, vec4 tangent)
+{
     vec3 wsNormal = normalize(g_model_it * normal);
     vec3 wsTangent = normalize(g_model_it * tangent.xyz);
     vec3 wsBitangent = cross(wsNormal, wsTangent) * tangent.w;
