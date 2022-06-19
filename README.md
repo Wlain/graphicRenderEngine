@@ -1,5 +1,5 @@
 # simpleRenderEngine
-This is a simple render engine based on OpenGL in MAC-OS
+This is a simple render engine based on OpenGL in MAC-OS, which use C++17
 
 # dependencies
 * glfw
@@ -9,5 +9,8 @@ This is a simple render engine based on OpenGL in MAC-OS
 * imageui
 * stb
 * json11
+
+example:
+
 
 
