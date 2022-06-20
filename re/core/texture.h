@@ -1,9 +1,3 @@
-// Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-// Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
-// Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
-// Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
-// Vestibulum commodo. Ut rhoncus gravida arcu.
-
 //
 // Created by william on 2022/5/22.
 //
@@ -11,22 +5,31 @@
 #ifndef SIMPLERENDERENGINE_TEXTURE_H
 #define SIMPLERENDERENGINE_TEXTURE_H
 #include <cstdlib>
+#include <map>
 #include <string>
 #include <string_view>
 #include <vector>
+
+#define MAX(a, b) return a > b ? a, b;
 
 namespace re
 {
 class Texture : public std::enable_shared_from_this<Texture>
 {
 public:
-    enum class PixelFormat
+    enum class PixelFormat : uint8_t
     {
         RGBA,
         RGB
     };
 
-    enum class CubeMapSide
+    enum class SamplerColorspace : uint8_t
+    {
+        Linear,
+        Gamma
+    };
+
+    enum class CubeMapSide : uint8_t
     {
         PositiveX,
         NegativeX,
@@ -36,9 +39,17 @@ public:
         NegativeZ
     };
 
+    enum class ResourceType : uint8_t
+    {
+        File,
+        Memory
+    };
+
     struct Info
     {
         PixelFormat format = PixelFormat::RGBA;
+        SamplerColorspace colorspace = SamplerColorspace::Gamma;
+        ResourceType resourceType = ResourceType::File;
         std::string name;
         int width = 0;
         int height = 0;
@@ -65,6 +76,7 @@ public:
         TextureBuilder& withFileCubeMap(std::string_view filename, CubeMapSide side);
         TextureBuilder& withRGBAData(const char* data, int width, int height);
         TextureBuilder& withWhiteData(int width = 1, int height = 1);
+        TextureBuilder& withSamplerColorspace(SamplerColorspace samplerColorspace);
         TextureBuilder& withName(std::string_view name);
         std::shared_ptr<Texture> build();
 
@@ -96,6 +108,7 @@ public:
     void invokeGenerateMipmap();
     // get size of the texture in bytes on GPU
     size_t getDataSize() const;
+    SamplerColorspace getSamplerColorSpace() const;
 
 private:
     Texture(int32_t id, int width, int height, uint32_t target, std::string string);

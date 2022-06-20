@@ -252,7 +252,6 @@ Shader::ShaderBuilder::ShaderBuilder(Shader* shader) :
 {
 }
 
-
 std::string Shader::getSource(const Shader::Resource& resource)
 {
     std::string source = resource.value;
@@ -744,21 +743,6 @@ std::vector<std::string> Shader::getUniformNames()
         names.push_back(u.name);
     }
     return names;
-}
-
-size_t Texture::getDataSize() const
-{
-    int size = m_info.width * m_info.height * 4;
-    if (m_info.generateMipmap)
-    {
-        size += (int)((1.0f / 3.0f) * size);
-    }
-    // six sides
-    if (m_info.target == GL_TEXTURE_CUBE_MAP)
-    {
-        size *= 6;
-    }
-    return size;
 }
 
 bool Shader::validateMesh(Mesh* mesh, std::string& info)

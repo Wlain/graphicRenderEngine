@@ -21,7 +21,7 @@
     } while (0)
 
 // For internal debugging of gl errors
-inline void checkGlError()
+inline void checkGlError() noexcept
 {
     for (GLenum err; (err = glGetError()) != GL_NO_ERROR;)
     {

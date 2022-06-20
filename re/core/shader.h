@@ -214,6 +214,7 @@ private:
     friend class Material;
     friend class Inspector;
 };
+
 } // namespace re
 
 #endif //SIMPLERENDERENGINE_SHADER_H

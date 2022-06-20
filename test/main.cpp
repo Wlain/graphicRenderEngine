@@ -20,9 +20,12 @@ extern void textureTest();
 extern void multiCameraTest();
 extern void screePointToRayTest();
 extern void benchmark64kTest();
+extern void gammaTest();
+extern void pbrTest();
+extern void normalMapTest();
 
 int main()
 {
-    sphereTest();
+    pbrTest();
     return 0;
 }

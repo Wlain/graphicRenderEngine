@@ -10,16 +10,11 @@
 #include "renderer.h"
 
 #include <glm/glm.hpp>
+#include <utility>
 #define STB_IMAGE_IMPLEMENTATION
 #include "utils.h"
 
 #include <stb/stb_image.h>
-#ifndef GL_SRGB_ALPHA
-    #define GL_SRGB_ALPHA 0x8C42
-#endif
-#ifndef GL_SRGB
-    #define GL_SRGB 0x8C40
-#endif
 
 namespace
 {
@@ -59,7 +54,7 @@ Texture::TextureBuilder& Texture::TextureBuilder::withFile(std::string_view file
     }
     m_info.target = GL_TEXTURE_2D;
     GLint mipmapLevel = 0;
-    GLint internalFormat = GL_SRGB_ALPHA; //hasSRGB() ? GL_SRGB_ALPHA : GL_RGBA;
+    GLint internalFormat = m_info.colorspace == SamplerColorspace::Linear ? GL_SRGB_ALPHA : GL_RGBA;
     GLint border = 0;
     GLenum type = GL_UNSIGNED_BYTE;
     int desireComp = STBI_rgb_alpha;
@@ -94,7 +89,7 @@ Texture::TextureBuilder& Texture::TextureBuilder::withRGBAData(const char* data,
     m_info.format = PixelFormat::RGBA;
     m_info.target = GL_TEXTURE_2D;
     GLint mipmapLevel = 0;
-    GLint internalFormat = GL_SRGB_ALPHA; //hasSRGB() ? GL_SRGB_ALPHA : GL_RGBA;
+    GLint internalFormat = m_info.colorspace == SamplerColorspace::Linear ? GL_SRGB_ALPHA : GL_RGBA;
     GLint border = 0;
     GLenum type = GL_UNSIGNED_BYTE;
     glBindTexture(m_info.target, m_info.id);
@@ -107,6 +102,12 @@ Texture::TextureBuilder& Texture::TextureBuilder::withWhiteData(int width, int h
     char one = (char)0xff;
     std::vector<char> dataOne(width * height * 4, one);
     withRGBAData(dataOne.data(), width, height);
+    return *this;
+}
+
+Texture::TextureBuilder& Texture::TextureBuilder::withSamplerColorspace(Texture::SamplerColorspace samplerColorspace)
+{
+    m_info.colorspace = samplerColorspace;
     return *this;
 }
 
@@ -246,7 +247,7 @@ Texture::Texture(int32_t id, int width, int height, uint32_t target, std::string
     m_info.width = width;
     m_info.height = height;
     m_info.target = target;
-    m_info.name = name;
+    m_info.name = std::move(name);
     // update stats
     RenderStats& renderStats = Renderer::s_instance->m_renderStatsCurrent;
     renderStats.textureCount++;
@@ -282,7 +283,7 @@ void Texture::updateTextureSampler(bool filterSampling, bool wrapTextureCoordina
     glTexParameteri(m_info.target, GL_TEXTURE_WRAP_T, wrapTextureCoordinates ? GL_REPEAT : GL_CLAMP_TO_EDGE);
     GLint minification;
     GLint magnification;
-    if (filterSampling)
+    if (!filterSampling)
     {
         minification = GL_NEAREST;
         magnification = GL_NEAREST;
@@ -312,6 +313,26 @@ void Texture::invokeGenerateMipmap()
         m_info.generateMipmap = true;
         glGenerateMipmap(m_info.target);
     }
+}
+
+size_t Texture::getDataSize() const
+{
+    int size = m_info.width * m_info.height * 4;
+    if (m_info.generateMipmap)
+    {
+        size += (int)((1.0f / 3.0f) * size);
+    }
+    // six sides
+    if (m_info.target == GL_TEXTURE_CUBE_MAP)
+    {
+        size *= 6;
+    }
+    return size;
+}
+
+Texture::SamplerColorspace Texture::getSamplerColorSpace() const
+{
+    return m_info.colorspace;
 }
 
 bool Texture::isCubeMap() const
