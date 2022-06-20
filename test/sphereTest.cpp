@@ -115,8 +115,11 @@ public:
             }
         }
         m_lastPointLight = m_isPointLight;
-        m_inspector.update();
-        m_inspector.gui();
+        if (m_debug)
+        {
+            m_inspector.update();
+            m_inspector.gui();
+        }
     }
 
     void setTitle() override

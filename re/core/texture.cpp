@@ -303,7 +303,7 @@ void Texture::updateTextureSampler(bool filterSampling, bool wrapTextureCoordina
 
 void Texture::invokeGenerateMipmap()
 {
-    if (isPowerOfTwo((uint32_t)m_info.width) && isPowerOfTwo((uint32_t)m_info.height))
+    if (!isPowerOfTwo((uint32_t)m_info.width) || !isPowerOfTwo((uint32_t)m_info.height))
     {
         LOG_ERROR("Ignore mipmaps for textures not power of two");
     }

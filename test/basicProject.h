@@ -1,9 +1,9 @@
 //
 // Created by william on 2022/5/29.
 //
+#include "core/Inspector.h"
 #include "core/glfwRenderer.h"
 #include "core/material.h"
-#include "core/Inspector.h"
 #include "core/renderer.h"
 #include "core/shader.h"
 #include "core/worldLights.h"
@@ -51,6 +51,15 @@ public:
     {
         m_deltaTime = deltaTime;
         m_totalTime += m_deltaTime;
+        if (glfwGetKey(m_renderer.getGlfwWindow(), GLFW_KEY_D) == GLFW_PRESS && !m_m_debugKeyPressed)
+        {
+            m_debug = !m_debug;
+            m_m_debugKeyPressed = true;
+        }
+        if (glfwGetKey(m_renderer.getGlfwWindow(), GLFW_KEY_D) == GLFW_RELEASE)
+        {
+            m_m_debugKeyPressed = false;
+        }
     }
     virtual void setTitle() = 0;
 
@@ -65,4 +74,6 @@ protected:
     float m_deltaTime{ 0.0f };
     float m_totalTime{ 0.0f };
     bool m_enableProfiling{ true };
+    bool m_debug{ false };
+    bool m_m_debugKeyPressed{ false };
 };

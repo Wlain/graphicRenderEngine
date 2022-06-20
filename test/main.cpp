@@ -19,6 +19,7 @@ extern void customMeshLayoutDefaultValuesTest();
 extern void textureTest();
 extern void multiCameraTest();
 extern void screePointToRayTest();
+extern void benchmark64kTest();
 
 int main()
 {
