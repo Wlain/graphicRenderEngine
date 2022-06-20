@@ -23,11 +23,14 @@ public:
     {
         m_camera.setLookAt(m_eye, m_at, m_up);
         m_camera.setPerspectiveProjection(60, 0.1, 100);
-        auto shader = Shader::getStandardBlinnPhong();
-        m_material = shader->createMaterial();
-        m_material->setSpecularity(0.1);
-        m_mesh = Mesh::create().withSphere().build();
-        m_worldLights = std::make_unique<WorldLights>();
+        m_mesh = Mesh::create().withCube().build();
+        m_meshSphere = Mesh::create().withSphere().build();
+        m_worldLights = MAKE_UNIQUE(m_worldLights);
+        for (int i = 0; i < Renderer::s_instance->getMaxSceneLights(); i++)
+        {
+            m_worldLights->addLight(Light::create().withPointLight({ 0, 2, 1 }).withColor({ 1, 0, 1 }).withRange(10).build());
+        }
+        m_material = Shader::getStandardBlinnPhong()->createMaterial();
     }
 
     void drawCross(RenderPass& rp, const glm::vec3& p, float size = 0.3f)
@@ -55,6 +58,8 @@ public:
 
     void update(float deltaTime) override
     {
+        m_material->setSpecularity(m_specularity);
+        m_material->setColor(m_color);
         if (m_animatedCamera)
         {
             m_eye = {
@@ -93,28 +98,73 @@ public:
                 drawLight(renderPass, l, m_debugLightSize);
             }
         }
-        renderPass.draw(m_mesh, glm::eulerAngleY(m_totalTime * 30), m_material);
+        renderPass.draw(m_drawSphere ? m_meshSphere : m_mesh, glm::eulerAngleY(m_totalTime), m_material);
         ImGui::Checkbox("is point light ", &m_isPointLight);
-        if (m_lastPointLight != m_isPointLight)
+        ImGui::DragFloat3("Camera", &m_eye.x);
+        ImGui::Checkbox("AnimatedLight", &m_animatedLight);
+        ImGui::Checkbox("AnimatedCamera", &m_animatedCamera);
+        ImGui::Checkbox("AnimatedObject", &m_animatedObject);
+        ImGui::Checkbox("DebugLight", &m_debugLight);
+        if (m_debugLight)
         {
-            if (m_isPointLight)
+            ImGui::DragFloat("DebugLightSize", &m_debugLightSize, 0.1f, 0, 3);
+        }
+        ImGui::Checkbox("Draw Sphere", &m_drawSphere);
+
+        // Show Label (with invisible window)
+        for (int i = 0; i < Renderer::s_instance->getMaxSceneLights(); i++)
+        {
+            auto l = m_worldLights->getLight(i);
+            if (m_debugLight)
             {
-                m_worldLights->removeAllLight();
-                m_worldLights->addLight(Light::create().withPointLight({ 0, 2, 1 }).withColor({ 1, 0, 0 }).withRange(10).build());
-                m_worldLights->addLight(Light::create().withPointLight({ 2, 0, 1 }).withColor({ 0, 1, 0 }).withRange(10).build());
-                m_worldLights->addLight(Light::create().withPointLight({ 0, -2, 1 }).withColor({ 0, 0, 1 }).withRange(10).build());
-                m_worldLights->addLight(Light::create().withPointLight({ -2, 0, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
+                drawLight(renderPass, l, m_debugLightSize);
+            }
+            std::string lightLabel = "Light ";
+            lightLabel += std::to_string(i + 1);
+            if (ImGui::TreeNode(lightLabel.c_str()))
+            {
+                auto lightType = (int)l->type;
+                ImGui::RadioButton("Point", &lightType, 0);
+                ImGui::SameLine();
+                ImGui::RadioButton("Directional", &lightType, 1);
+                ImGui::SameLine();
+                ImGui::RadioButton("Unused", &lightType, 2);
+                l->type = (Light::Type)lightType;
+
+                ImGui::ColorEdit3("Color", &(l->color.x));
+                ImGui::DragFloat3("Position", &(l->position.x));
+                ImGui::DragFloat3("Direction", &(l->direction.x));
+                ImGui::DragFloat("Range", &(l->range), 1, 0, 30);
+                ImGui::TreePop();
+            }
+        }
+
+        if (ImGui::TreeNode("Material"))
+        {
+            if (ImGui::Checkbox("BlinnPhong", &m_useBlinnPhong))
+            {
+                m_material = m_useBlinnPhong ? Shader::getStandardBlinnPhong()->createMaterial() : Shader::getStandardPBR()->createMaterial();
+            }
+            if (m_useBlinnPhong)
+            {
+                ImGui::DragFloat4("Specularity", &m_specularity.r, 0.1, 0, 1);
+                m_material->setSpecularity(m_specularity);
             }
             else
             {
-                m_worldLights->removeAllLight();
-                m_worldLights->addLight(Light::create().withDirectionalLight({ 0, 1, 1 }).withColor({ 1, 0, 0 }).withRange(10).build());
-                m_worldLights->addLight(Light::create().withDirectionalLight({ 1, 0, 1 }).withColor({ 0, 1, 0 }).withRange(10).build());
-                m_worldLights->addLight(Light::create().withDirectionalLight({ 0, -1, 1 }).withColor({ 0, 0, 1 }).withRange(10).build());
-                m_worldLights->addLight(Light::create().withDirectionalLight({ -1, 0, 1 }).withColor({ 1, 1, 1 }).withRange(10).build());
+                ImGui::DragFloat("Metallic", &m_metalRoughness.x, 0.1, 0, 1);
+                ImGui::DragFloat("Roughness", &m_metalRoughness.y, 0.1, 0, 1);
+                m_material->setMetallicRoughness(m_metalRoughness);
             }
+            auto col = m_color.toLinear();
+            if (ImGui::ColorEdit3("Color", &(col.x)))
+            {
+                m_color.setFromLinear(col);
+            }
+
+            ImGui::TreePop();
         }
-        m_lastPointLight = m_isPointLight;
+
         if (m_debug)
         {
             m_inspector.update();
@@ -131,12 +181,18 @@ private:
     glm::vec3 m_eye{ 0, 0, 5 };
     glm::vec3 m_at{ 0, 0, 0 };
     glm::vec3 m_up{ 0, 1, 0 };
+    std::shared_ptr<Mesh> m_meshSphere;
+    Color m_specularity = { 1, 1, 1, 20 };
+    Color m_color = { 1, 1, 1, 1 };
+    glm::vec2 m_metalRoughness{};
+    float m_debugLightSize = 0.2;
     bool m_isPointLight{ true };
-    bool m_lastPointLight{ false };
     bool m_debugLight = true;
     bool m_animatedLight = true;
     bool m_animatedCamera = true;
-    float m_debugLightSize = 0.2;
+    bool m_animatedObject = true;
+    bool m_drawSphere = true;
+    bool m_useBlinnPhong = true;
 };
 
 void sphereTest()

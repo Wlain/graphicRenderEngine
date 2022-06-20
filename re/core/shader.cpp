@@ -65,6 +65,7 @@ std::string pragmaInclude(std::string source, std::vector<std::string>& errors, 
     std::regex e(R"_(#pragma\s+include\s+"([^"]*)")_", std::regex::ECMAScript);
     int lineNumber = 0;
     std::vector<std::string> lines = split(source, '\n');
+    int includes = 0;
     for (auto& s : lines)
     {
         lineNumber++;
@@ -80,6 +81,8 @@ std::string pragmaInclude(std::string source, std::vector<std::string>& errors, 
             }
             else
             {
+                includes++;
+                sstream << "#line " << (includes * 10000 + 1) << "\n";
                 sstream << res << "\n";
                 sstream << "#line " << lineNumber << "\n";
             }

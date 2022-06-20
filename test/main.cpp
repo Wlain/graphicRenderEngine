@@ -26,6 +26,6 @@ extern void normalMapTest();
 
 int main()
 {
-    pbrTest();
+    sphereTest();
     return 0;
 }

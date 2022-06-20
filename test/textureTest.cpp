@@ -68,6 +68,16 @@ public:
         {
             ImGui::LabelText("png type", "Alpha");
         }
+        const char* colorSpace;
+        if (m_textures[m_selection]->getSamplerColorSpace() == Texture::SamplerColorspace::Gamma)
+        {
+            colorSpace = "Gamma";
+        }
+        else
+        {
+            colorSpace = "Linear";
+        }
+        ImGui::LabelText("Colorspace", "%s", colorSpace);
         ImGui::LabelText("Size", "%d x %d", m_textures[m_selection]->width(), m_textures[m_selection]->height());
         ImGui::LabelText("Transparent", "%s", m_textures[m_selection]->isTransparent() ? "true" : "false");
 

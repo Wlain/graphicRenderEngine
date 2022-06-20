@@ -10,8 +10,6 @@
 #include <string_view>
 #include <vector>
 
-#define MAX(a, b) return a > b ? a, b;
-
 namespace re
 {
 class Texture : public std::enable_shared_from_this<Texture>
@@ -48,7 +46,7 @@ public:
     struct Info
     {
         PixelFormat format = PixelFormat::RGBA;
-        SamplerColorspace colorspace = SamplerColorspace::Gamma;
+        SamplerColorspace colorspace = SamplerColorspace::Linear;
         ResourceType resourceType = ResourceType::File;
         std::string name;
         int width = 0;

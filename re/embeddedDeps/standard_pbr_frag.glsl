@@ -9,7 +9,7 @@ in vec3 vNormal;
 #endif
 in vec2 vUV;
 in vec3 vWsPos;
-in vec3 vLightDir[SI_LIGHTS];
+in vec4 vLightDir[SI_LIGHTS];
 
 uniform vec3 g_ambientLight;
 uniform vec4 g_lightColorRange[SI_LIGHTS];
@@ -52,7 +52,7 @@ struct PBRInfo
     float VdotH;// 相机方向和半程向量的夹角
     float perceptualRoughness;// 表面粗糙度
     float metalness;// 表面金属度
-    vec3 reflectance0;// 全反射色(法向入射角)
+    vec3 reflectance0;// 全反射色(法向入射角) F0
     vec3 reflectance90;// reflectance color at grazing angle
     float alphaRoughness;// roughness mapped to a more linear change in the roughness (proposed by [2])：粗糙度映射
     vec3 diffuseColor;// 漫反射颜色
@@ -97,11 +97,11 @@ float geometricOcclusion(PBRInfo pbrInputs)
 // The following equation(s) model the distribution of microfacet normals across the area being drawn (aka D())
 // Implementation from "Average Irregularity Representation of a Roughened Surface for Ray Reflection" by T. S. Trowbridge, and K. P. Reitz
 // Follows the distribution function recommended in the SIGGRAPH 2013 course notes from EPIC Games [1], Equation 3.
-// 法线分布函数：微表面模型
+// 法线分布函数（GGX）
 float microfacetDistribution(PBRInfo pbrInputs)
 {
     float roughnessSq = pbrInputs.alphaRoughness * pbrInputs.alphaRoughness;
-    float f = (pbrInputs.NdotH * roughnessSq - pbrInputs.NdotH) * pbrInputs.NdotH + 1.0;
+    float f = pbrInputs.NdotH * (roughnessSq - 1.0) + 1.0;
     return roughnessSq / (M_PI * f * f);
 }
 
@@ -150,7 +150,11 @@ void main(void)
     vec3 n = getNormal();// Normal at surface point
     vec3 v = normalize(g_cameraPos.xyz - vWsPos.xyz);// Vector from surface point to camera
     for (int i=0;i<SI_LIGHTS;i++) {
-        vec3 l = normalize(vLightDir[i]);// Vector from surface point to light
+        float attenuation = vLightDir[i].w;
+        if (attenuation <= 0.0) {
+            continue;
+        }
+        vec3 l = normalize(vLightDir[i].xyz);// Vector from surface point to light
         vec3 h = normalize(l+v);// Half vector between both l and v
         vec3 reflection = -normalize(reflect(v, n));
 
@@ -182,8 +186,8 @@ void main(void)
 
         // Calculation of analytical lighting contribution
         vec3 diffuseContrib = (1.0 - F) * diffuse(pbrInputs);
-        vec3 specContrib = F * G * D / (4.0 * NdotL * NdotV);
-        color += NdotL * g_lightColorRange[i].xyz * (diffuseContrib + specContrib);
+        vec3 specContrib = F * G * D / (4.0 * NdotL * NdotV);// BRDF
+        color += attenuation * NdotL * g_lightColorRange[i].xyz * (diffuseContrib + specContrib);
     }
 
         // Apply optional PBR terms for additional (optional) shading
