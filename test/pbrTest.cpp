@@ -231,15 +231,15 @@ public:
 private:
     static constexpr float s_cameraDist = 3.5f;
     // 基础颜色
-    static constexpr const auto s_colorTexStr = "test/resources/BoomBox_baseColor.png";
+    static constexpr const auto s_colorTexStr = "test/resources/pbr/BoomBox/BoomBox_baseColor.png";
     // 金属度
-    static constexpr const auto s_metRoughTexStr = "test/resources/BoomBox_roughnessMetallic.png";
+    static constexpr const auto s_metRoughTexStr = "test/resources/pbr/BoomBox/BoomBox_roughnessMetallic.png";
     // 法线
-    static constexpr const auto s_normalTexStr = "test/resources/BoomBox_normal.png";
+    static constexpr const auto s_normalTexStr = "test/resources/pbr/BoomBox/BoomBox_normal.png";
     // 自发光
-    static constexpr const auto s_emissiveTexStr = "test/resources/BoomBox_emissive.png";
+    static constexpr const auto s_emissiveTexStr = "test/resources/pbr/BoomBox/BoomBox_emissive.png";
     // 环境光遮蔽
-    static constexpr const auto s_occlusionTexStr = "test/resources/BoomBox_occlusion.png";
+    static constexpr const auto s_occlusionTexStr = "test/resources/pbr/BoomBox/BoomBox_occlusion.png";
 
 private:
     std::shared_ptr<Texture> m_colorTex;
