@@ -86,7 +86,7 @@ int Renderer::getMaxSceneLights()
     return m_maxSceneLights;
 }
 
-const Renderer::RenderInfo& re::Renderer::getRenderInfo()
+const Renderer::RenderInfo& re::Renderer::renderInfo()
 {
     return m_renderInfo;
 }

@@ -46,8 +46,12 @@ Mesh::~Mesh()
     {
         glDeleteVertexArrays(1, &(obj.second.vaoID));
     }
-    glDeleteBuffers((GLsizei)m_ebos.size(), m_ebos.data());
     glDeleteBuffers(1, &m_vbo);
+
+    if (m_ebo != 0)
+    {
+        glDeleteBuffers(1, &m_ebo);
+    }
 }
 
 void Mesh::bind(Shader* shader)
@@ -72,12 +76,13 @@ void Mesh::bind(Shader* shader)
         glBindVertexArray(index);
         setVertexAttributePointers(shader);
         m_shaderToVao[shader->m_id] = { shader->m_shaderUniqueId, index };
+        bindIndexSet();
     }
 }
 
-void Mesh::bindIndexSet(int indexSet)
+void Mesh::bindIndexSet()
 {
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indices.empty() ? 0 : m_ebos[indexSet]);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
 }
 
 void Mesh::update(std::map<std::string, std::vector<float>>&& attributesFloat, std::map<std::string, std::vector<glm::vec2>>&& attributesVec2, std::map<std::string, std::vector<glm::vec3>>&& attributesVec3, std::map<std::string, std::vector<glm::vec4>>&& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>&& attributesIVec4, std::vector<std::vector<uint16_t>>&& indices, std::vector<Topology>& meshTopology, std::string_view name, RenderStats& renderStats)
@@ -101,24 +106,40 @@ void Mesh::update(std::map<std::string, std::vector<float>>&& attributesFloat, s
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * interleavedData.size(), interleavedData.data(), GL_STATIC_DRAW);
+    m_elementBufferOffsetCount.clear();
+
     if (!m_indices.empty())
     {
-        for (int i = 0; i < m_indices.size(); i++)
+        if (m_ebo != 0)
         {
-            uint32_t ebo;
-            if (i >= m_ebos.size())
+            glDeleteBuffers(1, &m_ebo);
+            m_ebo = 0;
+        }
+        else
+        {
+            if (m_ebo == 0)
             {
-                glGenBuffers(1, &ebo);
-                m_ebos.push_back(ebo);
+                glGenBuffers(1, &m_ebo);
             }
-            else
+            size_t totalCount = 0;
+            for (auto& m_indice : m_indices)
             {
-                ebo = m_ebos[i];
+                totalCount += m_indice.size();
             }
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-            GLsizeiptr indicesSize = m_indices[i].size() * sizeof(uint16_t);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesSize, m_indices[i].data(), GL_STATIC_DRAW);
-            m_dataSize += indicesSize;
+            std::vector<uint16_t> concatenatedIndices;
+            concatenatedIndices.reserve(totalCount);
+            int offset = 0;
+            for (auto& m_indice : m_indices)
+            {
+                size_t dataSize = m_indice.size() * sizeof(uint16_t);
+                concatenatedIndices.insert(concatenatedIndices.end(), m_indice.begin(), m_indice.end());
+                m_elementBufferOffsetCount.emplace_back(offset, m_indice.size());
+                offset += dataSize;
+            }
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, offset, concatenatedIndices.data(), GL_STATIC_DRAW);
+
+            m_dataSize += offset;
         }
     }
     m_boundsMinMax[0] = glm::vec3{ std::numeric_limits<float>::max() };

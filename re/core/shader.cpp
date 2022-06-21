@@ -128,7 +128,6 @@ void logCurrentCompileInfo(GLuint& shader, GLenum type, std::vector<std::string>
         }
         LOG_ERROR("Shader compile error in {} {}: {}", name.data(), typeStr.c_str(), errorLog.data());
         errors.push_back(std::string(errorLog.data()) + "##" + std::to_string(type));
-        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logSize);
     }
 }
 
@@ -142,10 +141,13 @@ bool linkProgram(GLuint shaderProgram, std::vector<std::string>& errors)
     {
         GLint logSize;
         glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH, &logSize);
-        std::vector<char> errorLog((size_t)logSize);
-        glGetProgramInfoLog(shaderProgram, logSize, nullptr, errorLog.data());
-        errors.emplace_back(errorLog.data());
-        LOG_ERROR("{}", errorLog.data());
+        if (logSize > 1)
+        { // log size of 1 is empty, since it includes \0
+            std::vector<char> errorLog((size_t)logSize);
+            glGetProgramInfoLog(shaderProgram, logSize, nullptr, errorLog.data());
+            errors.emplace_back(errorLog.data());
+            LOG_ERROR("{}", errorLog.data());
+        }
         return false;
     }
     return true;
@@ -1007,11 +1009,11 @@ std::string Shader::insertPreprocessorDefines(std::string source, std::map<std::
     {
         ss << "#define " << sc.first << " " << sc.second << "\n";
     }
-    if (Renderer::s_instance->getRenderInfo().useFramebufferSRGB)
+    if (Renderer::s_instance->renderInfo().useFramebufferSRGB)
     {
         ss << "#define SI_FRAMEBUFFER_SRGB 1\n";
     }
-    if (Renderer::s_instance->getRenderInfo().supportTextureSamplerSRGB)
+    if (Renderer::s_instance->renderInfo().supportTextureSamplerSRGB)
     {
         ss << "#define SI_TEX_SAMPLER_SRGB 1\n";
     }

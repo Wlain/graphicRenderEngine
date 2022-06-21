@@ -40,7 +40,7 @@ public:
     glm::ivec2 getFramebufferSize();
     glm::ivec2 getWindowSize();
     int getMaxSceneLights();
-    const RenderInfo& getRenderInfo();
+    const RenderInfo& renderInfo();
 
 public:
     static constexpr int s_rgVersionMajor{ 3 };

@@ -56,7 +56,7 @@ RenderPass::RenderPassBuilder::RenderPassBuilder(RenderStats* renderStats) :
 
 RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withClearColor(bool enabled, Color color)
 {
-    if (Renderer::s_instance->getRenderInfo().useFramebufferSRGB)
+    if (Renderer::s_instance->renderInfo().useFramebufferSRGB)
     {
         auto col3 = glm::convertSRGBToLinear(glm::vec3(color.r, color.g, color.b));
         m_clearColorValue = { col3, color.a };
@@ -395,15 +395,15 @@ void RenderPass::drawInstance(RenderPass::RenderQueueObj& rqObj)
             m_lastBoundMeshId = mesh->m_meshId;
         }
         mesh->bind(shader);
-        mesh->bindIndexSet(0);
         if (mesh->getIndexSets() == 0)
         {
             glDrawArrays((GLenum)mesh->getMeshTopology(), 0, mesh->getVertexCount());
         }
         else
         {
-            auto indexCount = (GLsizei)mesh->getIndices(0).size();
-            glDrawElements((GLenum)mesh->getMeshTopology(), indexCount, GL_UNSIGNED_SHORT, nullptr);
+            auto offsetCount = mesh->m_elementBufferOffsetCount[i];
+            GLsizei indexCount = offsetCount.second;
+            glDrawElements((GLenum)mesh->getMeshTopology(), indexCount, GL_UNSIGNED_SHORT, (void*)offsetCount.first);
         }
     }
 }

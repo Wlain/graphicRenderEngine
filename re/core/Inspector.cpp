@@ -492,6 +492,27 @@ void Inspector::showFramebufferObject(FrameBuffer* fbo)
     std::string s = fbo->name() + "##" + std::to_string((int64_t)fbo);
     if (ImGui::TreeNode(s.c_str()))
     {
+        char name[128];
+        sprintf(name, "Color textures %lu", fbo->m_textures.size());
+        if (ImGui::TreeNode(name))
+        {
+            for (auto& t : fbo->m_textures)
+            {
+                showTexture(t.get());
+            }
+            ImGui::TreePop();
+        }
+
+        sprintf(name, "Depth textures %i", fbo->m_depthTexture ? 1 : 0);
+        if (ImGui::TreeNode(name) && fbo->m_depthTexture.get())
+        {
+            showTexture(fbo->m_depthTexture.get());
+            ImGui::TreePop();
+        }
+        if (!fbo->m_depthTexture)
+        {
+            ImGui::LabelText("RenderBuffer Depth", "%s", fbo->m_renderBufferDepth ? "true" : "false");
+        }
         ImGui::TreePop();
     }
 }

@@ -138,7 +138,7 @@ private:
         unsigned int vaoID;
     };
     void bind(Shader* shader);
-    void bindIndexSet(int indexSet);
+    void bindIndexSet();
     void setVertexAttributePointers(Shader* shader);
     Mesh(std::map<std::string, std::vector<float>>&& attributesFloat, std::map<std::string, std::vector<glm::vec2>>&& attributesVec2, std::map<std::string, std::vector<glm::vec3>>&& attributesVec3, std::map<std::string, std::vector<glm::vec4>>&& attributesVec4,
          std::map<std::string, std::vector<glm::i32vec4>>&& attributesIVec4, std::vector<std::vector<uint16_t>>&& indices, std::vector<Topology>& meshTopology, std::string_view name, RenderStats& renderStats);
@@ -158,7 +158,8 @@ private:
     std::array<glm::vec3, 2> m_boundsMinMax;
     std::map<unsigned int, VAOBinding> m_shaderToVao;
     uint32_t m_vbo{ 0 };
-    std::vector<uint32_t> m_ebos;
+    unsigned int m_ebo = 0;
+    std::vector<std::pair<int, int>> m_elementBufferOffsetCount;
     std::string m_name;
     int32_t m_vertexCount{ 0 };
     int m_dataSize{ 0 };
