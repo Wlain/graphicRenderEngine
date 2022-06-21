@@ -21,10 +21,14 @@
     } while (0)
 
 // For internal debugging of gl errors
-inline void checkGlError() noexcept
+inline void checkGlError(std::string_view msg = "") noexcept
 {
     for (GLenum err; (err = glGetError()) != GL_NO_ERROR;)
     {
+        if (err != GL_NONE)
+        {
+            if (!msg.empty()) LOG_ERROR("{}", msg);
+        }
         switch (err)
         {
         case GL_INVALID_ENUM:

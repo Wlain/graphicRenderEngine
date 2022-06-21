@@ -287,12 +287,26 @@ std::shared_ptr<Shader> Shader::getUnlit()
     {
         return s_unlit;
     }
-    s_unlit = Shader::create()
+    s_unlit = create()
                   .withSourceFile("unlit_vert.glsl", ShaderType::Vertex)
                   .withSourceFile("unlit_frag.glsl", ShaderType::Fragment)
                   .withName("Unlit")
                   .build();
     return s_unlit;
+}
+
+std::shared_ptr<Shader> Shader::getBlit()
+{
+    if (s_blit != nullptr)
+    {
+        return s_blit;
+    }
+    s_blit = create()
+                 .withSourceFile("blit_vert.glsl", ShaderType::Vertex)
+                 .withSourceFile("blit_frag.glsl", ShaderType::Fragment)
+                 .withName("Blit")
+                 .build();
+    return s_blit;
 }
 
 std::shared_ptr<Shader> Shader::getUnlitSprite()
@@ -302,7 +316,7 @@ std::shared_ptr<Shader> Shader::getUnlitSprite()
         return s_unlitSprite;
     }
 
-    s_unlitSprite = Shader::create()
+    s_unlitSprite = create()
                         .withSourceFile("sprite_vert.glsl", ShaderType::Vertex)
                         .withSourceFile("sprite_frag.glsl", ShaderType::Fragment)
                         .withBlend(BlendType::AlphaBlending)
@@ -919,10 +933,10 @@ std::shared_ptr<Shader> Shader::getStandardPhong()
         return s_standardPhong;
     }
     s_standardPhong = create()
-                        .withSourceFile("standard_phong_vert.glsl", ShaderType::Vertex)
-                        .withSourceFile("standard_phong_frag.glsl", ShaderType::Fragment)
-                        .withName("StandardPhong")
-                        .build();
+                          .withSourceFile("standard_phong_vert.glsl", ShaderType::Vertex)
+                          .withSourceFile("standard_phong_frag.glsl", ShaderType::Fragment)
+                          .withName("StandardPhong")
+                          .build();
     return s_standardPhong;
 }
 

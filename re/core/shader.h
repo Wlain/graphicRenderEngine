@@ -131,6 +131,7 @@ public:
     // Must end with build()
     ShaderBuilder update();
     static std::shared_ptr<Shader> getUnlit();
+    static std::shared_ptr<Shader> getBlit();
     static std::shared_ptr<Shader> getUnlitSprite();
     DEPRECATED("Use getStandardPBR or getStandardBlinnPhong")
     static std::shared_ptr<Shader>& getStandard();
@@ -176,6 +177,7 @@ private:
 
 private:
     inline static std::shared_ptr<Shader> s_unlit{ nullptr }; // 无灯光
+    inline static std::shared_ptr<Shader> s_blit{ nullptr };
     inline static std::shared_ptr<Shader> s_unlitSprite{ nullptr };
     inline static std::shared_ptr<Shader> s_debugUV{ nullptr };
     inline static std::shared_ptr<Shader> s_debugNormals{ nullptr };
@@ -216,7 +218,6 @@ private:
     friend class Material;
     friend class Inspector;
 };
-
 } // namespace re
 
 #endif //SIMPLERENDERENGINE_SHADER_H

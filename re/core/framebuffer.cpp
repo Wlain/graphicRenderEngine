@@ -60,10 +60,27 @@ void checkStatus()
     }
 }
 
-FrameBuffer::FrameBufferBuilder& FrameBuffer::FrameBufferBuilder::withTexture(const std::shared_ptr<Texture>& texture)
+FrameBuffer::FrameBufferBuilder& FrameBuffer::FrameBufferBuilder::withColorTexture(const std::shared_ptr<Texture>& texture)
 {
+    ASSERT(!texture->isDepthTexture());
+    if (!m_textures.empty() || m_depthTexture.get())
+    {
+        ASSERT(0);
+    }
     this->m_size = { texture->width(), texture->height() };
     m_textures.push_back(texture);
+    return *this;
+}
+
+FrameBuffer::FrameBufferBuilder& FrameBuffer::FrameBufferBuilder::withDepthTexture(const std::shared_ptr<Texture>& texture)
+{
+    ASSERT(texture->isDepthTexture());
+    if (!m_textures.empty() || m_depthTexture.get())
+    {
+        ASSERT(0);
+    }
+    this->m_size = { texture->width(), texture->height() };
+    m_depthTexture = texture;
     return *this;
 }
 
@@ -81,27 +98,39 @@ std::shared_ptr<FrameBuffer> FrameBuffer::FrameBufferBuilder::build()
     }
     auto framebuffer = new FrameBuffer(m_name);
     framebuffer->m_size = m_size;
-    glGenRenderbuffers(1, &framebuffer->m_rbo);
-    glBindRenderbuffer(GL_RENDERBUFFER, framebuffer->m_rbo);
-    glRenderbufferStorage(GL_RENDERBUFFER,
-#ifdef GL_ES_VERSION_2_0
-                          GL_DEPTH_COMPONENT16,
-#else
-                          GL_DEPTH_COMPONENT32,
-#endif
-                          m_size.x, m_size.y);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
-                          m_size.x, m_size.y);
-    glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
     glGenFramebuffers(1, &framebuffer->m_fbo);
     glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->m_fbo);
+    std::vector<GLenum> drawBuffers;
     for (unsigned i = 0; i < m_textures.size(); i++)
     {
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, m_textures[i]->m_info.id, 0);
+        drawBuffers.push_back(GL_COLOR_ATTACHMENT0 + i);
     }
-    // attach the renderbuffer to depth attachment point
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, framebuffer->m_rbo);
+    if (m_depthTexture)
+    {
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depthTexture->m_info.id, 0);
+    }
+    else
+    {
+        glGenRenderbuffers(1, &framebuffer->m_rbo);
+        glBindRenderbuffer(GL_RENDERBUFFER, framebuffer->m_rbo);
+        glRenderbufferStorage(GL_RENDERBUFFER,
+#ifdef GL_ES_VERSION_2_0
+                              GL_DEPTH_COMPONENT16,
+#else
+                              GL_DEPTH_COMPONENT32,
+#endif
+                              m_size.x, m_size.y);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
+                              m_size.x, m_size.y);
+        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+        // attach the renderbuffer to depth attachment point
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER,
+                                  GL_DEPTH_ATTACHMENT,
+                                  GL_RENDERBUFFER,
+                                  framebuffer->m_rbo);
+    }
     // check if FBO is configured correctly
     checkStatus();
     framebuffer->m_textures = m_textures;
@@ -130,7 +159,11 @@ FrameBuffer::FrameBufferBuilder FrameBuffer::create()
 
 int FrameBuffer::getMaximumColorAttachments()
 {
-    return 1;
+    GLint maxAttach = 0;
+    glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &maxAttach);
+    GLint maxDrawBuf = 0;
+    glGetIntegerv(GL_MAX_DRAW_BUFFERS, &maxDrawBuf);
+    return std::min(maxAttach, maxDrawBuf);
 }
 
 FrameBuffer::FrameBuffer(std::string_view name) :
@@ -139,9 +172,18 @@ FrameBuffer::FrameBuffer(std::string_view name) :
     Renderer::s_instance->m_fbos.emplace_back(this);
 }
 
-void FrameBuffer::setTexture(std::shared_ptr<Texture> tex, int index)
+void FrameBuffer::setColorTexture(const std::shared_ptr<Texture>& tex, int index)
 {
+    ASSERT(m_textures.size() > index && index >= 0);
+    ASSERT(!tex->isDepthTexture());
     m_textures[index] = tex;
+    m_dirty = true;
+}
+
+void FrameBuffer::setDepthTexture(const std::shared_ptr<Texture>& tex)
+{
+    ASSERT(tex->isDepthTexture());
+    m_depthTexture = tex;
     m_dirty = true;
 }
 
@@ -156,6 +198,10 @@ void FrameBuffer::bind()
             {
                 glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, m_textures[i]->m_info.id, 0);
             }
+        }
+        if (m_depthTexture)
+        {
+            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depthTexture->m_info.id, 0);
         }
         m_dirty = false;
     }
