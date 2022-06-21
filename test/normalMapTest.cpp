@@ -2,10 +2,6 @@
 // Created by cwb on 2022/6/20.
 //
 
-//
-// Created by cwb on 2022/6/20.
-//
-
 #include "basicProject.h"
 #include "guiCommonDefine.h"
 

@@ -1,6 +1,6 @@
 extern void cubeTest();
+extern void multiLightTest();
 extern void sphereTest();
-extern void sphereTest2();
 extern void cubeTexTest();
 extern void guiTest();
 extern void quadTest();
@@ -26,6 +26,6 @@ extern void normalMapTest();
 
 int main()
 {
-    sphereTest();
+    multiLightTest();
     return 0;
 }

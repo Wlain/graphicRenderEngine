@@ -9,10 +9,6 @@ in vec3 vNormal;
 #endif
 in vec2 vUV;
 in vec3 vWsPos;
-in vec4 vLightDir[SI_LIGHTS];
-
-uniform vec3 g_ambientLight;
-uniform vec4 g_lightColorRange[SI_LIGHTS];
 uniform vec4 color;
 uniform vec4 metallicRoughness;
 uniform vec4 g_cameraPos;
@@ -38,6 +34,7 @@ in vec4 vColor;
 
 #pragma include "normalmap_incl.glsl"
 #pragma include "utils_incl.glsl"
+#pragma include "light_incl.glsl"
 
 
 // Encapsulate the various inputs used by the various functions in the shading equation
@@ -150,11 +147,12 @@ void main(void)
     vec3 n = getNormal();// Normal at surface point
     vec3 v = normalize(g_cameraPos.xyz - vWsPos.xyz);// Vector from surface point to camera
     for (int i=0;i<SI_LIGHTS;i++) {
-        float attenuation = vLightDir[i].w;
+        float attenuation = 0.0;
+        vec3 l = vec3(0.0,0.0,0.0);
+        lightDirectionAndAttenuation(g_lightPosType[i], g_lightColorRange[i].w, vWsPos, l, attenuation);
         if (attenuation <= 0.0) {
             continue;
         }
-        vec3 l = normalize(vLightDir[i].xyz);// Vector from surface point to light
         vec3 h = normalize(l+v);// Half vector between both l and v
         vec3 reflection = -normalize(reflect(v, n));
 

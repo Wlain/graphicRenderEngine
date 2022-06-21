@@ -137,6 +137,7 @@ public:
     static std::shared_ptr<Shader> getStandardParticles();
     static std::shared_ptr<Shader> getStandardPBR();
     static std::shared_ptr<Shader> getStandardBlinnPhong();
+    static std::shared_ptr<Shader> getStandardPhong();
 
 private:
     static std::string getSource(const Resource& resource);
@@ -178,10 +179,11 @@ private:
     inline static std::shared_ptr<Shader> s_unlitSprite{ nullptr };
     inline static std::shared_ptr<Shader> s_debugUV{ nullptr };
     inline static std::shared_ptr<Shader> s_debugNormals{ nullptr };
-    inline static std::shared_ptr<Shader> s_standard{ nullptr };
     inline static std::shared_ptr<Shader> s_font{ nullptr };
     inline static std::shared_ptr<Shader> s_standardParticles{ nullptr };
+    inline static std::shared_ptr<Shader> s_standardPBR{ nullptr };
     inline static std::shared_ptr<Shader> s_standardPhong{ nullptr };
+    inline static std::shared_ptr<Shader> s_standardBlinnPhong{ nullptr };
     inline static long s_globalShaderCounter{ 0 };
 
 private:

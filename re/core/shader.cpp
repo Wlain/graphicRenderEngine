@@ -96,7 +96,7 @@ std::string pragmaInclude(std::string source, std::vector<std::string>& errors, 
 }
 
 // 获取当前shader编译信息
-void logCurrentCompileInfo(GLuint& shader, GLenum type, std::vector<std::string>& errors)
+void logCurrentCompileInfo(GLuint& shader, GLenum type, std::vector<std::string>& errors, std::string_view name)
 {
     GLint logSize = 0;
     glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logSize);
@@ -126,7 +126,7 @@ void logCurrentCompileInfo(GLuint& shader, GLenum type, std::vector<std::string>
             typeStr = std::string("Unknown error type: ") + std::to_string(type);
             break;
         }
-        LOG_ERROR("Shader compile error in {}: {}", typeStr.c_str(), errorLog.data());
+        LOG_ERROR("Shader compile error in {} {}: {}", name.data(), typeStr.c_str(), errorLog.data());
         errors.push_back(std::string(errorLog.data()) + "##" + std::to_string(type));
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logSize);
     }
@@ -276,7 +276,7 @@ bool Shader::compileShader(const Shader::Resource& resource, GLenum type, GLuint
     glCompileShader(shader);
     GLint success = 0;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-    logCurrentCompileInfo(shader, type, errors);
+    logCurrentCompileInfo(shader, type, errors, resource.value);
 
     return success == 1;
 }
@@ -321,7 +321,7 @@ std::shared_ptr<Shader>& Shader::getStandard()
     s_standardPhong = create()
                           .withSourceFile("standard_vert.glsl", ShaderType::Vertex)
                           .withSourceFile("standard_frag.glsl", ShaderType::Fragment)
-                          .withName("StandardBlinnPhong")
+                          .withName("Standard")
                           .build();
     return s_standardPhong;
 }
@@ -800,7 +800,7 @@ std::shared_ptr<Material> Shader::createMaterial(std::map<std::string, std::stri
             if (auto ptr = s.lock())
             {
                 if (mapCompare(specializationConstants, ptr->m_specializationConstants))
-                    return std::shared_ptr<Material>(new Material(ptr));
+                    return std::make_shared<Material>(ptr);
             }
         }
         // no specialization shader found
@@ -886,30 +886,44 @@ Shader::ShaderBuilder Shader::update()
 
 std::shared_ptr<Shader> Shader::getStandardPBR()
 {
-    if (s_standard != nullptr)
+    if (s_standardPBR != nullptr)
     {
-        return s_standard;
+        return s_standardPBR;
     }
-    s_standard = create()
-                     .withSourceFile("standard_pbr_vert.glsl", ShaderType::Vertex)
-                     .withSourceFile("standard_pbr_frag.glsl", ShaderType::Fragment)
-                     .withName("Standard")
-                     .build();
-    return s_standard;
+    s_standardPBR = create()
+                        .withSourceFile("standard_pbr_vert.glsl", ShaderType::Vertex)
+                        .withSourceFile("standard_pbr_frag.glsl", ShaderType::Fragment)
+                        .withName("Standard")
+                        .build();
+    return s_standardPBR;
 }
 
 std::shared_ptr<Shader> Shader::getStandardBlinnPhong()
 {
-    if (s_standard != nullptr)
+    if (s_standardBlinnPhong != nullptr)
     {
-        return s_standard;
+        return s_standardBlinnPhong;
     }
-    s_standard = Shader::create()
-                     .withSourceFile("standard_blinn_phong_vert.glsl", ShaderType::Vertex)
-                     .withSourceFile("standard_blinn_phong_frag.glsl", ShaderType::Fragment)
-                     .withName("Standard Blinn Phong")
-                     .build();
-    return s_standard;
+    s_standardBlinnPhong = Shader::create()
+                               .withSourceFile("standard_blinn_phong_vert.glsl", ShaderType::Vertex)
+                               .withSourceFile("standard_blinn_phong_frag.glsl", ShaderType::Fragment)
+                               .withName("Standard Blinn Phong")
+                               .build();
+    return s_standardBlinnPhong;
+}
+
+std::shared_ptr<Shader> Shader::getStandardPhong()
+{
+    if (s_standardPhong != nullptr)
+    {
+        return s_standardPhong;
+    }
+    s_standardPhong = create()
+                        .withSourceFile("standard_phong_vert.glsl", ShaderType::Vertex)
+                        .withSourceFile("standard_phong_frag.glsl", ShaderType::Fragment)
+                        .withName("StandardPhong")
+                        .build();
+    return s_standardPhong;
 }
 
 const std::map<std::string, std::string>& Shader::getCurrentSpecializationConstants() const
