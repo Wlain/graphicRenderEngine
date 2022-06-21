@@ -321,9 +321,9 @@ Texture::~Texture()
         // update stats
         RenderStats& renderStats = r->m_renderStatsCurrent;
         renderStats.textureCount--;
-        auto datasize = getDataSize();
-        renderStats.textureBytes -= datasize;
-        renderStats.textureBytesDeallocated += datasize;
+        auto dataSize = getDataSize();
+        renderStats.textureBytes -= dataSize;
+        renderStats.textureBytesDeallocated += dataSize;
         if (!r->m_textures.empty())
         {
             r->m_textures.erase(std::remove(r->m_textures.begin(), r->m_textures.end(), this));

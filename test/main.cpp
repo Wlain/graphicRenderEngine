@@ -27,6 +27,6 @@ extern void renderToDepthTest();
 extern void skyboxTest();
 int main()
 {
-    objTest();
+    skyboxTest();
     return 0;
 }

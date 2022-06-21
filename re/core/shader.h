@@ -139,6 +139,8 @@ public:
     static std::shared_ptr<Shader> getStandardPBR();
     static std::shared_ptr<Shader> getStandardBlinnPhong();
     static std::shared_ptr<Shader> getStandardPhong();
+    static std::shared_ptr<Shader> getSkybox();
+    static std::shared_ptr<Shader> getSkyboxProcedural();
 
 private:
     static std::string getSource(const Resource& resource);
@@ -186,6 +188,8 @@ private:
     inline static std::shared_ptr<Shader> s_standardPBR{ nullptr };
     inline static std::shared_ptr<Shader> s_standardPhong{ nullptr };
     inline static std::shared_ptr<Shader> s_standardBlinnPhong{ nullptr };
+    inline static std::shared_ptr<Shader> s_skybox{ nullptr };
+    inline static std::shared_ptr<Shader> s_skyboxProcedural{ nullptr };
     inline static long s_globalShaderCounter{ 0 };
 
 private:

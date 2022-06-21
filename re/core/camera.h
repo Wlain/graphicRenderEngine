@@ -29,6 +29,7 @@ public:
     void setProjectionTransform(const glm::mat4& projectionTransform);
     inline glm::mat4 getViewTransform() const { return m_viewTransform; }
     glm::mat4 getProjectionTransform(const glm::uvec2& viewportSize);
+    glm::mat4 getInfiniteProjectionTransform(glm::uvec2 viewportSize);
     void setViewport(const glm::vec2& offset, const glm::vec2& size);
 
 private:

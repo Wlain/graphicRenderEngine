@@ -942,6 +942,35 @@ std::shared_ptr<Shader> Shader::getStandardPhong()
     return s_standardPhong;
 }
 
+std::shared_ptr<Shader> Shader::getSkybox()
+{
+    if (s_skybox != nullptr)
+    {
+        return s_skybox;
+    }
+    s_skybox = create()
+                   .withSourceFile("skybox_vert.glsl", ShaderType::Vertex)
+                   .withSourceFile("skybox_frag.glsl", ShaderType::Fragment)
+                   .withName("Skybox")
+                   .build();
+    return s_skybox;
+}
+
+std::shared_ptr<Shader> Shader::getSkyboxProcedural()
+{
+    if (s_skyboxProcedural != nullptr)
+    {
+        return s_skyboxProcedural;
+    }
+    s_skyboxProcedural = create()
+                             .withSourceFile("skybox_proc_vert.glsl", ShaderType::Vertex)
+                             .withSourceFile("skybox_proc_frag.glsl", ShaderType::Fragment)
+                             .withName("Skybox Procedural")
+                             .withDepthWrite(true)
+                             .build();
+    return s_skyboxProcedural;
+}
+
 const std::map<std::string, std::string>& Shader::getCurrentSpecializationConstants() const
 {
     return m_specializationConstants;

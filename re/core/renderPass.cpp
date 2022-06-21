@@ -9,6 +9,7 @@
 #include "material.h"
 #include "renderStats.h"
 #include "renderer.h"
+#include "skybox.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <utility>
@@ -46,6 +47,10 @@ RenderPass::RenderPass(RenderPass::RenderPassBuilder& builder) :
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
+    }
+    if (builder.m_skybox)
+    {
+        m_renderQueue.push_back({}); // reserve empty obj
     }
 }
 
@@ -91,6 +96,13 @@ RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withGUI(bool enabl
 RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withFramebuffer(std::shared_ptr<FrameBuffer> framebuffer)
 {
     m_framebuffer = std::move(framebuffer);
+    return *this;
+}
+
+RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withSkybox(std::shared_ptr<Skybox> skybox)
+{
+    m_clearColor = false;
+    m_skybox = std::move(skybox);
     return *this;
 }
 
@@ -306,6 +318,13 @@ void RenderPass::finish()
     if (clear != 0u) glClear(clear);
 
     m_projection = m_builder.m_camera.getProjectionTransform(m_viewportSize);
+    if (m_builder.m_skybox)
+    {
+        // Create an infinite projection
+        glm::mat4 inf = m_builder.m_camera.getInfiniteProjectionTransform(m_viewportSize);
+        m_renderQueue[0] = { m_builder.m_skybox->m_skyboxMesh, inf, m_builder.m_skybox->m_material }; // passing the inf projection as the model matrix
+    }
+
     for (auto& rqObj : m_renderQueue)
     {
         drawInstance(rqObj);

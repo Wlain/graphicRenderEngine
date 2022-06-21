@@ -149,4 +149,15 @@ std::array<glm::vec3, 2> Camera::screenPointToRay(glm::vec2 position)
     return { originClipSpaceWS3, glm::normalize(destClipSpaceWS3 - originClipSpaceWS3) };
 }
 
+glm::mat4 Camera::getInfiniteProjectionTransform(glm::uvec2 viewportSize)
+{
+    switch (m_projectionType)
+    {
+    case ProjectionType::Perspective:
+        return glm::tweakedInfinitePerspective(m_projectionValue.perspective.fieldOfViewY, float(viewportSize.x) / float(viewportSize.y), m_projectionValue.perspective.nearPlane);
+    default:
+        return getProjectionTransform(viewportSize);
+    }
+}
+
 } // namespace re

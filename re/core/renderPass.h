@@ -20,6 +20,7 @@ class RenderStats;
 class Material;
 class FrameBuffer;
 class WorldLights;
+class Skybox;
 //渲染通道封装了一些渲染状态，并允许添加 drawCall，注意，一次只能有一个渲染传递对象处于活动状态。
 class RenderPass
 {
@@ -47,6 +48,7 @@ public:
         // calls ImGui::Render() in the end of the renderpass
         RenderPassBuilder& withGUI(bool enabled = true);
         RenderPassBuilder& withFramebuffer(std::shared_ptr<FrameBuffer> framebuffer);
+        RenderPassBuilder& withSkybox(std::shared_ptr<Skybox> skybox);
         RenderPass build();
 
     private:
@@ -66,6 +68,7 @@ public:
         RenderStats* m_renderStats{ nullptr };
         std::shared_ptr<FrameBuffer> m_framebuffer;
         Camera m_camera;
+        std::shared_ptr<Skybox> m_skybox;
         friend class Renderer;
         friend class RenderPass;
     };
