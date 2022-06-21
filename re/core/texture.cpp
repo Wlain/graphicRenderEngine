@@ -133,6 +133,7 @@ std::shared_ptr<Texture> Texture::TextureBuilder::build()
     }
     auto* texture = new Texture(m_info.id, m_info.width, m_info.height, m_info.target, m_info.name);
     texture->m_info.generateMipmap = m_info.generateMipmap;
+    texture->m_depthPrecision = m_depthPrecision;
     if (m_info.generateMipmap)
     {
         texture->invokeGenerateMipmap();
@@ -172,6 +173,61 @@ Texture::TextureBuilder& Texture::TextureBuilder::withFileCubeMap(std::string_vi
     glBindTexture(m_info.target, m_info.id);
     glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + (uint32_t)side, mipmapLevel, internalFormat, m_info.width, m_info.height, border, GL_RGBA, type, data);
     stbi_image_free((void*)data);
+    return *this;
+}
+
+Texture::TextureBuilder& Texture::TextureBuilder::withDepth(int width, int height, Texture::DepthPrecision precision)
+{
+    if (m_info.name.empty())
+    {
+        m_info.name = "Depth texture";
+    }
+    m_info.target = GL_TEXTURE_2D;
+    GLint internalFormat;
+    GLint format = GL_DEPTH_COMPONENT;
+    m_depthPrecision = precision;
+    if (m_depthPrecision == DepthPrecision::I16)
+    {
+        internalFormat = GL_DEPTH_COMPONENT16;
+    }
+    else if (m_depthPrecision == DepthPrecision::I24)
+    {
+        internalFormat = GL_DEPTH_COMPONENT24;
+    }
+    else if (m_depthPrecision == DepthPrecision::I32)
+    {
+        internalFormat = GL_DEPTH_COMPONENT32;
+    }
+    else if (m_depthPrecision == DepthPrecision::I24_STENCIL8)
+    {
+        internalFormat = GL_DEPTH24_STENCIL8;
+        format = GL_DEPTH_STENCIL;
+    }
+    else if (m_depthPrecision == DepthPrecision::F32_STENCIL8)
+    {
+        internalFormat = GL_DEPTH32F_STENCIL8;
+        format = GL_DEPTH_STENCIL;
+    }
+    else if (m_depthPrecision == DepthPrecision::F32)
+    {
+        internalFormat = GL_DEPTH_COMPONENT32F;
+    }
+    else if (m_depthPrecision == DepthPrecision::STENCIL8)
+    {
+        internalFormat = GL_STENCIL_INDEX8;
+        format = GL_STENCIL_INDEX;
+    }
+    else
+    {
+        ASSERT(false);
+    }
+    m_info.width = width;
+    m_info.height = height;
+    GLint border = 0;
+    GLenum type = GL_UNSIGNED_BYTE;
+    glBindTexture(m_info.target, m_info.id);
+    glTexImage2D(m_info.target, 0, internalFormat, width, height, border, format, type, nullptr);
+    checkGlError();
     return *this;
 }
 
@@ -333,6 +389,16 @@ size_t Texture::getDataSize() const
 Texture::SamplerColorspace Texture::getSamplerColorSpace() const
 {
     return m_info.colorspace;
+}
+
+bool Texture::isDepthTexture() const
+{
+    return m_depthPrecision != DepthPrecision::None;
+}
+
+Texture::DepthPrecision Texture::getDepthPrecision() const
+{
+    return m_depthPrecision;
 }
 
 bool Texture::isCubeMap() const

@@ -11,11 +11,11 @@
 
 using namespace re;
 
-class SphereExample2 : public BasicProject
+class SphereExample : public BasicProject
 {
 public:
     using BasicProject::BasicProject;
-    ~SphereExample2() override = default;
+    ~SphereExample() override = default;
     void initialize() override
     {
         m_camera.setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
@@ -45,7 +45,7 @@ public:
 
     void setTitle() override
     {
-        m_title = "SphereExample2";
+        m_title = "SphereExample";
     }
 
 private:
@@ -54,8 +54,8 @@ private:
     glm::mat4 m_pos2;
 };
 
-void sphereTest2()
+void sphereTest()
 {
-    SphereExample2 test;
+    SphereExample test;
     test.run();
 }

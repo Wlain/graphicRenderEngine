@@ -23,9 +23,9 @@ extern void benchmark64kTest();
 extern void gammaTest();
 extern void pbrTest();
 extern void normalMapTest();
-
+extern void renderToDepthTest();
 int main()
 {
-    multiLightTest();
+    renderToDepthTest();
     return 0;
 }

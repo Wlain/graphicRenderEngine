@@ -11,6 +11,7 @@
 #include "renderer.h"
 
 #include <glm/gtc/type_ptr.hpp>
+#include <utility>
 namespace re
 {
 RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withName(const std::string& name)
@@ -174,6 +175,30 @@ void RenderPass::draw(std::shared_ptr<SpriteBatch>&& spriteBatch, glm::mat4 mode
     {
         m_renderQueue.emplace_back(RenderQueueObj{ spriteBatch->m_spriteMeshes[i], modelTransform, { spriteBatch->m_materials[i] } });
     }
+}
+
+void RenderPass::blit(std::shared_ptr<Texture> texture, glm::mat4 transformation)
+{
+    auto material = Shader::getBlit()->createMaterial();
+    material->setTexture(std::move(texture));
+    blit(material, transformation);
+}
+
+void RenderPass::blit(std::shared_ptr<Material> material, glm::mat4 transformation)
+{
+    static std::shared_ptr<Mesh> mesh;
+    static bool once = []() {
+        mesh = Mesh::create().withQuad().build();
+        // always render
+        float m = std::numeric_limits<float>::max();
+        std::array<glm::vec3, 2> minMax{};
+        minMax[0] = glm::vec3{ -m };
+        minMax[1] = glm::vec3{ m };
+        mesh->setBoundsMinMax(minMax);
+        return true;
+    }();
+
+    draw(mesh, transformation, material);
 }
 
 void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)

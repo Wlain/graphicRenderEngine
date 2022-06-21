@@ -347,6 +347,11 @@ const std::array<glm::vec3, 2>& Mesh::getBoundsMinMax() const
     return m_boundsMinMax;
 }
 
+void Mesh::setBoundsMinMax(const std::array<glm::vec3, 2>& minMax)
+{
+    m_boundsMinMax = minMax;
+}
+
 Mesh::Topology Mesh::getMeshTopology(int indexSet)
 {
     if (m_topologies.empty())

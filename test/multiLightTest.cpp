@@ -143,7 +143,7 @@ public:
 
         if (ImGui::TreeNode("Material"))
         {
-            char* options = "BlinnPhong\0Phong\0PBR\0";
+            constexpr const char* options = "BlinnPhong\0Phong\0PBR\0";
             ImGui::Combo("Shader", &m_selectedMaterial, options);
             if (m_selectedMaterial < 2)
             {

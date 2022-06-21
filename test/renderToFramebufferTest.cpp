@@ -21,7 +21,7 @@ public:
         m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
         m_camera.setPerspectiveProjection(60, 0.1, 100);
         m_texture = Texture::create().withRGBAData(nullptr, 1024, 1024).withName("Create Texture").build();
-        m_framebuffer = FrameBuffer::create().withTexture(m_texture).build();
+        m_framebuffer = FrameBuffer::create().withColorTexture(m_texture).build();
         m_materialOffscreen = Shader::getStandardBlinnPhong()->createMaterial();
         m_materialOffscreen->setSpecularity({ 1, 1, 1, 120 });
         m_material = Shader::getStandardBlinnPhong()->createMaterial();

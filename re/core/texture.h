@@ -1,3 +1,9 @@
+// Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+// Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+// Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+// Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+// Vestibulum commodo. Ut rhoncus gravida arcu.
+
 //
 // Created by william on 2022/5/22.
 //
@@ -43,6 +49,18 @@ public:
         Memory
     };
 
+    enum class DepthPrecision
+    {
+        I16,          // 16 bit integer
+        I24,          // 24 bit integer
+        I32,          // 32 bit integer
+        F32,          // 32 bit float
+        I24_STENCIL8, // 24 bit integer 8 bit stencil
+        F32_STENCIL8, // 32 bit float 8 bit stencil
+        STENCIL8,     // 8 bit stencil
+        None
+    };
+
     struct Info
     {
         PixelFormat format = PixelFormat::RGBA;
@@ -75,6 +93,7 @@ public:
         TextureBuilder& withRGBAData(const char* data, int width, int height);
         TextureBuilder& withWhiteData(int width = 1, int height = 1);
         TextureBuilder& withSamplerColorspace(SamplerColorspace samplerColorspace);
+        TextureBuilder& withDepth(int width, int height, DepthPrecision precision = DepthPrecision::I16); // Creates a depth texture.
         TextureBuilder& withName(std::string_view name);
         std::shared_ptr<Texture> build();
 
@@ -83,6 +102,7 @@ public:
 
     public:
         Info m_info{};
+        DepthPrecision m_depthPrecision = DepthPrecision::None;
         friend class Texture;
     };
 
@@ -107,6 +127,8 @@ public:
     // get size of the texture in bytes on GPU
     size_t getDataSize() const;
     SamplerColorspace getSamplerColorSpace() const;
+    bool isDepthTexture() const;
+    DepthPrecision getDepthPrecision() const;
 
 private:
     Texture(int32_t id, int width, int height, uint32_t target, std::string string);
@@ -120,6 +142,7 @@ private:
 
 private:
     Info m_info{};
+    DepthPrecision m_depthPrecision = DepthPrecision::None;
     friend class Shader;
     friend class Material;
     friend class RenderPass;
