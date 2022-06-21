@@ -18,7 +18,7 @@ public:
     void initialize() override
     {
         m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
-        auto material = Shader::getStandardBlinnPhong()->createMaterial({ { "S_TANGENTS", "1" } });
+        auto material = Shader::getStandardPBR()->createMaterial({ { "S_TANGENTS", "1" } });
         material->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
         material->setSpecularity({ 1, 1, 1, 20.0f });
         m_materials.push_back(material);
@@ -57,8 +57,8 @@ public:
         auto center = glm::mix(bounds[1], bounds[0], 0.5f);
         m_offset = -center;
         m_farPlane = glm::length(bounds[1] - bounds[0]);
-        m_camera.setLookAt({ 0, 1, m_farPlane / 2 }, { 0, 0, 0 }, { 0, 1, 0 });
-        m_camera.setPerspectiveProjection(60, 0.1, m_farPlane);
+        m_camera.setLookAt({ 0, 1, m_farPlane }, { 0, 0, 0 }, { 0, 1, 0 });
+        m_camera.setPerspectiveProjection(60, 0.1, m_farPlane * 2);
     }
 
     void dropEvent(int count, const char** paths) override

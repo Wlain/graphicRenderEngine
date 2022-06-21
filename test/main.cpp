@@ -24,8 +24,9 @@ extern void gammaTest();
 extern void pbrTest();
 extern void normalMapTest();
 extern void renderToDepthTest();
+extern void skyboxTest();
 int main()
 {
-    renderToDepthTest();
+    objTest();
     return 0;
 }
