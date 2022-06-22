@@ -29,6 +29,6 @@ extern void skyboxTest();
 
 int main()
 {
-    pbrTest();
+    objTest();
     return 0;
 }
