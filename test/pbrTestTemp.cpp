@@ -6,6 +6,7 @@
 #include "guiCommonDefine.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
+#include <filesystem>
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <vector>
@@ -39,16 +40,19 @@ public:
         m_camera.setPerspectiveProjection(60, 0.1, 100);
         m_camera.setLookAt({ 0, 0, s_cameraDist }, { 0, 0, 0 }, { 0, 1, 0 });
         m_camera.setViewport({ 0.3333, 0 }, { 0.6666, 1 });
-        for (int i = 0; i < PBR_MATERIAL_SIZE; ++i)
+        auto files = getFiles(GET_CURRENT("test/resources/pbr"));
+        for (const auto& file : files)
         {
-            m_colorTex.emplace_back(Texture::create().withFile(GET_CURRENT(s_colorTexStr[i])).build());
-            m_metToughTex.emplace_back(Texture::create().withFile(GET_CURRENT(s_metRoughTexStr[i])).withSamplerColorspace(Texture::SamplerColorspace::Gamma).build());
-            m_normalTex.emplace_back(Texture::create().withFile(GET_CURRENT(s_normalTexStr[i])).withSamplerColorspace(Texture::SamplerColorspace::Gamma).build());
-            m_emissiveTex.emplace_back(Texture::create().withFile(GET_CURRENT(s_emissiveTexStr[i])).build());
-            m_occlusionTex.emplace_back(Texture::create().withFile(GET_CURRENT(s_occlusionTexStr[i])).withSamplerColorspace(Texture::SamplerColorspace::Gamma).build());
+            m_imageList += file;
+            m_imageList.insert(m_imageList.end(), '\0');
+            std::string resDir = GET_CURRENT("/test/resources/pbr/");
+            m_colorTex.emplace_back(Texture::create().withFile(resDir + file + s_colorTexStr).build());
+            m_metToughTex.emplace_back(Texture::create().withFile(resDir + file + s_metRoughTexStr).withSamplerColorspace(Texture::SamplerColorspace::Gamma).build());
+            m_normalTex.emplace_back(Texture::create().withFile(resDir + file + s_normalTexStr).withSamplerColorspace(Texture::SamplerColorspace::Gamma).build());
+            m_emissiveTex.emplace_back(Texture::create().withFile(resDir + file + s_emissiveTexStr).build());
+            m_occlusionTex.emplace_back(Texture::create().withFile(resDir + file + s_occlusionTexStr).withSamplerColorspace(Texture::SamplerColorspace::Gamma).build());
         }
         updateMaterial();
-
         m_meshes = { { Mesh::create().withSphere(32, 64).build(),
                        Mesh::create().withCube().build(),
                        Mesh::create().withTorus(48, 48).build() } };
@@ -106,6 +110,17 @@ public:
         }
     }
 
+    std::vector<std::string> getFiles(std::string_view fileDir)
+    {
+        std::vector<std::string> files;
+        std::filesystem::directory_iterator lists(fileDir);
+        for (const auto& file : lists)
+        {
+            files.emplace_back(file.path().filename().c_str());
+        }
+        return files;
+    }
+
     void updateMaterial()
     {
         m_material = Shader::getStandardPBR()->createMaterial(m_specialization);
@@ -133,29 +148,14 @@ public:
             auto col4 = m_color.toLinear();
             updatedMat |= ImGui::ColorEdit4("Color", &col4.x);
             m_color.setFromLinear(col4);
-            if (m_specialization.find("S_NO_BASECOLORMAP") == m_specialization.end())
-            {
-                updatedMat |= loadTexture("ColorTex", m_colorTex[s_pbrMaterial], s_colorTexStr[s_pbrMaterial]);
-            }
             updatedMat |= ImGui::DragFloat("Metallic", &m_metallicRoughness.x, 0.05f, 0, 1);
-            updatedMat |= ImGui::DragFloat("Roughness", &m_metallicRoughness.y, 0.05f, 0, 1);
-            if (m_specialization.find("S_METALROUGHNESSMAP") != m_specialization.end())
-            {
-                updatedMat |= loadTexture("MetallicRoughnessTex", m_metToughTex[s_pbrMaterial], s_metRoughTexStr[s_pbrMaterial]);
-            }
-            if (m_specialization.find("S_NORMALMAP") != m_specialization.end())
-            {
-                updatedMat |= loadTexture("NormalTex", m_normalTex[s_pbrMaterial], s_normalTexStr[s_pbrMaterial]);
-                updatedMat |= ImGui::DragFloat("NormalScale", &m_normalScale, 0.1f, 0.0f, 2.0f);
-            }
+            updatedMat |= ImGui::DragFloat("Roughness", &m_metallicRoughness.y, 0.05f, 0, 2);
             if (m_specialization.find("S_OCCLUSIONMAP") != m_specialization.end())
             {
-                updatedMat |= loadTexture("Occlusion Tex", m_occlusionTex[s_pbrMaterial], s_occlusionTexStr[s_pbrMaterial]);
                 updatedMat |= ImGui::DragFloat("Occlusion Strength", &m_occlusionStrength, 0.1f, 0.0f, 2.0f);
             }
             if (m_specialization.find("S_EMISSIVEMAP") != m_specialization.end())
             {
-                updatedMat |= loadTexture("Emissive Tex", m_emissiveTex[s_pbrMaterial], s_emissiveTexStr[s_pbrMaterial]);
                 updatedMat |= ImGui::DragFloat4("Emissive Factor", &m_emissiveFactor.x, 0.1f, 0.0f, 2.0f);
             }
         }
@@ -180,7 +180,7 @@ public:
         }
         if (ImGui::CollapsingHeader("PBRMaterial"))
         {
-            updatedMat |= ImGui::Combo("PBR", &s_pbrMaterial, "cavern-deposits\0gold\0plastic\0grass\0rusted_iron\0wall\0");
+            updatedMat |= ImGui::Combo("PBR", &s_pbrMaterial, m_imageList.c_str());
         }
         if (ImGui::CollapsingHeader("Shader"))
         {
@@ -231,50 +231,15 @@ public:
 private:
     static constexpr float s_cameraDist = 3.5f;
     // 基础颜色(albedo)
-    inline static std::vector<const char*> s_colorTexStr = {
-        "test/resources/pbr/cavern-deposits/albedo.png",
-        "test/resources/pbr/gold/albedo.png",
-        "test/resources/pbr/plastic/albedo.png",
-        "test/resources/pbr/grass/albedo.png",
-        "test/resources/pbr/rusted_iron/albedo.png",
-        "test/resources/pbr/wall/albedo.png"
-    };
+    constexpr static const char* s_colorTexStr = "/albedo.png";
     // 金属度(metallic)
-    inline static std::vector<const char*> s_metRoughTexStr = {
-        "test/resources/pbr/cavern-deposits/metallic.png",
-        "test/resources/pbr/gold/metallic.png",
-        "test/resources/pbr/plastic/metallic.png",
-        "test/resources/pbr/grass/metallic.png",
-        "test/resources/pbr/rusted_iron/metallic.png",
-        "test/resources/pbr/wall/metallic.png"
-    };
+    constexpr static const char* s_metRoughTexStr = "/metallic.png";
     // 法线(normal)
-    inline static std::vector<const char*> s_normalTexStr = {
-        "test/resources/pbr/cavern-deposits/normal.png",
-        "test/resources/pbr/gold/normal.png",
-        "test/resources/pbr/plastic/normal.png",
-        "test/resources/pbr/grass/normal.png",
-        "test/resources/pbr/rusted_iron/normal.png",
-        "test/resources/pbr/wall/normal.png"
-    };
+    constexpr static const char* s_normalTexStr = "/normal.png";
     // 自发光
-    inline static std::vector<const char*> s_emissiveTexStr = {
-        "test/resources/pbr/cavern-deposits/albedo.png",
-        "test/resources/pbr/gold/albedo.png",
-        "test/resources/pbr/plastic/albedo.png",
-        "test/resources/pbr/grass/albedo.png",
-        "test/resources/pbr/rusted_iron/albedo.png",
-        "test/resources/pbr/wall/albedo.png"
-    };
+    constexpr static const char* s_emissiveTexStr = "/albedo.png";
     // 环境光遮蔽(ao)
-    inline static std::vector<const char*> s_occlusionTexStr = {
-        "test/resources/pbr/cavern-deposits/ao.png",
-        "test/resources/pbr/gold/ao.png",
-        "test/resources/pbr/plastic/ao.png",
-        "test/resources/pbr/grass/ao.png",
-        "test/resources/pbr/rusted_iron/ao.png",
-        "test/resources/pbr/wall/ao.png"
-    };
+    constexpr static const char* s_occlusionTexStr = "/ao.png";
 
 private:
     std::vector<std::shared_ptr<Texture>> m_colorTex;
@@ -284,6 +249,7 @@ private:
     std::vector<std::shared_ptr<Texture>> m_occlusionTex;
     std::map<std::string, std::string> m_specialization;
     std::vector<std::shared_ptr<Mesh>> m_meshes;
+    std::string m_imageList;
     WorldLights m_lightsSingle;
     WorldLights m_lightsDuo;
     // 金属度（metallic）：0：代表非金属，1：代表金属；粗糙度（Roughness）：值越大越粗糙

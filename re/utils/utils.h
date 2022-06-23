@@ -26,6 +26,6 @@ static std::string getFileContents(const std::filesystem::path& filename)
         in.close();
         return contents;
     }
-    LOG_ERROR("Error reading %s. Error code: %i", filename.c_str(), errno);
+    LOG_ERROR("Error reading {}. Error code: {}", filename.c_str(), errno);
 }
 #endif //SIMPLERENDERENGINE_UTILS_H

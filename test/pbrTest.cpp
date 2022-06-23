@@ -215,7 +215,7 @@ public:
 
     bool loadTexture(std::string label, std::shared_ptr<Texture>& texRef, std::string_view fileLocation)
     {
-        bool changed = ImGui::InputText(label.c_str(), (char*)fileLocation.data(), fileLocation.size());
+        bool changed = ImGui::InputText(label.c_str(), (char*)(GET_CURRENT(fileLocation.data())), fileLocation.size());
         if (changed)
         {
             auto res = Texture::create().withFile(GET_CURRENT(fileLocation.data())).build();
@@ -231,15 +231,15 @@ public:
 private:
     static constexpr float s_cameraDist = 3.5f;
     // 基础颜色
-    static constexpr const auto s_colorTexStr = "test/resources/pbr/BoomBox/BoomBox_baseColor.png";
+    static constexpr const auto s_colorTexStr = "test/resources/BoomBox/BoomBox_baseColor.png";
     // 金属度
-    static constexpr const auto s_metRoughTexStr = "test/resources/pbr/BoomBox/BoomBox_roughnessMetallic.png";
+    static constexpr const auto s_metRoughTexStr = "test/resources/BoomBox/BoomBox_roughnessMetallic.png";
     // 法线
-    static constexpr const auto s_normalTexStr = "test/resources/pbr/BoomBox/BoomBox_normal.png";
+    static constexpr const auto s_normalTexStr = "test/resources/BoomBox/BoomBox_normal.png";
     // 自发光
-    static constexpr const auto s_emissiveTexStr = "test/resources/pbr/BoomBox/BoomBox_emissive.png";
+    static constexpr const auto s_emissiveTexStr = "test/resources/BoomBox/BoomBox_emissive.png";
     // 环境光遮蔽
-    static constexpr const auto s_occlusionTexStr = "test/resources/pbr/BoomBox/BoomBox_occlusion.png";
+    static constexpr const auto s_occlusionTexStr = "test/resources/BoomBox/BoomBox_occlusion.png";
 
 private:
     std::shared_ptr<Texture> m_colorTex;
