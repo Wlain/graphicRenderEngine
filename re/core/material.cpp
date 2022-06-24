@@ -36,6 +36,20 @@ void Material::bind()
     {
         glUniform1f(v.id, v.value);
     }
+    for (const auto& t : m_mat3Values)
+    {
+        if (t.value.get())
+        {
+            glUniformMatrix3fv(t.id, static_cast<GLsizei>(t.value->size()), GL_FALSE, glm::value_ptr((*t.value)[0]));
+        }
+    }
+    for (const auto& t : m_mat4Values)
+    {
+        if (t.value.get())
+        {
+            glUniformMatrix4fv(t.id, static_cast<GLsizei>(t.value->size()), GL_FALSE, glm::value_ptr((*t.value)[0]));
+        }
+    }
 }
 
 const std::shared_ptr<Shader>& Material::getShader() const
@@ -82,6 +96,17 @@ void Material::setShader(const std::shared_ptr<Shader>& shader)
             m_floatValues.push_back(uniform);
         }
         break;
+        case Shader::UniformType::Mat3: {
+            Uniform<std::shared_ptr<std::vector<glm::mat3>>> uniform;
+            uniform.id = u.id;
+            m_mat3Values.push_back(uniform);
+        }
+        break;
+        case Shader::UniformType::Mat4: {
+            Uniform<std::shared_ptr<std::vector<glm::mat4>>> uniform;
+            uniform.id = u.id;
+            m_mat4Values.push_back(uniform);
+        }
         default:
             LOG_ERROR("'{}' Unsupported uniform type: {}. Only Vec4, Texture, TextureCube and Float is supported.", u.name.c_str(), (int)u.type);
             break;
@@ -261,6 +286,34 @@ bool Material::set(std::string_view uniformName, std::shared_ptr<Texture> textur
         if (v.id == type.id)
         {
             v.value = texture;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Material::set(std::string_view uniformName, std::shared_ptr<std::vector<glm::mat3>> value)
+{
+    auto type = m_shader->getUniformType(uniformName);
+    for (auto& v : m_mat3Values)
+    {
+        if (v.id == type.id)
+        {
+            v.value = value;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Material::set(std::string_view uniformName, std::shared_ptr<std::vector<glm::mat4>> value)
+{
+    auto type = m_shader->getUniformType(uniformName);
+    for (auto& v : m_mat4Values)
+    {
+        if (v.id == type.id)
+        {
+            v.value = value;
             return true;
         }
     }

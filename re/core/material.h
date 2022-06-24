@@ -45,7 +45,9 @@ public:
     bool set(std::string_view uniformName, const glm::vec4& value);
     bool set(std::string_view uniformName, Color value);
     bool set(std::string_view uniformName, float value);
-    bool set(std::string_view uniformName, std::shared_ptr<Texture>);
+    bool set(std::string_view uniformName, std::shared_ptr<Texture> texture);
+    bool set(std::string_view uniformName, std::shared_ptr<std::vector<glm::mat3>> value);
+    bool set(std::string_view uniformName, std::shared_ptr<std::vector<glm::mat4>> value);
     template <typename T>
     T get(std::string_view uniformName);
 
@@ -65,6 +67,8 @@ private:
     std::shared_ptr<Shader> m_shader;
     std::vector<Uniform<std::shared_ptr<Texture>>> m_textureValues;
     std::vector<Uniform<glm::vec4>> m_vectorValues;
+    std::vector<Uniform<std::shared_ptr<std::vector<glm::mat4>>>> m_mat4Values;
+    std::vector<Uniform<std::shared_ptr<std::vector<glm::mat3>>>> m_mat3Values;
     std::vector<Uniform<float>> m_floatValues;
     friend class Shader;
     friend class RenderPass;

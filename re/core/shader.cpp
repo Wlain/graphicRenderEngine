@@ -23,8 +23,6 @@ namespace re
 // 匿名命名空间,变量声明对其他文件中的代码不可见
 namespace
 {
-const std::regex SPECIALIZATION_CONSTANT_PATTERN("(S_[A-Z_0-9]+)");
-
 // 容器对比
 template <typename Map>
 bool mapCompare(Map const& lhs, Map const& rhs)
@@ -536,6 +534,9 @@ void Shader::updateUniformsAndAttributes()
         case GL_FLOAT_VEC4:
             uniformType = UniformType::Vec4;
             break;
+        case GL_INT_VEC4:
+            uniformType = UniformType::IVec4;
+            break;
         case GL_FLOAT_VEC3:
             uniformType = UniformType::Vec3;
             break;
@@ -712,6 +713,13 @@ bool Shader::build(std::map<ShaderType, Resource> shaderSources, std::vector<std
     unsigned int oldShaderProgramId = m_id;
     m_id = glCreateProgram();
     assert(m_id != 0);
+    std::vector<GLuint> shaders;
+    auto cleanupShaders = [&]() {
+        for (auto id : shaders)
+        {
+            glDeleteShader(id);
+        }
+    };
     for (const auto& shaderSource : shaderSources)
     {
         GLuint s;
@@ -719,6 +727,7 @@ bool Shader::build(std::map<ShaderType, Resource> shaderSources, std::vector<std
         auto ret = compileShader(shaderSource.second, shader, s, errors);
         if (!ret)
         {
+            cleanupShaders();
             glDeleteProgram(m_id);
             m_id = oldShaderProgramId;
             for (const auto& e : errors)
@@ -727,9 +736,14 @@ bool Shader::build(std::map<ShaderType, Resource> shaderSources, std::vector<std
             }
             return false;
         }
+        else
+        {
+            shaders.push_back(s);
+        }
         glAttachShader(m_id, s);
     }
     bool linked = linkProgram(m_id, errors);
+    cleanupShaders();
     if (!linked)
     {
         glDeleteProgram(m_id);
@@ -958,6 +972,7 @@ std::set<std::string> Shader::getAllSpecializationConstants()
     {
         std::string s = getSource(source.second);
         std::smatch m;
+        static std::regex SPECIALIZATION_CONSTANT_PATTERN("(S_[A-Z_0-9]+)");
         while (std::regex_search(s, m, SPECIALIZATION_CONSTANT_PATTERN))
         {
             std::string match = m.str();

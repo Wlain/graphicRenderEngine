@@ -403,7 +403,7 @@ void RenderPass::drawInstance(RenderPass::RenderQueueObj& rqObj)
         {
             auto offsetCount = mesh->m_elementBufferOffsetCount[i];
             GLsizei indexCount = offsetCount.second;
-            glDrawElements((GLenum)mesh->getMeshTopology(), indexCount, GL_UNSIGNED_SHORT, (void*)offsetCount.first);
+            glDrawElements((GLenum)mesh->getMeshTopology(), indexCount, GL_UNSIGNED_SHORT, (char*)nullptr + offsetCount.first);
         }
     }
 }

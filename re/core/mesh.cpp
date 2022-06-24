@@ -174,7 +174,7 @@ void Mesh::setVertexAttributePointers(Shader* shader)
         if (equalType && shaderAttribute.second.arraySize == 1)
         {
             glEnableVertexAttribArray(shaderAttribute.second.position);
-            glVertexAttribPointer(shaderAttribute.second.position, meshAttribute->second.elementCount, meshAttribute->second.dataType, GL_FALSE, m_totalBytesPerVertex, (void*)(meshAttribute->second.offset));
+            glVertexAttribPointer(shaderAttribute.second.position, meshAttribute->second.elementCount, meshAttribute->second.dataType, GL_FALSE, m_totalBytesPerVertex, (char*)nullptr + meshAttribute->second.offset);
             vertexAttribArray++;
         }
         else

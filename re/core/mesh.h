@@ -121,6 +121,7 @@ public:
     // get size of the mesh in bytes on GPU
     int getDataSize() const;
     inline const std::string& name() const { return m_name; }
+    inline bool hasAttribute(std::string name) const { return m_attributeByName.find(std::move(name)) != m_attributeByName.end(); }
 
 private:
     struct Attribute

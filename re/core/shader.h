@@ -39,6 +39,7 @@ public:
         Mat3,
         Mat4,
         Vec4,
+        IVec4,
         Vec3,
         Texture,
         Invalid,
