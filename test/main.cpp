@@ -22,13 +22,13 @@ extern void screePointToRayTest();
 extern void benchmark64kTest();
 extern void gammaTest();
 extern void pbrTest();
-extern void pbrTestTemp();
+extern void pbrMaterialSelectTest();
 extern void normalMapTest();
 extern void renderToDepthTest();
 extern void skyboxTest();
 
 int main()
 {
-    objTest();
+    renderToDepthTest();
     return 0;
 }

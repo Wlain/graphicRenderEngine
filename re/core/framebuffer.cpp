@@ -25,18 +25,12 @@ void checkStatus()
         case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
             LOG_ERROR("GL_FRAMEBUFFER_UNDEFINED");
             break;
-#ifdef GL_ES_VERSION_2_0
-        case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
-            LOG_ERROR("GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS");
-            break;
-#endif
         case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
             LOG_ERROR("GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
             break;
         case GL_FRAMEBUFFER_UNSUPPORTED:
             LOG_ERROR("FRAMEBUFFER_UNSUPPORTED");
             break;
-#ifndef GL_ES_VERSION_2_0
         case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
             LOG_ERROR("GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER");
             break;
@@ -52,7 +46,6 @@ void checkStatus()
         case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:
             LOG_ERROR("GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS");
             break;
-#endif
         default:
             LOG_ERROR("Invalid framebuffer {}", frameBufferStatus);
             break;
@@ -115,25 +108,16 @@ std::shared_ptr<FrameBuffer> FrameBuffer::FrameBufferBuilder::build()
     {
         glGenRenderbuffers(1, &framebuffer->m_rbo);
         glBindRenderbuffer(GL_RENDERBUFFER, framebuffer->m_rbo);
-        glRenderbufferStorage(GL_RENDERBUFFER,
-#ifdef GL_ES_VERSION_2_0
-                              GL_DEPTH_COMPONENT16,
-#else
-                              GL_DEPTH_COMPONENT32,
-#endif
-                              m_size.x, m_size.y);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
-                              m_size.x, m_size.y);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT32, m_size.x, m_size.y);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_size.x, m_size.y);
         glBindRenderbuffer(GL_RENDERBUFFER, 0);
         // attach the renderbuffer to depth attachment point
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER,
-                                  GL_DEPTH_ATTACHMENT,
-                                  GL_RENDERBUFFER,
-                                  framebuffer->m_rbo);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, framebuffer->m_rbo);
     }
-    // check if FBO is configured correctly
+    // check FBO
     checkStatus();
     framebuffer->m_textures = m_textures;
+    framebuffer->m_depthTexture = m_depthTexture;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     return std::shared_ptr<FrameBuffer>(framebuffer);
 }
@@ -160,10 +144,15 @@ FrameBuffer::FrameBufferBuilder FrameBuffer::create()
 int FrameBuffer::getMaximumColorAttachments()
 {
     GLint maxAttach = 0;
-    glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &maxAttach);
     GLint maxDrawBuf = 0;
+    glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &maxAttach);
     glGetIntegerv(GL_MAX_DRAW_BUFFERS, &maxDrawBuf);
     return std::min(maxAttach, maxDrawBuf);
+}
+
+int FrameBuffer::getMaximumDepthAttachments()
+{
+    return 1;
 }
 
 FrameBuffer::FrameBuffer(std::string_view name) :

@@ -49,6 +49,7 @@ public:
     void setDepthTexture(const std::shared_ptr<Texture>& tex);
     static FrameBufferBuilder create();
     static int getMaximumColorAttachments();
+    static int getMaximumDepthAttachments();
 
 private:
     void bind();

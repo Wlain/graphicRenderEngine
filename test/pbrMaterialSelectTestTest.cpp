@@ -10,10 +10,9 @@
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <vector>
-#define PBR_MATERIAL_SIZE 6
 using namespace re;
 
-class PbrTempExample : public BasicProject
+class PbrMaterialSelectExample : public BasicProject
 {
 public:
     glm::vec3 rotatedPosition(float x, float y, float distance)
@@ -33,7 +32,7 @@ public:
     }
 
     using BasicProject::BasicProject;
-    ~PbrTempExample() override = default;
+    ~PbrMaterialSelectExample() override = default;
     void initialize() override
     {
         updateLight();
@@ -86,7 +85,7 @@ public:
     }
     void setTitle() override
     {
-        m_title = "PbrTempExample";
+        m_title = "PbrMaterialSelectExample";
     }
 
     void updateLight()
@@ -213,21 +212,6 @@ public:
         inspector.gui();
     }
 
-    bool loadTexture(std::string label, std::shared_ptr<Texture>& texRef, std::string_view fileLocation)
-    {
-        bool changed = ImGui::InputText(label.c_str(), (char*)GET_CURRENT(fileLocation.data()), fileLocation.size());
-        if (changed)
-        {
-            auto res = Texture::create().withFile(GET_CURRENT(fileLocation.data())).build();
-            if (res)
-            {
-                texRef = res;
-                return true;
-            }
-        }
-        return false;
-    }
-
 private:
     static constexpr float s_cameraDist = 3.5f;
     // 基础颜色(albedo)
@@ -267,8 +251,8 @@ private:
     int s_pbrMaterial = 0;
 };
 
-void pbrTestTemp()
+void pbrMaterialSelectTest()
 {
-    PbrTempExample test;
+    PbrMaterialSelectExample test;
     test.run();
 }
