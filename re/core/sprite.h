@@ -70,7 +70,7 @@ private:
                  uint16_t orderInBatch; // highest priority
              })
         details;
-    } m_order;
+    } m_order{};
     friend class SpriteAtlas;
     friend class SpriteBatch;
     friend class Inspector;

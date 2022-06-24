@@ -14,7 +14,9 @@
 #include <iomanip>
 namespace re
 {
-Mesh::Mesh(std::map<std::string, std::vector<float>>&& attributesFloat, std::map<std::string, std::vector<glm::vec2>>&& attributesVec2, std::map<std::string, std::vector<glm::vec3>>&& attributesVec3, std::map<std::string, std::vector<glm::vec4>>&& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>&& attributesIVec4, std::vector<std::vector<uint16_t>>&& indices, std::vector<Topology>& meshTopology, std::string_view name, RenderStats& renderStats)
+Mesh::Mesh(std::map<std::string, std::vector<float>>&& attributesFloat, std::map<std::string, std::vector<glm::vec2>>&& attributesVec2, std::map<std::string, std::vector<glm::vec3>>&& attributesVec3,
+           std::map<std::string, std::vector<glm::vec4>>&& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>&& attributesIVec4, std::vector<std::vector<uint16_t>>&& indices,
+           std::vector<Topology>& meshTopology, std::string_view name, RenderStats& renderStats)
 {
     m_meshId = m_meshIdCount++;
     if (Renderer::s_instance == nullptr)
@@ -80,7 +82,7 @@ void Mesh::bind(Shader* shader)
     }
 }
 
-void Mesh::bindIndexSet()
+void Mesh::bindIndexSet() const
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
 }
@@ -122,19 +124,19 @@ void Mesh::update(std::map<std::string, std::vector<float>>&& attributesFloat, s
                 glGenBuffers(1, &m_ebo);
             }
             size_t totalCount = 0;
-            for (auto& m_indice : m_indices)
+            for (auto& index : m_indices)
             {
-                totalCount += m_indice.size();
+                totalCount += index.size();
             }
             std::vector<uint16_t> concatenatedIndices;
             concatenatedIndices.reserve(totalCount);
             int offset = 0;
-            for (auto& m_indice : m_indices)
+            for (auto& index : m_indices)
             {
-                size_t dataSize = m_indice.size() * sizeof(uint16_t);
-                concatenatedIndices.insert(concatenatedIndices.end(), m_indice.begin(), m_indice.end());
-                m_elementBufferOffsetCount.emplace_back(offset, m_indice.size());
-                offset += dataSize;
+                size_t dataSize = index.size() * sizeof(uint16_t);
+                concatenatedIndices.insert(concatenatedIndices.end(), index.begin(), index.end());
+                m_elementBufferOffsetCount.emplace_back(offset, index.size());
+                offset += (int)dataSize;
             }
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, offset, concatenatedIndices.data(), GL_STATIC_DRAW);
@@ -307,12 +309,6 @@ std::vector<float> Mesh::getParticleSizes()
     return particleSize;
 }
 
-template <typename T>
-T Mesh::get(std::string_view attributeName)
-{
-    return nullptr;
-}
-
 template <>
 const std::vector<float>& Mesh::get(std::string_view uniformName)
 {
@@ -419,7 +415,7 @@ std::vector<float> Mesh::getInterleavedData()
     //添加最后的padding(使顶点与 vec4对齐)
     if (m_totalBytesPerVertex % (sizeof(float) * 4) != 0)
     {
-        m_totalBytesPerVertex += sizeof(float) * 4 - m_totalBytesPerVertex % (sizeof(float) * 4);
+        m_totalBytesPerVertex += (int)sizeof(float) * 4 - m_totalBytesPerVertex % (sizeof(float) * 4);
     }
     std::vector<float> interleavedData((m_vertexCount * m_totalBytesPerVertex) / sizeof(float), 0);
     const char* dataPtr = (char*)interleavedData.data();
@@ -532,78 +528,75 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withCube(float length)
                  { -length, length, -length },
                  { -length, -length, -length },
                  { length, -length, -length } };
+
+    std::vector<uint16_t> indices({ 0, 1, 2, 0, 2, 3,
+                                    4, 5, 6, 4, 6, 7,
+                                    8, 9, 10, 8, 10, 11,
+                                    12, 13, 14, 12, 14, 15,
+                                    16, 17, 18, 16, 18, 19,
+                                    20, 21, 22, 20, 22, 23 });
     std::vector<vec3> positions({
-        p[0], p[1], p[2], p[0], p[2], p[3], // v0-v1-v2-v3
-        p[4], p[0], p[3], p[4], p[3], p[7], // v4-v0-v3-v7
-        p[5], p[4], p[7], p[5], p[7], p[6], // v5-v4-v7-v6
-        p[1], p[5], p[6], p[1], p[6], p[2], // v1-v5-v6-v2
-        p[4], p[5], p[1], p[4], p[1], p[0], // v1-v5-v6-v2
-        p[3], p[2], p[6], p[3], p[6], p[7], // v1-v5-v6-v2
+        p[0], p[1], p[2], p[3], // v0-v1-v2-v3
+        p[4], p[0], p[3], p[7], // v4-v0-v3-v7
+        p[5], p[4], p[7], p[6], // v5-v4-v7-v6
+        p[1], p[5], p[6], p[2], // v1-v5-v6-v2
+        p[4], p[5], p[1], p[0], // v1-v5-v6-v2
+        p[3], p[2], p[6], p[7], // v1-v5-v6-v2
     });
     vec4 u[] = { { 1, 1, 0, 0 },
                  { 0, 1, 0, 0 },
                  { 0, 0, 0, 0 },
                  { 1, 0, 0, 0 } };
     // clang-format off
-    std::vector<vec4> uvs({
-        u[0], u[1], u[2], u[0], u[2], u[3], u[0], u[1], u[2], u[0], u[2], u[3],
-        u[0], u[1], u[2], u[0], u[2], u[3], u[0], u[1], u[2], u[0], u[2], u[3],
-        u[0], u[1], u[2], u[0], u[2], u[3], u[0], u[1], u[2], u[0], u[2], u[3],
-    });
-    std::vector<vec3> normals({
-        {0, 0, 1},  {0, 0, 1},  {0, 0, 1},  {0, 0, 1},
-        {0, 0, 1},  {0, 0, 1},  {1, 0, 0},  {1, 0, 0},
-        {1, 0, 0},  {1, 0, 0},  {1, 0, 0},  {1, 0, 0},
-        {0, 0, -1}, {0, 0, -1}, {0, 0, -1}, {0, 0, -1},
-        {0, 0, -1}, {0, 0, -1}, {-1, 0, 0}, {-1, 0, 0},
-        {-1, 0, 0}, {-1, 0, 0}, {-1, 0, 0}, {-1, 0, 0},
-        {0, 1, 0},  {0, 1, 0},  {0, 1, 0},  {0, 1, 0},
-        {0, 1, 0},  {0, 1, 0},  {0, -1, 0}, {0, -1, 0},
-        {0, -1, 0}, {0, -1, 0}, {0, -1, 0}, {0, -1, 0},
-    });
-    std::vector<glm::vec4> tangents({
-        vec4{ 1, 0, 0, 1 },
-        vec4{ 1, 0, 0, 1 },
-        vec4{ 1, 0, 0, 1 },
-        vec4{ 1, 0, 0, 1 },
-        vec4{ 1, 0, 0, 1 },
-        vec4{ 1, 0, 0, 1 },
-        vec4{ 0, 0, -1, 1 },
-        vec4{ 0, 0, -1, 1 },
-        vec4{ 0, 0, -1, 1 },
-        vec4{ 0, 0, -1, 1 },
-        vec4{ 0, 0, -1, 1 },
-        vec4{ 0, 0, -1, 1 },
-        vec4{ -1, 0, 0, 1 },
-        vec4{ -1, 0, 0, 1 },
-        vec4{ -1, 0, 0, 1 },
-        vec4{ -1, 0, 0, 1 },
-        vec4{ -1, 0, 0, 1 },
-        vec4{ -1, 0, 0, 1 },
-        vec4{ 0, 0, 1, 1 },
-        vec4{ 0, 0, 1, 1 },
-        vec4{ 0, 0, 1, 1 },
-        vec4{ 0, 0, 1, 1 },
-        vec4{ 0, 0, 1, 1 },
-        vec4{ 0, 0, 1, 1 },
-        vec4{ 1, 0, 0, 1 },
-        vec4{ 1, 0, 0, 1 },
-        vec4{ 1, 0, 0, 1 },
-        vec4{ 1, 0, 0, 1 },
-        vec4{ 1, 0, 0, 1 },
-        vec4{ 1, 0, 0, 1 },
-        vec4{ -1, 0, 0, 1 },
-        vec4{ -1, 0, 0, 1 },
-        vec4{ -1, 0, 0, 1 },
-        vec4{ -1, 0, 0, 1 },
-        vec4{ -1, 0, 0, 1 },
-        vec4{ -1, 0, 0, 1 },
-    });
+    std::vector<vec4> uvs({ u[0],u[1],u[2], u[3],
+                          u[0],u[1],u[2], u[3],
+                          u[0],u[1],u[2], u[3],
+                          u[0],u[1],u[2], u[3],
+                          u[0],u[1],u[2], u[3],
+                          u[0],u[1],u[2], u[3],
+                        });
+   std::vector<vec3> normals({
+        vec3{0, 0, 1}, vec3{0, 0, 1}, vec3{0, 0, 1},
+        vec3{0, 0, 1}, vec3{1, 0, 0}, vec3{1, 0, 0},
+        vec3{1, 0, 0}, vec3{1, 0, 0}, vec3{0, 0, -1},
+        vec3{0, 0, -1}, vec3{0, 0, -1}, vec3{0, 0, -1},
+        vec3{-1, 0, 0}, vec3{-1, 0, 0}, vec3{-1, 0, 0},
+        vec3{-1, 0, 0}, vec3{0, 1, 0}, vec3{0, 1, 0},
+        vec3{0, 1, 0}, vec3{0, 1, 0}, vec3{0, -1, 0},
+        vec3{0, -1, 0}, vec3{0, -1, 0}, vec3{0, -1, 0}});
+
+     std::vector<vec4> tangents({
+                                  vec4{1, 0,  0,1},
+                                  vec4{1, 0,  0,1},
+                                  vec4{1, 0,  0,1},
+                                  vec4{1, 0,  0,1},
+                                  vec4{0, 0, -1,1},
+                                  vec4{0, 0, -1,1},
+                                  vec4{0, 0, -1,1},
+                                  vec4{0, 0, -1,1},
+                                  vec4{-1, 0, 0,1},
+                                  vec4{-1, 0, 0,1},
+                                  vec4{-1, 0, 0,1},
+                                  vec4{-1, 0, 0,1},
+                                  vec4{0, 0,  1,1},
+                                  vec4{0, 0,  1,1},
+                                  vec4{0, 0,  1,1},
+                                  vec4{0, 0,  1,1},
+                                  vec4{1, 0,  0,1},
+                                  vec4{1, 0,  0,1},
+                                  vec4{1, 0,  0,1},
+                                  vec4{1, 0,  0,1},
+                                  vec4{-1, 0, 0,1},
+                                  vec4{-1, 0, 0,1},
+                                  vec4{-1, 0, 0,1},
+                                  vec4{-1, 0, 0,1},
+                          });
     // clang-format on
     withPositions(positions);
     withNormals(normals);
     withUvs(uvs);
     withTangents(tangents);
+    withIndices(indices);
     withMeshTopology(Topology::Triangles);
     return *this;
 }
@@ -843,11 +836,11 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withTorus(int segmentsC, int segmentsA, fl
     for (int j = 0; j <= segmentsC; j++)
     {
         // outer circle
-        float u = glm::two_pi<float>() * j / (float)segmentsC;
+        float u = glm::two_pi<float>() * (float)j / (float)segmentsC;
         auto t = glm::vec4((glm::vec3)normalize(glm::dvec3(cos(u + glm::half_pi<double>()), sin(u + glm::half_pi<double>()), 0)), 1);
         for (int i = 0; i <= segmentsA; i++)
         {
-            float v = glm::two_pi<float>() * i / (float)segmentsA;
+            float v = glm::two_pi<float>() * (float)i / (float)segmentsA;
             glm::vec3 pos{
                 (radiusC + radiusA * cos(v)) * cos(u),
                 (radiusC + radiusA * cos(v)) * sin(u),
@@ -864,7 +857,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withTorus(int segmentsC, int segmentsA, fl
                 (radiusA * 2) * sin(v)
             };
             tangents[index] = t;
-            uvs[index] = glm::vec4{ 1 - j / (float)segmentsC, i / (float)segmentsA, 0, 0 };
+            uvs[index] = glm::vec4{ 1 - (float)j / (float)segmentsC, (float)i / (float)segmentsA, 0, 0 };
             vertices[index] = pos;
             normals[index] = glm::normalize(posOuter - pos);
             index++;

@@ -21,7 +21,7 @@
     } while (0)
 
 // For internal debugging of gl errors
-inline void checkGlError(std::string_view msg = "") noexcept
+inline void checkGlError(std::string_view msg = {}) noexcept
 {
     for (GLenum err; (err = glGetError()) != GL_NO_ERROR;)
     {

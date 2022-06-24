@@ -126,9 +126,9 @@ void Inspector::gui(bool useWindow)
         ImGui::LabelText("Framebuffer size", "%ix%i", r->getFramebufferSize().x, r->getFramebufferSize().y);
         ImGui::LabelText("VSync", "%s", r->usesVSync() ? "true" : "false");
         char* version = (char*)glGetString(GL_VERSION);
-        ImGui::LabelText("OpenGL version", version);
+        ImGui::LabelText("OpenGL version", "%s", version);
         char* vendor = (char*)glGetString(GL_VENDOR);
-        ImGui::LabelText("OpenGL vendor", vendor);
+        ImGui::LabelText("OpenGL vendor", "%s", vendor);
         ImGui::LabelText("IMGUI version", IMGUI_VERSION);
     }
     if (ImGui::CollapsingHeader("Performance"))
@@ -327,7 +327,7 @@ void Inspector::showTexture(Texture* tex)
             depthStr = "None";
             break;
         }
-        ImGui::LabelText("Depth", depthStr);
+        ImGui::LabelText("Depth", "%s", depthStr);
         ImGui::LabelText("Filtersampling", "%s", tex->isFilterSampling() ? "true" : "false");
         ImGui::LabelText("Mipmapping", "%s", tex->isMipMapped() ? "true" : "false");
         ImGui::LabelText("Wrap tex-coords", "%s", tex->isWrapTextureCoordinates() ? "true" : "false");
@@ -390,7 +390,7 @@ void Inspector::showMesh(Mesh* mesh)
                                        .withClearColor(true, { 0, 0, 0, 1 })
                                        .withGUI(false)
                                        .build();
-        static auto litMat = Shader::getStandard()->createMaterial();
+        static auto litMat = Shader::getStandardBlinnPhong()->createMaterial();
         static auto unlitMat = Shader::getUnlit()->createMaterial();
         bool hasNormals = !mesh->getNormals().empty();
         auto mat = hasNormals ? litMat : unlitMat;
@@ -444,20 +444,20 @@ void Inspector::showShader(Shader* shader)
             ImGui::TreePop();
         }
         auto blend = shader->getBlend();
-        std::string s;
+        std::string blendMode;
         switch (blend)
         {
         case Shader::BlendType::AdditiveBlending:
-            s = "Additive blending";
+            blendMode = "Additive blending";
             break;
         case Shader::BlendType::AlphaBlending:
-            s = "Alpha blending";
+            blendMode = "Alpha blending";
             break;
         case Shader::BlendType::Disabled:
-            s = "Disabled";
+            blendMode = "Disabled";
             break;
         }
-        ImGui::LabelText("Blending", "%s", s.c_str());
+        ImGui::LabelText("Blending", "%s", blendMode.c_str());
         ImGui::LabelText("Depth test", "%s", shader->isDepthTest() ? "true" : "false");
         ImGui::LabelText("Depth write", "%s", shader->isDepthWrite() ? "true" : "false");
         ImGui::LabelText("Offset", "factor: %.1f units: %.1f", shader->getOffset().x, shader->getOffset().y);

@@ -26,9 +26,10 @@ extern void pbrMaterialSelectTest();
 extern void normalMapTest();
 extern void renderToDepthTest();
 extern void skyboxTest();
+extern void multiMaterialTest();
 
 int main()
 {
-    renderToDepthTest();
+    multiMaterialTest();
     return 0;
 }

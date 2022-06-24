@@ -60,7 +60,7 @@ Texture::TextureBuilder& Texture::TextureBuilder::withFile(std::string_view file
     int desireComp = STBI_rgb_alpha;
     stbi_set_flip_vertically_on_load(true);
     auto pixelsData = getFileContents(filename.data());
-    auto* data = (char*)stbi_load_from_memory((stbi_uc const*)pixelsData.data(), pixelsData.size(), &m_info.width, &m_info.height, &m_info.channels, desireComp);
+    auto* data = (char*)stbi_load_from_memory((stbi_uc const*)pixelsData.data(), (int)pixelsData.size(), &m_info.width, &m_info.height, &m_info.channels, desireComp);
     stbi_set_flip_vertically_on_load(false);
     glBindTexture(m_info.target, m_info.id);
     bool isPOT = !isPowerOfTwo(m_info.width) || !isPowerOfTwo(m_info.height);
@@ -121,7 +121,7 @@ std::shared_ptr<Texture> Texture::TextureBuilder::build()
 {
     if (m_info.target == 0)
     {
-        std::runtime_error("texture contain no data");
+        LOG_ERROR("Texture contain no data");
     }
     if (m_info.id == 0)
     {
@@ -169,7 +169,7 @@ Texture::TextureBuilder& Texture::TextureBuilder::withFileCubeMap(std::string_vi
     GLenum type = GL_UNSIGNED_BYTE;
     int desireComp = STBI_rgb_alpha;
     auto pixelsData = getFileContents(filename.data());
-    auto* data = (unsigned char*)stbi_load_from_memory((stbi_uc const*)pixelsData.data(), pixelsData.size(), &m_info.width, &m_info.height, &m_info.channels, desireComp);
+    auto* data = (unsigned char*)stbi_load_from_memory((stbi_uc const*)pixelsData.data(), (int)pixelsData.size(), &m_info.width, &m_info.height, &m_info.channels, desireComp);
     glBindTexture(m_info.target, m_info.id);
     glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + (uint32_t)side, mipmapLevel, internalFormat, m_info.width, m_info.height, border, GL_RGBA, type, data);
     stbi_image_free((void*)data);
@@ -272,7 +272,7 @@ std::shared_ptr<Texture> Texture::getSphereTexture()
     {
         for (int y = 0; y < size; y++)
         {
-            float distToCenter = glm::clamp(1.0f - 2.0f * glm::length(glm::vec2((x + 0.5f) / size, (y + 0.5f) / size) - glm::vec2(0.5f, 0.5f)), 0.0f, 1.0f);
+            float distToCenter = glm::clamp(1.0f - 2.0f * glm::length(glm::vec2(((float)x + 0.5f) / size, ((float)y + 0.5f) / size) - glm::vec2(0.5f, 0.5f)), 0.0f, 1.0f);
             data[x * size * 4 + y * 4 + 0] = (char)(255 * distToCenter);
             data[x * size * 4 + y * 4 + 1] = (char)(255 * distToCenter);
             data[x * size * 4 + y * 4 + 2] = (char)(255 * distToCenter);
@@ -308,8 +308,8 @@ Texture::Texture(int32_t id, int width, int height, uint32_t target, std::string
     RenderStats& renderStats = Renderer::s_instance->m_renderStatsCurrent;
     renderStats.textureCount++;
     auto dataSize = getDataSize();
-    renderStats.textureBytes += dataSize;
-    renderStats.textureBytesAllocated += dataSize;
+    renderStats.textureBytes += (int)dataSize;
+    renderStats.textureBytesAllocated += (int)dataSize;
     Renderer::s_instance->m_textures.emplace_back(this);
 }
 
@@ -321,9 +321,9 @@ Texture::~Texture()
         // update stats
         RenderStats& renderStats = r->m_renderStatsCurrent;
         renderStats.textureCount--;
-        auto datasize = getDataSize();
-        renderStats.textureBytes -= datasize;
-        renderStats.textureBytesDeallocated += datasize;
+        auto dataSize = getDataSize();
+        renderStats.textureBytes -= (int)dataSize;
+        renderStats.textureBytesDeallocated += (int)dataSize;
         if (!r->m_textures.empty())
         {
             r->m_textures.erase(std::remove(r->m_textures.begin(), r->m_textures.end(), this));
@@ -376,7 +376,7 @@ size_t Texture::getDataSize() const
     int size = m_info.width * m_info.height * 4;
     if (m_info.generateMipmap)
     {
-        size += (int)((1.0f / 3.0f) * size);
+        size += (int)((1.0f / 3.0f) * (float)size);
     }
     // six sides
     if (m_info.target == GL_TEXTURE_CUBE_MAP)

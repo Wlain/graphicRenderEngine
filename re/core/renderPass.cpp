@@ -151,7 +151,7 @@ void RenderPass::draw(const std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTrans
 void RenderPass::draw(std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTransform, std::vector<std::shared_ptr<Material>>& materials)
 {
     ASSERT(!m_isFinished && "RenderPass is finished. Can no longer be modified.");
-    ASSERT(meshPtr->m_indices.size() == 0 || meshPtr->m_indices.size() == materials.size());
+    ASSERT(meshPtr->m_indices.empty() || meshPtr->m_indices.size() == materials.size());
     m_renderQueue.emplace_back(RenderQueueObj{ meshPtr, modelTransform, materials });
 }
 

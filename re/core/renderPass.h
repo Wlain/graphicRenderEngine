@@ -101,9 +101,9 @@ private:
     Shader* m_lastBoundShader = { nullptr };
     Material* m_lastBoundMaterial = { nullptr };
     int64_t m_lastBoundMeshId = { -1 };
-    glm::mat4 m_projection;
-    glm::uvec2 m_viewportOffset;
-    glm::uvec2 m_viewportSize;
+    glm::mat4 m_projection{};
+    glm::uvec2 m_viewportOffset{};
+    glm::uvec2 m_viewportSize{};
     std::vector<RenderQueueObj> m_renderQueue;
     bool m_isFinished = false;
     friend class Renderer;
