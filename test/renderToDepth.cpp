@@ -17,7 +17,7 @@ public:
     void initialize() override
     {
         m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
-        m_camera.setPerspectiveProjection(60, 1.5f, 3.5f);
+        m_camera.setPerspectiveProjection(60, 1.5f, 10.5f);
         m_depthTexture = Texture::create()
                              .withDepth(1024, 1024, Texture::DepthPrecision::I16)
                              .withName("Create Depth Texture")
@@ -36,7 +36,7 @@ public:
         m_materialOffscreen->setSpecularity({ 1, 1, 1, 120 });
         m_material = Shader::getStandardBlinnPhong()->createMaterial();
         m_material->setTexture(m_texture);
-        m_mesh = Mesh::create().withCube().build();
+        m_mesh = Mesh::create().withTorus().build();
         m_worldLights = MAKE_UNIQUE(m_worldLights);
         m_worldLights->addLight(Light::create().withPointLight({ 0, 0, 3 }).withColor({ 1, 1, 1 }).withRange(20).build());
     }

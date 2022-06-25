@@ -16,6 +16,7 @@ extern void polygonOffsetTest();
 extern void vertexAttributeTest();
 extern void customMeshLayoutTest();
 extern void customMeshLayoutDefaultValuesTest();
+extern void customMeshLayoutIntTest();
 extern void textureTest();
 extern void multiCameraTest();
 extern void screePointToRayTest();
@@ -27,9 +28,10 @@ extern void normalMapTest();
 extern void renderToDepthTest();
 extern void skyboxTest();
 extern void multiMaterialTest();
+extern void matrixUniformTest();
 
 int main()
 {
-    multiMaterialTest();
+    matrixUniformTest();
     return 0;
 }

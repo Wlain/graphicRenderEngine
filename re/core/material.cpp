@@ -36,6 +36,10 @@ void Material::bind()
     {
         glUniform1f(v.id, v.value);
     }
+    for (const auto& v : m_intValues)
+    {
+        glUniform1i(v.id, v.value);
+    }
     for (const auto& t : m_mat3Values)
     {
         if (t.value.get())
@@ -94,6 +98,13 @@ void Material::setShader(const std::shared_ptr<Shader>& shader)
             uniform.id = u.id;
             uniform.value = 0.0f;
             m_floatValues.push_back(uniform);
+        }
+        break;
+        case Shader::UniformType::Int: {
+            Uniform<int> uniform{};
+            uniform.id = u.id;
+            uniform.value = 0;
+            m_intValues.push_back(uniform);
         }
         break;
         case Shader::UniformType::Mat3: {
@@ -186,6 +197,20 @@ float Material::get(std::string_view uniformName)
     return 0.0f;
 }
 
+template <>
+int Material::get(std::string_view uniformName)
+{
+    auto t = m_shader->getUniformType(uniformName.data());
+    for (auto& v : m_intValues)
+    {
+        if (v.id == t.id)
+        {
+            return v.value;
+        }
+    }
+    return 0;
+}
+
 Color Material::getColor()
 {
     return get<Color>("color");
@@ -268,6 +293,20 @@ bool Material::set(std::string_view uniformName, float value)
 {
     auto type = m_shader->getUniformType(uniformName.data());
     for (auto& v : m_floatValues)
+    {
+        if (v.id == type.id)
+        {
+            v.value = value;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Material::set(std::string_view uniformName, int value)
+{
+    auto type = m_shader->getUniformType(uniformName.data());
+    for (auto& v : m_intValues)
     {
         if (v.id == type.id)
         {
