@@ -86,8 +86,13 @@ int Renderer::getMaxSceneLights()
     return m_maxSceneLights;
 }
 
-const Renderer::RenderInfo& re::Renderer::renderInfo()
+const Renderer::RenderInfo& Renderer::renderInfo()
 {
     return m_renderInfo;
+}
+
+void Renderer::initGlobalUniformBuffer()
+{
+
 }
 } // namespace re

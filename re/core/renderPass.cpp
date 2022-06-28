@@ -408,4 +408,16 @@ void RenderPass::drawInstance(RenderPass::RenderQueueObj& rqObj)
     }
 }
 
+void RenderPass::setupShaderRenderPass(Shader* shader)
+{
+}
+
+void RenderPass::setupShaderRenderPass(const RenderPass::GlobalUniforms& globalUniforms)
+{
+}
+
+void RenderPass::setupGlobalShaderUniforms()
+{
+}
+
 } // namespace re

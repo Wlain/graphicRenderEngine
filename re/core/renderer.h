@@ -41,6 +41,7 @@ public:
     glm::ivec2 getWindowSize();
     int getMaxSceneLights();
     const RenderInfo& renderInfo();
+    void initGlobalUniformBuffer();
 
 public:
     static constexpr int s_rgVersionMajor{ 3 };
@@ -59,8 +60,9 @@ private:
     std::vector<Texture*> m_textures;
     std::vector<SpriteAtlas*> m_spriteAtlases;
     int m_maxSceneLights{ 4 };
+    GLuint m_globalUniformBuffer{ 0 };
+    GLuint m_globalUniformBufferSize{ 0 };
     bool m_vsync{ false };
-
     friend class Mesh;
     friend class Mesh::MeshBuilder;
     friend class Shader;
