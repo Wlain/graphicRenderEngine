@@ -32,6 +32,6 @@ extern void matrixUniformTest();
 
 int main()
 {
-    matrixUniformTest();
+    cubeMapText();
     return 0;
 }

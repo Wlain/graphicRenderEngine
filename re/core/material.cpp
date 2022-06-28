@@ -21,39 +21,7 @@ Material::~Material() = default;
 
 void Material::bind()
 {
-    uint32_t textureSlot = 0;
-    for (const auto& v : m_textureValues)
-    {
-        glActiveTexture(GL_TEXTURE0 + textureSlot);
-        glBindTexture(v.value->m_info.target, v.value->m_info.id);
-        glUniform1i(v.id, textureSlot++);
-    }
-    for (const auto& v : m_vectorValues)
-    {
-        glUniform4fv(v.id, 1, glm::value_ptr(v.value));
-    }
-    for (const auto& v : m_floatValues)
-    {
-        glUniform1f(v.id, v.value);
-    }
-    for (const auto& v : m_intValues)
-    {
-        glUniform1i(v.id, v.value);
-    }
-    for (const auto& t : m_mat3Values)
-    {
-        if (t.value.get())
-        {
-            glUniformMatrix3fv(t.id, static_cast<GLsizei>(t.value->size()), GL_FALSE, glm::value_ptr((*t.value)[0]));
-        }
-    }
-    for (const auto& t : m_mat4Values)
-    {
-        if (t.value.get())
-        {
-            glUniformMatrix4fv(t.id, static_cast<GLsizei>(t.value->size()), GL_FALSE, glm::value_ptr((*t.value)[0]));
-        }
-    }
+    m_uniformMap.bind();
 }
 
 const std::shared_ptr<Shader>& Material::getShader() const
@@ -64,59 +32,37 @@ const std::shared_ptr<Shader>& Material::getShader() const
 void Material::setShader(const std::shared_ptr<Shader>& shader)
 {
     m_shader = shader;
-    m_textureValues.clear();
-    m_vectorValues.clear();
-    m_floatValues.clear();
-
+    m_uniformMap.clear();
     for (auto& u : shader->m_uniforms)
     {
         switch (u.type)
         {
         case Shader::UniformType::Vec4: {
-            Uniform<glm::vec4> uniform{};
-            uniform.id = u.id;
-            uniform.value = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-            m_vectorValues.push_back(uniform);
+            m_uniformMap.set(u.id, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
         }
         break;
         case Shader::UniformType::Texture: {
-            Uniform<std::shared_ptr<Texture>> uniform{};
-            uniform.id = u.id;
-            uniform.value = Texture::getWhiteTexture();
-            m_textureValues.push_back(uniform);
+            m_uniformMap.set(u.id, Texture::getWhiteTexture());
         }
         break;
         case Shader::UniformType::TextureCube: {
-            Uniform<std::shared_ptr<Texture>> uniform{};
-            uniform.id = u.id;
-            uniform.value = Texture::getCubeMapTexture();
-            m_textureValues.push_back(uniform);
+            m_uniformMap.set(u.id, Texture::getCubeMapTexture());
         }
         break;
         case Shader::UniformType::Float: {
-            Uniform<float> uniform{};
-            uniform.id = u.id;
-            uniform.value = 0.0f;
-            m_floatValues.push_back(uniform);
+            m_uniformMap.set(u.id, 0.0f);
         }
         break;
         case Shader::UniformType::Int: {
-            Uniform<int> uniform{};
-            uniform.id = u.id;
-            uniform.value = 0;
-            m_intValues.push_back(uniform);
+            m_uniformMap.set(u.id, 0);
         }
         break;
         case Shader::UniformType::Mat3: {
-            Uniform<std::shared_ptr<std::vector<glm::mat3>>> uniform;
-            uniform.id = u.id;
-            m_mat3Values.push_back(uniform);
+            m_uniformMap.set(u.id, std::shared_ptr<std::vector<glm::mat3>>());
         }
         break;
         case Shader::UniformType::Mat4: {
-            Uniform<std::shared_ptr<std::vector<glm::mat4>>> uniform;
-            uniform.id = u.id;
-            m_mat4Values.push_back(uniform);
+            m_uniformMap.set(u.id, std::shared_ptr<std::vector<glm::mat4>>());
         }
         default:
             LOG_ERROR("'{}' Unsupported uniform type: {}. Only Vec4, Texture, TextureCube and Float is supported.", u.name.c_str(), (int)u.type);
@@ -143,13 +89,15 @@ std::shared_ptr<Texture> Material::get(std::string_view uniformName)
     {
         return nullptr;
     }
-    for (auto& tv : m_textureValues)
+    for (auto& tv : m_uniformMap.m_textureValues)
     {
-        if (tv.id == t.id)
+        auto res = m_uniformMap.m_textureValues.find(t.id);
+        if (res != m_uniformMap.m_textureValues.end())
         {
-            return tv.value;
+            return res->second;
         }
     }
+    ASSERT(0);
     return nullptr;
 }
 
@@ -157,15 +105,17 @@ template <>
 Color Material::get(std::string_view uniformName)
 {
     auto t = m_shader->getUniformType(uniformName.data());
-    for (auto& v : m_vectorValues)
+    for (auto& v : m_uniformMap.m_vectorValues)
     {
-        if (v.id == t.id)
+        auto res = m_uniformMap.m_vectorValues.find(t.id);
+        if (res != m_uniformMap.m_vectorValues.end())
         {
             Color value;
-            value.setFromLinear(v.value);
+            value.setFromLinear(res->second);
             return value;
         }
     }
+    ASSERT(0);
     return { 0.0, 0.0f, 0.0f, 0.0f };
 }
 
@@ -173,13 +123,12 @@ template <>
 glm::vec4 Material::get(std::string_view uniformName)
 {
     auto t = m_shader->getUniformType(uniformName.data());
-    for (auto& v : m_vectorValues)
+    auto res = m_uniformMap.m_vectorValues.find(t.id);
+    if (res != m_uniformMap.m_vectorValues.end())
     {
-        if (v.id == t.id)
-        {
-            return v.value;
-        }
+        return res->second;
     }
+    ASSERT(0);
     return glm::vec4{ 0.0 };
 }
 
@@ -187,13 +136,12 @@ template <>
 float Material::get(std::string_view uniformName)
 {
     auto t = m_shader->getUniformType(uniformName.data());
-    for (auto& v : m_floatValues)
+    auto res = m_uniformMap.m_floatValues.find(t.id);
+    if (res != m_uniformMap.m_floatValues.end())
     {
-        if (v.id == t.id)
-        {
-            return v.value;
-        }
+        return res->second;
     }
+    ASSERT(0);
     return 0.0f;
 }
 
@@ -201,14 +149,39 @@ template <>
 int Material::get(std::string_view uniformName)
 {
     auto t = m_shader->getUniformType(uniformName.data());
-    for (auto& v : m_intValues)
+    auto res = m_uniformMap.m_intValues.find(t.id);
+    if (res != m_uniformMap.m_intValues.end())
     {
-        if (v.id == t.id)
-        {
-            return v.value;
-        }
+        return res->second;
     }
+    ASSERT(0);
     return 0;
+}
+
+template <>
+std::shared_ptr<std::vector<glm::mat3>> Material::get(std::string_view uniformName)
+{
+    auto t = m_shader->getUniformType(uniformName.data());
+    auto res = m_uniformMap.m_mat3Values.find(t.id);
+    if (res != m_uniformMap.m_mat3Values.end())
+    {
+        return res->second;
+    }
+    ASSERT(0);
+    return {};
+}
+
+template <>
+std::shared_ptr<std::vector<glm::mat4>> Material::get(std::string_view uniformName)
+{
+    auto t = m_shader->getUniformType(uniformName.data());
+    auto res = m_uniformMap.m_mat4Values.find(t.id);
+    if (res != m_uniformMap.m_mat4Values.end())
+    {
+        return res->second;
+    }
+    ASSERT(0);
+    return {};
 }
 
 Color Material::getColor()
@@ -264,99 +237,50 @@ bool Material::setTexture(std::shared_ptr<Texture> texture)
 bool Material::set(std::string_view uniformName, const glm::vec4& value)
 {
     auto type = m_shader->getUniformType(uniformName.data());
-    for (auto& v : m_vectorValues)
-    {
-        if (v.id == type.id)
-        {
-            v.value = value;
-            return true;
-        }
-    }
-    return false;
+    m_uniformMap.set(type.id, value);
+    return true;
 }
 
 bool Material::set(std::string_view uniformName, Color value)
 {
     auto type = m_shader->getUniformType(uniformName.data());
-    for (auto& v : m_vectorValues)
-    {
-        if (v.id == type.id)
-        {
-            v.value = value.toLinear();
-            return true;
-        }
-    }
-    return false;
+    m_uniformMap.set(type.id, value);
+    return true;
 }
 
 bool Material::set(std::string_view uniformName, float value)
 {
     auto type = m_shader->getUniformType(uniformName.data());
-    for (auto& v : m_floatValues)
-    {
-        if (v.id == type.id)
-        {
-            v.value = value;
-            return true;
-        }
-    }
-    return false;
+    m_uniformMap.set(type.id, value);
+    return true;
 }
 
 bool Material::set(std::string_view uniformName, int value)
 {
     auto type = m_shader->getUniformType(uniformName.data());
-    for (auto& v : m_intValues)
-    {
-        if (v.id == type.id)
-        {
-            v.value = value;
-            return true;
-        }
-    }
-    return false;
+    m_uniformMap.set(type.id, value);
+    return true;
 }
 
-bool Material::set(std::string_view uniformName, std::shared_ptr<Texture> texture)
+bool Material::set(std::string_view uniformName, const std::shared_ptr<Texture>& texture)
 {
     auto type = m_shader->getUniformType(uniformName.data());
-    for (auto& v : m_textureValues)
-    {
-        if (v.id == type.id)
-        {
-            v.value = texture;
-            return true;
-        }
-    }
-    return false;
+    m_uniformMap.set(type.id, texture);
+    return true;
 }
 
-bool Material::set(std::string_view uniformName, std::shared_ptr<std::vector<glm::mat3>> value)
+bool Material::set(std::string_view uniformName, const std::shared_ptr<std::vector<glm::mat3>>& value)
 {
     auto type = m_shader->getUniformType(uniformName);
-    for (auto& v : m_mat3Values)
-    {
-        if (v.id == type.id)
-        {
-            v.value = value;
-            return true;
-        }
-    }
-    return false;
+    m_uniformMap.set(type.id, value);
+    return true;
 }
 
-bool Material::set(std::string_view uniformName, std::shared_ptr<std::vector<glm::mat4>> value)
+bool Material::set(std::string_view uniformName, const std::shared_ptr<std::vector<glm::mat4>>& value)
 {
     auto type = m_shader->getUniformType(uniformName);
-    for (auto& v : m_mat4Values)
-    {
-        if (v.id == type.id)
-        {
-            v.value = value;
-            return true;
-        }
-    }
-    return false;
+    m_uniformMap.set(type.id, value);
+    return true;
 }
 
 } // namespace re

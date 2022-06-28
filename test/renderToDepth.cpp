@@ -36,7 +36,7 @@ public:
         m_materialOffscreen->setSpecularity({ 1, 1, 1, 120 });
         m_material = Shader::getStandardBlinnPhong()->createMaterial();
         m_material->setTexture(m_texture);
-        m_mesh = Mesh::create().withTorus().build();
+        m_mesh = Mesh::create().withCube().build();
         m_worldLights = MAKE_UNIQUE(m_worldLights);
         m_worldLights->addLight(Light::create().withPointLight({ 0, 0, 3 }).withColor({ 1, 1, 1 }).withRange(20).build());
     }

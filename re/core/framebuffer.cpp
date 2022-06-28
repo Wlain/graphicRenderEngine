@@ -177,10 +177,7 @@ void FrameBuffer::bind()
     {
         for (int i = 0; i < m_textures.size(); i++)
         {
-            for (unsigned i = 0; i < m_textures.size(); i++)
-            {
-                glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, m_textures[i]->m_info.id, 0);
-            }
+            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, m_textures[i]->m_info.id, 0);
         }
         if (m_depthTexture)
         {

@@ -144,7 +144,7 @@ private:
     Info m_info{};
     DepthPrecision m_depthPrecision = DepthPrecision::None;
     friend class Shader;
-    friend class Material;
+    friend class UniformSet;
     friend class RenderPass;
     friend class FrameBuffer;
     friend class Inspector;

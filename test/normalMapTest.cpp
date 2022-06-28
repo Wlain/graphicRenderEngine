@@ -200,8 +200,8 @@ public:
 
 private:
     static constexpr float s_cameraDist = 3.5f;
-    static constexpr const auto s_colorTexStr = "test/resources/BoomBox_baseColor.png";
-    static constexpr const auto s_normalTexStr = "test/resources/BoomBox_normal.png";
+    static constexpr const auto s_colorTexStr = "test/resources/BoomBox/BoomBox_baseColor.png";
+    static constexpr const auto s_normalTexStr = "test/resources/BoomBox/BoomBox_normal.png";
 
 private:
     std::shared_ptr<Texture> m_colorTex;

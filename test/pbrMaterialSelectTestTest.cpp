@@ -42,6 +42,7 @@ public:
         auto files = getFiles(GET_CURRENT("test/resources/pbr"));
         for (const auto& file : files)
         {
+            if(file == ".DS_Store") continue;
             m_imageList += file;
             m_imageList.insert(m_imageList.end(), '\0');
             std::string resDir = GET_CURRENT("/test/resources/pbr/");
