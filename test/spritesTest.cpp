@@ -65,7 +65,7 @@ public:
         m_camera.setPerspectiveProjection(60, 0.1, 100);
         auto shader = Shader::getStandardParticles();
         m_material = shader->createMaterial();
-        m_material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/sprite.png")).build());
+        m_material->setTexture(Texture::create().withFile("resources/sprite.png").build());
         m_mesh = createParticles();
     }
 

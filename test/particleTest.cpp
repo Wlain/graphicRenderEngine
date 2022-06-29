@@ -23,7 +23,7 @@ public:
         m_camera.setPerspectiveProjection(60.0f, 0.1f, 100.0f);
         auto shader = Shader::getStandardBlinnPhong();
         m_material = shader->createMaterial();
-        m_material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/test.jpg")).build());
+        m_material->setTexture(Texture::create().withFile("resources/test.jpg").build());
         m_material->setSpecularity({0.1f, 0.1f, 0.1f, 1.0f});
         m_mesh = Mesh::create().withCube().build();
         auto particleShader = Shader::getStandardParticles();

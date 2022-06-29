@@ -19,9 +19,9 @@ public:
         return glm::rotateY(glm::rotateX(pos, glm::radians(x)), glm::radians(y));
     }
 
-    std::shared_ptr<Texture> updateTexture(char* filename, std::shared_ptr<Texture> fallback)
+    std::shared_ptr<Texture> updateTexture(const char* filename, std::shared_ptr<Texture> fallback)
     {
-        auto res = Texture::create().withFile(GET_CURRENT(filename)).build();
+        auto res = Texture::create().withFile(filename).build();
         if (res)
         {
             return res;
@@ -42,14 +42,14 @@ public:
         m_normalTex = Texture::create().withWhiteData(2, 2).build();
         m_emissiveTex = Texture::create().withWhiteData(2, 2).build();
         m_occlusionTex = Texture::create().withWhiteData(2, 2).build();
-        m_colorTex = Texture::create().withFile(GET_CURRENT(s_colorTexStr)).build();
-        m_metToughTex = Texture::create().withFile(GET_CURRENT(s_metRoughTexStr)).withSamplerColorspace(Texture::SamplerColorspace::Gamma).build();
+        m_colorTex = Texture::create().withFile(s_colorTexStr).build();
+        m_metToughTex = Texture::create().withFile(s_metRoughTexStr).withSamplerColorspace(Texture::SamplerColorspace::Gamma).build();
         m_normalTex = Texture::create()
-                          .withFile(GET_CURRENT(s_normalTexStr))
+                          .withFile(s_normalTexStr)
                           .withSamplerColorspace(Texture::SamplerColorspace::Gamma)
                           .build();
-        m_emissiveTex = Texture::create().withFile(GET_CURRENT(s_emissiveTexStr)).build();
-        m_occlusionTex = Texture::create().withFile(GET_CURRENT(s_occlusionTexStr)).withSamplerColorspace(Texture::SamplerColorspace::Gamma).build();
+        m_emissiveTex = Texture::create().withFile(s_emissiveTexStr).build();
+        m_occlusionTex = Texture::create().withFile(s_occlusionTexStr).withSamplerColorspace(Texture::SamplerColorspace::Gamma).build();
 
         updateMaterial();
 
@@ -215,10 +215,10 @@ public:
 
     bool loadTexture(std::string label, std::shared_ptr<Texture>& texRef, std::string_view fileLocation)
     {
-        bool changed = ImGui::InputText(label.c_str(), (char*)(GET_CURRENT(fileLocation.data())), fileLocation.size());
+        bool changed = ImGui::InputText(label.c_str(), (char*)(fileLocation.data()), fileLocation.size());
         if (changed)
         {
-            auto res = Texture::create().withFile(GET_CURRENT(fileLocation.data())).build();
+            auto res = Texture::create().withFile(fileLocation.data()).build();
             if (res)
             {
                 texRef = res;
@@ -231,15 +231,15 @@ public:
 private:
     static constexpr float s_cameraDist = 3.5f;
     // 基础颜色
-    static constexpr const auto s_colorTexStr = "test/resources/BoomBox/BoomBox_baseColor.png";
+    static constexpr const auto s_colorTexStr = "resources/BoomBox/BoomBox_baseColor.png";
     // 金属度
-    static constexpr const auto s_metRoughTexStr = "test/resources/BoomBox/BoomBox_roughnessMetallic.png";
+    static constexpr const auto s_metRoughTexStr = "resources/BoomBox/BoomBox_roughnessMetallic.png";
     // 法线
-    static constexpr const auto s_normalTexStr = "test/resources/BoomBox/BoomBox_normal.png";
+    static constexpr const auto s_normalTexStr = "resources/BoomBox/BoomBox_normal.png";
     // 自发光
-    static constexpr const auto s_emissiveTexStr = "test/resources/BoomBox/BoomBox_emissive.png";
+    static constexpr const auto s_emissiveTexStr = "resources/BoomBox/BoomBox_emissive.png";
     // 环境光遮蔽
-    static constexpr const auto s_occlusionTexStr = "test/resources/BoomBox/BoomBox_occlusion.png";
+    static constexpr const auto s_occlusionTexStr = "resources/BoomBox/BoomBox_occlusion.png";
 
 private:
     std::shared_ptr<Texture> m_colorTex;

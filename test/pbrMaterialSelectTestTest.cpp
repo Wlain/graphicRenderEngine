@@ -23,7 +23,7 @@ public:
 
     std::shared_ptr<Texture> updateTexture(char* filename, std::shared_ptr<Texture> fallback)
     {
-        auto res = Texture::create().withFile(GET_CURRENT(filename)).build();
+        auto res = Texture::create().withFile(filename).build();
         if (res)
         {
             return res;
@@ -39,13 +39,13 @@ public:
         m_camera.setPerspectiveProjection(60, 0.1, 100);
         m_camera.setLookAt({ 0, 0, s_cameraDist }, { 0, 0, 0 }, { 0, 1, 0 });
         m_camera.setViewport({ 0.3333, 0 }, { 0.6666, 1 });
-        auto files = getFiles(GET_CURRENT("test/resources/pbr"));
+        auto files = getFiles("resources/pbr");
         for (const auto& file : files)
         {
             if(file == ".DS_Store") continue;
             m_imageList += file;
             m_imageList.insert(m_imageList.end(), '\0');
-            std::string resDir = GET_CURRENT("/test/resources/pbr/");
+            std::string resDir = "resources/pbr/";
             m_colorTex.emplace_back(Texture::create().withFile(resDir + file + s_colorTexStr).build());
             m_metToughTex.emplace_back(Texture::create().withFile(resDir + file + s_metRoughTexStr).withSamplerColorspace(Texture::SamplerColorspace::Gamma).build());
             m_normalTex.emplace_back(Texture::create().withFile(resDir + file + s_normalTexStr).withSamplerColorspace(Texture::SamplerColorspace::Gamma).build());

@@ -25,7 +25,7 @@ public:
         m_camera.setPerspectiveProjection(60, 0.1, 100);
         auto shader = Shader::getUnlit();
         m_material = shader->createMaterial();
-        m_material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/test.jpg")).build());
+        m_material->setTexture(Texture::create().withFile("resources/test.jpg").build());
         m_mesh = Mesh::create()
                      .withCube()
                      .build();

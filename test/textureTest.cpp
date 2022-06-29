@@ -33,12 +33,12 @@ public:
         for (const auto& s : m_filenames)
         {
             LOG_INFO("Load {}", s);
-            m_textures.push_back(Texture::create().withFile(std::string(GET_CURRENT("test/resources/")) + s).build());
+            m_textures.push_back(Texture::create().withFile(std::string("resources/") + s).build());
         }
         m_mesh = Mesh::create().withCube().build();
         m_material = Shader::create()
-                         .withSourceFile("texture_vert.glsl", Shader::ShaderType::Vertex)
-                         .withSourceFile("texture_frag.glsl", Shader::ShaderType::Fragment)
+                         .withSourceFile("embeddedResource/texture_vert.glsl", Shader::ShaderType::Vertex)
+                         .withSourceFile("embeddedResource/texture_frag.glsl", Shader::ShaderType::Fragment)
                          .withBlend(Shader::BlendType::AlphaBlending)
                          .build()
                          ->createMaterial();

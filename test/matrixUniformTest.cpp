@@ -42,7 +42,7 @@ public:
                          .withSourceString(fragmentShaderSource, Shader::ShaderType::Fragment)
                          .build()
                          ->createMaterial();
-        m_material->setTexture(Texture::create().withFile(GET_CURRENT("test/resources/test.jpg")).build());
+        m_material->setTexture(Texture::create().withFile("resources/test.jpg").build());
         std::vector<glm::vec3> vertices({ { 1, -1, 0 },
                                           { 1, 1, 0 },
                                           { -1, -1, 0 },

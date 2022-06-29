@@ -41,9 +41,6 @@
     #define ASSERT(statement) assert(statement)
 #endif
 
-#define GET_CURRENT(__VA_ARGS__) (std::string(CURRENT_PROJECT_DIR) + __VA_ARGS__).c_str()
-#define GET_EMBEDDED(__VA_ARGS__) (std::string(CURRENT_EMBEDDED_DIR) + __VA_ARGS__).c_str()
-
 #define TO_STRING(s) #s
 #define CONNECTION(x, y) x##y
 

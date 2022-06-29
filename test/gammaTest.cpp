@@ -18,11 +18,11 @@ public:
         m_camera.setWindowCoordinates();
         m_material = Shader::getUnlit()->createMaterial();
         m_tex1 = Texture::create()
-                     .withFile(GET_CURRENT("test/resources/gamma-test.png"))
+                     .withFile("resources/gamma-test.png")
                      .withFilterSampling(false)
                      .build();
         m_tex2 = Texture::create()
-                     .withFile(GET_CURRENT("test/resources/gamma-small.png"))
+                     .withFile("resources/gamma-small.png")
                      .withFilterSampling(false)
                      .build();
 

@@ -32,6 +32,6 @@ extern void matrixUniformTest();
 
 int main()
 {
-    customMeshLayoutDefaultValuesTest();
+    matrixUniformTest();
     return 0;
 }

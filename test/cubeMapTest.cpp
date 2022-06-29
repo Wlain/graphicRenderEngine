@@ -56,12 +56,12 @@ public:
                           .build();
         m_material = shader->createMaterial();
         auto tex = Texture::create()
-                       .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posx.png"), Texture::CubeMapSide::PositiveX)
-                       .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negx.png"), Texture::CubeMapSide::NegativeX)
-                       .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posy.png"), Texture::CubeMapSide::PositiveY)
-                       .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negy.png"), Texture::CubeMapSide::NegativeY)
-                       .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-posz.png"), Texture::CubeMapSide::PositiveZ)
-                       .withFileCubeMap(GET_CURRENT("test/resources/cube/cube-negz.png"), Texture::CubeMapSide::NegativeZ)
+                       .withFileCubeMap("resources/cube/cube-posx.png", Texture::CubeMapSide::PositiveX)
+                       .withFileCubeMap("resources/cube/cube-negx.png", Texture::CubeMapSide::NegativeX)
+                       .withFileCubeMap("resources/cube/cube-posy.png", Texture::CubeMapSide::PositiveY)
+                       .withFileCubeMap("resources/cube/cube-negy.png", Texture::CubeMapSide::NegativeY)
+                       .withFileCubeMap("resources/cube/cube-posz.png", Texture::CubeMapSide::PositiveZ)
+                       .withFileCubeMap("resources/cube/cube-negz.png", Texture::CubeMapSide::NegativeZ)
                        .build();
         m_material->setTexture(tex);
         m_mesh = Mesh::create().withSphere().build();

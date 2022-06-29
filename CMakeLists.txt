@@ -5,9 +5,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON) # 设置指定的C++版本
 # modify flat to -std=c++20 rather than -std=gnu++20
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_definitions(-DCURRENT_EMBEDDED_DIR="${PROJECT_SOURCE_DIR}/re/embeddedDeps/")
-add_definitions(-DCURRENT_PROJECT_DIR="${PROJECT_SOURCE_DIR}/")
-
 # glfw
 add_subdirectory(3rdparty/glfw)
 # glew
@@ -43,8 +40,11 @@ file(GLOB IMAGE_UI_SRC
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${IMAGE_UI_SRC} re/*.cpp test/*.cpp)
 
-add_executable(simpleRenderEngine ${SOURCES})
+# resources copy
+file(COPY ./test/resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY ./re/embeddedResource DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
+add_executable(simpleRenderEngine ${SOURCES})
 # 链接库
 target_link_libraries(simpleRenderEngine re)
 
