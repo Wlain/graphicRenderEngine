@@ -7,8 +7,7 @@ out vec2 vUV;
 out vec3 vEyePos;
 
 uniform mat4 g_model;
-uniform mat4 g_view;
-uniform mat4 g_projection;
+#pragma include "uniforms_incl.glsl"
 uniform mat3 g_model_view_it;
 
 void main(void) {

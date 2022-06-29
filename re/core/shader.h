@@ -172,7 +172,7 @@ private:
     bool build(std::map<ShaderType, Resource> shaderSources, std::vector<std::string>& errors);
     std::string precompile(std::string source, std::vector<std::string>& errors, uint32_t shaderType);
     std::string insertPreprocessorDefines(std::string source, std::map<std::string, std::string>& specializationConstants, uint32_t shaderType);
-    bool setLights(WorldLights* worldLights);
+    bool setLights(WorldLights* worldLights) const;
     void updateUniformsAndAttributes();
     bool compileShader(const Resource& resource, GLenum type, GLuint& shader, std::vector<std::string>& errors);
 

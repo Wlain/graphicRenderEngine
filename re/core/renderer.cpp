@@ -56,7 +56,10 @@ Renderer::Renderer(GLFWwindow* window, bool vsync, int maxSceneLights) :
     m_renderStatsLast = m_renderStatsCurrent;
 }
 
-Renderer::~Renderer() = default;
+Renderer::~Renderer()
+{
+    glDeleteBuffers(1, &m_globalUniformBuffer);
+};
 
 void Renderer::swapWindow()
 {
@@ -93,6 +96,11 @@ const Renderer::RenderInfo& Renderer::renderInfo()
 
 void Renderer::initGlobalUniformBuffer()
 {
-
+    glGenBuffers(1, &m_globalUniformBuffer);
+    size_t lightSize = sizeof(glm::vec4) * (1 + m_maxSceneLights * 2); // ambient + (lightPosType + lightColorRange) * maxSceneLights
+    m_globalUniformBufferSize = sizeof(glm::mat4) * 2 + sizeof(glm::vec4) * 2 + lightSize;
+    glBindBuffer(GL_UNIFORM_BUFFER, m_globalUniformBuffer);
+    glBufferData(GL_UNIFORM_BUFFER, m_globalUniformBufferSize, nullptr, GL_STREAM_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 } // namespace re

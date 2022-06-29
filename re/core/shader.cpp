@@ -381,13 +381,12 @@ Shader::~Shader()
     }
 }
 
-bool Shader::setLights(WorldLights* worldLights)
+bool Shader::setLights(WorldLights* worldLights) const
 {
     int maxSceneLights = Renderer::s_instance->getMaxSceneLights();
     if (worldLights == nullptr)
     {
         glUniform4f(m_uniformLocationAmbientLight, 0, 0, 0, 0);
-        const int vec4Elements = 4;
         std::vector<float> noLight(maxSceneLights * 4, 0);
         glUniform4fv(m_uniformLocationLightPosType, maxSceneLights, noLight.data());
         glUniform4fv(m_uniformLocationLightColorRange, maxSceneLights, noLight.data());
@@ -395,7 +394,7 @@ bool Shader::setLights(WorldLights* worldLights)
     }
     if (m_uniformLocationAmbientLight != -1)
     {
-        glUniform3fv(m_uniformLocationAmbientLight, 1, glm::value_ptr(worldLights->ambientLight));
+        glUniform4fv(m_uniformLocationAmbientLight, 1, glm::value_ptr(worldLights->ambientLight));
     }
     if (m_uniformLocationLightPosType != -1 && m_uniformLocationLightColorRange != -1)
     {
@@ -640,13 +639,13 @@ void Shader::updateUniformsAndAttributes()
             }
             if (strcmp(name, "g_ambientLight") == 0)
             {
-                if (uniformType == UniformType::Vec3)
+                if (uniformType == UniformType::Vec4)
                 {
                     m_uniformLocationAmbientLight = location;
                 }
                 else
                 {
-                    LOG_ERROR("Invalid g_ambientLight uniform type. Expected vec3.was {}", toStr(uniformType));
+                    LOG_ERROR("Invalid g_ambientLight uniform type. Expected vec4.was {}", toStr(uniformType));
                 }
             }
             if (strcmp(name, "g_lightPosType") == 0)
@@ -710,7 +709,7 @@ Shader::ShaderBuilder Shader::create()
 
 bool Shader::build(std::map<ShaderType, Resource> shaderSources, std::vector<std::string>& errors)
 {
-    unsigned int oldShaderProgramId = m_id;
+    auto oldShaderProgramId = m_id;
     m_id = glCreateProgram();
     assert(m_id != 0);
     std::vector<GLuint> shaders;
@@ -753,6 +752,22 @@ bool Shader::build(std::map<ShaderType, Resource> shaderSources, std::vector<std
             LOG_ERROR("{}", e.c_str());
         }
         return false;
+    }
+    if (oldShaderProgramId != 0)
+    {
+        glDeleteProgram(oldShaderProgramId); // delete old shader if any
+    }
+    // setup global uniform
+    if (Renderer::s_instance->m_globalUniformBuffer)
+    {
+        glUseProgram(m_id);
+        auto index = glGetUniformBlockIndex(m_id, "g_global_uniforms");
+        if (index != GL_INVALID_VALUE)
+        {
+            constexpr int globalUniformBindingIndex = 1;
+            glUniformBlockBinding(m_id, index, globalUniformBindingIndex);
+            glBindBufferRange(GL_UNIFORM_BUFFER, globalUniformBindingIndex, Renderer::s_instance->m_globalUniformBuffer, 0, Renderer::s_instance->m_globalUniformBufferSize);
+        }
     }
     updateUniformsAndAttributes();
     return true;
@@ -1052,7 +1067,7 @@ std::string Shader::insertPreprocessorDefines(std::string source, std::map<std::
         }
     }
     ss << "#line " << (lines + 1) << "\n";
-    LOG_INFO("after insertPreprocessorDefines:source is:\n {}", source.substr(0, insertPos + 1) + ss.str() + source.substr(insertPos + 1).c_str());
+    LOG_INFO("after insertPreprocessorDefines:source is:\n {}", source.substr(0, insertPos + 1) + ss.str() + source.substr(insertPos + 1));
     return source.substr(0, insertPos + 1) +
         ss.str() +
         source.substr(insertPos + 1);

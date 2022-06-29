@@ -11,7 +11,6 @@ in vec2 vUV;
 in vec3 vWsPos;
 uniform vec4 color;
 uniform vec4 metallicRoughness;
-uniform vec4 g_cameraPos;
 uniform sampler2D tex;
 #ifdef S_METALROUGHNESSMAP
 uniform sampler2D mrTex;
@@ -31,7 +30,7 @@ uniform float occlusionStrength;
 #ifdef S_VERTEX_COLOR
 in vec4 vColor;
 #endif
-
+#pragma include "uniforms_incl.glsl"
 #pragma include "normalmap_incl.glsl"
 #pragma include "utils_incl.glsl"
 #pragma include "light_incl.glsl"
@@ -143,7 +142,7 @@ void main(void)
     float reflectance90 = clamp(reflectance * 25.0, 0.0, 1.0);
     vec3 specularEnvironmentR0 = specularColor.rgb;
     vec3 specularEnvironmentR90 = vec3(1.0, 1.0, 1.0) * reflectance90;
-    vec3 color = baseColor.rgb * g_ambientLight;// non pbr
+    vec3 color = baseColor.rgb * g_ambientLight.rgb;// non pbr
     vec3 n = getNormal();// Normal at surface point
     vec3 v = normalize(g_cameraPos.xyz - vWsPos.xyz);// Vector from surface point to camera
     for (int i=0;i<SI_LIGHTS;i++) {

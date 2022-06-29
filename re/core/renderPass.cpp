@@ -9,6 +9,7 @@
 #include "material.h"
 #include "renderStats.h"
 #include "renderer.h"
+#include "worldLights.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <utility>
@@ -139,20 +140,25 @@ void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, Color color, 
                     .build();
     auto material = Shader::getUnlit()->createMaterial();
     material->setColor(color);
-    m_renderQueue.emplace_back(RenderQueueObj{ mesh, glm::mat4(1), { material } });
+    m_renderQueue.emplace_back(RenderQueueObj{ mesh, glm::mat4(1), material });
 }
 
 void RenderPass::draw(const std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTransform, std::shared_ptr<Material>& materialPtr)
 {
     ASSERT(!m_isFinished && "RenderPass is finished. Can no longer be modified.");
-    m_renderQueue.emplace_back(RenderQueueObj{ meshPtr, modelTransform, { materialPtr } });
+    m_renderQueue.emplace_back(RenderQueueObj{ meshPtr, modelTransform, materialPtr });
 }
 
 void RenderPass::draw(std::shared_ptr<Mesh>& meshPtr, glm::mat4 modelTransform, std::vector<std::shared_ptr<Material>>& materials)
 {
     ASSERT(!m_isFinished && "RenderPass is finished. Can no longer be modified.");
     ASSERT(meshPtr->m_indices.empty() || meshPtr->m_indices.size() == materials.size());
-    m_renderQueue.emplace_back(RenderQueueObj{ meshPtr, modelTransform, materials });
+    int subMesh = 0;
+    for (auto& mat : materials)
+    {
+        m_renderQueue.emplace_back(RenderQueueObj{ meshPtr, modelTransform, mat, subMesh });
+        subMesh++;
+    }
 }
 
 void RenderPass::draw(std::shared_ptr<SpriteBatch>& spriteBatch, glm::mat4 modelTransform)
@@ -162,7 +168,7 @@ void RenderPass::draw(std::shared_ptr<SpriteBatch>& spriteBatch, glm::mat4 model
 
     for (int i = 0; i < spriteBatch->m_materials.size(); i++)
     {
-        m_renderQueue.emplace_back(RenderQueueObj{ spriteBatch->m_spriteMeshes[i], modelTransform, { spriteBatch->m_materials[i] } });
+        m_renderQueue.emplace_back(RenderQueueObj{ spriteBatch->m_spriteMeshes[i], modelTransform, spriteBatch->m_materials[i] });
     }
 }
 
@@ -173,7 +179,7 @@ void RenderPass::draw(std::shared_ptr<SpriteBatch>&& spriteBatch, glm::mat4 mode
 
     for (int i = 0; i < spriteBatch->m_materials.size(); i++)
     {
-        m_renderQueue.emplace_back(RenderQueueObj{ spriteBatch->m_spriteMeshes[i], modelTransform, { spriteBatch->m_materials[i] } });
+        m_renderQueue.emplace_back(RenderQueueObj{ spriteBatch->m_spriteMeshes[i], modelTransform, spriteBatch->m_materials[i] });
     }
 }
 
@@ -203,68 +209,27 @@ void RenderPass::blit(std::shared_ptr<Material> material, glm::mat4 transformati
 
 void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
 {
-    if (m_lastBoundShader == shader)
+    if (m_lastBoundShader != shader)
     {
-        // model
-        if (shader->m_uniformLocationModel != -1)
-        {
-            glUniformMatrix4fv(shader->m_uniformLocationModel, 1, GL_FALSE, glm::value_ptr(modelTransform));
-        }
-        // normal
-        if (shader->m_uniformLocationModelViewInverseTranspose != -1)
-        {
-            auto normalMatrix = transpose(inverse((glm::mat3)(m_builder.m_camera.getViewTransform() * modelTransform)));
-            glUniformMatrix3fv(shader->m_uniformLocationModelViewInverseTranspose, 1, GL_FALSE, glm::value_ptr(normalMatrix));
-        }
-        if (shader->m_uniformLocationModelInverseTranspose != -1)
-        {
-            auto normalMatrix = transpose(inverse((glm::mat3)modelTransform));
-            glUniformMatrix3fv(shader->m_uniformLocationModelInverseTranspose, 1, GL_FALSE, glm::value_ptr(normalMatrix));
-        }
-    }
-    else
-    {
-        shader->bind();
         m_builder.m_renderStats->stateChangesShader++;
         m_lastBoundShader = shader;
-        // model
-        if (shader->m_uniformLocationModel != -1)
-        {
-            glUniformMatrix4fv(shader->m_uniformLocationModel, 1, GL_FALSE, glm::value_ptr(modelTransform));
-        }
-        // view
-        if (shader->m_uniformLocationView != -1)
-        {
-            glUniformMatrix4fv(shader->m_uniformLocationView, 1, GL_FALSE, glm::value_ptr(m_builder.m_camera.m_viewTransform));
-        }
-        // projection
-        if (shader->m_uniformLocationProjection != -1)
-        {
-            glUniformMatrix4fv(shader->m_uniformLocationProjection, 1, GL_FALSE, glm::value_ptr(m_projection));
-        }
-        // normal
-        if (shader->m_uniformLocationModelViewInverseTranspose != -1)
-        {
-            auto normalMatrix = transpose(inverse((glm::mat3)(m_builder.m_camera.getViewTransform() * modelTransform)));
-            glUniformMatrix3fv(shader->m_uniformLocationModelViewInverseTranspose, 1, GL_FALSE, glm::value_ptr(normalMatrix));
-        }
-        if (shader->m_uniformLocationModelInverseTranspose != -1)
-        {
-            auto normalMatrix = transpose(inverse((glm::mat3)modelTransform));
-            glUniformMatrix3fv(shader->m_uniformLocationModelInverseTranspose, 1, GL_FALSE, glm::value_ptr(normalMatrix));
-        }
-        // viewport
-        if (shader->m_uniformLocationViewport != -1)
-        {
-            glm::vec4 viewport((float)m_viewportSize.x, (float)m_viewportSize.y, (float)m_viewportOffset.x, (float)m_viewportOffset.y);
-            glUniform4fv(shader->m_uniformLocationViewport, 1, glm::value_ptr(viewport));
-        }
-        if (shader->m_uniformLocationCameraPosition != -1)
-        {
-            glm::vec4 cameraPos = glm::vec4(m_builder.m_camera.getPosition(), 1.0f);
-            glUniform4fv(shader->m_uniformLocationCameraPosition, 1, glm::value_ptr(cameraPos));
-        }
-        shader->setLights(m_builder.m_worldLights);
+        shader->bind();
+    }
+    // model
+    if (shader->m_uniformLocationModel != -1)
+    {
+        glUniformMatrix4fv(shader->m_uniformLocationModel, 1, GL_FALSE, glm::value_ptr(modelTransform));
+    }
+    // normal
+    if (shader->m_uniformLocationModelViewInverseTranspose != -1)
+    {
+        auto normalMatrix = transpose(inverse((glm::mat3)(m_builder.m_camera.getViewTransform() * modelTransform)));
+        glUniformMatrix3fv(shader->m_uniformLocationModelViewInverseTranspose, 1, GL_FALSE, glm::value_ptr(normalMatrix));
+    }
+    if (shader->m_uniformLocationModelInverseTranspose != -1)
+    {
+        auto normalMatrix = transpose(inverse((glm::mat3)modelTransform));
+        glUniformMatrix3fv(shader->m_uniformLocationModelInverseTranspose, 1, GL_FALSE, glm::value_ptr(normalMatrix));
     }
 }
 
@@ -306,6 +271,7 @@ void RenderPass::finish()
     if (clear != 0u) glClear(clear);
 
     m_projection = m_builder.m_camera.getProjectionTransform(m_viewportSize);
+    setupGlobalShaderUniforms();
     for (auto& rqObj : m_renderQueue)
     {
         drawInstance(rqObj);
@@ -372,52 +338,129 @@ bool RenderPass::isFinished()
 
 void RenderPass::drawInstance(RenderPass::RenderQueueObj& rqObj)
 {
-    // todo optimize (mesh vbo only need to be bound once)
-    for (int i = 0; i < rqObj.materials.size(); i++)
+    auto materialPtr = rqObj.material;
+    auto* mesh = rqObj.mesh.get();
+    auto* material = materialPtr.get();
+    auto* shader = material->getShader().get();
+    assert(mesh != nullptr);
+    m_builder.m_renderStats->drawCalls++;
+    setupShader(rqObj.modelTransform, shader);
+    if (material != m_lastBoundMaterial)
     {
-        auto materialPtr = rqObj.materials[i];
-        auto* mesh = rqObj.mesh.get();
-        auto* material = materialPtr.get();
-        auto* shader = material->getShader().get();
-        assert(mesh != nullptr);
-        m_builder.m_renderStats->drawCalls++;
-        setupShader(rqObj.modelTransform, shader);
-        if (material != m_lastBoundMaterial)
-        {
-            m_builder.m_renderStats->stateChangesMaterial++;
-            m_lastBoundMaterial = material;
-            m_lastBoundMeshId = -1; // force mesh to rebind
-            material->bind();
-        }
-        if (mesh->m_meshId != m_lastBoundMeshId)
-        {
-            m_builder.m_renderStats->stateChangesMesh++;
-            m_lastBoundMeshId = mesh->m_meshId;
-        }
-        mesh->bind(shader);
-        if (mesh->getIndexSets() == 0)
-        {
-            glDrawArrays((GLenum)mesh->getMeshTopology(), 0, mesh->getVertexCount());
-        }
-        else
-        {
-            auto offsetCount = mesh->m_elementBufferOffsetCount[i];
-            GLsizei indexCount = offsetCount.second;
-            glDrawElements((GLenum)mesh->getMeshTopology(), indexCount, GL_UNSIGNED_SHORT, (char*)nullptr + offsetCount.first);
-        }
+        m_builder.m_renderStats->stateChangesMaterial++;
+        m_lastBoundMaterial = material;
+        m_lastBoundMeshId = -1; // force mesh to rebind
+        material->bind();
+    }
+    if (mesh->m_meshId != m_lastBoundMeshId)
+    {
+        m_builder.m_renderStats->stateChangesMesh++;
+        m_lastBoundMeshId = mesh->m_meshId;
+    }
+    mesh->bind(shader);
+    if (mesh->getIndexSets() == 0)
+    {
+        glDrawArrays((GLenum)mesh->getMeshTopology(), 0, mesh->getVertexCount());
+    }
+    else
+    {
+        auto offsetCount = mesh->m_elementBufferOffsetCount[rqObj.subMesh];
+        GLsizei indexCount = offsetCount.second;
+        glDrawElements((GLenum)mesh->getMeshTopology(), indexCount, GL_UNSIGNED_SHORT, (char*)nullptr + offsetCount.first);
     }
 }
 
 void RenderPass::setupShaderRenderPass(Shader* shader)
 {
+    if (shader->m_uniformLocationView != -1)
+    {
+        glUniformMatrix4fv(shader->m_uniformLocationModel, 1, GL_FALSE, glm::value_ptr(m_builder.m_camera.m_viewTransform));
+    }
+    if (shader->m_uniformLocationProjection != -1)
+    {
+        glUniformMatrix4fv(shader->m_uniformLocationProjection, 1, GL_FALSE, glm::value_ptr(m_projection));
+    }
+    if (shader->m_uniformLocationCameraPosition != -1)
+    {
+        glUniformMatrix4fv(shader->m_uniformLocationCameraPosition, 1, GL_FALSE, glm::value_ptr(glm::vec4{ m_builder.m_camera.getPosition(), 1.0f }));
+    }
+    shader->setLights(m_builder.m_worldLights);
 }
 
 void RenderPass::setupShaderRenderPass(const RenderPass::GlobalUniforms& globalUniforms)
 {
+    *globalUniforms.g_view = m_builder.m_camera.m_viewTransform;
+    *globalUniforms.g_projection = m_projection;
+    *globalUniforms.g_viewport = glm::vec4(m_viewportOffset.x, m_viewportOffset.y, m_viewportSize.x, m_viewportSize.y);
+    *globalUniforms.g_cameraPos = glm::vec4(m_builder.m_camera.getPosition(), 1.0f);
+    int maxSceneLights = Renderer::s_instance->m_maxSceneLights;
+    size_t lightSize = sizeof(glm::vec4) * (1 + maxSceneLights * 2); // ambient + (lightPosType + lightColorRange) * maxSceneLights
+    memset(globalUniforms.g_ambientLight, 0, lightSize);
+    if (m_builder.m_worldLights)
+    {
+        *globalUniforms.g_ambientLight = glm::vec4(m_builder.m_worldLights->getAmbientLight(), 1.0);
+        for (int i = 0; i < maxSceneLights; i++)
+        {
+            auto light = m_builder.m_worldLights->getLight(i);
+            if (light == nullptr || light->type == Light::Type::Unused)
+            {
+                globalUniforms.g_lightPosType[i] = glm::vec4(0.0f, 0.0f, 0.0f, 2);
+                continue;
+            }
+            else if (light->type == Light::Type::Point)
+            {
+                globalUniforms.g_lightPosType[i] = glm::vec4(light->position, 1);
+            }
+            else if (light->type == Light::Type::Directional)
+            {
+                globalUniforms.g_lightPosType[i] = glm::vec4(glm::normalize(light->direction), 0);
+            }
+            // transform to eye space
+            globalUniforms.g_lightColorRange[i] = glm::vec4(light->color, light->range);
+        }
+    }
+    glBindBuffer(GL_UNIFORM_BUFFER, Renderer::s_instance->m_globalUniformBuffer);
+    glBufferData(GL_UNIFORM_BUFFER, Renderer::s_instance->m_globalUniformBufferSize, globalUniforms.g_view, GL_STREAM_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
 void RenderPass::setupGlobalShaderUniforms()
 {
+    static std::vector<char> buffer;
+    static GlobalUniforms globalUniforms;
+    static bool once = [&]() {
+        // allocate buffer and setup pointers into buffer
+        buffer.resize(Renderer::s_instance->m_globalUniformBufferSize, 0);
+        globalUniforms.g_view = reinterpret_cast<glm::mat4*>(buffer.data());
+        globalUniforms.g_projection = reinterpret_cast<glm::mat4*>(buffer.data() + sizeof(glm::mat4));
+        globalUniforms.g_viewport = reinterpret_cast<glm::vec4*>(buffer.data() + sizeof(glm::mat4) * 2);
+        globalUniforms.g_cameraPos = reinterpret_cast<glm::vec4*>(buffer.data() + sizeof(glm::mat4) * 2 + sizeof(glm::vec4));
+        globalUniforms.g_ambientLight = reinterpret_cast<glm::vec4*>(buffer.data() + sizeof(glm::mat4) * 2 + sizeof(glm::vec4) * 2);
+        int lightColorRangeOffset = sizeof(glm::mat4) * 2 + sizeof(glm::vec4) * 3;
+        globalUniforms.g_lightColorRange = reinterpret_cast<glm::vec4*>(buffer.data() + lightColorRangeOffset);
+        int g_lightPosTypeOffset = lightColorRangeOffset + (int)sizeof(glm::vec4) * (Renderer::s_instance->m_maxSceneLights);
+        globalUniforms.g_lightPosType = reinterpret_cast<glm::vec4*>(buffer.data() + g_lightPosTypeOffset);
+        return true;
+    }();
+    if (Renderer::s_instance->m_globalUniformBuffer)
+    {
+        setupShaderRenderPass(globalUniforms);
+    }
+    else
+    {
+        // find list of used shaders
+        m_shaders.clear();
+        for (auto& rqObj : m_renderQueue)
+        {
+            m_shaders.insert(rqObj.material->getShader().get());
+        }
+        // update global uniforms
+        for (auto shader : m_shaders)
+        {
+            glUseProgram(shader->m_id);
+            setupShaderRenderPass(shader);
+        }
+    }
 }
 
 } // namespace re
