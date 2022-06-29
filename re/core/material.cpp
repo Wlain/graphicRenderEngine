@@ -163,8 +163,8 @@ template <>
 std::shared_ptr<std::vector<glm::mat3>> Material::get(std::string_view uniformName)
 {
     auto t = m_shader->getUniformType(uniformName.data());
-    auto res = m_uniformMap.m_mat3Values.find(t.id);
-    if (res != m_uniformMap.m_mat3Values.end())
+    auto res = m_uniformMap.m_mat3ArrayValues.find(t.id);
+    if (res != m_uniformMap.m_mat3ArrayValues.end())
     {
         return res->second;
     }
@@ -176,8 +176,8 @@ template <>
 std::shared_ptr<std::vector<glm::mat4>> Material::get(std::string_view uniformName)
 {
     auto t = m_shader->getUniformType(uniformName.data());
-    auto res = m_uniformMap.m_mat4Values.find(t.id);
-    if (res != m_uniformMap.m_mat4Values.end())
+    auto res = m_uniformMap.m_mat4ArrayValues.find(t.id);
+    if (res != m_uniformMap.m_mat4ArrayValues.end())
     {
         return res->second;
     }
@@ -278,6 +278,20 @@ bool Material::set(std::string_view uniformName, const std::shared_ptr<std::vect
 }
 
 bool Material::set(std::string_view uniformName, const std::shared_ptr<std::vector<glm::mat4>>& value)
+{
+    auto type = m_shader->getUniformType(uniformName);
+    m_uniformMap.set(type.id, value);
+    return true;
+}
+
+bool Material::set(std::string_view uniformName, const glm::mat3& value)
+{
+    auto type = m_shader->getUniformType(uniformName);
+    m_uniformMap.set(type.id, value);
+    return true;
+}
+
+bool Material::set(std::string_view uniformName, const glm::mat4& value)
 {
     auto type = m_shader->getUniformType(uniformName);
     m_uniformMap.set(type.id, value);

@@ -28,10 +28,11 @@ public:
             out vec4 vColor;
 
             uniform mat4 g_model;
-            #pragma include "uniforms_incl.glsl"
+            uniform mat4 view;
+            uniform mat4 projection;
 
             void main(void) {
-                gl_Position = g_projection * g_view * g_model * posxyzw;
+                gl_Position = projection * view * g_model * posxyzw;
                 vColor = color;
             }
         )";
@@ -49,6 +50,8 @@ public:
                          .withSourceString(fragmentShaderSource, Shader::ShaderType::Fragment)
                          .build()
                          ->createMaterial();
+        m_material->set("view", m_camera.getViewTransform());
+        m_material->set("projection", m_camera.getProjectionTransform({800, 600}));
     }
     void render() override
     {

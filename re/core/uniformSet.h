@@ -20,6 +20,8 @@ public:
     void set(int id, int value);
     void set(int id, Color value);
     void set(int id, const std::shared_ptr<Texture>& texture);
+    void set(int id, const glm::mat3& value);
+    void set(int id, const glm::mat4& value);
     void set(int id, const std::shared_ptr<std::vector<glm::mat4>>& value);
     void set(int id, const std::shared_ptr<std::vector<glm::mat3>>& value);
     void clear();
@@ -30,8 +32,10 @@ public:
 private:
     std::map<int, std::shared_ptr<Texture>> m_textureValues;
     std::map<int, glm::vec4> m_vectorValues;
-    std::map<int, std::shared_ptr<std::vector<glm::mat4>>> m_mat4Values;
-    std::map<int, std::shared_ptr<std::vector<glm::mat3>>> m_mat3Values;
+    std::map<int, glm::mat3> m_mat3Values;
+    std::map<int, glm::mat4> m_mat4Values;
+    std::map<int, std::shared_ptr<std::vector<glm::mat4>>> m_mat4ArrayValues;
+    std::map<int, std::shared_ptr<std::vector<glm::mat3>>> m_mat3ArrayValues;
     std::map<int, float> m_floatValues;
     std::map<int, int> m_intValues;
     friend class Material;

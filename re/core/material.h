@@ -41,6 +41,8 @@ public:
     bool set(std::string_view uniformName, Color value);
     bool set(std::string_view uniformName, float value);
     bool set(std::string_view uniformName, int value);
+    bool set(std::string_view uniformName, const glm::mat3& value);
+    bool set(std::string_view uniformName, const glm::mat4& value);
     bool set(std::string_view uniformName, const std::shared_ptr<Texture>& texture);
     bool set(std::string_view uniformName, const std::shared_ptr<std::vector<glm::mat3>>& value);
     bool set(std::string_view uniformName, const std::shared_ptr<std::vector<glm::mat4>>& value);

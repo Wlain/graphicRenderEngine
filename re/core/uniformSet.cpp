@@ -36,12 +36,22 @@ void UniformSet::set(int id, const std::shared_ptr<Texture>& texture)
 
 void UniformSet::set(int id, const std::shared_ptr<std::vector<glm::mat4>>& value)
 {
-    m_mat4Values[id] = value;
+    m_mat4ArrayValues[id] = value;
 }
 
 void UniformSet::set(int id, const std::shared_ptr<std::vector<glm::mat3>>& value)
 {
+    m_mat3ArrayValues[id] = value;
+}
+
+void UniformSet::set(int id, const glm::mat3& value)
+{
     m_mat3Values[id] = value;
+}
+
+void UniformSet::set(int id, const glm::mat4& value)
+{
+    m_mat4Values[id] = value;
 }
 
 void UniformSet::clear()
@@ -50,8 +60,10 @@ void UniformSet::clear()
     m_vectorValues.clear();
     m_floatValues.clear();
     m_intValues.clear();
-    m_mat4Values.clear();
     m_mat3Values.clear();
+    m_mat4Values.clear();
+    m_mat4ArrayValues.clear();
+    m_mat3ArrayValues.clear();
 }
 
 void UniformSet::bind()
@@ -75,14 +87,22 @@ void UniformSet::bind()
     {
         glUniform1i(v.first, v.second);
     }
-    for (const auto& t : m_mat3Values)
+    for (const auto& v : m_mat3Values)
+    {
+        glUniformMatrix3fv(v.first, 1, GL_FALSE, glm::value_ptr((v.second)[0]));
+    }
+    for (const auto& t : m_mat3ArrayValues)
     {
         if (t.second != nullptr)
         {
             glUniformMatrix3fv(t.first, static_cast<GLsizei>(t.second->size()), GL_FALSE, glm::value_ptr((*t.second)[0]));
         }
     }
-    for (const auto& t : m_mat4Values)
+    for (const auto& v : m_mat4Values)
+    {
+        glUniformMatrix4fv(v.first, 1, GL_FALSE, glm::value_ptr((v.second)[0]));
+    }
+    for (const auto& t : m_mat4ArrayValues)
     {
         if (t.second != nullptr)
         {
@@ -126,12 +146,12 @@ int UniformSet::get(int id)
 template <>
 std::shared_ptr<std::vector<glm::mat3>> UniformSet::get(int id)
 {
-    return m_mat3Values[id];
+    return m_mat3ArrayValues[id];
 }
 
 template <>
 std::shared_ptr<std::vector<glm::mat4>> UniformSet::get(int id)
 {
-    return m_mat4Values[id];
+    return m_mat4ArrayValues[id];
 }
 } // namespace re

@@ -32,6 +32,6 @@ extern void matrixUniformTest();
 
 int main()
 {
-    particleTest();
+    customMeshLayoutDefaultValuesTest();
     return 0;
 }
