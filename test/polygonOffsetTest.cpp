@@ -21,10 +21,9 @@ public:
     void initialize() override
     {
         m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
-
         m_material = Shader::create()
-                         .withSourceFile("standard_vert.glsl", Shader::ShaderType::Vertex)
-                         .withSourceFile("standard_frag.glsl", Shader::ShaderType::Fragment)
+                         .withSourceFile("standard_blinn_phong_vert.glsl", Shader::ShaderType::Vertex)
+                         .withSourceFile("standard_blinn_phong_frag.glsl", Shader::ShaderType::Fragment)
                          .withCullFace(Shader::CullFace::None)
                          .build()
                          ->createMaterial();
@@ -32,8 +31,8 @@ public:
         m_material->setSpecularity({ 0, 0, 0, 20.0f });
 
         m_material2 = Shader::create()
-                          .withSourceFile("standard_vert.glsl", Shader::ShaderType::Vertex)
-                          .withSourceFile("standard_frag.glsl", Shader::ShaderType::Fragment)
+                          .withSourceFile("standard_blinn_phong_vert.glsl", Shader::ShaderType::Vertex)
+                          .withSourceFile("standard_blinn_phong_frag.glsl", Shader::ShaderType::Fragment)
                           .withCullFace(Shader::CullFace::None)
                           .withOffset(m_factor, m_offset)
                           .build()
@@ -67,8 +66,8 @@ public:
         if (changed)
         {
             m_material2 = Shader::create()
-                              .withSourceFile("standard_vert.glsl", Shader::ShaderType::Vertex)
-                              .withSourceFile("standard_frag.glsl", Shader::ShaderType::Fragment)
+                              .withSourceFile("standard_blinn_phong_vert.glsl", Shader::ShaderType::Vertex)
+                              .withSourceFile("standard_blinn_phong_frag.glsl", Shader::ShaderType::Fragment)
                               .withCullFace(Shader::CullFace::None)
                               .withOffset(m_factor, m_offset)
                               .build()

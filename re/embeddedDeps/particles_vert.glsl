@@ -8,9 +8,7 @@ out vec4 vColor;
 out vec3 uvSize;
 
 uniform mat4 g_model;
-uniform mat4 g_view;
-uniform mat4 g_projection;
-uniform vec4 g_viewport;
+#pragma include "uniforms_incl.glsl"
 
 mat3 translate(vec2 p){
     return mat3(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, p.x, p.y, 1.0);
@@ -31,9 +29,9 @@ void main(void) {
     vec4 eyeSpacePos = g_view * g_model * pos;
     gl_Position = g_projection * eyeSpacePos;
     if (g_projection[2][3] != 0.0){ // if perspective projection
-        gl_PointSize = (g_viewport.y / 600.0) * particleSize * 1.0 / -eyeSpacePos.z;
+        gl_PointSize = (g_viewport.z / 600.0) * particleSize * 1.0 / -eyeSpacePos.z;
     } else {
-        gl_PointSize = particleSize*(g_viewport.y / 600.0);
+        gl_PointSize = particleSize*(g_viewport.w / 600.0);
     }
 
     vUVMat = translate(uv.xy)*scale(uv.z) * translate(vec2(0.5, 0.5))*rotate(uv.w) * translate(vec2(-0.5, -0.5));

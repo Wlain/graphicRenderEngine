@@ -46,6 +46,7 @@ Renderer::Renderer(GLFWwindow* window, bool vsync, int maxSceneLights) :
     glEnable(GL_CULL_FACE);
     glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_LOWER_LEFT);
     glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
+    initGlobalUniformBuffer();
     // reset render stats
     m_renderStatsCurrent.frame = 0;
     m_renderStatsCurrent.meshCount = 0;
@@ -56,7 +57,10 @@ Renderer::Renderer(GLFWwindow* window, bool vsync, int maxSceneLights) :
     m_renderStatsLast = m_renderStatsCurrent;
 }
 
-Renderer::~Renderer() = default;
+Renderer::~Renderer()
+{
+    glDeleteBuffers(1, &m_globalUniformBuffer);
+};
 
 void Renderer::swapWindow()
 {
@@ -86,8 +90,18 @@ int Renderer::getMaxSceneLights()
     return m_maxSceneLights;
 }
 
-const Renderer::RenderInfo& re::Renderer::renderInfo()
+const Renderer::RenderInfo& Renderer::renderInfo()
 {
     return m_renderInfo;
+}
+
+void Renderer::initGlobalUniformBuffer()
+{
+    glGenBuffers(1, &m_globalUniformBuffer);
+    size_t lightSize = sizeof(glm::vec4) * (1 + m_maxSceneLights * 2); // ambient + (lightPosType + lightColorRange) * maxSceneLights
+    m_globalUniformBufferSize = sizeof(glm::mat4) * 2 + sizeof(glm::vec4) * 2 + lightSize;
+    glBindBuffer(GL_UNIFORM_BUFFER, m_globalUniformBuffer);
+    glBufferData(GL_UNIFORM_BUFFER, m_globalUniformBufferSize, nullptr, GL_STREAM_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 } // namespace re

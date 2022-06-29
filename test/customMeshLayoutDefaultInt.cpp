@@ -28,8 +28,7 @@ public:
             out vec4 vColor;
 
             uniform mat4 g_model;
-            uniform mat4 g_view;
-            uniform mat4 g_projection;
+            #pragma include "uniforms_incl.glsl"
 
             void main(void) {
                 gl_Position = g_projection * g_view * g_model * vec4(posxyzw);

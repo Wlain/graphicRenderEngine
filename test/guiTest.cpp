@@ -21,7 +21,7 @@ public:
     {
         m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
         m_camera.setPerspectiveProjection(60, 0.1, 100);
-        auto shader = Shader::getStandard();
+        auto shader = Shader::getStandardBlinnPhong();
         m_material = shader->createMaterial();
         m_mesh = Mesh::create().withCube().build();
         m_worldLights = std::make_unique<WorldLights>();

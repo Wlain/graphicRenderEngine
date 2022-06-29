@@ -1,5 +1,4 @@
 extern void cubeTest();
-extern void multiLightTest();
 extern void sphereTest();
 extern void cubeTexTest();
 extern void guiTest();
@@ -18,7 +17,9 @@ extern void customMeshLayoutTest();
 extern void customMeshLayoutDefaultValuesTest();
 extern void customMeshLayoutIntTest();
 extern void textureTest();
+extern void multiLightTest();
 extern void multiCameraTest();
+extern void multiMaterialTest();
 extern void screePointToRayTest();
 extern void benchmark64kTest();
 extern void gammaTest();
@@ -27,11 +28,10 @@ extern void pbrMaterialSelectTest();
 extern void normalMapTest();
 extern void renderToDepthTest();
 extern void skyboxTest();
-extern void multiMaterialTest();
 extern void matrixUniformTest();
 
 int main()
 {
-    cubeMapText();
+    particleTest();
     return 0;
 }

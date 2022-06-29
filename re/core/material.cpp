@@ -64,6 +64,7 @@ void Material::setShader(const std::shared_ptr<Shader>& shader)
         case Shader::UniformType::Mat4: {
             m_uniformMap.set(u.id, std::shared_ptr<std::vector<glm::mat4>>());
         }
+        break;
         default:
             LOG_ERROR("'{}' Unsupported uniform type: {}. Only Vec4, Texture, TextureCube and Float is supported.", u.name.c_str(), (int)u.type);
             break;

@@ -17,9 +17,9 @@ SpriteBatch::SpriteBatchBuilder& SpriteBatch::SpriteBatchBuilder::withShader(std
 SpriteBatch::SpriteBatchBuilder& SpriteBatch::SpriteBatchBuilder::addSprite(Sprite sprite)
 {
     size_t size = m_sprites.size();
-    if (size + 1 >= std::numeric_limits<uint16_t>::max())
+    if (size + 1 >= USHRT_MAX)
     {
-        LOG_ERROR("More than %i sprites in a batch ", std::numeric_limits<uint16_t>::max());
+        LOG_ERROR("More than %i sprites in a batch ", USHRT_MAX);
         return *this;
     }
     sprite.m_order.details.drawOrder = static_cast<uint16_t>(size);

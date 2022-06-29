@@ -11,6 +11,7 @@
 #include "mesh.h"
 #include "spriteBatch.h"
 
+#include <set>
 #include <string>
 namespace re
 {
@@ -28,7 +29,19 @@ private:
     {
         std::shared_ptr<Mesh> mesh;
         glm::mat4 modelTransform;
-        std::vector<std::shared_ptr<Material>> materials;
+        std::shared_ptr<Material> material;
+        int subMesh = 0;
+    };
+
+    struct GlobalUniforms
+    {
+        glm::mat4* g_view;
+        glm::mat4* g_projection;
+        glm::vec4* g_viewport;
+        glm::vec4* g_cameraPos;
+        glm::vec4* g_ambientLight;
+        glm::vec4* g_lightColorRange;
+        glm::vec4* g_lightPosType;
     };
 
 public:
@@ -93,6 +106,9 @@ public:
 
 private:
     explicit RenderPass(RenderPass::RenderPassBuilder& builder);
+    void setupShaderRenderPass(Shader *shader);
+    void setupShaderRenderPass(const GlobalUniforms& globalUniforms);
+    void setupGlobalShaderUniforms();
     void setupShader(const glm::mat4& modelTransform, Shader* shader);
     void drawInstance(RenderQueueObj& rqObj); // perform the actual rendering
 
@@ -105,6 +121,7 @@ private:
     glm::uvec2 m_viewportOffset{};
     glm::uvec2 m_viewportSize{};
     std::vector<RenderQueueObj> m_renderQueue;
+    std::set<Shader*> m_shaders;
     bool m_isFinished = false;
     friend class Renderer;
 };

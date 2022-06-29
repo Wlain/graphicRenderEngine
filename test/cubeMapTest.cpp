@@ -1,9 +1,3 @@
-// Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-// Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
-// Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
-// Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
-// Vestibulum commodo. Ut rhoncus gravida arcu.
-
 //
 // Created by william on 2022/5/26.
 //
@@ -24,10 +18,8 @@ constexpr const char* vertexShaderStr = R"(#version 330
         out vec3 vNormal;
 
         uniform mat4 g_model;
-        uniform mat4 g_view;
-        uniform mat4 g_projection;
         uniform mat3 g_normalMat;
-
+        #pragma include "uniforms_incl.glsl"
         void main(void) {
             gl_Position = g_projection * g_view * g_model * vec4(position, 1.0);
             vNormal = normal;

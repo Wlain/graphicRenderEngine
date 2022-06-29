@@ -20,10 +20,9 @@ public:
             in vec2 uv;
             out vec2 vUV;
             uniform mat4 g_model;
-            uniform mat4 g_view;
-            uniform mat4 g_projection;
             uniform int index;
             uniform mat4 customTransform[2];
+            #pragma include "uniforms_incl.glsl"
             void main(void) {
                 vUV = uv;
                 gl_Position = g_projection * g_view * g_model *  customTransform[index] * vec4(position, 1.0);

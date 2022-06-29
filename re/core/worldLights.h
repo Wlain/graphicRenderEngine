@@ -45,15 +45,15 @@ struct WorldLights
     inline size_t lightCount() const { return lights.size(); }
     inline void setAmbientLight(const glm::vec3& light)
     {
-        ambientLight = light;
+        ambientLight = glm::vec4(light, 0.0f);
     }
-    inline const glm::vec3& getAmbientLight() const
+    inline glm::vec3 getAmbientLight() const
     {
-        return ambientLight;
+        return { ambientLight.x, ambientLight.y, ambientLight.z };
     }
     void clear();
 
-    glm::vec3 ambientLight;
+    glm::vec4 ambientLight;
     std::vector<Light> lights;
 };
 } // namespace re

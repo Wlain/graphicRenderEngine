@@ -360,7 +360,7 @@ std::shared_ptr<Material> createMaterial(std::string materialName, const std::ve
 {
     if (matVector.empty())
     {
-        auto shader = Shader::getStandard();
+        auto shader = Shader::getStandardBlinnPhong();
         auto material = shader->createMaterial();
         return material;
     }
@@ -378,7 +378,7 @@ std::shared_ptr<Material> createMaterial(std::string materialName, const std::ve
         LOG_ERROR("Could not find material {}", materialName);
         foundMat = matVector.data();
     }
-    auto shader = Shader::getStandard();
+    auto shader = Shader::getStandardBlinnPhong();
     auto material = shader->createMaterial();
 
     material->setColor(foundMat->diffuseColor);

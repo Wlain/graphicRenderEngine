@@ -41,15 +41,15 @@ public:
                                     .withRange(4)
                                     .build());
 
-        m_material = Shader::getStandard()->createMaterial();
+        m_material = Shader::getStandardBlinnPhong()->createMaterial();
         m_material->setColor({ 1, 1, 1, 1 });
         m_material->setSpecularity(0);
 
-        m_matPlane = Shader::getStandard()->createMaterial();
+        m_matPlane = Shader::getStandardBlinnPhong()->createMaterial();
         m_matPlane->setColor({ 1, 1, 1, 1 });
         m_matPlane->setSpecularity(0);
 
-        m_materia2 = Shader::getStandard()->createMaterial();
+        m_materia2 = Shader::getStandardBlinnPhong()->createMaterial();
         m_materia2->setColor({ 1, 0, 0, 1 });
         m_materia2->setSpecularity(0);
     }

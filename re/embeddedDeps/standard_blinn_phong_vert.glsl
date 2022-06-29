@@ -16,11 +16,10 @@ out vec4 vColor;
 #endif
 
 uniform mat4 g_model;
-uniform mat4 g_view;
-uniform mat4 g_projection;
 uniform mat3 g_model_it;
 
 #pragma include "normalmap_incl.glsl"
+#pragma include "uniforms_incl.glsl"
 
 void main(void) {
     vec4 wsPos = g_model * vec4(position, 1.0);
