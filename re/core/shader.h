@@ -81,18 +81,6 @@ public:
         TessellationEvaluation
     };
 
-    enum class ResourceType
-    {
-        File,
-        Memory
-    };
-
-    struct Resource
-    {
-        ResourceType resourceType;
-        std::string value;
-    };
-
     class ShaderBuilder
     {
     public:

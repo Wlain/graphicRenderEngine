@@ -20,29 +20,29 @@ public:
     Sprite();
     virtual ~Sprite();
     Sprite(const Sprite&);
-    float getRotation() const;
+    [[nodiscard]] float getRotation() const;
     void setRotation(float rotation);
 
-    const glm::vec2& getPositions() const;
+    [[nodiscard]] const glm::vec2& getPositions() const;
     void setPosition(const glm::vec2& position);
 
-    const glm::vec2& getScale() const;
+    [[nodiscard]] const glm::vec2& getScale() const;
     void setScale(const glm::vec2& scale);
 
-    const glm::bvec2& getFlip() const;
+    [[nodiscard]] const glm::bvec2& getFlip() const;
     void setFlip(const glm::bvec2& flip);
 
-    uint16_t getOrderInBatch() const;
+    [[nodiscard]] uint16_t getOrderInBatch() const;
     void setOrderInBatch(uint16_t orderInBatch);
 
-    const glm::vec4& getColor() const;
+    [[nodiscard]] const glm::vec4& getColor() const;
     void setColor(const glm::vec4& color);
 
-    const glm::ivec2& getSpritePos() const;
-    const glm::ivec2& getSpriteSize() const;
-    const glm::vec2& getSpriteAnchor() const; // 锚点
+    [[nodiscard]] const glm::ivec2& getSpritePos() const;
+    [[nodiscard]] const glm::ivec2& getSpriteSize() const;
+    [[nodiscard]] const glm::vec2& getSpriteAnchor() const; // 锚点
     // 获取AABB 8个顶点的世界坐标
-    std::array<glm::vec2, 4> getTrimmedCorners() const;
+    [[nodiscard]] std::array<glm::vec2, 4> getTrimmedCorners() const;
     std::array<glm::vec2, 4> getUvs();
 
 private:
