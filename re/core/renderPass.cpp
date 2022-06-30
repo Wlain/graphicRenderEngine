@@ -134,11 +134,11 @@ RenderPass& RenderPass::operator=(RenderPass&& rp) noexcept
 void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, Color color, Mesh::Topology meshTopology)
 {
     ASSERT(!m_isFinished && "RenderPass is finished. Can no longer be modified.");
-    auto mesh = Mesh::create()
+    static auto mesh = Mesh::create()
                     .withPositions(vertices)
                     .withMeshTopology(meshTopology)
                     .build();
-    auto material = Shader::getUnlit()->createMaterial();
+    static auto material = Shader::getUnlit()->createMaterial();
     material->setColor(color);
     m_renderQueue.emplace_back(RenderQueueObj{ mesh, glm::mat4(1), material });
 }

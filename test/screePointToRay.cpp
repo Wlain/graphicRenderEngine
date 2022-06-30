@@ -8,6 +8,18 @@
 #include <glm/gtc/random.hpp>
 #include <glm/gtx/transform.hpp>
 
+/*
+ * 前置知识：
+ * 射线公式：ray = p + tv(v:方向，t:长度，p:世界点位置
+ * 世界坐标系转化成屏幕坐标的过程如下：
+ * 1.通过worldmatrix把模型的局部点转为世界点
+ * 2.通过viewmatrix矩阵把点从世界位置转为视口下
+ * 3.通过projematrix投影矩阵把视口点转为近剪裁面上的点
+ * 4.通过投射除法映射到NDC空间[-1.1]
+ * 5.通过半兰伯特手法把[-1.1]映射到[0,1] （丢弃z值）
+ * 6.再和屏幕宽高相乘获得屏幕的位置
+*/
+
 class ScreePointToRayExample : public BasicProject
 {
 public:
@@ -20,38 +32,17 @@ public:
         m_mesh = Mesh::create()
                      .withSphere()
                      .build();
-
         m_planeMesh = Mesh::create()
                           .withCube(10)
                           .build();
-        m_worldLights = MAKE_UNIQUE(m_worldLights);
-        m_worldLights->addLight(Light::create()
-                                    .withDirectionalLight(glm::normalize(glm::vec3(1, 1, 1)))
-                                    .build());
-
-        // Add fake shadows
-        m_worldLights->addLight(Light::create()
-                                    .withPointLight(m_p1 - glm::vec3(0, 0.8, 0))
-                                    .withColor({ -3.0f, -3.0f, -3.0f })
-                                    .withRange(4)
-                                    .build());
-        m_worldLights->addLight(Light::create()
-                                    .withPointLight(m_p2 - glm::vec3(0, 0.8, 0))
-                                    .withColor({ -3.0f, -3.0f, -3.0f })
-                                    .withRange(4)
-                                    .build());
-
-        m_material = Shader::getStandardBlinnPhong()->createMaterial();
+        m_material = Shader::getUnlit()->createMaterial();
         m_material->setColor({ 1, 1, 1, 1 });
-        m_material->setSpecularity(0);
 
-        m_matPlane = Shader::getStandardBlinnPhong()->createMaterial();
-        m_matPlane->setColor({ 1, 1, 1, 1 });
-        m_matPlane->setSpecularity(0);
+        m_matPlane = Shader::getUnlit()->createMaterial();
+        m_matPlane->setColor({ 0.6, 0.6, 0.6, 1 });
 
-        m_materia2 = Shader::getStandardBlinnPhong()->createMaterial();
+        m_materia2 = Shader::getUnlit()->createMaterial();
         m_materia2->setColor({ 1, 0, 0, 1 });
-        m_materia2->setSpecularity(0);
     }
 
     void updateMaterial(std::shared_ptr<Material>& mat)
@@ -59,15 +50,12 @@ public:
         mat->setColor(Color(glm::linearRand(0.0f, 1.0f), glm::linearRand(0.0f, 1.0f), glm::linearRand(0.0f, 1.0f), 1));
     }
 
-    float rayToSphere(std::array<glm::vec3, 2> ray, glm::vec3 sphereCenter)
+    float rayToSphere(glm::vec3 sphereCenter)
     {
-        float d = dot(sphereCenter - ray[0], ray[1]);
-        if (d < 0)
-        {
-            d = 0;
-        }
-        glm::vec3 closestPoint = d * ray[1] + ray[0];
-        return glm::distance(closestPoint, sphereCenter);
+        m_ray.t = glm::dot(sphereCenter - m_ray.position, m_ray.direction);
+        m_ray.t = std::max(m_ray.t, 0.0f);
+        auto target = m_ray.target();
+        return glm::distance(target, sphereCenter);
     }
 
     void touchEvent(double xPos, double yPos) override
@@ -78,18 +66,16 @@ public:
         // 坐标映射
         auto mouseX = std::clamp((int)(xPos * ratio), 0, windowsSize.x * (int)ratio);
         auto mouseY = std::clamp((int)(windowsSize.y - yPos) * (int)ratio, 0, windowsSize.y * (int)ratio);
-
+        // 第一步：拿到屏幕坐标的点
         glm::vec2 pos = { mouseX, mouseY };
-        auto res = m_camera.screenPointToRay(pos);
-        m_raycastOrigin = res[0];
-        m_raycastDirection = res[1];
-        m_points = { { m_raycastOrigin, m_raycastOrigin + m_raycastDirection } };
-        float dist1 = rayToSphere(res, m_p1);
+        // 第二步：获取世界坐标对应的坐标
+        m_ray = m_camera.screenPointToRay(pos);
+        float dist1 = rayToSphere(m_p1);
         if (dist1 < 1)
         {
             updateMaterial(m_material);
         }
-        float dist2 = rayToSphere(res, m_p2);
+        float dist2 = rayToSphere(m_p2);
         if (dist2 < 1)
         {
             updateMaterial(m_materia2);
@@ -125,24 +111,15 @@ public:
     {
         auto rp = RenderPass::create()
                       .withCamera(m_camera)
-                      .withWorldLights(m_worldLights.get())
                       .withClearColor(true, { 1, 0, 0, 1 })
                       .build();
-
         rp.draw(m_mesh, m_pos1, m_material);
-
-        checkGlError();
         rp.draw(m_mesh, m_pos2, m_materia2);
-
-        checkGlError();
-
         ImGui::LabelText("Rightclick to shoot ray", "");
         rp.draw(m_planeMesh, glm::translate(glm::vec3{ 0, -1.0f, 0 }) * glm::scale(glm::vec3{ 1, .01f, 1 }), m_matPlane);
-        ImGui::LabelText("raycastOrigin", "%.1f,%.1f,%.1f", m_raycastOrigin.x, m_raycastOrigin.y, m_raycastOrigin.z);
-        ImGui::LabelText("raycastDirection", "%.1f,%.1f,%.1f", m_raycastDirection.x, m_raycastDirection.y, m_raycastDirection.z);
-
-        rp.drawLines(m_points);
-
+        ImGui::LabelText("raycastOrigin", "%.1f,%.1f,%.1f", m_ray.position.x, m_ray.position.y, m_ray.position.z);
+        ImGui::LabelText("raycastDirection", "%.1f,%.1f,%.1f", m_ray.direction.x, m_ray.direction.y, m_ray.direction.z);
+        rp.drawLines({ m_ray.position, m_ray.position + m_ray.direction });
         cameraGUI();
     }
     void setTitle() override
@@ -154,11 +131,9 @@ private:
     std::shared_ptr<Mesh> m_planeMesh;
     glm::vec3 m_eye = { 0, 0, 3 };
     glm::vec3 m_at = { 0, 0, 0 };
-    glm::vec3 m_p1 = { -1, 0, 0 };
-    glm::vec3 m_p2 = { 1, 0, 0 };
-    glm::vec3 m_raycastOrigin{ 0 };
-    glm::vec3 m_raycastDirection{ 0 };
-    std::vector<glm::vec3> m_points{ { m_raycastOrigin, m_raycastOrigin + m_raycastDirection } };
+    glm::vec3 m_p1 = { -1, 0, 0 }; // 球中心
+    glm::vec3 m_p2 = { 1, 0, 0 };  // 球中心
+    Ray m_ray;
     glm::mat4 m_pos1 = glm::translate(glm::mat4(1), m_p1);
     glm::mat4 m_pos2 = glm::translate(glm::mat4(1), m_p2);
     std::shared_ptr<Material> m_materia2;
