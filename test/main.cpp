@@ -32,6 +32,6 @@ extern void matrixUniformTest();
 
 int main()
 {
-    matrixUniformTest();
+    screePointToRayTest();
     return 0;
 }

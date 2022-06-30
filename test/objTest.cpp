@@ -43,7 +43,7 @@ public:
         m_inspector.gui();
     }
 
-    void loadObjFile(std::string file)
+    void loadObjFile(const std::string& file)
     {
         std::filesystem::path path(file);
         m_materials.clear();

@@ -44,7 +44,7 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${IMAGE_UI_SRC} re/*.cpp test/*.cpp)
 file(COPY ./test/resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 file(COPY ./re/embeddedResource DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-add_executable(simpleRenderEngine ${SOURCES})
+add_executable(simpleRenderEngine ${SOURCES} re/core/resource.cpp re/core/resource.h)
 # 链接库
 target_link_libraries(simpleRenderEngine re)
 

@@ -130,23 +130,35 @@ glm::vec3 Camera::getRotationEuler()
     return glm::degrees(-glm::eulerAngles(orientation));
 }
 
-std::array<glm::vec3, 2> Camera::screenPointToRay(glm::vec2 position)
+/// 屏幕像素点转换成射线:屏幕坐标转世界坐标
+Ray Camera::screenPointToRay(glm::vec2 position)
 {
     glm::vec2 viewportSize = (glm::vec2)Renderer::s_instance->getFramebufferSize() * m_viewportSize;
-    // 将屏幕坐标归一化
+    // 将屏幕坐标归一化[0, 1]
     position = (position / viewportSize) * 2.0f - glm::vec2(1.0f);
     // 获取pv矩阵
     auto viewProjection = getProjectionTransform(viewportSize) * m_viewTransform;
     auto invViewProjection = glm::inverse(viewProjection);
+    // 射线在投影空间的开始和结尾,其中0.1是near，1.0是far
     // 原始裁剪坐标
-    glm::vec4 originClipSpace{ position, -1, 1 };
+    glm::vec4 originClipSpace{ position, 1.0f, 1 };
     // 目标裁剪坐标
-    glm::vec4 destClipSpace{ position, 1, 1 };
+    glm::vec4 destClipSpace{ position, 0.1f, 1 };
     glm::vec4 originClipSpaceWS = invViewProjection * originClipSpace;
     glm::vec4 destClipSpaceWS = invViewProjection * destClipSpace;
-    glm::vec3 originClipSpaceWS3 = glm::vec3(originClipSpaceWS) / originClipSpaceWS.w;
-    glm::vec3 destClipSpaceWS3 = glm::vec3(destClipSpaceWS) / destClipSpaceWS.w;
-    return { originClipSpaceWS3, glm::normalize(destClipSpaceWS3 - originClipSpaceWS3) };
+    auto originClipSpaceWS3 = glm::vec3(originClipSpaceWS);
+    auto destClipSpaceWS3 = glm::vec3(destClipSpaceWS);
+    if (originClipSpaceWS.w != 0)
+    {
+        originClipSpaceWS3 /= originClipSpaceWS.w;
+    }
+    if (destClipSpaceWS.w != 0)
+    {
+        destClipSpaceWS3 /= destClipSpaceWS.w;
+    }
+    // 获取
+    auto rayDirWorldSpace = glm::normalize(destClipSpaceWS3 - originClipSpaceWS3);
+    return { originClipSpaceWS3, rayDirWorldSpace };
 }
 
 } // namespace re
