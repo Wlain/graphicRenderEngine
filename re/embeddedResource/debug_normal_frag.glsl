@@ -2,7 +2,7 @@
 out vec4 fragColor;
 in vec3 vNormal;
 
-#pragma include "utils_incl.glsl"
+#include "utils_incl.glsl"
 
 void main(void)
 {

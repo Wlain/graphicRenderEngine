@@ -18,10 +18,10 @@ in vec4 vColor;
 uniform vec4 color;
 uniform sampler2D tex;
 
-#pragma include "uniforms_incl.glsl"
-#pragma include "light_incl.glsl"
-#pragma include "normalmap_incl.glsl"
-#pragma include "utils_incl.glsl"
+#include "uniforms_incl.glsl"
+#include "light_incl.glsl"
+#include "normalmap_incl.glsl"
+#include "utils_incl.glsl"
 
 void main()
 {

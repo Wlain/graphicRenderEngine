@@ -52,15 +52,18 @@ std::vector<std::string> split(const std::string& s, char delim)
 }
 
 // 正则替换，在shader里面实现include的功能
-std::string pragmaInclude(std::string source, std::vector<std::string>& errors, uint32_t shaderType)
+std::string pragmaInclude(const std::string& source, std::vector<std::string>& errors, uint32_t shaderType)
 {
-    if (source.find("#pragma include") == -1)
+    if (source.find("#include") == -1)
     {
         return source;
     }
     std::stringstream sstream;
-
-    std::regex e(R"_(#pragma\s+include\s+"([^"]*)")_", std::regex::ECMAScript);
+    // \s: 匹配任意的空白符
+    // +: 重复一次或更多次
+    // ^": 不包含"这个字符(否定)
+    // *: 匹配前面的子表达式任意次
+    std::regex e("#include\\s+\"([^\"]*)\"");
     int lineNumber = 0;
     std::vector<std::string> lines = split(source, '\n');
     int includes = 0;
@@ -81,9 +84,9 @@ std::string pragmaInclude(std::string source, std::vector<std::string>& errors, 
             else
             {
                 includes++;
-                sstream << "#line " << (includes * 10000 + 1) << "\n";
-                sstream << res << "\n";
-                sstream << "#line " << lineNumber << "\n";
+                sstream << "#line " << (includes * 10000 + 1) << "\n"
+                        << res << "\n"
+                        << "#line " << lineNumber << "\n";
             }
         }
         else
@@ -987,10 +990,9 @@ std::set<std::string> Shader::getAllSpecializationConstants()
 
 std::string Shader::precompile(std::string source, std::vector<std::string>& errors, uint32_t shaderType)
 {
-    // Replace includes with content
-    // for each occurrence of #pragma include replace with substitute
+    // #include shader头文件
     source = pragmaInclude(source, errors, shaderType);
-    // Insert preprocessor define symbols
+    // 预处理定义插入
     source = insertPreprocessorDefines(source, m_specializationConstants, shaderType);
     return source;
 }
@@ -1055,8 +1057,6 @@ std::string Shader::insertPreprocessorDefines(std::string source, std::map<std::
     }
     ss << "#line " << (lines + 1) << "\n";
     LOG_INFO("after insertPreprocessorDefines:source is:\n {}", source.substr(0, insertPos + 1) + ss.str() + source.substr(insertPos + 1));
-    return source.substr(0, insertPos + 1) +
-        ss.str() +
-        source.substr(insertPos + 1);
+    return source.substr(0, insertPos + 1) + ss.str() + source.substr(insertPos + 1);
 }
 } // namespace re

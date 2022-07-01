@@ -30,10 +30,10 @@ uniform float occlusionStrength;
 #ifdef S_VERTEX_COLOR
 in vec4 vColor;
 #endif
-#pragma include "uniforms_incl.glsl"
-#pragma include "normalmap_incl.glsl"
-#pragma include "utils_incl.glsl"
-#pragma include "light_incl.glsl"
+#include "uniforms_incl.glsl"
+#include "normalmap_incl.glsl"
+#include "utils_incl.glsl"
+#include "light_incl.glsl"
 
 
 // Encapsulate the various inputs used by the various functions in the shading equation

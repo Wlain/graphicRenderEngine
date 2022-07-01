@@ -36,16 +36,16 @@ public:
                           .withCube(10)
                           .build();
         m_material = Shader::getUnlit()->createMaterial();
-        m_material->setColor({ 1, 1, 1, 1 });
+        m_material->setColor({ 1, 0, 1, 1 });
 
         m_matPlane = Shader::getUnlit()->createMaterial();
         m_matPlane->setColor({ 0.6, 0.6, 0.6, 1 });
 
         m_materia2 = Shader::getUnlit()->createMaterial();
-        m_materia2->setColor({ 1, 0, 0, 1 });
+        m_materia2->setColor({ 0, 1, 0, 1 });
     }
 
-    void updateMaterial(std::shared_ptr<Material>& mat)
+    void updateMaterial(const std::shared_ptr<Material>& mat)
     {
         mat->setColor(Color(glm::linearRand(0.0f, 1.0f), glm::linearRand(0.0f, 1.0f), glm::linearRand(0.0f, 1.0f), 1));
     }
