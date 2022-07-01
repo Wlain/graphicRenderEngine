@@ -8,7 +8,7 @@ in vec4 vColor;
 uniform vec4 color;
 uniform sampler2D tex;
 
-#pragma include "utils_incl.glsl"
+#include "utils_incl.glsl"
 
 void main(void)
 {

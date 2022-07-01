@@ -22,7 +22,7 @@ public:
             uniform mat4 g_model;
             uniform int index;
             uniform mat4 customTransform[2];
-            #pragma include "uniforms_incl.glsl"
+            #include "uniforms_incl.glsl"
             void main(void) {
                 vUV = uv;
                 gl_Position = g_projection * g_view * g_model *  customTransform[index] * vec4(position, 1.0);

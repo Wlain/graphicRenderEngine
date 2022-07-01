@@ -4,7 +4,7 @@ in vec2 vUV;
 
 uniform sampler2D tex;
 
-#pragma include "utils_incl.glsl"
+#include "utils_incl.glsl"
 
 void main(void)
 {

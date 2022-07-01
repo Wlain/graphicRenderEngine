@@ -4,11 +4,11 @@ in mat3 vUVMat;
 in vec3 uvSize;
 in vec4 vColor;
 
-#pragma include "uniforms_incl.glsl"
+#include "uniforms_incl.glsl"
 
 uniform sampler2D tex;
 
-#pragma include "utils_incl.glsl"
+#include "utils_incl.glsl"
 
 void main(void)
 {
