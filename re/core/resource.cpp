@@ -6,7 +6,7 @@
 
 namespace re
 {
-std::string Resource::loadText(std::string key)
+std::string Resource::loadResource(std::string key)
 {
     return std::string();
 }

@@ -19,7 +19,7 @@ public:
     };
 
 public:
-    static std::string loadText(std::string key);        // load resource from built-in, filesystem or memory
+    static std::string loadResource(std::string key);    // load resource from built-in, filesystem or memory
     static void set(std::string key, std::string value); // set memory resource
     static void reset();                                 // reset memory resources
 private:
