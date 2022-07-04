@@ -3,7 +3,3 @@
 //
 
 #include "resource.h"
-
-namespace re
-{
-}

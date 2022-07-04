@@ -1,15 +1,11 @@
-// Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-// Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
-// Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
-// Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
-// Vestibulum commodo. Ut rhoncus gravida arcu.
-
 //
 // Created by william on 2022/5/22.
 //
 
 #ifndef SIMPLERENDERENGINE_TEXTURE_H
 #define SIMPLERENDERENGINE_TEXTURE_H
+#include "resource.h"
+
 #include <cstdlib>
 #include <map>
 #include <string>
@@ -41,12 +37,6 @@ public:
         NegativeY,
         PositiveZ,
         NegativeZ
-    };
-
-    enum class ResourceType : uint8_t
-    {
-        File,
-        Memory
     };
 
     enum class DepthPrecision

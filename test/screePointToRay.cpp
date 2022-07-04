@@ -52,6 +52,7 @@ public:
 
     float rayToSphere(glm::vec3 sphereCenter)
     {
+        // 点乘：用来计算在direction方向的投影
         m_ray.t = glm::dot(sphereCenter - m_ray.position, m_ray.direction);
         m_ray.t = std::max(m_ray.t, 0.0f);
         auto target = m_ray.target();

@@ -8,14 +8,12 @@
 #include <string>
 namespace re
 {
-class Resource
+enum class ResourceType : uint8_t
 {
-public:
-    static std::string loadText(std::string key);        // load resource from built-in, filesystem or memory
-    static void set(std::string key, std::string value); // set memory resource
-    static void reset();                                 // reset memory resources
-private:
-    static std::map<std::string, std::string> memoryOnlyResources;
+    File = 0b001,
+    Memory = 0b010,
+    BuildIn = 0b100,
+    All = 0b111
 };
 } // namespace re
 
