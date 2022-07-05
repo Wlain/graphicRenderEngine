@@ -1,9 +1,3 @@
-// Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-// Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
-// Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
-// Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
-// Vestibulum commodo. Ut rhoncus gravida arcu.
-
 //
 // Created by william on 2022/5/28.
 //
@@ -11,64 +5,6 @@
 
 #include "glCommonDefine.h"
 #include "renderer.h"
-
-#define SRE_DEBUG_CONTEXT 1
-#ifdef SRE_DEBUG_CONTEXT
-void GLAPIENTRY openglCallbackFunction(GLenum source,
-                                       GLenum type,
-                                       GLuint id,
-                                       GLenum severity,
-                                       GLsizei length,
-                                       const GLchar* message,
-                                       const void* userParam)
-{
-    const char* typeStr;
-    switch (type)
-    {
-    case GL_DEBUG_TYPE_ERROR:
-        typeStr = "ERROR";
-        break;
-    case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
-        typeStr = "DEPRECATED_BEHAVIOR";
-        break;
-    case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
-        typeStr = "UNDEFINED_BEHAVIOR";
-        break;
-    case GL_DEBUG_TYPE_PORTABILITY:
-        typeStr = "PORTABILITY";
-        break;
-    case GL_DEBUG_TYPE_PERFORMANCE:
-        typeStr = "PERFORMANCE";
-        break;
-    case GL_DEBUG_TYPE_OTHER:
-        typeStr = "OTHER";
-        break;
-    }
-    const char* severityStr;
-    switch (severity)
-    {
-    case GL_DEBUG_SEVERITY_LOW:
-        severityStr = "LOW";
-        break;
-    case GL_DEBUG_SEVERITY_MEDIUM:
-        severityStr = "MEDIUM";
-        break;
-    case GL_DEBUG_SEVERITY_HIGH:
-        severityStr = "HIGH";
-        break;
-    default:
-        severityStr = "Unknown";
-        break;
-    }
-    LOG_ERROR("---------------------opengl-callback-start------------\n"
-              "message: {}\n"
-              "type: {}\n"
-              "id: {}\n"
-              "severity: {}\n"
-              "---------------------opengl-callback-end--------------",
-              message, typeStr, id, severityStr);
-}
-#endif
 
 namespace re
 {
@@ -102,8 +38,8 @@ void GLFWRenderer::init(bool vsync)
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_DEPTH_BITS, m_renderer->s_depthBits);
-        glfwWindowHint(GLFW_STENCIL_BITS, m_renderer->s_stencilBits);
+        glfwWindowHint(GLFW_DEPTH_BITS, re::Renderer::s_depthBits);
+        glfwWindowHint(GLFW_STENCIL_BITS, re::Renderer::s_stencilBits);
 #ifdef __APPLE__
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
@@ -127,22 +63,6 @@ void GLFWRenderer::init(bool vsync)
             glfwTerminate();
         }
         m_renderer = new Renderer(m_window, vsync);
-
-#ifdef SRE_DEBUG_CONTEXT
-        if (glDebugMessageCallback)
-        {
-            LOG_INFO("Register OpenGL debug callback ");
-            glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-            glDebugMessageCallback(openglCallbackFunction, nullptr);
-            GLuint unusedIds = 0;
-            glDebugMessageControl(GL_DONT_CARE,
-                                  GL_DONT_CARE,
-                                  GL_DONT_CARE,
-                                  0,
-                                  &unusedIds,
-                                  true);
-        }
-#endif
         glEnable(GL_FRAMEBUFFER_SRGB);
     }
 }
@@ -186,7 +106,7 @@ void GLFWRenderer::startEventLoop()
     }
 }
 
-void GLFWRenderer::stopEventLoop()
+[[maybe_unused]] void GLFWRenderer::stopEventLoop()
 {
     m_running = false;
 }

@@ -25,6 +25,7 @@ class GLFWRenderer
 public:
     GLFWRenderer();
     virtual ~GLFWRenderer();
+    GLFWRenderer(const GLFWRenderer&) = delete;
     // Create the window and the graphics context (instantiates the re::Renderer).
     void init(bool vsync = true);
     void setWindowTitle(std::string_view title);
@@ -33,13 +34,13 @@ public:
     // Start the event loop. Note that this member function in usually blocking (until the `stopEventLoop()` has been called).
     void startEventLoop();
     // The render loop will stop running when the frame is complete.
-    void stopEventLoop();
+    [[maybe_unused]] void stopEventLoop();
     GLFWwindow* getGlfwWindow();
     glm::ivec2 getFrameBufferSize();
     glm::ivec2 getWindowSize();
+
 private:
     void frame(float deltaTimeSec);
-    GLFWRenderer(const GLFWRenderer&) = delete;
 
 public:
     std::function<void(int width, int height)> m_frameResize;

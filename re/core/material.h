@@ -34,9 +34,9 @@ public:
     // 金属粗糙度
     bool setMetallicRoughness(glm::vec2 metallicRoughness);
     std::shared_ptr<Texture> getMetallicRoughnessTexture();
-    bool setMetallicRoughnessTexture(std::shared_ptr<Texture> texture);
+    [[maybe_unused]] bool setMetallicRoughnessTexture(std::shared_ptr<Texture> texture);
     std::shared_ptr<Texture> getTexture();
-    bool setTexture(std::shared_ptr<Texture> texture);
+    bool setTexture(const std::shared_ptr<Texture>& texture);
     bool set(std::string_view uniformName, const glm::vec4& value);
     bool set(std::string_view uniformName, Color value);
     bool set(std::string_view uniformName, float value);

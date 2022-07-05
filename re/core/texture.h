@@ -77,7 +77,7 @@ public:
         TextureBuilder& withGenerateMipmaps(bool enable);
         // if true texture sampling is filtered (bi-linear or tri-linear sampling) otherwise use point sampling.
         TextureBuilder& withFilterSampling(bool enable);
-        TextureBuilder& withWrappedTextureCoordinates(bool enable);
+        [[maybe_unused]] TextureBuilder& withWrappedTextureCoordinates(bool enable);
         TextureBuilder& withFile(std::string_view filename);
         TextureBuilder& withFileCubeMap(std::string_view filename, CubeMapSide side);
         TextureBuilder& withRGBAData(const char* data, int width, int height);

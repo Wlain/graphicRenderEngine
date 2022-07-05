@@ -12,10 +12,10 @@ class Color
 {
 public:
     Color();
-    Color(float value);
+    explicit Color(float value);
     Color(float r, float g, float b, float a = 1.0f);
     float& operator[](int index);
-    glm::vec4 toLinear();                 // Return color values in linear space
+    [[nodiscard]] glm::vec4 toLinear() const;                 // Return color values in linear space
     void setFromLinear(glm::vec4 linear); // Set sRGBA values from linear space
 
 public:

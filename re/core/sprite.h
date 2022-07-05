@@ -32,8 +32,8 @@ public:
     [[nodiscard]] const glm::bvec2& getFlip() const;
     void setFlip(const glm::bvec2& flip);
 
-    [[nodiscard]] uint16_t getOrderInBatch() const;
-    void setOrderInBatch(uint16_t orderInBatch);
+    [[maybe_unused]] [[nodiscard]] uint16_t getOrderInBatch() const;
+    [[maybe_unused]] void setOrderInBatch(uint16_t orderInBatch);
 
     [[nodiscard]] const glm::vec4& getColor() const;
     void setColor(const glm::vec4& color);

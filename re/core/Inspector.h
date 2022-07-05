@@ -30,11 +30,11 @@ public:
     void gui(bool useWindow = true);
 
 private:
-    void showTexture(Texture* tex);
+    void showTexture(Texture* tex) const;
     void showMesh(Mesh* mesh);
     void showShader(Shader* shader);
     void showFramebufferObject(FrameBuffer* fbo);
-    void showSpriteAtlas(SpriteAtlas* pAtlas);
+    void showSpriteAtlas(SpriteAtlas* pAtlas) const;
     std::shared_ptr<Texture> getTmpTexture();
     void initFramebuffer();
 

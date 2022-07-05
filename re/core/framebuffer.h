@@ -35,7 +35,7 @@ public:
         std::vector<std::shared_ptr<Texture>> m_textures;
         std::shared_ptr<Texture> m_depthTexture;
         std::string m_name;
-        glm::uvec2 m_size;
+        glm::uvec2 m_size{};
         FrameBufferBuilder() = default;
         FrameBufferBuilder(const FrameBufferBuilder&) = default;
         friend class FrameBuffer;
@@ -44,7 +44,7 @@ public:
 public:
     explicit FrameBuffer(std::string_view name);
     ~FrameBuffer();
-    inline const std::string& name() const { return m_name; }
+    [[nodiscard]] inline const std::string& name() const { return m_name; }
     void setColorTexture(const std::shared_ptr<Texture>& tex, int index = 0);
     void setDepthTexture(const std::shared_ptr<Texture>& tex);
     static FrameBufferBuilder create();

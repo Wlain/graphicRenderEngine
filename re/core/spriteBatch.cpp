@@ -8,7 +8,7 @@
 #include "material.h"
 namespace re
 {
-SpriteBatch::SpriteBatchBuilder& SpriteBatch::SpriteBatchBuilder::withShader(std::shared_ptr<Shader> shader)
+[[maybe_unused]] SpriteBatch::SpriteBatchBuilder& SpriteBatch::SpriteBatchBuilder::withShader(std::shared_ptr<Shader> shader)
 {
     m_shader = std::move(shader);
     return *this;

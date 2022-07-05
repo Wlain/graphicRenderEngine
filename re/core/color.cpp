@@ -30,7 +30,7 @@ float& Color::operator[](int index)
     }
 }
 
-glm::vec4 Color::toLinear()
+glm::vec4 Color::toLinear() const
 {
     glm::vec3 color{ r, g, b };
     return { convertSRGBToLinear(color), a };

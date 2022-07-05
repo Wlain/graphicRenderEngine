@@ -85,7 +85,7 @@ glm::ivec2 Renderer::getWindowSize()
     return size;
 }
 
-int Renderer::getMaxSceneLights()
+int Renderer::getMaxSceneLights() const
 {
     return m_maxSceneLights;
 }

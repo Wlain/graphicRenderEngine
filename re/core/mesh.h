@@ -103,7 +103,7 @@ public:
     ~Mesh();
     inline int32_t getVertexCount() const { return m_vertexCount; }
     inline const std::vector<uint16_t>& getIndices(int indexSet = 0) const { return m_indices[indexSet]; }
-    inline int getIndicesSize(int indexSet) { return m_indices[indexSet].size(); }
+    inline int getIndicesSize(int indexSet) { return (int)m_indices[indexSet].size(); }
     inline size_t getIndexSets() const { return m_indices.size(); }
     std::vector<glm::vec3> getPositions();
     std::vector<glm::vec3> getNormals();
@@ -123,7 +123,7 @@ public:
     // get size of the mesh in bytes on GPU
     int getDataSize() const;
     inline const std::string& name() const { return m_name; }
-    inline bool hasAttribute(std::string name) const { return m_attributeByName.find(std::move(name)) != m_attributeByName.end(); }
+    inline bool hasAttribute(const std::string& name) const { return m_attributeByName.find(name) != m_attributeByName.end(); }
 
 private:
     struct Attribute

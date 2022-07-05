@@ -35,11 +35,11 @@ public:
     // Update window with OpenGL rendering
     void swapWindow();
     // return stats of the last rendered frame,only data maintained by re is included
-    inline const RenderStats& getRenderStats() const { return m_renderStatsLast; }
-    inline bool usesVSync() const { return m_vsync; };
+    [[nodiscard]] inline const RenderStats& getRenderStats() const { return m_renderStatsLast; }
+    [[nodiscard]] inline bool usesVSync() const { return m_vsync; };
     glm::ivec2 getFramebufferSize();
     glm::ivec2 getWindowSize();
-    int getMaxSceneLights();
+    int getMaxSceneLights() const;
     const RenderInfo& renderInfo();
     void initGlobalUniformBuffer();
 

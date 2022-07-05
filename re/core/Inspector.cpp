@@ -121,7 +121,7 @@ void Inspector::gui(bool useWindow)
     }
     if (ImGui::CollapsingHeader("Renderer"))
     {
-        ImGui::LabelText("re Version", "%d.%d.%d", r->s_rgVersionMajor, r->s_rgVersionMinor, r->s_rgVersionPoint);
+        ImGui::LabelText("re Version", "%d.%d.%d", re::Renderer::s_rgVersionMajor, re::Renderer::s_rgVersionMinor, re::Renderer::s_rgVersionPoint);
         ImGui::LabelText("Window size", "%ix%i", r->getWindowSize().x, r->getWindowSize().y);
         ImGui::LabelText("Framebuffer size", "%ix%i", r->getFramebufferSize().x, r->getFramebufferSize().y);
         ImGui::LabelText("VSync", "%s", r->usesVSync() ? "true" : "false");
@@ -146,7 +146,7 @@ void Inspector::gui(bool useWindow)
         float avg = 0;
         if (m_frameCount > 0)
         {
-            avg = sum / std::min(m_frameCount, m_frames);
+            avg = sum / (float)std::min(m_frameCount, m_frames);
         }
         char res[128];
         sprintf(res, "Avg time: %4.2f ms\nMax time: %4.2f ms", avg, max);
@@ -158,7 +158,7 @@ void Inspector::gui(bool useWindow)
         for (int i = 0; i < m_frames; i++)
         {
             int idx = (m_frameCount + i) % m_frames;
-            float t = m_stats[idx].drawCalls;
+            auto t = (float)m_stats[idx].drawCalls;
             m_data[(-m_frameCount % m_frames + idx + m_frames) % m_frames] = t;
             max = std::max(max, t);
             sum += t;
@@ -166,7 +166,7 @@ void Inspector::gui(bool useWindow)
         avg = 0;
         if (m_frameCount > 0)
         {
-            avg = sum / std::min(m_frameCount, m_frames);
+            avg = sum / (float)std::min(m_frameCount, m_frames);
         }
         sprintf(res, "Avg: %4.1f\nMax: %4.1f", avg, max);
 
@@ -177,7 +177,7 @@ void Inspector::gui(bool useWindow)
         for (int i = 0; i < m_frames; i++)
         {
             int idx = (m_frameCount + i) % m_frames;
-            float t = m_stats[idx].stateChangesShader + m_stats[idx].stateChangesMaterial + m_stats[idx].stateChangesMesh;
+            float t = (float)m_stats[idx].stateChangesShader + (float)m_stats[idx].stateChangesMaterial + (float)m_stats[idx].stateChangesMesh;
             m_data[(-m_frameCount % m_frames + idx + m_frames) % m_frames] = t;
             max = std::max(max, t);
             sum += t;
@@ -185,7 +185,7 @@ void Inspector::gui(bool useWindow)
         avg = 0;
         if (m_frameCount > 0)
         {
-            avg = sum / std::min(m_frameCount, m_frames);
+            avg = sum / (float)std::min(m_frameCount, m_frames);
         }
         sprintf(res, "Avg: %4.1f\nMax: %4.1f", avg, max);
 
@@ -198,7 +198,7 @@ void Inspector::gui(bool useWindow)
         for (int i = 0; i < m_frames; i++)
         {
             int idx = (m_frameCount + i) % m_frames;
-            float t = m_stats[idx].meshBytes / 1000000.0f;
+            auto t = (float)m_stats[idx].meshBytes / 1000000.0f;
             m_data[(-m_frameCount % m_frames + idx + m_frames) % m_frames] = t;
             max = std::max(max, t);
             sum += t;
@@ -206,7 +206,7 @@ void Inspector::gui(bool useWindow)
         float avg = 0;
         if (m_frameCount > 0)
         {
-            avg = sum / std::min(m_frameCount, m_frames);
+            avg = sum / (float)std::min(m_frameCount, m_frames);
         }
         char res[128];
         sprintf(res, "Avg: %4.1f\nMax: %4.1f", avg, max);
@@ -218,7 +218,7 @@ void Inspector::gui(bool useWindow)
         for (int i = 0; i < m_frames; i++)
         {
             int idx = (m_frameCount + i) % m_frames;
-            float t = m_stats[idx].textureBytes / 1000000.0f;
+            float t = (float)m_stats[idx].textureBytes / 1000000.0f;
             m_data[(-m_frameCount % m_frames + idx + m_frames) % m_frames] = t;
             max = std::max(max, t);
             sum += t;
@@ -226,7 +226,7 @@ void Inspector::gui(bool useWindow)
         avg = 0;
         if (m_frameCount > 0)
         {
-            avg = sum / std::min(m_frameCount, m_frames);
+            avg = sum / (float)std::min(m_frameCount, m_frames);
         }
         sprintf(res, "Avg: %4.1f\nMax: %4.1f", avg, max);
 
@@ -292,7 +292,7 @@ void Inspector::gui(bool useWindow)
     }
 }
 
-void Inspector::showTexture(Texture* tex)
+void Inspector::showTexture(Texture* tex) const
 {
     std::string s = tex->name() + "##" + std::to_string((int64_t)tex);
     if (ImGui::TreeNode(s.c_str()))
@@ -331,7 +331,7 @@ void Inspector::showTexture(Texture* tex)
         ImGui::LabelText("Filtersampling", "%s", tex->isFilterSampling() ? "true" : "false");
         ImGui::LabelText("Mipmapping", "%s", tex->isMipMapped() ? "true" : "false");
         ImGui::LabelText("Wrap tex-coords", "%s", tex->isWrapTextureCoordinates() ? "true" : "false");
-        ImGui::LabelText("Data size", "%f MB", tex->getDataSize() / (1000 * 1000.0f));
+        ImGui::LabelText("Data size", "%f MB", (float)tex->getDataSize() / (1000 * 1000.0f));
         if (!tex->isCubeMap())
         {
             ImGui::Image(reinterpret_cast<ImTextureID>(tex->m_info.id), ImVec2(m_previewSize, m_previewSize));
@@ -346,7 +346,7 @@ void Inspector::showMesh(Mesh* mesh)
     if (ImGui::TreeNode(s.c_str()))
     {
         ImGui::LabelText("Vertex count", "%i", mesh->getVertexCount());
-        ImGui::LabelText("Mesh size", "%.2f MB", mesh->getDataSize() / (1000 * 1000.0f));
+        ImGui::LabelText("Mesh size", "%.2f MB", (float)mesh->getDataSize() / (1000 * 1000.0f));
         if (ImGui::TreeNode("Vertex attributes"))
         {
             auto attributeNames = mesh->getAttributeNames();
@@ -517,7 +517,7 @@ void Inspector::showFramebufferObject(FrameBuffer* fbo)
     }
 }
 
-void Inspector::showSpriteAtlas(SpriteAtlas* pAtlas)
+void Inspector::showSpriteAtlas(SpriteAtlas* pAtlas) const
 {
     std::string s = pAtlas->getAtlasName() + "##" + std::to_string((int64_t)pAtlas);
     if (ImGui::TreeNode(s.c_str()))
@@ -547,9 +547,9 @@ void Inspector::showSpriteAtlas(SpriteAtlas* pAtlas)
             ImGui::LabelText("Sprite size", "%i%i", sprite.getSpriteSize().x, sprite.getSpriteSize().y);
             ImGui::LabelText("Sprite pos", "%i%i", sprite.getSpritePos().x, sprite.getSpritePos().y);
             auto tex = sprite.m_texture;
-            auto uv0 = ImVec2((sprite.getSpritePos().x) / (float)tex->width(), (sprite.getSpritePos().y + sprite.getSpriteSize().y) / (float)tex->height());
-            auto uv1 = ImVec2((sprite.getSpritePos().x + sprite.getSpriteSize().x) / (float)tex->width(), (sprite.getSpritePos().y) / (float)tex->height());
-            ImGui::Image(reinterpret_cast<ImTextureID>(tex->m_info.id), ImVec2(m_previewSize / sprite.getSpriteSize().y * (float)sprite.getSpriteSize().x, m_previewSize), uv0, uv1,
+            auto uv0 = ImVec2((float)(sprite.getSpritePos().x) / (float)tex->width(), (float)(sprite.getSpritePos().y + sprite.getSpriteSize().y) / (float)tex->height());
+            auto uv1 = ImVec2((float)(sprite.getSpritePos().x + sprite.getSpriteSize().x) / (float)tex->width(), (float)(sprite.getSpritePos().y) / (float)tex->height());
+            ImGui::Image(reinterpret_cast<ImTextureID>(tex->m_info.id), ImVec2(m_previewSize / (float)sprite.getSpriteSize().y * (float)sprite.getSpriteSize().x, m_previewSize), uv0, uv1,
                          { 1, 1, 1, 1 }, { 0, 0, 0, 1 });
         }
         ImGui::TreePop();

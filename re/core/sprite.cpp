@@ -15,11 +15,11 @@ Sprite::Sprite() = default;
 Sprite::~Sprite() = default;
 
 Sprite::Sprite(glm::ivec2 spritePos, glm::ivec2 spriteSize, glm::ivec2 spriteSourcePos, glm::ivec2 spriteSourceSize, glm::vec2 spriteAnchor, Texture* texture) :
-    m_spritePos(std::move(spritePos)),
-    m_spriteSize(std::move(spriteSize)),
-    m_spriteSourcePos(std::move(spriteSourcePos)),
-    m_spriteSourceSize(std::move(spriteSourceSize)),
-    m_spriteAnchor(std::move(spriteAnchor)),
+    m_spritePos(spritePos),
+    m_spriteSize(spriteSize),
+    m_spriteSourcePos(spriteSourcePos),
+    m_spriteSourceSize(spriteSourceSize),
+    m_spriteAnchor(spriteAnchor),
     m_texture(texture)
 {
     m_order.globalOrder = 0;
@@ -90,12 +90,12 @@ void Sprite::setFlip(const glm::bvec2& flip)
     m_flip = flip;
 }
 
-uint16_t Sprite::getOrderInBatch() const
+[[maybe_unused]] uint16_t Sprite::getOrderInBatch() const
 {
     return m_order.details.orderInBatch;
 }
 
-void Sprite::setOrderInBatch(uint16_t orderInBatch)
+[[maybe_unused]] void Sprite::setOrderInBatch(uint16_t orderInBatch)
 {
     m_order.details.orderInBatch = orderInBatch;
 }
@@ -127,11 +127,11 @@ const glm::vec2& Sprite::getSpriteAnchor() const
 
 std::array<glm::vec2, 4> Sprite::getTrimmedCorners() const
 {
-    float x0 = 0 - m_spriteAnchor.x * m_spriteSize.x;
-    float x1 = m_spriteSize.x - m_spriteAnchor.x * m_spriteSize.x;
-    float y0 = 0 - m_spriteAnchor.y * m_spriteSize.y;
-    float y1 = m_spriteSize.y - m_spriteAnchor.y * m_spriteSize.y;
-    std::array<glm::vec2, 4> res;
+    float x0 = 0 - m_spriteAnchor.x * (float)m_spriteSize.x;
+    float x1 = (float)m_spriteSize.x - m_spriteAnchor.x * (float)m_spriteSize.x;
+    float y0 = 0 - m_spriteAnchor.y * (float)m_spriteSize.y;
+    float y1 = (float)m_spriteSize.y - m_spriteAnchor.y * (float)m_spriteSize.y;
+    std::array<glm::vec2, 4> res{};
     res[0] = { x1, y0 };
     res[1] = { x1, y1 };
     res[2] = { x0, y1 };
@@ -147,13 +147,13 @@ std::array<glm::vec2, 4> Sprite::getTrimmedCorners() const
 
 std::array<glm::vec2, 4> Sprite::getUvs()
 {
-    std::array<glm::vec2, 4> res;
-    float texWidth = m_texture->width();
-    float texHeight = m_texture->height();
-    float x0 = (m_spritePos.x) / texWidth;
-    float x1 = (m_spritePos.x + m_spriteSize.x) / texWidth;
-    float y0 = (m_spritePos.y) / texHeight;
-    float y1 = (m_spritePos.y + m_spriteSize.y) / texHeight;
+    std::array<glm::vec2, 4> res{};
+    auto texWidth = (float)m_texture->width();
+    auto texHeight = (float)m_texture->height();
+    float x0 = (float)(m_spritePos.x) / texWidth;
+    float x1 = (float)(m_spritePos.x + m_spriteSize.x) / texWidth;
+    float y0 = (float)(m_spritePos.y) / texHeight;
+    float y1 = (float)(m_spritePos.y + m_spriteSize.y) / texHeight;
     if (m_flip.x)
     {
         std::swap(x0, x1);

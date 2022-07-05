@@ -42,12 +42,12 @@ struct WorldLights
         }
         return &lights[index];
     }
-    inline size_t lightCount() const { return lights.size(); }
+    [[nodiscard]] inline size_t lightCount() const { return lights.size(); }
     inline void setAmbientLight(const glm::vec3& light)
     {
         ambientLight = glm::vec4(light, 0.0f);
     }
-    inline glm::vec3 getAmbientLight() const
+    [[nodiscard]] inline glm::vec3 getAmbientLight() const
     {
         return { ambientLight.x, ambientLight.y, ambientLight.z };
     }

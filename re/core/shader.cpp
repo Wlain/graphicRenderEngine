@@ -697,7 +697,7 @@ Shader::ShaderBuilder Shader::create()
     return {};
 }
 
-bool Shader::build(std::map<ShaderType, Resource> shaderSources, std::vector<std::string>& errors)
+bool Shader::build(const std::map<ShaderType, Resource>& shaderSources, std::vector<std::string>& errors)
 {
     auto oldShaderProgramId = m_id;
     m_id = glCreateProgram();

@@ -70,7 +70,7 @@ std::shared_ptr<SpriteAtlas> SpriteAtlas::create(std::string_view jsonFile, cons
             sourcePos.y = (int)spriteElement["spriteSourceSize"]["y"].number_value();
             sourceSize.x = (int)spriteElement["sourceSize"]["w"].number_value();
             sourceSize.y = (int)spriteElement["sourceSize"]["h"].number_value();
-            float spriteHeight = (int)spriteElement["spriteSourceSize"]["h"].number_value();
+            float spriteHeight = (float )spriteElement["spriteSourceSize"]["h"].number_value();
             sourcePos.y = sourceSize.y - sourcePos.y - spriteHeight;
         }
         else

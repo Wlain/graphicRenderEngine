@@ -167,7 +167,7 @@ public:
 private:
     Shader();
     void bind();
-    bool build(std::map<ShaderType, Resource> shaderSources, std::vector<std::string>& errors);
+    bool build(const std::map<ShaderType, Resource>& shaderSources, std::vector<std::string>& errors);
     std::string precompile(std::string source, std::vector<std::string>& errors, uint32_t shaderType);
     std::string insertPreprocessorDefines(std::string source, std::map<std::string, std::string>& specializationConstants, uint32_t shaderType);
     bool setLights(WorldLights* worldLights) const;

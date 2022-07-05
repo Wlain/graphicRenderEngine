@@ -18,7 +18,7 @@ public:
     class SpriteBatchBuilder
     {
     public:
-        SpriteBatchBuilder& withShader(std::shared_ptr<Shader> shader);
+        [[maybe_unused]] SpriteBatchBuilder& withShader(std::shared_ptr<Shader> shader);
         SpriteBatchBuilder& addSprite(Sprite sprite);
         template <typename T>
         SpriteBatchBuilder& addSprites(T first, const T last);

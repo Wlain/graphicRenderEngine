@@ -40,7 +40,7 @@ Texture::TextureBuilder& Texture::TextureBuilder::withFilterSampling(bool enable
     return *this;
 }
 
-Texture::TextureBuilder& Texture::TextureBuilder::withWrappedTextureCoordinates(bool enable)
+[[maybe_unused]] Texture::TextureBuilder& Texture::TextureBuilder::withWrappedTextureCoordinates(bool enable)
 {
     m_info.wrapTextureCoordinates = enable;
     return *this;

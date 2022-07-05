@@ -225,12 +225,12 @@ std::shared_ptr<Texture> Material::getMetallicRoughnessTexture()
     return get<std::shared_ptr<Texture>>("mrTex");
 }
 
-bool Material::setMetallicRoughnessTexture(std::shared_ptr<Texture> texture)
+[[maybe_unused]] bool Material::setMetallicRoughnessTexture(std::shared_ptr<Texture> texture)
 {
     return set("mrTex", texture);
 }
 
-bool Material::setTexture(std::shared_ptr<Texture> texture)
+bool Material::setTexture(const std::shared_ptr<Texture>& texture)
 {
     return set("tex", texture);
 }
