@@ -29,9 +29,10 @@ extern void normalMapTest();
 extern void renderToDepthTest();
 extern void skyboxTest();
 extern void matrixUniformTest();
+extern void bumpMapTest();
 
 int main()
 {
-    pickColorTest();
+    bumpMapTest();
     return 0;
 }

@@ -363,10 +363,6 @@ Shader::~Shader()
     if (r != nullptr)
     {
         r->m_renderStatsCurrent.shaderCount--;
-        if (!r->m_shaders.empty())
-        {
-            r->m_shaders.erase(std::remove(r->m_shaders.begin(), r->m_shaders.end(), this));
-        }
         glDeleteShader(m_id);
     }
 }
