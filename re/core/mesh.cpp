@@ -505,7 +505,6 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withQuad(float size)
 
 Mesh::MeshBuilder& Mesh::MeshBuilder::withCube(float length)
 {
-    using namespace glm;
     //    v5----- v4
     //   /|      /|
     //  v1------v0|
@@ -519,15 +518,15 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withCube(float length)
         ss << "re Cube -" << std::setprecision(2) << length;
         m_name = ss.str();
     }
-    vec3 p[] = { { length, length, length },
-                 { -length, length, length },
-                 { -length, -length, length },
-                 { length, -length, length },
+    glm::vec3 p[] = { { length, length, length },
+                      { -length, length, length },
+                      { -length, -length, length },
+                      { length, -length, length },
 
-                 { length, length, -length },
-                 { -length, length, -length },
-                 { -length, -length, -length },
-                 { length, -length, -length } };
+                      { length, length, -length },
+                      { -length, length, -length },
+                      { -length, -length, -length },
+                      { length, -length, -length } };
 
     std::vector<uint16_t> indices({ 0, 1, 2, 0, 2, 3,
                                     4, 5, 6, 4, 6, 7,
@@ -535,7 +534,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withCube(float length)
                                     12, 13, 14, 12, 14, 15,
                                     16, 17, 18, 16, 18, 19,
                                     20, 21, 22, 20, 22, 23 });
-    std::vector<vec3> positions({
+    std::vector<glm::vec3> positions({
         p[0], p[1], p[2], p[3], // v0-v1-v2-v3
         p[4], p[0], p[3], p[7], // v4-v0-v3-v7
         p[5], p[4], p[7], p[6], // v5-v4-v7-v6
@@ -543,53 +542,53 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withCube(float length)
         p[4], p[5], p[1], p[0], // v1-v5-v6-v2
         p[3], p[2], p[6], p[7], // v1-v5-v6-v2
     });
-    vec4 u[] = { { 1, 1, 0, 0 },
-                 { 0, 1, 0, 0 },
-                 { 0, 0, 0, 0 },
-                 { 1, 0, 0, 0 } };
+    glm::vec4 u[] = { { 1, 1, 0, 0 },
+                      { 0, 1, 0, 0 },
+                      { 0, 0, 0, 0 },
+                      { 1, 0, 0, 0 } };
     // clang-format off
-    std::vector<vec4> uvs({ u[0],u[1],u[2], u[3],
+    std::vector<glm::vec4> uvs({ u[0],u[1],u[2], u[3],
                           u[0],u[1],u[2], u[3],
                           u[0],u[1],u[2], u[3],
                           u[0],u[1],u[2], u[3],
                           u[0],u[1],u[2], u[3],
                           u[0],u[1],u[2], u[3],
                         });
-   std::vector<vec3> normals({
-        vec3{0, 0, 1}, vec3{0, 0, 1}, vec3{0, 0, 1},
-        vec3{0, 0, 1}, vec3{1, 0, 0}, vec3{1, 0, 0},
-        vec3{1, 0, 0}, vec3{1, 0, 0}, vec3{0, 0, -1},
-        vec3{0, 0, -1}, vec3{0, 0, -1}, vec3{0, 0, -1},
-        vec3{-1, 0, 0}, vec3{-1, 0, 0}, vec3{-1, 0, 0},
-        vec3{-1, 0, 0}, vec3{0, 1, 0}, vec3{0, 1, 0},
-        vec3{0, 1, 0}, vec3{0, 1, 0}, vec3{0, -1, 0},
-        vec3{0, -1, 0}, vec3{0, -1, 0}, vec3{0, -1, 0}});
+   std::vector<glm::vec3> normals({
+        {0, 0, 1}, {0, 0, 1}, {0, 0, 1},
+        {0, 0, 1}, {1, 0, 0}, {1, 0, 0},
+        {1, 0, 0}, {1, 0, 0}, {0, 0, -1},
+        {0, 0, -1}, {0, 0, -1}, {0, 0, -1},
+        {-1, 0, 0}, {-1, 0, 0}, {-1, 0, 0},
+        {-1, 0, 0}, {0, 1, 0}, {0, 1, 0},
+        {0, 1, 0}, {0, 1, 0}, {0, -1, 0},
+        {0, -1, 0}, {0, -1, 0}, {0, -1, 0}});
 
-     std::vector<vec4> tangents({
-                                  vec4{1, 0,  0,1},
-                                  vec4{1, 0,  0,1},
-                                  vec4{1, 0,  0,1},
-                                  vec4{1, 0,  0,1},
-                                  vec4{0, 0, -1,1},
-                                  vec4{0, 0, -1,1},
-                                  vec4{0, 0, -1,1},
-                                  vec4{0, 0, -1,1},
-                                  vec4{-1, 0, 0,1},
-                                  vec4{-1, 0, 0,1},
-                                  vec4{-1, 0, 0,1},
-                                  vec4{-1, 0, 0,1},
-                                  vec4{0, 0,  1,1},
-                                  vec4{0, 0,  1,1},
-                                  vec4{0, 0,  1,1},
-                                  vec4{0, 0,  1,1},
-                                  vec4{1, 0,  0,1},
-                                  vec4{1, 0,  0,1},
-                                  vec4{1, 0,  0,1},
-                                  vec4{1, 0,  0,1},
-                                  vec4{-1, 0, 0,1},
-                                  vec4{-1, 0, 0,1},
-                                  vec4{-1, 0, 0,1},
-                                  vec4{-1, 0, 0,1},
+     std::vector<glm::vec4> tangents({
+                                  {1, 0,  0,1},
+                                  {1, 0,  0,1},
+                                  {1, 0,  0,1},
+                                  {1, 0,  0,1},
+                                  {0, 0, -1,1},
+                                  {0, 0, -1,1},
+                                  {0, 0, -1,1},
+                                  {0, 0, -1,1},
+                                  {-1, 0, 0,1},
+                                  {-1, 0, 0,1},
+                                  {-1, 0, 0,1},
+                                  {-1, 0, 0,1},
+                                  {0, 0,  1,1},
+                                  {0, 0,  1,1},
+                                  {0, 0,  1,1},
+                                  {0, 0,  1,1},
+                                  {1, 0,  0,1},
+                                  {1, 0,  0,1},
+                                  {1, 0,  0,1},
+                                  {1, 0,  0,1},
+                                  {-1, 0, 0,1},
+                                  {-1, 0, 0,1},
+                                  {-1, 0, 0,1},
+                                  {-1, 0, 0,1},
                           });
     // clang-format on
     withPositions(positions);
@@ -898,6 +897,43 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withTorus(int segmentsC, int segmentsA, fl
     withUvs(finalUVs);
     withTangents(finalTangents);
     withMeshTopology(Mesh::Topology::Triangles);
+    return *this;
+}
+
+Mesh::MeshBuilder& Mesh::MeshBuilder::withWireCube(float length)
+{
+    if (m_name.length() == 0)
+    {
+        std::stringstream ss;
+        ss << "WireCube " << std::setprecision(2) << length;
+        m_name = ss.str();
+    }
+
+    std::vector<glm::vec3> positions({ { length, length, length },
+                                       { -length, length, length },
+                                       { -length, -length, length },
+                                       { length, -length, length },
+
+                                       { length, length, -length },
+                                       { -length, length, -length },
+                                       { -length, -length, -length },
+                                       { length, -length, -length } });
+    std::vector<uint16_t> indices;
+
+    for (int i = 0; i < positions.size(); i++)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            if (glm::length(positions[i] - positions[j]) <= length * 2.1f)
+            {
+                indices.push_back(i);
+                indices.push_back(j);
+            }
+        }
+    }
+    withPositions(positions);
+    withIndices(indices);
+    withMeshTopology(Mesh::Topology::Lines);
     return *this;
 }
 

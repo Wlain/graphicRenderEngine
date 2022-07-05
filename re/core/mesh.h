@@ -54,6 +54,8 @@ public:
         MeshBuilder& withSphere(int stacks = 16, int slices = 32, float radius = 1);
         // 在 xy 平面上创建一个环面。 c 在外(大)圆中，a 是扫动圆。
         MeshBuilder& withTorus(int segmentsC = 24, int segmentsA = 24, float radiusC = 1, float radiusA = 0.25);
+        // cube mesh including UV coordinates, positions and normals
+        MeshBuilder& withWireCube(float length = 1);
         // set vertex attribute "position" of type vec3
         MeshBuilder& withPositions(const std::vector<glm::vec3>& position);
         // set vertex attribute "normal" of type vec3

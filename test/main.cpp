@@ -32,6 +32,6 @@ extern void matrixUniformTest();
 
 int main()
 {
-    pbrMaterialSelectTest();
+    pickColorTest();
     return 0;
 }

@@ -79,8 +79,16 @@ std::shared_ptr<SpriteAtlas> SpriteAtlas::create(std::string_view jsonFile, cons
             sourceSize = size;
         }
         pos.y = texture->height() - pos.y - size.y;
-        pivot.x = (float)spriteElement["pivot"]["x"].number_value();
-        pivot.y = (float)spriteElement["pivot"]["y"].number_value();
+        if (spriteElement["pivot"].is_object())
+        {
+            pivot.x = (float)spriteElement["pivot"]["x"].number_value();
+            pivot.y = (float)spriteElement["pivot"]["y"].number_value();
+        }
+        else
+        {
+            pivot.x = 0.5f;
+            pivot.y = 0.5f;
+        }
         if (flipAnchorY)
         {
             pivot.y = 1.0f - pivot.y;
