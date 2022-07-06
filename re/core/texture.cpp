@@ -324,10 +324,6 @@ Texture::~Texture()
         auto dataSize = getDataSize();
         renderStats.textureBytes -= (int)dataSize;
         renderStats.textureBytesDeallocated += (int)dataSize;
-        if (!r->m_textures.empty())
-        {
-            r->m_textures.erase(std::remove(r->m_textures.begin(), r->m_textures.end(), this));
-        }
         glDeleteTextures(1, &m_info.id);
     }
 }
@@ -336,8 +332,8 @@ void Texture::updateTextureSampler(bool filterSampling, Wrap warp) const
 {
     glBindTexture(m_info.target, m_info.id);
     auto wrapEnum = warp == Wrap::ClampToEdge ? GL_CLAMP_TO_EDGE : (warp == Wrap::Mirror ? GL_MIRRORED_REPEAT : GL_REPEAT);
-    glTexParameteri(m_info.target, GL_TEXTURE_WRAP_S, wrapEnum ? GL_REPEAT : GL_CLAMP_TO_EDGE);
-    glTexParameteri(m_info.target, GL_TEXTURE_WRAP_T, wrapEnum ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+    glTexParameteri(m_info.target, GL_TEXTURE_WRAP_S, wrapEnum);
+    glTexParameteri(m_info.target, GL_TEXTURE_WRAP_T, wrapEnum);
     GLint minification;
     GLint magnification;
     if (!filterSampling)
