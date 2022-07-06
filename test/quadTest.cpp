@@ -9,8 +9,6 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 
-using namespace re;
-
 class QuadExample : public BasicProject
 {
 public:

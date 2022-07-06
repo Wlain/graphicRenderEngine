@@ -10,8 +10,6 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 
-using namespace re;
-
 class CubeExample : public BasicProject
 {
 public:

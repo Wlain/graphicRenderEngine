@@ -196,6 +196,6 @@ void main()
     vec3 emissive = toLinear(texture(emissiveTex, vUV)).rgb * emissiveFactor.xyz;
     color += emissive;
     #endif
-
-    fragColor = toOutput(color, baseColor.a);
+    vec3 shadowmapCoord = vShadowmapCoord.xyz/vShadowmapCoord.w;
+    fragColor =vec4(getShadow());// texture(shadowMap, vUV);// vec4(getShadow());// toOutput(color, baseColor.a);
 }

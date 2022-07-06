@@ -12,8 +12,6 @@
 #include <glm/gtx/euler_angles.hpp>
 #include <memory>
 
-using namespace re;
-
 class CubeTexExample : public BasicProject
 {
 public:

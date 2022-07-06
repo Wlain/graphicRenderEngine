@@ -274,8 +274,8 @@ void RenderPass::finish()
     {
         glClearDepthf(m_builder.m_clearDepthValue);
         glClearDepth(m_builder.m_clearDepthValue);
-        glDepthMask(GL_TRUE);
         clear |= GL_DEPTH_BUFFER_BIT;
+        glDepthMask(GL_TRUE);
     }
     if (m_builder.m_clearStencil)
     {

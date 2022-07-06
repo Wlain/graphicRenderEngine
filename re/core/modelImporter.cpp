@@ -369,8 +369,7 @@ std::shared_ptr<Material> createMaterial(std::string materialName, const std::ve
 {
     if (matVector.empty())
     {
-        auto shader = Shader::getStandardBlinnPhong();
-        auto material = shader->createMaterial();
+        auto material = Shader::getStandardBlinnPhong()->createMaterial();
         return material;
     }
     const ObjMaterial* foundMat = nullptr;

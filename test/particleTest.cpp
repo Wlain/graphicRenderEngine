@@ -10,8 +10,6 @@
 #include <glm/gtc/random.hpp>
 #include <glm/gtx/euler_angles.hpp>
 
-using namespace re;
-
 class ParticleExample : public BasicProject
 {
 public:

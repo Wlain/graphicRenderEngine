@@ -5,7 +5,6 @@
 #include "basicProject.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
-using namespace re;
 
 class VertexAttributeExample : public BasicProject
 {

@@ -6,8 +6,6 @@
 
 #include <glm/glm.hpp>
 
-using namespace re;
-
 namespace
 {
 std::shared_ptr<Mesh> createParticles()

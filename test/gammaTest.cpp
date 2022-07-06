@@ -5,7 +5,6 @@
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/transform.hpp>
-using namespace re;
 
 class GammaExample : public BasicProject
 {

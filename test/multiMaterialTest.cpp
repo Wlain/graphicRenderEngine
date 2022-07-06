@@ -5,7 +5,6 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/rotate_vector.hpp>
-using namespace re;
 class MultiMaterialExample : public BasicProject
 {
 public:

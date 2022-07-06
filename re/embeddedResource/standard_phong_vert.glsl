@@ -19,6 +19,7 @@ uniform mat4 g_model;
 uniform mat3 g_model_it;
 #include "uniforms_incl.glsl"
 #include "normalmap_incl.glsl"
+#include "shadow_incl.glsl"
 
 void main() {
     vec4 wsPos = g_model * vec4(position, 1.0);
@@ -33,4 +34,8 @@ void main() {
 #ifdef S_VERTEX_COLOR
     vColor = color;
 #endif
+
+//#ifdef S_SHADOW
+    vShadowmapCoord = shadowViewProjOffset * wsPos;
+//#endif
 }

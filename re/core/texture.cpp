@@ -179,37 +179,45 @@ Texture::TextureBuilder& Texture::TextureBuilder::withDepth(int width, int heigh
     m_info.target = GL_TEXTURE_2D;
     GLint internalFormat;
     GLint format = GL_DEPTH_COMPONENT;
+    GLenum type = GL_UNSIGNED_BYTE;
     m_depthPrecision = precision;
     if (m_depthPrecision == DepthPrecision::I16)
     {
         internalFormat = GL_DEPTH_COMPONENT16;
+        type = GL_UNSIGNED_SHORT;
     }
     else if (m_depthPrecision == DepthPrecision::I24)
     {
         internalFormat = GL_DEPTH_COMPONENT24;
+        type = GL_UNSIGNED_INT;
     }
     else if (m_depthPrecision == DepthPrecision::I32)
     {
         internalFormat = GL_DEPTH_COMPONENT32;
+        type = GL_UNSIGNED_INT;
     }
     else if (m_depthPrecision == DepthPrecision::I24_STENCIL8)
     {
         internalFormat = GL_DEPTH24_STENCIL8;
+        type = GL_UNSIGNED_INT;
         format = GL_DEPTH_STENCIL;
     }
     else if (m_depthPrecision == DepthPrecision::F32_STENCIL8)
     {
         internalFormat = GL_DEPTH32F_STENCIL8;
+        type = GL_FLOAT_32_UNSIGNED_INT_24_8_REV;
         format = GL_DEPTH_STENCIL;
     }
     else if (m_depthPrecision == DepthPrecision::F32)
     {
         internalFormat = GL_DEPTH_COMPONENT32F;
+        type = GL_FLOAT;
     }
     else if (m_depthPrecision == DepthPrecision::STENCIL8)
     {
         internalFormat = GL_STENCIL_INDEX8;
         format = GL_STENCIL_INDEX;
+        type = GL_UNSIGNED_BYTE;
     }
     else
     {
@@ -218,9 +226,12 @@ Texture::TextureBuilder& Texture::TextureBuilder::withDepth(int width, int heigh
     m_info.width = width;
     m_info.height = height;
     GLint border = 0;
-    GLenum type = GL_UNSIGNED_BYTE;
     glBindTexture(m_info.target, m_info.id);
     glTexImage2D(m_info.target, 0, internalFormat, width, height, border, format, type, nullptr);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+    glm::vec4 ones(1.0, 1.0, 1.0, 1.0);
+    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, &ones.x);
     checkGlError();
     return *this;
 }

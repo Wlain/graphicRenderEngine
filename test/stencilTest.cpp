@@ -10,8 +10,6 @@
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/transform.hpp>
 
-using namespace re;
-
 /// shadow volume(阴影域)的方式绘制阴影
 /// 要构造一个阴影体，先从光源投射一条射线穿过产生阴影的物体中的每个顶点到某个点（通常在无穷远点）。这些射线一起组成一个体；每个该体中的点都在阴影中，所有在外部的物体被该光源照亮。
 /// 实际的阴影体如下计算：
@@ -25,7 +23,7 @@ public:
     ~StencilExample() override = default;
     void initialize() override
     {
-        m_camera.setLookAt({ 0, 0, 3.5f }, { 0, 0, 0 }, { 0, 1, 0 });
+        m_camera.setLookAt(m_eye, m_at, m_up);
         m_camera.setPerspectiveProjection(45.0f, 0.1f, 100.0f);
         std::vector<std::shared_ptr<Material>> materialUnused;
         m_mesh = ModelImporter::importObj("resources/objFiles/suzanne.obj", materialUnused);
@@ -114,7 +112,11 @@ public:
         ImGui::Checkbox("Draw shadow", &m_drawShadow);
         ImGui::Checkbox("Use stencil", &m_useStencil);
         ImGui::DragFloat3("Light pos", &m_worldLights->getLight(0)->position.x, 0.1f);
+        ImGui::DragFloat3("eye", &m_eye.x);
+        ImGui::DragFloat3("at", &m_at.x);
+        ImGui::DragFloat3("up", &m_up.x);
         ImGui::End();
+        m_camera.setLookAt(m_eye, m_at, m_up);
     }
     void setTitle() override
     {
@@ -126,6 +128,9 @@ private:
     std::shared_ptr<Material> m_matStencilWrite;
     std::shared_ptr<Material> m_matStencilTest;
     std::shared_ptr<Material> m_matShadow;
+    glm::vec3 m_eye{ 0, 0, 3.0f };
+    glm::vec3 m_at{ 0, 0, 0 };
+    glm::vec3 m_up{ 0, 1, 0 };
     float m_shadowPlane = -1.0f;
     bool m_drawPlane = true;
     bool m_drawShadow = true;

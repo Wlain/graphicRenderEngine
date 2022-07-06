@@ -8,7 +8,6 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/transform.hpp>
 
-using namespace re;
 const int BOX_GRID_DIM = 30;
 class Benchmark64kExample : public BasicProject
 {

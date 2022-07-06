@@ -4,7 +4,6 @@
 
 #include "basicProject.h"
 #include "guiCommonDefine.h"
-using namespace re;
 
 class TextureExample : public BasicProject
 {
