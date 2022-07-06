@@ -994,7 +994,7 @@ std::shared_ptr<Shader> Shader::getSkybox()
     s_skybox = create()
                    .withSourceFile("embeddedResource/skybox_vert.glsl", ShaderType::Vertex)
                    .withSourceFile("embeddedResource/skybox_frag.glsl", ShaderType::Fragment)\
-                   .withDepthWrite(false)
+                   .withDepthWrite(false)  // 天空盒需要禁止深度写入
                    .withName("Skybox")
                    .build();
     return s_skybox;
