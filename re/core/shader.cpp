@@ -181,6 +181,18 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withBlend(Shader::BlendType blendT
     return *this;
 }
 
+Shader::ShaderBuilder& Shader::ShaderBuilder::withColorWrite(glm::bvec4 enable)
+{
+    m_colorWrite = enable;
+    return *this;
+}
+
+Shader::ShaderBuilder& Shader::ShaderBuilder::withStencil(Stencil stencil)
+{
+    m_stencil = std::move(stencil);
+    return *this;
+};
+
 Shader::ShaderBuilder& Shader::ShaderBuilder::withName(std::string_view name)
 {
     m_name = name;
@@ -251,6 +263,8 @@ std::shared_ptr<Shader> Shader::ShaderBuilder::build(std::vector<std::string>& e
     shader->m_offset = m_offset;
     shader->m_shaderSources = m_shaderSources;
     shader->m_shaderUniqueId = ++s_globalShaderCounter;
+    shader->m_stencil = std::move(m_stencil);
+    shader->m_colorWrite = std::move(m_colorWrite);;
     return shader;
 }
 
@@ -429,6 +443,18 @@ void Shader::bind()
     {
         glDisable(GL_DEPTH_TEST);
     }
+    if (m_stencil.func == StencilFunc::Disabled)
+    {
+        glDisable(GL_STENCIL_TEST);
+        glStencilMask(0);
+    }
+    else
+    {
+        glEnable(GL_STENCIL_TEST);
+        glStencilFunc(static_cast<GLenum>(m_stencil.func), (GLint)m_stencil.ref, (GLint)m_stencil.mask);
+        glStencilOp(static_cast<GLenum>(m_stencil.fail), static_cast<GLenum>(m_stencil.zfail), static_cast<GLenum>(m_stencil.zpass));
+        glStencilMask(0xFFFF);
+    }
     if (m_cullFace == CullFace::None)
     {
         glDisable(GL_CULL_FACE);
@@ -439,6 +465,7 @@ void Shader::bind()
         glCullFace(m_cullFace == CullFace::Back ? GL_BACK : GL_FRONT);
     }
     glDepthMask(m_depthWrite ? GL_TRUE : GL_FALSE);
+    glColorMask(m_colorWrite.r, m_colorWrite.g, m_colorWrite.b, m_colorWrite.a);
     switch (m_blendType)
     {
     case BlendType::Disabled:

@@ -16,8 +16,7 @@ namespace re
 {
 namespace
 {
-const char kPathSeparator = '/';
-const char kNonPathSeparator = '/';
+const char g_pathSeparator = '/';
 
 // trim from start (in place)
 static inline void ltrim(std::string& s)
@@ -71,10 +70,20 @@ std::string replaceAll(std::string& s, const std::string& search, const std::str
 
 std::string fixPath(std::string path)
 {
-    auto p = std::string(1, kPathSeparator);
-    replaceAll(path, std::string(1, kNonPathSeparator), p);
+    auto p = std::string(1, g_pathSeparator);
+    replaceAll(path, std::string(1, g_pathSeparator), p);
     replaceAll(path, p + "." + p, p);
     replaceAll(path, "\r", "");
+    return path;
+}
+
+std::string fixPathEnd(std::string& path)
+{
+    char lastChar = path[path.length() - 1];
+    if (lastChar != g_pathSeparator)
+    {
+        return path + g_pathSeparator;
+    }
     return path;
 }
 
@@ -591,6 +600,12 @@ std::shared_ptr<Mesh> ModelImporter::importObj(const std::filesystem::path& path
     }
 
     return meshBuilder.build();
+}
+
+std::shared_ptr<Mesh> ModelImporter::importObj(const std::filesystem::path& path, std::string filename)
+{
+    std::vector<std::shared_ptr<Material>> outModelMaterials;
+    return ModelImporter::importObj(path, outModelMaterials);
 }
 
 } // namespace re

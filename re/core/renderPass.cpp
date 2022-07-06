@@ -255,9 +255,11 @@ void RenderPass::finish()
     {
         glClearColor(m_builder.m_clearColorValue.r, m_builder.m_clearColorValue.g, m_builder.m_clearColorValue.b, m_builder.m_clearColorValue.a);
         clear |= GL_COLOR_BUFFER_BIT;
+        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     }
     if (m_builder.m_clearDepth)
     {
+        glClearDepthf(m_builder.m_clearDepthValue);
         glClearDepth(m_builder.m_clearDepthValue);
         glDepthMask(GL_TRUE);
         clear |= GL_DEPTH_BUFFER_BIT;
@@ -266,6 +268,7 @@ void RenderPass::finish()
     {
         glClearStencil(m_builder.m_clearStencilValue);
         clear |= GL_STENCIL_BUFFER_BIT;
+        glStencilMask(0xFFFF);
     }
     // 0u:表示无符号整型:0
     if (clear != 0u) glClear(clear);

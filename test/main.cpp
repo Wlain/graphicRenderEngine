@@ -30,9 +30,10 @@ extern void renderToDepthTest();
 extern void skyboxTest();
 extern void matrixUniformTest();
 extern void bumpMapTest();
+extern void stencilTest();
 
 int main()
 {
-    bumpMapTest();
+    stencilTest();
     return 0;
 }
