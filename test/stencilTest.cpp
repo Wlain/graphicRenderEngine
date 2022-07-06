@@ -8,6 +8,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
+#include <glm/gtx/euler_angles.hpp>
 
 using namespace re;
 
@@ -78,20 +79,21 @@ public:
             0, 0, 1, 0,
             0, 1 / -y, 0, 0));
         glm::mat4 projectedShadow = glm::translate(pos) * shadow * glm::translate(-pos);
+        auto modelMatrix = glm::eulerAngleY(glm::radians(30 * m_totalTime));
         if (m_drawShadow)
         {
             if (m_useStencil)
             {
                 rp.draw(m_plane, glm::translate(glm::vec3{ 0, m_shadowPlane, 0 }) * glm::rotate(-glm::half_pi<float>(), glm::vec3{ 1, 0, 0 }), m_matStencilWrite);
-                rp.draw(m_mesh, projectedShadow, m_matStencilTest);
+                rp.draw(m_mesh, projectedShadow * modelMatrix, m_matStencilTest);
             }
             else
             {
-                rp.draw(m_mesh, projectedShadow, m_matShadow);
+                rp.draw(m_mesh, projectedShadow * modelMatrix, m_matShadow);
             }
         }
         // 绘制模型
-        rp.draw(m_mesh, glm::mat4(1), m_material);
+        rp.draw(m_mesh, modelMatrix, m_material);
         // 绘制平面
         if (m_drawPlane)
         {

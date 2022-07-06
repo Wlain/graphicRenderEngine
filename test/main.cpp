@@ -31,6 +31,7 @@ extern void skyboxTest();
 extern void matrixUniformTest();
 extern void bumpMapTest();
 extern void stencilTest();
+extern void ambientMapTest();
 
 int main()
 {
