@@ -7,11 +7,18 @@
 #include "guiCommonDefine.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/transform.hpp>
 #include <glm/gtx/euler_angles.hpp>
+#include <glm/gtx/transform.hpp>
 
 using namespace re;
 
+/// shadow volume(阴影域)的方式绘制阴影
+/// 要构造一个阴影体，先从光源投射一条射线穿过产生阴影的物体中的每个顶点到某个点（通常在无穷远点）。这些射线一起组成一个体；每个该体中的点都在阴影中，所有在外部的物体被该光源照亮。
+/// 实际的阴影体如下计算：
+/// 找到所有的轮廓边（将前向面和后向面隔开的边）
+/// 将所有的轮廓边向远离光源的方向伸展形成一个四边形。
+/// 加入前盖和后盖到这些表面上形成一个闭合体（不是必要的，是否采用取决于所采用的实现方法）
+/// 链接：https://web.archive.org/web/20100531060920/http://www.gamedev.net/reference/articles/article1873.asp
 class StencilExample : public BasicProject
 {
 public:

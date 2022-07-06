@@ -35,6 +35,6 @@ extern void ambientMapTest();
 
 int main()
 {
-    skyboxTest();
+    bumpMapTest();
     return 0;
 }
