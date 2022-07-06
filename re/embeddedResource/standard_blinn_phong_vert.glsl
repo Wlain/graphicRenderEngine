@@ -21,7 +21,7 @@ uniform mat3 g_model_it;
 #include "normalmap_incl.glsl"
 #include "uniforms_incl.glsl"
 
-void main(void) {
+void main() {
     vec4 wsPos = g_model * vec4(position, 1.0);
     gl_Position = g_projection * g_view * wsPos;
 #if defined(S_TANGENTS) && defined(S_NORMALMAP)

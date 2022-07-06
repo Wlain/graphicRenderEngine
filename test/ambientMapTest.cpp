@@ -16,7 +16,7 @@ uniform mat4 g_model;
 uniform mat3 g_model_it;
 #include "uniforms_incl.glsl"
 
-void main(void) {
+void main() {
     gl_Position = g_projection * g_view * g_model * position;
     vNormal = normalize(mat3(g_view) *g_model_it * normal);
 }
@@ -28,7 +28,7 @@ in vec3 vNormal;
 
 uniform sampler2D tex;
 
-void main(void)
+void main()
 {
     vec3 normal = normalize(vNormal);
     fragColor = texture(tex,normal.xy * 0.5 + 0.5);

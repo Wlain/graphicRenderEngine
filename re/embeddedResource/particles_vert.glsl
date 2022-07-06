@@ -24,7 +24,7 @@ mat3 scale(float s){
     return mat3(s, 0.0, 0.0, 0.0, s, 0.0, 0.0, 0.0, 1.0);
 }
 
-void main(void) {
+void main() {
     vec4 pos = vec4(position, 1.0);
     vec4 eyeSpacePos = g_view * g_model * pos;
     gl_Position = g_projection * eyeSpacePos;

@@ -51,11 +51,19 @@ public:
         None
     };
 
+    enum class Wrap
+    {
+        Repeat,
+        ClampToEdge,
+        Mirror
+    };
+
     struct Info
     {
         PixelFormat format = PixelFormat::RGBA;
         SamplerColorspace colorspace = SamplerColorspace::Linear;
         ResourceType resourceType = ResourceType::File;
+        Wrap warp = Wrap::Repeat;
         std::string name;
         int width = 0;
         int height = 0;
@@ -65,7 +73,6 @@ public:
         bool transparent; // 透明纹理
         bool generateMipmap = false;
         bool filterSampling = true;
-        bool wrapTextureCoordinates = true;
     };
 
 public:
@@ -77,9 +84,9 @@ public:
         TextureBuilder& withGenerateMipmaps(bool enable);
         // if true texture sampling is filtered (bi-linear or tri-linear sampling) otherwise use point sampling.
         TextureBuilder& withFilterSampling(bool enable);
-        [[maybe_unused]] TextureBuilder& withWrappedTextureCoordinates(bool enable);
         TextureBuilder& withFile(std::string_view filename);
         TextureBuilder& withFileCubeMap(std::string_view filename, CubeMapSide side);
+        TextureBuilder& withWrapUV(Wrap wrap);
         TextureBuilder& withRGBAData(const char* data, int width, int height);
         TextureBuilder& withWhiteData(int width = 1, int height = 1);
         TextureBuilder& withSamplerColorspace(SamplerColorspace samplerColorspace);
@@ -109,7 +116,7 @@ public:
     inline int height() const { return m_info.height; }
     inline const std::string& name() const { return m_info.name; }
     inline bool isFilterSampling() const { return m_info.filterSampling; }
-    inline bool isWrapTextureCoordinates() const { return m_info.wrapTextureCoordinates; }
+    inline Wrap warpUv() const { return m_info.warp; }
     bool isCubeMap() const;
     bool isMipMapped() const; // has texture mipmapped enabled
     bool isTransparent() const;
@@ -122,7 +129,7 @@ public:
 
 private:
     Texture(int32_t id, int width, int height, uint32_t target, std::string string);
-    void updateTextureSampler(bool filterSampling, bool wrapTextureCoordinates) const;
+    void updateTextureSampler(bool filterSampling, Wrap warp) const;
 
 private:
     inline static std::shared_ptr<Texture> s_whiteTexture{ nullptr };

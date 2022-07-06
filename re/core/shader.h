@@ -95,37 +95,37 @@ public:
 
     enum class StencilFunc
     {
-        Never = GL_NEVER,       // Never pass.
-        Less = GL_LESS,         // <
-        Equal = GL_EQUAL,       // =
-        LEqual = GL_LEQUAL,     // <=
-        Greater = GL_GREATER,   // >
-        NotEqual = GL_NOTEQUAL, // !=
-        GEqual = GL_GEQUAL,     // >=
-        Always = GL_ALWAYS,     // Always pass.
-        Disabled                // Stencil test disabled
+        Never = GL_NEVER,       // 无论模板值为何值，都不能通过模板测试
+        Less = GL_LESS,         // 测试模板值是否小于ref值
+        Equal = GL_EQUAL,       // 测试模板值是否等于ref值
+        LEqual = GL_LEQUAL,     // 测试模板值是否小于等于ref值
+        Greater = GL_GREATER,   // 测试模板值是否大于ref值
+        NotEqual = GL_NOTEQUAL, // 测试模板值是否不等于ref值
+        GEqual = GL_GEQUAL,     // 测试模板值是否大于等于ref值
+        Always = GL_ALWAYS,     // 无论模板值为何值，总是能通过模板测试。
+        Disabled                // 关闭模板测试
     };
 
     enum class StencilOp
     {
         Keep = GL_KEEP,          // 保持当前值
-        Zero = GL_ZERO,          // stencil buffer value设置为0
-        Replace = GL_REPLACE,    // Sets the stencil buffer value to the reference value as specified by WebGLRenderingContext.stencilFunc().
-        Incr = GL_INCR,          // Increments the current stencil buffer value. Clamps to the maximum representable unsigned value.
-        IncrWrap = GL_INCR_WRAP, // Increments the current stencil buffer value. Wraps stencil buffer value to zero when incrementing the maximum representable unsigned value.
-        Decr = GL_DECR,          // Decrements the current stencil buffer value. Clamps to 0.
-        DecrWrap = GL_DECR_WRAP, // Decrements the current stencil buffer value. Wraps stencil buffer value to the maximum representable unsigned value when decrementing a stencil buffer value of 0.
-        Invert = GL_INVERT,      // Inverts the current stencil buffer value bitwise.
+        Zero = GL_ZERO,          // 将模板值清0
+        Replace = GL_REPLACE,    // 模板值将会被替换为glStencilFunc中的ref参数值。
+        Incr = GL_INCR,          // 如果模板值小于最大值，模板值将会+1
+        IncrWrap = GL_INCR_WRAP, // 和GL_INCR一样，只是遇到最大值时，模板值会清0。
+        Decr = GL_DECR,          // 如果模板值大于0，模板值将会-1。
+        DecrWrap = GL_DECR_WRAP, // 和GL_DECR一样，只是当模板值减到0时，会变为最大值。
+        Invert = GL_INVERT       // 将模板值按位取反。
     };
 
-    struct Stencil
+    struct StencilDescriptor
     {
-        StencilFunc func = StencilFunc::Disabled; // Specifying the test function
-        uint16_t ref;                             // Specifying the reference value for the stencil test. This value is clamped to the range 0 to 2n -1 where n is the number of bitplanes in the stencil buffer.
-        uint16_t mask;                            // Specifying a bit-wise mask that is used to AND the reference value and the stored stencil value when the test is done.
-        StencilOp fail = StencilOp::Keep;         // Specifying the function to use when the stencil test fails.
-        StencilOp zfail = StencilOp::Keep;        // Specifying the function to use when the stencil test passes, but the depth test fails
-        StencilOp zpass = StencilOp::Keep;        // Specifying the function to use when both the stencil test and the depth test pass, or when the stencil test passes and there is no depth buffer or depth testing is disabled
+        StencilFunc func = StencilFunc::Disabled;
+        uint16_t ref;                      // 指定模板测试的ref值。此值被限制在[0，2n-1]的范围内，其中 n 是模板缓冲区中的位平面数。
+        uint16_t mask;                     // 指定用于在测试完成时与ref和存储模板值进行与操作的位元掩码。
+        StencilOp fail = StencilOp::Keep;  // 模板测试失败后执行的操作
+        StencilOp zFail = StencilOp::Keep; // 模板测试通过但深度测试不通过时候执行的操作。
+        StencilOp zPass = StencilOp::Keep; // 模板测试和深度测试都通过后，或者深度测试未开启时执行的操作。
     };
 
     class ShaderBuilder
@@ -141,7 +141,7 @@ public:
         ShaderBuilder& withColorWrite(glm::bvec4 enable);
         ShaderBuilder& withBlend(BlendType blendType);
         ShaderBuilder& withName(std::string_view name);
-        ShaderBuilder& withStencil(Stencil stencil);
+        ShaderBuilder& withStencil(StencilDescriptor stencil);
         ShaderBuilder& withOffset(float factor, float units); // 设置用于计算深度值的缩放比例和单位
         ShaderBuilder& withCullFace(CullFace face);
         std::shared_ptr<Shader> build();
@@ -160,7 +160,7 @@ public:
         glm::vec2 m_offset = { 0.0f, 0.0f };
         Shader* updateShader{ nullptr };
         glm::bvec4 m_colorWrite{ true, true, true, true };
-        Stencil m_stencil{};
+        StencilDescriptor m_stencil{};
         bool m_depthTest{ true };
         bool m_depthWrite{ true };
         friend class Shader;
@@ -177,6 +177,7 @@ public:
     static std::shared_ptr<Shader> getStandardPBR();
     static std::shared_ptr<Shader> getStandardBlinnPhong();
     static std::shared_ptr<Shader> getStandardPhong();
+    static std::shared_ptr<Shader> getSkybox();
 
 private:
     static std::string getSource(const Resource& resource);
@@ -191,7 +192,7 @@ public:
     inline BlendType getBlend() const { return m_blendType; }
     inline const glm::vec2& getOffset() const { return m_offset; }
     inline const std::string& name() const { return m_name; }
-    inline const Stencil& getStencil() const { return m_stencil; }
+    inline const StencilDescriptor& getStencil() const { return m_stencil; }
     inline const glm::bvec4& colorWriteMask() const { return m_colorWrite; }
 
     std::vector<std::string> getAttributeNames();
@@ -226,6 +227,7 @@ private:
     inline static std::shared_ptr<Shader> s_standardPBR{ nullptr };
     inline static std::shared_ptr<Shader> s_standardPhong{ nullptr };
     inline static std::shared_ptr<Shader> s_standardBlinnPhong{ nullptr };
+    inline static std::shared_ptr<Shader> s_skybox{ nullptr };
     inline static long s_globalShaderCounter{ 0 };
 
 private:
@@ -239,7 +241,7 @@ private:
     std::map<ShaderType, Resource> m_shaderSources;
     glm::vec2 m_offset = glm::vec2(0, 0);
     std::string m_name;
-    Stencil m_stencil{};
+    StencilDescriptor m_stencil{};
     glm::bvec4 m_colorWrite{ true, true, true, true };
     unsigned int m_id{ 0 };
     bool m_depthTest{ true };

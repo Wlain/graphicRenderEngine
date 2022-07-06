@@ -20,7 +20,7 @@ constexpr const char* vertexShaderStr = R"(#version 330
         uniform mat4 g_model;
         uniform mat3 g_normalMat;
         #include "uniforms_incl.glsl"
-        void main(void) {
+        void main() {
             gl_Position = g_projection * g_view * g_model * vec4(position, 1.0);
             vNormal = normal;
         }
@@ -31,7 +31,7 @@ constexpr const char* fragmentShaderStr = R"(#version 330
 
         uniform samplerCube tex;
 
-        void main(void)
+        void main()
         {
             fragColor = texture(tex, vNormal);
         }

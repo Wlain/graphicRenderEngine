@@ -35,6 +35,6 @@ extern void ambientMapTest();
 
 int main()
 {
-    textureTest();
+    skyboxTest();
     return 0;
 }

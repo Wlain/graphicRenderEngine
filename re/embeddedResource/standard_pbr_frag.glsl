@@ -101,7 +101,7 @@ float microfacetDistribution(PBRInfo pbrInputs)
     return roughnessSq / (M_PI * f * f);
 }
 
-void main(void)
+void main()
 {
     float perceptualRoughness = metallicRoughness.y;
     float metallic = metallicRoughness.x;

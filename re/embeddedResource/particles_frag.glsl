@@ -10,7 +10,7 @@ uniform sampler2D tex;
 
 #include "utils_incl.glsl"
 
-void main(void)
+void main()
 {
     vec2 uv = (vUVMat * vec3(gl_PointCoord, 1.0)).xy;
 

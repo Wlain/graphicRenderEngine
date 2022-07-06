@@ -31,7 +31,7 @@ public:
             uniform mat4 view;
             uniform mat4 projection;
 
-            void main(void) {
+            void main() {
                 gl_Position = projection * view * g_model * posxyzw;
                 vColor = color;
             }
@@ -40,7 +40,7 @@ public:
             out vec4 fragColor;
             in vec4 vColor;
 
-            void main(void)
+            void main()
             {
                 fragColor = vColor;
             }

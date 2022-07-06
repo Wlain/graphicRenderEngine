@@ -330,7 +330,7 @@ void Inspector::showTexture(Texture* tex) const
         ImGui::LabelText("Depth", "%s", depthStr);
         ImGui::LabelText("Filtersampling", "%s", tex->isFilterSampling() ? "true" : "false");
         ImGui::LabelText("Mipmapping", "%s", tex->isMipMapped() ? "true" : "false");
-        ImGui::LabelText("Wrap tex-coords", "%s", tex->isWrapTextureCoordinates() ? "true" : "false");
+        ImGui::LabelText("Wrap tex-coords", "%s", tex->warpUv() == Texture::Wrap::ClampToEdge ? "true" : "false");
         ImGui::LabelText("Data size", "%f MB", (float)tex->getDataSize() / (1000 * 1000.0f));
         if (!tex->isCubeMap())
         {

@@ -10,7 +10,7 @@ uniform sampler2D tex;
 
 #include "utils_incl.glsl"
 
-void main(void)
+void main()
 {
     fragColor = color * toLinear(texture(tex, vUV));
 #ifdef S_VERTEX_COLOR

@@ -9,6 +9,7 @@
 #include "material.h"
 #include "renderStats.h"
 #include "renderer.h"
+#include "skybox.h"
 #include "worldLights.h"
 
 #include <glm/gtc/type_ptr.hpp>
@@ -47,6 +48,11 @@ RenderPass::RenderPass(RenderPass::RenderPassBuilder& builder) :
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
+    }
+    if (m_builder.m_skybox)
+    {
+        // skybox占位
+        m_renderQueue.push_back({});
     }
 }
 
@@ -95,6 +101,13 @@ RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withFramebuffer(st
     return *this;
 }
 
+RenderPass::RenderPassBuilder& RenderPass::RenderPassBuilder::withSkybox(const std::shared_ptr<Skybox>& skybox)
+{
+    m_clearColor = false;
+    m_skybox = skybox;
+    return *this;
+}
+
 RenderPass::RenderPassBuilder re::RenderPass::create()
 {
     return RenderPassBuilder(&Renderer::s_instance->m_renderStatsCurrent);
@@ -135,9 +148,9 @@ void RenderPass::drawLines(const std::vector<glm::vec3>& vertices, Color color, 
 {
     ASSERT(!m_isFinished && "RenderPass is finished. Can no longer be modified.");
     static auto mesh = Mesh::create()
-                    .withPositions(vertices)
-                    .withMeshTopology(meshTopology)
-                    .build();
+                           .withPositions(vertices)
+                           .withMeshTopology(meshTopology)
+                           .build();
     static auto material = Shader::getUnlit()->createMaterial();
     material->setColor(color);
     m_renderQueue.emplace_back(RenderQueueObj{ mesh, glm::mat4(1), material });
@@ -271,9 +284,18 @@ void RenderPass::finish()
         glStencilMask(0xFFFF);
     }
     // 0u:表示无符号整型:0
-    if (clear != 0u) glClear(clear);
-
+    if (clear != 0u)
+    {
+        glClear(clear);
+    }
     m_projection = m_builder.m_camera.getProjectionTransform(m_viewportSize);
+    if (m_builder.m_skybox)
+    {
+        // create an infinite projection
+        glm::mat4 infMatrix = m_builder.m_camera.getInfiniteProjectionTransform(m_viewportSize);
+        // passing the inf projection as the model matrix
+        m_renderQueue[0] = { m_builder.m_skybox->m_skyboxMesh, infMatrix, m_builder.m_skybox->m_material };
+    }
     setupGlobalShaderUniforms();
     for (auto& rqObj : m_renderQueue)
     {

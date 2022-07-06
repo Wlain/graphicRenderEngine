@@ -40,12 +40,6 @@ Texture::TextureBuilder& Texture::TextureBuilder::withFilterSampling(bool enable
     return *this;
 }
 
-[[maybe_unused]] Texture::TextureBuilder& Texture::TextureBuilder::withWrappedTextureCoordinates(bool enable)
-{
-    m_info.wrapTextureCoordinates = enable;
-    return *this;
-}
-
 Texture::TextureBuilder& Texture::TextureBuilder::withFile(std::string_view filename)
 {
     if (m_info.name.empty())
@@ -138,7 +132,7 @@ std::shared_ptr<Texture> Texture::TextureBuilder::build()
     {
         texture->invokeGenerateMipmap();
     }
-    texture->updateTextureSampler(m_info.filterSampling, m_info.wrapTextureCoordinates);
+    texture->updateTextureSampler(m_info.filterSampling, m_info.warp);
     m_info.id = 0;
     return std::shared_ptr<Texture>(texture);
 }
@@ -228,6 +222,12 @@ Texture::TextureBuilder& Texture::TextureBuilder::withDepth(int width, int heigh
     glBindTexture(m_info.target, m_info.id);
     glTexImage2D(m_info.target, 0, internalFormat, width, height, border, format, type, nullptr);
     checkGlError();
+    return *this;
+}
+
+Texture::TextureBuilder& Texture::TextureBuilder::withWrapUV(Texture::Wrap wrap)
+{
+    m_info.warp = wrap;
     return *this;
 }
 
@@ -332,11 +332,12 @@ Texture::~Texture()
     }
 }
 
-void Texture::updateTextureSampler(bool filterSampling, bool wrapTextureCoordinates) const
+void Texture::updateTextureSampler(bool filterSampling, Wrap warp) const
 {
     glBindTexture(m_info.target, m_info.id);
-    glTexParameteri(m_info.target, GL_TEXTURE_WRAP_S, wrapTextureCoordinates ? GL_REPEAT : GL_CLAMP_TO_EDGE);
-    glTexParameteri(m_info.target, GL_TEXTURE_WRAP_T, wrapTextureCoordinates ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+    auto wrapEnum = warp == Wrap::ClampToEdge ? GL_CLAMP_TO_EDGE : (warp == Wrap::Mirror ? GL_MIRRORED_REPEAT : GL_REPEAT);
+    glTexParameteri(m_info.target, GL_TEXTURE_WRAP_S, wrapEnum ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+    glTexParameteri(m_info.target, GL_TEXTURE_WRAP_T, wrapEnum ? GL_REPEAT : GL_CLAMP_TO_EDGE);
     GLint minification;
     GLint magnification;
     if (!filterSampling)

@@ -4,7 +4,7 @@ in vec4 vUV;
 
 #include "utils_incl.glsl"
 
-void main(void)
+void main()
 {
     fragColor = vUV;
     fragColor = toOutput(fragColor);

@@ -187,7 +187,7 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withColorWrite(glm::bvec4 enable)
     return *this;
 }
 
-Shader::ShaderBuilder& Shader::ShaderBuilder::withStencil(Stencil stencil)
+Shader::ShaderBuilder& Shader::ShaderBuilder::withStencil(StencilDescriptor stencil)
 {
     m_stencil = std::move(stencil);
     return *this;
@@ -264,7 +264,8 @@ std::shared_ptr<Shader> Shader::ShaderBuilder::build(std::vector<std::string>& e
     shader->m_shaderSources = m_shaderSources;
     shader->m_shaderUniqueId = ++s_globalShaderCounter;
     shader->m_stencil = std::move(m_stencil);
-    shader->m_colorWrite = std::move(m_colorWrite);;
+    shader->m_colorWrite = std::move(m_colorWrite);
+    ;
     return shader;
 }
 
@@ -452,7 +453,7 @@ void Shader::bind()
     {
         glEnable(GL_STENCIL_TEST);
         glStencilFunc(static_cast<GLenum>(m_stencil.func), (GLint)m_stencil.ref, (GLint)m_stencil.mask);
-        glStencilOp(static_cast<GLenum>(m_stencil.fail), static_cast<GLenum>(m_stencil.zfail), static_cast<GLenum>(m_stencil.zpass));
+        glStencilOp(static_cast<GLenum>(m_stencil.fail), static_cast<GLenum>(m_stencil.zFail), static_cast<GLenum>(m_stencil.zPass));
         glStencilMask(0xFFFF);
     }
     if (m_cullFace == CullFace::None)
@@ -982,6 +983,21 @@ std::shared_ptr<Shader> Shader::getStandardPhong()
                           .withName("StandardPhong")
                           .build();
     return s_standardPhong;
+}
+
+std::shared_ptr<Shader> Shader::getSkybox()
+{
+    if (s_skybox != nullptr)
+    {
+        return s_skybox;
+    }
+    s_skybox = create()
+                   .withSourceFile("embeddedResource/skybox_vert.glsl", ShaderType::Vertex)
+                   .withSourceFile("embeddedResource/skybox_frag.glsl", ShaderType::Fragment)\
+                   .withDepthWrite(false)
+                   .withName("Skybox")
+                   .build();
+    return s_skybox;
 }
 
 const std::map<std::string, std::string>& Shader::getCurrentSpecializationConstants() const
