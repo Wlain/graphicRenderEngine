@@ -15,19 +15,19 @@ public:
     {
         m_camera.setOrthographicProjection(3, -2, 2);
         m_filenames = {
-            "basn0g01.png", // black & white
-            "basn0g02.png", // 2 bit (4 level) grayscale
-            "basn0g04.png", // 4 bit (16 level) grayscale
-            "basn0g08.png", // 8 bit (256 level) grayscale
-            "basn0g16.png", // 16 bit (64k level) grayscale
-            "basn2c08.png", // 3x8 bits rgb color
-            "basn2c16.png", // 3x16 bits rgb color
-            "basn3p01.png", // 1 bit (2 color) paletted
-            "basn3p02.png", // 2 bit (4 color) paletted
-            "basn3p04.png", // 4 bit (16 color) paletted
-            "basn4a08.png", // 8 bit grayscale + 8 bit alpha-channel
-            "basn6a08.png", // 3x8 bits rgb color + 8 bit alpha-channel
-            "basn6a16.png"  // 3x16 bits rgb color + 16 bit alpha-channel
+            "basn/basn0g01.png", // black & white
+            "basn/basn0g02.png", // 2 bit (4 level) grayscale
+            "basn/basn0g04.png", // 4 bit (16 level) grayscale
+            "basn/basn0g08.png", // 8 bit (256 level) grayscale
+            "basn/basn0g16.png", // 16 bit (64k level) grayscale
+            "basn/basn2c08.png", // 3x8 bits rgb color
+            "basn/basn2c16.png", // 3x16 bits rgb color
+            "basn/basn3p01.png", // 1 bit (2 color) paletted
+            "basn/basn3p02.png", // 2 bit (4 color) paletted
+            "basn/basn3p04.png", // 4 bit (16 color) paletted
+            "basn/basn4a08.png", // 8 bit grayscale + 8 bit alpha-channel
+            "basn/basn6a08.png", // 3x8 bits rgb color + 8 bit alpha-channel
+            "basn/basn6a16.png"  // 3x16 bits rgb color + 16 bit alpha-channel
         };
 
         for (const auto& s : m_filenames)

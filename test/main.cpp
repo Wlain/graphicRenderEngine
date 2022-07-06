@@ -35,6 +35,6 @@ extern void ambientMapTest();
 
 int main()
 {
-    stencilTest();
+    textureTest();
     return 0;
 }

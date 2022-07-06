@@ -19,7 +19,7 @@ public:
     {
         m_camera.setPerspectiveProjection(90.0f, 0.1f, 100.0f);
         m_material = Shader::getUnlit()->createMaterial();
-        m_material->setTexture(Texture::create().withFile("resources/test.png").withGenerateMipmaps(true).build());
+        m_material->setTexture(Texture::create().withFile("resources/block.jpg").withGenerateMipmaps(true).build());
         m_mesh = Mesh::create().withCube().build();
         int boxI = 0;
         int offset = (int)-floor(BOX_GRID_DIM / 2);
