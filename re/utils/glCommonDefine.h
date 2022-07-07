@@ -33,18 +33,23 @@ inline void checkGlError(std::string_view msg = {}) noexcept
         {
         case GL_INVALID_ENUM:
             LOG_ERROR("GL_INVALID_ENUM");
+            ASSERT(0);
             break;
         case GL_INVALID_VALUE:
             LOG_ERROR("GL_INVALID_VALUE");
+            ASSERT(0);
             break;
         case GL_INVALID_OPERATION:
             LOG_ERROR("GL_INVALID_OPERATION");
+//            ASSERT(0);
             break;
         case GL_OUT_OF_MEMORY:
             LOG_ERROR("GL_OUT_OF_MEMORY");
+            ASSERT(0);
             break;
         case GL_INVALID_FRAMEBUFFER_OPERATION:
             LOG_ERROR("GL_INVALID_FRAMEBUFFER_OPERATION");
+            ASSERT(0);
             break;
         }
     }
