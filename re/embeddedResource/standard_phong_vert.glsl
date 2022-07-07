@@ -15,8 +15,6 @@ in vec4 color;
 out vec4 vColor;
 #endif
 
-uniform mat4 g_model;
-uniform mat3 g_model_it;
 #include "uniforms_incl.glsl"
 #include "normalmap_incl.glsl"
 #include "shadow_incl.glsl"

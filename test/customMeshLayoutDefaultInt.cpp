@@ -27,7 +27,6 @@ public:
             in vec4 color;
             out vec4 vColor;
 
-            uniform mat4 g_model;
             #include "uniforms_incl.glsl"
 
             void main(void) {

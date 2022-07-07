@@ -2,7 +2,6 @@
 in vec3 position;
 out vec3 vUV;
 
-uniform mat4 g_model;
 #include "uniforms_incl.glsl"
 
 void main(void) {

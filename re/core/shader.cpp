@@ -189,7 +189,7 @@ Shader::ShaderBuilder& Shader::ShaderBuilder::withColorWrite(glm::bvec4 enable)
 
 Shader::ShaderBuilder& Shader::ShaderBuilder::withStencil(StencilDescriptor stencil)
 {
-    m_stencil = std::move(stencil);
+    m_stencil = stencil;
     return *this;
 };
 
@@ -263,8 +263,8 @@ std::shared_ptr<Shader> Shader::ShaderBuilder::build(std::vector<std::string>& e
     shader->m_offset = m_offset;
     shader->m_shaderSources = m_shaderSources;
     shader->m_shaderUniqueId = ++s_globalShaderCounter;
-    shader->m_stencil = std::move(m_stencil);
-    shader->m_colorWrite = std::move(m_colorWrite);
+    shader->m_stencil = m_stencil;
+    shader->m_colorWrite = m_colorWrite;
     return shader;
 }
 
@@ -992,8 +992,8 @@ std::shared_ptr<Shader> Shader::getSkybox()
     }
     s_skybox = create()
                    .withSourceFile("embeddedResource/skybox_vert.glsl", ShaderType::Vertex)
-                   .withSourceFile("embeddedResource/skybox_frag.glsl", ShaderType::Fragment)\
-                   .withDepthWrite(false)  // 天空盒需要禁止深度写入
+                   .withSourceFile("embeddedResource/skybox_frag.glsl", ShaderType::Fragment)
+                   .withDepthWrite(false) // 天空盒需要禁止深度写入
                    .withName("Skybox")
                    .build();
     return s_skybox;
@@ -1066,15 +1066,21 @@ std::string Shader::insertPreprocessorDefines(std::string source, std::map<std::
     {
         ss << "#define " << sc.first << " " << sc.second << "\n";
     }
+    // framebuffers is sRGB.
     if (Renderer::s_instance->renderInfo().useFramebufferSRGB)
     {
         ss << "#define SI_FRAMEBUFFER_SRGB 1\n";
     }
+    // texture sampler supports sRGB.
     if (Renderer::s_instance->renderInfo().supportTextureSamplerSRGB)
     {
         ss << "#define SI_TEX_SAMPLER_SRGB 1\n";
     }
-
+    // frame buffer support depth texture attachments.
+    if (Renderer::s_instance->renderInfo().supportFBODepthAttachment)
+    {
+        ss << "#define SI_FBO_DEPTH_ATTACHMENT 1\n";
+    }
     // If the shader contains any #version or #extension statements, the defines are added after them.
     auto version = static_cast<int>(source.rfind("#version"));
     auto extension = static_cast<int>(source.rfind("#extension"));

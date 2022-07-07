@@ -1,7 +1,6 @@
 #version 330
 in vec3 position;
 
-uniform mat4 g_model;
 #include "uniforms_incl.glsl"
 
 void main(void) {

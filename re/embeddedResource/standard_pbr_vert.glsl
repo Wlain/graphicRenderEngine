@@ -17,8 +17,7 @@ out vec3 vWsPos;
 
 uniform mat4 shadowViewProjOffset;
 out vec4 vShadowmapCoord;
-uniform mat4 g_model;
-uniform mat3 g_model_it;
+
 #include "uniforms_incl.glsl"
 #include "normalmap_incl.glsl"
 

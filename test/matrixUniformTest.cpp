@@ -19,7 +19,6 @@ public:
             in vec3 position;
             in vec2 uv;
             out vec2 vUV;
-            uniform mat4 g_model;
             uniform int index;
             uniform mat4 customTransform[2];
             #include "uniforms_incl.glsl"

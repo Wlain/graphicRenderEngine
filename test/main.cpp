@@ -36,6 +36,6 @@ extern void shadowMapTest();
 
 int main()
 {
-    shadowMapTest();
+    cubeTest();
     return 0;
 }

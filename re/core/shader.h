@@ -169,7 +169,7 @@ public:
 public:
     static ShaderBuilder create();
     // Must end with build()
-    ShaderBuilder update();
+    static ShaderBuilder update();
     static std::shared_ptr<Shader> getUnlit();
     static std::shared_ptr<Shader> getBlit();
     static std::shared_ptr<Shader> getUnlitSprite();
@@ -204,14 +204,14 @@ public:
     std::set<std::string> getAllSpecializationConstants();
     std::shared_ptr<Material> createMaterial(std::map<std::string, std::string> specializationConstants = {});
     const char* toStr(UniformType u);
-    uint32_t toId(ShaderType st);
+    static uint32_t toId(ShaderType st);
 
 private:
     Shader();
     void bind();
     bool build(const std::map<ShaderType, Resource>& shaderSources, std::vector<std::string>& errors);
     std::string precompile(std::string source, std::vector<std::string>& errors, uint32_t shaderType);
-    std::string insertPreprocessorDefines(std::string source, std::map<std::string, std::string>& specializationConstants, uint32_t shaderType);
+    static std::string insertPreprocessorDefines(std::string source, std::map<std::string, std::string>& specializationConstants, uint32_t shaderType);
     bool setLights(WorldLights* worldLights) const;
     void updateUniformsAndAttributes();
     bool compileShader(const Resource& resource, GLenum type, GLuint& shader, std::vector<std::string>& errors);

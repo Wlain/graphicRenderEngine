@@ -24,6 +24,7 @@ Renderer::Renderer(GLFWwindow* window, bool vsync, int maxSceneLights) :
     }
     m_renderInfo.useFramebufferSRGB = true;
     m_renderInfo.supportTextureSamplerSRGB = true;
+    m_renderInfo.supportFBODepthAttachment = true;
     glEnable(GL_FRAMEBUFFER_SRGB);
     GLenum err = glewInit();
     if (err != GLEW_OK)
