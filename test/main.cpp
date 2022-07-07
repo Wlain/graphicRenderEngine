@@ -33,9 +33,10 @@ extern void bumpMapTest();
 extern void stencilTest();
 extern void ambientMapTest();
 extern void shadowMapTest();
+extern void deferredShadingTest();
 
 int main()
 {
-    cubeTest();
+    deferredShadingTest();
     return 0;
 }
