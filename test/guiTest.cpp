@@ -8,9 +8,6 @@
 #include <glm/glm.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
-
-using namespace re;
-
 class GuiExamples : public BasicProject
 {
 public:

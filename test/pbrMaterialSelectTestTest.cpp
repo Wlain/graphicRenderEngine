@@ -10,7 +10,6 @@
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <vector>
-using namespace re;
 
 class PbrMaterialSelectExample : public BasicProject
 {

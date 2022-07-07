@@ -8,7 +8,6 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/rotate_vector.hpp>
-using namespace re;
 
 class PbrExample : public BasicProject
 {

@@ -1,14 +1,29 @@
+#ifdef S_SHADOW
+in vec4 vShadowmapCoord;
+uniform sampler2DShadow shadowMap;
+#endif
 in vec4 vLightDir[SI_LIGHTS];
-
 uniform vec4 specularity;
 
-void lightDirectionAndAttenuation(vec4 lightPosType, float lightRange, vec3 pos, out vec3 lightDirection, out float attenuation){
+// returns 0.0 if in shadow and 1.0 if fully lit
+float getShadow() {
+#ifdef S_SHADOW
+    return textureProj(shadowMap, vShadowmapCoord); // performs w division and compare .z with current depth
+#else
+    return 0.0;
+#endif
+}
+
+void lightDirectionAndAttenuation(vec4 lightPosType, float lightRange, vec3 pos, out vec3 lightDirection, out float attenuation)
+{
     bool isDirectional = lightPosType.w == 0.0;
     bool isPoint       = lightPosType.w == 1.0;
-
     if (isDirectional){
         lightDirection = lightPosType.xyz;
-        attenuation = 1.0;
+        attenuation = 0.0;
+    #ifdef S_SHADOW
+            attenuation = getShadow();
+    #endif
     } else if (isPoint) {
         vec3 lightVector = lightPosType.xyz - pos;
         float lightVectorLength = length(lightVector);
@@ -33,7 +48,7 @@ vec3 computeLightBlinnPhong(vec3 wsPos, vec3 wsCameraPos, vec3 normal, out vec3 
     vec3 lightColor = vec3(0.0, 0.0, 0.0);
     vec3 cam = normalize(wsCameraPos - wsPos);
     for (int i = 0; i< SI_LIGHTS; ++i){
-        vec3 lightDirection = vec3(0.0,0.0,0.0);
+        vec3 lightDirection = vec3(0.0, 0.0, 0.0);
         float att = 0.0;
         lightDirectionAndAttenuation(g_lightPosType[i], g_lightColorRange[i].w, wsPos, lightDirection, att);
         if (att <= 0.0){

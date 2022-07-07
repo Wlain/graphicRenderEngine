@@ -186,9 +186,8 @@ void main()
         vec3 specContrib = F * G * D / (4.0 * NdotL * NdotV);// BRDF
         color += attenuation * NdotL * g_lightColorRange[i].xyz * (diffuseContrib + specContrib);
     }
-
-        // Apply optional PBR terms for additional (optional) shading
-        #ifdef S_OCCLUSIONMAP
+    // Apply optional PBR terms for additional (optional) shadin
+    #ifdef S_OCCLUSIONMAP
     float ao = texture(occlusionTex, vUV).r;
     color = mix(color, color * ao, occlusionStrength);
     #endif
@@ -196,6 +195,5 @@ void main()
     vec3 emissive = toLinear(texture(emissiveTex, vUV)).rgb * emissiveFactor.xyz;
     color += emissive;
     #endif
-
     fragColor = toOutput(color, baseColor.a);
 }

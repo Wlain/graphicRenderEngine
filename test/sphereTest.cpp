@@ -9,8 +9,6 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
 
-using namespace re;
-
 class SphereExample : public BasicProject
 {
 public:

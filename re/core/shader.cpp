@@ -265,7 +265,6 @@ std::shared_ptr<Shader> Shader::ShaderBuilder::build(std::vector<std::string>& e
     shader->m_shaderUniqueId = ++s_globalShaderCounter;
     shader->m_stencil = std::move(m_stencil);
     shader->m_colorWrite = std::move(m_colorWrite);
-    ;
     return shader;
 }
 

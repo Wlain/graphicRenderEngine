@@ -11,7 +11,6 @@
 #include "guiCommonDefine.h"
 
 #include <glm/gtx/euler_angles.hpp>
-using namespace re;
 
 class multiLightExample : public BasicProject
 {

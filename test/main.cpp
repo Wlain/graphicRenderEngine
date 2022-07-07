@@ -32,9 +32,10 @@ extern void matrixUniformTest();
 extern void bumpMapTest();
 extern void stencilTest();
 extern void ambientMapTest();
+extern void shadowMapTest();
 
 int main()
 {
-    bumpMapTest();
+    shadowMapTest();
     return 0;
 }
