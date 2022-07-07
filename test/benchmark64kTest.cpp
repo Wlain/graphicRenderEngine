@@ -67,10 +67,6 @@ public:
         m_inspector.gui();
         ImGui::SliderInt("Grid size", &m_gridSize, 1, BOX_GRID_DIM);
     }
-    void setTitle() override
-    {
-        m_title = "Benchmark64kExample";
-    }
 
 public:
     struct Box
@@ -97,5 +93,6 @@ void benchmark64kTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("Benchmark64kExample");
     test.run();
 }

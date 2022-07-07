@@ -73,10 +73,6 @@ public:
         material->setColor({ 0, 1, 0, 1 });
         renderPass.draw(mesh, glm::mat4(1), material);
     }
-    void setTitle() override
-    {
-        m_title = "VertexAttributeExample";
-    }
 };
 
 void vertexAttributeTest()
@@ -87,5 +83,6 @@ void vertexAttributeTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("VertexAttributeExample");
     test.run();
 }

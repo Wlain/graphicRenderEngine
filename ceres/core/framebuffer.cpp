@@ -50,10 +50,6 @@ void checkStatus()
 FrameBuffer::FrameBufferBuilder& FrameBuffer::FrameBufferBuilder::withColorTexture(const std::shared_ptr<Texture>& texture)
 {
     ASSERT(!texture->isDepthTexture());
-    if (!m_textures.empty() || m_depthTexture.get())
-    {
-        ASSERT(0);
-    }
     this->m_size = { texture->width(), texture->height() };
     m_textures.push_back(texture);
     return *this;
@@ -62,10 +58,6 @@ FrameBuffer::FrameBufferBuilder& FrameBuffer::FrameBufferBuilder::withColorTextu
 FrameBuffer::FrameBufferBuilder& FrameBuffer::FrameBufferBuilder::withDepthTexture(const std::shared_ptr<Texture>& texture)
 {
     ASSERT(texture->isDepthTexture());
-    if (!m_textures.empty() || m_depthTexture.get())
-    {
-        ASSERT(0);
-    }
     this->m_size = { texture->width(), texture->height() };
     m_depthTexture = texture;
     return *this;
@@ -77,7 +69,7 @@ FrameBuffer::FrameBufferBuilder& FrameBuffer::FrameBufferBuilder::withName(std::
     return *this;
 }
 
-FrameBuffer::FrameBufferBuilder& FrameBuffer::FrameBufferBuilder::useMRT(bool useMrt)
+FrameBuffer::FrameBufferBuilder& FrameBuffer::FrameBufferBuilder::withUseMRT(bool useMrt)
 {
     m_useMrt = useMrt;
     return *this;

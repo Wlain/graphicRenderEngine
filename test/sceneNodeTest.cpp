@@ -139,10 +139,6 @@ public:
         }
         ImGui::End();
     }
-    void setTitle() override
-    {
-        m_title = "SceneNodeEffect";
-    }
 
 private:
     Node m_root;
@@ -156,5 +152,6 @@ void sceneTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("SceneNodeEffect");
     test.run();
 }

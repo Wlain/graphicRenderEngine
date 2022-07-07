@@ -109,11 +109,6 @@ public:
         }
     }
 
-    void setTitle() override
-    {
-        m_title = "ShadowMapExample";
-    }
-
     static void updateShadowMapViewProjection(Camera* shadowMapCamera, glm::vec3 lightDirection, float fieldOfViewYDegrees, float near, float far, glm::vec3 eye, glm::vec3 at, float shadowMapFraction = 1.0)
     {
         glm::vec3 viewDirection = glm::normalize(at - eye);
@@ -191,5 +186,6 @@ void shadowMapTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("ShadowMapExample");
     test.run();
 }

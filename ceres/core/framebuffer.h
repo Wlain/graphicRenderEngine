@@ -23,7 +23,7 @@ public:
         FrameBufferBuilder& withColorTexture(const std::shared_ptr<Texture>& texture);
         FrameBufferBuilder& withDepthTexture(const std::shared_ptr<Texture>& texture);
         FrameBufferBuilder& withName(std::string_view name);
-        FrameBufferBuilder& useMRT(bool useMrt);
+        FrameBufferBuilder& withUseMRT(bool useMrt);
         std::shared_ptr<FrameBuffer> build();
 
     private:

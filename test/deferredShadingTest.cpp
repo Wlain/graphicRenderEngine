@@ -1,53 +1,78 @@
 //
-// Created by cwb on 2022/7/28.
+// Created by cwb on 2022/7/7.
 //
-#include "commonMacro.h"
-#include "core/worldLights.h"
+
+#include "core/modelImporter.h"
 #include "engineTestSimple.h"
 #include "guiCommonDefine.h"
-
-#include <glm/glm.hpp>
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/euler_angles.hpp>
 
 class DeferredShadingExample : public CommonInterface
 {
 public:
     using CommonInterface::CommonInterface;
     ~DeferredShadingExample() override = default;
-
     void initialize() override
     {
-        m_camera.setLookAt({ 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-        m_camera.setPerspectiveProjection(60, 0.1, 100);
-        auto shader = Shader::getStandardBlinnPhong();
-        m_material = shader->createMaterial();
-        m_material->setTexture(Texture::getFontTexture());
-        m_material->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-        m_material->setSpecularity({ 0.5, 0.5, 0.5, 180.0f });
-        m_mesh = Mesh::create().withCube().build();
-        m_worldLights = std::make_unique<WorldLights>();
-        m_worldLights->addLight(Light::create().withPointLight({ 3, 0, 0 }).withColor({ 0, 1, 0 }).withRange(20).build());
-        m_worldLights->addLight(Light::create().withPointLight({ 0, -3, 0 }).withColor({ 0, 0, 1 }).withRange(20).build());
-        m_worldLights->addLight(Light::create().withPointLight({ -3, 0, 0 }).withColor({ 1, 1, 1 }).withRange(20).build());
+        m_camera.setLookAt(m_eye, m_at, m_up);
+        m_camera.setPerspectiveProjection(m_fieldOfViewY, m_near, m_far);
+        m_mesh = ModelImporter::importObj("resources/objFiles/sponza/sponza.obj", m_materials);
+        m_worldLights = MAKE_UNIQUE(m_worldLights);
+        m_worldLights->setAmbientLight(glm::vec3{ 0.02f });
+        m_lightDirection = glm::normalize(glm::vec3{ 1, 1, 1 });
+        m_worldLights->addLight(Light::create().withDirectionalLight(m_lightDirection).withColor(Color(1, 1, 1), 7).build());
+        initFramebufferObject(800, 600);
+
     }
 
     void render() override
     {
-        m_camera.setLookAt(m_eye, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-        m_camera.setPerspectiveProjection(60, 0.1, 100);
-        auto renderPass = RenderPass::create().withCamera(m_camera).withWorldLights(m_worldLights.get()).build();
-        renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material);
-        ImGui::DragFloat3(":eye", &m_eye[0]);
-    }
+        // render pass - render world with shadow lookup
+        auto rp = RenderPass::create()
+                      .withCamera(m_camera)
+                      .withClearColor(true, { 0, 0, 0, 1 })
+                      .withWorldLights(m_worldLights.get())
+                      .build();
 
-    void setTitle() override
-    {
-        m_title = "DeferredShadingExample";
+        rp.draw(m_mesh, glm::mat4(1), m_materials);
+
+        ImGui::DragFloat3("Light pos", &m_worldLights->getLight(0)->position.x, 0.1f);
+        ImGui::DragFloat3("eye", &m_eye.x);
+        ImGui::DragFloat3("at", &m_at.x);
+        ImGui::DragFloat3("up", &m_up.x);
+        m_camera.setLookAt(m_eye, m_at, m_up);
     }
 
 private:
-    glm::vec3 m_eye{ 0.0f, 0.0f, 3.0f };
+    void initFramebufferObject(int width, int height)
+    {
+        m_positionTexture = Texture::create().withRGBAData(nullptr, width, height).withName("position").build();
+        m_normalTexture = Texture::create().withRGBAData(nullptr, width, height).withName("normal").build();
+        m_colorTexture = Texture::create().withRGBAData(nullptr, width, height).withName("color").build();
+        m_framebuffer = FrameBuffer::create()
+                            .withUseMRT(true)
+                            .withColorTexture(m_positionTexture)
+                            .withColorTexture(m_normalTexture)
+                            .withColorTexture(m_colorTexture)
+                            .build();
+    }
+
+private:
+    Camera m_shadowMapCamera;
+    std::shared_ptr<FrameBuffer> m_framebuffer;
+    std::shared_ptr<Texture> m_shadowMapTexture;
+    std::shared_ptr<Texture> m_positionTexture;
+    std::shared_ptr<Texture> m_depthTexture;
+    std::shared_ptr<Texture> m_normalTexture;
+    std::shared_ptr<Texture> m_colorTexture;
+    std::vector<std::shared_ptr<Material>> m_materials;
+    glm::vec3 m_lightDirection{};
+    glm::vec3 m_eye{ 0, 0, 3.0f };
+    glm::vec3 m_at{ 0, 0, 0 };
+    glm::vec3 m_up{ 0, 1, 0 };
+    unsigned int m_shadowMapSize = 2048;
+    float m_fieldOfViewY = 45;
+    float m_near = 0.1;
+    float m_far = 100;
 };
 
 void deferredShadingTest()
@@ -58,5 +83,6 @@ void deferredShadingTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("DeferredShadingExample");
     test.run();
 }

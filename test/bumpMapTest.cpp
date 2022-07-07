@@ -94,10 +94,6 @@ public:
         rp.draw(m_mesh, glm::translate(glm::vec3(0, -1, 0)) * scaleRotateMatrix, m_materialParallaxMapping);
         rp.draw(m_mesh, glm::translate(glm::vec3(2, -1, 0)) * scaleRotateMatrix, m_materialReliefMapping);
     }
-    void setTitle() override
-    {
-        m_title = "bumpMapExample";
-    }
 
 private:
     std::shared_ptr<Mesh> m_meshQube;
@@ -119,5 +115,6 @@ void bumpMapTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("bumpMapExample");
     test.run();
 }

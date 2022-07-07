@@ -84,10 +84,6 @@ public:
         renderGUI();
         renderPass.finish();
     }
-    void setTitle() override
-    {
-        m_title = "PbrMaterialSelectExample";
-    }
 
     void updateLight()
     {
@@ -249,5 +245,6 @@ void pbrMaterialSelectTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("PbrMaterialSelectExample");
     test.run();
 }

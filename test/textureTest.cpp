@@ -84,11 +84,6 @@ public:
         renderPass.draw(m_mesh, glm::mat4(1), m_material);
     }
 
-    void setTitle() override
-    {
-        m_title = "TextureExample";
-    }
-
 private:
     std::vector<const char*> m_filenames;
     std::vector<std::shared_ptr<Texture>> m_textures;
@@ -103,5 +98,6 @@ void textureTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("TextureExample");
     test.run();
 }

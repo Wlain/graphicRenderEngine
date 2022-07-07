@@ -9,7 +9,6 @@
 CommonInterface::CommonInterface(GLFWRenderer* renderer) :
     m_renderer(renderer), m_inspector(300, m_renderer)
 {
-    m_title = "CommonInterface";
 }
 
 CommonInterface::~CommonInterface() = default;
@@ -43,11 +42,6 @@ void CommonInterface::render()
 
 void CommonInterface::finalize()
 {
-}
-
-void CommonInterface::setTitle()
-{
-    m_renderer->setWindowTitle(m_title);
 }
 
 void CommonInterface::cursorPosEvent(double xPos, double yPos)

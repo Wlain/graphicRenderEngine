@@ -73,10 +73,6 @@ public:
         ImGui::LabelText("GetPos", "%f %f %f", pos.x, pos.y, pos.z);
         ImGui::LabelText("GetRot", "%f %f %f", rot.x, rot.y, rot.z);
     }
-    void setTitle() override
-    {
-        m_title = "MultiCameraExample";
-    }
 
 private:
     glm::vec3 m_eye{ 0, 0, 3 };
@@ -95,5 +91,6 @@ void multiCameraTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("MultiCameraExample");
     test.run();
 }

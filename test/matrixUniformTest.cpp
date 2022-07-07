@@ -76,10 +76,6 @@ public:
         m_material->set("index", m_id);
         renderPass.draw(m_mesh, glm::mat4(1.0), m_material);
     }
-    void setTitle() override
-    {
-        m_title = "MatrixUniformExample";
-    }
 
 private:
     std::shared_ptr<std::vector<glm::mat4>> m_mat4s;
@@ -96,5 +92,6 @@ void matrixUniformTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("MatrixUniformExample");
     test.run();
 }

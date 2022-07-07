@@ -36,10 +36,6 @@ public:
 
         rp.draw(m_mesh, glm::translate(glm::vec3{ (int)(m_tex1->width() * 0.5), (int)(m_tex1->height() * 0.5), 0 }) * glm::scale(glm::vec3(m_tex1->width(), m_tex1->height(), 1)), m_material);
     }
-    void setTitle() override
-    {
-        m_title = "GammaExample";
-    }
 
 private:
     std::shared_ptr<Texture> m_tex1;
@@ -54,5 +50,6 @@ void gammaTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("GammaExample");
     test.run();
 }

@@ -47,11 +47,6 @@ void CommonHandle::finalize()
     FUNC_TO_ALL_EFFECTS(finalize);
 }
 
-void CommonHandle::setTitle()
-{
-    FUNC_TO_ALL_EFFECTS(setTitle);
-}
-
 void CommonHandle::cursorPosEvent(double xPos, double yPos)
 {
     FUNC_TO_ALL_EFFECTS(cursorPosEvent, xPos, yPos);

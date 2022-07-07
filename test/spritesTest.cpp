@@ -77,11 +77,6 @@ public:
         m_inspector.gui();
     }
 
-    void setTitle() override
-    {
-        m_title = "SpritesExample";
-    }
-
 private:
     glm::vec4 spriteUV{ 0 };
     float m_uvSize{ 1.0 };
@@ -97,5 +92,6 @@ void spriteTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("SpritesExample");
     test.run();
 }

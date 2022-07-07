@@ -42,11 +42,6 @@ public:
         m_inspector.gui();
     }
 
-    void setTitle() override
-    {
-        m_title = "GuiExamples";
-    }
-
 private:
     Color m_specularity = { 0, 0, 0, 20.0f };
     ImVec4 m_clearColor = ImColor(114, 144, 154);
@@ -60,5 +55,6 @@ void guiTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("GuiExamples");
     test.run();
 }

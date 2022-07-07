@@ -47,10 +47,6 @@ public:
                               .build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_material);
     }
-    void setTitle() override
-    {
-        m_title = "RenderToFrameBufferExample";
-    }
 
 private:
     std::shared_ptr<FrameBuffer> m_framebuffer;
@@ -66,5 +62,6 @@ void renderToFrameBufferTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("RenderToFrameBufferExample");
     test.run();
 }

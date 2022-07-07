@@ -68,10 +68,6 @@ public:
         ImGui::ListBox("Texture", &m_textureIndex, items, 4);
         ImGui::End();
     }
-    void setTitle() override
-    {
-        m_title = "AmbientExample";
-    }
 
 private:
     inline static const int32_t s_textureCount{ 4 };
@@ -90,5 +86,6 @@ void ambientMapTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("AmbientExample");
     test.run();
 }

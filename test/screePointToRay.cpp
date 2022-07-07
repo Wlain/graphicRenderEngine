@@ -123,10 +123,6 @@ public:
         rp.drawLines({ m_ray.position, m_ray.position + m_ray.direction });
         cameraGUI();
     }
-    void setTitle() override
-    {
-        m_title = "ScreePointToRayExample";
-    }
 
 private:
     std::shared_ptr<Mesh> m_planeMesh;
@@ -155,5 +151,6 @@ void screePointToRayTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("ScreePointToRayExample");
     test.run();
 }

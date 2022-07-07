@@ -29,11 +29,6 @@ public:
                      .build();
     }
 
-    void setTitle() override
-    {
-        m_title = "CubeTexExample";
-    }
-
     void render() override
     {
         auto renderPass = RenderPass::create().withCamera(m_camera).withClearColor(true, { 1, 0, 0, 1 }).build();
@@ -49,5 +44,6 @@ void cubeTexTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("CubeTexExample");
     test.run();
 }

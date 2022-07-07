@@ -59,10 +59,6 @@ public:
                                .build();
         renderPass2.draw(m_meshSingle, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)) , m_materialPhongGreen);
     }
-    void setTitle() override
-    {
-        m_title = "MultiMaterialExample";
-    }
 
 private:
     std::shared_ptr<Material> m_materialPhong;
@@ -81,5 +77,6 @@ void multiMaterialTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("MultiMaterialExample");
     test.run();
 }

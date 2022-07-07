@@ -26,10 +26,6 @@ public:
         m_material->setColor({ 1, 0, 0, 1 });
         m_mesh = Mesh::create().withSphere().build();
         m_lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math);
-        m_lua.set_function("setTitle", [&](sol::this_state, sol::variadic_args va) {
-            std::string title = va[0];
-            m_title = title;
-        });
         m_lua.script(m_luaScript);
     }
 
@@ -43,9 +39,6 @@ public:
         rp.draw(m_mesh, glm::mat4(1), m_material);
     }
 
-    void setTitle() override
-    {
-    }
 
 private:
     std::string m_luaScript;
@@ -62,5 +55,6 @@ void luaScriptTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("LuaScriptExample");
     test.run();
 }

@@ -13,10 +13,6 @@ public:
         m_inspector.update();
         m_inspector.gui();
     }
-    void setTitle() override
-    {
-        m_title = "DrawLineExample";
-    }
 };
 
 void drawLineTest()
@@ -27,5 +23,6 @@ void drawLineTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("DrawLineExample");
     test.run();
 }

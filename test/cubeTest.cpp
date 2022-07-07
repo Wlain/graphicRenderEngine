@@ -41,11 +41,6 @@ public:
         ImGui::DragFloat3(":eye", &m_eye[0]);
     }
 
-    void setTitle() override
-    {
-        m_title = "CubeExample";
-    }
-
 private:
     glm::vec3 m_eye{ 0.0f, 0.0f, 3.0f };
 };
@@ -58,5 +53,6 @@ void cubeTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("CubeExample");
     test.run();
 }

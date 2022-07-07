@@ -41,11 +41,6 @@ public:
         m_inspector.gui();
     }
 
-    void setTitle() override
-    {
-        m_title = "SphereExample";
-    }
-
 private:
     std::shared_ptr<Material> m_material2;
     glm::mat4 m_pos1;
@@ -60,5 +55,6 @@ void sphereTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("SphereExample");
     test.run();
 }

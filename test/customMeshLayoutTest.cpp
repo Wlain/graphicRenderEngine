@@ -38,11 +38,6 @@ public:
 
         rp.draw(m_mesh, glm::mat4(1), m_material);
     }
-
-    void setTitle() override
-    {
-        m_title = "CustomMeshLayoutTest";
-    }
 };
 
 void customMeshLayoutTest()
@@ -53,5 +48,6 @@ void customMeshLayoutTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("CustomMeshLayoutTest");
     test.run();
 }

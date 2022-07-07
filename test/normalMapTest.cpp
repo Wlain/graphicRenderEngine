@@ -71,10 +71,6 @@ public:
         renderGUI();
         renderPass.finish();
     }
-    void setTitle() override
-    {
-        m_title = "NormalMapExample";
-    }
 
     void updateLight()
     {
@@ -227,5 +223,6 @@ void normalMapTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("NormalMapExample");
     test.run();
 }

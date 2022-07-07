@@ -445,10 +445,6 @@ public:
         m_cloth->timeStep();
         m_cloth->ballCollision(m_ballPos, m_ballRadius + m_ballColliderEpsilon);
     }
-    void setTitle() override
-    {
-        m_title = "ClothSimulationExample";
-    }
 
 private:
     inline static float s_damping = 0.01f;
@@ -481,5 +477,6 @@ void clothSimulationTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("ClothSimulationExample");
     test.run();
 }

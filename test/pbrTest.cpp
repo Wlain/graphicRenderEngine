@@ -83,10 +83,6 @@ public:
         renderGUI();
         renderPass.finish();
     }
-    void setTitle() override
-    {
-        m_title = "PbrExample";
-    }
 
     void updateLight()
     {
@@ -272,5 +268,6 @@ void pbrTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("PbrExample");
     test.run();
 }

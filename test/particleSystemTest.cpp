@@ -149,10 +149,6 @@ public:
         m_emitter->update().withPosition(glm::sphericalRand(10.0f), glm::sphericalRand(10.0f));
         m_emitter->update(deltaTime);
     }
-    void setTitle() override
-    {
-        m_title = "ParticleSystemExample";
-    }
 
 private:
     std::shared_ptr<ParticleEmitter> m_emitter;
@@ -192,5 +188,6 @@ void particleSystemTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("ParticleSystemExample");
     test.run();
 }

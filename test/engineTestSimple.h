@@ -23,11 +23,15 @@ public:
         m_handle->setEffect(effect);
     }
 
+    void setTitle(std::string_view title)
+    {
+        m_renderer.setWindowTitle(title);
+    }
+
     virtual ~EngineTestSimple() = default;
     void run()
     {
         m_handle->initialize();
-        m_handle->setTitle();
         m_renderer.m_frameUpdate = [&](float deltaTime) {
             m_handle->update(deltaTime);
         };

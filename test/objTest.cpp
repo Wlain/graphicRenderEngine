@@ -69,11 +69,6 @@ public:
         loadObjFile(filename);
     }
 
-    void setTitle() override
-    {
-        m_title = "ObjExample";
-    }
-
     void updateLight(Light* light, int i)
     {
         ImGui::PushID(i);
@@ -206,5 +201,6 @@ void objTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("ObjExample");
     test.run();
 }

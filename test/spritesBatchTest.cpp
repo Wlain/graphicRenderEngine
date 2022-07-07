@@ -115,10 +115,6 @@ public:
         m_inspector.update();
         m_inspector.gui();
     }
-    void setTitle() override
-    {
-        m_title = "SpritesBatchExample";
-    }
 
 private:
     std::shared_ptr<SpriteBatch> m_spriteBatch;
@@ -133,5 +129,6 @@ void spritesBatchTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("SpritesBatchExample");
     test.run();
 }

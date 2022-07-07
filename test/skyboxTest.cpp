@@ -74,10 +74,6 @@ public:
         ImGui::DragFloat3("up", &m_up.x);
         m_camera.setLookAt(m_eye, m_at, m_up);
     }
-    void setTitle() override
-    {
-        m_title = "SkyBoxExample";
-    }
 
 private:
     std::shared_ptr<Mesh> m_teapotMesh;
@@ -98,5 +94,6 @@ void skyboxTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("SkyBoxExample");
     test.run();
 }

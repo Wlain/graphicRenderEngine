@@ -21,7 +21,6 @@ public:
     virtual void update(float deltaTime);
     virtual void render();
     virtual void finalize();
-    virtual void setTitle();
     virtual void cursorPosEvent(double xPos, double yPos);
     // button: left or right, action:pressed or released
     virtual void mouseButtonEvent(int button, int action, int mods);

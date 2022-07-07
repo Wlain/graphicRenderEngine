@@ -21,7 +21,6 @@ public:
     virtual void update(float deltaTime);
     virtual void render();
     virtual void finalize();
-    virtual void setTitle();
     virtual void cursorPosEvent(double xPos, double yPos);
     // button: left or right, action:pressed or released
     virtual void mouseButtonEvent(int button, int action, int mods);
@@ -29,7 +28,6 @@ public:
 
 protected:
     GLFWRenderer* m_renderer{ nullptr };
-    std::string m_title{ "EngineTestSimple" };
     Inspector m_inspector;
     Camera m_camera;
     std::shared_ptr<Material> m_material;

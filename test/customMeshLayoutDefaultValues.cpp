@@ -62,10 +62,6 @@ public:
 
         rp.draw(m_mesh, glm::mat4(1), m_material);
     }
-    void setTitle() override
-    {
-        m_title = "CustomMeshLayoutDefaultValuesExample";
-    }
 };
 
 void customMeshLayoutDefaultValuesTest()
@@ -76,5 +72,6 @@ void customMeshLayoutDefaultValuesTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("CustomMeshLayoutDefaultValuesExample");
     test.run();
 }

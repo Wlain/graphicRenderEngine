@@ -176,11 +176,6 @@ public:
         }
     }
 
-    void setTitle() override
-    {
-        m_title = "multiLightExample";
-    }
-
 private:
     glm::vec3 m_eye{ 0, 0, 5 };
     glm::vec3 m_at{ 0, 0, 0 };
@@ -208,5 +203,6 @@ void multiLightTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("multiLightExample");
     test.run();
 }

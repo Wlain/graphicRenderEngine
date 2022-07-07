@@ -59,11 +59,6 @@ public:
     {
         CommonInterface::update(deltaTime);
     }
-    void setTitle() override
-    {
-        m_title = "PickColorExample";
-    }
-
     void resize(int width, int height) override
     {
         CommonInterface::resize(width, height);
@@ -85,5 +80,6 @@ void pickColorTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("PickColorExample");
     test.run();
 }

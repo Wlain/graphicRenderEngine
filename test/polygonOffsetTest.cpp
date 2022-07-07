@@ -79,10 +79,6 @@ public:
         m_inspector.update();
         m_inspector.gui();
     }
-    void setTitle() override
-    {
-        m_title = "PolygonOffsetExample";
-    }
 
 private:
     std::shared_ptr<Mesh> m_mesh2;
@@ -100,5 +96,6 @@ void polygonOffsetTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("PolygonOffsetExample");
     test.run();
 }

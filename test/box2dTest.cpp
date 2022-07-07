@@ -158,10 +158,6 @@ public:
         renderPass.drawLines(m_debugDraw.getLines(), { 1, 0, 0, 1 });
         m_debugDraw.clear();
     }
-    void setTitle() override
-    {
-        m_title = "Box2dExample";
-    }
 
 private:
     std::shared_ptr<b2World> m_world;
@@ -182,5 +178,6 @@ void box2dTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("Box2dExample");
     test.run();
 }

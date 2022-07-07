@@ -71,10 +71,6 @@ public:
         m_inspector.update();
         m_inspector.gui();
     }
-    void setTitle() override
-    {
-        m_title = "RenderToDepthExample";
-    }
 
 private:
     std::shared_ptr<Material> m_materialOffscreen;
@@ -92,5 +88,6 @@ void renderToDepthTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("RenderToDepthExample");
     test.run();
 }

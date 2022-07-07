@@ -143,10 +143,6 @@ public:
             }
         }
     }
-    void setTitle() override
-    {
-        m_title = "LuaForMathematicalFuncExample";
-    }
 
 private:
     static constexpr const int s_size = 10;
@@ -175,5 +171,6 @@ void luaForMathematicalFuncTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("LuaForMathematicalFuncExample");
     test.run();
 }

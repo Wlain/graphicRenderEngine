@@ -134,10 +134,6 @@ public:
         ImGui::Checkbox("Use stencil", &m_useStencil);
         ImGui::End();
     }
-    void setTitle() override
-    {
-        m_title = "StencilExample";
-    }
 
 private:
     std::shared_ptr<Mesh> m_plane;
@@ -161,5 +157,6 @@ void stencilTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("StencilExample");
     test.run();
 }

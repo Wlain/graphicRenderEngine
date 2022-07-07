@@ -71,10 +71,6 @@ public:
         m_inspector.update();
         m_inspector.gui();
     }
-    void setTitle() override
-    {
-        m_title = "CubeMapExample";
-    }
 };
 
 void cubeMapText()
@@ -85,5 +81,6 @@ void cubeMapText()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("CubeMapExample");
     test.run();
 }

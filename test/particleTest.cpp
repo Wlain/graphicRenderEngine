@@ -40,10 +40,6 @@ public:
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)) * glm::scale(glm::mat4(1), { 0.3f, 0.3f, 0.3f }), m_material);
         renderPass.draw(m_particleMesh, glm::eulerAngleY(glm::radians(30.0f * m_totalTime)), m_particleMaterial);
     }
-    void setTitle() override
-    {
-        m_title = "ParticleExample";
-    }
 
     std::shared_ptr<Mesh> createParticles(int size = 2500)
     {
@@ -81,5 +77,6 @@ void particleTest()
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);
     test.setEffect(effect);
+    test.setTitle("ParticleExample");
     test.run();
 }
