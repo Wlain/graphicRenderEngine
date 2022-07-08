@@ -16,7 +16,7 @@ namespace re
 {
 Mesh::Mesh(std::map<std::string, std::vector<float>>&& attributesFloat, std::map<std::string, std::vector<glm::vec2>>&& attributesVec2, std::map<std::string, std::vector<glm::vec3>>&& attributesVec3,
            std::map<std::string, std::vector<glm::vec4>>&& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>&& attributesIVec4, std::vector<std::vector<uint16_t>>&& indices,
-           std::vector<Topology>& meshTopology, std::string_view name, RenderStats& renderStats)
+           std::vector<Topology>& meshTopology, std::vector<BufferUsage>& bufferUsage, std::string_view name, RenderStats& renderStats)
 {
     m_meshId = m_meshIdCount++;
     if (Renderer::s_instance == nullptr)
@@ -24,7 +24,7 @@ Mesh::Mesh(std::map<std::string, std::vector<float>>&& attributesFloat, std::map
         throw std::runtime_error("Cannot instantiate re::Mesh before re::Renderer is created.");
     }
     glGenBuffers(1, &m_vbo);
-    update(std::move(attributesFloat), std::move(attributesVec2), std::move(attributesVec3), std::move(attributesVec4), std::move(attributesIVec4), std::move(indices), meshTopology, name, renderStats);
+    update(std::move(attributesFloat), std::move(attributesVec2), std::move(attributesVec3), std::move(attributesVec4), std::move(attributesIVec4), std::move(indices), meshTopology, bufferUsage, name, renderStats);
     Renderer::s_instance->m_meshes.emplace_back(this);
 }
 
@@ -87,7 +87,7 @@ void Mesh::bindIndexSet() const
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
 }
 
-void Mesh::update(std::map<std::string, std::vector<float>>&& attributesFloat, std::map<std::string, std::vector<glm::vec2>>&& attributesVec2, std::map<std::string, std::vector<glm::vec3>>&& attributesVec3, std::map<std::string, std::vector<glm::vec4>>&& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>&& attributesIVec4, std::vector<std::vector<uint16_t>>&& indices, std::vector<Topology>& meshTopology, std::string_view name, RenderStats& renderStats)
+void Mesh::update(std::map<std::string, std::vector<float>>&& attributesFloat, std::map<std::string, std::vector<glm::vec2>>&& attributesVec2, std::map<std::string, std::vector<glm::vec3>>&& attributesVec3, std::map<std::string, std::vector<glm::vec4>>&& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>&& attributesIVec4, std::vector<std::vector<uint16_t>>&& indices, std::vector<Topology>& meshTopology, std::vector<BufferUsage>& bufferUsage, std::string_view name, RenderStats& renderStats)
 {
     m_vertexCount = 0;
     m_dataSize = 0;
@@ -104,6 +104,7 @@ void Mesh::update(std::map<std::string, std::vector<float>>&& attributesFloat, s
     m_attributesIVec4 = std::move(attributesIVec4);
     m_indices = std::move(indices);
     m_topologies = std::move(meshTopology);
+    m_bufferUsage = std::move(bufferUsage);
     auto interleavedData = getInterleavedData();
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
@@ -140,7 +141,6 @@ void Mesh::update(std::map<std::string, std::vector<float>>&& attributesFloat, s
             }
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, offset, concatenatedIndices.data(), GL_STATIC_DRAW);
-
             m_dataSize += offset;
         }
     }
@@ -298,7 +298,7 @@ std::vector<glm::vec4> Mesh::getTangents()
     return color;
 }
 
-std::vector<float> Mesh::getParticleSizes()
+[[maybe_unused]] std::vector<float> Mesh::getParticleSizes()
 {
     std::vector<float> particleSize;
     auto ref = m_attributesFloat.find("particleSize");
@@ -379,9 +379,19 @@ Mesh::Topology Mesh::getMeshTopology(int indexSet)
     return m_topologies[indexSet];
 }
 
+Mesh::BufferUsage Mesh::getMeshBufferUsage(int indexSet)
+{
+    if (m_bufferUsage.empty())
+    {
+        m_bufferUsage.emplace_back();
+        m_bufferUsage[0] = BufferUsage::StaticDraw;
+    }
+    return m_bufferUsage[indexSet];
+}
+
 std::vector<float> Mesh::getInterleavedData()
 {
-    //     强制执行的stdout 140布局规则( https://learnopengl.com/#!advanced-opengl/advanced-glsl), 顺序是 vec3 vec4 ivec4 vec2 float
+    // 强制执行的stdout 140布局规则( https://learnopengl.com/#!advanced-opengl/advanced-glsl), 顺序是 vec3 vec4 ivec4 vec2 float
     for (const auto& pair : m_attributesVec3)
     {
         m_vertexCount = std::max(m_vertexCount, (int)pair.second.size());
@@ -720,6 +730,16 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withMeshTopology(Mesh::Topology topology)
     return *this;
 }
 
+Mesh::MeshBuilder& Mesh::MeshBuilder::withUsage(BufferUsage usage)
+{
+    if (m_bufferUsage.empty())
+    {
+        m_bufferUsage.emplace_back();
+    }
+    m_bufferUsage[0] = usage;
+    return *this;
+}
+
 Mesh::MeshBuilder& Mesh::MeshBuilder::withIndices(const std::vector<uint16_t>& indices, Topology topology, int indexSet)
 {
     while (indexSet >= m_indices.size())
@@ -753,11 +773,11 @@ std::shared_ptr<Mesh> Mesh::MeshBuilder::build()
     if (m_updateMesh != nullptr)
     {
         renderStats.meshBytes -= m_updateMesh->getDataSize();
-        m_updateMesh->update(std::move(m_attributesFloat), std::move(m_attributesVec2), std::move(m_attributesVec3), std::move(m_attributesVec4), std::move(m_attributesIVec4), std::move(m_indices), m_topologies, m_name, renderStats);
+        m_updateMesh->update(std::move(m_attributesFloat), std::move(m_attributesVec2), std::move(m_attributesVec3), std::move(m_attributesVec4), std::move(m_attributesIVec4), std::move(m_indices), m_topologies, m_bufferUsage, m_name, renderStats);
         renderStats.meshBytes += m_updateMesh->getDataSize();
         return m_updateMesh->shared_from_this();
     }
-    auto* mesh = new Mesh(std::move(m_attributesFloat), std::move(m_attributesVec2), std::move(m_attributesVec3), std::move(m_attributesVec4), std::move(m_attributesIVec4), std::move(m_indices), m_topologies, m_name, renderStats);
+    auto* mesh = new Mesh(std::move(m_attributesFloat), std::move(m_attributesVec2), std::move(m_attributesVec3), std::move(m_attributesVec4), std::move(m_attributesIVec4), std::move(m_indices), m_topologies, m_bufferUsage, m_name, renderStats);
     renderStats.meshCount++;
     return std::shared_ptr<Mesh>(mesh);
 }
@@ -948,6 +968,24 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withAttribute(std::string_view name, const
         m_attributesIVec4[name.data()] = values;
     }
     return *this;
+}
+
+GLenum Mesh::convertBufferUsage(BufferUsage usage)
+{
+    GLenum u;
+    switch (usage)
+    {
+    case BufferUsage::StaticDraw:
+        u = GL_STATIC_DRAW;
+        break;
+    case BufferUsage::DynamicDraw:
+        u = GL_DYNAMIC_DRAW;
+        break;
+    case BufferUsage::StreamDraw:
+        u = GL_STREAM_DRAW;
+        break;
+    }
+    return u;
 }
 
 } // namespace re

@@ -156,6 +156,7 @@ public:
                      .withNormals(getNormals())
                      .withUvs(getUVs())
                      .withIndices(createIndices())
+                     .withUsage(Mesh::BufferUsage::DynamicDraw)
                      .withMeshTopology(m_showMesh ? Mesh::Topology::LineStrip : Mesh::Topology::TriangleStrip)
                      .build();
 
@@ -372,7 +373,7 @@ public:
         m_cloth = std::make_shared<Cloth>(30, 20, m_massCountWidth, m_massCountHeight);
         m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
         m_camera.setPerspectiveProjection(80, 0.1, 100);
-        m_sphereMaterial = Shader::getStandardPBR()->createMaterial({{"S_TWO_SIDED","true"}});
+        m_sphereMaterial = Shader::getStandardPBR()->createMaterial({ { "S_TWO_SIDED", "true" } });
         m_sphereMaterial->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
         m_sphereMaterial->setMetallicRoughness({ 0.5f, 0.5f });
         m_sphere = Mesh::create().withSphere().build();
