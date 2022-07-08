@@ -33,9 +33,10 @@ extern void bumpMapTest();
 extern void stencilTest();
 extern void ambientMapTest();
 extern void shadowMapTest();
+extern void clothSimulationTest();
 
 int main()
 {
-    cubeTest();
+    clothSimulationTest();
     return 0;
 }
