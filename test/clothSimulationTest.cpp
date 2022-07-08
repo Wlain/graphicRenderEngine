@@ -104,8 +104,8 @@ private:
 class Cloth
 {
 public:
-    Cloth(float width, float height, int massCountWidth, int massCountHeight) :
-        m_massCountWidth(massCountWidth), m_massCountHeight(massCountHeight)
+    Cloth(float width, float height, int massCountWidth, int massCountHeight, bool showMesh = false) :
+        m_massCountWidth(massCountWidth), m_massCountHeight(massCountHeight), m_showMesh(showMesh)
     {
         m_massSprings.resize(massCountWidth * massCountHeight);
 
@@ -144,9 +144,11 @@ public:
         }
 
         // 固定左上角和右上角的两个顶点
-
-        getMassSpring(0, 0)->makeUnmovable();
-        getMassSpring(massCountWidth - 1, 0)->makeUnmovable();
+        for (int i = 0; i <= 3; ++i)
+        {
+            getMassSpring(0 + i, 0)->makeUnmovable();
+            getMassSpring(massCountWidth - 1 - i, 0)->makeUnmovable();
+        }
 
         m_mesh = Mesh::create()
                      .withName("Cloth mesh")
@@ -154,7 +156,7 @@ public:
                      .withNormals(getNormals())
                      .withUvs(getUVs())
                      .withIndices(createIndices())
-                     .withMeshTopology(Mesh::Topology::TriangleStrip)
+                     .withMeshTopology(m_showMesh ? Mesh::Topology::LineStrip : Mesh::Topology::TriangleStrip)
                      .build();
 
         m_material = Shader::getStandardBlinnPhong()->createMaterial();
@@ -259,17 +261,13 @@ public:
             }
         }
 
-//        m_mesh->update()
-//            .withPositions(getPositions())
-//            .withNormals(getNormals())
-//            .build();
         m_mesh = Mesh::create()
                      .withName("Cloth mesh")
                      .withPositions(getPositions())
                      .withNormals(getNormals())
                      .withUvs(getUVs())
                      .withIndices(createIndices())
-                     .withMeshTopology(Mesh::Topology::TriangleStrip)
+                     .withMeshTopology(m_showMesh ? Mesh::Topology::LineStrip : Mesh::Topology::TriangleStrip)
                      .build();
 
         rp.draw(m_mesh, glm::mat4(1.0f), m_material);
@@ -362,6 +360,7 @@ private:
     std::shared_ptr<Material> m_material;
     int m_massCountWidth;  // 横向质点数
     int m_massCountHeight; // 纵向质点数
+    bool m_showMesh = false;
 };
 
 class ClothSimulationExample : public BasicProject
@@ -370,17 +369,16 @@ public:
     ~ClothSimulationExample() override = default;
     void initialize() override
     {
-        m_cloth = std::make_shared<Cloth>(14, 10, m_massCountWidth, m_massCountHeight);
+        m_cloth = std::make_shared<Cloth>(30, 20, m_massCountWidth, m_massCountHeight);
         m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
         m_camera.setPerspectiveProjection(80, 0.1, 100);
-        m_sphereMaterial = Shader::getStandardPBR()->createMaterial();
+        m_sphereMaterial = Shader::getStandardPBR()->createMaterial({{"S_TWO_SIDED","true"}});
         m_sphereMaterial->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
         m_sphereMaterial->setMetallicRoughness({ 0.5f, 0.5f });
         m_sphere = Mesh::create().withSphere().build();
         m_worldLights = MAKE_UNIQUE(m_worldLights);
         m_worldLights->addLight(Light::create().withPointLight({ -10, -10, 10 }).withColor({ 1, 0, 0 }).build());
         m_worldLights->addLight(Light::create().withPointLight({ -30, -30, 10 }).withColor({ 0, 1, 0 }).build());
-        m_worldLights->addLight(Light::create().withPointLight({ 30, -30 + 180, 10 }).withColor({ 0, 0, 1 }).build());
         auto tex = Texture::create()
                        .withFileCubeMap("resources/skybox/park3Med/px.jpg", Texture::CubeMapSide::PositiveX)
                        .withFileCubeMap("resources/skybox/park3Med/nx.jpg", Texture::CubeMapSide::NegativeX)
@@ -418,16 +416,17 @@ public:
         ImGui::DragFloat3("Gravity", &m_gravity.x);
         ImGui::DragFloat3("Wind", &m_wind.x);
         ImGui::DragFloat("Ball size", &m_ballRadius, 1.5, 0.25, 5);
-        bool updated = ImGui::DragInt("Particles width", &m_massCountWidth, 5, 5, 100);
-        updated |= ImGui::DragInt("Particles height", &m_massCountHeight, 5, 5, 100);
-        ImGui::LabelText("Particle count", "%i", m_massCountWidth * m_massCountHeight);
+        bool updated = ImGui::Checkbox("ShowMesh", &m_showMesh);
+        updated |= ImGui::DragInt("Particles width", &m_massCountWidth, 5, 5, 100);
+        updated |= ImGui::DragInt("MassSpring height", &m_massCountHeight, 5, 5, 100);
+        ImGui::LabelText("MassSpring count", "%i", m_massCountWidth * m_massCountHeight);
         ImGui::DragFloat3("eye", &m_eye.x);
         ImGui::DragFloat3("at", &m_at.x);
         ImGui::DragFloat3("up", &m_up.x);
         m_camera.setLookAt(m_eye, m_at, m_up);
         if (updated)
         {
-            m_cloth = std::make_shared<Cloth>(14, 10, m_massCountWidth, m_massCountHeight);
+            m_cloth = std::make_shared<Cloth>(30, 20, m_massCountWidth, m_massCountHeight, m_showMesh);
         }
         ImGui::End();
         m_inspector.update();
@@ -465,9 +464,10 @@ private:
     glm::vec3 m_up{ 0, 1, 0 };
     float m_ballColliderEpsilon = .1; // 球与布料碰撞的最小距离
     float m_ballRadius = 2;           // 球半径
-    int m_massCountWidth{ 55 };       // 横向弹簧数
-    int m_massCountHeight{ 45 };      // 纵向弹簧数
+    int m_massCountWidth{ 55 };       // 横向质点数
+    int m_massCountHeight{ 45 };      // 纵向质点数
     float m_ballTime{ 0 };            // 用于计算下面球的 z 位置的计数器
+    bool m_showMesh = false;
 };
 
 void clothSimulationTest()
