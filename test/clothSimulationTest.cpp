@@ -154,36 +154,13 @@ public:
                      .withNormals(getNormals())
                      .withUvs(getUVs())
                      .withIndices(createIndices())
-                     .withMeshTopology(Mesh::Topology::LineStrip)
+                     .withMeshTopology(Mesh::Topology::TriangleStrip)
                      .build();
 
         m_material = Shader::getStandardBlinnPhong()->createMaterial();
         m_material->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
         m_material->setMetallicRoughness({ 0.5f, 0.5f });
-
-        auto color1 = glm::u8vec4(255, 255, 255, 255);
-        auto color2 = glm::u8vec4(153, 51, 51, 255);
-        auto texture = buildClothTexture(color1, color2, massCountWidth - 1);
-        m_material->setTexture(texture);
-    }
-
-    // 构建布料纹理
-    std::shared_ptr<Texture> buildClothTexture(glm::u8vec4 color1, glm::u8vec4 color2, int width)
-    {
-        std::vector<glm::u8vec4> textureData;
-        for (int i = 0; i < width; ++i)
-        {
-            if (i % 2 == 0)
-            {
-                textureData.push_back(color1);
-            }
-            else
-            {
-                textureData.push_back(color2);
-            }
-        }
-        auto dataPtr = glm::value_ptr(textureData[0]);
-        return Texture::create().withRGBAData(reinterpret_cast<const char*>(dataPtr), width, 1).withGenerateMipmaps(false).withFilterSampling(false).build();
+        m_material->setTexture(Texture::create().withFile("resources/block.jpg").build());
     }
 
     std::vector<glm::vec3> getPositions()
@@ -282,12 +259,20 @@ public:
             }
         }
 
-        m_mesh->update()
-            .withPositions(getPositions())
-            .withNormals(getNormals())
-            .build();
+//        m_mesh->update()
+//            .withPositions(getPositions())
+//            .withNormals(getNormals())
+//            .build();
+        m_mesh = Mesh::create()
+                     .withName("Cloth mesh")
+                     .withPositions(getPositions())
+                     .withNormals(getNormals())
+                     .withUvs(getUVs())
+                     .withIndices(createIndices())
+                     .withMeshTopology(Mesh::Topology::TriangleStrip)
+                     .build();
 
-//        rp.draw(m_mesh, glm::mat4(1.0f), m_material);
+        rp.draw(m_mesh, glm::mat4(1.0f), m_material);
     }
 
     // 对所有质点调用timeStep()
@@ -386,15 +371,16 @@ public:
     void initialize() override
     {
         m_cloth = std::make_shared<Cloth>(14, 10, m_massCountWidth, m_massCountHeight);
-        m_camera.setLookAt({ 0, 0, 20 }, { 0, 0, 0 }, { 0, 1, 0 });
+        m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
         m_camera.setPerspectiveProjection(80, 0.1, 100);
         m_sphereMaterial = Shader::getStandardPBR()->createMaterial();
-        m_sphereMaterial->setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-        m_sphereMaterial->setMetallicRoughness({ .5f, .5f });
+        m_sphereMaterial->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+        m_sphereMaterial->setMetallicRoughness({ 0.5f, 0.5f });
         m_sphere = Mesh::create().withSphere().build();
         m_worldLights = MAKE_UNIQUE(m_worldLights);
-        m_worldLights->setAmbientLight({ 0.05, 0.05, 0.05 });
-        m_worldLights->addLight(Light::create().withDirectionalLight({ 1, 1, 1 }).withColor({ 1, 1, 1 }).build());
+        m_worldLights->addLight(Light::create().withPointLight({ -10, -10, 10 }).withColor({ 1, 0, 0 }).build());
+        m_worldLights->addLight(Light::create().withPointLight({ -30, -30, 10 }).withColor({ 0, 1, 0 }).build());
+        m_worldLights->addLight(Light::create().withPointLight({ 30, -30 + 180, 10 }).withColor({ 0, 0, 1 }).build());
         auto tex = Texture::create()
                        .withFileCubeMap("resources/skybox/park3Med/px.jpg", Texture::CubeMapSide::PositiveX)
                        .withFileCubeMap("resources/skybox/park3Med/nx.jpg", Texture::CubeMapSide::NegativeX)
