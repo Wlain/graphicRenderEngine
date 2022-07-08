@@ -9,6 +9,12 @@
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/transform.hpp>
 
+#define DAMPING 0.01f           // 阻尼：胡克定律 f = kd
+#define DELTA_TIME2 0.5f * 0.5f // how large time step each particle takes each frame
+#define CONSTRAINT_ITERATIONS 7 // how many iterations of constraint satisfaction each frame (more is rigid, less is soft)
+
+// Verlet积分会使用上一个时刻的状态来推下一个时刻的状态
+
 // 质点弹簧类
 class MassSpringSystem
 {
@@ -23,20 +29,22 @@ public:
         m_acceleration += f / m_mass;
     }
 
+    // f = m * a
     void timeStep()
     {
-        // 隐式欧拉求解
         if (m_movable)
         {
             glm::vec3 temp = m_pos;
-            m_pos = m_pos + (m_pos - m_lastPos) * (1.0f - s_damping) + m_acceleration * s_timeStepSize2;
+            // X-t+1 = X-t + (X-t - X-t-1) * (1.0f - damping) * a deltaTime * deltaTime;
+            m_pos = m_pos + (m_pos - m_lastPos) * (1.0f - DAMPING) + m_acceleration * DELTA_TIME2;
             m_lastPos = temp;
+            // 此时加速度已经转化成速度，需要重置
             m_acceleration = glm::vec3(0, 0, 0);
         }
     }
 
-    const glm::vec3& getPos() const {
-        LOG_ERROR("pos:{}, {}, {}", m_pos.x, m_pos.y, m_pos.z);
+    const glm::vec3& getPos() const
+    {
         return m_pos;
     }
 
@@ -56,22 +64,15 @@ public:
     }
 
     const glm::vec3& getNormal() const { return m_accumulatedNormal; }
-
     void resetNormal() { m_accumulatedNormal = glm::vec3(0, 0, 0); }
 
 private:
-    // 物理常量
-    inline static float s_damping = 0.01f;
-    inline static int s_constraintIterations = 7;
-    inline static float s_timeStepSize2 = 0.5f * 0.5f;
-
-private:
-    bool m_movable{ true };                // 表示当前质点是否可以移动
-    float m_mass{ 1.0f };                  // 质量
-    glm::vec3 m_pos;                       // 当前位置
-    glm::vec3 m_lastPos;                   // 上一帧的位置，用于verlet数值积分
-    glm::vec3 m_acceleration{ 0.0f };      // 加速度
-    glm::vec3 m_accumulatedNormal{ 0.0f }; // 法线累积值
+    bool m_movable{ true };                            // 表示当前质点是否可以移动
+    float m_mass{ 1.0f };                              // 质量
+    glm::vec3 m_pos{};                                 // 当前位置
+    glm::vec3 m_lastPos{};                             // 上一帧的位置，用于verlet数值积分,Verlet 方法是一种求解离散时间上的积分方法
+    glm::vec3 m_acceleration{ 0.0f, 0.0f, 0.0f };      // 加速度
+    glm::vec3 m_accumulatedNormal{ 0.0f, 0.0f, 0.0f }; // 法线累积值
 };
 
 /// 绳索类
@@ -87,70 +88,65 @@ public:
 
     void satisfyConstraint()
     {
-        glm::vec3 vec = m_mass1->getPos() - m_mass2->getPos();
+        glm::vec3 vec = m_mass2->getPos() - m_mass1->getPos();
         float currentDistance = length(vec);
-        glm::vec3 correctionVector = vec * (1 - m_restDistance / currentDistance); // p1移动到静止距离到 p 的偏移向量
-        glm::vec3 correctionVectorHalf = correctionVector * 0.5f;                  // 把它的长度减半，这样我们就可以同时移动 p1和 p2。
-        m_mass1->offsetPos(correctionVectorHalf);                                  // 纠正向量半指向p1到p2，所以长度应该移动p1满足约束所需长度的一半
-        m_mass2->offsetPos(-correctionVectorHalf);                                 // 移动 p2校正向量半的负方向，因为它指向 p2到 p1，而不是 p1到 p2
+        glm::vec3 correctionVector = vec * (1.0f - m_restDistance / currentDistance); // p1移动到静止距离到 p 的偏移向量
+        glm::vec3 correctionVectorHalf = correctionVector * 0.5f;                     // 把它的长度减半，这样我们就可以同时移动 p1和 p2。
+        m_mass1->offsetPos(correctionVectorHalf);                                     // 纠正向量半指向p1到p2，所以长度应该移动p1满足约束所需长度的一半
+        m_mass2->offsetPos(-correctionVectorHalf);                                    // 移动 p2校正向量半的负方向，因为它指向 p2到 p1，而不是 p1到 p2
     }
 
 private:
-    float m_restDistance; // 质点之间的距离
-    MassSpringSystem *m_mass1, *m_mass2;
+    float m_restDistance = 0.0f; // 质点之间的距离
+    MassSpringSystem *m_mass1 = nullptr, *m_mass2 = nullptr;
 };
 
 class Cloth
 {
 public:
-    Cloth(float width, float height, int massCountH, int massCountV) :
-        m_massCountH(massCountH), m_massCountV(massCountV)
+    Cloth(float width, float height, int massCountWidth, int massCountHeight) :
+        m_massCountWidth(massCountWidth), m_massCountHeight(massCountHeight)
     {
-        m_massSprings.resize(massCountH * massCountV);
+        m_massSprings.resize(massCountWidth * massCountHeight);
 
         // 创建所有质点
-        for (int x = 0; x < massCountH; x++)
+        for (int x = 0; x < massCountWidth; ++x)
         {
-            for (int y = 0; y < massCountV; y++)
+            for (int y = 0; y < massCountHeight; ++y)
             {
-                glm::vec3 pos = { width * (x / (float)massCountH), -height * (y / (float)massCountV), 0 };
-                m_massSprings[y * massCountH + x] = MassSpringSystem(pos);
+                glm::vec3 pos = { width * (x / (float)massCountWidth), -height * (y / (float)massCountHeight), 0 };
+                m_massSprings[y * massCountWidth + x] = MassSpringSystem(pos);
             }
         }
 
         // 水平和竖直方向用绳索连接所有质点
-        for (int x = 0; x < massCountH; x++)
+        for (int x = 0; x < massCountWidth; ++x)
         {
-            for (int y = 0; y < massCountV; y++)
+            for (int y = 0; y < massCountHeight; ++y)
             {
-                if (x < massCountH - 1) makeRope(getMassSpring(x, y), getMassSpring(x + 1, y));
-                if (y < massCountV - 1) makeRope(getMassSpring(x, y), getMassSpring(x, y + 1));
-                if (x < massCountH - 1 && y < massCountV - 1) makeRope(getMassSpring(x, y), getMassSpring(x + 1, y + 1));
-                if (x < massCountH - 1 && y < massCountV - 1) makeRope(getMassSpring(x + 1, y), getMassSpring(x, y + 1));
+                if (x < massCountWidth - 1) makeRope(getMassSpring(x, y), getMassSpring(x + 1, y));
+                if (y < massCountHeight - 1) makeRope(getMassSpring(x, y), getMassSpring(x, y + 1));
+                if (x < massCountWidth - 1 && y < massCountHeight - 1) makeRope(getMassSpring(x, y), getMassSpring(x + 1, y + 1));
+                if (x < massCountWidth - 1 && y < massCountHeight - 1) makeRope(getMassSpring(x + 1, y), getMassSpring(x, y + 1));
             }
         }
 
-        // 【左上，右下】，【左下，右上】方向用绳索连接所有质点
-        for (int x = 0; x < massCountH; x++)
+        // 相邻（距离为2）约束所有质点
+        for (int x = 0; x < massCountWidth; ++x)
         {
-            for (int y = 0; y < massCountV; y++)
+            for (int y = 0; y < massCountHeight; ++y)
             {
-                if (x < massCountH - 2) makeRope(getMassSpring(x, y), getMassSpring(x + 2, y));
-                if (y < massCountV - 2) makeRope(getMassSpring(x, y), getMassSpring(x, y + 2));
-                if (x < massCountH - 2 && y < massCountV - 2) makeRope(getMassSpring(x, y), getMassSpring(x + 2, y + 2));
-                if (x < massCountH - 2 && y < massCountV - 2) makeRope(getMassSpring(x + 2, y), getMassSpring(x, y + 2));
+                if (x < massCountWidth - 2) makeRope(getMassSpring(x, y), getMassSpring(x + 2, y));
+                if (y < massCountHeight - 2) makeRope(getMassSpring(x, y), getMassSpring(x, y + 2));
+                if (x < massCountWidth - 2 && y < massCountHeight - 2) makeRope(getMassSpring(x, y), getMassSpring(x + 2, y + 2));
+                if (x < massCountWidth - 2 && y < massCountHeight - 2) makeRope(getMassSpring(x + 2, y), getMassSpring(x, y + 2));
             }
         }
 
         // 固定左上角和右上角的两个顶点
-        for (int i = 1; i <= 2; i++)
-        {
-            getMassSpring(0 + i, 0)->offsetPos({ 0.5, 0.0, 0.0 });
-            getMassSpring(0 + i, 0)->makeUnmovable();
 
-            getMassSpring(0 + i, 0)->offsetPos({ -0.5, 0.0, 0.0 });
-            getMassSpring(massCountH - 1 - i, 0)->makeUnmovable();
-        }
+        getMassSpring(0, 0)->makeUnmovable();
+        getMassSpring(massCountWidth - 1, 0)->makeUnmovable();
 
         m_mesh = Mesh::create()
                      .withName("Cloth mesh")
@@ -158,16 +154,16 @@ public:
                      .withNormals(getNormals())
                      .withUvs(getUVs())
                      .withIndices(createIndices())
-                     .withMeshTopology(Mesh::Topology::TriangleStrip)
+                     .withMeshTopology(Mesh::Topology::LineStrip)
                      .build();
 
-        m_material = Shader::getStandardPBR()->createMaterial({ { "S_TWO_SIDED", "true" } });
+        m_material = Shader::getStandardBlinnPhong()->createMaterial();
         m_material->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-        m_material->setMetallicRoughness({ .5f, .5f });
+        m_material->setMetallicRoughness({ 0.5f, 0.5f });
 
         auto color1 = glm::u8vec4(255, 255, 255, 255);
         auto color2 = glm::u8vec4(153, 51, 51, 255);
-        auto texture = buildClothTexture(color1, color2, massCountH - 1);
+        auto texture = buildClothTexture(color1, color2, massCountWidth - 1);
         m_material->setTexture(texture);
     }
 
@@ -175,7 +171,7 @@ public:
     std::shared_ptr<Texture> buildClothTexture(glm::u8vec4 color1, glm::u8vec4 color2, int width)
     {
         std::vector<glm::u8vec4> textureData;
-        for (int i = 0; i < width; i++)
+        for (int i = 0; i < width; ++i)
         {
             if (i % 2 == 0)
             {
@@ -193,9 +189,9 @@ public:
     std::vector<glm::vec3> getPositions()
     {
         std::vector<glm::vec3> res;
-        for (int y = 0; y < m_massCountV; y++)
+        for (int y = 0; y < m_massCountHeight; y++)
         {
-            for (int x = 0; x < m_massCountH; x++)
+            for (int x = 0; x < m_massCountWidth; x++)
             {
                 res.push_back(getMassSpring(x, y)->getPos());
             }
@@ -206,9 +202,9 @@ public:
     std::vector<glm::vec3> getNormals()
     {
         std::vector<glm::vec3> res;
-        for (int y = 0; y < m_massCountV; y++)
+        for (int y = 0; y < m_massCountHeight; y++)
         {
-            for (int x = 0; x < m_massCountH; x++)
+            for (int x = 0; x < m_massCountWidth; x++)
             {
                 res.push_back(getMassSpring(x, y)->getNormal());
             }
@@ -219,11 +215,11 @@ public:
     std::vector<glm::vec4> getUVs()
     {
         std::vector<glm::vec4> res;
-        for (int y = 0; y < m_massCountV; y++)
+        for (int y = 0; y < m_massCountHeight; y++)
         {
-            for (int x = 0; x < m_massCountH; x++)
+            for (int x = 0; x < m_massCountWidth; x++)
             {
-                glm::vec4 uv(x / (m_massCountV - 1.0f), y / (m_massCountH - 1.0f), 0.0f, 0.0f);
+                glm::vec4 uv(x / (m_massCountHeight - 1.0f), y / (m_massCountWidth - 1.0f), 0.0f, 0.0f);
                 res.push_back(uv);
             }
         }
@@ -234,29 +230,28 @@ public:
     {
         std::vector<uint16_t> indices;
 
-        for (int j = 0; j < m_massCountV - 1; j++)
+        for (int j = 0; j < m_massCountHeight - 1; j++)
         {
             int index = 0;
             if (j > 0)
             {
-                indices.push_back(static_cast<uint16_t>(j * m_massCountH)); // make degenerate
+                indices.push_back(static_cast<uint16_t>(j * m_massCountWidth)); // make degenerate
             }
-            for (int i = 0; i <= m_massCountH - 1; i++)
+            for (int i = 0; i <= m_massCountWidth - 1; i++)
             {
-                index = j * m_massCountH + i;
+                index = j * m_massCountWidth + i;
                 indices.push_back(static_cast<uint16_t>(index));
-                indices.push_back(static_cast<uint16_t>(index + m_massCountH));
+                indices.push_back(static_cast<uint16_t>(index + m_massCountWidth));
             }
-            if (j + 1 < m_massCountV - 1)
+            if (j + 1 < m_massCountHeight - 1)
             {
-                indices.push_back(static_cast<uint32_t>(index + m_massCountH)); // make degenerate
+                indices.push_back(static_cast<uint32_t>(index + m_massCountWidth)); // make degenerate
             }
         }
         return indices;
     }
 
-    /* 将布料画成平滑的阴影(并根据柱子着色) OpenGL 三角网格从 display()方法调用布料看起来是由四个三角形的粒子组成的网格如下:
-
+    /* 绘制三角形面片
      (x,y)   *--* (x+1,y)
         | /|
         |/ |
@@ -271,9 +266,9 @@ public:
         }
 
         // 通过将每个粒子所属的所有三角形法线相加，创建平滑的每个粒子法线（取平均）
-        for (int x = 0; x < m_massCountH - 1; x++)
+        for (int x = 0; x < m_massCountWidth - 1; ++x)
         {
-            for (int y = 0; y < m_massCountV - 1; y++)
+            for (int y = 0; y < m_massCountHeight - 1; ++y)
             {
                 auto normal = calcTriangleNormal(getMassSpring(x + 1, y), getMassSpring(x, y), getMassSpring(x, y + 1));
                 getMassSpring(x + 1, y)->addToNormal(normal);
@@ -287,19 +282,18 @@ public:
             }
         }
 
-        // update mesh data
-//        m_mesh->update()
-//            .withPositions(getPositions())
-//            .withNormals(getNormals())
-//            .build();
+        m_mesh->update()
+            .withPositions(getPositions())
+            .withNormals(getNormals())
+            .build();
 
-        rp.draw(m_mesh, glm::mat4(1.0f), m_material);
+//        rp.draw(m_mesh, glm::mat4(1.0f), m_material);
     }
 
     // 对所有质点调用timeStep()
     void timeStep()
     {
-        for (int i = 0; i < s_timeStepSize2; i++)
+        for (int i = 0; i < CONSTRAINT_ITERATIONS; ++i)
         {
             for (auto& rope : m_rope)
             {
@@ -313,7 +307,7 @@ public:
         }
     }
 
-    // 重力(或任何其他任意矢量)添加到所有粒子
+    // 重力(或任何其他任意矢量)添加到所有质点
     void addForce(const glm::vec3& direction)
     {
         for (auto& mass : m_massSprings)
@@ -322,12 +316,12 @@ public:
         }
     }
 
-    // 用于给所有粒子增加风力，是为每个三角形增加的，因为最终的力与从风向 */看到的三角形面积成正比
+    // 给所有质点增加风力，是为每个三角形增加的，因为最终的力与从风向 */看到的三角形面积成正比
     void windForce(const glm::vec3& direction)
     {
-        for (int x = 0; x < m_massCountH - 1; ++x)
+        for (int x = 0; x < m_massCountWidth - 1; ++x)
         {
-            for (int y = 0; y < m_massCountV - 1; ++y)
+            for (int y = 0; y < m_massCountHeight - 1; ++y)
             {
                 addWindForcesForTriangle(getMassSpring(x + 1, y), getMassSpring(x, y), getMassSpring(x, y + 1), direction);
                 addWindForcesForTriangle(getMassSpring(x + 1, y + 1), getMassSpring(x + 1, y), getMassSpring(x, y + 1), direction);
@@ -350,11 +344,11 @@ public:
     }
 
 private:
-    int getParticleIndex(int x, int y) const { return y * m_massCountH + x; }
-    MassSpringSystem* getMassSpring(int x, int y) { return &m_massSprings[getParticleIndex(x, y)]; }
+    int getMassIndex(int x, int y) const { return y * m_massCountWidth + x; }
+    MassSpringSystem* getMassSpring(int x, int y) { return &m_massSprings[getMassIndex(x, y)]; }
     void makeRope(MassSpringSystem* p1, MassSpringSystem* p2) { m_rope.emplace_back(p1, p2); }
 
-    // 法向量的大小等于由 m1，p2和 p3定义的平行四边形的面积
+    // 计算三角形面片的法向量
     glm::vec3 calcTriangleNormal(MassSpringSystem* m1, MassSpringSystem* m2, MassSpringSystem* m3)
     {
         glm::vec3 pos1 = m1->getPos();
@@ -377,21 +371,12 @@ private:
     }
 
 private:
-    inline static float s_timeStepSize2 = 0.5f * 0.5f;
-
-private:
-    struct Vertex
-    {
-        glm::vec3 position;
-        glm::vec2 uv;
-        glm::vec3 normal;
-    };
     std::vector<MassSpringSystem> m_massSprings;
     std::vector<Rope> m_rope;
     std::shared_ptr<Mesh> m_mesh;
     std::shared_ptr<Material> m_material;
-    int m_massCountH; // 横向弹簧数
-    int m_massCountV; // 纵向弹簧数
+    int m_massCountWidth;  // 横向质点数
+    int m_massCountHeight; // 纵向质点数
 };
 
 class ClothSimulationExample : public BasicProject
@@ -400,7 +385,7 @@ public:
     ~ClothSimulationExample() override = default;
     void initialize() override
     {
-        m_cloth = std::make_shared<Cloth>(6, 8, m_massCountH, m_massCountV);
+        m_cloth = std::make_shared<Cloth>(14, 10, m_massCountWidth, m_massCountHeight);
         m_camera.setLookAt({ 0, 0, 20 }, { 0, 0, 0 }, { 0, 1, 0 });
         m_camera.setPerspectiveProjection(80, 0.1, 100);
         m_sphereMaterial = Shader::getStandardPBR()->createMaterial();
@@ -410,24 +395,24 @@ public:
         m_worldLights = MAKE_UNIQUE(m_worldLights);
         m_worldLights->setAmbientLight({ 0.05, 0.05, 0.05 });
         m_worldLights->addLight(Light::create().withDirectionalLight({ 1, 1, 1 }).withColor({ 1, 1, 1 }).build());
-//        auto tex = Texture::create()
-//                       .withFileCubeMap("resources/skybox/park3Med/px.jpg", Texture::CubeMapSide::PositiveX)
-//                       .withFileCubeMap("resources/skybox/park3Med/nx.jpg", Texture::CubeMapSide::NegativeX)
-//                       .withFileCubeMap("resources/skybox/park3Med/py.jpg", Texture::CubeMapSide::PositiveY)
-//                       .withFileCubeMap("resources/skybox/park3Med/ny.jpg", Texture::CubeMapSide::NegativeY)
-//                       .withFileCubeMap("resources/skybox/park3Med/pz.jpg", Texture::CubeMapSide::PositiveZ)
-//                       .withFileCubeMap("resources/skybox/park3Med/nz.jpg", Texture::CubeMapSide::NegativeZ)
-//                       .withWrapUV(Texture::Wrap::ClampToEdge)
-//                       .build();
-//        m_skybox = Skybox::create();
-//        m_skybox->getMaterial()->setTexture(tex);
+        auto tex = Texture::create()
+                       .withFileCubeMap("resources/skybox/park3Med/px.jpg", Texture::CubeMapSide::PositiveX)
+                       .withFileCubeMap("resources/skybox/park3Med/nx.jpg", Texture::CubeMapSide::NegativeX)
+                       .withFileCubeMap("resources/skybox/park3Med/py.jpg", Texture::CubeMapSide::PositiveY)
+                       .withFileCubeMap("resources/skybox/park3Med/ny.jpg", Texture::CubeMapSide::NegativeY)
+                       .withFileCubeMap("resources/skybox/park3Med/pz.jpg", Texture::CubeMapSide::PositiveZ)
+                       .withFileCubeMap("resources/skybox/park3Med/nz.jpg", Texture::CubeMapSide::NegativeZ)
+                       .withWrapUV(Texture::Wrap::ClampToEdge)
+                       .build();
+        m_skybox = Skybox::create();
+        m_skybox->getMaterial()->setTexture(tex);
     }
     void render() override
     {
         auto renderPass = RenderPass::create()
                               .withCamera(m_camera)
                               .withWorldLights(m_worldLights.get())
-//                              .withSkybox(m_skybox)
+                              .withSkybox(m_skybox)
                               .withName("Frame")
                               .build();
 
@@ -447,12 +432,16 @@ public:
         ImGui::DragFloat3("Gravity", &m_gravity.x);
         ImGui::DragFloat3("Wind", &m_wind.x);
         ImGui::DragFloat("Ball size", &m_ballRadius, 1.5, 0.25, 5);
-        bool updated = ImGui::DragInt("Particles width", &m_massCountH, 5, 5, 100);
-        updated |= ImGui::DragInt("Particles height", &m_massCountV, 5, 5, 100);
-        ImGui::LabelText("Particle count", "%i", m_massCountH * m_massCountV);
+        bool updated = ImGui::DragInt("Particles width", &m_massCountWidth, 5, 5, 100);
+        updated |= ImGui::DragInt("Particles height", &m_massCountHeight, 5, 5, 100);
+        ImGui::LabelText("Particle count", "%i", m_massCountWidth * m_massCountHeight);
+        ImGui::DragFloat3("eye", &m_eye.x);
+        ImGui::DragFloat3("at", &m_at.x);
+        ImGui::DragFloat3("up", &m_up.x);
+        m_camera.setLookAt(m_eye, m_at, m_up);
         if (updated)
         {
-            m_cloth = std::make_shared<Cloth>(14, 10, m_massCountH, m_massCountV);
+            m_cloth = std::make_shared<Cloth>(14, 10, m_massCountWidth, m_massCountHeight);
         }
         ImGui::End();
         m_inspector.update();
@@ -462,9 +451,9 @@ public:
     {
         BasicProject::update(deltaTime);
         m_ballTime++;
-        m_ballPos.y = cos(m_ballTime / 50.0f) * 7;
-        m_cloth->addForce(m_gravity * s_timeStepSize2);                          // add gravity each frame, pointing down
-        m_cloth->windForce(m_wind * s_timeStepSize2);                            // generate some wind each frame
+        m_ballPos.z = cos(m_ballTime / 50.0f) * CONSTRAINT_ITERATIONS;
+        m_cloth->addForce(m_gravity * DELTA_TIME2);                              // add gravity each frame, pointing down
+        m_cloth->windForce(m_wind * DELTA_TIME2);                                // generate some wind each frame
         m_cloth->timeStep();                                                     // calculate the particle positions of the next frame
         m_cloth->ballCollision(m_ballPos, m_ballRadius + m_ballColliderEpsilon); // resolve collision with the ball
     }
@@ -474,7 +463,6 @@ public:
     }
 
 private:
-    inline static float s_timeStepSize2 = 0.5f * 0.5f;
     inline static float s_damping = 0.01f;
     inline static int s_constraintIterations = 7;
 
@@ -486,11 +474,14 @@ private:
     glm::vec3 m_gravity = { 0, -0.2, 0 }; // 重力
     glm::vec3 m_wind{ 0.5, 0, 0.2 };      // 风力
     glm::vec3 m_ballPos{ 7, -5, 0 };      // 球心
-    float m_ballColliderEpsilon = .1;     // 球与布料碰撞的最小距离
-    float m_ballRadius = 2;               // 球半径
-    int m_massCountH{ 10 };               // 横向弹簧数
-    int m_massCountV{ 10 };               // 纵向弹簧数
-    float m_ballTime{ 0 };                // 用于计算下面球的 z 位置的计数器
+    glm::vec3 m_eye{ 0, 0, 3.0f };
+    glm::vec3 m_at{ 0, 0, 0 };
+    glm::vec3 m_up{ 0, 1, 0 };
+    float m_ballColliderEpsilon = .1; // 球与布料碰撞的最小距离
+    float m_ballRadius = 2;           // 球半径
+    int m_massCountWidth{ 55 };       // 横向弹簧数
+    int m_massCountHeight{ 45 };      // 纵向弹簧数
+    float m_ballTime{ 0 };            // 用于计算下面球的 z 位置的计数器
 };
 
 void clothSimulationTest()
