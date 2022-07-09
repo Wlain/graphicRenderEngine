@@ -159,7 +159,13 @@ public:
                      .withMeshTopology(m_showMesh ? Mesh::Topology::LineStrip : Mesh::Topology::TriangleStrip)
                      .build();
 
-        m_material = Shader::getStandardBlinnPhong()->createMaterial();
+        m_material = Shader::create()
+                         .withSourceFile("embeddedResource/standard_blinn_phong_vert.glsl", Shader::ShaderType::Vertex)
+                         .withSourceFile("embeddedResource/standard_blinn_phong_frag.glsl", Shader::ShaderType::Fragment)
+                         .withName("Standard Blinn Phong")
+                         .withCullFace(Shader::CullFace::None)
+                         .build()
+                         ->createMaterial();
         m_material->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
         m_material->setMetallicRoughness({ 0.5f, 0.5f });
         m_material->setTexture(Texture::create().withFile("resources/block.jpg").build());
@@ -372,7 +378,7 @@ public:
         m_cloth = std::make_shared<Cloth>(30, 20, m_massCountWidth, m_massCountHeight);
         m_camera.setLookAt({ 0, 0, 3 }, { 0, 0, 0 }, { 0, 1, 0 });
         m_camera.setPerspectiveProjection(80, 0.1, 100);
-        m_sphereMaterial = Shader::getStandardPBR()->createMaterial({{"S_TWO_SIDED","true"}});
+        m_sphereMaterial = Shader::getStandardPBR()->createMaterial({ { "S_TWO_SIDED", "true" } });
         m_sphereMaterial->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
         m_sphereMaterial->setMetallicRoughness({ 0.5f, 0.5f });
         m_sphere = Mesh::create().withSphere().build();
@@ -458,12 +464,12 @@ private:
     std::shared_ptr<Skybox> m_skybox;
     glm::vec3 m_gravity = { 0, -0.2, 0 }; // 重力
     glm::vec3 m_wind{ 0.5, 0, 0.2 };      // 风力
-    glm::vec3 m_ballPos{ 7, -5, 0 };      // 球心
-    glm::vec3 m_eye{ 0, 0, 3.0f };
+    glm::vec3 m_ballPos{ 15, -7, 0 };     // 球心
+    glm::vec3 m_eye{ -4, 0, -30.0f };
     glm::vec3 m_at{ 0, 0, 0 };
     glm::vec3 m_up{ 0, 1, 0 };
     float m_ballColliderEpsilon = .1; // 球与布料碰撞的最小距离
-    float m_ballRadius = 2;           // 球半径
+    float m_ballRadius = 5;           // 球半径
     int m_massCountWidth{ 55 };       // 横向质点数
     int m_massCountHeight{ 45 };      // 纵向质点数
     float m_ballTime{ 0 };            // 用于计算下面球的 z 位置的计数器
