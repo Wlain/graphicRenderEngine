@@ -10,8 +10,8 @@
 #include <glm/gtx/transform.hpp>
 
 #define DAMPING 0.01f           // 阻尼：胡克定律 f = kd
-#define DELTA_TIME2 0.5f * 0.5f // how large time step each particle takes each frame
-#define CONSTRAINT_ITERATIONS 7 // how many iterations of constraint satisfaction each frame (more is rigid, less is soft)
+#define DELTA_TIME2 0.5f * 0.5f // delta t 的平方
+#define CONSTRAINT_ITERATIONS 7 // 约束
 
 // Verlet积分会使用上一个时刻的状态来推下一个时刻的状态
 
@@ -156,6 +156,7 @@ public:
                      .withNormals(getNormals())
                      .withUvs(getUVs())
                      .withIndices(createIndices())
+                     .withUsage(Mesh::BufferUsage::DynamicDraw)
                      .withMeshTopology(m_showMesh ? Mesh::Topology::LineStrip : Mesh::Topology::TriangleStrip)
                      .build();
 
@@ -443,10 +444,10 @@ public:
         BasicProject::update(deltaTime);
         m_ballTime++;
         m_ballPos.z = cos(m_ballTime / 50.0f) * CONSTRAINT_ITERATIONS;
-        m_cloth->addForce(m_gravity * DELTA_TIME2);                              // add gravity each frame, pointing down
-        m_cloth->windForce(m_wind * DELTA_TIME2);                                // generate some wind each frame
-        m_cloth->timeStep();                                                     // calculate the particle positions of the next frame
-        m_cloth->ballCollision(m_ballPos, m_ballRadius + m_ballColliderEpsilon); // resolve collision with the ball
+        m_cloth->addForce(m_gravity * DELTA_TIME2);
+        m_cloth->windForce(m_wind * DELTA_TIME2);
+        m_cloth->timeStep();
+        m_cloth->ballCollision(m_ballPos, m_ballRadius + m_ballColliderEpsilon);
     }
     void setTitle() override
     {

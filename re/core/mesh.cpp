@@ -16,7 +16,7 @@ namespace re
 {
 Mesh::Mesh(std::map<std::string, std::vector<float>>&& attributesFloat, std::map<std::string, std::vector<glm::vec2>>&& attributesVec2, std::map<std::string, std::vector<glm::vec3>>&& attributesVec3,
            std::map<std::string, std::vector<glm::vec4>>&& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>&& attributesIVec4, std::vector<std::vector<uint16_t>>&& indices,
-           std::vector<Topology>& meshTopology, std::string_view name, RenderStats& renderStats)
+           std::vector<Topology>& meshTopology, BufferUsage bufferUsage, std::string_view name, RenderStats& renderStats)
 {
     m_meshId = m_meshIdCount++;
     if (Renderer::s_instance == nullptr)
@@ -24,7 +24,7 @@ Mesh::Mesh(std::map<std::string, std::vector<float>>&& attributesFloat, std::map
         throw std::runtime_error("Cannot instantiate re::Mesh before re::Renderer is created.");
     }
     glGenBuffers(1, &m_vbo);
-    update(std::move(attributesFloat), std::move(attributesVec2), std::move(attributesVec3), std::move(attributesVec4), std::move(attributesIVec4), std::move(indices), meshTopology, name, renderStats);
+    update(std::move(attributesFloat), std::move(attributesVec2), std::move(attributesVec3), std::move(attributesVec4), std::move(attributesIVec4), std::move(indices), meshTopology, bufferUsage, name, renderStats);
     Renderer::s_instance->m_meshes.emplace_back(this);
 }
 
@@ -87,7 +87,7 @@ void Mesh::bindIndexSet() const
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
 }
 
-void Mesh::update(std::map<std::string, std::vector<float>>&& attributesFloat, std::map<std::string, std::vector<glm::vec2>>&& attributesVec2, std::map<std::string, std::vector<glm::vec3>>&& attributesVec3, std::map<std::string, std::vector<glm::vec4>>&& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>&& attributesIVec4, std::vector<std::vector<uint16_t>>&& indices, std::vector<Topology>& meshTopology, std::string_view name, RenderStats& renderStats)
+void Mesh::update(std::map<std::string, std::vector<float>>&& attributesFloat, std::map<std::string, std::vector<glm::vec2>>&& attributesVec2, std::map<std::string, std::vector<glm::vec3>>&& attributesVec3, std::map<std::string, std::vector<glm::vec4>>&& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>&& attributesIVec4, std::vector<std::vector<uint16_t>>&& indices, std::vector<Topology>& meshTopology, BufferUsage bufferUsage, std::string_view name, RenderStats& renderStats)
 {
     m_vertexCount = 0;
     m_dataSize = 0;
@@ -104,46 +104,12 @@ void Mesh::update(std::map<std::string, std::vector<float>>&& attributesFloat, s
     m_attributesIVec4 = std::move(attributesIVec4);
     m_indices = std::move(indices);
     m_topologies = std::move(meshTopology);
+    m_bufferUsage = bufferUsage;
     auto interleavedData = getInterleavedData();
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * interleavedData.size(), interleavedData.data(), GL_STATIC_DRAW);
-    m_elementBufferOffsetCount.clear();
-
-    if (!m_indices.empty())
-    {
-        if (m_ebo != 0)
-        {
-            glDeleteBuffers(1, &m_ebo);
-            m_ebo = 0;
-        }
-        else
-        {
-            if (m_ebo == 0)
-            {
-                glGenBuffers(1, &m_ebo);
-            }
-            size_t totalCount = 0;
-            for (auto& index : m_indices)
-            {
-                totalCount += index.size();
-            }
-            std::vector<uint16_t> concatenatedIndices;
-            concatenatedIndices.reserve(totalCount);
-            int offset = 0;
-            for (auto& index : m_indices)
-            {
-                size_t dataSize = index.size() * sizeof(uint16_t);
-                concatenatedIndices.insert(concatenatedIndices.end(), index.begin(), index.end());
-                m_elementBufferOffsetCount.emplace_back(offset, index.size());
-                offset += (int)dataSize;
-            }
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, offset, concatenatedIndices.data(), GL_STATIC_DRAW);
-
-            m_dataSize += offset;
-        }
-    }
+    updateIndexBuffers();
     m_boundsMinMax[0] = glm::vec3{ std::numeric_limits<float>::max() };
     m_boundsMinMax[1] = glm::vec3{ -std::numeric_limits<float>::max() };
     auto pos = m_attributesVec3.find("position");
@@ -298,7 +264,7 @@ std::vector<glm::vec4> Mesh::getTangents()
     return color;
 }
 
-std::vector<float> Mesh::getParticleSizes()
+[[maybe_unused]] std::vector<float> Mesh::getParticleSizes()
 {
     std::vector<float> particleSize;
     auto ref = m_attributesFloat.find("particleSize");
@@ -379,9 +345,14 @@ Mesh::Topology Mesh::getMeshTopology(int indexSet)
     return m_topologies[indexSet];
 }
 
+Mesh::BufferUsage Mesh::getMeshBufferUsage()
+{
+    return m_bufferUsage;
+}
+
 std::vector<float> Mesh::getInterleavedData()
 {
-    //     强制执行的stdout 140布局规则( https://learnopengl.com/#!advanced-opengl/advanced-glsl), 顺序是 vec3 vec4 ivec4 vec2 float
+    // 强制执行的stdout 140布局规则( https://learnopengl.com/#!advanced-opengl/advanced-glsl), 顺序是 vec3 vec4 ivec4 vec2 float
     for (const auto& pair : m_attributesVec3)
     {
         m_vertexCount = std::max(m_vertexCount, (int)pair.second.size());
@@ -720,6 +691,12 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withMeshTopology(Mesh::Topology topology)
     return *this;
 }
 
+Mesh::MeshBuilder& Mesh::MeshBuilder::withUsage(BufferUsage usage)
+{
+    m_bufferUsage = usage;
+    return *this;
+}
+
 Mesh::MeshBuilder& Mesh::MeshBuilder::withIndices(const std::vector<uint16_t>& indices, Topology topology, int indexSet)
 {
     while (indexSet >= m_indices.size())
@@ -741,6 +718,18 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withName(std::string_view name)
     return *this;
 }
 
+Mesh::MeshBuilder& Mesh::MeshBuilder::withRecomputeNormals(bool enabled)
+{
+    m_recomputeNormals = enabled;
+    return *this;
+}
+
+Mesh::MeshBuilder& Mesh::MeshBuilder::withRecomputeTangents(bool enabled)
+{
+    m_recomputeTangents = enabled;
+    return *this;
+}
+
 std::shared_ptr<Mesh> Mesh::MeshBuilder::build()
 {
     // update stats
@@ -749,15 +738,31 @@ std::shared_ptr<Mesh> Mesh::MeshBuilder::build()
     {
         m_name = "Unnamed Mesh";
     }
+    if (m_recomputeNormals)
+    {
+        auto newNormals = computeNormals();
+        if (!newNormals.empty())
+        {
+            withNormals(newNormals);
+        }
+    }
 
+    if (m_recomputeTangents)
+    {
+        bool hasNormals = m_attributesVec3.find("normal") == m_attributesVec3.end();
+        auto newTangents = computeTangents(hasNormals ? m_attributesVec3["normal"] : computeNormals());
+        if (!newTangents.empty())
+        {
+            withTangents(newTangents);
+        }
+    }
     if (m_updateMesh != nullptr)
     {
         renderStats.meshBytes -= m_updateMesh->getDataSize();
-        m_updateMesh->update(std::move(m_attributesFloat), std::move(m_attributesVec2), std::move(m_attributesVec3), std::move(m_attributesVec4), std::move(m_attributesIVec4), std::move(m_indices), m_topologies, m_name, renderStats);
-        renderStats.meshBytes += m_updateMesh->getDataSize();
+        m_updateMesh->update(std::move(m_attributesFloat), std::move(m_attributesVec2), std::move(m_attributesVec3), std::move(m_attributesVec4), std::move(m_attributesIVec4), std::move(m_indices), m_topologies, m_bufferUsage, m_name, renderStats);
         return m_updateMesh->shared_from_this();
     }
-    auto* mesh = new Mesh(std::move(m_attributesFloat), std::move(m_attributesVec2), std::move(m_attributesVec3), std::move(m_attributesVec4), std::move(m_attributesIVec4), std::move(m_indices), m_topologies, m_name, renderStats);
+    auto* mesh = new Mesh(std::move(m_attributesFloat), std::move(m_attributesVec2), std::move(m_attributesVec3), std::move(m_attributesVec4), std::move(m_attributesIVec4), std::move(m_indices), m_topologies, m_bufferUsage, m_name, renderStats);
     renderStats.meshCount++;
     return std::shared_ptr<Mesh>(mesh);
 }
@@ -937,6 +942,166 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withWireCube(float length)
     return *this;
 }
 
+std::vector<glm::vec3> Mesh::MeshBuilder::computeNormals()
+{
+    if (m_attributesVec3.find("position") == m_attributesVec3.end())
+    {
+        LOG_WARN("Cannot find vertex attribute position (vec3) for recomputeNormals()");
+        return {};
+    }
+
+    std::vector<glm::vec3> vertexPositions = m_attributesVec3["position"];
+    std::vector<glm::vec3> normals(vertexPositions.size(), glm::vec3(0));
+    // 根据三角形的夹角得出权重值。
+    auto computeNormal = [&](int i1, int i2, int i3) {
+        auto v1 = vertexPositions[i1];
+        auto v2 = vertexPositions[i2];
+        auto v3 = vertexPositions[i3];
+        auto v1v2 = glm::normalize(v2 - v1);
+        auto v1v3 = glm::normalize(v3 - v1);
+        auto normal = glm::normalize(glm::cross(v1v2, v1v3));
+        float weight1 = acos(glm::max(-1.0f, glm::min(1.0f, glm::dot(v1v2, v1v3))));
+        auto v2v3Alias = glm::normalize(v3 - v2);
+        float weight2 = glm::pi<float>() - acos(glm::max(-1.0f, glm::min(1.0f, glm::dot(v1v2, v2v3Alias))));
+        normals[i1] += normal * weight1;
+        normals[i2] += normal * weight2;
+        normals[i3] += normal * (glm::pi<float>() - weight1 - weight2);
+    };
+
+    if (m_indices.empty())
+    {
+        if (m_topologies[0] != Mesh::Topology::Triangles)
+        {
+            LOG_WARN("Cannot only triangles supported for recomputeNormals()");
+            return {};
+        }
+        for (int i = 0; i < vertexPositions.size(); i = i + 3)
+        {
+            computeNormal(i, i + 1, i + 2);
+        }
+    }
+    else
+    {
+        for (int j = 0; j < m_indices.size(); j++)
+        {
+            if (m_topologies[j] != Mesh::Topology::Triangles)
+            {
+                LOG_WARN("Cannot only triangles supported for recomputeNormals()");
+                return {};
+            }
+            auto& submeshIdx = m_indices[j];
+            for (int i = 0; i < submeshIdx.size(); i = i + 3)
+            {
+                computeNormal(submeshIdx[i], submeshIdx[i + 1], submeshIdx[i + 2]);
+            }
+        }
+    }
+
+    for (auto& val : normals)
+    {
+        val = glm::normalize(val);
+    }
+    return normals;
+}
+
+std::vector<glm::vec4> Mesh::MeshBuilder::computeTangents(const std::vector<glm::vec3>& normals)
+{
+    if (m_attributesVec3.find("position") == m_attributesVec3.end())
+    {
+        LOG_WARN("Cannot find vertex attribute position (vec3) required for m_recomputeNormals()");
+        return {};
+    }
+    if (m_attributesVec4.find("uv") == m_attributesVec4.end())
+    {
+        LOG_WARN("Cannot find vertex attribute uv (vec4) required for m_recomputeNormals()");
+        return {};
+    }
+
+    std::vector<glm::vec3> vertexPositions = m_attributesVec3["position"];
+    std::vector<glm::vec4> uvs = m_attributesVec4["uv"];
+
+    std::vector<glm::vec3> tan1(vertexPositions.size(), glm::vec3(0.0f));
+    std::vector<glm::vec3> tan2(vertexPositions.size(), glm::vec3(0.0f));
+    auto computeTangent = [&](int i1, int i2, int i3) {
+        auto v1 = vertexPositions[i1];
+        auto v2 = vertexPositions[i2];
+        auto v3 = vertexPositions[i3];
+
+        auto w1 = glm::vec2(uvs[i1]);
+        auto w2 = glm::vec2(uvs[i2]);
+        auto w3 = glm::vec2(uvs[i3]);
+
+        float x1 = v2.x - v1.x;
+        float x2 = v3.x - v1.x;
+        float y1 = v2.y - v1.y;
+        float y2 = v3.y - v1.y;
+        float z1 = v2.z - v1.z;
+        float z2 = v3.z - v1.z;
+
+        float s1 = w2.x - w1.x;
+        float s2 = w3.x - w1.x;
+        float t1 = w2.y - w1.y;
+        float t2 = w3.y - w1.y;
+
+        float r = 1.0F / (s1 * t2 - s2 * t1);
+        glm::vec3 sdir((t2 * x1 - t1 * x2) * r, (t2 * y1 - t1 * y2) * r,
+                       (t2 * z1 - t1 * z2) * r);
+        glm::vec3 tdir((s1 * x2 - s2 * x1) * r, (s1 * y2 - s2 * y1) * r,
+                       (s1 * z2 - s2 * z1) * r);
+
+        tan1[i1] += sdir;
+        tan1[i2] += sdir;
+        tan1[i3] += sdir;
+
+        tan2[i1] += tdir;
+        tan2[i2] += tdir;
+        tan2[i3] += tdir;
+    };
+
+    if (m_indices.empty())
+    {
+        if (m_topologies[0] != Mesh::Topology::Triangles)
+        {
+            LOG_WARN("Cannot only triangles supported for recomputeTangents()");
+            return {};
+        }
+        for (int i = 0; i < vertexPositions.size(); i = i + 3)
+        {
+            computeTangent(i, i + 1, i + 2);
+        }
+    }
+    else
+    {
+        for (int j = 0; j < m_indices.size(); j++)
+        {
+            if (m_topologies[j] != Mesh::Topology::Triangles)
+            {
+                LOG_WARN("Cannot only triangles supported for recomputeTangents()");
+                return {};
+            }
+            auto& submeshIdx = m_indices[j];
+            for (int i = 0; i < submeshIdx.size(); i = i + 3)
+            {
+                computeTangent(submeshIdx[i], submeshIdx[i + 1], submeshIdx[i + 2]);
+            }
+        }
+    }
+
+    std::vector<glm::vec4> tangent(vertexPositions.size());
+    for (long a = 0; a < vertexPositions.size(); a++)
+    {
+        auto n = normals[a];
+        auto t = tan1[a];
+
+        tangent[a] = glm::vec4(
+            // Gram-Schmidt orthogonalize
+            glm::normalize(t - n * glm::dot(n, t)),
+            // Calculate handedness
+            (glm::dot(glm::cross(n, t), tan2[a]) < 0.0F) ? -1.0F : 1.0F);
+    }
+    return tangent;
+}
+
 Mesh::MeshBuilder& Mesh::MeshBuilder::withAttribute(std::string_view name, const std::vector<glm::i32vec4>& values)
 {
     if (m_updateMesh != nullptr && m_attributesIVec4.find(name.data()) == m_attributesIVec4.end())
@@ -948,6 +1113,62 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withAttribute(std::string_view name, const
         m_attributesIVec4[name.data()] = values;
     }
     return *this;
+}
+
+GLenum Mesh::convertBufferUsage(BufferUsage usage)
+{
+    GLenum u;
+    switch (usage)
+    {
+    case BufferUsage::StaticDraw:
+        u = GL_STATIC_DRAW;
+        break;
+    case BufferUsage::DynamicDraw:
+        u = GL_DYNAMIC_DRAW;
+        break;
+    case BufferUsage::StreamDraw:
+        u = GL_STREAM_DRAW;
+        break;
+    }
+    return u;
+}
+
+void Mesh::updateIndexBuffers()
+{
+    m_elementBufferOffsetCount.clear();
+    if (!m_indices.empty())
+    {
+        if (m_ebo != 0)
+        {
+            glDeleteBuffers(1, &m_ebo);
+            m_ebo = 0;
+        }
+        else
+        {
+            if (m_ebo == 0)
+            {
+                glGenBuffers(1, &m_ebo);
+            }
+            size_t totalCount = 0;
+            for (auto& index : m_indices)
+            {
+                totalCount += index.size();
+            }
+            std::vector<uint16_t> concatenatedIndices;
+            concatenatedIndices.reserve(totalCount);
+            int offset = 0;
+            for (auto& index : m_indices)
+            {
+                size_t dataSize = index.size() * sizeof(uint16_t);
+                concatenatedIndices.insert(concatenatedIndices.end(), index.begin(), index.end());
+                m_elementBufferOffsetCount.emplace_back(offset, index.size());
+                offset += (int)dataSize;
+            }
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, offset, concatenatedIndices.data(), GL_STATIC_DRAW);
+            m_dataSize += offset;
+        }
+    }
 }
 
 } // namespace re
