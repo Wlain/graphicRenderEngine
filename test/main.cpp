@@ -34,7 +34,6 @@ extern void stencilTest();
 extern void ambientMapTest();
 extern void shadowMapTest();
 extern void clothSimulationTest();
-
 int main()
 {
     clothSimulationTest();

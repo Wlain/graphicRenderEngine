@@ -15,6 +15,8 @@ add_subdirectory(3rdparty/glm)
 add_subdirectory(3rdparty/spdlog)
 # json11
 add_subdirectory(3rdparty/json11)
+# box2d
+add_subdirectory(3rdparty/box2d)
 
 if (APPLE)
     INCLUDE_DIRECTORIES(/System/Library/Frameworks)
@@ -46,7 +48,7 @@ file(COPY ./re/embeddedResource DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 add_executable(simpleRenderEngine ${SOURCES})
 # 链接库
-target_link_libraries(simpleRenderEngine re)
+target_link_libraries(simpleRenderEngine re box2d)
 
 include_directories(re)
 add_subdirectory(re)
