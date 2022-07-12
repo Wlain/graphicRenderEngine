@@ -82,7 +82,7 @@ public:
         std::map<std::string, std::vector<glm::i32vec4>> m_attributesIVec4;
         std::vector<std::vector<uint16_t>> m_indices;
         std::vector<Topology> m_topologies; // mesh拓扑结构
-        BufferUsage m_bufferUsage;
+        BufferUsage m_bufferUsage{ BufferUsage::StaticDraw };
         std::string m_name;
         Mesh* m_updateMesh{ nullptr };
         bool m_recomputeNormals{ false };

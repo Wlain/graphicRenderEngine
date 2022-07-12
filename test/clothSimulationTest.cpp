@@ -268,14 +268,10 @@ public:
             }
         }
 
-        m_mesh = Mesh::create()
-                     .withName("Cloth mesh")
-                     .withPositions(getPositions())
-                     .withNormals(getNormals())
-                     .withUvs(getUVs())
-                     .withIndices(createIndices())
-                     .withMeshTopology(m_showMesh ? Mesh::Topology::LineStrip : Mesh::Topology::TriangleStrip)
-                     .build();
+        m_mesh->update()
+            .withPositions(getPositions())
+            .withNormals(getNormals())
+            .build();
 
         rp.draw(m_mesh, glm::mat4(1.0f), m_material);
     }

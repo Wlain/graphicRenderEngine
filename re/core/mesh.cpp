@@ -352,6 +352,7 @@ Mesh::BufferUsage Mesh::getMeshBufferUsage()
 
 std::vector<float> Mesh::getInterleavedData()
 {
+    m_totalBytesPerVertex = 0;
     // 强制执行的stdout 140布局规则( https://learnopengl.com/#!advanced-opengl/advanced-glsl), 顺序是 vec3 vec4 ivec4 vec2 float
     for (const auto& pair : m_attributesVec3)
     {
@@ -1136,38 +1137,38 @@ GLenum Mesh::convertBufferUsage(BufferUsage usage)
 void Mesh::updateIndexBuffers()
 {
     m_elementBufferOffsetCount.clear();
-    if (!m_indices.empty())
+    if (m_indices.empty())
     {
         if (m_ebo != 0)
         {
             glDeleteBuffers(1, &m_ebo);
             m_ebo = 0;
         }
-        else
+    }
+    else
+    {
+        if (m_ebo == 0)
         {
-            if (m_ebo == 0)
-            {
-                glGenBuffers(1, &m_ebo);
-            }
-            size_t totalCount = 0;
-            for (auto& index : m_indices)
-            {
-                totalCount += index.size();
-            }
-            std::vector<uint16_t> concatenatedIndices;
-            concatenatedIndices.reserve(totalCount);
-            int offset = 0;
-            for (auto& index : m_indices)
-            {
-                size_t dataSize = index.size() * sizeof(uint16_t);
-                concatenatedIndices.insert(concatenatedIndices.end(), index.begin(), index.end());
-                m_elementBufferOffsetCount.emplace_back(offset, index.size());
-                offset += (int)dataSize;
-            }
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, offset, concatenatedIndices.data(), GL_STATIC_DRAW);
-            m_dataSize += offset;
+            glGenBuffers(1, &m_ebo);
         }
+        size_t totalCount = 0;
+        for (auto& index : m_indices)
+        {
+            totalCount += index.size();
+        }
+        std::vector<uint16_t> concatenatedIndices;
+        concatenatedIndices.reserve(totalCount);
+        int offset = 0;
+        for (auto& index : m_indices)
+        {
+            size_t dataSize = index.size() * sizeof(uint16_t);
+            concatenatedIndices.insert(concatenatedIndices.end(), index.begin(), index.end());
+            m_elementBufferOffsetCount.emplace_back(offset, index.size());
+            offset += (int)dataSize;
+        }
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, offset, concatenatedIndices.data(), GL_STATIC_DRAW);
+        m_dataSize += offset;
     }
 }
 
