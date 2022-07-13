@@ -53,7 +53,7 @@ public:
         }
         renderPass.finish();
         // read pixel values from defualt framebuffer (before gui is rendered)
-        auto pixelValue = renderPass.readPixels(m_mouseX, m_mouseY);
+        auto pixelValue = renderPass.readPixels(m_mousePos.x, m_mousePos.y);
     }
     void update(float deltaTime) override
     {
@@ -68,15 +68,6 @@ public:
     {
         BasicProject::resize(width, height);
     }
-    void touchEvent(double xPos, double yPos) override
-    {
-        auto framebufferSize = m_renderer.getFrameBufferSize();
-        auto windowsSize = m_renderer.getWindowSize();
-        auto ratio = framebufferSize.x / windowsSize.x;
-        // 坐标映射
-        m_mouseX = std::clamp((int)(xPos * ratio), 0, windowsSize.x * (int)ratio);
-        m_mouseY = std::clamp((int)(windowsSize.y - yPos) * (int)ratio, 0, windowsSize.y * (int)ratio);
-    }
 
 private:
     inline static const uint32_t s_primitiveCount = 5;
@@ -84,8 +75,6 @@ private:
 private:
     std::shared_ptr<Material> m_material[s_primitiveCount];
     std::shared_ptr<Mesh> m_mesh[s_primitiveCount];
-    int m_mouseX;
-    int m_mouseY;
 };
 
 void pickColorTest()

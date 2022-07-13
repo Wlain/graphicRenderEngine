@@ -17,4 +17,4 @@ enum class ResourceType : uint8_t
 };
 } // namespace re
 
-#endif //SIMPLERENDERENGINE_RESOURCE_H
+#endif // SIMPLERENDERENGINE_RESOURCE_H

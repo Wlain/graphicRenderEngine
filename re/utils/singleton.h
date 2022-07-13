@@ -22,4 +22,4 @@ public:
     Singleton(const Singleton&) = delete;
     Singleton& operator=(const Singleton&) = delete;
 };
-#endif //SIMPLERENDERENGINE_SINGLETON_H
+#endif // SIMPLERENDERENGINE_SINGLETON_H

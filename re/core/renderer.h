@@ -78,4 +78,4 @@ private:
     friend class Material;
 };
 } // namespace re
-#endif //SIMPLERENDERENGINE_RENDERER_H
+#endif // SIMPLERENDERENGINE_RENDERER_H

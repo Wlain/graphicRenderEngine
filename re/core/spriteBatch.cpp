@@ -37,27 +37,6 @@ SpriteBatch::SpriteBatchBuilder::SpriteBatchBuilder()
     m_shader = Shader::getUnlitSprite();
 }
 
-template <typename T>
-SpriteBatch::SpriteBatchBuilder& SpriteBatch::SpriteBatchBuilder::addSprites(T first, const T last)
-{
-    auto start = m_sprites.end();
-    int size = m_sprites.size();
-    start = m_sprites.insert(m_sprites.end(), first, last);
-    while (start != m_sprites.end())
-    {
-        (*start).m_order.details.drawOrder = static_cast<uint16_t>(size);
-        size++;
-        start++;
-    }
-    if (size >= std::numeric_limits<uint16_t>::max())
-    {
-        LOG_ERROR("More than %i sprites in a batch ", std::numeric_limits<uint16_t>::max());
-        m_sprites.resize(std::numeric_limits<uint16_t>::max());
-        return *this;
-    }
-    return *this;
-}
-
 SpriteBatch::SpriteBatchBuilder SpriteBatch::create()
 {
     return {};

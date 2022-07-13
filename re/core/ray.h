@@ -13,11 +13,11 @@ struct Ray
     glm::vec3 position{ 0.0f };
     glm::vec3 direction{ 0.0f };
     float t{};
-    inline glm::vec3 target()
+    inline glm::vec3 target() const
     {
         return position + t * direction;
     }
 };
 } // namespace re
 
-#endif //SIMPLERENDERENGINE_RAY_H
+#endif // SIMPLERENDERENGINE_RAY_H

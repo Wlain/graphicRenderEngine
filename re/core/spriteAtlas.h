@@ -34,4 +34,4 @@ private:
 };
 } // namespace re
 
-#endif //SIMPLERENDERENGINE_SPRITEATLAS_H
+#endif // SIMPLERENDERENGINE_SPRITEATLAS_H

@@ -185,7 +185,7 @@ private:
 public:
     ~Shader();
     Uniform getUniformType(std::string_view name);
-    //return type sizeof attribute
+    // return type sizeof attribute
     std::pair<int, int> getAttributeType(const std::string& name);
     inline bool isDepthTest() const { return m_depthTest; }
     inline bool isDepthWrite() const { return m_depthWrite; }
@@ -264,4 +264,4 @@ private:
 };
 } // namespace re
 
-#endif //SIMPLERENDERENGINE_SHADER_H
+#endif // SIMPLERENDERENGINE_SHADER_H

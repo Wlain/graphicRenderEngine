@@ -7,7 +7,6 @@
 #include "guiCommonDefine.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/transform.hpp>
 
 class ShadowMapExample : public BasicProject
@@ -108,11 +107,6 @@ public:
         {
             updateShadowMap();
         }
-        ImGui::DragFloat3("Light pos", &m_worldLights->getLight(0)->position.x, 0.1f);
-        ImGui::DragFloat3("eye", &m_eye.x);
-        ImGui::DragFloat3("at", &m_at.x);
-        ImGui::DragFloat3("up", &m_up.x);
-        m_camera.setLookAt(m_eye, m_at, m_up);
     }
 
     void setTitle() override
@@ -132,7 +126,7 @@ public:
 
     void renderWorld(RenderPass& rp, std::shared_ptr<Material> mat)
     {
-        rp.draw(m_drawSphere ? m_meshSphere : m_mesh, glm::eulerAngleY(glm::radians(30 * m_totalTime)), mat);
+        rp.draw(m_drawSphere ? m_meshSphere : m_mesh, glm::rotate(m_rotate.x, glm::vec3(1, 0, 0)) * glm::rotate(m_rotate.y, glm::vec3(0, 1, 0)), mat);
         rp.draw(m_meshPlane, glm::translate(glm::vec3{ 0, -1.2f, 0 }) * glm::rotate(glm::radians(-90.0f), glm::vec3(1, 0, 0)), mat);
     }
 

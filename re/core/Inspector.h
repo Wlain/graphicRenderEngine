@@ -55,4 +55,4 @@ private:
 };
 } // namespace re
 
-#endif //SIMPLERENDERENGINE_INSPECTOR_H
+#endif // SIMPLERENDERENGINE_INSPECTOR_H

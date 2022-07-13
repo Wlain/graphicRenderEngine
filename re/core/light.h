@@ -53,4 +53,4 @@ struct Light
 };
 } // namespace re
 
-#endif //SIMPLERENDERENGINE_LIGHT_H
+#endif // SIMPLERENDERENGINE_LIGHT_H

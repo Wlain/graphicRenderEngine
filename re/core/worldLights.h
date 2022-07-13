@@ -53,9 +53,9 @@ struct WorldLights
     }
     void clear();
 
-    glm::vec4 ambientLight;
+    glm::vec4 ambientLight{};
     std::vector<Light> lights;
 };
 } // namespace re
 
-#endif //SIMPLERENDERENGINE_WORLDLIGHTS_H
+#endif // SIMPLERENDERENGINE_WORLDLIGHTS_H

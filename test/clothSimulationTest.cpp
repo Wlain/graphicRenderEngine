@@ -5,7 +5,6 @@
 #include "core/skybox.h"
 #include "guiCommonDefine.h"
 #define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/transform.hpp>
 
@@ -43,7 +42,7 @@ public:
         }
     }
 
-    const glm::vec3& getPos() const
+    [[nodiscard]] const glm::vec3& getPos() const
     {
         return m_pos;
     }
@@ -63,7 +62,7 @@ public:
         m_accumulatedNormal += normalize(normal);
     }
 
-    const glm::vec3& getNormal() const { return m_accumulatedNormal; }
+    [[nodiscard]] const glm::vec3& getNormal() const { return m_accumulatedNormal; }
     void resetNormal() { m_accumulatedNormal = glm::vec3(0, 0, 0); }
 
 private:
@@ -198,7 +197,7 @@ public:
         return res;
     }
 
-    std::vector<glm::vec4> getUVs()
+    std::vector<glm::vec4> getUVs() const
     {
         std::vector<glm::vec4> res;
         for (int y = 0; y < m_massCountHeight; y++)
@@ -212,7 +211,7 @@ public:
         return res;
     }
 
-    std::vector<uint16_t> createIndices()
+    std::vector<uint16_t> createIndices() const
     {
         std::vector<uint16_t> indices;
 
@@ -330,7 +329,7 @@ public:
     }
 
 private:
-    int getMassIndex(int x, int y) const { return y * m_massCountWidth + x; }
+    [[nodiscard]] int getMassIndex(int x, int y) const { return y * m_massCountWidth + x; }
     MassSpringSystem* getMassSpring(int x, int y) { return &m_massSprings[getMassIndex(x, y)]; }
     void makeRope(MassSpringSystem* p1, MassSpringSystem* p2) { m_rope.emplace_back(p1, p2); }
 

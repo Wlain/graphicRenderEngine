@@ -7,7 +7,6 @@
 #include "guiCommonDefine.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/transform.hpp>
 
 /// shadow volume(阴影域)的方式绘制阴影
@@ -84,7 +83,7 @@ public:
             0, 0, 1, 0,
             0, 1 / -y, 0, 0));
         glm::mat4 projectedShadow = glm::translate(pos) * shadow * glm::translate(-pos);
-        auto modelMatrix = glm::eulerAngleY(glm::radians(30 * m_totalTime));
+        auto modelMatrix = glm::rotate(m_rotate.x, glm::vec3(1,0,0))*glm::rotate(m_rotate.y, glm::vec3(0,1,0));
         if (m_drawShadow)
         {
             if (m_useStencil)
@@ -111,12 +110,7 @@ public:
         ImGui::Checkbox("Draw plane", &m_drawPlane);
         ImGui::Checkbox("Draw shadow", &m_drawShadow);
         ImGui::Checkbox("Use stencil", &m_useStencil);
-        ImGui::DragFloat3("Light pos", &m_worldLights->getLight(0)->position.x, 0.1f);
-        ImGui::DragFloat3("eye", &m_eye.x);
-        ImGui::DragFloat3("at", &m_at.x);
-        ImGui::DragFloat3("up", &m_up.x);
         ImGui::End();
-        m_camera.setLookAt(m_eye, m_at, m_up);
     }
     void setTitle() override
     {

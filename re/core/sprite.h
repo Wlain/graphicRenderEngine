@@ -77,4 +77,4 @@ private:
 };
 } // namespace re
 
-#endif //SIMPLERENDERENGINE_SPRITE_H
+#endif // SIMPLERENDERENGINE_SPRITE_H

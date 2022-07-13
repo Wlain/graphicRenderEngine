@@ -42,4 +42,4 @@ private:
 };
 } // namespace re
 
-#endif //SIMPLERENDERENGINE_UNIFORMSET_H
+#endif // SIMPLERENDERENGINE_UNIFORMSET_H

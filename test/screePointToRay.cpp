@@ -18,7 +18,7 @@
  * 4.通过投射除法映射到NDC空间[-1.1]
  * 5.通过半兰伯特手法把[-1.1]映射到[0,1] （丢弃z值）
  * 6.再和屏幕宽高相乘获得屏幕的位置
-*/
+ */
 
 class ScreePointToRayExample : public BasicProject
 {
@@ -59,7 +59,7 @@ public:
         return glm::distance(target, sphereCenter);
     }
 
-    void touchEvent(double xPos, double yPos) override
+    void cursorPosEvent(double xPos, double yPos) override
     {
         auto framebufferSize = m_renderer.getFrameBufferSize();
         auto windowsSize = m_renderer.getWindowSize();

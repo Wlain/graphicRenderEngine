@@ -341,8 +341,8 @@ struct ObjVertexEqual
     bool operator()(const ObjVertex& lhs, const ObjVertex& rhs) const
     {
         return lhs.vertexPositionIdx == rhs.vertexPositionIdx &&
-            lhs.textureIdx == rhs.textureIdx &&
-            lhs.normalIdx == rhs.normalIdx;
+               lhs.textureIdx == rhs.textureIdx &&
+               lhs.normalIdx == rhs.normalIdx;
     }
 };
 
@@ -445,7 +445,7 @@ std::shared_ptr<Mesh> ModelImporter::importObj(const std::filesystem::path& path
         int currentIndex = static_cast<int>(faces.size()) + 1;
         if (tokens[0] == "#")
         { // comment
-            // ignore
+          // ignore
         }
         else if (tokens[0] == "v")
         { // vertex position

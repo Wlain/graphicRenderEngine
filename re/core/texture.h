@@ -149,4 +149,4 @@ private:
 };
 } // namespace re
 
-#endif //SIMPLERENDERENGINE_TEXTURE_H
+#endif // SIMPLERENDERENGINE_TEXTURE_H

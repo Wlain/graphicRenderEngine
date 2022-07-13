@@ -25,4 +25,4 @@ private:
     friend class RenderPass;
 };
 } // namespace re
-#endif //SIMPLERENDERENGINE_SKYBOX_H
+#endif // SIMPLERENDERENGINE_SKYBOX_H

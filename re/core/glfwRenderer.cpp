@@ -50,10 +50,16 @@ void GLFWRenderer::init(bool vsync)
             auto* app = reinterpret_cast<GLFWRenderer*>(glfwGetWindowUserPointer(window));
             app->m_frameResize(width, height);
         });
+        // 设置光标回调
         glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xPos, double yPos) {
             auto* app = reinterpret_cast<GLFWRenderer*>(glfwGetWindowUserPointer(window));
-            app->m_mouseEvent(xPos, yPos);
+            app->m_cursorPosEvent(xPos, yPos);
         });
+        glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods) {
+            auto* app = reinterpret_cast<GLFWRenderer*>(glfwGetWindowUserPointer(window));
+            app->m_mouseButtonEvent(button, action, mods);
+        });
+
         glfwSetDropCallback(m_window, [](GLFWwindow* window, int count, const char** paths) {
             auto* app = reinterpret_cast<GLFWRenderer*>(glfwGetWindowUserPointer(window));
             app->m_dropEvent(count, paths);

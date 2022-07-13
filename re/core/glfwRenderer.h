@@ -1,9 +1,3 @@
-// Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-// Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
-// Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
-// Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
-// Vestibulum commodo. Ut rhoncus gravida arcu.
-
 //
 // Created by william on 2022/5/28.
 //
@@ -26,14 +20,10 @@ public:
     GLFWRenderer();
     virtual ~GLFWRenderer();
     GLFWRenderer(const GLFWRenderer&) = delete;
-    // Create the window and the graphics context (instantiates the re::Renderer).
     void init(bool vsync = true);
     void setWindowTitle(std::string_view title);
-
     void setWindowSize(int width, int height);
-    // Start the event loop. Note that this member function in usually blocking (until the `stopEventLoop()` has been called).
     void startEventLoop();
-    // The render loop will stop running when the frame is complete.
     [[maybe_unused]] void stopEventLoop();
     GLFWwindow* getGlfwWindow();
     glm::ivec2 getFrameBufferSize();
@@ -43,23 +33,23 @@ private:
     void frame(float deltaTimeSec);
 
 public:
+    // 方法回调
     std::function<void(int width, int height)> m_frameResize;
-    std::function<void(double xPos, double yPos)> m_mouseEvent;
+    std::function<void(double xPos, double yPos)> m_cursorPosEvent;
+    std::function<void(int button, int action, int mods)> m_mouseButtonEvent;
     std::function<void(int count, const char** paths)> m_dropEvent;
-    // event handlers (assigned empty default handlers)
     std::function<void(float deltaTimeSec)> m_frameUpdate;
-    // Subscript be render events. The `Renderer::swapFrame()` is automatically invoked after the callback.
     std::function<void()> m_frameRender;
 
 private:
     Renderer* m_renderer{ nullptr };
     GLFWwindow* m_window{ nullptr };
     std::string m_windowTitle;
-    float m_timePerFrame{ 1.0f / 60 };
+    float m_timePerFrame{ 1.0f / 60.0f };
     int m_windowWidth{ 800 };
     int m_windowHeight{ 600 };
     bool m_running{ false };
 };
 } // namespace re
 
-#endif //SIMPLERENDERENGINE_GLFWRENDERER_H
+#endif // SIMPLERENDERENGINE_GLFWRENDERER_H

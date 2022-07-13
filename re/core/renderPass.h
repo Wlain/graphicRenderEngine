@@ -109,7 +109,7 @@ public:
 
 private:
     explicit RenderPass(RenderPass::RenderPassBuilder& builder);
-    void setupShaderRenderPass(Shader *shader);
+    void setupShaderRenderPass(Shader* shader);
     void setupShaderRenderPass(const GlobalUniforms& globalUniforms);
     void setupGlobalShaderUniforms();
     void setupShader(const glm::mat4& modelTransform, Shader* shader);
@@ -130,4 +130,4 @@ private:
 };
 } // namespace re
 
-#endif //SIMPLERENDERENGINE_RENDERPASS_H
+#endif // SIMPLERENDERENGINE_RENDERPASS_H

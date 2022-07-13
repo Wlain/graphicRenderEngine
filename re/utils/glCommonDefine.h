@@ -86,4 +86,4 @@ inline bool hasSRGB()
     return res;
 }
 
-#endif //SIMPLERENDERENGINE_GLCOMMONDEFINE_H
+#endif // SIMPLERENDERENGINE_GLCOMMONDEFINE_H

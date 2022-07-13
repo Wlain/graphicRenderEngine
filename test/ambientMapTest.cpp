@@ -6,6 +6,7 @@
 #include "guiCommonDefine.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
+#include <glm/gtx/transform.hpp>
 
 static std::string s_vertexShaderSource = R"(#version 330
 in vec4 position;
@@ -60,7 +61,7 @@ public:
                       .withClearColor(true, { 0, 0, 0, 1 })
                       .build();
         m_material->setTexture(m_textures[m_textureIndex]);
-        rp.draw(m_mesh, glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material);
+        rp.draw(m_mesh, glm::rotate(m_rotate.x, glm::vec3(1, 0, 0)) * glm::rotate(m_rotate.y, glm::vec3(0, 1, 0)), m_material);
         static const char* items[] = { "00001", "00002", "00003", "00004" };
         ImGui::SetNextWindowPos(ImVec2(0, 0));
         ImGui::SetNextWindowContentSize(ImVec2(300, 100));

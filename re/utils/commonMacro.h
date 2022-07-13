@@ -65,4 +65,4 @@
 // 取消字节对齐
 #define PACK(__Declaration__) __Declaration__ __attribute__((__packed__))
 
-#endif //SIMPLERENDERENGINE_COMMONMACRO_H
+#endif // SIMPLERENDERENGINE_COMMONMACRO_H

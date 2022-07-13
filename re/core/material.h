@@ -61,4 +61,4 @@ private:
 };
 } // namespace re
 
-#endif //SIMPLERENDERENGINE_MATERIAL_H
+#endif // SIMPLERENDERENGINE_MATERIAL_H

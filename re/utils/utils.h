@@ -28,4 +28,4 @@ static std::string getFileContents(const std::filesystem::path& filename)
     }
     LOG_ERROR("Error reading {}. Error code: {}", filename.c_str(), errno);
 }
-#endif //SIMPLERENDERENGINE_UTILS_H
+#endif // SIMPLERENDERENGINE_UTILS_H

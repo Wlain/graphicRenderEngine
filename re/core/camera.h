@@ -4,9 +4,10 @@
 
 #ifndef SIMPLERENDERENGINE_CAMERA_H
 #define SIMPLERENDERENGINE_CAMERA_H
-#include <glm/glm.hpp>
-#include <array>
 #include "ray.h"
+
+#include <array>
+#include <glm/glm.hpp>
 namespace re
 {
 class Camera
@@ -28,7 +29,7 @@ public:
     void setWindowCoordinates();
     inline void setViewTransform(const glm::mat4& viewTransform) { m_viewTransform = viewTransform; }
     void setProjectionTransform(const glm::mat4& projectionTransform);
-    inline glm::mat4 getViewTransform() const { return m_viewTransform; }
+    [[nodiscard]] inline glm::mat4 getViewTransform() const { return m_viewTransform; }
     glm::mat4 getProjectionTransform(const glm::uvec2& viewportSize);
     glm::mat4 getInfiniteProjectionTransform(glm::uvec2 viewportSize);
     void setViewport(const glm::vec2& offset, const glm::vec2& size);
@@ -69,4 +70,4 @@ private:
 };
 } // namespace re
 
-#endif //SIMPLERENDERENGINE_CAMERA_H
+#endif // SIMPLERENDERENGINE_CAMERA_H

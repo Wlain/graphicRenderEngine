@@ -53,4 +53,4 @@ public:
 private:
     std::chrono::time_point<std::chrono::high_resolution_clock> m_begin;
 };
-#endif //SIMPLERENDERENGINE_TIMER_H
+#endif // SIMPLERENDERENGINE_TIMER_H

@@ -34,8 +34,10 @@ extern void stencilTest();
 extern void ambientMapTest();
 extern void shadowMapTest();
 extern void clothSimulationTest();
+extern void box2dTest();
+
 int main()
 {
-    clothSimulationTest();
+    box2dTest();
     return 0;
 }

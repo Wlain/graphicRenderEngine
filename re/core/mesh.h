@@ -178,4 +178,4 @@ private:
 };
 } // namespace re
 
-#endif //SIMPLERENDERENGINE_MESH_H
+#endif // SIMPLERENDERENGINE_MESH_H

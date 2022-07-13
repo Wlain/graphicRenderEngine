@@ -21,4 +21,4 @@ public:
 };
 } // namespace re
 
-#endif //SIMPLERENDERENGINE_MODELIMPORTER_H
+#endif // SIMPLERENDERENGINE_MODELIMPORTER_H
