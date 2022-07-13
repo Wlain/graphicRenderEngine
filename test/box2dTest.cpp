@@ -7,7 +7,6 @@
 #include <box2d/box2d.h>
 #include <glm/ext.hpp>
 
-// Captures debug information from Box2D as m_lines (polygon fill and color is discarded)
 class Box2DDebugDraw : public b2Draw
 {
 public:
@@ -107,7 +106,8 @@ public:
             auto mouseX = std::clamp((int)(xPos * ratio), 0, windowsSize.x * (int)ratio);
             auto mouseY = std::clamp((int)(windowsSize.y - yPos) * (int)ratio, 0, windowsSize.y * (int)ratio);
             auto names = m_spriteAtlas->getNames();
-            auto sprite = m_spriteAtlas->get(names.at(1));
+            // Set up random number distribution
+            auto sprite = m_spriteAtlas->get(names.at(glm::linearRand<int>(0, 8)));
             const int size = 1;
             sprite.setScale({ size, size });
             sprite.setPosition({ mouseX, mouseY });
@@ -162,9 +162,9 @@ private:
     std::vector<Sprite> m_sprites;
     std::vector<b2Body*> m_physicsEntities; // 物理实例
     Box2DDebugDraw m_debugDraw;
-    bool m_spawn = false;
     int32_t m_velocity = 8; // 速度
     int32_t m_position = 3;
+    bool m_spawn = false;
 };
 
 void box2dTest()

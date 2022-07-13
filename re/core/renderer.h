@@ -40,7 +40,7 @@ public:
     [[nodiscard]] inline bool usesVSync() const { return m_vsync; };
     glm::ivec2 getFramebufferSize();
     glm::ivec2 getWindowSize();
-    int getMaxSceneLights() const;
+    [[nodiscard]] int getMaxSceneLights() const;
     const RenderInfo& renderInfo();
     void initGlobalUniformBuffer();
 
@@ -66,6 +66,7 @@ private:
     GLuint m_globalUniformBuffer{ 0 };
     GLuint m_globalUniformBufferSize{ 1 };
     bool m_vsync{ false };
+
     friend class Mesh;
     friend class Mesh::MeshBuilder;
     friend class Shader;
