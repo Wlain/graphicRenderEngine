@@ -47,7 +47,7 @@ public:
 public:
     inline static constexpr int s_rgVersionMajor{ 3 };
     inline static constexpr int s_rgVersionMinor{ 1 };
-    inline static constexpr int s_rgVersionPoint{ 2 };
+    inline static constexpr int s_rgVersionPoint{ 3 };
     inline static constexpr int s_depthBits{ 24 };
     inline static constexpr int s_stencilBits{ 8 };
     inline static Renderer* s_instance{ nullptr };
