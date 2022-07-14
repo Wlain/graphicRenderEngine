@@ -132,53 +132,53 @@ void Mesh::setVertexAttributePointers(Shader* shader)
 {
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     int vertexAttribArray = 0;
-    for (auto& shaderAttribute : shader->m_attributes)
+    for (auto& attribute : shader->m_attributes)
     {
-        auto meshAttribute = m_attributeByName.find(shaderAttribute.first);
+        auto meshAttribute = m_attributeByName.find(attribute.first);
         bool attributeFoundInMesh = meshAttribute != m_attributeByName.end();
-        bool equalType = attributeFoundInMesh && (shaderAttribute.second.type == meshAttribute->second.attributeType || (shaderAttribute.second.type >= GL_FLOAT_VEC2 && shaderAttribute.second.type <= GL_FLOAT_VEC4 && shaderAttribute.second.type >= meshAttribute->second.attributeType) || (shaderAttribute.second.type >= GL_INT_VEC2 && shaderAttribute.second.type <= GL_INT_VEC4 && shaderAttribute.second.type >= meshAttribute->second.attributeType));
-        if (equalType && shaderAttribute.second.arraySize == 1)
+        bool equalType = attributeFoundInMesh && (attribute.second.type == meshAttribute->second.attributeType || (attribute.second.type >= GL_FLOAT_VEC2 && attribute.second.type <= GL_FLOAT_VEC4 && attribute.second.type >= meshAttribute->second.attributeType) || (attribute.second.type >= GL_INT_VEC2 && attribute.second.type <= GL_INT_VEC4 && attribute.second.type >= meshAttribute->second.attributeType));
+        if (equalType && attribute.second.arraySize == 1)
         {
-            glEnableVertexAttribArray(shaderAttribute.second.position);
-            glVertexAttribPointer(shaderAttribute.second.position, meshAttribute->second.elementCount, meshAttribute->second.dataType, GL_FALSE, m_totalBytesPerVertex, (char*)nullptr + meshAttribute->second.offset);
+            glEnableVertexAttribArray(attribute.second.position);
+            glVertexAttribPointer(attribute.second.position, meshAttribute->second.elementCount, meshAttribute->second.dataType, GL_FALSE, m_totalBytesPerVertex, (char*)nullptr + meshAttribute->second.offset);
             vertexAttribArray++;
         }
         else
         {
-            ASSERT(shaderAttribute.second.arraySize == 1 && "constant vertex attributes not supported as arrays");
-            glDisableVertexAttribArray(shaderAttribute.second.position);
+            ASSERT(attribute.second.arraySize == 1 && "constant vertex attributes not supported as arrays");
+            glDisableVertexAttribArray(attribute.second.position);
             constexpr static const float a[] = { 0, 0, 0, 0,
                                                  0, 0, 0, 0,
                                                  0, 0, 0, 0,
                                                  0, 0, 0, 0 };
-            switch (shaderAttribute.second.type)
+            switch (attribute.second.type)
             {
             case GL_INT_VEC4:
-                glVertexAttribI4iv(shaderAttribute.second.position, (GLint*)a);
+                glVertexAttribI4iv(attribute.second.position, (GLint*)a);
                 break;
             case GL_INT_VEC3:
-                glVertexAttribI3iv(shaderAttribute.second.position, (GLint*)a);
+                glVertexAttribI3iv(attribute.second.position, (GLint*)a);
                 break;
             case GL_INT_VEC2:
-                glVertexAttribI2iv(shaderAttribute.second.position, (GLint*)a);
+                glVertexAttribI2iv(attribute.second.position, (GLint*)a);
                 break;
             case GL_INT:
-                glVertexAttribI1iv(shaderAttribute.second.position, (GLint*)a);
+                glVertexAttribI1iv(attribute.second.position, (GLint*)a);
                 break;
             case GL_FLOAT_VEC4:
-                glVertexAttrib4fv(shaderAttribute.second.position, a);
+                glVertexAttrib4fv(attribute.second.position, a);
                 break;
             case GL_FLOAT_VEC3:
-                glVertexAttrib3fv(shaderAttribute.second.position, a);
+                glVertexAttrib3fv(attribute.second.position, a);
                 break;
             case GL_FLOAT_VEC2:
-                glVertexAttrib2fv(shaderAttribute.second.position, a);
+                glVertexAttrib2fv(attribute.second.position, a);
                 break;
             case GL_FLOAT:
-                glVertexAttrib1fv(shaderAttribute.second.position, a);
+                glVertexAttrib1fv(attribute.second.position, a);
                 break;
             default:
-                LOG_ERROR("Unhandled attribute type:{}", (int)shaderAttribute.second.type);
+                LOG_ERROR("Unhandled attribute type:{}", (int)attribute.second.type);
                 break;
             }
         }
