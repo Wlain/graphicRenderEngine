@@ -40,7 +40,7 @@ Texture::TextureBuilder& Texture::TextureBuilder::withFilterSampling(bool enable
     return *this;
 }
 
-Texture::TextureBuilder& Texture::TextureBuilder::withFile(std::string_view filename)
+Texture::TextureBuilder& Texture::TextureBuilder::withFile(std::string_view filename, bool premultiplyAlpha)
 {
     if (m_info.name.empty())
     {
@@ -52,6 +52,7 @@ Texture::TextureBuilder& Texture::TextureBuilder::withFile(std::string_view file
     GLint border = 0;
     GLenum type = GL_UNSIGNED_BYTE;
     int desireComp = STBI_rgb_alpha;
+    stbi_set_unpremultiply_on_load(premultiplyAlpha);
     stbi_set_flip_vertically_on_load(true);
     auto pixelsData = getFileContents(filename.data());
     auto* data = (char*)stbi_load_from_memory((stbi_uc const*)pixelsData.data(), (int)pixelsData.size(), &m_info.width, &m_info.height, &m_info.channels, desireComp);
@@ -262,6 +263,7 @@ std::shared_ptr<Texture> Texture::getFontTexture()
     int width{};
     int height{};
     int channels{};
+    stbi_set_unpremultiply_on_load(1);
     stbi_set_flip_vertically_on_load(true);
     int desireComp = STBI_rgb_alpha;
     unsigned char* data = stbi_load_from_memory((stbi_uc const*)fontPng, sizeof(fontPng), &width, &height, &channels, desireComp);

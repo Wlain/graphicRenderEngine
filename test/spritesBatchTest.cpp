@@ -17,7 +17,7 @@ public:
 
     void initialize() override
     {
-        m_spriteAtlas = SpriteAtlas::create("resources/planetCute.json", "resources/planetCute.png");
+        m_spriteAtlas = SpriteAtlas::create("resources/sprites/planetCute.json", "resources/sprites/planetCute.png");
         m_camera.setWindowCoordinates();
     }
 

@@ -242,7 +242,7 @@ public:
         |/ |
      (x,y+1) *--* (x+1,y+1)
     */
-    void drawShaded(RenderPass& rp)
+    void render(RenderPass& rp)
     {
         // 重置法线
         for (auto& mass : m_massSprings)
@@ -403,7 +403,7 @@ public:
                               .build();
 
         // setup light
-        m_cloth->drawShaded(renderPass);
+        m_cloth->render(renderPass);
         // draw solid sphere
         renderPass.draw(m_sphere, glm::translate(m_ballPos) * glm::scale(glm::vec3(m_ballRadius, m_ballRadius, m_ballColliderEpsilon)), m_sphereMaterial);
         auto size = Renderer::s_instance->getWindowSize();

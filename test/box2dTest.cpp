@@ -78,21 +78,48 @@ public:
     ~Box2dExample() override = default;
     void initialize() override
     {
-        b2Vec2 gravity{ 0.0f, -98.0f };
+        b2Vec2 gravity{ 0.0f, -980.0f };
         m_world = std::make_shared<b2World>(gravity);
         m_world->SetDebugDraw(&m_debugDraw);
         m_camera.setWindowCoordinates();
-        m_spriteAtlas = SpriteAtlas::create("resources/planetCute.json", "resources/planetCute.png");
+        m_spriteAtlas = SpriteAtlas::create("resources/sprites/marioPacked.json", "resources/sprites/marioPacked.png");
 
         b2BodyDef bodyDef;
         auto groundBody = m_world->CreateBody(&bodyDef);
         b2PolygonShape boxShape;
-        boxShape.SetAsBox(1500, 100);
+        boxShape.SetAsBox(10000, 100);
 
         b2FixtureDef boxFixtureDef;
         boxFixtureDef.shape = &boxShape;
         boxFixtureDef.density = 1;
         groundBody->CreateFixture(&boxFixtureDef);
+        spawnBox(500, 500, 45);
+    }
+
+    void spawnBox(int posX, int posY, float angle)
+    {
+        auto names = m_spriteAtlas->getNames();
+        // Set up random number distribution
+        auto sprite = m_spriteAtlas->get(names.at(glm::linearRand<int>(0, 20)));
+        const int size = 1;
+        sprite.setScale({ size, size });
+        sprite.setPosition({ posX, posY });
+        sprite.setColor(glm::vec4{ glm::linearRand<float>(0.0f, 1.0f), glm::linearRand<float>(0.0f, 1.0f), glm::linearRand<float>(0.0f, 1.0f), 1.0f });
+        m_sprites.push_back(sprite);
+
+        b2BodyDef myBodyDef;
+        myBodyDef.type = b2_dynamicBody;    // this will be a dynamic body
+        myBodyDef.position.Set(posX, posY); // set the starting position
+        myBodyDef.angle = angle;            // set the starting angle
+        auto dynBody = m_world->CreateBody(&myBodyDef);
+        b2PolygonShape boxShape;
+        boxShape.SetAsBox(size, size);
+        b2FixtureDef boxFixtureDef;
+        boxFixtureDef.shape = &boxShape;
+        boxFixtureDef.restitution = 0.8;
+        boxFixtureDef.density = 10;
+        dynBody->CreateFixture(&boxFixtureDef);
+        m_physicsEntities.push_back(dynBody);
     }
 
     void cursorPosEvent(double xPos, double yPos) override
@@ -105,28 +132,7 @@ public:
             // 坐标映射
             auto mouseX = std::clamp((int)(xPos * ratio), 0, windowsSize.x * (int)ratio);
             auto mouseY = std::clamp((int)(windowsSize.y - yPos) * (int)ratio, 0, windowsSize.y * (int)ratio);
-            auto names = m_spriteAtlas->getNames();
-            // Set up random number distribution
-            auto sprite = m_spriteAtlas->get(names.at(glm::linearRand<int>(0, 8)));
-            const int size = 1;
-            sprite.setScale({ size, size });
-            sprite.setPosition({ mouseX, mouseY });
-            sprite.setColor(glm::vec4{ glm::linearRand<float>(0.0f, 1.0f), glm::linearRand<float>(0.0f, 1.0f), glm::linearRand<float>(0.0f, 1.0f), 1.0f });
-            m_sprites.push_back(sprite);
-
-            b2BodyDef myBodyDef;
-            myBodyDef.type = b2_dynamicBody;        // this will be a dynamic body
-            myBodyDef.position.Set(mouseX, mouseY); // set the starting position
-            myBodyDef.angle = 0;                    // set the starting angle
-            auto dynBody = m_world->CreateBody(&myBodyDef);
-            b2PolygonShape boxShape;
-            boxShape.SetAsBox(size, size);
-            b2FixtureDef boxFixtureDef;
-            boxFixtureDef.shape = &boxShape;
-            boxFixtureDef.restitution = 0.8;
-            boxFixtureDef.density = 10;
-            dynBody->CreateFixture(&boxFixtureDef);
-            m_physicsEntities.push_back(dynBody);
+            spawnBox(mouseX, mouseY, 0);
         }
     }
 

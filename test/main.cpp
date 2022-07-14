@@ -38,6 +38,6 @@ extern void box2dTest();
 
 int main()
 {
-    box2dTest();
+    guiTest();
     return 0;
 }

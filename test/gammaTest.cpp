@@ -17,11 +17,11 @@ public:
         m_camera.setWindowCoordinates();
         m_material = Shader::getUnlit()->createMaterial();
         m_tex1 = Texture::create()
-                     .withFile("resources/gamma-test.png")
+                     .withFile("resources/sprites/gamma-test.png")
                      .withFilterSampling(false)
                      .build();
         m_tex2 = Texture::create()
-                     .withFile("resources/gamma-small.png")
+                     .withFile("resources/sprites/gamma-small.png")
                      .withFilterSampling(false)
                      .build();
 
