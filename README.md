@@ -15,6 +15,3 @@ example:
 small tips:
 * One-click replacement gl function
 sublime: `gl[A-Z](.*)\); -> CHECK_GL(gl$1\)); `;
-
-
-

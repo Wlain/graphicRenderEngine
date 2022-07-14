@@ -35,9 +35,10 @@ extern void ambientMapTest();
 extern void shadowMapTest();
 extern void clothSimulationTest();
 extern void box2dTest();
+extern void luaScriptTest();
 
 int main()
 {
-    guiTest();
+    luaScriptTest();
     return 0;
 }
