@@ -10,7 +10,3 @@ set(SRC_LIB src/lauxlib.c src/lbaselib.c src/ldblib.c src/liolib.c
 
 add_library(liblua ${SRC_CORE} ${SRC_LIB})
 set_target_properties(liblua PROPERTIES OUTPUT_NAME lua)
-
-add_library(libluadll SHARED ${SRC_CORE} ${SRC_LIB})
-target_compile_definitions(libluadll PRIVATE _CRT_SECURE_NO_WARNINGS LUA_BUILD_AS_DLL)
-set_target_properties(libluadll PROPERTIES OUTPUT_NAME lua51)
