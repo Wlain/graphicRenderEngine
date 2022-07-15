@@ -40,6 +40,6 @@ extern void luaForMathematicalFuncTest();
 
 int main()
 {
-    luaForMathematicalFuncTest();
+    objTest();
     return 0;
 }

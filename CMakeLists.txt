@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 project(simpleRenderEngine)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON) # 设置指定的C++版本
-# modify flat to -std=c++20 rather than -std=gnu++20
+# modify flat to -std=c++17 rather than -std=gnu++17
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # glfw

@@ -14,44 +14,50 @@ public:
     ~LuaForMathematicalFuncExample() override = default;
     void initialize() override
     {
-        m_camera.setOrthographicProjection(s_size, -1, 1); // 正交投影即可
+        m_camera.setOrthographicProjection(s_size, -1, 1); // 使用正交投影
 
         m_lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math);
 
-        // Register callback functions
+        // 注册回调函数
+        // 数学pi
         m_lua.set_function("pi", [&](sol::this_state state, sol::variadic_args va) {
             return glm::pi<double>();
         });
+        // 对浮点数取模（求余）
         m_lua.set_function("fmod", [&](sol::this_state state, sol::variadic_args va) {
-            double s = va[0];
-            double denum = va[1];
-            return fmod(s, denum);
+            double x = va[0];
+            double y = va[1];
+            return fmod(x, y);
         });
+        // 冲击函数
         m_lua.set_function("remainder", [&](sol::this_state state, sol::variadic_args va) {
-            double s = va[0];
-            double denum = va[1];
-            return remainder(s, denum);
+            double x = va[0];
+            double y = va[1];
+            return remainder(x, y);
         });
+        // 绝对值函数
         m_lua.set_function("abs", [&](sol::this_state state, sol::variadic_args va) {
-            double s = va[0];
-            return abs(s);
+            double x = va[0];
+            return abs(x);
         });
+        // 正弦函数
         m_lua.set_function("sin", [&](sol::this_state state, sol::variadic_args va) {
-            double s = va[0];
-            return sin(s);
+            double x = va[0];
+            return sin(x);
         });
+        // 余弦函数
         m_lua.set_function("cos", [&](sol::this_state state, sol::variadic_args va) {
-            double s = va[0];
-            return cos(s);
+            double x = va[0];
+            return cos(x);
         });
+        // 幂函数
         m_lua.set_function("pow", [&](sol::this_state state, sol::variadic_args va) {
-            double s = va[0];
-            double p = va[1];
-            return pow(s, p);
+            double x = va[0];
+            double y = va[1];
+            return pow(x, y);
         });
         updateLuaScript();
 
-        // init objects
         m_positions.resize(2 * s_size / s_delta);
         updateFunction();
     }
@@ -147,9 +153,8 @@ private:
     static constexpr const float s_delta = 0.01f;
 
 private:
-    // initial script
     char luaScript[s_luaScriptSize] =
-        "-- C functions exposed:\n"
+        "-- A visual demo of functions that can be updated in real time, which based lua script language:\n"
         "-- fmod(a,b), remainder(a,b), abs(a), sin(a), cos(a), pow(a), pi()\n"
         "-- default:y = x\n"
         "function mathematicalFunc(x) \n"
