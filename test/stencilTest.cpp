@@ -16,6 +16,20 @@
 /// 将所有的轮廓边向远离光源的方向伸展形成一个四边形。
 /// 加入前盖和后盖到这些表面上形成一个闭合体（不是必要的，是否采用取决于所采用的实现方法）
 /// 链接：https://web.archive.org/web/20100531060920/http://www.gamedev.net/reference/articles/article1873.asp
+/*
+ * 由Cow提出，可以将阴影投射到任何物体表面
+ * 假设视点在所有的shadow volume之外，我们维护一个计数器，其初始值是零。每次当从视点射向目标像素的射线进入到一个shadow volume中时，将计数器+1；而当射线从一个shadow volume中射出时，将计数器-1；这样，我们只需检验当射线到达交点时，计数器是否大于零：如果大于零，则交点位于阴影中；否则不属于阴影区域
+ * 第一步：首先，清空模板缓存；
+ * 第二步：然后，将整个场景绘制到帧缓存中，这次绘制只使用环境分量和发光分量，并获取相应的颜色信息（在color buffer中）及深度信息（在z-buffer中）；
+ * 第三步：关闭颜色缓存的写入和深度检测，绘制所有shadow volume的正面（即射线射入shadow volume时相交的面）：在这个过程中，如果一个像素其深度值小于之前算好的z-buffer中的深度值，那么将这个像素的模板缓存的计数器+1；
+ * 第四步：类似于前一步骤，将所有shadow volume的反面绘制一遍，只是这是每发现一个像素其深度值小于之前算好的z-buffer中的深度值，将该像素的模板缓存上的计数器-1；
+ * 第五步：再将整个场景根据模板缓存的信息绘制上漫反射分量和高光分量：只有模板缓存是0的像素才绘制，以实现阴影效果。
+ * 阴影域算法优点：
+ * 1.它可以使用通用的图形学硬件实现，而仅仅需要一个模板缓存；
+ * 2.它不是基于图像的方法，shadow volume算法并不会产生由采样和分辨率带来的各种问题，从而可以在任何地方生成正确和清晰的阴影。
+ * 阴影域算法缺点：主要体现在性能方面。
+ * 由于shadow volume的多边形面片数通常都比较多，且会覆盖住大量的像素，这在很大程度上影响了算法运行和光栅化过程的速度，使得绘制的效率较低。
+ */
 class StencilExample : public BasicProject
 {
 public:
@@ -83,7 +97,7 @@ public:
             0, 0, 1, 0,
             0, 1 / -y, 0, 0));
         glm::mat4 projectedShadow = glm::translate(pos) * shadow * glm::translate(-pos);
-        auto modelMatrix = glm::rotate(m_rotate.x, glm::vec3(1,0,0))*glm::rotate(m_rotate.y, glm::vec3(0,1,0));
+        auto modelMatrix = glm::rotate(m_rotate.x, glm::vec3(1, 0, 0)) * glm::rotate(m_rotate.y, glm::vec3(0, 1, 0));
         if (m_drawShadow)
         {
             if (m_useStencil)

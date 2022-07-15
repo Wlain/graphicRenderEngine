@@ -55,7 +55,7 @@
 
 ![avatar](samples/shadowmap.png)
 
-* 阴影域贴图（使用模板测试）
+* 阴影域算法（使用模板测试）
 
 ![avatar](samples/shadowVolume.png)
 
