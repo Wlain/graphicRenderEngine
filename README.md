@@ -29,7 +29,7 @@ This is a simple render engine based on OpenGL in MAC-OS, which use C++17
 
 * obj loader Test
 
-![avatar](samples/objloader.png)
+![avatar](samples/objLoader.png)
 
 * ambient map Test
 

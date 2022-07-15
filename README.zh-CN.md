@@ -28,7 +28,7 @@
 
 * 模型demo
 
-![avatar](samples/objloader.png)
+![avatar](samples/objLoader.png)
 
 * 环境贴图demo
 
