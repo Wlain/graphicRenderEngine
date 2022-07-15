@@ -1,5 +1,5 @@
 # simpleRenderEngine
-这是一个基于C++17标准的，使用OpenGL语言编写的的简单的渲染引擎
+这是一个基于C++17标准的，使用OpenGL语言编写的的简单渲染引擎（主要用于学习）
 
 # dependencies
 * glfw:一个用于 OpenGL、 OpenGL ES、 Vulkan、窗口和输入的多平台库
@@ -16,6 +16,7 @@
 
 # test demo
 * 基于lua脚本语言的函数可视化
+
 ![avatar](samples/luaForMathematicalFuncTest.png)
 
 * 布料仿真
@@ -39,19 +40,25 @@
 ![avatar](samples/ambientMap3.png)
 
 * pbr材质
+
 ![avatar](samples/pbr.png)
 
 * 点精灵
+
 ![avatar](samples/pointSprites.png)
 
 * 立方贴图
+
 ![avatar](samples/cubemap.png)
 
 * 硬阴影贴图
+
 ![avatar](samples/shadowmap.png)
 
 * 阴影域贴图（使用模板测试）
+
 ![avatar](samples/shadowVolume.png)
 
 * 凹凸贴图
+
 ![avatar](samples/bumpmap.png)
