@@ -21,6 +21,8 @@ add_subdirectory(3rdparty/box2d)
 add_subdirectory(3rdparty/lua)
 # sol2
 add_subdirectory(3rdparty/sol2)
+# bullet3
+add_subdirectory(3rdparty/bullet3)
 
 if (APPLE)
     INCLUDE_DIRECTORIES(/System/Library/Frameworks)

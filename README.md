@@ -6,9 +6,13 @@ This is a simple render engine based on OpenGL in MAC-OS, which use C++17
 * glew
 * glm
 * spdlog
-* imageui
+* imgui
 * stb
 * json11
+* lua
+* sol2
+* box2d
+* bullet3
 
 example:
 
