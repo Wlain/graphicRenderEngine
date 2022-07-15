@@ -1,7 +1,9 @@
 # simpleRenderEngine
+
 This is a simple render engine based on OpenGL in MAC-OS, which use C++17
 
 # dependencies
+
 * glfw:a multi-platform library for OpenGL, OpenGL ES, Vulkan, window and input.
 * glew:the OpenGL extension wrangler library.
 * glm:OpenGL mathematics library.
@@ -12,9 +14,26 @@ This is a simple render engine based on OpenGL in MAC-OS, which use C++17
 * lua:Lua is a powerful, efficient, lightweight, embeddable scripting language.
 * sol2:a C++ <-> Lua API wrapper with advanced features and top notch performance.
 * box2d:a 2D physics engine for games.
-* bullet3: real-time collision detection and multi-physics simulation for VR, games, visual effects, robotics, machine learning etc.
+* bullet3: real-time collision detection and multi-physics simulation for VR, games, visual effects, robotics, machine
+  learning etc.
+
+# docs installation(base [sphinx](https://www.sphinx-doc.org/en/master/tutorial/index.html))
+
+```shell
+# install python dependencies
+$ brew install doxygen # generate C++ documentation
+$ python -m pip install Sphinx
+$ python -m pip install sphinx_rtd_theme
+
+$ mkdir docs
+$ cd docs 
+$ sphinx-quickstart 
+$ sphinx-apidoc -o . .. # output path， source path
+$ make html
+```
 
 # test demo
+
 * A visual demo of functions that can be updated in real time, which based lua script language.
 
 ![avatar](samples/luaForMathematicalFuncTest.png)
