@@ -66,7 +66,7 @@ public:
     }
     void render() override
     {
-        auto renderPass = RenderPass::create().withCamera(m_camera).build();
+        auto renderPass = RenderPass::create().withCamera(m_camera).withClearColor(true, {0.33, 0.33, 0.33, 0.33}).build();
         renderPass.draw(m_mesh, glm::eulerAngleY(glm::radians(30 * m_totalTime)), m_material);
         m_inspector.update();
         m_inspector.gui();

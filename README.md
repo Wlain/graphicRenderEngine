@@ -30,9 +30,28 @@ This is a simple render engine based on OpenGL in MAC-OS, which use C++17
 * obj loader Test
 
 ![avatar](samples/objLoader.png)
+![avatar](samples/objLoader1.png)
 
 * ambient map Test
 
 ![avatar](samples/ambientMap1.png)
 ![avatar](samples/ambientMap2.png)
 ![avatar](samples/ambientMap3.png)
+
+* pbr Test
+![avatar](samples/pbr.png)
+
+* point sprites Test
+![avatar](samples/pointSprites.png)
+
+* cubemap Test
+![avatar](samples/cubemap.png)
+
+* shadowmap Test
+![avatar](samples/shadowmap.png)
+
+* shadow volume Test
+![avatar](samples/shadowVolume.png)
+
+* bump map Test
+![avatar](samples/bumpmap.png)

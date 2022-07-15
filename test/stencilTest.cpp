@@ -122,7 +122,7 @@ private:
     std::shared_ptr<Material> m_matStencilWrite;
     std::shared_ptr<Material> m_matStencilTest;
     std::shared_ptr<Material> m_matShadow;
-    glm::vec3 m_eye{ 0, 0, 3.0f };
+    glm::vec3 m_eye{ 0, 0, 6.0f };
     glm::vec3 m_at{ 0, 0, 0 };
     glm::vec3 m_up{ 0, 1, 0 };
     float m_shadowPlane = -1.0f;

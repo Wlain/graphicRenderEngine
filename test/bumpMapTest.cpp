@@ -44,7 +44,7 @@ public:
         auto rp = RenderPass::create()
                       .withCamera(m_camera)
                       .withWorldLights(m_worldLights.get())
-                      .withClearColor(true, { 1, 0, 0, 1 })
+                      .withClearColor(true, { 0, 0, 0, 1 })
                       .build();
         auto rotateMatrix = glm::eulerAngleY(glm::radians(30 * m_totalTime));
         rp.draw(m_mesh, rotateMatrix, m_material);

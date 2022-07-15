@@ -15,23 +15,43 @@
 * bullet3:一个适用于 VR、游戏、视觉效果、机器人、机器学习等的实时碰撞检测和多物理场仿真的工具库
 
 # test demo
-* 基于lua脚本语言的函数可视化demo
+* 基于lua脚本语言的函数可视化
 ![avatar](samples/luaForMathematicalFuncTest.png)
 
-* 布料仿真demo
+* 布料仿真
 
 ![avatar](samples/clothSimulationTest.png)
 
-* 天空和demo
+* 天空和
 
 ![avatar](samples/skybox.png)
 
-* 模型demo
+* 模型加载
 
 ![avatar](samples/objLoader.png)
+![avatar](samples/objLoader1.png)
 
-* 环境贴图demo
+
+* 环境贴图
 
 ![avatar](samples/ambientMap1.png)
 ![avatar](samples/ambientMap2.png)
 ![avatar](samples/ambientMap3.png)
+
+* pbr材质
+![avatar](samples/pbr.png)
+
+* 点精灵
+![avatar](samples/pointSprites.png)
+
+* 立方贴图
+![avatar](samples/cubemap.png)
+
+* 硬阴影贴图
+![avatar](samples/shadowmap.png)
+
+* 阴影域贴图（使用模板测试）
+![avatar](samples/shadowVolume.png)
+
+* 凹凸贴图
+![avatar](samples/bumpmap.png)

@@ -40,6 +40,6 @@ extern void luaForMathematicalFuncTest();
 
 int main()
 {
-    objTest();
+    bumpMapTest();
     return 0;
 }
