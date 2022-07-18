@@ -1,0 +1,153 @@
+\hypertarget{sprite_atlas_8cpp_source}{}\doxysection{sprite\+Atlas.\+cpp}
+\label{sprite_atlas_8cpp_source}\index{/Users/cwb/developer/learning/simpleRenderEngine/re/core/spriteAtlas.cpp@{/Users/cwb/developer/learning/simpleRenderEngine/re/core/spriteAtlas.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00002}00002 \textcolor{comment}{// Created by william on 2022/6/1.}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00005}00005 \textcolor{preprocessor}{\#include "{}spriteAtlas.h"{}}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00006}00006 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00007}00007 \textcolor{preprocessor}{\#include "{}commonMacro.h"{}}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00008}00008 \textcolor{preprocessor}{\#include "{}renderer.h"{}}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00009}00009 \textcolor{preprocessor}{\#include "{}texture.h"{}}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00010}00010 \textcolor{preprocessor}{\#include "{}utils.h"{}}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00011}00011 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00012}00012 \textcolor{preprocessor}{\#include <json11/json11.hpp>}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00013}00013 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00014}00014 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00016}00016 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00017}00017 \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00018}00018 SpriteAtlas::\string~SpriteAtlas()}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00019}00019 \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00020}00020     \textcolor{keyword}{auto} r = Renderer::s\_instance;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00021}00021     \textcolor{keywordflow}{if} (r)}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00022}00022     \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00023}00023         r-\/>m\_spriteAtlases.erase(std::remove(r-\/>m\_spriteAtlases.begin(), r-\/>m\_spriteAtlases.end(), \textcolor{keyword}{this}));}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00024}00024     \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00025}00025 \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00027}00027 std::shared\_ptr<SpriteAtlas> SpriteAtlas::create(std::string\_view jsonFile, std::string\_view imageFile, \textcolor{keywordtype}{bool} flipAnchorY)}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00028}00028 \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00029}00029     \textcolor{keyword}{auto} texture = Texture::create().withFile(imageFile).build();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00030}00030     \textcolor{keywordflow}{return} create(jsonFile, texture, flipAnchorY);}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00031}00031 \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00033}00033 std::shared\_ptr<SpriteAtlas> SpriteAtlas::create(std::string\_view jsonFile, \textcolor{keyword}{const} std::shared\_ptr<Texture>\& texture, \textcolor{keywordtype}{bool} flipAnchorY)}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00034}00034 \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00035}00035     std::string err;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00036}00036     \textcolor{keyword}{const} \textcolor{keyword}{auto} json = json11::Json::parse(getFileContents(jsonFile), err);}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00037}00037     \textcolor{keywordflow}{if} (!err.empty())}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00038}00038     \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00039}00039         LOG\_ERROR(\textcolor{stringliteral}{"{}\{\}"{}}, err.c\_str());}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00040}00040         \textcolor{keywordflow}{return} \{\};}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00041}00041     \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00042}00042     std::map<std::string, Sprite> sprites;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00043}00043     \textcolor{keyword}{auto}\& list = json[\textcolor{stringliteral}{"{}frames"{}}].array\_items();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00044}00044     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& spriteElement : list)}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00045}00045     \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00046}00046         std::string name = spriteElement[\textcolor{stringliteral}{"{}filename"{}}].string\_value();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00047}00047         \textcolor{comment}{// "{}trimmed"{}: true,}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00048}00048         \textcolor{comment}{// "{}rotated"{}: false, // rotated sprites not supported}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00049}00049         \textcolor{comment}{// "{}spriteSourceSize"{}: \{"{}x"{}:121,"{}y"{}:94,"{}w"{}:117,"{}h"{}:131\},}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00050}00050         \textcolor{comment}{// "{}sourceSize"{}: \{"{}w"{}:256,"{}h"{}:257\},}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00051}00051         glm::ivec2 pos;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00052}00052         glm::ivec2 size;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00053}00053         glm::ivec2 sourcePos;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00054}00054         glm::ivec2 sourceSize;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00055}00055         glm::vec2 pivot;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00056}00056         pos.x = (int)spriteElement[\textcolor{stringliteral}{"{}frame"{}}][\textcolor{stringliteral}{"{}x"{}}].number\_value();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00057}00057         pos.y = (int)spriteElement[\textcolor{stringliteral}{"{}frame"{}}][\textcolor{stringliteral}{"{}y"{}}].number\_value();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00059}00059         size.x = (int)spriteElement[\textcolor{stringliteral}{"{}frame"{}}][\textcolor{stringliteral}{"{}w"{}}].number\_value();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00060}00060         size.y = (int)spriteElement[\textcolor{stringliteral}{"{}frame"{}}][\textcolor{stringliteral}{"{}h"{}}].number\_value();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00062}00062         \textcolor{keywordflow}{if} (spriteElement[\textcolor{stringliteral}{"{}rotated"{}}].bool\_value())}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00063}00063         \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00064}00064             LOG\_ERROR(\textcolor{stringliteral}{"{}Rotated sprites not supported: \{\}"{}}, jsonFile.data());}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00065}00065         \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00066}00066 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00067}00067         \textcolor{keywordflow}{if} (spriteElement[\textcolor{stringliteral}{"{}trimmed"{}}].bool\_value())}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00068}00068         \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00069}00069             sourcePos.x = (int)spriteElement[\textcolor{stringliteral}{"{}spriteSourceSize"{}}][\textcolor{stringliteral}{"{}x"{}}].number\_value();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00070}00070             sourcePos.y = (int)spriteElement[\textcolor{stringliteral}{"{}spriteSourceSize"{}}][\textcolor{stringliteral}{"{}y"{}}].number\_value();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00071}00071             sourceSize.x = (int)spriteElement[\textcolor{stringliteral}{"{}sourceSize"{}}][\textcolor{stringliteral}{"{}w"{}}].number\_value();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00072}00072             sourceSize.y = (int)spriteElement[\textcolor{stringliteral}{"{}sourceSize"{}}][\textcolor{stringliteral}{"{}h"{}}].number\_value();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00073}00073             \textcolor{keywordtype}{float} spriteHeight = (float)spriteElement[\textcolor{stringliteral}{"{}spriteSourceSize"{}}][\textcolor{stringliteral}{"{}h"{}}].number\_value();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00074}00074             sourcePos.y = sourceSize.y -\/ sourcePos.y -\/ spriteHeight;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00075}00075         \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00076}00076         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00077}00077         \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00078}00078             sourcePos = \{ 0, 0 \};}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00079}00079             sourceSize = size;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00080}00080         \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00081}00081         pos.y = texture-\/>height() -\/ pos.y -\/ size.y;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00082}00082         \textcolor{keywordflow}{if} (spriteElement[\textcolor{stringliteral}{"{}pivot"{}}].is\_object())}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00083}00083         \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00084}00084             pivot.x = (float)spriteElement[\textcolor{stringliteral}{"{}pivot"{}}][\textcolor{stringliteral}{"{}x"{}}].number\_value();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00085}00085             pivot.y = (float)spriteElement[\textcolor{stringliteral}{"{}pivot"{}}][\textcolor{stringliteral}{"{}y"{}}].number\_value();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00086}00086         \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00087}00087         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00088}00088         \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00089}00089             pivot.x = 0.5f;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00090}00090             pivot.y = 0.5f;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00091}00091         \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00092}00092         \textcolor{keywordflow}{if} (flipAnchorY)}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00093}00093         \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00094}00094             pivot.y = 1.0f -\/ pivot.y;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00095}00095         \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00096}00096         Sprite sprite(pos, size, sourcePos, sourceSize, pivot, texture.get());}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00097}00097         sprites.emplace(name, std::move(sprite));}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00098}00098     \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00099}00099     \textcolor{keywordflow}{return} std::shared\_ptr<SpriteAtlas>(\textcolor{keyword}{new} SpriteAtlas(std::move(sprites), texture, jsonFile));}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00100}00100 \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00101}00101 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00102}00102 Sprite SpriteAtlas::get(std::string\_view name)}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00103}00103 \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00104}00104     \textcolor{keywordflow}{if} (m\_sprites.find(name.data()) == m\_sprites.end())}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00105}00105     \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00106}00106         LOG\_WARN(\textcolor{stringliteral}{"{}Cannot find sprite \{\} in spriteatlas"{}}, name.data());}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00107}00107         \textcolor{keywordflow}{return} \{\};}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00108}00108     \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00109}00109     \textcolor{keywordflow}{return} m\_sprites[name.data()];}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00110}00110 \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00111}00111 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00112}00112 std::vector<std::string> SpriteAtlas::getNames()}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00113}00113 \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00114}00114     std::vector<std::string> names;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00115}00115     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& e : m\_sprites)}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00116}00116     \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00117}00117         names.emplace\_back(e.first);}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00118}00118     \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00119}00119     \textcolor{keywordflow}{return} std::move(names);}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00120}00120 \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00121}00121 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00122}00122 SpriteAtlas::SpriteAtlas(std::map<std::string, Sprite>\&\& sprites, std::shared\_ptr<Texture> texture, std::string\_view atlasName) :}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00123}00123     m\_atlasName(atlasName)}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00124}00124 \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00125}00125     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& s : sprites)}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00126}00126     \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00127}00127         m\_sprites.insert(\{ s.first, s.second \});}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00128}00128     \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00129}00129 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00130}00130     m\_texture = std::move(texture);}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00131}00131     Renderer::s\_instance-\/>m\_spriteAtlases.push\_back(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00132}00132 \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00134}00134 std::shared\_ptr<SpriteAtlas> SpriteAtlas::createSingleSprite(\textcolor{keyword}{const} std::shared\_ptr<Texture>\& texture, std::string\_view name, glm::vec2 pivot, glm::ivec2 pos, glm::ivec2 size)}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00135}00135 \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00136}00136     std::map<std::string, Sprite> sprites;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00137}00137     \textcolor{keywordflow}{if} (size == glm::ivec2\{ 0, 0 \})}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00138}00138     \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00139}00139         size.x = texture-\/>width();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00140}00140         size.y = texture-\/>height();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00141}00141     \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00142}00142     Sprite sprite(pos, size, \{ 0, 0 \}, size, pivot, texture.get());}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00143}00143     sprites.emplace(std::pair<std::string, Sprite>(name, std::move(sprite)));}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00144}00144     \textcolor{keywordflow}{return} std::shared\_ptr<SpriteAtlas>(\textcolor{keyword}{new} SpriteAtlas(std::move(sprites), texture, std::string(name) + \textcolor{stringliteral}{"{}\_atlas"{}}));}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00145}00145 \}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00146}00146 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8cpp_source_l00147}00147 \} \textcolor{comment}{// namespace re}}
+
+\end{DoxyCode}

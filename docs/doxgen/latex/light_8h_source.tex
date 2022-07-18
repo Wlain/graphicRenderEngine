@@ -1,0 +1,62 @@
+\hypertarget{light_8h_source}{}\doxysection{light.\+h}
+\label{light_8h_source}\index{/Users/cwb/developer/learning/simpleRenderEngine/re/core/light.h@{/Users/cwb/developer/learning/simpleRenderEngine/re/core/light.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00002}00002 \textcolor{comment}{// Created by william on 2022/5/22.}}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00005}00005 \textcolor{preprocessor}{\#ifndef SIMPLERENDERENGINE\_LIGHT\_H}}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00006}00006 \textcolor{preprocessor}{\#define SIMPLERENDERENGINE\_LIGHT\_H}}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00007}00007 \textcolor{preprocessor}{\#include "{}color.h"{}}}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00009}00009 \textcolor{preprocessor}{\#include <glm/glm.hpp>}}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00010}00010 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00011}00011 \{}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00012}\mbox{\hyperlink{structre_1_1_light}{00012}} \textcolor{keyword}{struct }\mbox{\hyperlink{structre_1_1_light}{Light}}}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00013}00013 \{}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00014}00014     \textcolor{keyword}{enum class} Type}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00015}00015     \{}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00016}00016         Point,}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00017}00017         Directional,}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00018}00018         Unused}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00019}00019     \};}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00020}\mbox{\hyperlink{classre_1_1_light_1_1_light_builder}{00020}}     \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_light_1_1_light_builder}{LightBuilder}}}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00021}00021     \{}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00022}00022     \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00023}00023         \mbox{\hyperlink{classre_1_1_light_1_1_light_builder}{\string~LightBuilder}}();}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00024}00024         \mbox{\hyperlink{classre_1_1_light_1_1_light_builder}{LightBuilder}}\& withPointLight(glm::vec3 position);}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00025}00025         \mbox{\hyperlink{classre_1_1_light_1_1_light_builder}{LightBuilder}}\& withDirectionalLight(glm::vec3 direction);}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00026}00026         \textcolor{comment}{// light color.}}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00027}00027         \mbox{\hyperlink{classre_1_1_light_1_1_light_builder}{LightBuilder}}\& withColor(\mbox{\hyperlink{classre_1_1_color}{Color}} color, \textcolor{keywordtype}{float} intensity = 1.0);}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00028}00028         \textcolor{comment}{// range only valid using point light}}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00029}00029         \mbox{\hyperlink{classre_1_1_light_1_1_light_builder}{LightBuilder}}\& withRange(\textcolor{keywordtype}{float} range);}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00030}00030         \mbox{\hyperlink{structre_1_1_light}{Light}}\& build();}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00032}00032     \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00033}00033         \mbox{\hyperlink{classre_1_1_light_1_1_light_builder}{LightBuilder}}();}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00035}00035     \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00036}00036         Type m\_type\{ Type::Unused \};}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00037}00037         glm::vec3 m\_position\{\};}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00038}00038         glm::vec3 m\_direction\{\};}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00039}00039         glm::vec3 m\_color\{\};}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00040}00040         \mbox{\hyperlink{structre_1_1_light}{Light}}* m\_light\{\};}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00041}00041         \textcolor{keywordtype}{float} m\_range\{\}; \textcolor{comment}{// the range of a point light (due to attenuation),range == 0 means no attenuation}}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00042}00042         \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{structre_1_1_light}{Light}};}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00043}00043     \};}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00045}00045     \textcolor{keyword}{static} \mbox{\hyperlink{classre_1_1_light_1_1_light_builder}{LightBuilder}} create();}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00046}00046     \mbox{\hyperlink{structre_1_1_light}{Light}}();}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00047}00047     Type type\{ Type::Unused \};}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00048}00048     glm::vec3 position\{ 0.0f \};}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00049}00049     glm::vec3 direction\{ 0.0f \};}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00050}00050     glm::vec3 color\{ 1.0f \};}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00051}00051     \textcolor{comment}{// 0 : means no attenuation}}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00052}00052     \textcolor{keywordtype}{float} range\{ 100.0f \};}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00053}00053 \};}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00054}00054 \} \textcolor{comment}{// namespace re}}
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{light_8h_source_l00056}00056 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SIMPLERENDERENGINE\_LIGHT\_H}}
+
+\end{DoxyCode}

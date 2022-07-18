@@ -23,6 +23,8 @@ Camera::Camera()
     m_projectionValue.orthographic.farPlane = 1;
 }
 
+Camera::~Camera() = default;
+
 void Camera::setLookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up)
 {
     if (glm::length(eye - at) < std::numeric_limits<float>::epsilon())

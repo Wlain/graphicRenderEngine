@@ -1,0 +1,30 @@
+\hypertarget{logger_8cpp_source}{}\doxysection{logger.\+cpp}
+\label{logger_8cpp_source}\index{/Users/cwb/developer/learning/simpleRenderEngine/re/utils/logger.cpp@{/Users/cwb/developer/learning/simpleRenderEngine/re/utils/logger.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00002}00002 \textcolor{comment}{// Created by william on 2022/5/22.}}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00004}00004 \textcolor{preprocessor}{\#include "{}logger.h"{}}}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#include <spdlog/async.h>}}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00007}00007 \textcolor{preprocessor}{\#include <spdlog/sinks/rotating\_file\_sink.h>}}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00008}00008 \textcolor{preprocessor}{\#include <spdlog/sinks/stdout\_color\_sinks.h>}}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00009}00009 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00010}00010 Logger::Logger()}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00011}00011 \{}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00012}00012     \textcolor{keyword}{auto} stdoutSink = std::make\_shared<spdlog::sinks::stdout\_color\_sink\_mt>();}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00013}00013     \textcolor{keyword}{auto} rotatingSink = std::make\_shared<spdlog::sinks::rotating\_file\_sink\_mt>(\textcolor{stringliteral}{"{}mylog.txt"{}}, 1024 * 1024 * 10, 3);}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00014}00014     std::vector<spdlog::sink\_ptr> sinks\{ stdoutSink, rotatingSink \};}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00015}00015     spdlog::init\_thread\_pool(8192, 1);}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00016}00016     m\_logger = std::make\_shared<spdlog::async\_logger>(\textcolor{stringliteral}{"{}Logger"{}}, sinks.begin(), sinks.end(), spdlog::thread\_pool(), spdlog::async\_overflow\_policy::block);}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00017}00017     spdlog::register\_logger(m\_logger);}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00018}00018 \}}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00020}00020 Logger::\string~Logger()}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00021}00021 \{}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00022}00022     m\_logger-\/>flush();}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00023}00023     spdlog::drop\_all();}
+\DoxyCodeLine{\Hypertarget{logger_8cpp_source_l00024}00024 \}}
+
+\end{DoxyCode}

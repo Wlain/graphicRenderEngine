@@ -1,0 +1,574 @@
+\hypertarget{classre_1_1_shader}{}\doxysection{re\+::Shader Class Reference}
+\label{classre_1_1_shader}\index{re::Shader@{re::Shader}}
+Inheritance diagram for re\+::Shader\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classre_1_1_shader}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structre_1_1_shader_1_1_resource}{Resource}}
+\item 
+struct \mbox{\hyperlink{structre_1_1_shader_1_1_shader_attribute}{Shader\+Attribute}}
+\item 
+class \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{Shader\+Builder}}
+\item 
+struct \mbox{\hyperlink{structre_1_1_shader_1_1_stencil_descriptor}{Stencil\+Descriptor}}
+\item 
+struct \mbox{\hyperlink{structre_1_1_shader_1_1_uniform}{Uniform}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum class {\bfseries Blend\+Type} \{ {\bfseries Disabled}
+, {\bfseries Alpha\+Blending}
+, {\bfseries Additive\+Blending}
+ \}
+\item 
+enum class {\bfseries Uniform\+Type} \{ \newline
+{\bfseries Int}
+, {\bfseries Float}
+, {\bfseries Mat3}
+, {\bfseries Mat4}
+, \newline
+{\bfseries Vec4}
+, {\bfseries IVec4}
+, {\bfseries Vec3}
+, {\bfseries Texture}
+, \newline
+{\bfseries Invalid}
+, {\bfseries Texture\+Cube}
+ \}
+\item 
+enum class {\bfseries Cull\+Face} \{ {\bfseries Front}
+, {\bfseries Back}
+, {\bfseries None}
+ \}
+\item 
+enum class {\bfseries Shader\+Type} \{ \newline
+{\bfseries Vertex}
+, {\bfseries Fragment}
+, {\bfseries Geometry}
+, {\bfseries Tessellation\+Control}
+, \newline
+{\bfseries Tessellation\+Evaluation}
+ \}
+\item 
+enum class {\bfseries Resource\+Type} \{ {\bfseries File}
+, {\bfseries Memory}
+ \}
+\item 
+enum class {\bfseries Stencil\+Func} \{ \newline
+{\bfseries Never} = GL\+\_\+\+NEVER
+, {\bfseries Less} = GL\+\_\+\+LESS
+, {\bfseries Equal} = GL\+\_\+\+EQUAL
+, {\bfseries LEqual} = GL\+\_\+\+LEQUAL
+, \newline
+{\bfseries Greater} = GL\+\_\+\+GREATER
+, {\bfseries Not\+Equal} = GL\+\_\+\+NOTEQUAL
+, {\bfseries GEqual} = GL\+\_\+\+GEQUAL
+, {\bfseries Always} = GL\+\_\+\+ALWAYS
+, \newline
+{\bfseries Disabled}
+ \}
+\item 
+enum class {\bfseries Stencil\+Op} \{ \newline
+{\bfseries Keep} = GL\+\_\+\+KEEP
+, {\bfseries Zero} = GL\+\_\+\+ZERO
+, {\bfseries Replace} = GL\+\_\+\+REPLACE
+, {\bfseries Incr} = GL\+\_\+\+INCR
+, \newline
+{\bfseries Incr\+Wrap} = GL\+\_\+\+INCR\+\_\+\+WRAP
+, {\bfseries Decr} = GL\+\_\+\+DECR
+, {\bfseries Decr\+Wrap} = GL\+\_\+\+DECR\+\_\+\+WRAP
+, {\bfseries Invert} = GL\+\_\+\+INVERT
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structre_1_1_shader_1_1_uniform}{Uniform}} \mbox{\hyperlink{classre_1_1_shader_a0a80251c5e9c8029eba7ab0b622ff5bd}{get\+Uniform\+Type}} (std\+::string\+\_\+view name)
+\item 
+std\+::pair$<$ int, int $>$ \mbox{\hyperlink{classre_1_1_shader_a438a9ea38037dfdeda6ec0a48c84654c}{get\+Attribute\+Type}} (const std\+::string \&name)
+\item 
+bool \mbox{\hyperlink{classre_1_1_shader_a0d33747613c378ea0fdd43dfc18740b5}{is\+Depth\+Test}} () const
+\item 
+bool \mbox{\hyperlink{classre_1_1_shader_a51d2d170beb9dca9f2958e3cc11b4c9f}{is\+Depth\+Write}} () const
+\item 
+Blend\+Type \mbox{\hyperlink{classre_1_1_shader_af7cb6bb66674d309ef9fff9055c1fc90}{get\+Blend}} () const
+\item 
+const glm\+::vec2 \& \mbox{\hyperlink{classre_1_1_shader_ae64fd30beef23ac94891361111676d19}{get\+Offset}} () const
+\item 
+const std\+::string \& \mbox{\hyperlink{classre_1_1_shader_a35a33fd362c81d08a0bf1916cb329633}{name}} () const
+\item 
+const \mbox{\hyperlink{structre_1_1_shader_1_1_stencil_descriptor}{Stencil\+Descriptor}} \& \mbox{\hyperlink{classre_1_1_shader_aab77a0646c3269fc1e6f5c11e774ce31}{get\+Stencil}} () const
+\item 
+const glm\+::bvec4 \& \mbox{\hyperlink{classre_1_1_shader_a789c51ef2212205f7eb4e3bd52f2bd3c}{color\+Write\+Mask}} () const
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classre_1_1_shader_a2d95089156d12ed4fa57b9460a618265}{get\+Attribute\+Names}} ()
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classre_1_1_shader_acbd14452c06ec6acb3c7ccd0c8d76c30}{get\+Uniform\+Names}} ()
+\item 
+bool \mbox{\hyperlink{classre_1_1_shader_a30347e4f4fcddfcbd302349106c6166e}{validate\+Mesh}} (\mbox{\hyperlink{classre_1_1_mesh}{Mesh}} $\ast$mesh, std\+::string \&info)
+\item 
+const std\+::map$<$ std\+::string, std\+::string $>$ \& \mbox{\hyperlink{classre_1_1_shader_aea46aeab95d74565352258f0dfd3afe6}{get\+Current\+Specialization\+Constants}} () const
+\item 
+std\+::set$<$ std\+::string $>$ \mbox{\hyperlink{classre_1_1_shader_a2273d4a877806bd473808158d2cc9dd0}{get\+All\+Specialization\+Constants}} ()
+\item 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_material}{Material}} $>$ \mbox{\hyperlink{classre_1_1_shader_a47fb3b9d2482042211042b329a115f5d}{create\+Material}} (std\+::map$<$ std\+::string, std\+::string $>$ specialization\+Constants=\{\})
+\item 
+const char $\ast$ \mbox{\hyperlink{classre_1_1_shader_a3e9f39a463eebe65237dd25a52e5d506}{to\+Str}} (Uniform\+Type u)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{Shader\+Builder}} \mbox{\hyperlink{classre_1_1_shader_afefa9fa54d39040a294c45f074ca2643}{create}} ()
+\item 
+static \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{Shader\+Builder}} \mbox{\hyperlink{classre_1_1_shader_a2be1f9f508bda528f0676042aa335b13}{update}} ()
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_shader}{Shader}} $>$ \mbox{\hyperlink{classre_1_1_shader_a0ddec97e61e4794a41bc9079387ab73c}{get\+Unlit}} ()
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_shader}{Shader}} $>$ \mbox{\hyperlink{classre_1_1_shader_a4d2623776e41c221424f58cafa19dc8d}{get\+Blit}} ()
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_shader}{Shader}} $>$ \mbox{\hyperlink{classre_1_1_shader_a95eea79a22be06093ba919ee11323bf7}{get\+Unlit\+Sprite}} ()
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_shader}{Shader}} $>$ \mbox{\hyperlink{classre_1_1_shader_ab458a2aa14c0fca536835b5a82b17769}{get\+Standard\+Particles}} ()
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_shader}{Shader}} $>$ \mbox{\hyperlink{classre_1_1_shader_ab799a0b71aad4923eb168f078514af3a}{get\+Standard\+PBR}} ()
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_shader}{Shader}} $>$ \mbox{\hyperlink{classre_1_1_shader_aa0c515e81f4979fcb6fca2a9b023fbed}{get\+Standard\+Blinn\+Phong}} ()
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_shader}{Shader}} $>$ \mbox{\hyperlink{classre_1_1_shader_ac7b851965781096b3ccf1efb303c82b2}{get\+Standard\+Phong}} ()
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_shader}{Shader}} $>$ \mbox{\hyperlink{classre_1_1_shader_a7f097556344011a6d1b699e6f558ee1d}{get\+Skybox}} ()
+\item 
+static uint32\+\_\+t \mbox{\hyperlink{classre_1_1_shader_a8dc115c9640a0bacb7a2d94afb74ad7d}{to\+Id}} (Shader\+Type st)
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classre_1_1_shader_aa41a130f156b145bffb3f4b5172c4c93}{Mesh}}
+\item 
+class \mbox{\hyperlink{classre_1_1_shader_aa8ab806874e69ead344abef1c5e76aa0}{Render\+Pass}}
+\item 
+class \mbox{\hyperlink{classre_1_1_shader_aa1212b6e372a0f45d2c01f3cd203af77}{Material}}
+\item 
+class \mbox{\hyperlink{classre_1_1_shader_a5486a5ab1c546bf41e8da20dd0b01de1}{Inspector}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00025}{25}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classre_1_1_shader_ad7e7d5b4b13618a5fada33b15cc3f8e8}\label{classre_1_1_shader_ad7e7d5b4b13618a5fada33b15cc3f8e8}} 
+\index{re::Shader@{re::Shader}!BlendType@{BlendType}}
+\index{BlendType@{BlendType}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{BlendType}{BlendType}}
+{\footnotesize\ttfamily enum class re\+::\+Shader\+::\+Blend\+Type\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00028}{28}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a8510f4a8ec041470a4b1df77a851570c}\label{classre_1_1_shader_a8510f4a8ec041470a4b1df77a851570c}} 
+\index{re::Shader@{re::Shader}!CullFace@{CullFace}}
+\index{CullFace@{CullFace}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{CullFace}{CullFace}}
+{\footnotesize\ttfamily enum class re\+::\+Shader\+::\+Cull\+Face\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00049}{49}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a52915b22a60f52a3eb9339889ac5f1e9}\label{classre_1_1_shader_a52915b22a60f52a3eb9339889ac5f1e9}} 
+\index{re::Shader@{re::Shader}!ResourceType@{ResourceType}}
+\index{ResourceType@{ResourceType}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{ResourceType}{ResourceType}}
+{\footnotesize\ttfamily enum class re\+::\+Shader\+::\+Resource\+Type\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00084}{84}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_af53769d819070120da87c34accc57160}\label{classre_1_1_shader_af53769d819070120da87c34accc57160}} 
+\index{re::Shader@{re::Shader}!ShaderType@{ShaderType}}
+\index{ShaderType@{ShaderType}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{ShaderType}{ShaderType}}
+{\footnotesize\ttfamily enum class re\+::\+Shader\+::\+Shader\+Type\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00075}{75}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a277525f90c9e0397c8243a98224857ec}\label{classre_1_1_shader_a277525f90c9e0397c8243a98224857ec}} 
+\index{re::Shader@{re::Shader}!StencilFunc@{StencilFunc}}
+\index{StencilFunc@{StencilFunc}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{StencilFunc}{StencilFunc}}
+{\footnotesize\ttfamily enum class re\+::\+Shader\+::\+Stencil\+Func\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00096}{96}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a85b62d536c4d1fc523ad0ccff1cb5a43}\label{classre_1_1_shader_a85b62d536c4d1fc523ad0ccff1cb5a43}} 
+\index{re::Shader@{re::Shader}!StencilOp@{StencilOp}}
+\index{StencilOp@{StencilOp}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{StencilOp}{StencilOp}}
+{\footnotesize\ttfamily enum class re\+::\+Shader\+::\+Stencil\+Op\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00109}{109}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a513f15a67af5739a91a375dce82c73c6}\label{classre_1_1_shader_a513f15a67af5739a91a375dce82c73c6}} 
+\index{re::Shader@{re::Shader}!UniformType@{UniformType}}
+\index{UniformType@{UniformType}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{UniformType}{UniformType}}
+{\footnotesize\ttfamily enum class re\+::\+Shader\+::\+Uniform\+Type\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00035}{35}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classre_1_1_shader_a91061e1870f9725644016db50b17198f}\label{classre_1_1_shader_a91061e1870f9725644016db50b17198f}} 
+\index{re::Shader@{re::Shader}!````~Shader@{$\sim$Shader}}
+\index{````~Shader@{$\sim$Shader}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{$\sim$Shader()}{~Shader()}}
+{\footnotesize\ttfamily re\+::\+Shader\+::$\sim$\+Shader (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00374}{374}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classre_1_1_shader_a789c51ef2212205f7eb4e3bd52f2bd3c}\label{classre_1_1_shader_a789c51ef2212205f7eb4e3bd52f2bd3c}} 
+\index{re::Shader@{re::Shader}!colorWriteMask@{colorWriteMask}}
+\index{colorWriteMask@{colorWriteMask}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{colorWriteMask()}{colorWriteMask()}}
+{\footnotesize\ttfamily const glm\+::bvec4 \& re\+::\+Shader\+::color\+Write\+Mask (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00196}{196}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_afefa9fa54d39040a294c45f074ca2643}\label{classre_1_1_shader_afefa9fa54d39040a294c45f074ca2643}} 
+\index{re::Shader@{re::Shader}!create@{create}}
+\index{create@{create}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{create()}{create()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{Shader\+::\+Shader\+Builder}} re\+::\+Shader\+::create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00718}{718}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a47fb3b9d2482042211042b329a115f5d}\label{classre_1_1_shader_a47fb3b9d2482042211042b329a115f5d}} 
+\index{re::Shader@{re::Shader}!createMaterial@{createMaterial}}
+\index{createMaterial@{createMaterial}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{createMaterial()}{createMaterial()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_material}{Material}} $>$ re\+::\+Shader\+::create\+Material (\begin{DoxyParamCaption}\item[{std\+::map$<$ std\+::string, std\+::string $>$}]{specialization\+Constants = {\ttfamily \{\}} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00848}{848}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a2273d4a877806bd473808158d2cc9dd0}\label{classre_1_1_shader_a2273d4a877806bd473808158d2cc9dd0}} 
+\index{re::Shader@{re::Shader}!getAllSpecializationConstants@{getAllSpecializationConstants}}
+\index{getAllSpecializationConstants@{getAllSpecializationConstants}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{getAllSpecializationConstants()}{getAllSpecializationConstants()}}
+{\footnotesize\ttfamily std\+::set$<$ std\+::string $>$ re\+::\+Shader\+::get\+All\+Specialization\+Constants (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l01007}{1007}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a2d95089156d12ed4fa57b9460a618265}\label{classre_1_1_shader_a2d95089156d12ed4fa57b9460a618265}} 
+\index{re::Shader@{re::Shader}!getAttributeNames@{getAttributeNames}}
+\index{getAttributeNames@{getAttributeNames}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{getAttributeNames()}{getAttributeNames()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ re\+::\+Shader\+::get\+Attribute\+Names (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00789}{789}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a438a9ea38037dfdeda6ec0a48c84654c}\label{classre_1_1_shader_a438a9ea38037dfdeda6ec0a48c84654c}} 
+\index{re::Shader@{re::Shader}!getAttributeType@{getAttributeType}}
+\index{getAttributeType@{getAttributeType}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{getAttributeType()}{getAttributeType()}}
+{\footnotesize\ttfamily std\+::pair$<$ int, int $>$ re\+::\+Shader\+::get\+Attribute\+Type (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00913}{913}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_af7cb6bb66674d309ef9fff9055c1fc90}\label{classre_1_1_shader_af7cb6bb66674d309ef9fff9055c1fc90}} 
+\index{re::Shader@{re::Shader}!getBlend@{getBlend}}
+\index{getBlend@{getBlend}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{getBlend()}{getBlend()}}
+{\footnotesize\ttfamily Blend\+Type re\+::\+Shader\+::get\+Blend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00192}{192}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a4d2623776e41c221424f58cafa19dc8d}\label{classre_1_1_shader_a4d2623776e41c221424f58cafa19dc8d}} 
+\index{re::Shader@{re::Shader}!getBlit@{getBlit}}
+\index{getBlit@{getBlit}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{getBlit()}{getBlit()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_shader}{Shader}} $>$ re\+::\+Shader\+::get\+Blit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00316}{316}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_aea46aeab95d74565352258f0dfd3afe6}\label{classre_1_1_shader_aea46aeab95d74565352258f0dfd3afe6}} 
+\index{re::Shader@{re::Shader}!getCurrentSpecializationConstants@{getCurrentSpecializationConstants}}
+\index{getCurrentSpecializationConstants@{getCurrentSpecializationConstants}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{getCurrentSpecializationConstants()}{getCurrentSpecializationConstants()}}
+{\footnotesize\ttfamily const std\+::map$<$ std\+::string, std\+::string $>$ \& re\+::\+Shader\+::get\+Current\+Specialization\+Constants (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l01002}{1002}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_ae64fd30beef23ac94891361111676d19}\label{classre_1_1_shader_ae64fd30beef23ac94891361111676d19}} 
+\index{re::Shader@{re::Shader}!getOffset@{getOffset}}
+\index{getOffset@{getOffset}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{getOffset()}{getOffset()}}
+{\footnotesize\ttfamily const glm\+::vec2 \& re\+::\+Shader\+::get\+Offset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00193}{193}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a7f097556344011a6d1b699e6f558ee1d}\label{classre_1_1_shader_a7f097556344011a6d1b699e6f558ee1d}} 
+\index{re::Shader@{re::Shader}!getSkybox@{getSkybox}}
+\index{getSkybox@{getSkybox}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{getSkybox()}{getSkybox()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_shader}{Shader}} $>$ re\+::\+Shader\+::get\+Skybox (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00987}{987}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_aa0c515e81f4979fcb6fca2a9b023fbed}\label{classre_1_1_shader_aa0c515e81f4979fcb6fca2a9b023fbed}} 
+\index{re::Shader@{re::Shader}!getStandardBlinnPhong@{getStandardBlinnPhong}}
+\index{getStandardBlinnPhong@{getStandardBlinnPhong}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{getStandardBlinnPhong()}{getStandardBlinnPhong()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_shader}{Shader}} $>$ re\+::\+Shader\+::get\+Standard\+Blinn\+Phong (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00959}{959}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_ab458a2aa14c0fca536835b5a82b17769}\label{classre_1_1_shader_ab458a2aa14c0fca536835b5a82b17769}} 
+\index{re::Shader@{re::Shader}!getStandardParticles@{getStandardParticles}}
+\index{getStandardParticles@{getStandardParticles}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{getStandardParticles()}{getStandardParticles()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_shader}{Shader}} $>$ re\+::\+Shader\+::get\+Standard\+Particles (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00347}{347}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_ab799a0b71aad4923eb168f078514af3a}\label{classre_1_1_shader_ab799a0b71aad4923eb168f078514af3a}} 
+\index{re::Shader@{re::Shader}!getStandardPBR@{getStandardPBR}}
+\index{getStandardPBR@{getStandardPBR}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{getStandardPBR()}{getStandardPBR()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_shader}{Shader}} $>$ re\+::\+Shader\+::get\+Standard\+PBR (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00945}{945}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_ac7b851965781096b3ccf1efb303c82b2}\label{classre_1_1_shader_ac7b851965781096b3ccf1efb303c82b2}} 
+\index{re::Shader@{re::Shader}!getStandardPhong@{getStandardPhong}}
+\index{getStandardPhong@{getStandardPhong}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{getStandardPhong()}{getStandardPhong()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_shader}{Shader}} $>$ re\+::\+Shader\+::get\+Standard\+Phong (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00973}{973}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_aab77a0646c3269fc1e6f5c11e774ce31}\label{classre_1_1_shader_aab77a0646c3269fc1e6f5c11e774ce31}} 
+\index{re::Shader@{re::Shader}!getStencil@{getStencil}}
+\index{getStencil@{getStencil}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{getStencil()}{getStencil()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{structre_1_1_shader_1_1_stencil_descriptor}{Stencil\+Descriptor}} \& re\+::\+Shader\+::get\+Stencil (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00195}{195}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_acbd14452c06ec6acb3c7ccd0c8d76c30}\label{classre_1_1_shader_acbd14452c06ec6acb3c7ccd0c8d76c30}} 
+\index{re::Shader@{re::Shader}!getUniformNames@{getUniformNames}}
+\index{getUniformNames@{getUniformNames}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{getUniformNames()}{getUniformNames()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ re\+::\+Shader\+::get\+Uniform\+Names (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00799}{799}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a0a80251c5e9c8029eba7ab0b622ff5bd}\label{classre_1_1_shader_a0a80251c5e9c8029eba7ab0b622ff5bd}} 
+\index{re::Shader@{re::Shader}!getUniformType@{getUniformType}}
+\index{getUniformType@{getUniformType}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{getUniformType()}{getUniformType()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structre_1_1_shader_1_1_uniform}{Shader\+::\+Uniform}} re\+::\+Shader\+::get\+Uniform\+Type (\begin{DoxyParamCaption}\item[{std\+::string\+\_\+view}]{name }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00506}{506}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a0ddec97e61e4794a41bc9079387ab73c}\label{classre_1_1_shader_a0ddec97e61e4794a41bc9079387ab73c}} 
+\index{re::Shader@{re::Shader}!getUnlit@{getUnlit}}
+\index{getUnlit@{getUnlit}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{getUnlit()}{getUnlit()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_shader}{Shader}} $>$ re\+::\+Shader\+::get\+Unlit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00302}{302}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a95eea79a22be06093ba919ee11323bf7}\label{classre_1_1_shader_a95eea79a22be06093ba919ee11323bf7}} 
+\index{re::Shader@{re::Shader}!getUnlitSprite@{getUnlitSprite}}
+\index{getUnlitSprite@{getUnlitSprite}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{getUnlitSprite()}{getUnlitSprite()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classre_1_1_shader}{Shader}} $>$ re\+::\+Shader\+::get\+Unlit\+Sprite (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00330}{330}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a0d33747613c378ea0fdd43dfc18740b5}\label{classre_1_1_shader_a0d33747613c378ea0fdd43dfc18740b5}} 
+\index{re::Shader@{re::Shader}!isDepthTest@{isDepthTest}}
+\index{isDepthTest@{isDepthTest}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{isDepthTest()}{isDepthTest()}}
+{\footnotesize\ttfamily bool re\+::\+Shader\+::is\+Depth\+Test (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00190}{190}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a51d2d170beb9dca9f2958e3cc11b4c9f}\label{classre_1_1_shader_a51d2d170beb9dca9f2958e3cc11b4c9f}} 
+\index{re::Shader@{re::Shader}!isDepthWrite@{isDepthWrite}}
+\index{isDepthWrite@{isDepthWrite}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{isDepthWrite()}{isDepthWrite()}}
+{\footnotesize\ttfamily bool re\+::\+Shader\+::is\+Depth\+Write (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00191}{191}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a35a33fd362c81d08a0bf1916cb329633}\label{classre_1_1_shader_a35a33fd362c81d08a0bf1916cb329633}} 
+\index{re::Shader@{re::Shader}!name@{name}}
+\index{name@{name}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{name()}{name()}}
+{\footnotesize\ttfamily const std\+::string \& re\+::\+Shader\+::name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00194}{194}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a8dc115c9640a0bacb7a2d94afb74ad7d}\label{classre_1_1_shader_a8dc115c9640a0bacb7a2d94afb74ad7d}} 
+\index{re::Shader@{re::Shader}!toId@{toId}}
+\index{toId@{toId}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{toId()}{toId()}}
+{\footnotesize\ttfamily uint32\+\_\+t re\+::\+Shader\+::to\+Id (\begin{DoxyParamCaption}\item[{Shader\+::\+Shader\+Type}]{st }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00919}{919}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a3e9f39a463eebe65237dd25a52e5d506}\label{classre_1_1_shader_a3e9f39a463eebe65237dd25a52e5d506}} 
+\index{re::Shader@{re::Shader}!toStr@{toStr}}
+\index{toStr@{toStr}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{toStr()}{toStr()}}
+{\footnotesize\ttfamily const char $\ast$ re\+::\+Shader\+::to\+Str (\begin{DoxyParamCaption}\item[{Shader\+::\+Uniform\+Type}]{u }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00886}{886}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a2be1f9f508bda528f0676042aa335b13}\label{classre_1_1_shader_a2be1f9f508bda528f0676042aa335b13}} 
+\index{re::Shader@{re::Shader}!update@{update}}
+\index{update@{update}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{Shader\+::\+Shader\+Builder}} re\+::\+Shader\+::update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00940}{940}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_a30347e4f4fcddfcbd302349106c6166e}\label{classre_1_1_shader_a30347e4f4fcddfcbd302349106c6166e}} 
+\index{re::Shader@{re::Shader}!validateMesh@{validateMesh}}
+\index{validateMesh@{validateMesh}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{validateMesh()}{validateMesh()}}
+{\footnotesize\ttfamily bool re\+::\+Shader\+::validate\+Mesh (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classre_1_1_mesh}{Mesh}} $\ast$}]{mesh,  }\item[{std\+::string \&}]{info }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00809}{809}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classre_1_1_shader_a5486a5ab1c546bf41e8da20dd0b01de1}\label{classre_1_1_shader_a5486a5ab1c546bf41e8da20dd0b01de1}} 
+\index{re::Shader@{re::Shader}!Inspector@{Inspector}}
+\index{Inspector@{Inspector}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{Inspector}{Inspector}}
+{\footnotesize\ttfamily friend class \mbox{\hyperlink{classre_1_1_inspector}{Inspector}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00263}{263}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_aa1212b6e372a0f45d2c01f3cd203af77}\label{classre_1_1_shader_aa1212b6e372a0f45d2c01f3cd203af77}} 
+\index{re::Shader@{re::Shader}!Material@{Material}}
+\index{Material@{Material}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{Material}{Material}}
+{\footnotesize\ttfamily friend class \mbox{\hyperlink{classre_1_1_material}{Material}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00262}{262}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_aa41a130f156b145bffb3f4b5172c4c93}\label{classre_1_1_shader_aa41a130f156b145bffb3f4b5172c4c93}} 
+\index{re::Shader@{re::Shader}!Mesh@{Mesh}}
+\index{Mesh@{Mesh}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{Mesh}{Mesh}}
+{\footnotesize\ttfamily friend class \mbox{\hyperlink{classre_1_1_mesh}{Mesh}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00260}{260}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classre_1_1_shader_aa8ab806874e69ead344abef1c5e76aa0}\label{classre_1_1_shader_aa8ab806874e69ead344abef1c5e76aa0}} 
+\index{re::Shader@{re::Shader}!RenderPass@{RenderPass}}
+\index{RenderPass@{RenderPass}!re::Shader@{re::Shader}}
+\doxysubsubsection{\texorpdfstring{RenderPass}{RenderPass}}
+{\footnotesize\ttfamily friend class \mbox{\hyperlink{classre_1_1_render_pass}{Render\+Pass}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00261}{261}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/cwb/developer/learning/simple\+Render\+Engine/re/core/shader.\+h\item 
+/\+Users/cwb/developer/learning/simple\+Render\+Engine/re/core/shader.\+cpp\end{DoxyCompactItemize}

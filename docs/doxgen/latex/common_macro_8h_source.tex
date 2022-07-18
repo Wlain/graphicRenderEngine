@@ -1,0 +1,70 @@
+\hypertarget{common_macro_8h_source}{}\doxysection{common\+Macro.\+h}
+\label{common_macro_8h_source}\index{/Users/cwb/developer/learning/simpleRenderEngine/re/utils/commonMacro.h@{/Users/cwb/developer/learning/simpleRenderEngine/re/utils/commonMacro.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00002}00002 \textcolor{comment}{// Created by william on 2022/5/22.}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00005}00005 \textcolor{preprocessor}{\#ifndef SIMPLERENDERENGINE\_COMMONMACRO\_H}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00006}00006 \textcolor{preprocessor}{\#define SIMPLERENDERENGINE\_COMMONMACRO\_H}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00008}00008 \textcolor{preprocessor}{\#include "{}logger.h"{}}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00009}00009 }
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00010}00010 \textcolor{preprocessor}{\#include <chrono>}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00011}00011 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00012}00012 \textcolor{preprocessor}{\#include <thread>}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00013}00013 }
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00014}00014 \textcolor{preprocessor}{\#define LOG\_HELPER(level, ...) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00015}00015 \textcolor{preprocessor}{    Logger::getInstance().log(level, "{}[re]in File:"{}} + std::string(\_\_FILE\_\_) + "{}:"{} + std::to\_string(\_\_LINE\_\_) + "{} in func:"{} + std::string(\_\_FUNCTION\_\_) + "{}]:"{} + \_\_VA\_ARGS\_\_)}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00017}00017 \textcolor{preprocessor}{\#define LOG\_DEBUG(...) LOG\_HELPER(Logger::Level::Debug, \_\_VA\_ARGS\_\_)}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00018}00018 \textcolor{preprocessor}{\#define LOG\_INFO(...) LOG\_HELPER(Logger::Level::Info, \_\_VA\_ARGS\_\_)}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00019}00019 \textcolor{preprocessor}{\#define LOG\_WARN(...) LOG\_HELPER(Logger::Level::Warn, \_\_VA\_ARGS\_\_)}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00020}00020 \textcolor{preprocessor}{\#define LOG\_ERROR(...) LOG\_HELPER(Logger::Level::Error, \_\_VA\_ARGS\_\_)}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00021}00021 \textcolor{preprocessor}{\#define LOG\_FATAL(...) LOG\_HELPER(Logger::Level::Fatal, \_\_VA\_ARGS\_\_)}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00024}00024 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00025}00025 \textcolor{preprocessor}{    \#define EXPORT extern "{}C"{}} \_\_attribute\_\_((visibility("{}default"{})))}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00026}00026 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00027}00027 \textcolor{preprocessor}{    \#define EXPORT extern \_\_attribute\_\_((visibility("{}default"{}})))}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00028}00028 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00032}00032 \textcolor{preprocessor}{\#if defined(NDEBUG) \&\& defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00033}00033 \textcolor{preprocessor}{    \#define ASSERT\_ONLY \_\_attribute\_\_((unused))}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00034}00034 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00035}00035 \textcolor{preprocessor}{    \#define ASSERT\_ONLY}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00036}00036 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00038}00038 \textcolor{preprocessor}{\#ifdef NDEBUG}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00039}00039 \textcolor{preprocessor}{    \#define ASSERT(statement)}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00040}00040 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00041}00041 \textcolor{preprocessor}{    \#define ASSERT(statement) assert(statement)}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00042}00042 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00044}00044 \textcolor{preprocessor}{\#define TO\_STRING(s) \#s}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00045}00045 \textcolor{preprocessor}{\#define CONNECTION(x, y) x\#\#y}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00047}00047 \textcolor{preprocessor}{\#define ARRAY\_SIZE(x) (sizeof(x) / sizeof(*x))}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00048}00048 \textcolor{preprocessor}{\#define VECTOR\_SIZE(x) (sizeof(x[0]) * x.size())}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00050}00050 \textcolor{preprocessor}{\#define ENUM\_ALIAS(name, member) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00051}00051 \textcolor{preprocessor}{    constexpr auto name\#\#\_\#\#member = name::member}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00053}00053 \textcolor{preprocessor}{\#define NO\_REF\_TYPE(t) std::remove\_reference<decltype(*t)>::type}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00054}00054 \textcolor{preprocessor}{\#define MAKE\_SHARED(t, ...) std::make\_shared<typename NO\_REF\_TYPE(t)>(\_\_VA\_ARGS\_\_)}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00055}00055 \textcolor{preprocessor}{\#define MAKE\_UNIQUE(t, ...) std::make\_unique<typename NO\_REF\_TYPE(t)>(\_\_VA\_ARGS\_\_)}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00058}00058 \textcolor{preprocessor}{\#define MATH\_PI 3.1415926f}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00059}00059 \textcolor{preprocessor}{\#define TWO\_MATH\_PI (MATH\_PI * 2.0f)}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00060}00060 \textcolor{preprocessor}{\#define MATH\_DEG\_TO\_RAD(x) ((x)*0.0174532925f)}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00061}00061 \textcolor{preprocessor}{\#define MATH\_PIOVER2 1.57079632679489661923f}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00062}00062 }
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00063}00063 \textcolor{comment}{// 代码废弃}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00064}00064 \textcolor{preprocessor}{\#define DEPRECATED(X) [[deprecated(X)]]}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00065}00065 \textcolor{comment}{// 取消字节对齐}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00066}00066 \textcolor{preprocessor}{\#define PACK(\_\_Declaration\_\_) \_\_Declaration\_\_ \_\_attribute\_\_((\_\_packed\_\_))}}
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{common_macro_8h_source_l00068}00068 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SIMPLERENDERENGINE\_COMMONMACRO\_H}}
+
+\end{DoxyCode}

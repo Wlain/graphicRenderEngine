@@ -20,7 +20,7 @@ public:
      * 默认是正交投影：eye:(0,0,0)，看向z负轴，使用正交投影，[-1,1]
      */
     Camera();
-    Camera();
+    ~Camera();
     // set position of camera in world space (view transform) using
     void setLookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up);
     // set the camera view transform using worldspace position and rotation is degrees
