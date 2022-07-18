@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(simpleRenderEngine)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON) # 设置指定的C++版本
@@ -21,8 +21,8 @@ add_subdirectory(3rdparty/box2d)
 add_subdirectory(3rdparty/lua)
 # sol2
 add_subdirectory(3rdparty/sol2)
-# bullet3
-add_subdirectory(3rdparty/bullet3)
+# render engine
+add_subdirectory(re)
 
 if (APPLE)
     INCLUDE_DIRECTORIES(/System/Library/Frameworks)
@@ -32,8 +32,6 @@ if (APPLE)
 endif ()
 
 include_directories(
-        ${PROJECT_SOURCE_DIR}/re
-        ${PROJECT_SOURCE_DIR}/re/utils
         ${PROJECT_SOURCE_DIR}/test
         ${PROJECT_SOURCE_DIR}/3rdparty
         ${PROJECT_SOURCE_DIR}/3rdparty/glew/include
@@ -52,9 +50,7 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${IMAGE_UI_SRC} re/*.cpp test/*.cpp)
 file(COPY ./test/resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 file(COPY ./re/embeddedResource DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
+enable_testing()
 add_executable(simpleRenderEngine ${SOURCES})
 # 链接库
 target_link_libraries(simpleRenderEngine re)
-
-include_directories(re)
-add_subdirectory(re)

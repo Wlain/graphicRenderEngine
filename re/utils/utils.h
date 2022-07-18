@@ -4,7 +4,7 @@
 
 #ifndef SIMPLERENDERENGINE_UTILS_H
 #define SIMPLERENDERENGINE_UTILS_H
-#include "commonMacro.h"
+#include "utils/commonMacro.h"
 
 #include <filesystem>
 #include <fstream>
@@ -28,4 +28,18 @@ static std::string getFileContents(const std::filesystem::path& filename)
     }
     LOG_ERROR("Error reading {}. Error code: {}", filename.c_str(), errno);
 }
+
+static std::string_view getCurrentOperationSystem()
+{
+#ifdef IS_WINDOWS
+    return "Windows";
+#elif IS_LINUX
+    return "Linux";
+#elif IS_MACOS
+    return "macOS";
+#else
+    return "unknown system!";
+#endif
+}
+
 #endif // SIMPLERENDERENGINE_UTILS_H
