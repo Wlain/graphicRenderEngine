@@ -23,7 +23,7 @@
 
 ![avatar](samples/clothSimulationTest.png)
 
-* 天空和
+* 天空盒
 
 ![avatar](samples/skybox.png)
 
