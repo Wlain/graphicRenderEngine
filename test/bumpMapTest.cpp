@@ -24,13 +24,13 @@ public:
         m_specialization["S_NORMALMAP"] = "1";
         m_material = Shader::getStandardBlinnPhong()->createMaterial(m_specialization);
         m_materialNormalDebug = Shader::create()
-                                    .withSourceFile("embeddedResource/debug_normal_vert.glsl", Shader::ShaderType::Vertex)
-                                    .withSourceFile("embeddedResource/debug_normal_frag.glsl", Shader::ShaderType::Fragment)
+                                    .withSourceFile("shaders/debug_normal_vert.glsl", Shader::ShaderType::Vertex)
+                                    .withSourceFile("shaders/debug_normal_frag.glsl", Shader::ShaderType::Fragment)
                                     .build()
                                     ->createMaterial();
         m_materialUvDebug = Shader::create()
-                                .withSourceFile("embeddedResource/debug_uv_vert.glsl", Shader::ShaderType::Vertex)
-                                .withSourceFile("embeddedResource/debug_uv_frag.glsl", Shader::ShaderType::Fragment)
+                                .withSourceFile("shaders/debug_uv_vert.glsl", Shader::ShaderType::Vertex)
+                                .withSourceFile("shaders/debug_uv_frag.glsl", Shader::ShaderType::Fragment)
                                 .build()
                                 ->createMaterial();
         m_material->setColor({ 1, 1, 1, 1 });

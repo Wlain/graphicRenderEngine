@@ -36,8 +36,8 @@ public:
         }
         m_mesh = Mesh::create().withCube().build();
         m_material = Shader::create()
-                         .withSourceFile("embeddedResource/texture_vert.glsl", Shader::ShaderType::Vertex)
-                         .withSourceFile("embeddedResource/texture_frag.glsl", Shader::ShaderType::Fragment)
+                         .withSourceFile("shaders/texture_vert.glsl", Shader::ShaderType::Vertex)
+                         .withSourceFile("shaders/texture_frag.glsl", Shader::ShaderType::Fragment)
                          .withBlend(Shader::BlendType::AlphaBlending)
                          .build()
                          ->createMaterial();

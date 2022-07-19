@@ -160,8 +160,8 @@ public:
                      .build();
 
         m_material = Shader::create()
-                         .withSourceFile("embeddedResource/standard_blinn_phong_vert.glsl", Shader::ShaderType::Vertex)
-                         .withSourceFile("embeddedResource/standard_blinn_phong_frag.glsl", Shader::ShaderType::Fragment)
+                         .withSourceFile("shaders/standard_blinn_phong_vert.glsl", Shader::ShaderType::Vertex)
+                         .withSourceFile("shaders/standard_blinn_phong_frag.glsl", Shader::ShaderType::Fragment)
                          .withName("Standard Blinn Phong")
                          .withCullFace(Shader::CullFace::None)
                          .build()

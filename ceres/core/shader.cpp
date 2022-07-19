@@ -74,7 +74,7 @@ std::string pragmaInclude(const std::string& source, std::vector<std::string>& e
         if (std::regex_search(s, m, e))
         {
             std::string match = m[1];
-            match.insert(0, "embeddedResource/");
+            match.insert(0, "shaders/");
             auto res = getFileContents(match);
             if (res.empty())
             {
@@ -306,8 +306,8 @@ std::shared_ptr<Shader> Shader::getUnlit()
         return s_unlit;
     }
     s_unlit = create()
-                  .withSourceFile("embeddedResource/unlit_vert.glsl", ShaderType::Vertex)
-                  .withSourceFile("embeddedResource/unlit_frag.glsl", ShaderType::Fragment)
+                  .withSourceFile("shaders/unlit_vert.glsl", ShaderType::Vertex)
+                  .withSourceFile("shaders/unlit_frag.glsl", ShaderType::Fragment)
                   .withName("Unlit")
                   .build();
     return s_unlit;
@@ -320,8 +320,8 @@ std::shared_ptr<Shader> Shader::getBlit()
         return s_blit;
     }
     s_blit = create()
-                 .withSourceFile("embeddedResource/blit_vert.glsl", ShaderType::Vertex)
-                 .withSourceFile("embeddedResource/blit_frag.glsl", ShaderType::Fragment)
+                 .withSourceFile("shaders/blit_vert.glsl", ShaderType::Vertex)
+                 .withSourceFile("shaders/blit_frag.glsl", ShaderType::Fragment)
                  .withName("Blit")
                  .build();
     return s_blit;
@@ -335,8 +335,8 @@ std::shared_ptr<Shader> Shader::getUnlitSprite()
     }
 
     s_unlitSprite = create()
-                        .withSourceFile("embeddedResource/sprite_vert.glsl", ShaderType::Vertex)
-                        .withSourceFile("embeddedResource/sprite_frag.glsl", ShaderType::Fragment)
+                        .withSourceFile("shaders/sprite_vert.glsl", ShaderType::Vertex)
+                        .withSourceFile("shaders/sprite_frag.glsl", ShaderType::Fragment)
                         .withBlend(BlendType::AlphaBlending)
                         .withDepthWrite(false)
                         .withName("Unlit Sprite")
@@ -351,8 +351,8 @@ std::shared_ptr<Shader> Shader::getStandardParticles()
         return s_standardParticles;
     }
     s_standardParticles = Shader::create()
-                              .withSourceFile("embeddedResource/particles_vert.glsl", ShaderType::Vertex)
-                              .withSourceFile("embeddedResource/particles_frag.glsl", ShaderType::Fragment)
+                              .withSourceFile("shaders/particles_vert.glsl", ShaderType::Vertex)
+                              .withSourceFile("shaders/particles_frag.glsl", ShaderType::Fragment)
                               .withBlend(BlendType::AdditiveBlending)
                               .withDepthWrite(false)
                               .withName("Standard Particles")
@@ -949,8 +949,8 @@ std::shared_ptr<Shader> Shader::getStandardPBR()
         return s_standardPBR;
     }
     s_standardPBR = create()
-                        .withSourceFile("embeddedResource/standard_pbr_vert.glsl", ShaderType::Vertex)
-                        .withSourceFile("embeddedResource/standard_pbr_frag.glsl", ShaderType::Fragment)
+                        .withSourceFile("shaders/standard_pbr_vert.glsl", ShaderType::Vertex)
+                        .withSourceFile("shaders/standard_pbr_frag.glsl", ShaderType::Fragment)
                         .withName("Standard")
                         .build();
     return s_standardPBR;
@@ -963,8 +963,8 @@ std::shared_ptr<Shader> Shader::getStandardBlinnPhong()
         return s_standardBlinnPhong;
     }
     s_standardBlinnPhong = Shader::create()
-                               .withSourceFile("embeddedResource/standard_blinn_phong_vert.glsl", ShaderType::Vertex)
-                               .withSourceFile("embeddedResource/standard_blinn_phong_frag.glsl", ShaderType::Fragment)
+                               .withSourceFile("shaders/standard_blinn_phong_vert.glsl", ShaderType::Vertex)
+                               .withSourceFile("shaders/standard_blinn_phong_frag.glsl", ShaderType::Fragment)
                                .withName("Standard Blinn Phong")
                                .build();
     return s_standardBlinnPhong;
@@ -977,8 +977,8 @@ std::shared_ptr<Shader> Shader::getStandardPhong()
         return s_standardPhong;
     }
     s_standardPhong = create()
-                          .withSourceFile("embeddedResource/standard_phong_vert.glsl", ShaderType::Vertex)
-                          .withSourceFile("embeddedResource/standard_phong_frag.glsl", ShaderType::Fragment)
+                          .withSourceFile("shaders/standard_phong_vert.glsl", ShaderType::Vertex)
+                          .withSourceFile("shaders/standard_phong_frag.glsl", ShaderType::Fragment)
                           .withName("StandardPhong")
                           .build();
     return s_standardPhong;
@@ -991,8 +991,8 @@ std::shared_ptr<Shader> Shader::getSkybox()
         return s_skybox;
     }
     s_skybox = create()
-                   .withSourceFile("embeddedResource/skybox_vert.glsl", ShaderType::Vertex)
-                   .withSourceFile("embeddedResource/skybox_frag.glsl", ShaderType::Fragment)
+                   .withSourceFile("shaders/skybox_vert.glsl", ShaderType::Vertex)
+                   .withSourceFile("shaders/skybox_frag.glsl", ShaderType::Fragment)
                    .withDepthWrite(false) // 天空盒需要禁止深度写入
                    .withName("Skybox")
                    .build();

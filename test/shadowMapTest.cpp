@@ -30,8 +30,8 @@ public:
         updateShadowMap();
         /// debug
         m_debugMaterial = Shader::create()
-                              .withSourceFile("embeddedResource/unlit_vert.glsl", Shader::ShaderType::Vertex)
-                              .withSourceFile("embeddedResource/unlit_frag.glsl", Shader::ShaderType::Fragment)
+                              .withSourceFile("shaders/unlit_vert.glsl", Shader::ShaderType::Vertex)
+                              .withSourceFile("shaders/unlit_frag.glsl", Shader::ShaderType::Fragment)
                               .withName("Unlit")
                               .withCullFace(Shader::CullFace::None)
                               .build()
@@ -146,8 +146,8 @@ public:
                              .build();
 
         m_shadowMapMaterial = Shader::create()
-                                  .withSourceFile("embeddedResource/shadow_vert.glsl", Shader::ShaderType::Vertex)
-                                  .withSourceFile("embeddedResource/shadow_frag.glsl", Shader::ShaderType::Fragment)
+                                  .withSourceFile("shaders/shadow_vert.glsl", Shader::ShaderType::Vertex)
+                                  .withSourceFile("shaders/shadow_frag.glsl", Shader::ShaderType::Fragment)
                                   .withName("Shadow")
                                   .withOffset(m_biasOffset, m_biasFactor) // shadow bias
                                   .withColorWrite({ false, false, false, false })

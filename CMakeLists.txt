@@ -51,7 +51,7 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${IMAGE_UI_SRC} ceres/*.cpp test/*.c
 
 # resources copy
 file(COPY ./test/resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-file(COPY ./ceres/embeddedResource DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY ceres/shaders DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 enable_testing()
 add_executable(simpleRenderEngine ${SOURCES})

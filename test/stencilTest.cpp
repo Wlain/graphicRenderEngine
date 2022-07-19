@@ -42,8 +42,8 @@ public:
         m_mesh = ModelImporter::importObj("resources/objFiles/suzanne.obj", materialUnused);
         m_plane = Mesh::create().withQuad(2).build();
         m_matStencilWrite = Shader::create()
-                                .withSourceFile("embeddedResource/unlit_vert.glsl", Shader::ShaderType::Vertex)
-                                .withSourceFile("embeddedResource/unlit_frag.glsl", Shader::ShaderType::Fragment)
+                                .withSourceFile("shaders/unlit_vert.glsl", Shader::ShaderType::Vertex)
+                                .withSourceFile("shaders/unlit_frag.glsl", Shader::ShaderType::Fragment)
                                 .withDepthWrite(false)
                                 .withColorWrite({ false, false, false, false })
                                 .withStencil(Shader::StencilDescriptor{
@@ -59,8 +59,8 @@ public:
                                 ->createMaterial();
 
         m_matStencilTest = Shader::create()
-                               .withSourceFile("embeddedResource/unlit_vert.glsl", Shader::ShaderType::Vertex)
-                               .withSourceFile("embeddedResource/unlit_frag.glsl", Shader::ShaderType::Fragment)
+                               .withSourceFile("shaders/unlit_vert.glsl", Shader::ShaderType::Vertex)
+                               .withSourceFile("shaders/unlit_frag.glsl", Shader::ShaderType::Fragment)
                                .withStencil(Shader::StencilDescriptor{
                                    Shader::StencilFunc ::LEqual,
                                    1,
