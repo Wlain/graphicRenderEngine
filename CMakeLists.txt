@@ -23,6 +23,9 @@ add_subdirectory(3rdparty/lua)
 add_subdirectory(3rdparty/sol2)
 # render engine
 add_subdirectory(re)
+# Add the cmake folder so the FindSphinx module is found
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
+add_subdirectory(docs)
 
 if (APPLE)
     INCLUDE_DIRECTORIES(/System/Library/Frameworks)

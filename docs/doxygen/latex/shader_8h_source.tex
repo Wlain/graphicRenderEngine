@@ -1,0 +1,273 @@
+\hypertarget{shader_8h_source}{}\doxysection{shader.\+h}
+\label{shader_8h_source}\index{/Users/cwb/developer/learning/simpleRenderEngine/re/core/shader.h@{/Users/cwb/developer/learning/simpleRenderEngine/re/core/shader.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00002}00002 \textcolor{comment}{// Created by william on 2022/5/22.}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00005}00005 \textcolor{preprocessor}{\#ifndef SIMPLERENDERENGINE\_SHADER\_H}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00006}00006 \textcolor{preprocessor}{\#define SIMPLERENDERENGINE\_SHADER\_H}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00007}00007 \textcolor{preprocessor}{\#include "{}commonMacro.h"{}}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00008}00008 \textcolor{preprocessor}{\#include "{}glCommonDefine.h"{}}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00009}00009 \textcolor{preprocessor}{\#include "{}light.h"{}}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00010}00010 \textcolor{preprocessor}{\#include "{}material.h"{}}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00011}00011 \textcolor{preprocessor}{\#include "{}renderer.h"{}}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00012}00012 \textcolor{preprocessor}{\#include "{}texture.h"{}}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00013}00013 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00014}00014 \textcolor{preprocessor}{\#include <glm/gtc/color\_space.hpp>}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00015}00015 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00016}00016 \textcolor{preprocessor}{\#include <set>}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00017}00017 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00018}00018 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00019}00019 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00020}00020 \{}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00021}00021 \textcolor{keyword}{class }Texture;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00022}00022 \textcolor{keyword}{class }WorldLights;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00023}00023 \textcolor{keyword}{class }Material;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00024}00024 \textcolor{keyword}{class }Mesh;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00025}\mbox{\hyperlink{classre_1_1_shader}{00025}} \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_shader}{Shader}} : \textcolor{keyword}{public} std::enable\_shared\_from\_this<Shader>}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00026}00026 \{}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00027}00027 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00028}00028     \textcolor{keyword}{enum class} BlendType}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00029}00029     \{}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00030}00030         Disabled,}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00031}00031         AlphaBlending,   \textcolor{comment}{// 根据 alpha值将表面与背景混合（src alpha ,one minus src alpha）}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00032}00032         AdditiveBlending \textcolor{comment}{// 根据 alpha 值添加光线（src alpha,one）}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00033}00033     \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00035}00035     \textcolor{keyword}{enum class} UniformType}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00036}00036     \{}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00037}00037         Int,}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00038}00038         Float,}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00039}00039         Mat3,}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00040}00040         Mat4,}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00041}00041         Vec4,}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00042}00042         IVec4,}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00043}00043         Vec3,}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00044}00044         \mbox{\hyperlink{classre_1_1_texture}{Texture}},}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00045}00045         Invalid,}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00046}00046         TextureCube}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00047}00047     \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00049}00049     \textcolor{keyword}{enum class} CullFace}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00050}00050     \{}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00051}00051         Front,}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00052}00052         Back,}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00053}00053         None}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00054}00054     \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00056}\mbox{\hyperlink{structre_1_1_shader_1_1_uniform}{00056}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structre_1_1_shader_1_1_uniform}{Uniform}}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00057}00057     \{}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00058}00058         \mbox{\hyperlink{structre_1_1_shader_1_1_uniform}{Uniform}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* \_name, int32\_t \_location, UniformType \_type, int32\_t \_count) :}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00059}00059             name(\_name), id(\_location), type(\_type), arraySize(\_count) \{\}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00060}00060         \mbox{\hyperlink{structre_1_1_shader_1_1_uniform}{Uniform}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00061}00061         std::string name;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00062}00062         int32\_t \textcolor{keywordtype}{id}\{ -\/1 \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00063}00063         UniformType type\{ UniformType::Invalid \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00064}00064         \textcolor{comment}{// 1 means not array}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00065}00065         int32\_t arraySize\{ -\/1 \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00066}00066     \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00068}\mbox{\hyperlink{structre_1_1_shader_1_1_shader_attribute}{00068}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structre_1_1_shader_1_1_shader_attribute}{ShaderAttribute}}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00069}00069     \{}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00070}00070         int32\_t position;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00071}00071         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} type;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00072}00072         int32\_t arraySize;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00073}00073     \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00074}00074 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00075}00075     \textcolor{keyword}{enum class} ShaderType}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00076}00076     \{}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00077}00077         Vertex,}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00078}00078         Fragment,}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00079}00079         Geometry,}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00080}00080         TessellationControl,}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00081}00081         TessellationEvaluation}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00082}00082     \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00083}00083 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00084}00084     \textcolor{keyword}{enum class} ResourceType}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00085}00085     \{}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00086}00086         File,}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00087}00087         Memory}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00088}00088     \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00089}00089 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00090}\mbox{\hyperlink{structre_1_1_shader_1_1_resource}{00090}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structre_1_1_shader_1_1_resource}{Resource}}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00091}00091     \{}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00092}00092         ResourceType resourceType;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00093}00093         std::string value;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00094}00094     \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00095}00095 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00096}00096     \textcolor{keyword}{enum class} StencilFunc}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00097}00097     \{}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00098}00098         Never = GL\_NEVER,       \textcolor{comment}{// 无论模板值为何值，都不能通过模板测试}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00099}00099         Less = GL\_LESS,         \textcolor{comment}{// 测试模板值是否小于ref值}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00100}00100         Equal = GL\_EQUAL,       \textcolor{comment}{// 测试模板值是否等于ref值}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00101}00101         LEqual = GL\_LEQUAL,     \textcolor{comment}{// 测试模板值是否小于等于ref值}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00102}00102         Greater = GL\_GREATER,   \textcolor{comment}{// 测试模板值是否大于ref值}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00103}00103         NotEqual = GL\_NOTEQUAL, \textcolor{comment}{// 测试模板值是否不等于ref值}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00104}00104         GEqual = GL\_GEQUAL,     \textcolor{comment}{// 测试模板值是否大于等于ref值}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00105}00105         Always = GL\_ALWAYS,     \textcolor{comment}{// 无论模板值为何值，总是能通过模板测试。}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00106}00106         Disabled                \textcolor{comment}{// 关闭模板测试}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00107}00107     \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00108}00108 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00109}00109     \textcolor{keyword}{enum class} StencilOp}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00110}00110     \{}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00111}00111         Keep = GL\_KEEP,          \textcolor{comment}{// 保持当前值}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00112}00112         Zero = GL\_ZERO,          \textcolor{comment}{// 将模板值清0}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00113}00113         Replace = GL\_REPLACE,    \textcolor{comment}{// 模板值将会被替换为glStencilFunc中的ref参数值。}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00114}00114         Incr = GL\_INCR,          \textcolor{comment}{// 如果模板值小于最大值，模板值将会+1}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00115}00115         IncrWrap = GL\_INCR\_WRAP, \textcolor{comment}{// 和GL\_INCR一样，只是遇到最大值时，模板值会清0。}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00116}00116         Decr = GL\_DECR,          \textcolor{comment}{// 如果模板值大于0，模板值将会-\/1。}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00117}00117         DecrWrap = GL\_DECR\_WRAP, \textcolor{comment}{// 和GL\_DECR一样，只是当模板值减到0时，会变为最大值。}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00118}00118         Invert = GL\_INVERT       \textcolor{comment}{// 将模板值按位取反。}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00119}00119     \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00121}\mbox{\hyperlink{structre_1_1_shader_1_1_stencil_descriptor}{00121}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structre_1_1_shader_1_1_stencil_descriptor}{StencilDescriptor}}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00122}00122     \{}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00123}00123         StencilFunc func = StencilFunc::Disabled;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00124}00124         uint16\_t ref;                      \textcolor{comment}{// 指定模板测试的ref值。此值被限制在[0，2n-\/1]的范围内，其中 n 是模板缓冲区中的位平面数。}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00125}00125         uint16\_t mask;                     \textcolor{comment}{// 指定用于在测试完成时与ref和存储模板值进行与操作的位元掩码。}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00126}00126         StencilOp fail = StencilOp::Keep;  \textcolor{comment}{// 模板测试失败后执行的操作}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00127}00127         StencilOp zFail = StencilOp::Keep; \textcolor{comment}{// 模板测试通过但深度测试不通过时候执行的操作。}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00128}00128         StencilOp zPass = StencilOp::Keep; \textcolor{comment}{// 模板测试和深度测试都通过后，或者深度测试未开启时执行的操作。}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00129}00129     \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00130}00130 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00131}\mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{00131}}     \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00132}00132     \{}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00133}00133     \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00134}00134         \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}}(\textcolor{keyword}{const} \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}}\&) = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00135}00135         DEPRECATED(\textcolor{stringliteral}{"{}Use ShaderType withSourceString() or withSourceFile() instead"{}})}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00136}00136         \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}}\& withSource(std::string\_view vertexShader, std::string\_view fragmentShader);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00137}00137         \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}}\& withSourceString(std::string\_view shaderSource, ShaderType shaderType);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00138}00138         \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}}\& withSourceFile(std::string\_view shaderFile, ShaderType shaderType);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00139}00139         \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}}\& withDepthTest(\textcolor{keywordtype}{bool} enable);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00140}00140         \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}}\& withDepthWrite(\textcolor{keywordtype}{bool} enable);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00141}00141         \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}}\& withColorWrite(glm::bvec4 enable);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00142}00142         \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}}\& withBlend(BlendType blendType);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00143}00143         \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}}\& withName(std::string\_view name);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00144}00144         \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}}\& withStencil(\mbox{\hyperlink{structre_1_1_shader_1_1_stencil_descriptor}{StencilDescriptor}} stencil);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00145}00145         \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}}\& withOffset(\textcolor{keywordtype}{float} factor, \textcolor{keywordtype}{float} units); \textcolor{comment}{// 设置用于计算深度值的缩放比例和单位}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00146}00146         \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}}\& withCullFace(CullFace face);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00147}00147         std::shared\_ptr<Shader> build();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00148}00148         std::shared\_ptr<Shader> build(std::vector<std::string>\& errors);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00149}00149 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00150}00150     \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00151}00151         \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00152}00152         \textcolor{keyword}{explicit} \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}}(\mbox{\hyperlink{classre_1_1_shader}{Shader}}* shader);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00153}00153 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00154}00154     \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00155}00155         std::map<ShaderType, Resource> m\_shaderSources;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00156}00156         std::map<std::string, std::string> m\_specializationConstants;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00157}00157         std::string m\_name;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00158}00158         BlendType m\_blendType\{ BlendType::Disabled \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00159}00159         CullFace m\_cullFace\{ CullFace::Back \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00160}00160         glm::vec2 m\_offset = \{ 0.0f, 0.0f \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00161}00161         \mbox{\hyperlink{classre_1_1_shader}{Shader}}* updateShader\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00162}00162         glm::bvec4 m\_colorWrite\{ \textcolor{keyword}{true}, \textcolor{keyword}{true}, \textcolor{keyword}{true}, \textcolor{keyword}{true} \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00163}00163         \mbox{\hyperlink{structre_1_1_shader_1_1_stencil_descriptor}{StencilDescriptor}} m\_stencil\{\};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00164}00164         \textcolor{keywordtype}{bool} m\_depthTest\{ \textcolor{keyword}{true} \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00165}00165         \textcolor{keywordtype}{bool} m\_depthWrite\{ \textcolor{keyword}{true} \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00166}00166         \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_shader}{Shader}};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00167}00167     \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00168}00168 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00169}00169 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00170}00170     \textcolor{keyword}{static} \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}} create();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00171}00171     \textcolor{comment}{// Must end with build()}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00172}00172     \textcolor{keyword}{static} \mbox{\hyperlink{classre_1_1_shader_1_1_shader_builder}{ShaderBuilder}} update();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00173}00173     \textcolor{keyword}{static} std::shared\_ptr<Shader> getUnlit();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00174}00174     \textcolor{keyword}{static} std::shared\_ptr<Shader> getBlit();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00175}00175     \textcolor{keyword}{static} std::shared\_ptr<Shader> getUnlitSprite();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00176}00176     \textcolor{keyword}{static} std::shared\_ptr<Shader> getStandardParticles();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00177}00177     \textcolor{keyword}{static} std::shared\_ptr<Shader> getStandardPBR();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00178}00178     \textcolor{keyword}{static} std::shared\_ptr<Shader> getStandardBlinnPhong();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00179}00179     \textcolor{keyword}{static} std::shared\_ptr<Shader> getStandardPhong();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00180}00180     \textcolor{keyword}{static} std::shared\_ptr<Shader> getSkybox();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00181}00181 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00182}00182 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00183}00183     \textcolor{keyword}{static} std::string getSource(\textcolor{keyword}{const} \mbox{\hyperlink{structre_1_1_shader_1_1_resource}{Resource}}\& resource);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00184}00184 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00185}00185 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00186}00186     \mbox{\hyperlink{classre_1_1_shader}{\string~Shader}}();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00187}00187     \mbox{\hyperlink{structre_1_1_shader_1_1_uniform}{Uniform}} getUniformType(std::string\_view name);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00188}00188     \textcolor{comment}{// return type sizeof attribute}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00189}00189     std::pair<int, int> getAttributeType(\textcolor{keyword}{const} std::string\& name);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00190}00190     \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} isDepthTest()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_depthTest; \}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00191}00191     \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} isDepthWrite()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_depthWrite; \}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00192}00192     \textcolor{keyword}{inline} BlendType getBlend()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_blendType; \}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00193}00193     \textcolor{keyword}{inline} \textcolor{keyword}{const} glm::vec2\& getOffset()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_offset; \}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00194}00194     \textcolor{keyword}{inline} \textcolor{keyword}{const} std::string\& name()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_name; \}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00195}00195     \textcolor{keyword}{inline} \textcolor{keyword}{const} StencilDescriptor\& getStencil()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_stencil; \}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00196}00196     \textcolor{keyword}{inline} \textcolor{keyword}{const} glm::bvec4\& colorWriteMask()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_colorWrite; \}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00197}00197 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00198}00198     std::vector<std::string> getAttributeNames();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00199}00199     std::vector<std::string> getUniformNames();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00200}00200 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00201}00201     \textcolor{comment}{// 验证网格属性。如果无效，则将 info 变量设置为错误消息。此方法只应用于debug}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00202}00202     \textcolor{keywordtype}{bool} validateMesh(Mesh* mesh, std::string\& info);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00203}00203     \textcolor{keyword}{const} std::map<std::string, std::string>\& getCurrentSpecializationConstants() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00204}00204     std::set<std::string> getAllSpecializationConstants();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00205}00205     std::shared\_ptr<Material> createMaterial(std::map<std::string, std::string> specializationConstants = \{\});}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00206}00206     \textcolor{keyword}{const} \textcolor{keywordtype}{char}* toStr(UniformType u);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00207}00207     \textcolor{keyword}{static} uint32\_t toId(ShaderType st);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00208}00208 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00209}00209 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00210}00210     Shader();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00211}00211     \textcolor{keywordtype}{void} bind();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00212}00212     \textcolor{keywordtype}{bool} build(\textcolor{keyword}{const} std::map<ShaderType, Resource>\& shaderSources, std::vector<std::string>\& errors);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00213}00213     std::string precompile(std::string source, std::vector<std::string>\& errors, uint32\_t shaderType);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00214}00214     \textcolor{keyword}{static} std::string insertPreprocessorDefines(std::string source, std::map<std::string, std::string>\& specializationConstants, uint32\_t shaderType);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00215}00215     \textcolor{keywordtype}{bool} setLights(WorldLights* worldLights) \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00216}00216     \textcolor{keywordtype}{void} updateUniformsAndAttributes();}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00217}00217     \textcolor{keywordtype}{bool} compileShader(\textcolor{keyword}{const} Resource\& resource, GLenum type, GLuint\& shader, std::vector<std::string>\& errors);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00218}00218 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00219}00219 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00220}00220     \textcolor{keyword}{inline} \textcolor{keyword}{static} std::shared\_ptr<Shader> s\_unlit\{ \textcolor{keyword}{nullptr} \}; \textcolor{comment}{// 无灯光}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00221}00221     \textcolor{keyword}{inline} \textcolor{keyword}{static} std::shared\_ptr<Shader> s\_blit\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00222}00222     \textcolor{keyword}{inline} \textcolor{keyword}{static} std::shared\_ptr<Shader> s\_unlitSprite\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00223}00223     \textcolor{keyword}{inline} \textcolor{keyword}{static} std::shared\_ptr<Shader> s\_debugUV\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00224}00224     \textcolor{keyword}{inline} \textcolor{keyword}{static} std::shared\_ptr<Shader> s\_debugNormals\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00225}00225     \textcolor{keyword}{inline} \textcolor{keyword}{static} std::shared\_ptr<Shader> s\_font\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00226}00226     \textcolor{keyword}{inline} \textcolor{keyword}{static} std::shared\_ptr<Shader> s\_standardParticles\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00227}00227     \textcolor{keyword}{inline} \textcolor{keyword}{static} std::shared\_ptr<Shader> s\_standardPBR\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00228}00228     \textcolor{keyword}{inline} \textcolor{keyword}{static} std::shared\_ptr<Shader> s\_standardPhong\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00229}00229     \textcolor{keyword}{inline} \textcolor{keyword}{static} std::shared\_ptr<Shader> s\_standardBlinnPhong\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00230}00230     \textcolor{keyword}{inline} \textcolor{keyword}{static} std::shared\_ptr<Shader> s\_skybox\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00231}00231     \textcolor{keyword}{inline} \textcolor{keyword}{static} \textcolor{keywordtype}{long} s\_globalShaderCounter\{ 0 \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00232}00232 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00233}00233 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00234}00234     BlendType m\_blendType\{ BlendType::Disabled \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00235}00235     CullFace m\_cullFace\{ CullFace::Back \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00236}00236     std::vector<Uniform> m\_uniforms;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00237}00237     std::map<std::string, ShaderAttribute> m\_attributes;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00238}00238     std::map<std::string, std::string> m\_specializationConstants;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00239}00239     std::vector<std::weak\_ptr<Shader>> m\_specializations;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00240}00240     std::shared\_ptr<Shader> m\_parent = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00241}00241     std::map<ShaderType, Resource> m\_shaderSources;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00242}00242     glm::vec2 m\_offset = glm::vec2(0, 0);}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00243}00243     std::string m\_name;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00244}00244     StencilDescriptor m\_stencil\{\};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00245}00245     glm::bvec4 m\_colorWrite\{ \textcolor{keyword}{true}, \textcolor{keyword}{true}, \textcolor{keyword}{true}, \textcolor{keyword}{true} \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00246}00246     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} m\_id\{ 0 \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00247}00247     \textcolor{keywordtype}{bool} m\_depthTest\{ \textcolor{keyword}{true} \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00248}00248     \textcolor{keywordtype}{bool} m\_depthWrite\{ \textcolor{keyword}{true} \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00249}00249     \textcolor{keywordtype}{long} m\_shaderUniqueId\{ 0 \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00250}00250     \textcolor{keywordtype}{int} m\_uniformLocationModel\{ -\/1 \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00251}00251     \textcolor{keywordtype}{int} m\_uniformLocationView\{ -\/1 \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00252}00252     \textcolor{keywordtype}{int} m\_uniformLocationProjection\{ -\/1 \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00253}00253     \textcolor{keywordtype}{int} m\_uniformLocationModelViewInverseTranspose\{ -\/1 \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00254}00254     \textcolor{keywordtype}{int} m\_uniformLocationModelInverseTranspose\{ -\/1 \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00255}00255     \textcolor{keywordtype}{int} m\_uniformLocationViewport\{ -\/1 \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00256}00256     \textcolor{keywordtype}{int} m\_uniformLocationCameraPosition\{ -\/1 \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00257}00257     \textcolor{keywordtype}{int} m\_uniformLocationAmbientLight\{ -\/1 \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00258}00258     \textcolor{keywordtype}{int} m\_uniformLocationLightPosType\{ -\/1 \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00259}00259     \textcolor{keywordtype}{int} m\_uniformLocationLightColorRange\{ -\/1 \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00260}00260     \textcolor{keyword}{friend} \textcolor{keyword}{class }Mesh;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00261}00261     \textcolor{keyword}{friend} \textcolor{keyword}{class }RenderPass;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00262}00262     \textcolor{keyword}{friend} \textcolor{keyword}{class }Material;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00263}00263     \textcolor{keyword}{friend} \textcolor{keyword}{class }Inspector;}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00264}00264 \};}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00265}00265 \} \textcolor{comment}{// namespace re}}
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00266}00266 }
+\DoxyCodeLine{\Hypertarget{shader_8h_source_l00267}00267 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SIMPLERENDERENGINE\_SHADER\_H}}
+
+\end{DoxyCode}
