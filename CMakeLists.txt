@@ -5,16 +5,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON) # 设置指定的C++版本
 # modify flat to -std=c++17 rather than -std=gnu++17
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# glfw
-add_subdirectory(3rdparty/glfw)
-# glew
-add_subdirectory(3rdparty/glew/build/cmake)
-# glm
-add_subdirectory(3rdparty/glm)
-# spdlog
-add_subdirectory(3rdparty/spdlog)
-# json11
-add_subdirectory(3rdparty/json11)
 # box2d
 add_subdirectory(3rdparty/box2d)
 # lua
@@ -27,27 +17,11 @@ add_subdirectory(ceres)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 add_subdirectory(docs)
 
-if (APPLE)
-    INCLUDE_DIRECTORIES(/System/Library/Frameworks)
-    FIND_LIBRARY(OpenGL_LIBRARY OpenGL)
-    MARK_AS_ADVANCED(OpenGL_LIBRARY)
-    SET(EXTRA_LIBS ${OpenGL_LIBRARY})
-endif ()
-
 include_directories(
         ${PROJECT_SOURCE_DIR}/test
-        ${PROJECT_SOURCE_DIR}/3rdparty
-        ${PROJECT_SOURCE_DIR}/3rdparty/glew/include
-        ${PROJECT_SOURCE_DIR}/3rdparty/imgui
-        ${PROJECT_SOURCE_DIR}/3rdparty/imgui/backends)
+        ${CMAKE_CURRENT_LIST_DIR}/3rdparty)
 
-# imgui
-file(GLOB IMAGE_UI_SRC
-        3rdparty/imgui/backends/imgui_impl_glfw.*
-        3rdparty/imgui/backends/imgui_impl_opengl3.*
-        3rdparty/imgui/*.cpp)
-
-file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${IMAGE_UI_SRC} ceres/*.cpp test/*.cpp)
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS test/*.cpp)
 
 # resources copy
 file(COPY ./test/resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

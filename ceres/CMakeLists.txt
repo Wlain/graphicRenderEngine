@@ -1,5 +1,23 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
+# glfw
+add_subdirectory(3rdparty/glfw)
+# glew
+add_subdirectory(3rdparty/glew/build/cmake)
+# glm
+add_subdirectory(3rdparty/glm)
+# spdlog
+add_subdirectory(3rdparty/spdlog)
+# json11
+add_subdirectory(3rdparty/json11)
+
+if (APPLE)
+    INCLUDE_DIRECTORIES(/System/Library/Frameworks)
+    FIND_LIBRARY(OpenGL_LIBRARY OpenGL)
+    MARK_AS_ADVANCED(OpenGL_LIBRARY)
+    SET(EXTRA_LIBS ${OpenGL_LIBRARY})
+endif ()
+
 # 操作系统检测
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     message(STATUS "Configuring on Linux")
@@ -15,9 +33,17 @@ endif ()
 
 message("CMAKE_CURRENT_SOURCE_DIR is" + ${CMAKE_CURRENT_SOURCE_DIR})
 message("CMAKE_CURRENT_BINARY_DIR is" + ${CMAKE_CURRENT_BINARY_DIR})
+message("CMAKE_CURRENT_LIST_DIR is" + ${CMAKE_CURRENT_LIST_DIR})
+
+file(GLOB IMGUI_SRC
+        ${CMAKE_CURRENT_LIST_DIR}/3rdparty/imgui/backends/imgui_impl_glfw.*
+        ${CMAKE_CURRENT_LIST_DIR}/3rdparty/imgui/backends/imgui_impl_opengl3.*
+        ${CMAKE_CURRENT_LIST_DIR}/3rdparty/imgui/*.cpp)
 
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS
-        ${CMAKE_CURRENT_SOURCE_DIR}/ceres/*.cpp
+        ${IMGUI_SRC}
+        ${CMAKE_CURRENT_LIST_DIR}/core/*.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/utils/*.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/*.h
         ${CMAKE_CURRENT_SOURCE_DIR}/ceres/utils/*.h)
 
@@ -28,7 +54,11 @@ add_library(ceres SHARED)
 target_include_directories(ceres  PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/utils
-        )
+        ${CMAKE_CURRENT_LIST_DIR}/3rdparty
+        ${CMAKE_CURRENT_LIST_DIR}/3rdparty/glew/include
+        ${CMAKE_CURRENT_LIST_DIR}/3rdparty/imgui
+        ${CMAKE_CURRENT_LIST_DIR}/3rdparty/imgui/backends)
+
 # 源文件目录
 target_sources(ceres PUBLIC ${SOURCE_FILES})
 
