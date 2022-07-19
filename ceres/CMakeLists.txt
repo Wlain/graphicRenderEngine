@@ -79,4 +79,4 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     target_compile_definitions(ceres PUBLIC "IS_WINDOWS")
 endif ()
 
-target_link_libraries(ceres glfw glew glm spdlog json11 box2d liblua sol2 ${_asan_flags})
+target_link_libraries(ceres glfw glew glm spdlog json11 ${_asan_flags})

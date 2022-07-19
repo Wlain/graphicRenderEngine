@@ -30,4 +30,4 @@ file(COPY ceres/shaders DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 enable_testing()
 add_executable(simpleRenderEngine ${SOURCES})
 # 链接库
-target_link_libraries(simpleRenderEngine ceres)
+target_link_libraries(simpleRenderEngine ceres box2d liblua sol2)
