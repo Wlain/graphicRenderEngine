@@ -1,14 +1,14 @@
 //
 // Created by william on 2022/5/29.
 //
-#include "core/Inspector.h"
+#include "core/inspector.h"
 #include "core/glfwRenderer.h"
 #include "core/material.h"
 #include "core/renderer.h"
 #include "core/shader.h"
 #include "core/worldLights.h"
 
-using namespace re;
+using namespace ceres;
 
 class BasicProject
 {

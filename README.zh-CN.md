@@ -1,6 +1,12 @@
 # simpleRenderEngine
 这是一个基于C++17标准的，使用OpenGL语言编写的的简单渲染引擎（主要用于学习）
 
+渲染引擎：克瑞斯（ceres）
+
+谷神星：位于主小行星带的矮行星和最大的小行星
+
+代表：农业女神，代表生产力、农业、自然和四季
+
 # dependencies
 * glfw:一个用于 OpenGL、 OpenGL ES、 Vulkan、窗口和输入的多平台库
 * glew:OpenGL 扩展管理器库

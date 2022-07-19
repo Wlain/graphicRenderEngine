@@ -3,7 +3,6 @@
 //
 
 #include "basicProject.h"
-#include "guiCommonDefine.h"
 #include "utils/utils.h"
 
 #define GLM_ENABLE_EXPERIMENTAL

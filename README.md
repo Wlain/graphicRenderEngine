@@ -1,6 +1,12 @@
 # simpleRenderEngine
 This is a simple render engine based on OpenGL in MAC-OS, which use C++17
 
+render engine：ceres
+
+Ceres :dwarf planet and largest asteroid of the main asteroid belt
+
+representative: goddess of agriculture, representing productivity, agriculture, nature and the four seasons
+
 # dependencies
 * glfw:a multi-platform library for OpenGL, OpenGL ES, Vulkan, window and input.
 * glew:the OpenGL extension wrangler library.

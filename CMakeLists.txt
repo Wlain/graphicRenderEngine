@@ -22,7 +22,7 @@ add_subdirectory(3rdparty/lua)
 # sol2
 add_subdirectory(3rdparty/sol2)
 # render engine
-add_subdirectory(re)
+add_subdirectory(ceres)
 # Add the cmake folder so the FindSphinx module is found
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 add_subdirectory(docs)
@@ -47,13 +47,13 @@ file(GLOB IMAGE_UI_SRC
         3rdparty/imgui/backends/imgui_impl_opengl3.*
         3rdparty/imgui/*.cpp)
 
-file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${IMAGE_UI_SRC} re/*.cpp test/*.cpp)
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${IMAGE_UI_SRC} ceres/*.cpp test/*.cpp)
 
 # resources copy
 file(COPY ./test/resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-file(COPY ./re/embeddedResource DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY ./ceres/embeddedResource DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 enable_testing()
 add_executable(simpleRenderEngine ${SOURCES})
 # 链接库
-target_link_libraries(simpleRenderEngine re)
+target_link_libraries(simpleRenderEngine ceres)
