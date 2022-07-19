@@ -1,0 +1,64 @@
+\hypertarget{_inspector_8h_source}{}\doxysection{Inspector.\+h}
+\label{_inspector_8h_source}\index{/Users/william/Developer/demo/simpleRenderEngine/re/core/Inspector.h@{/Users/william/Developer/demo/simpleRenderEngine/re/core/Inspector.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by william on 2022/6/1.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SIMPLERENDERENGINE\_INSPECTOR\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SIMPLERENDERENGINE\_INSPECTOR\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}framebuffer.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}renderStats.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}timer.h"{}}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}worldLights.h"{}}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <chrono>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{16 \{}
+\DoxyCodeLine{17 \textcolor{keyword}{class }Texture;}
+\DoxyCodeLine{18 \textcolor{keyword}{class }GLFWRenderer;}
+\DoxyCodeLine{19 \textcolor{keyword}{class }Mesh;}
+\DoxyCodeLine{20 \textcolor{keyword}{class }Shader;}
+\DoxyCodeLine{21 \textcolor{keyword}{class }FrameBuffer;}
+\DoxyCodeLine{22 \textcolor{keyword}{class }SpriteAtlas;}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_inspector}{Inspector}}}
+\DoxyCodeLine{25 \{}
+\DoxyCodeLine{26 \textcolor{keyword}{public}:}
+\DoxyCodeLine{27     \textcolor{keyword}{explicit} \mbox{\hyperlink{classre_1_1_inspector}{Inspector}}(\textcolor{keywordtype}{int} frames = 300, \mbox{\hyperlink{classre_1_1_g_l_f_w_renderer}{GLFWRenderer}}* renderer = \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29     \textcolor{keywordtype}{void} update();}
+\DoxyCodeLine{30     \textcolor{keywordtype}{void} gui(\textcolor{keywordtype}{bool} useWindow = \textcolor{keyword}{true});}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{keyword}{private}:}
+\DoxyCodeLine{33     \textcolor{keywordtype}{void} showTexture(\mbox{\hyperlink{classre_1_1_texture}{Texture}}* tex) \textcolor{keyword}{const};}
+\DoxyCodeLine{34     \textcolor{keywordtype}{void} showMesh(\mbox{\hyperlink{classre_1_1_mesh}{Mesh}}* mesh);}
+\DoxyCodeLine{35     \textcolor{keywordtype}{void} showShader(\mbox{\hyperlink{classre_1_1_shader}{Shader}}* shader);}
+\DoxyCodeLine{36     \textcolor{keywordtype}{void} showFramebufferObject(\mbox{\hyperlink{classre_1_1_frame_buffer}{FrameBuffer}}* fbo);}
+\DoxyCodeLine{37     \textcolor{keywordtype}{void} showSpriteAtlas(\mbox{\hyperlink{classre_1_1_sprite_atlas}{SpriteAtlas}}* pAtlas) \textcolor{keyword}{const};}
+\DoxyCodeLine{38     std::shared\_ptr<Texture> getTmpTexture();}
+\DoxyCodeLine{39     \textcolor{keywordtype}{void} initFramebuffer();}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 \textcolor{keyword}{private}:}
+\DoxyCodeLine{42     \mbox{\hyperlink{structre_1_1_world_lights}{WorldLights}} m\_worldLights;}
+\DoxyCodeLine{43     std::vector<std::shared\_ptr<Texture>> m\_offscreenTextures;}
+\DoxyCodeLine{44     std::shared\_ptr<FrameBuffer> m\_framebuffer;}
+\DoxyCodeLine{45     std::vector<RenderStats> m\_stats;}
+\DoxyCodeLine{46     std::vector<float> m\_data;}
+\DoxyCodeLine{47     \mbox{\hyperlink{classre_1_1_g_l_f_w_renderer}{GLFWRenderer}}* m\_renderer\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{48     std::vector<float> m\_milliseconds;}
+\DoxyCodeLine{49     \textcolor{keyword}{const} \textcolor{keywordtype}{float} m\_previewSize = 100;}
+\DoxyCodeLine{50     \textcolor{keywordtype}{int} m\_usedTextures\{ 0 \};}
+\DoxyCodeLine{51     \textcolor{keywordtype}{int} m\_frames\{ 0 \};}
+\DoxyCodeLine{52     \textcolor{keywordtype}{int} m\_frameCount\{ 0 \};}
+\DoxyCodeLine{53     \textcolor{keywordtype}{float} m\_time\{ 0.0f \};}
+\DoxyCodeLine{54     Timer m\_timer;}
+\DoxyCodeLine{55 \};}
+\DoxyCodeLine{56 \} \textcolor{comment}{// namespace re}}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SIMPLERENDERENGINE\_INSPECTOR\_H}}
+
+\end{DoxyCode}

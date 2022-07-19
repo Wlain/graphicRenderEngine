@@ -1,0 +1,158 @@
+\hypertarget{texture_8h_source}{}\doxysection{texture.\+h}
+\label{texture_8h_source}\index{/Users/william/Developer/demo/simpleRenderEngine/re/core/texture.h@{/Users/william/Developer/demo/simpleRenderEngine/re/core/texture.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by william on 2022/5/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SIMPLERENDERENGINE\_TEXTURE\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SIMPLERENDERENGINE\_TEXTURE\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}resource.h"{}}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <cstdlib>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <string\_view>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{16 \{}
+\DoxyCodeLine{17 \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_texture}{Texture}} : \textcolor{keyword}{public} std::enable\_shared\_from\_this<Texture>}
+\DoxyCodeLine{18 \{}
+\DoxyCodeLine{19 \textcolor{keyword}{public}:}
+\DoxyCodeLine{20     \textcolor{keyword}{enum class} PixelFormat : uint8\_t}
+\DoxyCodeLine{21     \{}
+\DoxyCodeLine{22         RGBA,}
+\DoxyCodeLine{23         RGB}
+\DoxyCodeLine{24     \};}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26     \textcolor{keyword}{enum class} SamplerColorspace : uint8\_t}
+\DoxyCodeLine{27     \{}
+\DoxyCodeLine{28         Linear,}
+\DoxyCodeLine{29         Gamma}
+\DoxyCodeLine{30     \};}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32     \textcolor{keyword}{enum class} CubeMapSide : uint8\_t}
+\DoxyCodeLine{33     \{}
+\DoxyCodeLine{34         PositiveX,}
+\DoxyCodeLine{35         NegativeX,}
+\DoxyCodeLine{36         PositiveY,}
+\DoxyCodeLine{37         NegativeY,}
+\DoxyCodeLine{38         PositiveZ,}
+\DoxyCodeLine{39         NegativeZ}
+\DoxyCodeLine{40     \};}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42     \textcolor{keyword}{enum class} DepthPrecision}
+\DoxyCodeLine{43     \{}
+\DoxyCodeLine{44         I16,          \textcolor{comment}{// 16 bit integer}}
+\DoxyCodeLine{45         I24,          \textcolor{comment}{// 24 bit integer}}
+\DoxyCodeLine{46         I32,          \textcolor{comment}{// 32 bit integer}}
+\DoxyCodeLine{47         F32,          \textcolor{comment}{// 32 bit float}}
+\DoxyCodeLine{48         I24\_STENCIL8, \textcolor{comment}{// 24 bit integer 8 bit stencil}}
+\DoxyCodeLine{49         F32\_STENCIL8, \textcolor{comment}{// 32 bit float 8 bit stencil}}
+\DoxyCodeLine{50         STENCIL8,     \textcolor{comment}{// 8 bit stencil}}
+\DoxyCodeLine{51         None}
+\DoxyCodeLine{52     \};}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54     \textcolor{keyword}{enum class} Wrap}
+\DoxyCodeLine{55     \{}
+\DoxyCodeLine{56         Repeat,}
+\DoxyCodeLine{57         ClampToEdge,}
+\DoxyCodeLine{58         Mirror}
+\DoxyCodeLine{59     \};}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61     \textcolor{keyword}{struct }\mbox{\hyperlink{structre_1_1_texture_1_1_info}{Info}}}
+\DoxyCodeLine{62     \{}
+\DoxyCodeLine{63         PixelFormat format = PixelFormat::RGBA;}
+\DoxyCodeLine{64         SamplerColorspace colorspace = SamplerColorspace::Linear;}
+\DoxyCodeLine{65         ResourceType resourceType = ResourceType::File;}
+\DoxyCodeLine{66         Wrap warp = Wrap::Repeat;}
+\DoxyCodeLine{67         std::string name;}
+\DoxyCodeLine{68         \textcolor{keywordtype}{int} width = 0;}
+\DoxyCodeLine{69         \textcolor{keywordtype}{int} height = 0;}
+\DoxyCodeLine{70         \textcolor{keywordtype}{int} channels = 0;}
+\DoxyCodeLine{71         uint32\_t \textcolor{keywordtype}{id} = 0;}
+\DoxyCodeLine{72         uint32\_t target = 0;}
+\DoxyCodeLine{73         \textcolor{keywordtype}{bool} transparent; \textcolor{comment}{// 透明纹理}}
+\DoxyCodeLine{74         \textcolor{keywordtype}{bool} generateMipmap = \textcolor{keyword}{false};}
+\DoxyCodeLine{75         \textcolor{keywordtype}{bool} filterSampling = \textcolor{keyword}{true};}
+\DoxyCodeLine{76     \};}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78 \textcolor{keyword}{public}:}
+\DoxyCodeLine{79     \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_texture_1_1_texture_builder}{TextureBuilder}}}
+\DoxyCodeLine{80     \{}
+\DoxyCodeLine{81     \textcolor{keyword}{public}:}
+\DoxyCodeLine{82         \mbox{\hyperlink{classre_1_1_texture_1_1_texture_builder}{TextureBuilder}}(\textcolor{keyword}{const} \mbox{\hyperlink{classre_1_1_texture_1_1_texture_builder}{TextureBuilder}}\&) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{83         \mbox{\hyperlink{classre_1_1_texture_1_1_texture_builder}{\string~TextureBuilder}}();}
+\DoxyCodeLine{84         \mbox{\hyperlink{classre_1_1_texture_1_1_texture_builder}{TextureBuilder}}\& withGenerateMipmaps(\textcolor{keywordtype}{bool} enable);}
+\DoxyCodeLine{85         \textcolor{comment}{// if true texture sampling is filtered (bi-\/linear or tri-\/linear sampling) otherwise use point sampling.}}
+\DoxyCodeLine{86         \mbox{\hyperlink{classre_1_1_texture_1_1_texture_builder}{TextureBuilder}}\& withFilterSampling(\textcolor{keywordtype}{bool} enable);}
+\DoxyCodeLine{87         \mbox{\hyperlink{classre_1_1_texture_1_1_texture_builder}{TextureBuilder}}\& withFile(std::string\_view filename, \textcolor{keywordtype}{bool} premultiplyAlpha = \textcolor{keyword}{true});}
+\DoxyCodeLine{88         \mbox{\hyperlink{classre_1_1_texture_1_1_texture_builder}{TextureBuilder}}\& withFileCubeMap(std::string\_view filename, CubeMapSide side);}
+\DoxyCodeLine{89         \mbox{\hyperlink{classre_1_1_texture_1_1_texture_builder}{TextureBuilder}}\& withWrapUV(Wrap wrap);}
+\DoxyCodeLine{90         \mbox{\hyperlink{classre_1_1_texture_1_1_texture_builder}{TextureBuilder}}\& withRGBAData(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* data, \textcolor{keywordtype}{int} width, \textcolor{keywordtype}{int} height);}
+\DoxyCodeLine{91         \mbox{\hyperlink{classre_1_1_texture_1_1_texture_builder}{TextureBuilder}}\& withWhiteData(\textcolor{keywordtype}{int} width = 1, \textcolor{keywordtype}{int} height = 1);}
+\DoxyCodeLine{92         \mbox{\hyperlink{classre_1_1_texture_1_1_texture_builder}{TextureBuilder}}\& withSamplerColorspace(SamplerColorspace samplerColorspace);}
+\DoxyCodeLine{93         \mbox{\hyperlink{classre_1_1_texture_1_1_texture_builder}{TextureBuilder}}\& withDepth(\textcolor{keywordtype}{int} width, \textcolor{keywordtype}{int} height, DepthPrecision precision = DepthPrecision::I16); \textcolor{comment}{// Creates a depth texture.}}
+\DoxyCodeLine{94         \mbox{\hyperlink{classre_1_1_texture_1_1_texture_builder}{TextureBuilder}}\& withName(std::string\_view name);}
+\DoxyCodeLine{95         std::shared\_ptr<Texture> build();}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{97     \textcolor{keyword}{private}:}
+\DoxyCodeLine{98         \mbox{\hyperlink{classre_1_1_texture_1_1_texture_builder}{TextureBuilder}}();}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{100     \textcolor{keyword}{public}:}
+\DoxyCodeLine{101         \mbox{\hyperlink{structre_1_1_texture_1_1_info}{Info}} m\_info\{\};}
+\DoxyCodeLine{102         DepthPrecision m\_depthPrecision = DepthPrecision::None;}
+\DoxyCodeLine{103         \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_texture}{Texture}};}
+\DoxyCodeLine{104     \};}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106 \textcolor{keyword}{public}:}
+\DoxyCodeLine{107     \textcolor{keyword}{static} \mbox{\hyperlink{classre_1_1_texture_1_1_texture_builder}{TextureBuilder}} create();}
+\DoxyCodeLine{108     \textcolor{keyword}{static} std::shared\_ptr<Texture> getWhiteTexture();}
+\DoxyCodeLine{109     \textcolor{keyword}{static} std::shared\_ptr<Texture> getFontTexture();}
+\DoxyCodeLine{110     \textcolor{keyword}{static} std::shared\_ptr<Texture> getSphereTexture();}
+\DoxyCodeLine{111     \textcolor{keyword}{static} std::shared\_ptr<Texture> getCubeMapTexture();}
+\DoxyCodeLine{112     \mbox{\hyperlink{classre_1_1_texture}{\string~Texture}}();}
+\DoxyCodeLine{113 }
+\DoxyCodeLine{114 \textcolor{keyword}{public}:}
+\DoxyCodeLine{115     \textcolor{keyword}{inline} \textcolor{keywordtype}{int} width()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_info.width; \}}
+\DoxyCodeLine{116     \textcolor{keyword}{inline} \textcolor{keywordtype}{int} height()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_info.height; \}}
+\DoxyCodeLine{117     \textcolor{keyword}{inline} \textcolor{keyword}{const} std::string\& name()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_info.name; \}}
+\DoxyCodeLine{118     \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} isFilterSampling()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_info.filterSampling; \}}
+\DoxyCodeLine{119     \textcolor{keyword}{inline} Wrap warpUv()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_info.warp; \}}
+\DoxyCodeLine{120     \textcolor{keywordtype}{bool} isCubeMap() \textcolor{keyword}{const};}
+\DoxyCodeLine{121     \textcolor{keywordtype}{bool} isMipMapped() \textcolor{keyword}{const}; \textcolor{comment}{// has texture mipmapped enabled}}
+\DoxyCodeLine{122     \textcolor{keywordtype}{bool} isTransparent() \textcolor{keyword}{const};}
+\DoxyCodeLine{123     \textcolor{keywordtype}{void} invokeGenerateMipmap();}
+\DoxyCodeLine{124     \textcolor{comment}{// get size of the texture in bytes on GPU}}
+\DoxyCodeLine{125     \textcolor{keywordtype}{size\_t} getDataSize() \textcolor{keyword}{const};}
+\DoxyCodeLine{126     SamplerColorspace getSamplerColorSpace() \textcolor{keyword}{const};}
+\DoxyCodeLine{127     \textcolor{keywordtype}{bool} isDepthTexture() \textcolor{keyword}{const};}
+\DoxyCodeLine{128     DepthPrecision getDepthPrecision() \textcolor{keyword}{const};}
+\DoxyCodeLine{129 }
+\DoxyCodeLine{130 \textcolor{keyword}{private}:}
+\DoxyCodeLine{131     Texture(int32\_t \textcolor{keywordtype}{id}, \textcolor{keywordtype}{int} width, \textcolor{keywordtype}{int} height, uint32\_t target, std::string \textcolor{keywordtype}{string});}
+\DoxyCodeLine{132     \textcolor{keywordtype}{void} updateTextureSampler(\textcolor{keywordtype}{bool} filterSampling, Wrap warp) \textcolor{keyword}{const};}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{134 \textcolor{keyword}{private}:}
+\DoxyCodeLine{135     \textcolor{keyword}{inline} \textcolor{keyword}{static} std::shared\_ptr<Texture> s\_whiteTexture\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{136     \textcolor{keyword}{inline} \textcolor{keyword}{static} std::shared\_ptr<Texture> s\_fontTexture\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{137     \textcolor{keyword}{inline} \textcolor{keyword}{static} std::shared\_ptr<Texture> s\_sphereTexture\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{138     \textcolor{keyword}{inline} \textcolor{keyword}{static} std::shared\_ptr<Texture> s\_cubeMapTexture\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{139 }
+\DoxyCodeLine{140 \textcolor{keyword}{private}:}
+\DoxyCodeLine{141     Info m\_info\{\};}
+\DoxyCodeLine{142     DepthPrecision m\_depthPrecision = DepthPrecision::None;}
+\DoxyCodeLine{143     \textcolor{keyword}{friend} \textcolor{keyword}{class }Shader;}
+\DoxyCodeLine{144     \textcolor{keyword}{friend} \textcolor{keyword}{class }UniformSet;}
+\DoxyCodeLine{145     \textcolor{keyword}{friend} \textcolor{keyword}{class }RenderPass;}
+\DoxyCodeLine{146     \textcolor{keyword}{friend} \textcolor{keyword}{class }FrameBuffer;}
+\DoxyCodeLine{147     \textcolor{keyword}{friend} \textcolor{keyword}{class }Inspector;}
+\DoxyCodeLine{148     \textcolor{keyword}{friend} \textcolor{keyword}{class }Sprite;}
+\DoxyCodeLine{149 \};}
+\DoxyCodeLine{150 \} \textcolor{comment}{// namespace re}}
+\DoxyCodeLine{151 }
+\DoxyCodeLine{152 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SIMPLERENDERENGINE\_TEXTURE\_H}}
+
+\end{DoxyCode}

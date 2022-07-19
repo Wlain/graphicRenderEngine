@@ -1,0 +1,62 @@
+\hypertarget{light_8h_source}{}\doxysection{light.\+h}
+\label{light_8h_source}\index{/Users/william/Developer/demo/simpleRenderEngine/re/core/light.h@{/Users/william/Developer/demo/simpleRenderEngine/re/core/light.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by william on 2022/5/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SIMPLERENDERENGINE\_LIGHT\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SIMPLERENDERENGINE\_LIGHT\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}color.h"{}}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <glm/glm.hpp>}}
+\DoxyCodeLine{10 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{11 \{}
+\DoxyCodeLine{12 \textcolor{keyword}{struct }\mbox{\hyperlink{structre_1_1_light}{Light}}}
+\DoxyCodeLine{13 \{}
+\DoxyCodeLine{14     \textcolor{keyword}{enum class} Type}
+\DoxyCodeLine{15     \{}
+\DoxyCodeLine{16         Point,}
+\DoxyCodeLine{17         Directional,}
+\DoxyCodeLine{18         Unused}
+\DoxyCodeLine{19     \};}
+\DoxyCodeLine{20     \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_light_1_1_light_builder}{LightBuilder}}}
+\DoxyCodeLine{21     \{}
+\DoxyCodeLine{22     \textcolor{keyword}{public}:}
+\DoxyCodeLine{23         \mbox{\hyperlink{classre_1_1_light_1_1_light_builder}{\string~LightBuilder}}();}
+\DoxyCodeLine{24         \mbox{\hyperlink{classre_1_1_light_1_1_light_builder}{LightBuilder}}\& withPointLight(glm::vec3 position);}
+\DoxyCodeLine{25         \mbox{\hyperlink{classre_1_1_light_1_1_light_builder}{LightBuilder}}\& withDirectionalLight(glm::vec3 direction);}
+\DoxyCodeLine{26         \textcolor{comment}{// light color.}}
+\DoxyCodeLine{27         \mbox{\hyperlink{classre_1_1_light_1_1_light_builder}{LightBuilder}}\& withColor(\mbox{\hyperlink{classre_1_1_color}{Color}} color, \textcolor{keywordtype}{float} intensity = 1.0);}
+\DoxyCodeLine{28         \textcolor{comment}{// range only valid using point light}}
+\DoxyCodeLine{29         \mbox{\hyperlink{classre_1_1_light_1_1_light_builder}{LightBuilder}}\& withRange(\textcolor{keywordtype}{float} range);}
+\DoxyCodeLine{30         \mbox{\hyperlink{structre_1_1_light}{Light}}\& build();}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32     \textcolor{keyword}{private}:}
+\DoxyCodeLine{33         \mbox{\hyperlink{classre_1_1_light_1_1_light_builder}{LightBuilder}}();}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35     \textcolor{keyword}{private}:}
+\DoxyCodeLine{36         Type m\_type\{ Type::Unused \};}
+\DoxyCodeLine{37         glm::vec3 m\_position\{\};}
+\DoxyCodeLine{38         glm::vec3 m\_direction\{\};}
+\DoxyCodeLine{39         glm::vec3 m\_color\{\};}
+\DoxyCodeLine{40         \mbox{\hyperlink{structre_1_1_light}{Light}}* m\_light\{\};}
+\DoxyCodeLine{41         \textcolor{keywordtype}{float} m\_range\{\}; \textcolor{comment}{// the range of a point light (due to attenuation),range == 0 means no attenuation}}
+\DoxyCodeLine{42         \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{structre_1_1_light}{Light}};}
+\DoxyCodeLine{43     \};}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45     \textcolor{keyword}{static} \mbox{\hyperlink{classre_1_1_light_1_1_light_builder}{LightBuilder}} create();}
+\DoxyCodeLine{46     \mbox{\hyperlink{structre_1_1_light}{Light}}();}
+\DoxyCodeLine{47     Type type\{ Type::Unused \};}
+\DoxyCodeLine{48     glm::vec3 position\{ 0.0f \};}
+\DoxyCodeLine{49     glm::vec3 direction\{ 0.0f \};}
+\DoxyCodeLine{50     glm::vec3 color\{ 1.0f \};}
+\DoxyCodeLine{51     \textcolor{comment}{// 0 : means no attenuation}}
+\DoxyCodeLine{52     \textcolor{keywordtype}{float} range\{ 100.0f \};}
+\DoxyCodeLine{53 \};}
+\DoxyCodeLine{54 \} \textcolor{comment}{// namespace re}}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SIMPLERENDERENGINE\_LIGHT\_H}}
+
+\end{DoxyCode}

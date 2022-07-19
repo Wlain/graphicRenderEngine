@@ -1,0 +1,79 @@
+\hypertarget{camera_8h_source}{}\doxysection{camera.\+h}
+\label{camera_8h_source}\index{/Users/william/Developer/demo/simpleRenderEngine/re/core/camera.h@{/Users/william/Developer/demo/simpleRenderEngine/re/core/camera.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by william on 2022/5/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SIMPLERENDERENGINE\_CAMERA\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SIMPLERENDERENGINE\_CAMERA\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}ray.h"{}}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <array>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <glm/glm.hpp>}}
+\DoxyCodeLine{11 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{12 \{}
+\DoxyCodeLine{16 \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_camera}{Camera}}}
+\DoxyCodeLine{17 \{}
+\DoxyCodeLine{18 \textcolor{keyword}{public}:}
+\DoxyCodeLine{22     \mbox{\hyperlink{classre_1_1_camera_aa6dc5e0e6087fb3d61065ba07ca24bdd}{Camera}}();}
+\DoxyCodeLine{23     \mbox{\hyperlink{classre_1_1_camera}{\string~Camera}}();}
+\DoxyCodeLine{24     \textcolor{comment}{// set position of camera in world space (view transform) using}}
+\DoxyCodeLine{25     \textcolor{keywordtype}{void} setLookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up);}
+\DoxyCodeLine{26     \textcolor{comment}{// set the camera view transform using worldspace position and rotation is degrees}}
+\DoxyCodeLine{27     \textcolor{keywordtype}{void} setPositionAndRotation(glm::vec3 position, glm::vec3 rotationEulersDegrees);}
+\DoxyCodeLine{28     \textcolor{comment}{// return the camera position (computed from the view transform)}}
+\DoxyCodeLine{29     glm::vec3 getPosition();}
+\DoxyCodeLine{30     glm::vec3 getRotationEuler();}
+\DoxyCodeLine{31     \textcolor{comment}{// 世界坐标到屏幕的获取射线}}
+\DoxyCodeLine{32     \mbox{\hyperlink{structre_1_1_ray}{Ray}} \mbox{\hyperlink{classre_1_1_camera_ae5801e33fb27ef220b065fa7be42b43a}{screenPointToRay}}(glm::vec2 position);}
+\DoxyCodeLine{33     \textcolor{keywordtype}{void} setPerspectiveProjection(\textcolor{keywordtype}{float} fieldOfViewY, \textcolor{keywordtype}{float} nearPlane, \textcolor{keywordtype}{float} farPlane);}
+\DoxyCodeLine{34     \textcolor{keywordtype}{void} setOrthographicProjection(\textcolor{keywordtype}{float} orthographicSize, \textcolor{keywordtype}{float} nearPlane, \textcolor{keywordtype}{float} farPlane);}
+\DoxyCodeLine{35     \textcolor{keywordtype}{void} setWindowCoordinates();}
+\DoxyCodeLine{36     \textcolor{keyword}{inline} \textcolor{keywordtype}{void} setViewTransform(\textcolor{keyword}{const} glm::mat4\& viewTransform) \{ m\_viewTransform = viewTransform; \}}
+\DoxyCodeLine{37     \textcolor{keywordtype}{void} setProjectionTransform(\textcolor{keyword}{const} glm::mat4\& projectionTransform);}
+\DoxyCodeLine{38     [[nodiscard]] \textcolor{keyword}{inline} glm::mat4 getViewTransform()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_viewTransform; \}}
+\DoxyCodeLine{39     glm::mat4 getProjectionTransform(\textcolor{keyword}{const} glm::uvec2\& viewportSize);}
+\DoxyCodeLine{40     glm::mat4 getInfiniteProjectionTransform(glm::uvec2 viewportSize);}
+\DoxyCodeLine{41     \textcolor{keywordtype}{void} setViewport(\textcolor{keyword}{const} glm::vec2\& offset, \textcolor{keyword}{const} glm::vec2\& size);}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{keyword}{private}:}
+\DoxyCodeLine{44     \textcolor{keyword}{enum class} ProjectionType}
+\DoxyCodeLine{45     \{}
+\DoxyCodeLine{46         Perspective,}
+\DoxyCodeLine{47         Orthographic,}
+\DoxyCodeLine{48         OrthographicWindow,}
+\DoxyCodeLine{49         Custom}
+\DoxyCodeLine{50     \};}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52     \textcolor{keyword}{union }ProjectionValue}
+\DoxyCodeLine{53     \{}
+\DoxyCodeLine{54         \textcolor{keyword}{struct}}
+\DoxyCodeLine{55         \{}
+\DoxyCodeLine{56             \textcolor{keywordtype}{float} fieldOfViewY;}
+\DoxyCodeLine{57             \textcolor{keywordtype}{float} nearPlane;}
+\DoxyCodeLine{58             \textcolor{keywordtype}{float} farPlane;}
+\DoxyCodeLine{59         \} perspective;}
+\DoxyCodeLine{60         \textcolor{keyword}{struct}}
+\DoxyCodeLine{61         \{}
+\DoxyCodeLine{62             \textcolor{keywordtype}{float} orthographicSize;}
+\DoxyCodeLine{63             \textcolor{keywordtype}{float} nearPlane;}
+\DoxyCodeLine{64             \textcolor{keywordtype}{float} farPlane;}
+\DoxyCodeLine{65         \} orthographic;}
+\DoxyCodeLine{66         \textcolor{keywordtype}{float} customProjectionMatrix[16];}
+\DoxyCodeLine{67     \};}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69 \textcolor{keyword}{private}:}
+\DoxyCodeLine{70     glm::mat4 m\_viewTransform\{ 1.0f \};}
+\DoxyCodeLine{71     ProjectionValue m\_projectionValue\{ 1.0f \};}
+\DoxyCodeLine{72     ProjectionType m\_projectionType = ProjectionType::Orthographic;}
+\DoxyCodeLine{73     glm::vec2 m\_viewportOffset = glm::vec2\{ 0, 0 \};}
+\DoxyCodeLine{74     glm::vec2 m\_viewportSize = glm::vec2\{ 1, 1 \};}
+\DoxyCodeLine{75     \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_render_pass}{RenderPass}};}
+\DoxyCodeLine{76 \};}
+\DoxyCodeLine{77 \} \textcolor{comment}{// namespace re}}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SIMPLERENDERENGINE\_CAMERA\_H}}
+
+\end{DoxyCode}

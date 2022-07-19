@@ -1,0 +1,67 @@
+\hypertarget{world_lights_8h_source}{}\doxysection{world\+Lights.\+h}
+\label{world_lights_8h_source}\index{/Users/william/Developer/demo/simpleRenderEngine/re/core/worldLights.h@{/Users/william/Developer/demo/simpleRenderEngine/re/core/worldLights.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by william on 2022/5/26.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SIMPLERENDERENGINE\_WORLDLIGHTS\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SIMPLERENDERENGINE\_WORLDLIGHTS\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}commonMacro.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}light.h"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <glm/glm.hpp>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{12 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{13 \{}
+\DoxyCodeLine{14 \textcolor{keyword}{class }Light;}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{keyword}{struct }\mbox{\hyperlink{structre_1_1_world_lights}{WorldLights}}}
+\DoxyCodeLine{17 \{}
+\DoxyCodeLine{18     \mbox{\hyperlink{structre_1_1_world_lights}{WorldLights}}();}
+\DoxyCodeLine{19     \textcolor{keyword}{inline} \textcolor{keywordtype}{size\_t} addLight(\textcolor{keyword}{const} \mbox{\hyperlink{structre_1_1_light}{Light}}\& light)}
+\DoxyCodeLine{20     \{}
+\DoxyCodeLine{21         lights.push\_back(light);}
+\DoxyCodeLine{22         \textcolor{keywordflow}{return} lights.size() -\/ 1;}
+\DoxyCodeLine{23     \}}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25     \textcolor{keyword}{inline} \textcolor{keywordtype}{void} removeLight(\textcolor{keywordtype}{int} index)}
+\DoxyCodeLine{26     \{}
+\DoxyCodeLine{27         ASSERT(index < lights.size());}
+\DoxyCodeLine{28         lights.erase(lights.cbegin() + index);}
+\DoxyCodeLine{29     \}}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31     \textcolor{keyword}{inline} \textcolor{keywordtype}{void} removeAllLight()}
+\DoxyCodeLine{32     \{}
+\DoxyCodeLine{33         lights.clear();}
+\DoxyCodeLine{34         lights.shrink\_to\_fit();}
+\DoxyCodeLine{35     \}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37     \textcolor{keyword}{inline} \mbox{\hyperlink{structre_1_1_light}{Light}}* getLight(\textcolor{keywordtype}{int} index)}
+\DoxyCodeLine{38     \{}
+\DoxyCodeLine{39         \textcolor{keywordflow}{if} (index >= lights.size())}
+\DoxyCodeLine{40         \{}
+\DoxyCodeLine{41             \textcolor{keywordflow}{return} \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{42         \}}
+\DoxyCodeLine{43         \textcolor{keywordflow}{return} \&lights[index];}
+\DoxyCodeLine{44     \}}
+\DoxyCodeLine{45     [[nodiscard]] \textcolor{keyword}{inline} \textcolor{keywordtype}{size\_t} lightCount()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} lights.size(); \}}
+\DoxyCodeLine{46     \textcolor{keyword}{inline} \textcolor{keywordtype}{void} setAmbientLight(\textcolor{keyword}{const} glm::vec3\& light)}
+\DoxyCodeLine{47     \{}
+\DoxyCodeLine{48         ambientLight = glm::vec4(light, 0.0f);}
+\DoxyCodeLine{49     \}}
+\DoxyCodeLine{50     [[nodiscard]] \textcolor{keyword}{inline} glm::vec3 getAmbientLight()\textcolor{keyword}{ const}}
+\DoxyCodeLine{51 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{52         \textcolor{keywordflow}{return} \{ ambientLight.x, ambientLight.y, ambientLight.z \};}
+\DoxyCodeLine{53     \}}
+\DoxyCodeLine{54     \textcolor{keywordtype}{void} clear();}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56     glm::vec4 ambientLight\{\};}
+\DoxyCodeLine{57     std::vector<Light> lights;}
+\DoxyCodeLine{58 \};}
+\DoxyCodeLine{59 \} \textcolor{comment}{// namespace re}}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SIMPLERENDERENGINE\_WORLDLIGHTS\_H}}
+
+\end{DoxyCode}

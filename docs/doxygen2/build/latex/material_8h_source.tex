@@ -1,0 +1,70 @@
+\hypertarget{material_8h_source}{}\doxysection{material.\+h}
+\label{material_8h_source}\index{/Users/william/Developer/demo/simpleRenderEngine/re/core/material.h@{/Users/william/Developer/demo/simpleRenderEngine/re/core/material.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by william on 2022/5/27.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SIMPLERENDERENGINE\_MATERIAL\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SIMPLERENDERENGINE\_MATERIAL\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}color.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}shader.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}uniformSet.h"{}}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <glm/glm.hpp>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <string\_view>}}
+\DoxyCodeLine{14 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{15 \{}
+\DoxyCodeLine{16 \textcolor{keyword}{class }Shader;}
+\DoxyCodeLine{17 \textcolor{keyword}{class }Texture;}
+\DoxyCodeLine{18 \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_material}{Material}}}
+\DoxyCodeLine{19 \{}
+\DoxyCodeLine{20 \textcolor{keyword}{public}:}
+\DoxyCodeLine{21     \mbox{\hyperlink{classre_1_1_material}{Material}}() = \textcolor{keyword}{delete};}
+\DoxyCodeLine{22     \textcolor{keyword}{explicit} \mbox{\hyperlink{classre_1_1_material}{Material}}(\textcolor{keyword}{const} std::shared\_ptr<Shader>\& shader);}
+\DoxyCodeLine{23     \mbox{\hyperlink{classre_1_1_material}{\string~Material}}();}
+\DoxyCodeLine{24     [[nodiscard]] \textcolor{keyword}{const} std::shared\_ptr<Shader>\& getShader() \textcolor{keyword}{const};}
+\DoxyCodeLine{25     \textcolor{keywordtype}{void} setShader(\textcolor{keyword}{const} std::shared\_ptr<Shader>\& shader);}
+\DoxyCodeLine{26     [[nodiscard]] \textcolor{keyword}{const} std::string\& getName() \textcolor{keyword}{const};}
+\DoxyCodeLine{27     \textcolor{keywordtype}{void} setName(std::string\_view name);}
+\DoxyCodeLine{28     \textcolor{comment}{// uniform parameters}}
+\DoxyCodeLine{29     \mbox{\hyperlink{classre_1_1_color}{Color}} getColor();}
+\DoxyCodeLine{30     \textcolor{keywordtype}{bool} setColor(\textcolor{keyword}{const} \mbox{\hyperlink{classre_1_1_color}{Color}}\& color);}
+\DoxyCodeLine{31     \mbox{\hyperlink{classre_1_1_color}{Color}} getSpecularity();}
+\DoxyCodeLine{32     \textcolor{keywordtype}{bool} setSpecularity(\mbox{\hyperlink{classre_1_1_color}{Color}} specularity);}
+\DoxyCodeLine{33     glm::vec2 getMetallicRoughness();}
+\DoxyCodeLine{34     \textcolor{comment}{// 金属粗糙度}}
+\DoxyCodeLine{35     \textcolor{keywordtype}{bool} setMetallicRoughness(glm::vec2 metallicRoughness);}
+\DoxyCodeLine{36     std::shared\_ptr<Texture> getMetallicRoughnessTexture();}
+\DoxyCodeLine{37     [[maybe\_unused]] \textcolor{keywordtype}{bool} setMetallicRoughnessTexture(std::shared\_ptr<Texture> texture);}
+\DoxyCodeLine{38     std::shared\_ptr<Texture> getTexture();}
+\DoxyCodeLine{39     \textcolor{keywordtype}{bool} setTexture(\textcolor{keyword}{const} std::shared\_ptr<Texture>\& texture);}
+\DoxyCodeLine{40     \textcolor{keywordtype}{bool} set(std::string\_view uniformName, \textcolor{keyword}{const} glm::vec4\& value);}
+\DoxyCodeLine{41     \textcolor{keywordtype}{bool} set(std::string\_view uniformName, \mbox{\hyperlink{classre_1_1_color}{Color}} value);}
+\DoxyCodeLine{42     \textcolor{keywordtype}{bool} set(std::string\_view uniformName, \textcolor{keywordtype}{float} value);}
+\DoxyCodeLine{43     \textcolor{keywordtype}{bool} set(std::string\_view uniformName, \textcolor{keywordtype}{int} value);}
+\DoxyCodeLine{44     \textcolor{keywordtype}{bool} set(std::string\_view uniformName, \textcolor{keyword}{const} glm::mat3\& value);}
+\DoxyCodeLine{45     \textcolor{keywordtype}{bool} set(std::string\_view uniformName, \textcolor{keyword}{const} glm::mat4\& value);}
+\DoxyCodeLine{46     \textcolor{keywordtype}{bool} set(std::string\_view uniformName, \textcolor{keyword}{const} std::shared\_ptr<Texture>\& texture);}
+\DoxyCodeLine{47     \textcolor{keywordtype}{bool} set(std::string\_view uniformName, \textcolor{keyword}{const} std::shared\_ptr<std::vector<glm::mat3>>\& value);}
+\DoxyCodeLine{48     \textcolor{keywordtype}{bool} set(std::string\_view uniformName, \textcolor{keyword}{const} std::shared\_ptr<std::vector<glm::mat4>>\& value);}
+\DoxyCodeLine{49     \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{50     T get(std::string\_view uniformName);}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52 \textcolor{keyword}{private}:}
+\DoxyCodeLine{53     \textcolor{keywordtype}{void} bind();}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 \textcolor{keyword}{private}:}
+\DoxyCodeLine{56     std::string m\_name;}
+\DoxyCodeLine{57     std::shared\_ptr<Shader> m\_shader;}
+\DoxyCodeLine{58     \mbox{\hyperlink{classre_1_1_uniform_set}{UniformSet}} m\_uniformMap;}
+\DoxyCodeLine{59     \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_shader}{Shader}};}
+\DoxyCodeLine{60     \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_render_pass}{RenderPass}};}
+\DoxyCodeLine{61 \};}
+\DoxyCodeLine{62 \} \textcolor{comment}{// namespace re}}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SIMPLERENDERENGINE\_MATERIAL\_H}}
+
+\end{DoxyCode}

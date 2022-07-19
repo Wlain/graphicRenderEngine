@@ -1,0 +1,88 @@
+\hypertarget{renderer_8h_source}{}\doxysection{renderer.\+h}
+\label{renderer_8h_source}\index{/Users/william/Developer/demo/simpleRenderEngine/re/core/renderer.h@{/Users/william/Developer/demo/simpleRenderEngine/re/core/renderer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by william on 2022/5/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SIMPLERENDERENGINE\_RENDERER\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SIMPLERENDERENGINE\_RENDERER\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}camera.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}glCommonDefine.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}light.h"{}}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}mesh.h"{}}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include "{}renderPass.h"{}}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include "{}renderStats.h"{}}}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <algorithm>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <glm/glm.hpp>}}
+\DoxyCodeLine{16 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{17 \{}
+\DoxyCodeLine{18 \textcolor{comment}{// 前向声明}}
+\DoxyCodeLine{19 \textcolor{keyword}{class }Mesh;}
+\DoxyCodeLine{20 \textcolor{keyword}{class }Shader;}
+\DoxyCodeLine{21 \textcolor{keyword}{class }ParticleMesh;}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_renderer}{Renderer}}}
+\DoxyCodeLine{24 \{}
+\DoxyCodeLine{25 \textcolor{keyword}{public}:}
+\DoxyCodeLine{26     \textcolor{keyword}{struct }\mbox{\hyperlink{structre_1_1_renderer_1_1_render_info}{RenderInfo}}}
+\DoxyCodeLine{27     \{}
+\DoxyCodeLine{28         \textcolor{keywordtype}{bool} useFramebufferSRGB = \textcolor{keyword}{false};}
+\DoxyCodeLine{29         \textcolor{keywordtype}{bool} supportTextureSamplerSRGB = \textcolor{keyword}{false};}
+\DoxyCodeLine{30         \textcolor{keywordtype}{bool} supportFBODepthAttachment = \textcolor{keyword}{false};}
+\DoxyCodeLine{31         std::string graphicsAPIVersion;}
+\DoxyCodeLine{32         std::string graphicsAPIVendor;}
+\DoxyCodeLine{33     \};}
+\DoxyCodeLine{34     \textcolor{keyword}{explicit} \mbox{\hyperlink{classre_1_1_renderer}{Renderer}}(GLFWwindow* window, \textcolor{keywordtype}{bool} vsync = \textcolor{keyword}{true}, \textcolor{keywordtype}{int} maxSceneLights = 4);}
+\DoxyCodeLine{35     \mbox{\hyperlink{classre_1_1_renderer}{\string~Renderer}}();}
+\DoxyCodeLine{36     \textcolor{comment}{// Update window with OpenGL rendering}}
+\DoxyCodeLine{37     \textcolor{keywordtype}{void} swapWindow();}
+\DoxyCodeLine{38     \textcolor{comment}{// return stats of the last rendered frame,only data maintained by re is included}}
+\DoxyCodeLine{39     [[nodiscard]] \textcolor{keyword}{inline} \textcolor{keyword}{const} \mbox{\hyperlink{structre_1_1_render_stats}{RenderStats}}\& getRenderStats()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_renderStatsLast; \}}
+\DoxyCodeLine{40     [[nodiscard]] \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} usesVSync()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_vsync; \};}
+\DoxyCodeLine{41     glm::ivec2 getFramebufferSize();}
+\DoxyCodeLine{42     glm::ivec2 getWindowSize();}
+\DoxyCodeLine{43     [[nodiscard]] \textcolor{keywordtype}{int} getMaxSceneLights() \textcolor{keyword}{const};}
+\DoxyCodeLine{44     \textcolor{keyword}{const} RenderInfo\& renderInfo();}
+\DoxyCodeLine{45     \textcolor{keywordtype}{void} initGlobalUniformBuffer();}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \textcolor{keyword}{public}:}
+\DoxyCodeLine{48     \textcolor{keyword}{inline} \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} s\_rgVersionMajor\{ 3 \};}
+\DoxyCodeLine{49     \textcolor{keyword}{inline} \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} s\_rgVersionMinor\{ 2 \};}
+\DoxyCodeLine{50     \textcolor{keyword}{inline} \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} s\_rgVersionPoint\{ 0 \};}
+\DoxyCodeLine{51     \textcolor{keyword}{inline} \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} s\_depthBits\{ 24 \};}
+\DoxyCodeLine{52     \textcolor{keyword}{inline} \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} s\_stencilBits\{ 8 \};}
+\DoxyCodeLine{53     \textcolor{keyword}{inline} \textcolor{keyword}{static} Renderer* s\_instance\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 \textcolor{keyword}{private}:}
+\DoxyCodeLine{56     RenderInfo m\_renderInfo;}
+\DoxyCodeLine{57     RenderStats m\_renderStatsLast\{\};}
+\DoxyCodeLine{58     RenderStats m\_renderStatsCurrent\{\};}
+\DoxyCodeLine{59     GLFWwindow* m\_window\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{60     std::vector<FrameBuffer*> m\_fbos;}
+\DoxyCodeLine{61     std::vector<Mesh*> m\_meshes;}
+\DoxyCodeLine{62     std::vector<Shader*> m\_shaders;}
+\DoxyCodeLine{63     std::vector<Texture*> m\_textures;}
+\DoxyCodeLine{64     std::vector<SpriteAtlas*> m\_spriteAtlases;}
+\DoxyCodeLine{65     \textcolor{keywordtype}{int} m\_maxSceneLights\{ 4 \};}
+\DoxyCodeLine{66     GLuint m\_globalUniformBuffer\{ 0 \};}
+\DoxyCodeLine{67     GLuint m\_globalUniformBufferSize\{ 1 \};}
+\DoxyCodeLine{68     \textcolor{keywordtype}{bool} m\_vsync\{ \textcolor{keyword}{false} \};}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70     \textcolor{keyword}{friend} \textcolor{keyword}{class }Mesh;}
+\DoxyCodeLine{71     \textcolor{keyword}{friend} \textcolor{keyword}{class }Mesh::MeshBuilder;}
+\DoxyCodeLine{72     \textcolor{keyword}{friend} \textcolor{keyword}{class }Shader;}
+\DoxyCodeLine{73     \textcolor{keyword}{friend} \textcolor{keyword}{class }Texture;}
+\DoxyCodeLine{74     \textcolor{keyword}{friend} \textcolor{keyword}{class }Camera;}
+\DoxyCodeLine{75     \textcolor{keyword}{friend} \textcolor{keyword}{class }RenderPass;}
+\DoxyCodeLine{76     \textcolor{keyword}{friend} \textcolor{keyword}{class }Inspector;}
+\DoxyCodeLine{77     \textcolor{keyword}{friend} \textcolor{keyword}{class }FrameBuffer;}
+\DoxyCodeLine{78     \textcolor{keyword}{friend} \textcolor{keyword}{class }SpriteAtlas;}
+\DoxyCodeLine{79     \textcolor{keyword}{friend} \textcolor{keyword}{class }Material;}
+\DoxyCodeLine{80 \};}
+\DoxyCodeLine{81 \} \textcolor{comment}{// namespace re}}
+\DoxyCodeLine{82 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SIMPLERENDERENGINE\_RENDERER\_H}}
+
+\end{DoxyCode}

@@ -1,0 +1,71 @@
+\hypertarget{framebuffer_8h_source}{}\doxysection{framebuffer.\+h}
+\label{framebuffer_8h_source}\index{/Users/william/Developer/demo/simpleRenderEngine/re/core/framebuffer.h@{/Users/william/Developer/demo/simpleRenderEngine/re/core/framebuffer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by william on 2022/5/31.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SIMPLERENDERENGINE\_FRAMEBUFFER\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SIMPLERENDERENGINE\_FRAMEBUFFER\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <glm/glm.hpp>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <string\_view>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{13 \{}
+\DoxyCodeLine{14 \textcolor{keyword}{class }RenderPass;}
+\DoxyCodeLine{15 \textcolor{keyword}{class }Texture;}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_frame_buffer}{FrameBuffer}}}
+\DoxyCodeLine{18 \{}
+\DoxyCodeLine{19 \textcolor{keyword}{public}:}
+\DoxyCodeLine{20     \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_frame_buffer_1_1_frame_buffer_builder}{FrameBufferBuilder}}}
+\DoxyCodeLine{21     \{}
+\DoxyCodeLine{22     \textcolor{keyword}{public}:}
+\DoxyCodeLine{23         \mbox{\hyperlink{classre_1_1_frame_buffer_1_1_frame_buffer_builder}{FrameBufferBuilder}}\& withColorTexture(\textcolor{keyword}{const} std::shared\_ptr<Texture>\& texture);}
+\DoxyCodeLine{24         \mbox{\hyperlink{classre_1_1_frame_buffer_1_1_frame_buffer_builder}{FrameBufferBuilder}}\& withDepthTexture(\textcolor{keyword}{const} std::shared\_ptr<Texture>\& texture);}
+\DoxyCodeLine{25         \mbox{\hyperlink{classre_1_1_frame_buffer_1_1_frame_buffer_builder}{FrameBufferBuilder}}\& withName(std::string\_view name);}
+\DoxyCodeLine{26         std::shared\_ptr<FrameBuffer> build();}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28     \textcolor{keyword}{private}:}
+\DoxyCodeLine{29         std::vector<std::shared\_ptr<Texture>> m\_textures;}
+\DoxyCodeLine{30         std::shared\_ptr<Texture> m\_depthTexture;}
+\DoxyCodeLine{31         std::string m\_name;}
+\DoxyCodeLine{32         glm::uvec2 m\_size\{\};}
+\DoxyCodeLine{33         \mbox{\hyperlink{classre_1_1_frame_buffer_1_1_frame_buffer_builder}{FrameBufferBuilder}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{34         \mbox{\hyperlink{classre_1_1_frame_buffer_1_1_frame_buffer_builder}{FrameBufferBuilder}}(\textcolor{keyword}{const} \mbox{\hyperlink{classre_1_1_frame_buffer_1_1_frame_buffer_builder}{FrameBufferBuilder}}\&) = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{35         \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_frame_buffer}{FrameBuffer}};}
+\DoxyCodeLine{36     \};}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 \textcolor{keyword}{public}:}
+\DoxyCodeLine{39     \textcolor{keyword}{explicit} \mbox{\hyperlink{classre_1_1_frame_buffer}{FrameBuffer}}(std::string\_view name);}
+\DoxyCodeLine{40     \mbox{\hyperlink{classre_1_1_frame_buffer}{\string~FrameBuffer}}();}
+\DoxyCodeLine{41     [[nodiscard]] \textcolor{keyword}{inline} \textcolor{keyword}{const} std::string\& name()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_name; \}}
+\DoxyCodeLine{42     \textcolor{keywordtype}{void} setColorTexture(\textcolor{keyword}{const} std::shared\_ptr<Texture>\& tex, \textcolor{keywordtype}{int} index = 0);}
+\DoxyCodeLine{43     \textcolor{keywordtype}{void} setDepthTexture(\textcolor{keyword}{const} std::shared\_ptr<Texture>\& tex);}
+\DoxyCodeLine{44     \textcolor{keyword}{static} FrameBufferBuilder create();}
+\DoxyCodeLine{45     \textcolor{keyword}{static} \textcolor{keywordtype}{int} getMaximumColorAttachments();}
+\DoxyCodeLine{46     \textcolor{keyword}{static} \textcolor{keywordtype}{int} getMaximumDepthAttachments();}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48 \textcolor{keyword}{private}:}
+\DoxyCodeLine{49     \textcolor{keywordtype}{void} bind();}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{keyword}{private}:}
+\DoxyCodeLine{52     std::vector<std::shared\_ptr<Texture>> m\_textures;}
+\DoxyCodeLine{53     std::shared\_ptr<Texture> m\_depthTexture;}
+\DoxyCodeLine{54     std::string m\_name;}
+\DoxyCodeLine{55     uint32\_t m\_renderBufferDepth\{ 0 \};}
+\DoxyCodeLine{56     uint32\_t m\_fbo\{ 0 \};}
+\DoxyCodeLine{57     uint32\_t m\_rbo\{ 0 \};}
+\DoxyCodeLine{58     glm::vec2 m\_size;}
+\DoxyCodeLine{59     \textcolor{keywordtype}{bool} m\_dirty\{ \textcolor{keyword}{true} \};}
+\DoxyCodeLine{60     \textcolor{keyword}{friend} \textcolor{keyword}{class }RenderPass;}
+\DoxyCodeLine{61     \textcolor{keyword}{friend} \textcolor{keyword}{class }Inspector;}
+\DoxyCodeLine{62 \};}
+\DoxyCodeLine{63 \} \textcolor{comment}{// namespace re}}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SIMPLERENDERENGINE\_FRAMEBUFFER\_H}}
+
+\end{DoxyCode}

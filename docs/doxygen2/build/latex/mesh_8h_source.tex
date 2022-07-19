@@ -1,0 +1,187 @@
+\hypertarget{mesh_8h_source}{}\doxysection{mesh.\+h}
+\label{mesh_8h_source}\index{/Users/william/Developer/demo/simpleRenderEngine/re/core/mesh.h@{/Users/william/Developer/demo/simpleRenderEngine/re/core/mesh.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by william on 2022/5/22.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SIMPLERENDERENGINE\_MESH\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SIMPLERENDERENGINE\_MESH\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}glCommonDefine.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}renderStats.h"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <array>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <cstdlib>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <glm/glm.hpp>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <string\_view>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{17 \textcolor{comment}{// 创建网格后，顶点属性的数量和类型不能更改, 顶点允许update,}}
+\DoxyCodeLine{18 \textcolor{comment}{// 每个网格可以有多个索引集与之关联，这允许使用多种材质进行渲染}}
+\DoxyCodeLine{19 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{20 \{}
+\DoxyCodeLine{21 \textcolor{keyword}{class }Shader;}
+\DoxyCodeLine{22 \textcolor{keyword}{class }Inspector;}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_mesh}{Mesh}} : \textcolor{keyword}{public} std::enable\_shared\_from\_this<Mesh>}
+\DoxyCodeLine{25 \{}
+\DoxyCodeLine{26 \textcolor{keyword}{public}:}
+\DoxyCodeLine{27     \textcolor{keyword}{enum class} Topology : uint8\_t}
+\DoxyCodeLine{28     \{}
+\DoxyCodeLine{29         Points = 0x0000,}
+\DoxyCodeLine{30         Lines = 0x0001,}
+\DoxyCodeLine{31         LineStrip = 0x0003,}
+\DoxyCodeLine{32         Triangles = 0x0004,}
+\DoxyCodeLine{33         TriangleStrip = 0x0005,}
+\DoxyCodeLine{34         TriangleFan [[maybe\_unused]] = 0x0006}
+\DoxyCodeLine{35     \};}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37     \textcolor{keyword}{enum class} BufferUsage}
+\DoxyCodeLine{38     \{}
+\DoxyCodeLine{39         StaticDraw,}
+\DoxyCodeLine{40         DynamicDraw,}
+\DoxyCodeLine{41         StreamDraw}
+\DoxyCodeLine{42     \};}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44     \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}}
+\DoxyCodeLine{45     \{}
+\DoxyCodeLine{46     \textcolor{keyword}{public}:}
+\DoxyCodeLine{47         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withQuad(\textcolor{keywordtype}{float} size = 1);}
+\DoxyCodeLine{48         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withCube(\textcolor{keywordtype}{float} length = 1);}
+\DoxyCodeLine{49         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withSphere(\textcolor{keywordtype}{int} stacks = 16, \textcolor{keywordtype}{int} slices = 32, \textcolor{keywordtype}{float} radius = 1);}
+\DoxyCodeLine{50         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withTorus(\textcolor{keywordtype}{int} segmentsC = 24, \textcolor{keywordtype}{int} segmentsA = 24, \textcolor{keywordtype}{float} radiusC = 1, \textcolor{keywordtype}{float} radiusA = 0.25);}
+\DoxyCodeLine{51         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withWireCube(\textcolor{keywordtype}{float} length = 1);}
+\DoxyCodeLine{52         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withPositions(\textcolor{keyword}{const} std::vector<glm::vec3>\& position);}
+\DoxyCodeLine{53         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withNormals(\textcolor{keyword}{const} std::vector<glm::vec3>\& normal);}
+\DoxyCodeLine{54         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withUvs(\textcolor{keyword}{const} std::vector<glm::vec4>\& uv);}
+\DoxyCodeLine{55         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withColors(\textcolor{keyword}{const} std::vector<glm::vec4>\& colors);}
+\DoxyCodeLine{56         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withTangents(\textcolor{keyword}{const} std::vector<glm::vec4>\& tangent);}
+\DoxyCodeLine{57         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withParticleSizes(\textcolor{keyword}{const} std::vector<float>\& particleSize);}
+\DoxyCodeLine{58         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withAttribute(std::string\_view name, \textcolor{keyword}{const} std::vector<float>\& values);}
+\DoxyCodeLine{59         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withAttribute(std::string\_view name, \textcolor{keyword}{const} std::vector<glm::vec2>\& values);}
+\DoxyCodeLine{60         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withAttribute(std::string\_view name, \textcolor{keyword}{const} std::vector<glm::vec3>\& values);}
+\DoxyCodeLine{61         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withAttribute(std::string\_view name, \textcolor{keyword}{const} std::vector<glm::vec4>\& values);}
+\DoxyCodeLine{62         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withAttribute(std::string\_view name, \textcolor{keyword}{const} std::vector<glm::i32vec4>\& values);}
+\DoxyCodeLine{63         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withMeshTopology(Topology topology);}
+\DoxyCodeLine{64         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withIndices(\textcolor{keyword}{const} std::vector<uint16\_t>\& indices, Mesh::Topology topology = Mesh::Topology::Triangles, \textcolor{keywordtype}{int} indexSet = 0);}
+\DoxyCodeLine{65         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withName(std::string\_view name);}
+\DoxyCodeLine{66         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withUsage(BufferUsage usage);}
+\DoxyCodeLine{67         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withRecomputeNormals(\textcolor{keywordtype}{bool} enabled);}
+\DoxyCodeLine{68         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\& withRecomputeTangents(\textcolor{keywordtype}{bool} enabled);}
+\DoxyCodeLine{69         std::shared\_ptr<Mesh> build();}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71     \textcolor{keyword}{private}:}
+\DoxyCodeLine{72         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{73         \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}(\textcolor{keyword}{const} \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}}\&) = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{74         std::vector<glm::vec3> computeNormals();}
+\DoxyCodeLine{75         std::vector<glm::vec4> computeTangents(\textcolor{keyword}{const} std::vector<glm::vec3>\& normals);}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77     \textcolor{keyword}{private}:}
+\DoxyCodeLine{78         std::map<std::string, std::vector<float>> m\_attributesFloat;}
+\DoxyCodeLine{79         std::map<std::string, std::vector<glm::vec2>> m\_attributesVec2;}
+\DoxyCodeLine{80         std::map<std::string, std::vector<glm::vec3>> m\_attributesVec3;}
+\DoxyCodeLine{81         std::map<std::string, std::vector<glm::vec4>> m\_attributesVec4;}
+\DoxyCodeLine{82         std::map<std::string, std::vector<glm::i32vec4>> m\_attributesIVec4;}
+\DoxyCodeLine{83         std::vector<std::vector<uint16\_t>> m\_indices;}
+\DoxyCodeLine{84         std::vector<Topology> m\_topologies; \textcolor{comment}{// mesh拓扑结构}}
+\DoxyCodeLine{85         BufferUsage m\_bufferUsage\{ BufferUsage::StaticDraw \};}
+\DoxyCodeLine{86         std::string m\_name;}
+\DoxyCodeLine{87         \mbox{\hyperlink{classre_1_1_mesh}{Mesh}}* m\_updateMesh\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{88         \textcolor{keywordtype}{bool} m\_recomputeNormals\{ \textcolor{keyword}{false} \};}
+\DoxyCodeLine{89         \textcolor{keywordtype}{bool} m\_recomputeTangents\{ \textcolor{keyword}{false} \};}
+\DoxyCodeLine{90         \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_mesh}{Mesh}};}
+\DoxyCodeLine{91     \};}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93 \textcolor{keyword}{public}:}
+\DoxyCodeLine{94     \textcolor{keyword}{static} \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}} create();}
+\DoxyCodeLine{95     \mbox{\hyperlink{classre_1_1_mesh_1_1_mesh_builder}{MeshBuilder}} update();}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{97 \textcolor{keyword}{public}:}
+\DoxyCodeLine{98     \mbox{\hyperlink{classre_1_1_mesh}{\string~Mesh}}();}
+\DoxyCodeLine{99     \textcolor{keyword}{inline} int32\_t getVertexCount()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_vertexCount; \}}
+\DoxyCodeLine{100     \textcolor{keyword}{inline} \textcolor{keyword}{const} std::vector<uint16\_t>\& getIndices(\textcolor{keywordtype}{int} indexSet = 0)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_indices[indexSet]; \}}
+\DoxyCodeLine{101     \textcolor{keyword}{inline} \textcolor{keywordtype}{int} getIndicesSize(\textcolor{keywordtype}{int} indexSet) \{ \textcolor{keywordflow}{return} (\textcolor{keywordtype}{int})m\_indices[indexSet].size(); \}}
+\DoxyCodeLine{102     \textcolor{keyword}{inline} \textcolor{keywordtype}{size\_t} getIndexSets()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_indices.size(); \}}
+\DoxyCodeLine{103     std::vector<glm::vec3> getPositions();}
+\DoxyCodeLine{104     std::vector<glm::vec3> getNormals();}
+\DoxyCodeLine{105     std::vector<glm::vec4> getUVs();}
+\DoxyCodeLine{106     std::vector<glm::vec4> getColors();}
+\DoxyCodeLine{107     std::vector<glm::vec4> getTangents();}
+\DoxyCodeLine{108     [[maybe\_unused]] std::vector<float> getParticleSizes();}
+\DoxyCodeLine{109     Topology getMeshTopology(\textcolor{keywordtype}{int} indexSet = 0);}
+\DoxyCodeLine{110     BufferUsage getMeshBufferUsage();}
+\DoxyCodeLine{111     \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{112     \textcolor{keyword}{const} T\& get(std::string\_view attributeName);}
+\DoxyCodeLine{113     std::pair<int, int> getType(std::string\_view name);}
+\DoxyCodeLine{114     std::vector<std::string> getAttributeNames();}
+\DoxyCodeLine{115     \textcolor{comment}{// 获取包围盒(AABB)}}
+\DoxyCodeLine{116     \textcolor{keyword}{const} std::array<glm::vec3, 2>\& getBoundsMinMax() \textcolor{keyword}{const};}
+\DoxyCodeLine{117     \textcolor{comment}{// 设置包围盒 (AABB)}}
+\DoxyCodeLine{118     \textcolor{keywordtype}{void} setBoundsMinMax(\textcolor{keyword}{const} std::array<glm::vec3, 2>\& minMax);}
+\DoxyCodeLine{119     \textcolor{keywordtype}{int} getDataSize() \textcolor{keyword}{const};}
+\DoxyCodeLine{120     \textcolor{keyword}{inline} \textcolor{keyword}{const} std::string\& name()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_name; \}}
+\DoxyCodeLine{121     \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} hasAttribute(\textcolor{keyword}{const} std::string\& name)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_attributeByName.find(name) != m\_attributeByName.end(); \}}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{123 \textcolor{keyword}{public}:}
+\DoxyCodeLine{124     \textcolor{keyword}{static} GLenum convertBufferUsage(BufferUsage usage);}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126 \textcolor{keyword}{private}:}
+\DoxyCodeLine{127     \textcolor{keyword}{struct }Attribute}
+\DoxyCodeLine{128     \{}
+\DoxyCodeLine{129         \textcolor{keywordtype}{int} offset;        \textcolor{comment}{// 偏移}}
+\DoxyCodeLine{130         \textcolor{keywordtype}{int} elementCount;  \textcolor{comment}{// 元素个数}}
+\DoxyCodeLine{131         \textcolor{keywordtype}{int} dataType;      \textcolor{comment}{// 数据类型:eg:GL\_FLOAT}}
+\DoxyCodeLine{132         \textcolor{keywordtype}{int} attributeType; \textcolor{comment}{// 属性类型:eg:GL\_BYTE, GL\_UNSIGNED\_BYTE, GL\_SHORT, GL\_UNSIGNED\_SHORT, GL\_INT, GL\_UNSIGNED\_INT}}
+\DoxyCodeLine{133         \textcolor{keywordtype}{int} enabledAttributes[10];}
+\DoxyCodeLine{134         \textcolor{keywordtype}{int} disabledAttributes[10];}
+\DoxyCodeLine{135     \};}
+\DoxyCodeLine{136     \textcolor{keyword}{struct }VAOBinding}
+\DoxyCodeLine{137     \{}
+\DoxyCodeLine{138         \textcolor{keywordtype}{long} shaderId;}
+\DoxyCodeLine{139         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} vaoID;}
+\DoxyCodeLine{140     \};}
+\DoxyCodeLine{141     \textcolor{keywordtype}{void} bind(Shader* shader);}
+\DoxyCodeLine{142     \textcolor{keywordtype}{void} bindIndexSet() \textcolor{keyword}{const};}
+\DoxyCodeLine{143     \textcolor{keywordtype}{void} setVertexAttributePointers(Shader* shader);}
+\DoxyCodeLine{144     Mesh(std::map<std::string, std::vector<float>>\&\& attributesFloat, std::map<std::string, std::vector<glm::vec2>>\&\& attributesVec2, std::map<std::string, std::vector<glm::vec3>>\&\& attributesVec3, std::map<std::string, std::vector<glm::vec4>>\&\& attributesVec4,}
+\DoxyCodeLine{145          std::map<std::string, std::vector<glm::i32vec4>>\&\& attributesIVec4, std::vector<std::vector<uint16\_t>>\&\& indices, std::vector<Topology>\& meshTopology, BufferUsage bufferUsage, std::string\_view name, RenderStats\& renderStats);}
+\DoxyCodeLine{146     \textcolor{keywordtype}{void} update(std::map<std::string, std::vector<float>>\&\& attributesFloat, std::map<std::string, std::vector<glm::vec2>>\&\& attributesVec2, std::map<std::string, std::vector<glm::vec3>>\&\& attributesVec3, std::map<std::string, std::vector<glm::vec4>>\&\& attributesVec4,}
+\DoxyCodeLine{147                 std::map<std::string, std::vector<glm::i32vec4>>\&\& attributesIVec4, std::vector<std::vector<uint16\_t>>\&\& indices, std::vector<Topology>\& meshTopology, BufferUsage bufferUsage, std::string\_view name, RenderStats\& renderStats);}
+\DoxyCodeLine{148     std::vector<float> getInterleavedData();}
+\DoxyCodeLine{149 }
+\DoxyCodeLine{150 \textcolor{keyword}{private}:}
+\DoxyCodeLine{151     \textcolor{keywordtype}{void} updateIndexBuffers();}
+\DoxyCodeLine{152 }
+\DoxyCodeLine{153 \textcolor{keyword}{private}:}
+\DoxyCodeLine{154     std::map<std::string, Attribute> m\_attributeByName;}
+\DoxyCodeLine{155     std::map<std::string, std::vector<float>> m\_attributesFloat;}
+\DoxyCodeLine{156     std::map<std::string, std::vector<glm::vec2>> m\_attributesVec2;}
+\DoxyCodeLine{157     std::map<std::string, std::vector<glm::vec3>> m\_attributesVec3;}
+\DoxyCodeLine{158     std::map<std::string, std::vector<glm::vec4>> m\_attributesVec4;}
+\DoxyCodeLine{159     std::map<std::string, std::vector<glm::i32vec4>> m\_attributesIVec4;}
+\DoxyCodeLine{160     std::vector<std::vector<uint16\_t>> m\_indices;}
+\DoxyCodeLine{161     std::vector<Topology> m\_topologies; \textcolor{comment}{// mesh拓扑结构}}
+\DoxyCodeLine{162     BufferUsage m\_bufferUsage;}
+\DoxyCodeLine{163     std::array<glm::vec3, 2> m\_boundsMinMax\{\};}
+\DoxyCodeLine{164     std::map<unsigned int, VAOBinding> m\_shaderToVao;}
+\DoxyCodeLine{165     uint32\_t m\_vbo\{ 0 \};}
+\DoxyCodeLine{166     uint32\_t m\_ebo = 0;}
+\DoxyCodeLine{167     std::vector<std::pair<int, int>> m\_elementBufferOffsetCount;}
+\DoxyCodeLine{168     std::string m\_name;}
+\DoxyCodeLine{169     int32\_t m\_vertexCount\{ 0 \};}
+\DoxyCodeLine{170     \textcolor{keywordtype}{int} m\_dataSize\{ 0 \};}
+\DoxyCodeLine{171     \textcolor{keywordtype}{int} m\_totalBytesPerVertex\{ 0 \};}
+\DoxyCodeLine{172     uint16\_t m\_meshId\{ 0 \};}
+\DoxyCodeLine{173 }
+\DoxyCodeLine{174 \textcolor{keyword}{private}:}
+\DoxyCodeLine{175     \textcolor{keyword}{inline} \textcolor{keyword}{static} uint16\_t m\_meshIdCount\{ 0 \};}
+\DoxyCodeLine{176     \textcolor{keyword}{friend} \textcolor{keyword}{class }RenderPass;}
+\DoxyCodeLine{177     \textcolor{keyword}{friend} \textcolor{keyword}{class }Inspector;}
+\DoxyCodeLine{178 \};}
+\DoxyCodeLine{179 \} \textcolor{comment}{// namespace re}}
+\DoxyCodeLine{180 }
+\DoxyCodeLine{181 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SIMPLERENDERENGINE\_MESH\_H}}
+
+\end{DoxyCode}

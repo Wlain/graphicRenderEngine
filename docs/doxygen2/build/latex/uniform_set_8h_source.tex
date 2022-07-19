@@ -1,0 +1,51 @@
+\hypertarget{uniform_set_8h_source}{}\doxysection{uniform\+Set.\+h}
+\label{uniform_set_8h_source}\index{/Users/william/Developer/demo/simpleRenderEngine/re/core/uniformSet.h@{/Users/william/Developer/demo/simpleRenderEngine/re/core/uniformSet.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by william on 2022/6/25.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SIMPLERENDERENGINE\_UNIFORMSET\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SIMPLERENDERENGINE\_UNIFORMSET\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}color.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}texture.h"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <glm/glm.hpp>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{14 \{}
+\DoxyCodeLine{15 \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_uniform_set}{UniformSet}}}
+\DoxyCodeLine{16 \{}
+\DoxyCodeLine{17 \textcolor{keyword}{public}:}
+\DoxyCodeLine{18     \textcolor{keywordtype}{void} set(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}, \textcolor{keyword}{const} glm::vec4\& value);}
+\DoxyCodeLine{19     \textcolor{keywordtype}{void} set(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}, \textcolor{keywordtype}{float} value);}
+\DoxyCodeLine{20     \textcolor{keywordtype}{void} set(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}, \textcolor{keywordtype}{int} value);}
+\DoxyCodeLine{21     \textcolor{keywordtype}{void} set(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}, \mbox{\hyperlink{classre_1_1_color}{Color}} value);}
+\DoxyCodeLine{22     \textcolor{keywordtype}{void} set(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}, \textcolor{keyword}{const} std::shared\_ptr<Texture>\& texture);}
+\DoxyCodeLine{23     \textcolor{keywordtype}{void} set(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}, \textcolor{keyword}{const} glm::mat3\& value);}
+\DoxyCodeLine{24     \textcolor{keywordtype}{void} set(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}, \textcolor{keyword}{const} glm::mat4\& value);}
+\DoxyCodeLine{25     \textcolor{keywordtype}{void} set(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}, \textcolor{keyword}{const} std::shared\_ptr<std::vector<glm::mat4>>\& value);}
+\DoxyCodeLine{26     \textcolor{keywordtype}{void} set(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}, \textcolor{keyword}{const} std::shared\_ptr<std::vector<glm::mat3>>\& value);}
+\DoxyCodeLine{27     \textcolor{keywordtype}{void} clear();}
+\DoxyCodeLine{28     \textcolor{keywordtype}{void} bind();}
+\DoxyCodeLine{29     \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{30     T get(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id});}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{keyword}{private}:}
+\DoxyCodeLine{33     std::map<int, std::shared\_ptr<Texture>> m\_textureValues;}
+\DoxyCodeLine{34     std::map<int, glm::vec4> m\_vectorValues;}
+\DoxyCodeLine{35     std::map<int, glm::mat3> m\_mat3Values;}
+\DoxyCodeLine{36     std::map<int, glm::mat4> m\_mat4Values;}
+\DoxyCodeLine{37     std::map<int, std::shared\_ptr<std::vector<glm::mat4>>> m\_mat4ArrayValues;}
+\DoxyCodeLine{38     std::map<int, std::shared\_ptr<std::vector<glm::mat3>>> m\_mat3ArrayValues;}
+\DoxyCodeLine{39     std::map<int, float> m\_floatValues;}
+\DoxyCodeLine{40     std::map<int, int> m\_intValues;}
+\DoxyCodeLine{41     \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_material}{Material}};}
+\DoxyCodeLine{42 \};}
+\DoxyCodeLine{43 \} \textcolor{comment}{// namespace re}}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SIMPLERENDERENGINE\_UNIFORMSET\_H}}
+
+\end{DoxyCode}

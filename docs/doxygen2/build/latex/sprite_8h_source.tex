@@ -1,0 +1,85 @@
+\hypertarget{sprite_8h_source}{}\doxysection{sprite.\+h}
+\label{sprite_8h_source}\index{/Users/william/Developer/demo/simpleRenderEngine/re/core/sprite.h@{/Users/william/Developer/demo/simpleRenderEngine/re/core/sprite.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by william on 2022/6/1.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SIMPLERENDERENGINE\_SPRITE\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SIMPLERENDERENGINE\_SPRITE\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}commonMacro.h"{}}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <array>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <glm/glm.hpp>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{13 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{14 \{}
+\DoxyCodeLine{15 \textcolor{keyword}{class }SpriteAtlas;}
+\DoxyCodeLine{16 \textcolor{keyword}{class }Texture;}
+\DoxyCodeLine{17 \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_sprite}{Sprite}}}
+\DoxyCodeLine{18 \{}
+\DoxyCodeLine{19 \textcolor{keyword}{public}:}
+\DoxyCodeLine{20     \mbox{\hyperlink{classre_1_1_sprite}{Sprite}}();}
+\DoxyCodeLine{21     \textcolor{keyword}{virtual} \mbox{\hyperlink{classre_1_1_sprite}{\string~Sprite}}();}
+\DoxyCodeLine{22     \mbox{\hyperlink{classre_1_1_sprite}{Sprite}}(\textcolor{keyword}{const} \mbox{\hyperlink{classre_1_1_sprite}{Sprite}}\&);}
+\DoxyCodeLine{23     [[nodiscard]] \textcolor{keywordtype}{float} getRotation() \textcolor{keyword}{const};}
+\DoxyCodeLine{24     \textcolor{keywordtype}{void} setRotation(\textcolor{keywordtype}{float} rotation);}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26     [[nodiscard]] \textcolor{keyword}{const} glm::vec2\& getPositions() \textcolor{keyword}{const};}
+\DoxyCodeLine{27     \textcolor{keywordtype}{void} setPosition(\textcolor{keyword}{const} glm::vec2\& position);}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29     [[nodiscard]] \textcolor{keyword}{const} glm::vec2\& getScale() \textcolor{keyword}{const};}
+\DoxyCodeLine{30     \textcolor{keywordtype}{void} setScale(\textcolor{keyword}{const} glm::vec2\& scale);}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32     [[nodiscard]] \textcolor{keyword}{const} glm::bvec2\& getFlip() \textcolor{keyword}{const};}
+\DoxyCodeLine{33     \textcolor{keywordtype}{void} setFlip(\textcolor{keyword}{const} glm::bvec2\& flip);}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35     [[maybe\_unused]] [[nodiscard]] uint16\_t getOrderInBatch() \textcolor{keyword}{const};}
+\DoxyCodeLine{36     [[maybe\_unused]] \textcolor{keywordtype}{void} setOrderInBatch(uint16\_t orderInBatch);}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38     [[nodiscard]] \textcolor{keyword}{const} glm::vec4\& getColor() \textcolor{keyword}{const};}
+\DoxyCodeLine{39     \textcolor{keywordtype}{void} setColor(\textcolor{keyword}{const} glm::vec4\& color);}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41     [[nodiscard]] \textcolor{keyword}{const} glm::ivec2\& getSpritePos() \textcolor{keyword}{const};}
+\DoxyCodeLine{42     [[nodiscard]] \textcolor{keyword}{const} glm::ivec2\& getSpriteSize() \textcolor{keyword}{const};}
+\DoxyCodeLine{43     [[nodiscard]] \textcolor{keyword}{const} glm::vec2\& getSpriteAnchor() \textcolor{keyword}{const}; \textcolor{comment}{// 锚点}}
+\DoxyCodeLine{44     \textcolor{comment}{// 获取AABB 8个顶点的世界坐标}}
+\DoxyCodeLine{45     [[nodiscard]] std::array<glm::vec2, 4> getTrimmedCorners() \textcolor{keyword}{const};}
+\DoxyCodeLine{46     std::array<glm::vec2, 4> getUvs();}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48 \textcolor{keyword}{private}:}
+\DoxyCodeLine{49     \mbox{\hyperlink{classre_1_1_sprite}{Sprite}}(glm::ivec2 spritePos, glm::ivec2 spriteSize, glm::ivec2 spriteSourcePos, glm::ivec2 spriteSourceSize, glm::vec2 spriteAnchor, \mbox{\hyperlink{classre_1_1_texture}{Texture}}* texture);}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{keyword}{private}:}
+\DoxyCodeLine{52     glm::vec4 m\_color = \{ 1.0f, 1.0f, 1.0f, 1.0f \};}
+\DoxyCodeLine{53     glm::vec2 m\_position = \{ 0.0f, 0.0f \};}
+\DoxyCodeLine{54     glm::vec2 m\_scale = \{ 1.0f, 1.0f \};}
+\DoxyCodeLine{55     glm::bvec2 m\_flip = \{ \textcolor{keyword}{false}, \textcolor{keyword}{false} \};}
+\DoxyCodeLine{56     glm::ivec2 m\_spritePos\{ 0.0f, 0.0f \};}
+\DoxyCodeLine{57     glm::ivec2 m\_spriteSize\{ 0.0f, 0.0f \};}
+\DoxyCodeLine{58     glm::vec2 m\_spriteAnchor\{ 0.0f, 0.0f \};}
+\DoxyCodeLine{59     glm::ivec2 m\_spriteSourcePos\{ 0, 0 \};}
+\DoxyCodeLine{60     glm::ivec2 m\_spriteSourceSize\{ 0, 0 \};}
+\DoxyCodeLine{61     \mbox{\hyperlink{classre_1_1_texture}{Texture}}* m\_texture\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{62     \textcolor{keywordtype}{float} m\_rotation\{ 0.0f \};}
+\DoxyCodeLine{63     \textcolor{keyword}{union}}
+\DoxyCodeLine{64     \{}
+\DoxyCodeLine{65         uint64\_t globalOrder;}
+\DoxyCodeLine{66         PACK(\textcolor{keyword}{struct}}
+\DoxyCodeLine{67              \{}
+\DoxyCodeLine{68                  uint16\_t drawOrder; \textcolor{comment}{// lowest priority}}
+\DoxyCodeLine{69                  uint32\_t texture;}
+\DoxyCodeLine{70                  uint16\_t orderInBatch; \textcolor{comment}{// highest priority}}
+\DoxyCodeLine{71              \})}
+\DoxyCodeLine{72         details;}
+\DoxyCodeLine{73     \} m\_order\{\};}
+\DoxyCodeLine{74     \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_sprite_atlas}{SpriteAtlas}};}
+\DoxyCodeLine{75     \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_sprite_batch}{SpriteBatch}};}
+\DoxyCodeLine{76     \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_inspector}{Inspector}};}
+\DoxyCodeLine{77 \};}
+\DoxyCodeLine{78 \} \textcolor{comment}{// namespace re}}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SIMPLERENDERENGINE\_SPRITE\_H}}
+
+\end{DoxyCode}

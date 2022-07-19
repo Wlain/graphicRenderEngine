@@ -1,0 +1,61 @@
+\hypertarget{glfw_renderer_8h_source}{}\doxysection{glfw\+Renderer.\+h}
+\label{glfw_renderer_8h_source}\index{/Users/william/Developer/demo/simpleRenderEngine/re/core/glfwRenderer.h@{/Users/william/Developer/demo/simpleRenderEngine/re/core/glfwRenderer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by william on 2022/5/28.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SIMPLERENDERENGINE\_GLFWRENDERER\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SIMPLERENDERENGINE\_GLFWRENDERER\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}glCommonDefine.h"{}}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <functional>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <glm/glm.hpp>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <string\_view>}}
+\DoxyCodeLine{13 \textcolor{comment}{// glfw抽象}}
+\DoxyCodeLine{14 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{15 \{}
+\DoxyCodeLine{16 \textcolor{keyword}{class }Renderer;}
+\DoxyCodeLine{17 \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_g_l_f_w_renderer}{GLFWRenderer}}}
+\DoxyCodeLine{18 \{}
+\DoxyCodeLine{19 \textcolor{keyword}{public}:}
+\DoxyCodeLine{20     \mbox{\hyperlink{classre_1_1_g_l_f_w_renderer}{GLFWRenderer}}();}
+\DoxyCodeLine{21     \textcolor{keyword}{virtual} \mbox{\hyperlink{classre_1_1_g_l_f_w_renderer}{\string~GLFWRenderer}}();}
+\DoxyCodeLine{22     \mbox{\hyperlink{classre_1_1_g_l_f_w_renderer}{GLFWRenderer}}(\textcolor{keyword}{const} \mbox{\hyperlink{classre_1_1_g_l_f_w_renderer}{GLFWRenderer}}\&) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{23     \textcolor{keywordtype}{void} init(\textcolor{keywordtype}{bool} vsync = \textcolor{keyword}{true});}
+\DoxyCodeLine{24     \textcolor{keywordtype}{void} setWindowTitle(std::string\_view title);}
+\DoxyCodeLine{25     \textcolor{keywordtype}{void} setWindowSize(\textcolor{keywordtype}{int} width, \textcolor{keywordtype}{int} height);}
+\DoxyCodeLine{26     \textcolor{keywordtype}{void} startEventLoop();}
+\DoxyCodeLine{27     [[maybe\_unused]] \textcolor{keywordtype}{void} stopEventLoop();}
+\DoxyCodeLine{28     GLFWwindow* getGlfwWindow();}
+\DoxyCodeLine{29     glm::ivec2 getFrameBufferSize();}
+\DoxyCodeLine{30     glm::ivec2 getWindowSize();}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{keyword}{private}:}
+\DoxyCodeLine{33     \textcolor{keywordtype}{void} frame(\textcolor{keywordtype}{float} deltaTimeSec);}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{keyword}{public}:}
+\DoxyCodeLine{36     \textcolor{comment}{// 方法回调}}
+\DoxyCodeLine{37     std::function<void(\textcolor{keywordtype}{int} width, \textcolor{keywordtype}{int} height)> m\_frameResize;}
+\DoxyCodeLine{38     std::function<void(\textcolor{keywordtype}{double} xPos, \textcolor{keywordtype}{double} yPos)> m\_cursorPosEvent;}
+\DoxyCodeLine{39     std::function<void(\textcolor{keywordtype}{int} button, \textcolor{keywordtype}{int} action, \textcolor{keywordtype}{int} mods)> m\_mouseButtonEvent;}
+\DoxyCodeLine{40     std::function<void(\textcolor{keywordtype}{int} count, \textcolor{keyword}{const} \textcolor{keywordtype}{char}** paths)> m\_dropEvent;}
+\DoxyCodeLine{41     std::function<void(\textcolor{keywordtype}{float} deltaTimeSec)> m\_frameUpdate;}
+\DoxyCodeLine{42     std::function<void()> m\_frameRender;}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44 \textcolor{keyword}{private}:}
+\DoxyCodeLine{45     \mbox{\hyperlink{classre_1_1_renderer}{Renderer}}* m\_renderer\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{46     GLFWwindow* m\_window\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{47     std::string m\_windowTitle;}
+\DoxyCodeLine{48     \textcolor{keywordtype}{float} m\_timePerFrame\{ 1.0f / 60.0f \};}
+\DoxyCodeLine{49     \textcolor{keywordtype}{int} m\_windowWidth\{ 800 \};}
+\DoxyCodeLine{50     \textcolor{keywordtype}{int} m\_windowHeight\{ 600 \};}
+\DoxyCodeLine{51     \textcolor{keywordtype}{bool} m\_running\{ \textcolor{keyword}{false} \};}
+\DoxyCodeLine{52 \};}
+\DoxyCodeLine{53 \} \textcolor{comment}{// namespace re}}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SIMPLERENDERENGINE\_GLFWRENDERER\_H}}
+
+\end{DoxyCode}

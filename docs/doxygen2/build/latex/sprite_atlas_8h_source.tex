@@ -1,0 +1,43 @@
+\hypertarget{sprite_atlas_8h_source}{}\doxysection{sprite\+Atlas.\+h}
+\label{sprite_atlas_8h_source}\index{/Users/william/Developer/demo/simpleRenderEngine/re/core/spriteAtlas.h@{/Users/william/Developer/demo/simpleRenderEngine/re/core/spriteAtlas.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by william on 2022/6/1.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef SIMPLERENDERENGINE\_SPRITEATLAS\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define SIMPLERENDERENGINE\_SPRITEATLAS\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}sprite.h"{}}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <string\_view>}}
+\DoxyCodeLine{11 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{12 \{}
+\DoxyCodeLine{13 \textcolor{keyword}{class }\mbox{\hyperlink{classre_1_1_sprite_atlas}{SpriteAtlas}}}
+\DoxyCodeLine{14 \{}
+\DoxyCodeLine{15 \textcolor{keyword}{public}:}
+\DoxyCodeLine{16     \mbox{\hyperlink{classre_1_1_sprite_atlas}{\string~SpriteAtlas}}();}
+\DoxyCodeLine{17     \textcolor{comment}{// create sprite atlas based on JSON file}}
+\DoxyCodeLine{18     \textcolor{keyword}{static} std::shared\_ptr<SpriteAtlas> create(std::string\_view jsonFile, std::string\_view imageFile, \textcolor{keywordtype}{bool} flipAnchorY = \textcolor{keyword}{true});}
+\DoxyCodeLine{19     \textcolor{keyword}{static} std::shared\_ptr<SpriteAtlas> create(std::string\_view jsonFile, \textcolor{keyword}{const} std::shared\_ptr<Texture>\& texture, \textcolor{keywordtype}{bool} flipAnchorY = \textcolor{keyword}{true});}
+\DoxyCodeLine{20     \textcolor{comment}{// create sprite atlas (with single sprite) using texture}}
+\DoxyCodeLine{21     \textcolor{keyword}{static} std::shared\_ptr<SpriteAtlas> createSingleSprite(\textcolor{keyword}{const} std::shared\_ptr<Texture>\& texture, std::string\_view name = \textcolor{stringliteral}{"{}sprite"{}}, glm::vec2 pivot = \{ 0.5f, 0.5f \}, glm::ivec2 pos = \{ 0, 0 \}, glm::ivec2 size = \{ 0, 0 \});}
+\DoxyCodeLine{22     \mbox{\hyperlink{classre_1_1_sprite}{Sprite}} get(std::string\_view name); \textcolor{comment}{// Return a copy of a Sprite object.}}
+\DoxyCodeLine{23     std::vector<std::string> getNames();}
+\DoxyCodeLine{24     [[nodiscard]] \textcolor{keyword}{const} std::string\& getAtlasName()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_atlasName; \};}
+\DoxyCodeLine{25     [[nodiscard]] \textcolor{keyword}{inline} \textcolor{keyword}{const} std::shared\_ptr<Texture>\& getTexture()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_texture; \}; \textcolor{comment}{// return sprite texture}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{keyword}{private}:}
+\DoxyCodeLine{28     \mbox{\hyperlink{classre_1_1_sprite_atlas}{SpriteAtlas}}(std::map<std::string, Sprite>\&\& sprites, std::shared\_ptr<Texture> texture, std::string\_view Atlas);}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{keyword}{private}:}
+\DoxyCodeLine{31     std::string m\_atlasName;}
+\DoxyCodeLine{32     std::map<std::string, Sprite> m\_sprites;}
+\DoxyCodeLine{33     std::shared\_ptr<Texture> m\_texture;}
+\DoxyCodeLine{34 \};}
+\DoxyCodeLine{35 \} \textcolor{comment}{// namespace re}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SIMPLERENDERENGINE\_SPRITEATLAS\_H}}
+
+\end{DoxyCode}
