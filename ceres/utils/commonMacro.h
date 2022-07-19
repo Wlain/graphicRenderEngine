@@ -59,6 +59,8 @@
 #define TWO_MATH_PI (MATH_PI * 2.0f)
 #define MATH_DEG_TO_RAD(x) ((x)*0.0174532925f)
 #define MATH_PIOVER2 1.57079632679489661923f
+#define MATH_RANDOM_MINUS1_1() ((2.0f * ((float)rand() / RAND_MAX)) - 1.0f) // Returns a random float between -1 and 1.
+#define MATH_RANDOM_0_1() ((float)rand() / RAND_MAX)                        // Returns a random float between 0 and 1.
 
 // 代码废弃
 #define DEPRECATED(X) [[deprecated(X)]]

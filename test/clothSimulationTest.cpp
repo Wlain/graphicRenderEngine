@@ -197,7 +197,7 @@ public:
         return res;
     }
 
-    std::vector<glm::vec4> getUVs() const
+    [[nodiscard]] std::vector<glm::vec4> getUVs() const
     {
         std::vector<glm::vec4> res;
         for (int y = 0; y < m_massCountHeight; y++)
@@ -211,7 +211,7 @@ public:
         return res;
     }
 
-    std::vector<uint16_t> createIndices() const
+    [[nodiscard]] std::vector<uint16_t> createIndices() const
     {
         std::vector<uint16_t> indices;
 

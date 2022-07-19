@@ -37,9 +37,10 @@ extern void clothSimulationTest();
 extern void box2dTest();
 extern void luaScriptTest();
 extern void luaForMathematicalFuncTest();
+extern void particleSystemTest();
 
 int main()
 {
-    bumpMapTest();
+    particleSystemTest();
     return 0;
 }
