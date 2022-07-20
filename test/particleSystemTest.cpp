@@ -18,7 +18,7 @@ public:
         m_camera.setPerspectiveProjection(m_fov, m_near, m_far);
         m_texture = Texture::create().withFile("resources/particles/flash01.png").build();
         m_emitter = std::make_shared<ParticleEmitter>(500, m_texture);
-        glm::vec3 gravity = glm::vec3(0, -9.8, 0); // 引力
+        glm::vec3 gravity = glm::vec3(0, -9.8, 0); // 加速度
         m_emitter->setAcceleration(gravity, gravity);
         updateSizeInterpolation();
         updateColorInterpolation();
