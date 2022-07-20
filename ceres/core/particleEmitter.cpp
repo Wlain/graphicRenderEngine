@@ -30,34 +30,42 @@ ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder
 {
     return *this;
 }
+
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withColor(const glm::vec4& startColor, const glm::vec4& startColorVariance, const glm::vec4& endColor, const glm::vec4& endColorVariance)
 {
     return *this;
 }
+
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withPosition(const glm::vec3& position, const glm::vec3& positionVariance)
 {
     return *this;
 }
+
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withAcceleration(const glm::vec3& acceleration, const glm::vec3& accelerationVariance)
 {
     return *this;
 }
+
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withVelocity(const glm::vec3& velocity, const glm::vec3& velocityVariance)
 {
     return *this;
 }
+
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withTexture(const std::shared_ptr<Texture>& texture)
 {
     return *this;
 }
+
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withMaterial(const std::shared_ptr<Material>& material)
 {
     return *this;
 }
+
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withRotation(float rotation, float rotationVariance)
 {
     return *this;
 }
+
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withAngularVelocity(float angularVelocity, float angularVelocityVariance)
 {
     return *this;
@@ -67,6 +75,7 @@ ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder
 {
     return *this;
 }
+
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withLifeSpan(uint32_t lifeSpan)
 {
     return *this;
