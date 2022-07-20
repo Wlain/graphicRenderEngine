@@ -67,3 +67,7 @@ representative: goddess of agriculture, representing productivity, agriculture, 
 * bump map Test
 
 ![avatar](samples/bumpmap.png)
+
+* particleSystem Test
+
+![avatar](samples/particleEmitter.png)

@@ -68,3 +68,7 @@
 * 凹凸贴图
 
 ![avatar](samples/bumpmap.png)
+
+* 粒子系统：封装简单粒子发射器
+
+![avatar](samples/particleEmitter.png)
