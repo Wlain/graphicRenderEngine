@@ -189,7 +189,7 @@ private:
     glm::mat4 m_pos2 = glm::translate(glm::mat4(1), m_p2);
     glm::vec3 m_emitPosition{ 0, 3, 0 };
     float m_sizeFrom = 50;
-    float m_sizeTo = 30;
+    float m_sizeTo = 40;
     float m_fov{ 60.0f };
     float m_near{ 0.1 };
     float m_far{ 50 };

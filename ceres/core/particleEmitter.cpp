@@ -50,7 +50,7 @@ void ParticleEmitter::update(float deltaTime)
         int newEmissions = (int)m_emissions;
         for (int i = oldEmissions; i < newEmissions; i++)
         {
-//            emitOnce();
+            emitOnce();
         }
     }
     if (m_started)
@@ -104,12 +104,12 @@ void ParticleEmitter::draw(RenderPass& renderPass, glm::mat4 transform)
 void ParticleEmitter::emitOnce()
 {
     auto& p = m_particles[m_particleIndex];
-    p.alive = true;
-    p.timeOfBirth = m_totalTime;
-    p.age = 0;
-    p.position = m_position;
+//    p.alive = true;
+//    p.timeOfBirth = m_totalTime;
+//    p.age = 0;
+//    p.position = glm::vec3(m_particleIndex * 0.1f, m_particleIndex * 0.1f, m_particleIndex * 0.1f);
     p.acceleration = m_acceleration;
-    p.velocity = m_velocity;
+    p.velocity =  glm::sphericalRand(1.0f);
     p.rotation = m_rotationMin;
     p.angularVelocity = m_angularVelocityMin;
     m_particleIndex = (m_particleIndex + 1) % m_particles.size();
