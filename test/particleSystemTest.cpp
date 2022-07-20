@@ -14,6 +14,8 @@ public:
     ~ParticleSystemExample() override = default;
     void initialize() override
     {
+        m_camera.setLookAt(m_eye, m_at, { 0, 1, 0 });
+        m_camera.setPerspectiveProjection(m_fov, m_near, m_far);
         m_texture = Texture::create().withFile("resources/particles/flash01.png").build();
         m_emitter = std::make_shared<ParticleEmitter>(500, m_texture);
         glm::vec3 gravity = glm::vec3(0, -9.8, 0); // 引力
@@ -21,36 +23,6 @@ public:
         updateSizeInterpolation();
         updateColorInterpolation();
         updateEmit();
-        m_camera.setLookAt(m_eye, m_at, { 0, 1, 0 });
-        m_camera.setPerspectiveProjection(m_fov, m_near, m_far);
-        m_mesh = Mesh::create().withSphere().build();
-        m_planeMesh = Mesh::create().withCube(10).build();
-        m_worldLights = MAKE_UNIQUE(m_worldLights);
-        m_worldLights->addLight(Light::create()
-                                    .withDirectionalLight(glm::normalize(glm::vec3(1, 1, 1)))
-                                    .build());
-        // Add fake shadows
-        m_worldLights->addLight(Light::create()
-                                    .withPointLight(m_p1 - glm::vec3(0, 0.8, 0))
-                                    .withColor({ -3.0f, -3.0f, -3.0f })
-                                    .withRange(4)
-                                    .build());
-        m_worldLights->addLight(Light::create()
-                                    .withPointLight(m_p1 - glm::vec3(0, 0.8, 0))
-                                    .withColor({ -3.0f, -3.0f, -3.0f })
-                                    .withRange(4)
-                                    .build());
-
-        m_mat1 = Shader::getStandardBlinnPhong()->createMaterial();
-        m_mat1->setColor({ 0, 0, 1, 1 });
-        m_mat1->setSpecularity({ 0, 0, 0, 0 });
-
-        m_mat2 = Shader::getStandardBlinnPhong()->createMaterial();
-        m_mat2->setColor({ 1, 0, 0, 1 });
-        m_mat2->setSpecularity({ 0, 0, 0, 0 });
-        m_matPlane = Shader::getStandardBlinnPhong()->createMaterial();
-        m_matPlane->setColor({ 1, 1, 1, 1 });
-        m_matPlane->setSpecularity({ 0, 0, 0, 0 });
     }
     void resize(int width, int height) override
     {
@@ -151,17 +123,13 @@ public:
                       .withClearColor(true, { 0, 0, 0, 1 })
                       .build();
 
-        //        rp.draw(m_mesh, m_pos1, m_mat1);
-        //        rp.draw(m_mesh, m_pos2, m_mat2);
-        //        rp.draw(m_planeMesh, glm::translate(glm::vec3{ 0, -1.0f, 0 }) * glm::scale(glm::vec3{ 1, .01f, 1 }), m_matPlane);
-
         m_emitter->draw(rp);
-        //        ImGui::Begin("Settings");
-        //        particleSystemGUI();
-        //        cameraGUI();
-        //        ImGui::End();
-        //        m_inspector.update();
-        //        m_inspector.gui();
+        ImGui::Begin("Settings");
+        particleSystemGUI();
+        cameraGUI();
+        ImGui::End();
+        m_inspector.update();
+        m_inspector.gui();
     }
     void update(float deltaTime) override
     {
@@ -175,10 +143,6 @@ public:
 private:
     std::shared_ptr<ParticleEmitter> m_emitter;
     std::shared_ptr<Texture> m_texture;
-    std::shared_ptr<Mesh> m_planeMesh;
-    std::shared_ptr<Material> m_mat1;
-    std::shared_ptr<Material> m_mat2;
-    std::shared_ptr<Material> m_matPlane;
     glm::vec4 m_colorFrom = { 1, 0, 0, 1 };
     glm::vec4 m_colorTo = { 1, 1, 1, 0 };
     glm::vec3 m_eye{ 0, 0, -10 };
