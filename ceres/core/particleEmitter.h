@@ -11,11 +11,31 @@
 #include <vector>
 namespace ceres
 {
-class ParticleEmitter
+class ParticleEmitter : public std::enable_shared_from_this<ParticleEmitter>
 {
 public:
     struct Particle
     {
+        glm::vec3 position{};     // 位置
+        glm::vec3 velocity;       // 速度
+        glm::vec3 acceleration{}; // 加速度
+        glm::vec4 colorStart{};   // 初始颜色
+        glm::vec4 colorEnd{};     // 消亡颜色
+        glm::vec4 color{};        // 当前颜色
+        float rotation{};         // 旋转
+        float angularVelocity{};  // 角速度
+        float angle{};            // 当前角度
+        float timeOfBirth{};      // 出生时间
+        float age{};              // 存活时间【0.0f.0.0f].
+        float sizeStart{};        // 初始尺寸
+        float sizeEnd{};          // 消亡尺寸
+        int index{};              // 粒子索引
+        bool alive{};             // 活标记位
+    };
+
+    struct ParticleProp
+    {
+        std::shared_ptr<Texture> texture; // 粒子纹理
         glm::vec3 position{};             // 位置
         glm::vec3 positionVariance{};     // 位置变化率（变化率即振幅）
         glm::vec3 velocity;               // 速度
@@ -26,19 +46,21 @@ public:
         glm::vec4 colorStartVariance{};   // 初始颜色变化率
         glm::vec4 colorEnd{};             // 消亡颜色
         glm::vec4 colorEndVariance{};     // 消亡颜色变化率
+        glm::vec4 color{};                // 当前颜色
         float rotation{};                 // 旋转
         float rotationVariance{};         // 旋转变化率
         float angularVelocity{};          // 角速度
         float angularVelocityVariance{};  // 角速度变化率
-        float angle{};                    // 当前角度
         float timeOfBirth{};              // 出生时间
         float age{};                      // 存活时间【0.0f.0.0f].
+        float ageVariance{};              // 存活时间变化率【0.0f.0.0f].
         float sizeStart{};                // 初始尺寸
         float sizeStartVariance{};        // 初始尺寸变化率
         float sizeEnd{};                  // 消亡尺寸
         float sizeEndVariance{};          // 消亡尺寸变化率
-        int index{};                        // 粒子索引
-        bool alive{};                     // 活标记位
+        float lifeSpan = 10;              // 粒子生命周期
+        uint32_t particleCount{};         // 粒子数目
+        uint32_t emissionRate = 60;       // 每秒发射的粒子数
     };
 
     class ParticleEmitterBuilder
@@ -46,6 +68,9 @@ public:
     public:
         ParticleEmitterBuilder();
         ~ParticleEmitterBuilder();
+        ParticleEmitterBuilder& withParticleCount(uint32_t particleCount);
+        ParticleEmitterBuilder& withEmissionRate(uint32_t emissionRate);
+        ParticleEmitterBuilder& withLifeSpan(uint32_t lifeSpan);
         ParticleEmitterBuilder& withSize(float startSize, float startSizeVariance, float endSize, float endSizeVariance);
         ParticleEmitterBuilder& withColor(const glm::vec4& startColor, const glm::vec4& startColorVariance, const glm::vec4& endColor, const glm::vec4& endColorVariance);
         ParticleEmitterBuilder& withPosition(const glm::vec3& position, const glm::vec3& positionVariance);
@@ -56,7 +81,7 @@ public:
         ParticleEmitterBuilder& withRotation(float rotation, float rotationVariance);
         ParticleEmitterBuilder& withAngularVelocity(float angularVelocity, float angularVelocityVariance);
         ParticleEmitterBuilder& withAge(float age, float ageVariance);
-        ParticleEmitter& build();
+        std::shared_ptr<ParticleEmitter> build();
 
     private:
         Particle m_particleProp;
@@ -80,7 +105,7 @@ public:
     /**
      * constructor
      */
-    ParticleEmitter(int particleCount, std::shared_ptr<Texture>& texture);
+    ParticleEmitter();
     /**
      * destructor
      */
@@ -102,73 +127,22 @@ public:
      */
     void emitOnce();
     /**
-     * 设置粒子位置
-     * @param position
-     * @param positionVariance
-     */
-    void setPosition(const glm::vec3& position, const glm::vec3& positionVariance);
-    /**
-     * 设置粒子加速度
-     * @param acceleration
-     * @param accelerationVariance
-     */
-    void setAcceleration(const glm::vec3& acceleration, const glm::vec3& accelerationVariance);
-    /**
-     * 设置粒子初速度
-     * @param velocity
-     * @param velocityVariance
-     */
-    void setVelocity(const glm::vec3& velocity, const glm::vec3& velocityVariance);
-    /**
-     * 设置角速度
-     * @param angularVelocityMin
-     * @param angularVelocityMax
-     */
-    void setAngularVelocity(float angularVelocityMin, float angularVelocityMax);
-    /**
-     * 设置旋转角
-     * @param rotationMin
-     * @param rotationMax
-     */
-    void setRotation(float rotationMin, float rotationMax);
-    /**
-     * 设置粒子颜色
-     * @param starMin
-     * @param startMax
-     * @param endMin
-     * @param endMax
-     */
-    void setColor(const glm::vec4& startMin, const glm::vec4& startMax, const glm::vec4& endMin, const glm::vec4& endMax);
-    /**
-     * 设置texture
-     * @param texture
-     */
-    void setTexture(const std::shared_ptr<Texture>& texture);
-    /**
-     * 设置texture
-     * @param texture
-     */
-    void setMaterial(const std::shared_ptr<Material>& material);
-    /**
-     * 设置粒子尺寸
-     * @param startMin
-     * @param startMax
-     * @param endMin
-     * @param endMax
-     */
-    void setSize(float startMin, float startMax, float endMin, float endMax);
-    /**
      * 获取当前激活的粒子数
      * @return
      */
     int activeParticles();
+    /**
+     * 获取当前激活粒子数
+     * @return
+     */
+    uint32_t activeCount();
 
 public:
-    int32_t m_emissionRate = 60; // 每秒发射的粒子数
-    float m_lifeSpan = 10;       // lifetime for each particle
-    bool m_started = true;       // 是否还在运行
-    bool m_visible = true;       // 是否可见
-    bool m_emitting = true;      // 发射状态
+    bool m_started = true;    // 是否还在运行
+    bool m_visible = true;    // 是否可见
+    bool m_emitting = true;   // 发射状态
+    uint32_t m_activeCount{}; // 当前激活粒子数
+    uint32_t m_index{};       // 粒子索引
 
 private:
     std::vector<Particle> m_particles;
@@ -178,27 +152,9 @@ private:
     std::vector<glm::vec4> m_colors;
     std::vector<float> m_sizes;
     std::vector<glm::vec4> m_uvs;
-    glm::vec4 m_colorStart{};
-    glm::vec4 m_colorStartVar{};
-    glm::vec4 m_colorEnd{};
-    glm::vec4 m_colorEndVar{};
-    glm::vec3 m_position{};
-    glm::vec3 m_positionVar{};
-    glm::vec3 m_acceleration{};
-    glm::vec3 m_accelerationVar{};
-    glm::vec3 m_velocity{};
-    glm::vec3 m_velocityVar{};
-    float m_sizeStartMin{};
-    float m_sizeStartMax{};
-    float m_sizeEndMin{};
-    float m_sizeEndMax{};
-    float m_rotationMin{};
-    float m_rotationMax{};
-    float m_angularVelocityMin{};
-    float m_angularVelocityMax{};
+    ParticleProp m_particleProp;
     float m_emissions{};
     float m_totalTime{};
-    int m_particleIndex{};
     int m_activeParticles{};
 };
 } // namespace ceres

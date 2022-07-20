@@ -9,15 +9,21 @@
 #include <glm/gtc/random.hpp>
 namespace ceres
 {
-ParticleEmitter::ParticleEmitterBuilder::ParticleEmitterBuilder()
-{
-}
+ParticleEmitter::ParticleEmitterBuilder::ParticleEmitterBuilder() = default;
 ParticleEmitter::ParticleEmitterBuilder::~ParticleEmitterBuilder() = default;
 
-ParticleEmitter& ParticleEmitter::ParticleEmitterBuilder::build()
+std::shared_ptr<ParticleEmitter> ParticleEmitter::ParticleEmitterBuilder::build()
 {
-    auto& emitter = *m_emitter;
-    return *m_emitter;
+    if (m_emitter != nullptr)
+    {
+        return m_emitter->shared_from_this();
+    }
+    return {};
+}
+
+ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withParticleCount(uint32_t particleCount)
+{
+    return *this;
 }
 
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withSize(float startSize, float startSizeVariance, float endSize, float endSizeVariance)
@@ -61,6 +67,15 @@ ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder
     return *this;
 }
 
+ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withEmissionRate(uint32_t emissionRate)
+{
+    return *this;
+}
+ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withLifeSpan(uint32_t lifeSpan)
+{
+    return *this;
+}
+
 ParticleEmitter::ParticleEmitterBuilder ParticleEmitter::create()
 {
     return {};
@@ -73,19 +88,16 @@ ParticleEmitter::ParticleEmitterBuilder ParticleEmitter::update()
     return builder;
 }
 
-ParticleEmitter::ParticleEmitter(int particleCount, std::shared_ptr<Texture>& texture)
+ParticleEmitter::ParticleEmitter()
 {
+    auto particleCount = m_particleProp.particleCount;
     m_particles.resize(particleCount);
     m_material = Shader::getStandardParticles()->createMaterial();
-    m_material->setTexture(texture);
+    m_material->setTexture(m_particleProp.texture);
     m_positions.resize(particleCount, { 0.0f, 0.0f, 0.0f });
     m_colors.resize(particleCount, { 1.0f, 1.0f, 1.0f, 1.0f });
     m_sizes.resize(particleCount, { 100.0f });
     m_uvs.resize(particleCount, { 0.0f, 0.0f, 1.0f, 1.0f });
-    m_colorStart = { 1.0f, 1.0f, 1.0f, 1.0f };
-    m_colorStartVar = m_colorStart;
-    m_colorEnd = { 1.0f, 1.0f, 1.0f, 1.0f };
-    m_colorEndVar = m_colorEnd;
     // preallocate arrays for mesh data
     for (int i = 0; i < particleCount; i++)
     {
@@ -109,7 +121,7 @@ void ParticleEmitter::update(float deltaTime)
     if (m_emitting && m_started)
     {
         int oldEmissions = (int)m_emissions;
-        m_emissions += deltaTime * m_emissionRate;
+        m_emissions += deltaTime * m_particleProp.emissionRate;
         int newEmissions = (int)m_emissions;
         for (int i = oldEmissions; i < newEmissions; i++)
         {
@@ -126,13 +138,13 @@ void ParticleEmitter::update(float deltaTime)
             p.velocity += deltaTime * p.acceleration;
             // deltaS = vt
             p.position += p.velocity * deltaTime;
-            p.colorStart = glm::mix(m_colorStart, m_colorEnd, p.age);
-            p.sizeStart = glm::mix(m_sizeStartMin, m_sizeEndMax, p.age);
+            p.colorStart = glm::mix(m_particleProp.colorStart, m_particleProp.colorEnd, p.age);
+            p.sizeStart = glm::mix(m_particleProp.sizeStart, m_particleProp.sizeEnd, p.age);
             p.rotation += p.angularVelocity * deltaTime;
-            p.alive = p.timeOfBirth + m_lifeSpan > m_totalTime;
+            p.alive = p.timeOfBirth + m_particleProp.lifeSpan > m_totalTime;
             if (p.alive)
                 m_activeParticles++;
-            p.age = (m_totalTime - p.timeOfBirth) / m_lifeSpan;
+            p.age = (m_totalTime - p.timeOfBirth) / m_particleProp.lifeSpan;
         }
     }
 }
@@ -159,76 +171,25 @@ void ParticleEmitter::draw(RenderPass& renderPass, glm::mat4 transform)
 
 void ParticleEmitter::emitOnce()
 {
-    auto& p = m_particles[m_particleIndex];
+    auto& p = m_particles[m_index];
     //    p.alive = true;
     //    p.timeOfBirth = m_totalTime;
     //    p.age = 0;
     //    p.position = glm::vec3(m_particleIndex * 0.1f, m_particleIndex * 0.1f, m_particleIndex * 0.1f);
-    p.acceleration = m_acceleration;
+    p.acceleration = m_particleProp.acceleration;
     p.velocity = glm::sphericalRand(1.0f);
-    p.rotation = m_rotationMin;
-    p.angularVelocity = m_angularVelocityMin;
-    m_particleIndex = (m_particleIndex + 1) % m_particles.size();
-}
-
-void ParticleEmitter::setPosition(const glm::vec3& position, const glm::vec3& positionVariance)
-{
-    m_position = position;
-    m_positionVar = positionVariance;
-}
-
-void ParticleEmitter::setAcceleration(const glm::vec3& acceleration, const glm::vec3& accelerationVariance)
-{
-    m_acceleration = acceleration;
-    m_accelerationVar = accelerationVariance;
-}
-
-void ParticleEmitter::setVelocity(const glm::vec3& velocity, const glm::vec3& velocityVariance)
-{
-    m_velocity = velocity;
-    m_velocityVar = velocityVariance;
-}
-
-void ParticleEmitter::setAngularVelocity(float angularVelocityMin, float angularVelocityMax)
-{
-    m_angularVelocityMin = angularVelocityMin;
-    m_angularVelocityMax = angularVelocityMax;
-}
-
-void ParticleEmitter::setRotation(float rotationMin, float rotationMax)
-{
-    m_rotationMin = rotationMax;
-    m_rotationMax = rotationMax;
-}
-
-void ParticleEmitter::setColor(const glm::vec4& startMin, const glm::vec4& startMax, const glm::vec4& endMin, const glm::vec4& endMax)
-{
-    m_colorStart = startMin;
-    m_colorStartVar = startMax;
-    m_colorEnd = endMin;
-    m_colorEndVar = endMax;
-}
-
-void ParticleEmitter::setTexture(const std::shared_ptr<Texture>& texture)
-{
-    m_material->setTexture(texture);
-}
-
-void ParticleEmitter::setMaterial(const std::shared_ptr<Material>& material)
-{
-    m_material = material;
-}
-
-void ParticleEmitter::setSize(float startMin, float startMax, float endMin, float endMax)
-{
-    m_sizeStartMin = startMin;
-    m_sizeStartMax = startMax;
-    m_sizeEndMin = endMin;
-    m_sizeEndMax = endMax;
+    p.rotation = m_particleProp.rotation;
+    p.angularVelocity = m_particleProp.angularVelocity;
+    m_index = (m_index + 1) % m_particles.size();
 }
 
 int ParticleEmitter::activeParticles()
 {
     return m_activeParticles;
+}
+
+uint32_t ParticleEmitter::activeCount()
+{
+    return m_activeCount;
 }
 } // namespace ceres

@@ -17,9 +17,8 @@ public:
         m_camera.setLookAt(m_eye, m_at, { 0, 1, 0 });
         m_camera.setPerspectiveProjection(m_fov, m_near, m_far);
         m_texture = Texture::create().withFile("resources/particles/flash01.png").build();
-        m_emitter = std::make_shared<ParticleEmitter>(500, m_texture);
         glm::vec3 gravity = glm::vec3(0, -9.8, 0); // 加速度
-        m_emitter->setAcceleration(gravity, gravity);
+        m_emitter = ParticleEmitter::create().withParticleCount(500).withTexture(m_texture).withAcceleration(gravity, gravity).build();
         updateSizeInterpolation();
         updateColorInterpolation();
         updateEmit();
@@ -60,20 +59,20 @@ public:
 
     void updateColorInterpolation()
     {
-        m_emitter->setColor(m_colorFrom, m_colorFrom, m_colorTo, m_colorTo);
+        //        m_emitter->setColor(m_colorFrom, m_colorFrom, m_colorTo, m_colorTo);
     }
 
     void updateSizeInterpolation()
     {
-        m_emitter->setSize(m_sizeFrom, m_sizeFrom, m_sizeTo, m_sizeTo);
+        //        m_emitter->setSize(m_sizeFrom, m_sizeFrom, m_sizeTo, m_sizeTo);
     }
 
     void updateEmit()
     {
-        m_emitter->setPosition(m_emitPosition, m_emitPosition);
-        m_emitter->setVelocity(glm::sphericalRand(m_emitVelocity), glm::sphericalRand(m_emitVelocity));
-        m_emitter->setRotation(m_emitRotation, m_emitRotation);
-        m_emitter->setAngularVelocity(m_emitAngularVelocity, m_emitAngularVelocity);
+        //        m_emitter->setPosition(m_emitPosition, m_emitPosition);
+        //        m_emitter->setVelocity(glm::sphericalRand(m_emitVelocity), glm::sphericalRand(m_emitVelocity));
+        //        m_emitter->setRotation(m_emitRotation, m_emitRotation);
+        //        m_emitter->setAngularVelocity(m_emitAngularVelocity, m_emitAngularVelocity);
     }
 
     void particleSystemGUI()
