@@ -36,7 +36,6 @@ public:
     struct ParticleProp
     {
         std::shared_ptr<Material> material; // 粒子材质
-        std::shared_ptr<Texture> texture;   // 粒子纹理
         glm::vec3 position{};               // 位置
         glm::vec3 positionVariance{};       // 位置变化率（变化率即振幅）
         glm::vec3 velocity;                 // 速度
@@ -127,12 +126,6 @@ public:
          */
         ParticleEmitterBuilder& withVelocity(const glm::vec3& velocity, const glm::vec3& velocityVariance);
         /**
-         * 粒子纹理
-         * @param texture
-         * @return
-         */
-        ParticleEmitterBuilder& withTexture(const std::shared_ptr<Texture>& texture);
-        /**
          * 粒子材质
          * @param material
          * @return
@@ -177,7 +170,11 @@ public:
     /**
      * constructor
      */
-    ParticleEmitter();
+    ParticleEmitter(ParticleEmitterBuilder& build);
+    /**
+     * constructor
+     */
+    ParticleEmitter() = delete;
     /**
      * destructor
      */

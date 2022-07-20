@@ -18,7 +18,7 @@ std::shared_ptr<ParticleEmitter> ParticleEmitter::ParticleEmitterBuilder::build(
     {
         return m_emitter->shared_from_this();
     }
-    return {};
+    return std::make_shared<ParticleEmitter>(ParticleEmitter(*this));
 }
 
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withParticleCount(uint32_t particleCount)
@@ -66,11 +66,6 @@ ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder
     return *this;
 }
 
-ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withTexture(const std::shared_ptr<Texture>& texture)
-{
-    m_particleProp.texture = texture;
-    return *this;
-}
 
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withMaterial(const std::shared_ptr<Material>& material)
 {
@@ -116,12 +111,12 @@ ParticleEmitter::ParticleEmitterBuilder ParticleEmitter::update()
     return builder;
 }
 
-ParticleEmitter::ParticleEmitter()
+ParticleEmitter::ParticleEmitter(ParticleEmitter::ParticleEmitterBuilder& build)
 {
+    m_particleProp = build.m_particleProp;
     auto particleCount = m_particleProp.particleCount;
     m_particles.resize(particleCount);
-    m_particleProp.material = Shader::getStandardParticles()->createMaterial();
-    m_particleProp.material->setTexture(m_particleProp.texture);
+    m_particleProp.material = m_particleProp.material;
     m_positions.resize(particleCount, { 0.0f, 0.0f, 0.0f });
     m_colors.resize(particleCount, { 1.0f, 1.0f, 1.0f, 1.0f });
     m_sizes.resize(particleCount, { 100.0f });
@@ -220,4 +215,5 @@ uint32_t ParticleEmitter::activeCount()
 {
     return m_activeCount;
 }
+
 } // namespace ceres

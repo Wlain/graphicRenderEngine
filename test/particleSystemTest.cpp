@@ -18,7 +18,15 @@ public:
         m_camera.setPerspectiveProjection(m_fov, m_near, m_far);
         m_texture = Texture::create().withFile("resources/particles/flash01.png").build();
         glm::vec3 gravity = glm::vec3(0, -9.8, 0); // 加速度
-        m_emitter = ParticleEmitter::create().withParticleCount(500).withTexture(m_texture).withAcceleration(gravity, gravity).build();
+        auto material = Shader::getStandardParticles()->createMaterial();
+        material->setTexture(m_texture);
+        m_emitter = ParticleEmitter::create()
+                        .withParticleCount(500)
+                        .withMaterial(material)
+                        .withAcceleration(gravity, gravity)
+                        .withColor(m_colorFrom, m_colorFrom, m_colorTo, m_colorTo)
+                        .withSize(m_sizeFrom, m_sizeFrom, m_sizeTo, m_sizeTo)
+                        .build();
         updateSizeInterpolation();
         updateColorInterpolation();
         updateEmit();
@@ -59,7 +67,6 @@ public:
 
     void updateColorInterpolation()
     {
-        //        m_emitter->setColor(m_colorFrom, m_colorFrom, m_colorTo, m_colorTo);
     }
 
     void updateSizeInterpolation()
