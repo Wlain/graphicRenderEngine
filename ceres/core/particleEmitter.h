@@ -35,32 +35,33 @@ public:
 
     struct ParticleProp
     {
-        std::shared_ptr<Texture> texture; // 粒子纹理
-        glm::vec3 position{};             // 位置
-        glm::vec3 positionVariance{};     // 位置变化率（变化率即振幅）
-        glm::vec3 velocity;               // 速度
-        glm::vec3 velocityVariance{};     // 速度变化率
-        glm::vec3 acceleration{};         // 加速度
-        glm::vec3 accelerationVariance{}; // 加速度变化率
-        glm::vec4 colorStart{};           // 初始颜色
-        glm::vec4 colorStartVariance{};   // 初始颜色变化率
-        glm::vec4 colorEnd{};             // 消亡颜色
-        glm::vec4 colorEndVariance{};     // 消亡颜色变化率
-        glm::vec4 color{};                // 当前颜色
-        float rotation{};                 // 旋转
-        float rotationVariance{};         // 旋转变化率
-        float angularVelocity{};          // 角速度
-        float angularVelocityVariance{};  // 角速度变化率
-        float timeOfBirth{};              // 出生时间
-        float age{};                      // 存活时间【0.0f.0.0f].
-        float ageVariance{};              // 存活时间变化率【0.0f.0.0f].
-        float sizeStart{};                // 初始尺寸
-        float sizeStartVariance{};        // 初始尺寸变化率
-        float sizeEnd{};                  // 消亡尺寸
-        float sizeEndVariance{};          // 消亡尺寸变化率
-        float lifeSpan = 10;              // 粒子生命周期
-        uint32_t particleCount{};         // 粒子数目
-        uint32_t emissionRate = 60;       // 每秒发射的粒子数
+        std::shared_ptr<Material> material; // 粒子材质
+        std::shared_ptr<Texture> texture;   // 粒子纹理
+        glm::vec3 position{};               // 位置
+        glm::vec3 positionVariance{};       // 位置变化率（变化率即振幅）
+        glm::vec3 velocity;                 // 速度
+        glm::vec3 velocityVariance{};       // 速度变化率
+        glm::vec3 acceleration{};           // 加速度
+        glm::vec3 accelerationVariance{};   // 加速度变化率
+        glm::vec4 colorStart{};             // 初始颜色
+        glm::vec4 colorStartVariance{};     // 初始颜色变化率
+        glm::vec4 colorEnd{};               // 消亡颜色
+        glm::vec4 colorEndVariance{};       // 消亡颜色变化率
+        glm::vec4 color{};                  // 当前颜色
+        float rotation{};                   // 旋转
+        float rotationVariance{};           // 旋转变化率
+        float angularVelocity{};            // 角速度
+        float angularVelocityVariance{};    // 角速度变化率
+        float timeOfBirth{};                // 出生时间
+        float age{};                        // 存活时间【0.0f.0.0f].
+        float ageVariance{};                // 存活时间变化率【0.0f.0.0f].
+        float sizeStart{};                  // 初始尺寸
+        float sizeStartVariance{};          // 初始尺寸变化率
+        float sizeEnd{};                    // 消亡尺寸
+        float sizeEndVariance{};            // 消亡尺寸变化率
+        float lifeSpan = 10;                // 粒子生命周期
+        uint32_t particleCount{};           // 粒子数目
+        uint32_t emissionRate = 60;         // 每秒发射的粒子数
     };
 
     class ParticleEmitterBuilder
@@ -155,7 +156,7 @@ public:
         std::shared_ptr<ParticleEmitter> build();
 
     private:
-        Particle m_particleProp;
+        ParticleProp m_particleProp;
         ParticleEmitter* m_emitter{};
         friend ParticleEmitter;
     };
@@ -217,7 +218,6 @@ public:
 
 private:
     std::vector<Particle> m_particles;
-    std::shared_ptr<Material> m_material;
     std::shared_ptr<Mesh> m_mesh;
     std::vector<glm::vec3> m_positions;
     std::vector<glm::vec4> m_colors;

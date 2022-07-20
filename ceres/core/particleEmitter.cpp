@@ -23,61 +23,84 @@ std::shared_ptr<ParticleEmitter> ParticleEmitter::ParticleEmitterBuilder::build(
 
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withParticleCount(uint32_t particleCount)
 {
+    m_particleProp.particleCount = particleCount;
     return *this;
 }
 
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withSize(float startSize, float startSizeVariance, float endSize, float endSizeVariance)
 {
+    m_particleProp.sizeStart = startSize;
+    m_particleProp.sizeStartVariance = startSizeVariance;
+    m_particleProp.sizeEnd = endSize;
+    m_particleProp.sizeEndVariance = endSizeVariance;
     return *this;
 }
 
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withColor(const glm::vec4& startColor, const glm::vec4& startColorVariance, const glm::vec4& endColor, const glm::vec4& endColorVariance)
 {
+    m_particleProp.colorStart = startColor;
+    m_particleProp.colorStartVariance = startColorVariance;
+    m_particleProp.colorEnd = endColor;
+    m_particleProp.colorEndVariance = endColorVariance;
     return *this;
 }
 
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withPosition(const glm::vec3& position, const glm::vec3& positionVariance)
 {
+    m_particleProp.position = position;
+    m_particleProp.positionVariance = positionVariance;
     return *this;
 }
 
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withAcceleration(const glm::vec3& acceleration, const glm::vec3& accelerationVariance)
 {
+    m_particleProp.acceleration = acceleration;
+    m_particleProp.accelerationVariance = accelerationVariance;
     return *this;
 }
 
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withVelocity(const glm::vec3& velocity, const glm::vec3& velocityVariance)
 {
+    m_particleProp.velocity = velocity;
+    m_particleProp.velocityVariance = velocityVariance;
     return *this;
 }
 
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withTexture(const std::shared_ptr<Texture>& texture)
 {
+    m_particleProp.texture = texture;
     return *this;
 }
 
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withMaterial(const std::shared_ptr<Material>& material)
 {
+    m_particleProp.material = material;
     return *this;
 }
 
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withRotation(float rotation, float rotationVariance)
 {
+    m_particleProp.rotation = rotation;
+    m_particleProp.rotationVariance = rotationVariance;
     return *this;
 }
 
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withAngularVelocity(float angularVelocity, float angularVelocityVariance)
 {
+    m_particleProp.angularVelocity = angularVelocity;
+    m_particleProp.angularVelocityVariance = angularVelocityVariance;
     return *this;
 }
 
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withEmissionRate(uint32_t emissionRate)
 {
+    m_particleProp.emissionRate = emissionRate;
     return *this;
 }
 
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withLifeSpan(uint32_t lifeSpan)
 {
+    m_particleProp.lifeSpan = lifeSpan;
     return *this;
 }
 
@@ -97,8 +120,8 @@ ParticleEmitter::ParticleEmitter()
 {
     auto particleCount = m_particleProp.particleCount;
     m_particles.resize(particleCount);
-    m_material = Shader::getStandardParticles()->createMaterial();
-    m_material->setTexture(m_particleProp.texture);
+    m_particleProp.material = Shader::getStandardParticles()->createMaterial();
+    m_particleProp.material->setTexture(m_particleProp.texture);
     m_positions.resize(particleCount, { 0.0f, 0.0f, 0.0f });
     m_colors.resize(particleCount, { 1.0f, 1.0f, 1.0f, 1.0f });
     m_sizes.resize(particleCount, { 100.0f });
@@ -171,7 +194,7 @@ void ParticleEmitter::draw(RenderPass& renderPass, glm::mat4 transform)
         .withParticleSizes(m_sizes)
         .withUvs(m_uvs)
         .build();
-    renderPass.draw(m_mesh, transform, m_material);
+    renderPass.draw(m_mesh, transform, m_particleProp.material);
 }
 
 void ParticleEmitter::emitOnce()
