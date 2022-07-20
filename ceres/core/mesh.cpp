@@ -193,7 +193,7 @@ Mesh::MeshBuilder Mesh::create()
 Mesh::MeshBuilder Mesh::update()
 {
     Mesh::MeshBuilder builder;
-    builder.m_updateMesh = this;
+    builder.m_mesh = this;
     builder.m_attributesFloat = m_attributesFloat;
     builder.m_attributesVec2 = m_attributesVec2;
     builder.m_attributesVec3 = m_attributesVec3;
@@ -769,11 +769,11 @@ std::shared_ptr<Mesh> Mesh::MeshBuilder::build()
             withTangents(newTangents);
         }
     }
-    if (m_updateMesh != nullptr)
+    if (m_mesh != nullptr)
     {
-        renderStats.meshBytes -= m_updateMesh->getDataSize();
-        m_updateMesh->update(std::move(m_attributesFloat), std::move(m_attributesVec2), std::move(m_attributesVec3), std::move(m_attributesVec4), std::move(m_attributesIVec4), std::move(m_indices), m_topologies, m_bufferUsage, m_name, renderStats);
-        return m_updateMesh->shared_from_this();
+        renderStats.meshBytes -= m_mesh->getDataSize();
+        m_mesh->update(std::move(m_attributesFloat), std::move(m_attributesVec2), std::move(m_attributesVec3), std::move(m_attributesVec4), std::move(m_attributesIVec4), std::move(m_indices), m_topologies, m_bufferUsage, m_name, renderStats);
+        return m_mesh->shared_from_this();
     }
     auto* mesh = new Mesh(std::move(m_attributesFloat), std::move(m_attributesVec2), std::move(m_attributesVec3), std::move(m_attributesVec4), std::move(m_attributesIVec4), std::move(m_indices), m_topologies, m_bufferUsage, m_name, renderStats);
     renderStats.meshCount++;
@@ -782,7 +782,7 @@ std::shared_ptr<Mesh> Mesh::MeshBuilder::build()
 
 Mesh::MeshBuilder& Mesh::MeshBuilder::withAttribute(std::string_view name, const std::vector<float>& values)
 {
-    if (m_updateMesh != nullptr && m_attributesFloat.find(name.data()) == m_attributesFloat.end())
+    if (m_mesh != nullptr && m_attributesFloat.find(name.data()) == m_attributesFloat.end())
     {
         LOG_ERROR("Cannot change mesh structure. {} did not exist in original mesh.", name.data());
     }
@@ -795,7 +795,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withAttribute(std::string_view name, const
 
 Mesh::MeshBuilder& Mesh::MeshBuilder::withAttribute(std::string_view name, const std::vector<glm::vec2>& values)
 {
-    if (m_updateMesh != nullptr && m_attributesVec2.find(name.data()) == m_attributesVec2.end())
+    if (m_mesh != nullptr && m_attributesVec2.find(name.data()) == m_attributesVec2.end())
     {
         LOG_ERROR("Cannot change mesh structure. {} did not exist in original mesh.", name.data());
     }
@@ -808,7 +808,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withAttribute(std::string_view name, const
 
 Mesh::MeshBuilder& Mesh::MeshBuilder::withAttribute(std::string_view name, const std::vector<glm::vec3>& values)
 {
-    if (m_updateMesh != nullptr && m_attributesVec3.find(name.data()) == m_attributesVec3.end())
+    if (m_mesh != nullptr && m_attributesVec3.find(name.data()) == m_attributesVec3.end())
     {
         LOG_ERROR("Cannot change mesh structure. {} did not exist in original mesh.", name.data());
     }
@@ -821,7 +821,7 @@ Mesh::MeshBuilder& Mesh::MeshBuilder::withAttribute(std::string_view name, const
 
 Mesh::MeshBuilder& Mesh::MeshBuilder::withAttribute(std::string_view name, const std::vector<glm::vec4>& values)
 {
-    if (m_updateMesh != nullptr && m_attributesVec4.find(name.data()) == m_attributesVec4.end())
+    if (m_mesh != nullptr && m_attributesVec4.find(name.data()) == m_attributesVec4.end())
     {
         LOG_ERROR("Cannot change mesh structure. {} did not exist in original mesh.", name.data());
     }
@@ -1117,7 +1117,7 @@ std::vector<glm::vec4> Mesh::MeshBuilder::computeTangents(const std::vector<glm:
 
 Mesh::MeshBuilder& Mesh::MeshBuilder::withAttribute(std::string_view name, const std::vector<glm::i32vec4>& values)
 {
-    if (m_updateMesh != nullptr && m_attributesIVec4.find(name.data()) == m_attributesIVec4.end())
+    if (m_mesh != nullptr && m_attributesIVec4.find(name.data()) == m_attributesIVec4.end())
     {
         LOG_ERROR("Cannot change mesh structure. {} did not exist in original mesh.", name.data());
     }

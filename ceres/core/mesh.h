@@ -84,7 +84,7 @@ public:
         std::vector<Topology> m_topologies; // mesh拓扑结构
         BufferUsage m_bufferUsage{ BufferUsage::StaticDraw };
         std::string m_name;
-        Mesh* m_updateMesh{ nullptr };
+        Mesh* m_mesh{ nullptr };
         bool m_recomputeNormals{ false };
         bool m_recomputeTangents{ false };
         friend class Mesh;
