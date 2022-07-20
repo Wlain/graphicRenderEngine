@@ -68,19 +68,90 @@ public:
     public:
         ParticleEmitterBuilder();
         ~ParticleEmitterBuilder();
+        /**
+         * 粒子数
+         * @param particleCount
+         * @return
+         */
         ParticleEmitterBuilder& withParticleCount(uint32_t particleCount);
+        /**
+         * 每秒发射粒子数
+         * @param emissionRate
+         * @return
+         */
         ParticleEmitterBuilder& withEmissionRate(uint32_t emissionRate);
+        /**
+         * 生命周期
+         * @param lifeSpan
+         * @return
+         */
         ParticleEmitterBuilder& withLifeSpan(uint32_t lifeSpan);
+        /**
+         * 粒子尺寸
+         * @param startSize
+         * @param startSizeVariance
+         * @param endSize
+         * @param endSizeVariance
+         * @return
+         */
         ParticleEmitterBuilder& withSize(float startSize, float startSizeVariance, float endSize, float endSizeVariance);
+        /**
+         * 粒子颜色
+         * @param startColor
+         * @param startColorVariance
+         * @param endColor
+         * @param endColorVariance
+         * @return
+         */
         ParticleEmitterBuilder& withColor(const glm::vec4& startColor, const glm::vec4& startColorVariance, const glm::vec4& endColor, const glm::vec4& endColorVariance);
+        /**
+         * 粒子位置
+         * @param position
+         * @param positionVariance
+         * @return
+         */
         ParticleEmitterBuilder& withPosition(const glm::vec3& position, const glm::vec3& positionVariance);
+        /**
+         * 粒子加速度
+         * @param acceleration
+         * @param accelerationVariance
+         * @return
+         */
         ParticleEmitterBuilder& withAcceleration(const glm::vec3& acceleration, const glm::vec3& accelerationVariance);
+        /**
+         * 粒子速度
+         * @param velocity
+         * @param velocityVariance
+         * @return
+         */
         ParticleEmitterBuilder& withVelocity(const glm::vec3& velocity, const glm::vec3& velocityVariance);
+        /**
+         * 粒子纹理
+         * @param texture
+         * @return
+         */
         ParticleEmitterBuilder& withTexture(const std::shared_ptr<Texture>& texture);
+        /**
+         * 粒子材质
+         * @param material
+         * @return
+         */
         ParticleEmitterBuilder& withMaterial(const std::shared_ptr<Material>& material);
+        /**
+         * 粒子旋转角
+         * @param rotation
+         * @param rotationVariance
+         * @return
+         */
         ParticleEmitterBuilder& withRotation(float rotation, float rotationVariance);
+        /**
+         * 粒子角速度
+         * @param angularVelocity
+         * @param angularVelocityVariance
+         * @return
+         */
         ParticleEmitterBuilder& withAngularVelocity(float angularVelocity, float angularVelocityVariance);
-        ParticleEmitterBuilder& withAge(float age, float ageVariance);
+
         std::shared_ptr<ParticleEmitter> build();
 
     private:

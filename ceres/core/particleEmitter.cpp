@@ -62,10 +62,6 @@ ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder
 {
     return *this;
 }
-ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withAge(float age, float ageVariance)
-{
-    return *this;
-}
 
 ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withEmissionRate(uint32_t emissionRate)
 {
