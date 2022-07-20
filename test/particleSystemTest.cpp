@@ -21,7 +21,7 @@ public:
     }
     void setTitle() override
     {
-        m_title = "ParticleSystemExample"
+        m_title = "ParticleSystemExample";
     }
 };
 
