@@ -19,8 +19,6 @@ ParticleEmitter::ParticleEmitter(int particleCount, std::shared_ptr<Texture>& te
     m_colors.resize(particleCount, { 1.0f, 1.0f, 1.0f, 1.0f });
     m_sizes.resize(particleCount, { 100.0f });
     m_uvs.resize(particleCount, { 0.0f, 0.0f, 1.0f, 1.0f });
-    m_velocity = glm::sphericalRand(1.0f);
-    m_velocityVar = glm::sphericalRand(1.0f);
     m_colorStart = { 1.0f, 1.0f, 1.0f, 1.0f };
     m_colorStartVar = m_colorStart;
     m_colorEnd = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -30,6 +28,7 @@ ParticleEmitter::ParticleEmitter(int particleCount, std::shared_ptr<Texture>& te
     {
         m_positions[i] = glm::vec3(i * 0.1f, i * 0.1f, i * 0.1f);
         m_particles[i].index = i;
+        m_particles[i].velocity = glm::sphericalRand(1.0f);
     }
     m_mesh = Mesh::create()
                  .withPositions(m_positions)
@@ -51,7 +50,7 @@ void ParticleEmitter::update(float deltaTime)
         int newEmissions = (int)m_emissions;
         for (int i = oldEmissions; i < newEmissions; i++)
         {
-            emit();
+//            emitOnce();
         }
     }
     if (m_started)
@@ -61,16 +60,18 @@ void ParticleEmitter::update(float deltaTime)
         for (auto& p : m_particles)
         {
             // v = at
-            p.velocity += deltaTime * gravity;
-            // deltaS = at
+            p.velocity += deltaTime * p.acceleration;
+            // deltaS = vt
             p.position += p.velocity * deltaTime;
             // Simple linear interpolation of color and size.
-            float percent = 1.0f - ((float)p.energy / (float)p.energyStart);
-            p.color.r = p.colorStart.r + (p.colorEnd.r - p.colorStart.r) * percent;
-            p.color.g = p.colorStart.g + (p.colorEnd.g - p.colorStart.g) * percent;
-            p.color.b = p.colorStart.b + (p.colorEnd.b - p.colorStart.b) * percent;
-            p.color.a = p.colorStart.a + (p.colorEnd.a - p.colorStart.a) * percent;
-            p.size = p.sizeStart + (p.sizeEnd - p.sizeStart) * percent;
+            //            float percent = 1.0f - ((float)p.energy / (float)p.energyStart);
+            //            p.color.r = p.colorStart.r + (p.colorEnd.r - p.colorStart.r) * p.age;
+            //            p.color.g = p.colorStart.g + (p.colorEnd.g - p.colorStart.g) * p.age;
+            //            p.color.b = p.colorStart.b + (p.colorEnd.b - p.colorStart.b) * p.age;
+            //            p.color.a = p.colorStart.a + (p.colorEnd.a - p.colorStart.a) * p.age;
+            p.color = glm::mix(m_colorStart, m_colorEnd, p.age);
+            p.size = glm::mix(m_sizeEndMin, m_sizeEndMax, p.age);
+            //            p.size = p.sizeStart + (p.sizeEnd - p.sizeStart) * p.age;
             p.rotation += p.angularVelocity * deltaTime;
             p.alive = p.timeOfBirth + m_lifeSpan > m_totalTime;
             if (p.alive)
@@ -88,7 +89,7 @@ void ParticleEmitter::draw(RenderPass& renderPass, glm::mat4 transform)
         auto& p = m_particles[i];
         m_sizes[i] = p.alive ? p.size : 0;
         m_positions[i] = p.position;
-        m_colors[i] = p.color.toLinear();
+        m_colors[i] = p.color;
         m_uvs[i].w = p.rotation;
     }
     m_mesh->update()
@@ -100,7 +101,7 @@ void ParticleEmitter::draw(RenderPass& renderPass, glm::mat4 transform)
     renderPass.draw(m_mesh, transform, m_material);
 }
 
-void ParticleEmitter::emit()
+void ParticleEmitter::emitOnce()
 {
     auto& p = m_particles[m_particleIndex];
     p.alive = true;

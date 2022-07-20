@@ -16,16 +16,16 @@ struct Particle
     glm::vec3 position{};     // 位置
     glm::vec3 velocity{};     // 速度
     glm::vec3 acceleration{}; // 加速度
-    Color colorStart{};       // 初始颜色
-    Color colorEnd{};         // 消亡颜色
-    Color color{};            // 颜色
+    glm::vec4 colorStart{};   // 初始颜色
+    glm::vec4 colorEnd{};     // 消亡颜色
+    glm::vec4 color{};        // 颜色
     float rotation{};         // 旋转
     float angularVelocity{};  // 角速度
     float angle{};            // 当前角度
     float timeOfBirth{};      // 出生时间
     float age{};              // 存活时间【0.0f.0.0f].
-    float energyStart{};      // 开始时的能量
-    float energy{};           // 当前能量
+    float energyStart{ 1.0 }; // 开始时的能量
+    float energy{ 1.0 };      // 当前能量
     float sizeStart{};        // 初始尺寸
     float sizeEnd{};          // 消亡尺寸
     float size{};             // 当前尺寸
@@ -59,7 +59,7 @@ public:
     /**
      * 发射粒子
      */
-    void emit();
+    void emitOnce();
     /**
      * 设置粒子位置
      * @param position
@@ -124,12 +124,11 @@ public:
     int activeParticles();
 
 public:
-    int32_t m_emissionRate = 60;               // 每秒发射的粒子数
-    float m_lifeSpan = 10;                     // lifetime for each particle
-    bool m_started = true;                     // 是否还在运行
-    bool m_visible = true;                     // 是否可见
-    bool m_emitting = true;                    // 发射状态
-    glm::vec3 gravity = glm::vec3(0, -9.8, 0); // 引力
+    int32_t m_emissionRate = 60; // 每秒发射的粒子数
+    float m_lifeSpan = 10;        // lifetime for each particle
+    bool m_started = true;       // 是否还在运行
+    bool m_visible = true;       // 是否可见
+    bool m_emitting = true;      // 发射状态
 
 private:
     std::vector<Particle> m_particles;
