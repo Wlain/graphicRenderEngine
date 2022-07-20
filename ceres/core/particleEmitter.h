@@ -11,31 +11,72 @@
 #include <vector>
 namespace ceres
 {
-struct Particle
-{
-    glm::vec3 position{};     // 位置
-    glm::vec3 velocity{};     // 速度
-    glm::vec3 acceleration{}; // 加速度
-    glm::vec4 colorStart{};   // 初始颜色
-    glm::vec4 colorEnd{};     // 消亡颜色
-    glm::vec4 color{};        // 颜色
-    float rotation{};         // 旋转
-    float angularVelocity{};  // 角速度
-    float angle{};            // 当前角度
-    float timeOfBirth{};      // 出生时间
-    float age{};              // 存活时间【0.0f.0.0f].
-    float energyStart{ 1.0 }; // 开始时的能量
-    float energy{ 1.0 };      // 当前能量
-    float sizeStart{};        // 初始尺寸
-    float sizeEnd{};          // 消亡尺寸
-    float size{};             // 当前尺寸
-    bool alive{};             // 活标记位
-    int index;
-};
-
 class ParticleEmitter
 {
 public:
+    struct Particle
+    {
+        glm::vec3 position{};             // 位置
+        glm::vec3 positionVariance{};     // 位置变化率（变化率即振幅）
+        glm::vec3 velocity;               // 速度
+        glm::vec3 velocityVariance{};     // 速度变化率
+        glm::vec3 acceleration{};         // 加速度
+        glm::vec3 accelerationVariance{}; // 加速度变化率
+        glm::vec4 colorStart{};           // 初始颜色
+        glm::vec4 colorStartVariance{};   // 初始颜色变化率
+        glm::vec4 colorEnd{};             // 消亡颜色
+        glm::vec4 colorEndVariance{};     // 消亡颜色变化率
+        float rotation{};                 // 旋转
+        float rotationVariance{};         // 旋转变化率
+        float angularVelocity{};          // 角速度
+        float angularVelocityVariance{};  // 角速度变化率
+        float angle{};                    // 当前角度
+        float timeOfBirth{};              // 出生时间
+        float age{};                      // 存活时间【0.0f.0.0f].
+        float sizeStart{};                // 初始尺寸
+        float sizeStartVariance{};        // 初始尺寸变化率
+        float sizeEnd{};                  // 消亡尺寸
+        float sizeEndVariance{};          // 消亡尺寸变化率
+        int index{};                        // 粒子索引
+        bool alive{};                     // 活标记位
+    };
+
+    class ParticleEmitterBuilder
+    {
+    public:
+        ParticleEmitterBuilder();
+        ~ParticleEmitterBuilder();
+        ParticleEmitterBuilder& withSize(float startSize, float startSizeVariance, float endSize, float endSizeVariance);
+        ParticleEmitterBuilder& withColor(const glm::vec4& startColor, const glm::vec4& startColorVariance, const glm::vec4& endColor, const glm::vec4& endColorVariance);
+        ParticleEmitterBuilder& withPosition(const glm::vec3& position, const glm::vec3& positionVariance);
+        ParticleEmitterBuilder& withAcceleration(const glm::vec3& acceleration, const glm::vec3& accelerationVariance);
+        ParticleEmitterBuilder& withVelocity(const glm::vec3& velocity, const glm::vec3& velocityVariance);
+        ParticleEmitterBuilder& withTexture(const std::shared_ptr<Texture>& texture);
+        ParticleEmitterBuilder& withMaterial(const std::shared_ptr<Material>& material);
+        ParticleEmitterBuilder& withRotation(float rotation, float rotationVariance);
+        ParticleEmitterBuilder& withAngularVelocity(float angularVelocity, float angularVelocityVariance);
+        ParticleEmitterBuilder& withAge(float age, float ageVariance);
+        ParticleEmitter& build();
+
+    private:
+        Particle m_particleProp;
+        ParticleEmitter* m_emitter{};
+        friend ParticleEmitter;
+    };
+
+public:
+    /**
+     * 创建ParticleEmitterBuilder
+     * @return
+     */
+    static ParticleEmitterBuilder create();
+
+    /**
+     * 更新ParticleEmitterBuilder
+     * @return
+     */
+    ParticleEmitterBuilder update();
+
     /**
      * constructor
      */
@@ -108,7 +149,6 @@ public:
      * @param texture
      */
     void setMaterial(const std::shared_ptr<Material>& material);
-
     /**
      * 设置粒子尺寸
      * @param startMin
@@ -125,7 +165,7 @@ public:
 
 public:
     int32_t m_emissionRate = 60; // 每秒发射的粒子数
-    float m_lifeSpan = 10;        // lifetime for each particle
+    float m_lifeSpan = 10;       // lifetime for each particle
     bool m_started = true;       // 是否还在运行
     bool m_visible = true;       // 是否可见
     bool m_emitting = true;      // 发射状态

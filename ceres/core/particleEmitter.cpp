@@ -9,6 +9,69 @@
 #include <glm/gtc/random.hpp>
 namespace ceres
 {
+ParticleEmitter::ParticleEmitterBuilder::ParticleEmitterBuilder()
+{
+}
+ParticleEmitter::ParticleEmitterBuilder::~ParticleEmitterBuilder() = default;
+
+ParticleEmitter& ParticleEmitter::ParticleEmitterBuilder::build()
+{
+    auto& emitter = *m_emitter;
+    return *m_emitter;
+}
+
+ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withSize(float startSize, float startSizeVariance, float endSize, float endSizeVariance)
+{
+    return *this;
+}
+ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withColor(const glm::vec4& startColor, const glm::vec4& startColorVariance, const glm::vec4& endColor, const glm::vec4& endColorVariance)
+{
+    return *this;
+}
+ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withPosition(const glm::vec3& position, const glm::vec3& positionVariance)
+{
+    return *this;
+}
+ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withAcceleration(const glm::vec3& acceleration, const glm::vec3& accelerationVariance)
+{
+    return *this;
+}
+ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withVelocity(const glm::vec3& velocity, const glm::vec3& velocityVariance)
+{
+    return *this;
+}
+ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withTexture(const std::shared_ptr<Texture>& texture)
+{
+    return *this;
+}
+ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withMaterial(const std::shared_ptr<Material>& material)
+{
+    return *this;
+}
+ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withRotation(float rotation, float rotationVariance)
+{
+    return *this;
+}
+ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withAngularVelocity(float angularVelocity, float angularVelocityVariance)
+{
+    return *this;
+}
+ParticleEmitter::ParticleEmitterBuilder& ParticleEmitter::ParticleEmitterBuilder::withAge(float age, float ageVariance)
+{
+    return *this;
+}
+
+ParticleEmitter::ParticleEmitterBuilder ParticleEmitter::create()
+{
+    return {};
+}
+
+ParticleEmitter::ParticleEmitterBuilder ParticleEmitter::update()
+{
+    ParticleEmitter::ParticleEmitterBuilder builder;
+    builder.m_emitter = this;
+    return builder;
+}
 
 ParticleEmitter::ParticleEmitter(int particleCount, std::shared_ptr<Texture>& texture)
 {
@@ -63,15 +126,8 @@ void ParticleEmitter::update(float deltaTime)
             p.velocity += deltaTime * p.acceleration;
             // deltaS = vt
             p.position += p.velocity * deltaTime;
-            // Simple linear interpolation of color and size.
-            //            float percent = 1.0f - ((float)p.energy / (float)p.energyStart);
-            //            p.color.r = p.colorStart.r + (p.colorEnd.r - p.colorStart.r) * p.age;
-            //            p.color.g = p.colorStart.g + (p.colorEnd.g - p.colorStart.g) * p.age;
-            //            p.color.b = p.colorStart.b + (p.colorEnd.b - p.colorStart.b) * p.age;
-            //            p.color.a = p.colorStart.a + (p.colorEnd.a - p.colorStart.a) * p.age;
-            p.color = glm::mix(m_colorStart, m_colorEnd, p.age);
-            p.size = glm::mix(m_sizeEndMin, m_sizeEndMax, p.age);
-            //            p.size = p.sizeStart + (p.sizeEnd - p.sizeStart) * p.age;
+            p.colorStart = glm::mix(m_colorStart, m_colorEnd, p.age);
+            p.sizeStart = glm::mix(m_sizeStartMin, m_sizeEndMax, p.age);
             p.rotation += p.angularVelocity * deltaTime;
             p.alive = p.timeOfBirth + m_lifeSpan > m_totalTime;
             if (p.alive)
@@ -87,9 +143,9 @@ void ParticleEmitter::draw(RenderPass& renderPass, glm::mat4 transform)
     for (int i = 0; i < m_particles.size(); i++)
     {
         auto& p = m_particles[i];
-        m_sizes[i] = p.alive ? p.size : 0;
+        m_sizes[i] = p.alive ? p.sizeStart : 0;
         m_positions[i] = p.position;
-        m_colors[i] = p.color;
+        m_colors[i] = p.colorStart;
         m_uvs[i].w = p.rotation;
     }
     m_mesh->update()
@@ -104,12 +160,12 @@ void ParticleEmitter::draw(RenderPass& renderPass, glm::mat4 transform)
 void ParticleEmitter::emitOnce()
 {
     auto& p = m_particles[m_particleIndex];
-//    p.alive = true;
-//    p.timeOfBirth = m_totalTime;
-//    p.age = 0;
-//    p.position = glm::vec3(m_particleIndex * 0.1f, m_particleIndex * 0.1f, m_particleIndex * 0.1f);
+    //    p.alive = true;
+    //    p.timeOfBirth = m_totalTime;
+    //    p.age = 0;
+    //    p.position = glm::vec3(m_particleIndex * 0.1f, m_particleIndex * 0.1f, m_particleIndex * 0.1f);
     p.acceleration = m_acceleration;
-    p.velocity =  glm::sphericalRand(1.0f);
+    p.velocity = glm::sphericalRand(1.0f);
     p.rotation = m_rotationMin;
     p.angularVelocity = m_angularVelocityMin;
     m_particleIndex = (m_particleIndex + 1) % m_particles.size();
