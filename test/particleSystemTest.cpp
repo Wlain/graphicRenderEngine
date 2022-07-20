@@ -2,6 +2,7 @@
 // Created by cwb on 2022/7/19.
 //
 #include "basicProject.h"
+#include "core/particleEmitter.h"
 
 class ParticleSystemExample : public BasicProject
 {
@@ -23,6 +24,9 @@ public:
     {
         m_title = "ParticleSystemExample";
     }
+
+private:
+    std::shared_ptr<ParticleEmitter> m_emitter
 };
 
 void particleSystemTest()
