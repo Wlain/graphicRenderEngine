@@ -42,4 +42,15 @@ static std::string_view getCurrentOperationSystem()
 #endif
 }
 
+static std::vector<std::string> getCurrentDirFiles(std::string_view fileDir)
+{
+    std::vector<std::string> files;
+    std::filesystem::directory_iterator lists(fileDir);
+    for (const auto& file : lists)
+    {
+        files.emplace_back(file.path().filename().c_str());
+    }
+    return files;
+}
+
 #endif // SIMPLERENDERENGINE_UTILS_H

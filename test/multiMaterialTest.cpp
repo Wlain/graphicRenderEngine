@@ -4,7 +4,6 @@
 #include "basicProject.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
-#include <glm/gtx/rotate_vector.hpp>
 class MultiMaterialExample : public BasicProject
 {
 public:
