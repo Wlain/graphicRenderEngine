@@ -29,6 +29,7 @@ public:
         float age{};              // 存活时间【0.0f.0.0f].
         float sizeStart{};        // 初始尺寸
         float sizeEnd{};          // 消亡尺寸
+        float size{};             // 当前尺寸
         int index{};              // 粒子索引
         bool alive{};             // 活标记位
     };
@@ -58,9 +59,12 @@ public:
         float sizeStartVariance{};          // 初始尺寸变化率
         float sizeEnd{};                    // 消亡尺寸
         float sizeEndVariance{};            // 消亡尺寸变化率
-        float lifeSpan = 10;                // 粒子生命周期
+        float lifeSpan{};                   // 粒子生命周期
         uint32_t particleCount{};           // 粒子数目
-        uint32_t emissionRate = 60;         // 每秒发射的粒子数
+        uint32_t emissionRate{};            // 每秒发射的粒子数
+        bool started{ true };               // 是否还在运行
+        bool visible{ true };               // 是否可见
+        bool emitting{ true };              // 发射状态
     };
 
     class ParticleEmitterBuilder
@@ -145,6 +149,25 @@ public:
          * @return
          */
         ParticleEmitterBuilder& withAngularVelocity(float angularVelocity, float angularVelocityVariance);
+        /**
+         * 是否运行
+         * @param running
+         * @return
+         */
+        ParticleEmitterBuilder& withRunning(bool running);
+
+        /**
+         * 是否可见
+         * @param visible
+         * @return
+         */
+        ParticleEmitterBuilder& withVisible(bool visible);
+        /**
+         * 发射状态
+         * @param emitting
+         * @return
+         */
+        ParticleEmitterBuilder& withEmitting(bool emitting);
 
         std::shared_ptr<ParticleEmitter> build();
 
@@ -205,11 +228,17 @@ public:
      * @return
      */
     uint32_t activeCount();
+    /**
+     * 获取材质
+     * @return
+     */
+    const std::shared_ptr<Material>& material() const;
+
+private:
+    template <class T>
+    T generateValue(const T& base, const T& variance);
 
 public:
-    bool m_started = true;    // 是否还在运行
-    bool m_visible = true;    // 是否可见
-    bool m_emitting = true;   // 发射状态
     uint32_t m_activeCount{}; // 当前激活粒子数
     uint32_t m_index{};       // 粒子索引
 
@@ -221,7 +250,7 @@ private:
     std::vector<float> m_sizes;
     std::vector<glm::vec4> m_uvs;
     ParticleProp m_particleProp;
-    float m_emissions{};
+    float m_emissions{}; // 发射的粒子数
     float m_totalTime{};
     int m_activeParticles{};
 };

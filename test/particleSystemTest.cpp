@@ -4,9 +4,11 @@
 #include "basicProject.h"
 #include "core/particleEmitter.h"
 #include "guiCommonDefine.h"
+#include "utils/utils.h"
 #define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtc/random.hpp>
+#include <glm/gtx/range.hpp>
 #include <glm/gtx/transform.hpp>
+#include <glm/gtc/random.hpp>
 
 class ParticleSystemExample : public BasicProject
 {
@@ -16,20 +18,36 @@ public:
     {
         m_camera.setLookAt(m_eye, m_at, { 0, 1, 0 });
         m_camera.setPerspectiveProjection(m_fov, m_near, m_far);
-        m_texture = Texture::create().withFile("resources/particles/flash01.png").build();
-        glm::vec3 gravity = glm::vec3(0, -9.8, 0); // 加速度
-        auto material = Shader::getStandardParticles()->createMaterial();
-        material->setTexture(m_texture);
+        std::string resDir = "resources/particles";
+        auto files = getCurrentDirFiles(resDir);
+
+        for (const auto& file : files)
+        {
+            if (file == ".DS_Store") continue;
+            m_textureNames += file;
+            m_textureNames.insert(m_textureNames.end(), '\0');
+            m_textures.push_back(Texture::create().withFile(resDir + '/' + file).build());
+            LOG_ERROR("cwb:{}", file.c_str());
+        }
+        m_emitPosition = glm::linearRand(glm::vec3(-m_size, -m_size, -m_size), glm::vec3(m_size, m_size, m_size));
+        m_material = Shader::getStandardParticles()->createMaterial();
+        m_material->setTexture(m_textures[m_selectedTexture]);
         m_emitter = ParticleEmitter::create()
-                        .withParticleCount(500)
-                        .withMaterial(material)
-                        .withAcceleration(gravity, gravity)
+                        .withParticleCount(m_particleCount)
+                        .withMaterial(m_material)
+                        .withPosition(m_emitPosition, m_emitPosition)
+                        .withAcceleration(m_acceleration, m_acceleration)
+                        .withVelocity(m_emitVelocity, m_emitVelocity)
+                        .withRotation(m_emitRotation, m_emitRotation)
+                        .withAngularVelocity(m_emitAngularVelocity, m_emitAngularVelocity)
                         .withColor(m_colorFrom, m_colorFrom, m_colorTo, m_colorTo)
                         .withSize(m_sizeFrom, m_sizeFrom, m_sizeTo, m_sizeTo)
+                        .withEmissionRate(m_emissionRate)
+                        .withVisible(m_visible)
+                        .withLifeSpan(m_lifeSpan)
+                        .withRunning(m_started)
+                        .withEmitting(m_emitting)
                         .build();
-        updateSizeInterpolation();
-        updateColorInterpolation();
-        updateEmit();
     }
     void resize(int width, int height) override
     {
@@ -59,64 +77,54 @@ public:
             {
                 m_camera.setOrthographicProjection(m_orthoSize, m_near, m_far);
             }
-            ImGui::DragFloat3("eye", &m_eye.x, 0.1, -10, 10);
-            ImGui::DragFloat3("at", &m_at.x, 0.1, -10, 10);
+            ImGui::DragFloat3("eye", &m_eye.x);
+            ImGui::DragFloat3("at", &m_at.x);
             m_camera.setLookAt(m_eye, m_at, { 0, 1, 0 });
         }
-    }
-
-    void updateColorInterpolation()
-    {
-    }
-
-    void updateSizeInterpolation()
-    {
-        //        m_emitter->setSize(m_sizeFrom, m_sizeFrom, m_sizeTo, m_sizeTo);
-    }
-
-    void updateEmit()
-    {
-        //        m_emitter->setPosition(m_emitPosition, m_emitPosition);
-        //        m_emitter->setVelocity(glm::sphericalRand(m_emitVelocity), glm::sphericalRand(m_emitVelocity));
-        //        m_emitter->setRotation(m_emitRotation, m_emitRotation);
-        //        m_emitter->setAngularVelocity(m_emitAngularVelocity, m_emitAngularVelocity);
     }
 
     void particleSystemGUI()
     {
         if (ImGui::CollapsingHeader("Particle System"))
         {
-            //            ImGui::DragFloat("EmissionRate", &m_emitter->emissionRate, 0.1f, 0, 200);
-            //            ImGui::DragFloat("Life time", &m_emitter->lifeSpan, 0.1f, 0, 100);
-            //            ImGui::DragFloat3("Gravity", &m_emitter->gravity.x, .1f, -50, 50);
-            //            ImGui::Checkbox("running", &m_emitter->running);
-            //            ImGui::Checkbox("visible", &m_emitter->visible);
-            //            ImGui::Checkbox("emitting", &m_emitter->emitting);
-            //            ImGui::Text("Active particles: %i", m_emitter->getActiveParticles());
-            bool changedColorFrom = ImGui::ColorEdit4("Color from", &m_colorFrom.x);
-            bool changedColorTo = ImGui::ColorEdit4("Color to", &m_colorTo.x);
-            if (changedColorFrom || changedColorTo)
+            bool update{};
+            update |= ImGui::DragInt("EmissionRate", &m_emissionRate);
+            update |= ImGui::DragFloat("Life time", &m_lifeSpan);
+            update |= ImGui::DragFloat3("Acceleration", &m_acceleration[0]);
+            update |= ImGui::Checkbox("running", &m_started);
+            update |= ImGui::Checkbox("visible", &m_visible);
+            update |= ImGui::Checkbox("emitting", &m_emitting);
+            ImGui::Text("Active particles: %i", m_emitter->activeParticles());
+            update |= ImGui::ColorEdit4("Color from", &m_colorFrom.x);
+            update |= ImGui::ColorEdit4("Color to", &m_colorTo.x);
+            update |= ImGui::DragFloat("Size to", &m_sizeFrom, 1, 0.1, 500);
+            update |= ImGui::DragFloat("Size to", &m_sizeTo, 1, 0.1, 500);
+            bool changedTex = ImGui::Combo("Texture", &m_selectedTexture, m_textureNames.c_str());
+            if (changedTex)
             {
-                updateColorInterpolation();
+                m_material->setTexture(m_textures[m_selectedTexture]);
             }
-            bool changedSize = ImGui::DragFloat("Size from", &m_sizeFrom, 1, 0.1, 500);
-            changedSize |= ImGui::DragFloat("Size to", &m_sizeTo, 1, 0.1, 500);
-            if (changedSize)
+            update |= ImGui::DragFloat3("Emit pos", &m_emitPosition.x);
+            update |= ImGui::DragFloat3("Emit velocity", &m_emitVelocity.x);
+            update |= ImGui::DragFloat("Emit init rotation", &m_emitRotation);
+            update |= ImGui::DragFloat("Emit angular velocity", &m_emitAngularVelocity);
+            if (update)
             {
-                updateSizeInterpolation();
-            }
-            //            bool changedTex = ImGui::Combo("Texture", &selectedTexture, textureNames.data(), textureNames.size());
-            //            if (changedTex)
-            //            {
-            //                m_emitter->setTexture(textures[selectedTexture]);
-            //            }
-            bool changedEmit = ImGui::DragFloat3("Emit pos", &m_emitPosition.x);
-            changedEmit |= ImGui::DragFloat("Emit velocity", &m_emitVelocity);
-            changedEmit |= ImGui::DragFloat("Emit init rotation", &m_emitRotation);
-            changedEmit |= ImGui::DragFloat("Emit angular velocity", &m_emitAngularVelocity);
-            if (changedEmit)
-            {
-                updateEmit();
+                m_emitter->ParticleEmitter::update()
+                    .withParticleCount(m_particleCount)
+                    .withMaterial(m_material)
+                    .withPosition(m_emitPosition, m_emitPosition)
+                    .withAcceleration(m_acceleration, m_acceleration)
+                    .withVelocity(m_emitVelocity, m_emitVelocity)
+                    .withRotation(m_emitRotation, m_emitRotation)
+                    .withAngularVelocity(m_emitAngularVelocity, m_emitAngularVelocity)
+                    .withColor(m_colorFrom, m_colorFrom, m_colorTo, m_colorTo)
+                    .withSize(m_sizeFrom, m_sizeFrom, m_sizeTo, m_sizeTo)
+                    .withEmissionRate(m_emissionRate)
+                    .withVisible(m_visible)
+                    .withLifeSpan(m_lifeSpan)
+                    .withRunning(m_started)
+                    .withEmitting(m_emitting);
             }
         }
     }
@@ -148,26 +156,32 @@ public:
 
 private:
     std::shared_ptr<ParticleEmitter> m_emitter;
-    std::shared_ptr<Texture> m_texture;
-    glm::vec4 m_colorFrom = { 1, 0, 0, 1 };
-    glm::vec4 m_colorTo = { 1, 1, 1, 0 };
-    glm::vec3 m_eye{ 0, 0, -10 };
-    glm::vec3 m_at{ 0, 0, 0 };
-    glm::vec3 m_p1 = { -1, 0, 0 };
-    glm::vec3 m_p2 = { 1, 0, 0 };
-    glm::mat4 m_pos1 = glm::translate(glm::mat4(1), m_p1);
-    glm::mat4 m_pos2 = glm::translate(glm::mat4(1), m_p2);
-    glm::vec3 m_emitPosition{ 0, 3, 0 };
-    float m_sizeFrom = 50;
-    float m_sizeTo = 40;
+    std::vector<std::shared_ptr<Texture>> m_textures;
+    glm::vec4 m_colorFrom = { 1.0f, 0.0f, 0.0f, 1.0f };
+    glm::vec4 m_colorTo = { 1.0f, 1.0f, 1.0f, 0.0f };
+    glm::vec3 m_eye{ 0.0f, 0.0f, -10.0f };
+    glm::vec3 m_at{ 0.0f, 0.0f, 0.0f };
+    glm::vec3 m_acceleration{ 0.0f, -9.8f, 0.0f }; // 加速度
+    glm::vec3 m_emitVelocity{ 1.0f };
+    glm::vec3 m_emitPosition{ 0.0f, 3.0f, 0.0f };
+    std::string m_textureNames;
+    int m_selectedTexture{ 0 };
+    int m_emissionRate{ 60 };
+    int m_particleCount{ 500 };
+    float m_lifeSpan{ 10.0f };
+    float m_sizeFrom{ 50.0f };
+    float m_sizeTo{ 40.0f };
     float m_fov{ 60.0f };
-    float m_near{ 0.1 };
-    float m_far{ 50 };
-    float m_orthoSize{ 2 };
-    float m_emitVelocity{ 1 };
-    float m_emitRotation{ 10 };
-    float m_emitAngularVelocity{ 10 };
+    float m_near{ 0.1f };
+    float m_far{ 50.0f };
+    float m_orthoSize{ 2.0f };
+    float m_emitRotation{ 10.0f };
+    float m_emitAngularVelocity{ 10.0f };
     bool m_perspective{ true };
+    bool m_started{ true };  // 是否还在运行
+    bool m_visible{ true };  // 是否可见
+    bool m_emitting{ true }; // 发射状态
+    float m_size = 10.0f;
 };
 
 void particleSystemTest()

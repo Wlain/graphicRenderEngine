@@ -4,6 +4,7 @@
 
 #include "basicProject.h"
 #include "guiCommonDefine.h"
+#include "utils/utils.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <filesystem>
@@ -38,7 +39,7 @@ public:
         m_camera.setPerspectiveProjection(60, 0.1, 100);
         m_camera.setLookAt({ 0, 0, s_cameraDist }, { 0, 0, 0 }, { 0, 1, 0 });
         m_camera.setViewport({ 0.3333, 0 }, { 0.6666, 1 });
-        auto files = getFiles("resources/pbr");
+        auto files = getCurrentDirFiles("resources/pbr");
         for (const auto& file : files)
         {
             if(file == ".DS_Store") continue;
@@ -107,17 +108,6 @@ public:
             m_lightsDuo.addLight(Light::create().withPointLight(rotatedPosition(-30, -30, m_lightDistance)).withColor({ 1, 1, 1 }).build());
             m_lightsDuo.addLight(Light::create().withPointLight(rotatedPosition(30, -30 + 180, m_lightDistance)).withColor({ 1, 1, 1 }).build());
         }
-    }
-
-    std::vector<std::string> getFiles(std::string_view fileDir)
-    {
-        std::vector<std::string> files;
-        std::filesystem::directory_iterator lists(fileDir);
-        for (const auto& file : lists)
-        {
-            files.emplace_back(file.path().filename().c_str());
-        }
-        return files;
     }
 
     void updateMaterial()
