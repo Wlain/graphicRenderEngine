@@ -30,6 +30,14 @@
  * 阴影域算法缺点：主要体现在性能方面。
  * 由于shadow volume的多边形面片数通常都比较多，且会覆盖住大量的像素，这在很大程度上影响了算法运行和光栅化过程的速度，使得绘制的效率较低。
  */
+
+/**
+ * 基础阴影技术：
+ * 平面阴影（Planar Shadow）:王者荣耀在使用
+ * 阴影体（Shadow Volume）
+ * 阴影贴图(Shadow Map) 是目前主流的阴影生成算法
+ */
+
 class StencilExample : public BasicProject
 {
 public:

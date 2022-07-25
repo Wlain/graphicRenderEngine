@@ -38,9 +38,10 @@ extern void box2dTest();
 extern void luaScriptTest();
 extern void luaForMathematicalFuncTest();
 extern void particleSystemTest();
+extern void sceneTest();
 
 int main()
 {
-    particleSystemTest();
+    sceneTest();
     return 0;
 }
