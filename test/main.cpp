@@ -42,6 +42,6 @@ extern void sceneTest();
 
 int main()
 {
-    sceneTest();
+    cubeTest();
     return 0;
 }

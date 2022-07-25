@@ -1,7 +1,7 @@
 //
 // Created by william on 2022/5/24.
 //
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "commonMacro.h"
 
 #include <glm/glm.hpp>
@@ -10,10 +10,10 @@
 #include <glm/gtc/random.hpp>
 #include <glm/gtx/euler_angles.hpp>
 
-class ParticleExample : public BasicProject
+class ParticleExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~ParticleExample() override = default;
     void initialize() override
     {
@@ -75,6 +75,11 @@ private:
 
 void particleTest()
 {
-    ParticleExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<ParticleExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

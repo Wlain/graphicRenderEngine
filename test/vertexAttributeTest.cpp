@@ -2,14 +2,14 @@
 // Created by william on 2022/6/11.
 //
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 
-class VertexAttributeExample : public BasicProject
+class VertexAttributeExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~VertexAttributeExample() override = default;
     void initialize() override
     {
@@ -81,6 +81,11 @@ public:
 
 void vertexAttributeTest()
 {
-    VertexAttributeExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<VertexAttributeExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

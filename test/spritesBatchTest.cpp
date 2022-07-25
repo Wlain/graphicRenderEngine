@@ -1,7 +1,7 @@
 //
 // Created by william on 2022/6/1.
 //
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "core/sprite.h"
 #include "core/spriteAtlas.h"
 #include "core/spriteBatch.h"
@@ -9,10 +9,10 @@
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/transform.hpp>
-class SpritesBatchExample : public BasicProject
+class SpritesBatchExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~SpritesBatchExample() override = default;
 
     void initialize() override
@@ -127,6 +127,11 @@ private:
 
 void spritesBatchTest()
 {
-    SpritesBatchExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<SpritesBatchExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

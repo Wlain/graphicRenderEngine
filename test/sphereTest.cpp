@@ -2,17 +2,17 @@
 // Created by william on 2022/5/24.
 //
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "commonMacro.h"
 
 #include <glm/glm.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
 
-class SphereExample : public BasicProject
+class SphereExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~SphereExample() override = default;
     void initialize() override
     {
@@ -54,6 +54,11 @@ private:
 
 void sphereTest()
 {
-    SphereExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<SphereExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

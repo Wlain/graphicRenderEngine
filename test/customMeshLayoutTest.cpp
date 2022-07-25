@@ -2,13 +2,13 @@
 // Created by william on 2022/6/12.
 //
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 
 #include <map>
-class CustomMeshLayoutTest : public BasicProject
+class CustomMeshLayoutTest : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~CustomMeshLayoutTest() override = default;
 
     void initialize() override
@@ -47,6 +47,11 @@ public:
 
 void customMeshLayoutTest()
 {
-    CustomMeshLayoutTest test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<CustomMeshLayoutTest>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

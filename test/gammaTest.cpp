@@ -1,15 +1,15 @@
 //
 // Created by cwb on 2022/6/20.
 //
-#include "basicProject.h"
+#include "engineTestSimple.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/transform.hpp>
 
-class GammaExample : public BasicProject
+class GammaExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~GammaExample() override = default;
     void initialize() override
     {
@@ -48,6 +48,11 @@ private:
 
 void gammaTest()
 {
-    GammaExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<GammaExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

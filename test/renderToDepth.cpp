@@ -2,16 +2,16 @@
 // Created by cwb on 2022/6/21.
 //
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "core/framebuffer.h"
 #include "guiCommonDefine.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 
-class RenderToDepthExample : public BasicProject
+class RenderToDepthExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~RenderToDepthExample() override = default;
     void initialize() override
     {
@@ -86,6 +86,11 @@ private:
 
 void renderToDepthTest()
 {
-    RenderToDepthExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<RenderToDepthExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

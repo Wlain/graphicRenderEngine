@@ -1,14 +1,14 @@
 //
 // Created by william on 2022/5/30.
 //
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/transform.hpp>
-class PickColorExample : public BasicProject
+class PickColorExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~PickColorExample() override = default;
 
     void initialize() override
@@ -57,7 +57,7 @@ public:
     }
     void update(float deltaTime) override
     {
-        BasicProject::update(deltaTime);
+        CommonInterface::update(deltaTime);
     }
     void setTitle() override
     {
@@ -66,7 +66,7 @@ public:
 
     void resize(int width, int height) override
     {
-        BasicProject::resize(width, height);
+        CommonInterface::resize(width, height);
     }
 
 private:
@@ -79,6 +79,11 @@ private:
 
 void pickColorTest()
 {
-    PickColorExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<PickColorExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

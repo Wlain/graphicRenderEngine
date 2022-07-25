@@ -2,16 +2,17 @@
 // Created by cwb on 2022/7/6.
 //
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "core/modelImporter.h"
 #include "guiCommonDefine.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 
-class ShadowMapExample : public BasicProject
+class ShadowMapExample : public CommonInterface
 {
 public:
+    using CommonInterface::CommonInterface;
     ~ShadowMapExample() override = default;
     void initialize() override
     {
@@ -185,6 +186,11 @@ private:
 
 void shadowMapTest()
 {
-    ShadowMapExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<ShadowMapExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

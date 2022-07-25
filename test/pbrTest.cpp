@@ -2,14 +2,14 @@
 // Created by cwb on 2022/6/20.
 //
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "guiCommonDefine.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
-class PbrExample : public BasicProject
+class PbrExample : public CommonInterface
 {
 public:
     glm::vec3 rotatedPosition(float x, float y, float distance)
@@ -28,7 +28,7 @@ public:
         return fallback;
     }
 
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~PbrExample() override = default;
     void initialize() override
     {
@@ -59,7 +59,7 @@ public:
 
     void update(float deltaTime) override
     {
-        BasicProject::update(deltaTime);
+        CommonInterface::update(deltaTime);
     }
 
     void render() override
@@ -266,6 +266,11 @@ private:
 
 void pbrTest()
 {
-    PbrExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<PbrExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

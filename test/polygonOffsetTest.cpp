@@ -1,7 +1,7 @@
 //
 // Created by william on 2022/6/2.
 //
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "commonMacro.h"
 #include "core/camera.h"
 #include "core/material.h"
@@ -13,10 +13,10 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 
-class PolygonOffsetExample : public BasicProject
+class PolygonOffsetExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~PolygonOffsetExample() override = default;
     void initialize() override
     {
@@ -94,6 +94,11 @@ private:
 
 void polygonOffsetTest()
 {
-    PolygonOffsetExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<PolygonOffsetExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

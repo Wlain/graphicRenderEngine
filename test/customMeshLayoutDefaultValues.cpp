@@ -1,12 +1,12 @@
 //
 // Created by william on 2022/6/12.
 //
-#include "basicProject.h"
+#include "engineTestSimple.h"
 
-class CustomMeshLayoutDefaultValuesExample : public BasicProject
+class CustomMeshLayoutDefaultValuesExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~CustomMeshLayoutDefaultValuesExample() override = default;
     void initialize() override
     {
@@ -51,7 +51,7 @@ public:
                          .build()
                          ->createMaterial();
         m_material->set("view", m_camera.getViewTransform());
-        m_material->set("projection", m_camera.getProjectionTransform({800, 600}));
+        m_material->set("projection", m_camera.getProjectionTransform({ 800, 600 }));
     }
     void render() override
     {
@@ -70,6 +70,11 @@ public:
 
 void customMeshLayoutDefaultValuesTest()
 {
-    CustomMeshLayoutDefaultValuesExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<CustomMeshLayoutDefaultValuesExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

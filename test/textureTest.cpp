@@ -2,13 +2,13 @@
 // Created by william on 2022/6/12.
 //
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "guiCommonDefine.h"
 
-class TextureExample : public BasicProject
+class TextureExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~TextureExample() override = default;
     void initialize() override
     {
@@ -97,6 +97,11 @@ private:
 
 void textureTest()
 {
-    TextureExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<TextureExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

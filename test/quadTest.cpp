@@ -2,17 +2,17 @@
 // Created by william on 2022/5/24.
 //
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "commonMacro.h"
 
 #include <glm/glm.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 
-class QuadExample : public BasicProject
+class QuadExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~QuadExample() override = default;
 
     void initialize() override
@@ -47,6 +47,11 @@ public:
 
 void quadTest()
 {
-    QuadExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<QuadExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

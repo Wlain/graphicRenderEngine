@@ -1,18 +1,17 @@
 //
 // Created by cwb on 2022/7/19.
 //
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "core/particleEmitter.h"
 #include "guiCommonDefine.h"
 #include "utils/utils.h"
 #define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/range.hpp>
-#include <glm/gtx/transform.hpp>
 #include <glm/gtc/random.hpp>
 
-class ParticleSystemExample : public BasicProject
+class ParticleSystemExample : public CommonInterface
 {
 public:
+    using CommonInterface::CommonInterface;
     ~ParticleSystemExample() override = default;
     void initialize() override
     {
@@ -51,7 +50,7 @@ public:
     }
     void resize(int width, int height) override
     {
-        BasicProject::resize(width, height);
+        CommonInterface::resize(width, height);
     }
 
     void cameraGUI()
@@ -166,7 +165,7 @@ private:
     glm::vec3 m_emitVelocity{ 0.0f };
     glm::vec3 m_emitPosition{ 0.0f, 0.0f, 0.0f };
     std::string m_textureNames;
-    int m_selectedTexture{ 0 };
+    int m_selectedTexture{ 3 };
     int m_emissionRate{ 60 };
     int m_particleCount{ 500 };
     float m_lifeSpan{ 10.0f };
@@ -187,6 +186,11 @@ private:
 
 void particleSystemTest()
 {
-    ParticleSystemExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<ParticleSystemExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

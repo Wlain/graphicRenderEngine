@@ -1,16 +1,17 @@
 //
 // Created by cwb on 2022/7/14.
 //
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "guiCommonDefine.h"
 
 #include <glm/ext.hpp>
 #include <glm/glm.hpp>
 #include <sol/sol.hpp>
 
-class LuaForMathematicalFuncExample : public BasicProject
+class LuaForMathematicalFuncExample : public CommonInterface
 {
 public:
+    using CommonInterface::CommonInterface;
     ~LuaForMathematicalFuncExample() override = default;
     void initialize() override
     {
@@ -168,6 +169,11 @@ private:
 
 void luaForMathematicalFuncTest()
 {
-    LuaForMathematicalFuncExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<LuaForMathematicalFuncExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

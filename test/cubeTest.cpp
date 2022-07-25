@@ -1,7 +1,7 @@
 //
 // Created by william on 2022/5/22.
 //
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "commonMacro.h"
 #include "core/worldLights.h"
 #include "guiCommonDefine.h"
@@ -10,10 +10,10 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 
-class CubeExample : public BasicProject
+class CubeExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~CubeExample() override = default;
 
     void initialize() override
@@ -52,6 +52,11 @@ private:
 
 void cubeTest()
 {
-    CubeExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<CubeExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

@@ -2,7 +2,7 @@
 // Created by cwb on 2022/7/14.
 //
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "utils/utils.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
@@ -10,9 +10,10 @@
 #include <string>
 #include <utility>
 
-class LuaScriptExample : public BasicProject
+class LuaScriptExample : public CommonInterface
 {
 public:
+    using CommonInterface::CommonInterface;
     ~LuaScriptExample() override = default;
     void initialize() override
     {
@@ -55,6 +56,11 @@ private:
 
 void luaScriptTest()
 {
-    LuaScriptExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<LuaScriptExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

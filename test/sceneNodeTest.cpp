@@ -2,12 +2,16 @@
 // Created by cwb on 2022/7/25.
 //
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "guiCommonDefine.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/rotate_vector.hpp>
+
+class Node;
+
+Node* cameraNode;
 
 class Node
 {
@@ -54,24 +58,34 @@ void Node::gui(int level)
         ImGui::DragFloat3("Local Rotation", &m_rotationEuler.x);
         ImGui::DragFloat3("Local Scale", &m_scale.x);
         auto globalPos = localToWorld() * glm::vec4(0, 0, 0, 1); // transform 0,0,0 (pivot point) from local coordinate frame to global coordinate frame
-        ImGui::LabelText("Position", "%.2f, %.2f, %.2f", globalPos.x, globalPos.y, globalPos.z);
-
+        bool changed = ImGui::DragFloat3("Global Position", &globalPos.x);
+        if (changed)
+        {
+            glm::vec3 deltaPositionInLocalSpace = glm::inverse(localToWorld()) * globalPos;
+            m_position = m_position + deltaPositionInLocalSpace;
+        }
         if (ImGui::Button("Add child"))
         {
             m_children.emplace_back(this);
+        }
+        if (ImGui::Button("Make camera"))
+        {
+            cameraNode = this;
         }
         for (auto& n : m_children)
         {
             n.gui(level + 1);
         }
     }
+    ImGui::Unindent(level * 20);
     ImGui::PopID();
 }
 
-class SceneNodeExample : public BasicProject
+class SceneNodeEffect : public CommonInterface
 {
 public:
-    ~SceneNodeExample() override = default;
+    using CommonInterface::CommonInterface;
+    ~SceneNodeEffect() override = default;
     void initialize() override
     {
         m_camera.setLookAt({ 0, 0, 30 }, { 0, 0, 0 }, { 0, 1, 0 });
@@ -127,7 +141,7 @@ public:
     }
     void setTitle() override
     {
-        m_title = "SceneNodeExample";
+        m_title = "SceneNodeEffect";
     }
 
 private:
@@ -136,6 +150,11 @@ private:
 
 void sceneTest()
 {
-    SceneNodeExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<SceneNodeEffect>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

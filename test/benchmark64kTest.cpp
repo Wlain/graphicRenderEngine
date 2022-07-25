@@ -1,7 +1,7 @@
 //
 // Created by william on 2022/6/20.
 //
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "guiCommonDefine.h"
 
 #include <glm/glm.hpp>
@@ -9,10 +9,10 @@
 #include <glm/gtx/transform.hpp>
 
 const int BOX_GRID_DIM = 30;
-class Benchmark64kExample : public BasicProject
+class Benchmark64kExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~Benchmark64kExample() override = default;
     void initialize() override
     {
@@ -91,6 +91,11 @@ private:
 
 void benchmark64kTest()
 {
-    Benchmark64kExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<Benchmark64kExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

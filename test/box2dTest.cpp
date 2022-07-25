@@ -1,7 +1,7 @@
 //
 // Created by william on 2022/7/12.
 //
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "core/spriteAtlas.h"
 
 #include <box2d/box2d.h>
@@ -72,9 +72,10 @@ private:
     std::vector<glm::vec3> m_lines;
 };
 
-class Box2dExample : public BasicProject
+class Box2dExample : public CommonInterface
 {
 public:
+    using CommonInterface::CommonInterface;
     ~Box2dExample() override = default;
     void initialize() override
     {
@@ -126,8 +127,8 @@ public:
     {
         if (m_leftMousePressed)
         {
-            auto framebufferSize = m_renderer.getFrameBufferSize();
-            auto windowsSize = m_renderer.getWindowSize();
+            auto framebufferSize = m_renderer->getFrameBufferSize();
+            auto windowsSize = m_renderer->getWindowSize();
             auto ratio = framebufferSize.x / windowsSize.x;
             // 坐标映射
             auto mouseX = std::clamp((int)(xPos * ratio), 0, windowsSize.x * (int)ratio);
@@ -175,6 +176,11 @@ private:
 
 void box2dTest()
 {
-    Box2dExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<Box2dExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

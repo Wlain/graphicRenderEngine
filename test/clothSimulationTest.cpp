@@ -1,8 +1,8 @@
 //
 // Created by cwb on 2022/7/7.
 //
-#include "basicProject.h"
 #include "core/skybox.h"
+#include "engineTestSimple.h"
 #include "guiCommonDefine.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
@@ -365,9 +365,10 @@ private:
     bool m_showMesh = false;
 };
 
-class ClothSimulationExample : public BasicProject
+class ClothSimulationExample : public CommonInterface
 {
 public:
+    using CommonInterface::CommonInterface;
     ~ClothSimulationExample() override = default;
     void initialize() override
     {
@@ -436,7 +437,7 @@ public:
     }
     void update(float deltaTime) override
     {
-        BasicProject::update(deltaTime);
+        CommonInterface::update(deltaTime);
         m_ballTime++;
         m_ballPos.z = cos(m_ballTime / 50.0f) * CONSTRAINT_ITERATIONS;
         m_cloth->addForce(m_gravity * DELTA_TIME2);
@@ -474,6 +475,11 @@ private:
 
 void clothSimulationTest()
 {
-    ClothSimulationExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<ClothSimulationExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

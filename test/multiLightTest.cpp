@@ -2,7 +2,7 @@
 // Created by william on 2022/5/23.
 //
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "commonMacro.h"
 #include "core/worldLights.h"
 
@@ -12,10 +12,10 @@
 
 #include <glm/gtx/euler_angles.hpp>
 
-class multiLightExample : public BasicProject
+class multiLightExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~multiLightExample() override = default;
 
     void initialize() override
@@ -81,7 +81,7 @@ public:
                 };
             }
         }
-        BasicProject::update(deltaTime);
+        CommonInterface::update(deltaTime);
     }
 
     void render() override
@@ -197,6 +197,11 @@ private:
 
 void multiLightTest()
 {
-    multiLightExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<multiLightExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

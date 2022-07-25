@@ -2,7 +2,7 @@
 // Created by william on 2022/5/31.
 //
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "core/framebuffer.h"
 #include "core/texture.h"
 
@@ -10,10 +10,10 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 
-class RenderToFrameBufferExample : public BasicProject
+class RenderToFrameBufferExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~RenderToFrameBufferExample() override = default;
     void initialize() override
     {
@@ -60,6 +60,11 @@ private:
 
 void renderToFrameBufferTest()
 {
-    RenderToFrameBufferExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<RenderToFrameBufferExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

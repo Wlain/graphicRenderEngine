@@ -2,7 +2,7 @@
 // Created by william on 2022/5/26.
 //
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "commonMacro.h"
 
 #include <glm/glm.hpp>
@@ -36,10 +36,10 @@ constexpr const char* fragmentShaderStr = R"(#version 330
     )";
 } // namespace
 
-class CubeMapExample : public BasicProject
+class CubeMapExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~CubeMapExample() override = default;
     void initialize() override
     {
@@ -79,6 +79,11 @@ public:
 
 void cubeMapText()
 {
-    CubeMapExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<CubeMapExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

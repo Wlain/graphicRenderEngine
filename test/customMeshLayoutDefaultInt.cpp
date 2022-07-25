@@ -1,12 +1,12 @@
 //
 // Created by william on 2022/6/12.
 //
-#include "basicProject.h"
+#include "engineTestSimple.h"
 
-class CustomMeshLayoutIntExample : public BasicProject
+class CustomMeshLayoutIntExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~CustomMeshLayoutIntExample() override = default;
     void initialize() override
     {
@@ -66,6 +66,11 @@ public:
 
 void customMeshLayoutIntTest()
 {
-    CustomMeshLayoutIntExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<CustomMeshLayoutIntExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

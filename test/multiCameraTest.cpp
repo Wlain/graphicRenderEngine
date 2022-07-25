@@ -1,14 +1,15 @@
 //
 // Created by william on 2022/6/12.
 //
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "guiCommonDefine.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 
-class MultiCameraExample : public BasicProject
+class MultiCameraExample : public CommonInterface
 {
 public:
+    using CommonInterface::CommonInterface;
     ~MultiCameraExample() override = default;
     void initialize() override
     {
@@ -88,6 +89,11 @@ private:
 
 void multiCameraTest()
 {
-    MultiCameraExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<MultiCameraExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

@@ -1,7 +1,7 @@
 //
 // Created by william on 2022/5/24.
 //
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "commonMacro.h"
 
 #include <glm/glm.hpp>
@@ -51,10 +51,10 @@ void updateParticles(Mesh* mesh, glm::vec4 uv, float uvSize, float rotation, flo
 }
 } // namespace
 
-class SpritesExample : public BasicProject
+class SpritesExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~SpritesExample() = default;
 
     void initialize() override
@@ -91,6 +91,11 @@ private:
 
 void spriteTest()
 {
-    SpritesExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<SpritesExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

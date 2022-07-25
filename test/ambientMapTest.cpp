@@ -1,8 +1,8 @@
 //
 // Created by william on 2022/7/6.
 //
-#include "basicProject.h"
 #include "core/modelImporter.h"
+#include "engineTestSimple.h"
 #include "guiCommonDefine.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
@@ -34,9 +34,10 @@ void main()
 }
 )";
 
-class AmbientExample : public BasicProject
+class AmbientExample : public CommonInterface
 {
 public:
+    using CommonInterface::CommonInterface;
     ~AmbientExample() override = default;
     void initialize() override
     {
@@ -85,6 +86,11 @@ private:
 // 环境光映射
 void ambientMapTest()
 {
-    AmbientExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<AmbientExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

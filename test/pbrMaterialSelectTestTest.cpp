@@ -2,7 +2,7 @@
 // Created by cwb on 2022/6/20.
 //
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "guiCommonDefine.h"
 #include "utils/utils.h"
 
@@ -12,7 +12,7 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <vector>
 
-class PbrMaterialSelectExample : public BasicProject
+class PbrMaterialSelectExample : public CommonInterface
 {
 public:
     glm::vec3 rotatedPosition(float x, float y, float distance)
@@ -31,7 +31,7 @@ public:
         return fallback;
     }
 
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~PbrMaterialSelectExample() override = default;
     void initialize() override
     {
@@ -60,7 +60,7 @@ public:
 
     void update(float deltaTime) override
     {
-        BasicProject::update(deltaTime);
+        CommonInterface::update(deltaTime);
     }
 
     void render() override
@@ -243,6 +243,11 @@ private:
 
 void pbrMaterialSelectTest()
 {
-    PbrMaterialSelectExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<PbrMaterialSelectExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

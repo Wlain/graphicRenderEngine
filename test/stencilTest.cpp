@@ -2,7 +2,7 @@
 // Created by william on 2022/7/5.
 //
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "core/modelImporter.h"
 #include "guiCommonDefine.h"
 #define GLM_ENABLE_EXPERIMENTAL
@@ -38,9 +38,10 @@
  * 阴影贴图(Shadow Map) 是目前主流的阴影生成算法
  */
 
-class StencilExample : public BasicProject
+class StencilExample : public CommonInterface
 {
 public:
+    using CommonInterface::CommonInterface;
     ~StencilExample() override = default;
     void initialize() override
     {
@@ -155,6 +156,11 @@ private:
 
 void stencilTest()
 {
-    StencilExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<StencilExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

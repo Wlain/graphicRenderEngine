@@ -1,17 +1,17 @@
 //
 // Created by william on 2022/5/24.
 //
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "commonMacro.h"
 #include "guiCommonDefine.h"
 
 #include <glm/glm.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
-class GuiExamples : public BasicProject
+class GuiExamples : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~GuiExamples() override = default;
 
     void initialize() override
@@ -54,6 +54,11 @@ private:
 
 void guiTest()
 {
-    GuiExamples test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<GuiExamples>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

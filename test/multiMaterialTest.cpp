@@ -1,13 +1,13 @@
 //
 // Created by william on 2022/6/24.
 //
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
-class MultiMaterialExample : public BasicProject
+class MultiMaterialExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~MultiMaterialExample() override = default;
     void initialize() override
     {
@@ -75,6 +75,11 @@ private:
 
 void multiMaterialTest()
 {
-    MultiMaterialExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<MultiMaterialExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

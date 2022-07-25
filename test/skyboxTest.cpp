@@ -3,7 +3,7 @@
 //
 #include "core/skybox.h"
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "guiCommonDefine.h"
 
 #include <glm/glm.hpp>
@@ -11,10 +11,10 @@
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/transform.hpp>
 
-class SkyBoxExample : public BasicProject
+class SkyBoxExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~SkyBoxExample() override = default;
     void initialize() override
     {
@@ -74,6 +74,11 @@ private:
 
 void skyboxTest()
 {
-    SkyBoxExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<SkyBoxExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

@@ -7,15 +7,15 @@
 
 #include <glm/glm.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
-#include "basicProject.h"
+#include "engineTestSimple.h"
 
 #include <glm/gtx/euler_angles.hpp>
 #include <memory>
 
-class CubeTexExample : public BasicProject
+class CubeTexExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~CubeTexExample() override = default;
     void initialize() override
     {
@@ -43,6 +43,11 @@ public:
 
 void cubeTexTest()
 {
-    CubeTexExample text;
-    text.run();
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<CubeTexExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
+    test.run();
 }

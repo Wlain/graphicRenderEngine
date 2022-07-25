@@ -2,7 +2,7 @@
 // Created by william on 2022/5/31.
 //
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "core/modelImporter.h"
 #include "guiCommonDefine.h"
 
@@ -11,9 +11,10 @@
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/transform.hpp>
 
-class ObjExample : public BasicProject
+class ObjExample : public CommonInterface
 {
 public:
+    using CommonInterface::CommonInterface;
     ~ObjExample() override = default;
     void initialize() override
     {
@@ -199,6 +200,11 @@ private:
 
 void objTest()
 {
-    ObjExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<ObjExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

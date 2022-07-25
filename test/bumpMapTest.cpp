@@ -1,15 +1,16 @@
 //
 // Created by cwb on 2022/7/5.
 //
-#include "basicProject.h"
 #include "core/modelImporter.h"
+#include "engineTestSimple.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/transform.hpp>
 
-class bumpMapExample : public BasicProject
+class bumpMapExample : public CommonInterface
 {
 public:
+    using CommonInterface::CommonInterface;
     ~bumpMapExample() override = default;
     void initialize() override
     {
@@ -64,6 +65,11 @@ private:
 
 void bumpMapTest()
 {
-    bumpMapExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<bumpMapExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

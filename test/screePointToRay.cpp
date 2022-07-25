@@ -2,7 +2,7 @@
 // Created by william on 2022/6/12.
 //
 
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "guiCommonDefine.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/random.hpp>
@@ -20,10 +20,10 @@
  * 6.再和屏幕宽高相乘获得屏幕的位置
  */
 
-class ScreePointToRayExample : public BasicProject
+class ScreePointToRayExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~ScreePointToRayExample() override = default;
     void initialize() override
     {
@@ -61,8 +61,8 @@ public:
 
     void cursorPosEvent(double xPos, double yPos) override
     {
-        auto framebufferSize = m_renderer.getFrameBufferSize();
-        auto windowsSize = m_renderer.getWindowSize();
+        auto framebufferSize = m_renderer->getFrameBufferSize();
+        auto windowsSize = m_renderer->getWindowSize();
         auto ratio = framebufferSize.x / windowsSize.x;
         // 坐标映射
         auto mouseX = std::clamp((int)(xPos * ratio), 0, windowsSize.x * (int)ratio);
@@ -149,6 +149,11 @@ private:
 
 void screePointToRayTest()
 {
-    ScreePointToRayExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<ScreePointToRayExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }

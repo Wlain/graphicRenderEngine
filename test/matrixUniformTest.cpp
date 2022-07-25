@@ -1,15 +1,15 @@
 //
 // Created by william on 2022/6/24.
 //
-#include "basicProject.h"
+#include "engineTestSimple.h"
 #include "guiCommonDefine.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/transform.hpp>
-class MatrixUniformExample : public BasicProject
+class MatrixUniformExample : public CommonInterface
 {
 public:
-    using BasicProject::BasicProject;
+    using CommonInterface::CommonInterface;
     ~MatrixUniformExample() override = default;
     void initialize() override
     {
@@ -90,6 +90,11 @@ private:
 
 void matrixUniformTest()
 {
-    MatrixUniformExample test;
+    GLFWRenderer renderer{};
+    EngineTestSimple test(renderer);
+    auto sceneNodeEffect = std::make_shared<MatrixUniformExample>(&renderer);
+    auto effect = std::make_shared<EffectManager>();
+    effect->insertEffect(sceneNodeEffect);
+    test.setEffect(effect);
     test.run();
 }
