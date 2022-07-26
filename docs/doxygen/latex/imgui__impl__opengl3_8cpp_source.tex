@@ -1,0 +1,852 @@
+\hypertarget{imgui__impl__opengl3_8cpp_source}{}\doxysection{imgui\+\_\+impl\+\_\+opengl3.\+cpp}
+\label{imgui__impl__opengl3_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/backends/imgui\_impl\_opengl3.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/backends/imgui\_impl\_opengl3.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00001}00001 \textcolor{comment}{// dear imgui: Renderer Backend for modern OpenGL with shaders / programmatic pipeline}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00002}00002 \textcolor{comment}{// -\/ Desktop GL: 2.x 3.x 4.x}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00003}00003 \textcolor{comment}{// -\/ Embedded GL: ES 2.0 (WebGL 1.0), ES 3.0 (WebGL 2.0)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00004}00004 \textcolor{comment}{// This needs to be used along with a Platform Backend (e.g. GLFW, SDL, Win32, custom..)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00006}00006 \textcolor{comment}{// Implemented features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00007}00007 \textcolor{comment}{//  [X] Renderer: User texture binding. Use 'GLuint' OpenGL texture identifier as void*/ImTextureID. Read the FAQ about ImTextureID!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00008}00008 \textcolor{comment}{//  [X] Renderer: Multi-\/viewport support. Enable with 'io.ConfigFlags |= ImGuiConfigFlags\_ViewportsEnable'.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00009}00009 \textcolor{comment}{//  [x] Renderer: Desktop GL only: Support for large meshes (64k+ vertices) with 16-\/bit indices.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00010}00010 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00011}00011 \textcolor{comment}{// You can use unmodified imgui\_impl\_* files in your project. See examples/ folder for examples of using this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00012}00012 \textcolor{comment}{// Prefer including the entire imgui/ repository into your project (either as a copy or as a submodule), and only build the backends you need.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00013}00013 \textcolor{comment}{// If you are new to Dear ImGui, read documentation from the docs/ folder + read the top of imgui.cpp.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00014}00014 \textcolor{comment}{// Read online: https://github.com/ocornut/imgui/tree/master/docs}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00016}00016 \textcolor{comment}{// CHANGELOG}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00017}00017 \textcolor{comment}{// (minor and older changes stripped away, please see git history for details)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00018}00018 \textcolor{comment}{//  2022-\/XX-\/XX: Platform: Added support for multiple windows via the ImGuiPlatformIO interface.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00019}00019 \textcolor{comment}{//  2021-\/12-\/15: OpenGL: Using buffer orphaning + glBufferSubData(), seems to fix leaks with multi-\/viewports with some Intel HD drivers.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00020}00020 \textcolor{comment}{//  2021-\/08-\/23: OpenGL: Fixed ES 3.0 shader ("{}\#version 300 es"{}) use normal precision floats to avoid wobbly rendering at HD resolutions.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00021}00021 \textcolor{comment}{//  2021-\/08-\/19: OpenGL: Embed and use our own minimal GL loader (imgui\_impl\_opengl3\_loader.h), removing requirement and support for third-\/party loader.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00022}00022 \textcolor{comment}{//  2021-\/06-\/29: Reorganized backend to pull data from a single structure to facilitate usage with multiple-\/contexts (all g\_XXXX access changed to bd-\/>XXXX).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00023}00023 \textcolor{comment}{//  2021-\/06-\/25: OpenGL: Use OES\_vertex\_array extension on Emscripten + backup/restore current state.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00024}00024 \textcolor{comment}{//  2021-\/06-\/21: OpenGL: Destroy individual vertex/fragment shader objects right after they are linked into the main shader.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00025}00025 \textcolor{comment}{//  2021-\/05-\/24: OpenGL: Access GL\_CLIP\_ORIGIN when "{}GL\_ARB\_clip\_control"{} extension is detected, inside of just OpenGL 4.5 version.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00026}00026 \textcolor{comment}{//  2021-\/05-\/19: OpenGL: Replaced direct access to ImDrawCmd::TextureId with a call to ImDrawCmd::GetTexID(). (will become a requirement)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00027}00027 \textcolor{comment}{//  2021-\/04-\/06: OpenGL: Don't try to read GL\_CLIP\_ORIGIN unless we're OpenGL 4.5 or greater.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00028}00028 \textcolor{comment}{//  2021-\/02-\/18: OpenGL: Change blending equation to preserve alpha in output buffer.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00029}00029 \textcolor{comment}{//  2021-\/01-\/03: OpenGL: Backup, setup and restore GL\_STENCIL\_TEST state.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00030}00030 \textcolor{comment}{//  2020-\/10-\/23: OpenGL: Backup, setup and restore GL\_PRIMITIVE\_RESTART state.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00031}00031 \textcolor{comment}{//  2020-\/10-\/15: OpenGL: Use glGetString(GL\_VERSION) instead of glGetIntegerv(GL\_MAJOR\_VERSION, ...) when the later returns zero (e.g. Desktop GL 2.x)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00032}00032 \textcolor{comment}{//  2020-\/09-\/17: OpenGL: Fix to avoid compiling/calling glBindSampler() on ES or pre 3.3 context which have the defines set by a loader.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00033}00033 \textcolor{comment}{//  2020-\/07-\/10: OpenGL: Added support for glad2 OpenGL loader.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00034}00034 \textcolor{comment}{//  2020-\/05-\/08: OpenGL: Made default GLSL version 150 (instead of 130) on OSX.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00035}00035 \textcolor{comment}{//  2020-\/04-\/21: OpenGL: Fixed handling of glClipControl(GL\_UPPER\_LEFT) by inverting projection matrix.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00036}00036 \textcolor{comment}{//  2020-\/04-\/12: OpenGL: Fixed context version check mistakenly testing for 4.0+ instead of 3.2+ to enable ImGuiBackendFlags\_RendererHasVtxOffset.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00037}00037 \textcolor{comment}{//  2020-\/03-\/24: OpenGL: Added support for glbinding 2.x OpenGL loader.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00038}00038 \textcolor{comment}{//  2020-\/01-\/07: OpenGL: Added support for glbinding 3.x OpenGL loader.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00039}00039 \textcolor{comment}{//  2019-\/10-\/25: OpenGL: Using a combination of GL define and runtime GL version to decide whether to use glDrawElementsBaseVertex(). Fix building with pre-\/3.2 GL loaders.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00040}00040 \textcolor{comment}{//  2019-\/09-\/22: OpenGL: Detect default GL loader using \_\_has\_include compiler facility.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00041}00041 \textcolor{comment}{//  2019-\/09-\/16: OpenGL: Tweak initialization code to allow application calling ImGui\_ImplOpenGL3\_CreateFontsTexture() before the first NewFrame() call.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00042}00042 \textcolor{comment}{//  2019-\/05-\/29: OpenGL: Desktop GL only: Added support for large mesh (64K+ vertices), enable ImGuiBackendFlags\_RendererHasVtxOffset flag.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00043}00043 \textcolor{comment}{//  2019-\/04-\/30: OpenGL: Added support for special ImDrawCallback\_ResetRenderState callback to reset render state.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00044}00044 \textcolor{comment}{//  2019-\/03-\/29: OpenGL: Not calling glBindBuffer more than necessary in the render loop.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00045}00045 \textcolor{comment}{//  2019-\/03-\/15: OpenGL: Added a GL call + comments in ImGui\_ImplOpenGL3\_Init() to detect uninitialized GL function loaders early.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00046}00046 \textcolor{comment}{//  2019-\/03-\/03: OpenGL: Fix support for ES 2.0 (WebGL 1.0).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00047}00047 \textcolor{comment}{//  2019-\/02-\/20: OpenGL: Fix for OSX not supporting OpenGL 4.5, we don't try to read GL\_CLIP\_ORIGIN even if defined by the headers/loader.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00048}00048 \textcolor{comment}{//  2019-\/02-\/11: OpenGL: Projecting clipping rectangles correctly using draw\_data-\/>FramebufferScale to allow multi-\/viewports for retina display.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00049}00049 \textcolor{comment}{//  2019-\/02-\/01: OpenGL: Using GLSL 410 shaders for any version over 410 (e.g. 430, 450).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00050}00050 \textcolor{comment}{//  2018-\/11-\/30: Misc: Setting up io.BackendRendererName so it can be displayed in the About Window.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00051}00051 \textcolor{comment}{//  2018-\/11-\/13: OpenGL: Support for GL 4.5's glClipControl(GL\_UPPER\_LEFT) / GL\_CLIP\_ORIGIN.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00052}00052 \textcolor{comment}{//  2018-\/08-\/29: OpenGL: Added support for more OpenGL loaders: glew and glad, with comments indicative that any loader can be used.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00053}00053 \textcolor{comment}{//  2018-\/08-\/09: OpenGL: Default to OpenGL ES 3 on iOS and Android. GLSL version default to "{}\#version 300 ES"{}.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00054}00054 \textcolor{comment}{//  2018-\/07-\/30: OpenGL: Support for GLSL 300 ES and 410 core. Fixes for Emscripten compilation.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00055}00055 \textcolor{comment}{//  2018-\/07-\/10: OpenGL: Support for more GLSL versions (based on the GLSL version string). Added error output when shaders fail to compile/link.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00056}00056 \textcolor{comment}{//  2018-\/06-\/08: Misc: Extracted imgui\_impl\_opengl3.cpp/.h away from the old combined GLFW/SDL+OpenGL3 examples.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00057}00057 \textcolor{comment}{//  2018-\/06-\/08: OpenGL: Use draw\_data-\/>DisplayPos and draw\_data-\/>DisplaySize to setup projection matrix and clipping rectangle.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00058}00058 \textcolor{comment}{//  2018-\/05-\/25: OpenGL: Removed unnecessary backup/restore of GL\_ELEMENT\_ARRAY\_BUFFER\_BINDING since this is part of the VAO state.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00059}00059 \textcolor{comment}{//  2018-\/05-\/14: OpenGL: Making the call to glBindSampler() optional so 3.2 context won't fail if the function is a NULL pointer.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00060}00060 \textcolor{comment}{//  2018-\/03-\/06: OpenGL: Added const char* glsl\_version parameter to ImGui\_ImplOpenGL3\_Init() so user can override the GLSL version e.g. "{}\#version 150"{}.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00061}00061 \textcolor{comment}{//  2018-\/02-\/23: OpenGL: Create the VAO in the render function so the setup can more easily be used with multiple shared GL context.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00062}00062 \textcolor{comment}{//  2018-\/02-\/16: Misc: Obsoleted the io.RenderDrawListsFn callback and exposed ImGui\_ImplSdlGL3\_RenderDrawData() in the .h file so you can call it yourself.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00063}00063 \textcolor{comment}{//  2018-\/01-\/07: OpenGL: Changed GLSL shader version from 330 to 150.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00064}00064 \textcolor{comment}{//  2017-\/09-\/01: OpenGL: Save and restore current bound sampler. Save and restore current polygon mode.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00065}00065 \textcolor{comment}{//  2017-\/05-\/01: OpenGL: Fixed save and restore of current blend func state.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00066}00066 \textcolor{comment}{//  2017-\/05-\/01: OpenGL: Fixed save and restore of current GL\_ACTIVE\_TEXTURE.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00067}00067 \textcolor{comment}{//  2016-\/09-\/05: OpenGL: Fixed save and restore of current scissor rectangle.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00068}00068 \textcolor{comment}{//  2016-\/07-\/29: OpenGL: Explicitly setting GL\_UNPACK\_ROW\_LENGTH to reduce issues because SDL changes it. (\#752)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00070}00070 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00071}00071 \textcolor{comment}{// OpenGL    GLSL      GLSL}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00072}00072 \textcolor{comment}{// version   version   string}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00073}00073 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00074}00074 \textcolor{comment}{//  2.0       110       "{}\#version 110"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00075}00075 \textcolor{comment}{//  2.1       120       "{}\#version 120"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00076}00076 \textcolor{comment}{//  3.0       130       "{}\#version 130"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00077}00077 \textcolor{comment}{//  3.1       140       "{}\#version 140"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00078}00078 \textcolor{comment}{//  3.2       150       "{}\#version 150"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00079}00079 \textcolor{comment}{//  3.3       330       "{}\#version 330 core"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00080}00080 \textcolor{comment}{//  4.0       400       "{}\#version 400 core"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00081}00081 \textcolor{comment}{//  4.1       410       "{}\#version 410 core"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00082}00082 \textcolor{comment}{//  4.2       420       "{}\#version 410 core"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00083}00083 \textcolor{comment}{//  4.3       430       "{}\#version 430 core"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00084}00084 \textcolor{comment}{//  ES 2.0    100       "{}\#version 100"{}      = WebGL 1.0}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00085}00085 \textcolor{comment}{//  ES 3.0    300       "{}\#version 300 es"{}   = WebGL 2.0}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00086}00086 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00088}00088 \textcolor{preprocessor}{\#if defined(\_MSC\_VER) \&\& !defined(\_CRT\_SECURE\_NO\_WARNINGS)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00089}00089 \textcolor{preprocessor}{\#define \_CRT\_SECURE\_NO\_WARNINGS}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00090}00090 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00091}00091 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00092}00092 \textcolor{preprocessor}{\#include "{}imgui.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00093}00093 \textcolor{preprocessor}{\#include "{}imgui\_impl\_opengl3.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00094}00094 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00095}00095 \textcolor{preprocessor}{\#if defined(\_MSC\_VER) \&\& \_MSC\_VER <= 1500 }\textcolor{comment}{// MSVC 2008 or earlier}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00096}00096 \textcolor{preprocessor}{\#include <stddef.h>}     \textcolor{comment}{// intptr\_t}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00097}00097 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00098}00098 \textcolor{preprocessor}{\#include <stdint.h>}     \textcolor{comment}{// intptr\_t}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00099}00099 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00100}00100 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00101}00101 \textcolor{comment}{// Clang warnings with -\/Weverything}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00102}00102 \textcolor{preprocessor}{\#if defined(\_\_clang\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00103}00103 \textcolor{preprocessor}{\#pragma clang diagnostic push}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00104}00104 \textcolor{preprocessor}{\#pragma clang diagnostic ignored "{}-\/Wold-\/style-\/cast"{}}     \textcolor{comment}{// warning: use of old-\/style cast}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00105}00105 \textcolor{preprocessor}{\#pragma clang diagnostic ignored "{}-\/Wsign-\/conversion"{}}    \textcolor{comment}{// warning: implicit conversion changes signedness}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00106}00106 \textcolor{preprocessor}{\#if \_\_has\_warning("{}-\/Wzero-\/as-\/null-\/pointer-\/constant"{}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00107}00107 \textcolor{preprocessor}{\#pragma clang diagnostic ignored "{}-\/Wzero-\/as-\/null-\/pointer-\/constant"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00108}00108 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00109}00109 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00111}00111 \textcolor{comment}{// GL includes}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00112}00112 \textcolor{preprocessor}{\#if defined(IMGUI\_IMPL\_OPENGL\_ES2)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00113}00113 \textcolor{preprocessor}{\#include <GLES2/gl2.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00114}00114 \textcolor{preprocessor}{\#if defined(\_\_EMSCRIPTEN\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00115}00115 \textcolor{preprocessor}{\#ifndef GL\_GLEXT\_PROTOTYPES}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00116}00116 \textcolor{preprocessor}{\#define GL\_GLEXT\_PROTOTYPES}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00117}00117 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00118}00118 \textcolor{preprocessor}{\#include <GLES2/gl2ext.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00119}00119 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00120}00120 \textcolor{preprocessor}{\#elif defined(IMGUI\_IMPL\_OPENGL\_ES3)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00121}00121 \textcolor{preprocessor}{\#if defined(\_\_APPLE\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00122}00122 \textcolor{preprocessor}{\#include <TargetConditionals.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00123}00123 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00124}00124 \textcolor{preprocessor}{\#if (defined(\_\_APPLE\_\_) \&\& (TARGET\_OS\_IOS || TARGET\_OS\_TV))}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00125}00125 \textcolor{preprocessor}{\#include <OpenGLES/ES3/gl.h>}    \textcolor{comment}{// Use GL ES 3}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00126}00126 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00127}00127 \textcolor{preprocessor}{\#include <GLES3/gl3.h>}          \textcolor{comment}{// Use GL ES 3}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00128}00128 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00129}00129 \textcolor{preprocessor}{\#elif !defined(IMGUI\_IMPL\_OPENGL\_LOADER\_CUSTOM)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00130}00130 \textcolor{comment}{// Modern desktop OpenGL doesn't have a standard portable header file to load OpenGL function pointers.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00131}00131 \textcolor{comment}{// Helper libraries are often used for this purpose! Here we are using our own minimal custom loader based on gl3w.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00132}00132 \textcolor{comment}{// In the rest of your app/engine, you can use another loader of your choice (gl3w, glew, glad, glbinding, glext, glLoadGen, etc.).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00133}00133 \textcolor{comment}{// If you happen to be developing a new feature for this backend (imgui\_impl\_opengl3.cpp):}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00134}00134 \textcolor{comment}{// -\/ You may need to regenerate imgui\_impl\_opengl3\_loader.h to add new symbols. See https://github.com/dearimgui/gl3w\_stripped}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00135}00135 \textcolor{comment}{// -\/ You can temporarily use an unstripped version. See https://github.com/dearimgui/gl3w\_stripped/releases}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00136}00136 \textcolor{comment}{// Changes to this backend using new APIs should be accompanied by a regenerated stripped loader version.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00137}00137 \textcolor{preprocessor}{\#define IMGL3W\_IMPL}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00138}00138 \textcolor{preprocessor}{\#include "{}imgui\_impl\_opengl3\_loader.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00139}00139 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00140}00140 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00141}00141 \textcolor{comment}{// Vertex arrays are not supported on ES2/WebGL1 unless Emscripten which uses an extension}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00142}00142 \textcolor{preprocessor}{\#ifndef IMGUI\_IMPL\_OPENGL\_ES2}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00143}00143 \textcolor{preprocessor}{\#define IMGUI\_IMPL\_OPENGL\_USE\_VERTEX\_ARRAY}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00144}00144 \textcolor{preprocessor}{\#elif defined(\_\_EMSCRIPTEN\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00145}00145 \textcolor{preprocessor}{\#define IMGUI\_IMPL\_OPENGL\_USE\_VERTEX\_ARRAY}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00146}00146 \textcolor{preprocessor}{\#define glBindVertexArray       glBindVertexArrayOES}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00147}00147 \textcolor{preprocessor}{\#define glGenVertexArrays       glGenVertexArraysOES}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00148}00148 \textcolor{preprocessor}{\#define glDeleteVertexArrays    glDeleteVertexArraysOES}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00149}00149 \textcolor{preprocessor}{\#define GL\_VERTEX\_ARRAY\_BINDING GL\_VERTEX\_ARRAY\_BINDING\_OES}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00150}00150 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00151}00151 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00152}00152 \textcolor{comment}{// Desktop GL 2.0+ has glPolygonMode() which GL ES and WebGL don't have.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00153}00153 \textcolor{preprocessor}{\#ifdef GL\_POLYGON\_MODE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00154}00154 \textcolor{preprocessor}{\#define IMGUI\_IMPL\_HAS\_POLYGON\_MODE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00155}00155 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00156}00156 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00157}00157 \textcolor{comment}{// Desktop GL 3.2+ has glDrawElementsBaseVertex() which GL ES and WebGL don't have.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00158}00158 \textcolor{preprocessor}{\#if !defined(IMGUI\_IMPL\_OPENGL\_ES2) \&\& !defined(IMGUI\_IMPL\_OPENGL\_ES3) \&\& defined(GL\_VERSION\_3\_2)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00159}00159 \textcolor{preprocessor}{\#define IMGUI\_IMPL\_OPENGL\_MAY\_HAVE\_VTX\_OFFSET}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00160}00160 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00161}00161 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00162}00162 \textcolor{comment}{// Desktop GL 3.3+ has glBindSampler()}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00163}00163 \textcolor{preprocessor}{\#if !defined(IMGUI\_IMPL\_OPENGL\_ES2) \&\& !defined(IMGUI\_IMPL\_OPENGL\_ES3) \&\& defined(GL\_VERSION\_3\_3)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00164}00164 \textcolor{preprocessor}{\#define IMGUI\_IMPL\_OPENGL\_MAY\_HAVE\_BIND\_SAMPLER}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00165}00165 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00166}00166 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00167}00167 \textcolor{comment}{// Desktop GL 3.1+ has GL\_PRIMITIVE\_RESTART state}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00168}00168 \textcolor{preprocessor}{\#if !defined(IMGUI\_IMPL\_OPENGL\_ES2) \&\& !defined(IMGUI\_IMPL\_OPENGL\_ES3) \&\& defined(GL\_VERSION\_3\_1)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00169}00169 \textcolor{preprocessor}{\#define IMGUI\_IMPL\_OPENGL\_MAY\_HAVE\_PRIMITIVE\_RESTART}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00170}00170 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00171}00171 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00172}00172 \textcolor{comment}{// Desktop GL use extension detection}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00173}00173 \textcolor{preprocessor}{\#if !defined(IMGUI\_IMPL\_OPENGL\_ES2) \&\& !defined(IMGUI\_IMPL\_OPENGL\_ES3)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00174}00174 \textcolor{preprocessor}{\#define IMGUI\_IMPL\_OPENGL\_MAY\_HAVE\_EXTENSIONS}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00175}00175 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00176}00176 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00177}00177 \textcolor{comment}{// OpenGL Data}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00178}\mbox{\hyperlink{struct_im_gui___impl_open_g_l3___data}{00178}} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_im_gui___impl_open_g_l3___data}{ImGui\_ImplOpenGL3\_Data}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00179}00179 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00180}00180     GLuint          GlVersion;               \textcolor{comment}{// Extracted at runtime using GL\_MAJOR\_VERSION, GL\_MINOR\_VERSION queries (e.g. 320 for GL 3.2)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00181}00181     \textcolor{keywordtype}{char}            GlslVersionString[32];   \textcolor{comment}{// Specified by user or detected based on compile time GL settings.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00182}00182     GLuint          FontTexture;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00183}00183     GLuint          ShaderHandle;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00184}00184     GLint           AttribLocationTex;       \textcolor{comment}{// Uniforms location}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00185}00185     GLint           AttribLocationProjMtx;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00186}00186     GLuint          AttribLocationVtxPos;    \textcolor{comment}{// Vertex attributes location}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00187}00187     GLuint          AttribLocationVtxUV;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00188}00188     GLuint          AttribLocationVtxColor;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00189}00189     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}    VboHandle, ElementsHandle;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00190}00190     GLsizeiptr      VertexBufferSize;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00191}00191     GLsizeiptr      IndexBufferSize;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00192}00192     \textcolor{keywordtype}{bool}            HasClipOrigin;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00193}00193 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00194}00194     \mbox{\hyperlink{struct_im_gui___impl_open_g_l3___data}{ImGui\_ImplOpenGL3\_Data}}() \{ memset(\textcolor{keyword}{this}, 0, \textcolor{keyword}{sizeof}(*\textcolor{keyword}{this})); \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00195}00195 \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00196}00196 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00197}00197 \textcolor{comment}{// Backend data stored in io.BackendRendererUserData to allow support for multiple Dear ImGui contexts}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00198}00198 \textcolor{comment}{// It is STRONGLY preferred that you use docking branch with multi-\/viewports (== single Dear ImGui context + multiple windows) instead of multiple Dear ImGui contexts.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00199}00199 \textcolor{keyword}{static} \mbox{\hyperlink{struct_im_gui___impl_open_g_l3___data}{ImGui\_ImplOpenGL3\_Data}}* ImGui\_ImplOpenGL3\_GetBackendData()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00200}00200 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00201}00201     \textcolor{keywordflow}{return} ImGui::GetCurrentContext() ? (\mbox{\hyperlink{struct_im_gui___impl_open_g_l3___data}{ImGui\_ImplOpenGL3\_Data}}*)ImGui::GetIO().BackendRendererUserData : NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00202}00202 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00203}00203 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00204}00204 \textcolor{comment}{// Forward Declarations}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00205}00205 \textcolor{keyword}{static} \textcolor{keywordtype}{void} ImGui\_ImplOpenGL3\_InitPlatformInterface();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00206}00206 \textcolor{keyword}{static} \textcolor{keywordtype}{void} ImGui\_ImplOpenGL3\_ShutdownPlatformInterface();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00207}00207 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00208}00208 \textcolor{comment}{// Functions}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00209}00209 \textcolor{keywordtype}{bool}    ImGui\_ImplOpenGL3\_Init(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* glsl\_version)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00210}00210 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00211}00211     \mbox{\hyperlink{struct_im_gui_i_o}{ImGuiIO}}\& io = ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00212}00212     IM\_ASSERT(io.BackendRendererUserData == NULL \&\& \textcolor{stringliteral}{"{}Already initialized a renderer backend!"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00213}00213 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00214}00214     \textcolor{comment}{// Initialize our loader}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00215}00215 \textcolor{preprocessor}{\#if !defined(IMGUI\_IMPL\_OPENGL\_ES2) \&\& !defined(IMGUI\_IMPL\_OPENGL\_ES3) \&\& !defined(IMGUI\_IMPL\_OPENGL\_LOADER\_CUSTOM)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00216}00216     \textcolor{keywordflow}{if} (imgl3wInit() != 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00217}00217     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00218}00218         fprintf(stderr, \textcolor{stringliteral}{"{}Failed to initialize OpenGL loader!\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00219}00219         \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00220}00220     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00221}00221 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00222}00222 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00223}00223     \textcolor{comment}{// Setup backend capabilities flags}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00224}00224     \mbox{\hyperlink{struct_im_gui___impl_open_g_l3___data}{ImGui\_ImplOpenGL3\_Data}}* bd = IM\_NEW(\mbox{\hyperlink{struct_im_gui___impl_open_g_l3___data}{ImGui\_ImplOpenGL3\_Data}})();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00225}00225     io.BackendRendererUserData = (\textcolor{keywordtype}{void}*)bd;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00226}00226     io.BackendRendererName = \textcolor{stringliteral}{"{}imgui\_impl\_opengl3"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00227}00227 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00228}00228     \textcolor{comment}{// Query for GL version (e.g. 320 for GL 3.2)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00229}00229 \textcolor{preprocessor}{\#if !defined(IMGUI\_IMPL\_OPENGL\_ES2)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00230}00230     GLint major = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00231}00231     GLint minor = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00232}00232     glGetIntegerv(GL\_MAJOR\_VERSION, \&major);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00233}00233     glGetIntegerv(GL\_MINOR\_VERSION, \&minor);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00234}00234     \textcolor{keywordflow}{if} (major == 0 \&\& minor == 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00235}00235     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00236}00236         \textcolor{comment}{// Query GL\_VERSION in desktop GL 2.x, the string will start with "{}<major>.<minor>"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00237}00237         \textcolor{keyword}{const} \textcolor{keywordtype}{char}* gl\_version = (\textcolor{keyword}{const} \textcolor{keywordtype}{char}*)glGetString(GL\_VERSION);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00238}00238         sscanf(gl\_version, \textcolor{stringliteral}{"{}\%d.\%d"{}}, \&major, \&minor);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00239}00239     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00240}00240     bd-\/>GlVersion = (GLuint)(major * 100 + minor * 10);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00241}00241 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00242}00242     bd-\/>GlVersion = 200; \textcolor{comment}{// GLES 2}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00243}00243 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00244}00244 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00245}00245 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_OPENGL\_MAY\_HAVE\_VTX\_OFFSET}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00246}00246     \textcolor{keywordflow}{if} (bd-\/>GlVersion >= 320)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00247}00247         io.BackendFlags |= ImGuiBackendFlags\_RendererHasVtxOffset;  \textcolor{comment}{// We can honor the ImDrawCmd::VtxOffset field, allowing for large meshes.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00248}00248 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00249}00249     io.BackendFlags |= ImGuiBackendFlags\_RendererHasViewports;  \textcolor{comment}{// We can create multi-\/viewports on the Renderer side (optional)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00250}00250 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00251}00251     \textcolor{comment}{// Store GLSL version string so we can refer to it later in case we recreate shaders.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00252}00252     \textcolor{comment}{// Note: GLSL version is NOT the same as GL version. Leave this to NULL if unsure.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00253}00253     \textcolor{keywordflow}{if} (glsl\_version == NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00254}00254     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00255}00255 \textcolor{preprocessor}{\#if defined(IMGUI\_IMPL\_OPENGL\_ES2)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00256}00256         glsl\_version = \textcolor{stringliteral}{"{}\#version 100"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00257}00257 \textcolor{preprocessor}{\#elif defined(IMGUI\_IMPL\_OPENGL\_ES3)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00258}00258         glsl\_version = \textcolor{stringliteral}{"{}\#version 300 es"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00259}00259 \textcolor{preprocessor}{\#elif defined(\_\_APPLE\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00260}00260         glsl\_version = \textcolor{stringliteral}{"{}\#version 150"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00261}00261 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00262}00262         glsl\_version = \textcolor{stringliteral}{"{}\#version 130"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00263}00263 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00264}00264     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00265}00265     IM\_ASSERT((\textcolor{keywordtype}{int})strlen(glsl\_version) + 2 < IM\_ARRAYSIZE(bd-\/>GlslVersionString));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00266}00266     strcpy(bd-\/>GlslVersionString, glsl\_version);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00267}00267     strcat(bd-\/>GlslVersionString, \textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00268}00268 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00269}00269     \textcolor{comment}{// Make an arbitrary GL call (we don't actually need the result)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00270}00270     \textcolor{comment}{// IF YOU GET A CRASH HERE: it probably means the OpenGL function loader didn't do its job. Let us know!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00271}00271     GLint current\_texture;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00272}00272     glGetIntegerv(GL\_TEXTURE\_BINDING\_2D, \&current\_texture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00273}00273 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00274}00274     \textcolor{comment}{// Detect extensions we support}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00275}00275     bd-\/>HasClipOrigin = (bd-\/>GlVersion >= 450);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00276}00276 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_OPENGL\_MAY\_HAVE\_EXTENSIONS}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00277}00277     GLint num\_extensions = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00278}00278     glGetIntegerv(GL\_NUM\_EXTENSIONS, \&num\_extensions);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00279}00279     \textcolor{keywordflow}{for} (GLint i = 0; i < num\_extensions; i++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00280}00280     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00281}00281         \textcolor{keyword}{const} \textcolor{keywordtype}{char}* extension = (\textcolor{keyword}{const} \textcolor{keywordtype}{char}*)glGetStringi(GL\_EXTENSIONS, i);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00282}00282         \textcolor{keywordflow}{if} (extension != NULL \&\& strcmp(extension, \textcolor{stringliteral}{"{}GL\_ARB\_clip\_control"{}}) == 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00283}00283             bd-\/>HasClipOrigin = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00284}00284     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00285}00285 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00286}00286 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00287}00287     \textcolor{keywordflow}{if} (io.ConfigFlags \& ImGuiConfigFlags\_ViewportsEnable)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00288}00288         ImGui\_ImplOpenGL3\_InitPlatformInterface();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00289}00289 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00290}00290     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00291}00291 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00292}00292 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00293}00293 \textcolor{keywordtype}{void}    ImGui\_ImplOpenGL3\_Shutdown()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00294}00294 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00295}00295     \mbox{\hyperlink{struct_im_gui___impl_open_g_l3___data}{ImGui\_ImplOpenGL3\_Data}}* bd = ImGui\_ImplOpenGL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00296}00296     IM\_ASSERT(bd != NULL \&\& \textcolor{stringliteral}{"{}No renderer backend to shutdown, or already shutdown?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00297}00297     \mbox{\hyperlink{struct_im_gui_i_o}{ImGuiIO}}\& io = ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00298}00298 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00299}00299     ImGui\_ImplOpenGL3\_ShutdownPlatformInterface();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00300}00300     ImGui\_ImplOpenGL3\_DestroyDeviceObjects();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00301}00301     io.BackendRendererName = NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00302}00302     io.BackendRendererUserData = NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00303}00303     IM\_DELETE(bd);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00304}00304 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00305}00305 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00306}00306 \textcolor{keywordtype}{void}    ImGui\_ImplOpenGL3\_NewFrame()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00307}00307 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00308}00308     \mbox{\hyperlink{struct_im_gui___impl_open_g_l3___data}{ImGui\_ImplOpenGL3\_Data}}* bd = ImGui\_ImplOpenGL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00309}00309     IM\_ASSERT(bd != NULL \&\& \textcolor{stringliteral}{"{}Did you call ImGui\_ImplOpenGL3\_Init()?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00310}00310 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00311}00311     \textcolor{keywordflow}{if} (!bd-\/>ShaderHandle)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00312}00312         ImGui\_ImplOpenGL3\_CreateDeviceObjects();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00313}00313 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00314}00314 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00315}00315 \textcolor{keyword}{static} \textcolor{keywordtype}{void} ImGui\_ImplOpenGL3\_SetupRenderState(\mbox{\hyperlink{struct_im_draw_data}{ImDrawData}}* draw\_data, \textcolor{keywordtype}{int} fb\_width, \textcolor{keywordtype}{int} fb\_height, GLuint vertex\_array\_object)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00316}00316 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00317}00317     \mbox{\hyperlink{struct_im_gui___impl_open_g_l3___data}{ImGui\_ImplOpenGL3\_Data}}* bd = ImGui\_ImplOpenGL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00318}00318 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00319}00319     \textcolor{comment}{// Setup render state: alpha-\/blending enabled, no face culling, no depth testing, scissor enabled, polygon fill}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00320}00320     glEnable(GL\_BLEND);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00321}00321     glBlendEquation(GL\_FUNC\_ADD);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00322}00322     glBlendFuncSeparate(GL\_SRC\_ALPHA, GL\_ONE\_MINUS\_SRC\_ALPHA, GL\_ONE, GL\_ONE\_MINUS\_SRC\_ALPHA);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00323}00323     glDisable(GL\_CULL\_FACE);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00324}00324     glDisable(GL\_DEPTH\_TEST);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00325}00325     glDisable(GL\_STENCIL\_TEST);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00326}00326     glEnable(GL\_SCISSOR\_TEST);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00327}00327 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_OPENGL\_MAY\_HAVE\_PRIMITIVE\_RESTART}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00328}00328     \textcolor{keywordflow}{if} (bd-\/>GlVersion >= 310)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00329}00329         glDisable(GL\_PRIMITIVE\_RESTART);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00330}00330 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00331}00331 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_HAS\_POLYGON\_MODE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00332}00332     glPolygonMode(GL\_FRONT\_AND\_BACK, GL\_FILL);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00333}00333 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00334}00334 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00335}00335     \textcolor{comment}{// Support for GL 4.5 rarely used glClipControl(GL\_UPPER\_LEFT)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00336}00336 \textcolor{preprocessor}{\#if defined(GL\_CLIP\_ORIGIN)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00337}00337     \textcolor{keywordtype}{bool} clip\_origin\_lower\_left = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00338}00338     \textcolor{keywordflow}{if} (bd-\/>HasClipOrigin)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00339}00339     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00340}00340         GLenum current\_clip\_origin = 0; glGetIntegerv(GL\_CLIP\_ORIGIN, (GLint*)\&current\_clip\_origin);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00341}00341         \textcolor{keywordflow}{if} (current\_clip\_origin == GL\_UPPER\_LEFT)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00342}00342             clip\_origin\_lower\_left = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00343}00343     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00344}00344 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00345}00345 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00346}00346     \textcolor{comment}{// Setup viewport, orthographic projection matrix}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00347}00347     \textcolor{comment}{// Our visible imgui space lies from draw\_data-\/>DisplayPos (top left) to draw\_data-\/>DisplayPos+data\_data-\/>DisplaySize (bottom right). DisplayPos is (0,0) for single viewport apps.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00348}00348     glViewport(0, 0, (GLsizei)fb\_width, (GLsizei)fb\_height);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00349}00349     \textcolor{keywordtype}{float} L = draw\_data-\/>DisplayPos.x;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00350}00350     \textcolor{keywordtype}{float} R = draw\_data-\/>DisplayPos.x + draw\_data-\/>DisplaySize.x;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00351}00351     \textcolor{keywordtype}{float} T = draw\_data-\/>DisplayPos.y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00352}00352     \textcolor{keywordtype}{float} B = draw\_data-\/>DisplayPos.y + draw\_data-\/>DisplaySize.y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00353}00353 \textcolor{preprocessor}{\#if defined(GL\_CLIP\_ORIGIN)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00354}00354     \textcolor{keywordflow}{if} (!clip\_origin\_lower\_left) \{ \textcolor{keywordtype}{float} tmp = T; T = B; B = tmp; \} \textcolor{comment}{// Swap top and bottom if origin is upper left}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00355}00355 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00356}00356     \textcolor{keyword}{const} \textcolor{keywordtype}{float} ortho\_projection[4][4] =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00357}00357     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00358}00358         \{ 2.0f/(R-\/L),   0.0f,         0.0f,   0.0f \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00359}00359         \{ 0.0f,         2.0f/(T-\/B),   0.0f,   0.0f \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00360}00360         \{ 0.0f,         0.0f,        -\/1.0f,   0.0f \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00361}00361         \{ (R+L)/(L-\/R),  (T+B)/(B-\/T),  0.0f,   1.0f \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00362}00362     \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00363}00363     glUseProgram(bd-\/>ShaderHandle);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00364}00364     glUniform1i(bd-\/>AttribLocationTex, 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00365}00365     glUniformMatrix4fv(bd-\/>AttribLocationProjMtx, 1, GL\_FALSE, \&ortho\_projection[0][0]);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00366}00366 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00367}00367 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_OPENGL\_MAY\_HAVE\_BIND\_SAMPLER}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00368}00368     \textcolor{keywordflow}{if} (bd-\/>GlVersion >= 330)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00369}00369         glBindSampler(0, 0); \textcolor{comment}{// We use combined texture/sampler state. Applications using GL 3.3 may set that otherwise.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00370}00370 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00371}00371 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00372}00372     (void)vertex\_array\_object;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00373}00373 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_OPENGL\_USE\_VERTEX\_ARRAY}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00374}00374     glBindVertexArray(vertex\_array\_object);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00375}00375 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00376}00376 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00377}00377     \textcolor{comment}{// Bind vertex/index buffers and setup attributes for ImDrawVert}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00378}00378     glBindBuffer(GL\_ARRAY\_BUFFER, bd-\/>VboHandle);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00379}00379     glBindBuffer(GL\_ELEMENT\_ARRAY\_BUFFER, bd-\/>ElementsHandle);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00380}00380     glEnableVertexAttribArray(bd-\/>AttribLocationVtxPos);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00381}00381     glEnableVertexAttribArray(bd-\/>AttribLocationVtxUV);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00382}00382     glEnableVertexAttribArray(bd-\/>AttribLocationVtxColor);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00383}00383     glVertexAttribPointer(bd-\/>AttribLocationVtxPos,   2, GL\_FLOAT,         GL\_FALSE, \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}), (GLvoid*)IM\_OFFSETOF(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}, pos));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00384}00384     glVertexAttribPointer(bd-\/>AttribLocationVtxUV,    2, GL\_FLOAT,         GL\_FALSE, \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}), (GLvoid*)IM\_OFFSETOF(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}, uv));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00385}00385     glVertexAttribPointer(bd-\/>AttribLocationVtxColor, 4, GL\_UNSIGNED\_BYTE, GL\_TRUE,  \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}), (GLvoid*)IM\_OFFSETOF(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}, col));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00386}00386 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00387}00387 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00388}00388 \textcolor{comment}{// OpenGL3 Render function.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00389}00389 \textcolor{comment}{// Note that this implementation is little overcomplicated because we are saving/setting up/restoring every OpenGL state explicitly.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00390}00390 \textcolor{comment}{// This is in order to be able to run within an OpenGL engine that doesn't do so.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00391}00391 \textcolor{keywordtype}{void}    ImGui\_ImplOpenGL3\_RenderDrawData(\mbox{\hyperlink{struct_im_draw_data}{ImDrawData}}* draw\_data)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00392}00392 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00393}00393     \textcolor{comment}{// Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00394}00394     \textcolor{keywordtype}{int} fb\_width = (int)(draw\_data-\/>DisplaySize.x * draw\_data-\/>FramebufferScale.x);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00395}00395     \textcolor{keywordtype}{int} fb\_height = (int)(draw\_data-\/>DisplaySize.y * draw\_data-\/>FramebufferScale.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00396}00396     \textcolor{keywordflow}{if} (fb\_width <= 0 || fb\_height <= 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00397}00397         \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00398}00398 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00399}00399     \mbox{\hyperlink{struct_im_gui___impl_open_g_l3___data}{ImGui\_ImplOpenGL3\_Data}}* bd = ImGui\_ImplOpenGL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00400}00400 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00401}00401     \textcolor{comment}{// Backup GL state}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00402}00402     GLenum last\_active\_texture; glGetIntegerv(GL\_ACTIVE\_TEXTURE, (GLint*)\&last\_active\_texture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00403}00403     glActiveTexture(GL\_TEXTURE0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00404}00404     GLuint last\_program; glGetIntegerv(GL\_CURRENT\_PROGRAM, (GLint*)\&last\_program);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00405}00405     GLuint last\_texture; glGetIntegerv(GL\_TEXTURE\_BINDING\_2D, (GLint*)\&last\_texture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00406}00406 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_OPENGL\_MAY\_HAVE\_BIND\_SAMPLER}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00407}00407     GLuint last\_sampler; \textcolor{keywordflow}{if} (bd-\/>GlVersion >= 330) \{ glGetIntegerv(GL\_SAMPLER\_BINDING, (GLint*)\&last\_sampler); \} \textcolor{keywordflow}{else} \{ last\_sampler = 0; \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00408}00408 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00409}00409     GLuint last\_array\_buffer; glGetIntegerv(GL\_ARRAY\_BUFFER\_BINDING, (GLint*)\&last\_array\_buffer);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00410}00410 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_OPENGL\_USE\_VERTEX\_ARRAY}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00411}00411     GLuint last\_vertex\_array\_object; glGetIntegerv(GL\_VERTEX\_ARRAY\_BINDING, (GLint*)\&last\_vertex\_array\_object);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00412}00412 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00413}00413 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_HAS\_POLYGON\_MODE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00414}00414     GLint last\_polygon\_mode[2]; glGetIntegerv(GL\_POLYGON\_MODE, last\_polygon\_mode);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00415}00415 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00416}00416     GLint last\_viewport[4]; glGetIntegerv(GL\_VIEWPORT, last\_viewport);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00417}00417     GLint last\_scissor\_box[4]; glGetIntegerv(GL\_SCISSOR\_BOX, last\_scissor\_box);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00418}00418     GLenum last\_blend\_src\_rgb; glGetIntegerv(GL\_BLEND\_SRC\_RGB, (GLint*)\&last\_blend\_src\_rgb);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00419}00419     GLenum last\_blend\_dst\_rgb; glGetIntegerv(GL\_BLEND\_DST\_RGB, (GLint*)\&last\_blend\_dst\_rgb);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00420}00420     GLenum last\_blend\_src\_alpha; glGetIntegerv(GL\_BLEND\_SRC\_ALPHA, (GLint*)\&last\_blend\_src\_alpha);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00421}00421     GLenum last\_blend\_dst\_alpha; glGetIntegerv(GL\_BLEND\_DST\_ALPHA, (GLint*)\&last\_blend\_dst\_alpha);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00422}00422     GLenum last\_blend\_equation\_rgb; glGetIntegerv(GL\_BLEND\_EQUATION\_RGB, (GLint*)\&last\_blend\_equation\_rgb);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00423}00423     GLenum last\_blend\_equation\_alpha; glGetIntegerv(GL\_BLEND\_EQUATION\_ALPHA, (GLint*)\&last\_blend\_equation\_alpha);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00424}00424     GLboolean last\_enable\_blend = glIsEnabled(GL\_BLEND);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00425}00425     GLboolean last\_enable\_cull\_face = glIsEnabled(GL\_CULL\_FACE);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00426}00426     GLboolean last\_enable\_depth\_test = glIsEnabled(GL\_DEPTH\_TEST);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00427}00427     GLboolean last\_enable\_stencil\_test = glIsEnabled(GL\_STENCIL\_TEST);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00428}00428     GLboolean last\_enable\_scissor\_test = glIsEnabled(GL\_SCISSOR\_TEST);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00429}00429 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_OPENGL\_MAY\_HAVE\_PRIMITIVE\_RESTART}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00430}00430     GLboolean last\_enable\_primitive\_restart = (bd-\/>GlVersion >= 310) ? glIsEnabled(GL\_PRIMITIVE\_RESTART) : GL\_FALSE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00431}00431 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00432}00432 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00433}00433     \textcolor{comment}{// Setup desired GL state}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00434}00434     \textcolor{comment}{// Recreate the VAO every time (this is to easily allow multiple GL contexts to be rendered to. VAO are not shared among GL contexts)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00435}00435     \textcolor{comment}{// The renderer would actually work without any VAO bound, but then our VertexAttrib calls would overwrite the default one currently bound.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00436}00436     GLuint vertex\_array\_object = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00437}00437 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_OPENGL\_USE\_VERTEX\_ARRAY}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00438}00438     glGenVertexArrays(1, \&vertex\_array\_object);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00439}00439 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00440}00440     ImGui\_ImplOpenGL3\_SetupRenderState(draw\_data, fb\_width, fb\_height, vertex\_array\_object);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00441}00441 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00442}00442     \textcolor{comment}{// Will project scissor/clipping rectangles into framebuffer space}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00443}00443     \mbox{\hyperlink{struct_im_vec2}{ImVec2}} clip\_off = draw\_data-\/>DisplayPos;         \textcolor{comment}{// (0,0) unless using multi-\/viewports}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00444}00444     \mbox{\hyperlink{struct_im_vec2}{ImVec2}} clip\_scale = draw\_data-\/>FramebufferScale; \textcolor{comment}{// (1,1) unless using retina display which are often (2,2)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00445}00445 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00446}00446     \textcolor{comment}{// Render command lists}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00447}00447     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} n = 0; n < draw\_data-\/>CmdListsCount; n++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00448}00448     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00449}00449         \textcolor{keyword}{const} \mbox{\hyperlink{struct_im_draw_list}{ImDrawList}}* cmd\_list = draw\_data-\/>CmdLists[n];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00450}00450 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00451}00451         \textcolor{comment}{// Upload vertex/index buffers}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00452}00452         GLsizeiptr vtx\_buffer\_size = (GLsizeiptr)cmd\_list-\/>VtxBuffer.Size * (\textcolor{keywordtype}{int})\textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00453}00453         GLsizeiptr idx\_buffer\_size = (GLsizeiptr)cmd\_list-\/>IdxBuffer.Size * (\textcolor{keywordtype}{int})\textcolor{keyword}{sizeof}(ImDrawIdx);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00454}00454         \textcolor{keywordflow}{if} (bd-\/>VertexBufferSize < vtx\_buffer\_size)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00455}00455         \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00456}00456             bd-\/>VertexBufferSize = vtx\_buffer\_size;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00457}00457             glBufferData(GL\_ARRAY\_BUFFER, bd-\/>VertexBufferSize, NULL, GL\_STREAM\_DRAW);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00458}00458         \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00459}00459         \textcolor{keywordflow}{if} (bd-\/>IndexBufferSize < idx\_buffer\_size)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00460}00460         \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00461}00461             bd-\/>IndexBufferSize = idx\_buffer\_size;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00462}00462             glBufferData(GL\_ELEMENT\_ARRAY\_BUFFER, bd-\/>IndexBufferSize, NULL, GL\_STREAM\_DRAW);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00463}00463         \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00464}00464         glBufferSubData(GL\_ARRAY\_BUFFER, 0, vtx\_buffer\_size, (\textcolor{keyword}{const} GLvoid*)cmd\_list-\/>VtxBuffer.Data);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00465}00465         glBufferSubData(GL\_ELEMENT\_ARRAY\_BUFFER, 0, idx\_buffer\_size, (\textcolor{keyword}{const} GLvoid*)cmd\_list-\/>IdxBuffer.Data);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00466}00466 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00467}00467         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} cmd\_i = 0; cmd\_i < cmd\_list-\/>CmdBuffer.Size; cmd\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00468}00468         \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00469}00469             \textcolor{keyword}{const} \mbox{\hyperlink{struct_im_draw_cmd}{ImDrawCmd}}* pcmd = \&cmd\_list-\/>CmdBuffer[cmd\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00470}00470             \textcolor{keywordflow}{if} (pcmd-\/>UserCallback != NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00471}00471             \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00472}00472                 \textcolor{comment}{// User callback, registered via ImDrawList::AddCallback()}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00473}00473                 \textcolor{comment}{// (ImDrawCallback\_ResetRenderState is a special callback value used by the user to request the renderer to reset render state.)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00474}00474                 \textcolor{keywordflow}{if} (pcmd-\/>UserCallback == ImDrawCallback\_ResetRenderState)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00475}00475                     ImGui\_ImplOpenGL3\_SetupRenderState(draw\_data, fb\_width, fb\_height, vertex\_array\_object);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00476}00476                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00477}00477                     pcmd-\/>UserCallback(cmd\_list, pcmd);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00478}00478             \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00479}00479             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00480}00480             \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00481}00481                 \textcolor{comment}{// Project scissor/clipping rectangles into framebuffer space}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00482}00482                 \mbox{\hyperlink{struct_im_vec2}{ImVec2}} clip\_min((pcmd-\/>ClipRect.x -\/ clip\_off.x) * clip\_scale.x, (pcmd-\/>ClipRect.y -\/ clip\_off.y) * clip\_scale.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00483}00483                 \mbox{\hyperlink{struct_im_vec2}{ImVec2}} clip\_max((pcmd-\/>ClipRect.z -\/ clip\_off.x) * clip\_scale.x, (pcmd-\/>ClipRect.w -\/ clip\_off.y) * clip\_scale.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00484}00484                 \textcolor{keywordflow}{if} (clip\_max.x <= clip\_min.x || clip\_max.y <= clip\_min.y)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00485}00485                     \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00486}00486 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00487}00487                 \textcolor{comment}{// Apply scissor/clipping rectangle (Y is inverted in OpenGL)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00488}00488                 glScissor((\textcolor{keywordtype}{int})clip\_min.x, (\textcolor{keywordtype}{int})((\textcolor{keywordtype}{float})fb\_height -\/ clip\_max.y), (\textcolor{keywordtype}{int})(clip\_max.x -\/ clip\_min.x), (\textcolor{keywordtype}{int})(clip\_max.y -\/ clip\_min.y));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00489}00489 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00490}00490                 \textcolor{comment}{// Bind texture, Draw}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00491}00491                 glBindTexture(GL\_TEXTURE\_2D, (GLuint)(intptr\_t)pcmd-\/>GetTexID());}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00492}00492 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_OPENGL\_MAY\_HAVE\_VTX\_OFFSET}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00493}00493                 \textcolor{keywordflow}{if} (bd-\/>GlVersion >= 320)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00494}00494                     glDrawElementsBaseVertex(GL\_TRIANGLES, (GLsizei)pcmd-\/>ElemCount, \textcolor{keyword}{sizeof}(ImDrawIdx) == 2 ? GL\_UNSIGNED\_SHORT : GL\_UNSIGNED\_INT, (\textcolor{keywordtype}{void}*)(intptr\_t)(pcmd-\/>IdxOffset * \textcolor{keyword}{sizeof}(ImDrawIdx)), (GLint)pcmd-\/>VtxOffset);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00495}00495                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00496}00496 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00497}00497                 glDrawElements(GL\_TRIANGLES, (GLsizei)pcmd-\/>ElemCount, \textcolor{keyword}{sizeof}(ImDrawIdx) == 2 ? GL\_UNSIGNED\_SHORT : GL\_UNSIGNED\_INT, (\textcolor{keywordtype}{void}*)(intptr\_t)(pcmd-\/>IdxOffset * \textcolor{keyword}{sizeof}(ImDrawIdx)));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00498}00498             \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00499}00499         \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00500}00500     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00501}00501 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00502}00502     \textcolor{comment}{// Destroy the temporary VAO}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00503}00503 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_OPENGL\_USE\_VERTEX\_ARRAY}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00504}00504     glDeleteVertexArrays(1, \&vertex\_array\_object);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00505}00505 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00506}00506 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00507}00507     \textcolor{comment}{// Restore modified GL state}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00508}00508     glUseProgram(last\_program);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00509}00509     glBindTexture(GL\_TEXTURE\_2D, last\_texture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00510}00510 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_OPENGL\_MAY\_HAVE\_BIND\_SAMPLER}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00511}00511     \textcolor{keywordflow}{if} (bd-\/>GlVersion >= 330)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00512}00512         glBindSampler(0, last\_sampler);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00513}00513 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00514}00514     glActiveTexture(last\_active\_texture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00515}00515 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_OPENGL\_USE\_VERTEX\_ARRAY}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00516}00516     glBindVertexArray(last\_vertex\_array\_object);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00517}00517 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00518}00518     glBindBuffer(GL\_ARRAY\_BUFFER, last\_array\_buffer);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00519}00519     glBlendEquationSeparate(last\_blend\_equation\_rgb, last\_blend\_equation\_alpha);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00520}00520     glBlendFuncSeparate(last\_blend\_src\_rgb, last\_blend\_dst\_rgb, last\_blend\_src\_alpha, last\_blend\_dst\_alpha);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00521}00521     \textcolor{keywordflow}{if} (last\_enable\_blend) glEnable(GL\_BLEND); \textcolor{keywordflow}{else} glDisable(GL\_BLEND);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00522}00522     \textcolor{keywordflow}{if} (last\_enable\_cull\_face) glEnable(GL\_CULL\_FACE); \textcolor{keywordflow}{else} glDisable(GL\_CULL\_FACE);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00523}00523     \textcolor{keywordflow}{if} (last\_enable\_depth\_test) glEnable(GL\_DEPTH\_TEST); \textcolor{keywordflow}{else} glDisable(GL\_DEPTH\_TEST);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00524}00524     \textcolor{keywordflow}{if} (last\_enable\_stencil\_test) glEnable(GL\_STENCIL\_TEST); \textcolor{keywordflow}{else} glDisable(GL\_STENCIL\_TEST);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00525}00525     \textcolor{keywordflow}{if} (last\_enable\_scissor\_test) glEnable(GL\_SCISSOR\_TEST); \textcolor{keywordflow}{else} glDisable(GL\_SCISSOR\_TEST);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00526}00526 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_OPENGL\_MAY\_HAVE\_PRIMITIVE\_RESTART}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00527}00527     \textcolor{keywordflow}{if} (bd-\/>GlVersion >= 310) \{ \textcolor{keywordflow}{if} (last\_enable\_primitive\_restart) glEnable(GL\_PRIMITIVE\_RESTART); \textcolor{keywordflow}{else} glDisable(GL\_PRIMITIVE\_RESTART); \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00528}00528 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00529}00529 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00530}00530 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_HAS\_POLYGON\_MODE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00531}00531     glPolygonMode(GL\_FRONT\_AND\_BACK, (GLenum)last\_polygon\_mode[0]);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00532}00532 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00533}00533     glViewport(last\_viewport[0], last\_viewport[1], (GLsizei)last\_viewport[2], (GLsizei)last\_viewport[3]);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00534}00534     glScissor(last\_scissor\_box[0], last\_scissor\_box[1], (GLsizei)last\_scissor\_box[2], (GLsizei)last\_scissor\_box[3]);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00535}00535     (void)bd; \textcolor{comment}{// Not all compilation paths use this}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00536}00536 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00537}00537 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00538}00538 \textcolor{keywordtype}{bool} ImGui\_ImplOpenGL3\_CreateFontsTexture()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00539}00539 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00540}00540     \mbox{\hyperlink{struct_im_gui_i_o}{ImGuiIO}}\& io = ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00541}00541     \mbox{\hyperlink{struct_im_gui___impl_open_g_l3___data}{ImGui\_ImplOpenGL3\_Data}}* bd = ImGui\_ImplOpenGL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00542}00542 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00543}00543     \textcolor{comment}{// Build texture atlas}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00544}00544     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* pixels;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00545}00545     \textcolor{keywordtype}{int} width, height;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00546}00546     io.Fonts-\/>GetTexDataAsRGBA32(\&pixels, \&width, \&height);   \textcolor{comment}{// Load as RGBA 32-\/bit (75\% of the memory is wasted, but default font is so small) because it is more likely to be compatible with user's existing shaders. If your ImTextureId represent a higher-\/level concept than just a GL texture id, consider calling GetTexDataAsAlpha8() instead to save on GPU memory.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00547}00547 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00548}00548     \textcolor{comment}{// Upload texture to graphics system}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00549}00549     GLint last\_texture;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00550}00550     glGetIntegerv(GL\_TEXTURE\_BINDING\_2D, \&last\_texture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00551}00551     glGenTextures(1, \&bd-\/>FontTexture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00552}00552     glBindTexture(GL\_TEXTURE\_2D, bd-\/>FontTexture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00553}00553     glTexParameteri(GL\_TEXTURE\_2D, GL\_TEXTURE\_MIN\_FILTER, GL\_LINEAR);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00554}00554     glTexParameteri(GL\_TEXTURE\_2D, GL\_TEXTURE\_MAG\_FILTER, GL\_LINEAR);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00555}00555 \textcolor{preprocessor}{\#ifdef GL\_UNPACK\_ROW\_LENGTH }\textcolor{comment}{// Not on WebGL/ES}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00556}00556     glPixelStorei(GL\_UNPACK\_ROW\_LENGTH, 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00557}00557 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00558}00558     glTexImage2D(GL\_TEXTURE\_2D, 0, GL\_RGBA, width, height, 0, GL\_RGBA, GL\_UNSIGNED\_BYTE, pixels);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00559}00559 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00560}00560     \textcolor{comment}{// Store our identifier}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00561}00561     io.Fonts-\/>SetTexID((ImTextureID)(intptr\_t)bd-\/>FontTexture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00562}00562 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00563}00563     \textcolor{comment}{// Restore state}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00564}00564     glBindTexture(GL\_TEXTURE\_2D, last\_texture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00565}00565 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00566}00566     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00567}00567 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00568}00568 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00569}00569 \textcolor{keywordtype}{void} ImGui\_ImplOpenGL3\_DestroyFontsTexture()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00570}00570 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00571}00571     \mbox{\hyperlink{struct_im_gui_i_o}{ImGuiIO}}\& io = ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00572}00572     \mbox{\hyperlink{struct_im_gui___impl_open_g_l3___data}{ImGui\_ImplOpenGL3\_Data}}* bd = ImGui\_ImplOpenGL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00573}00573     \textcolor{keywordflow}{if} (bd-\/>FontTexture)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00574}00574     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00575}00575         glDeleteTextures(1, \&bd-\/>FontTexture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00576}00576         io.Fonts-\/>SetTexID(0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00577}00577         bd-\/>FontTexture = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00578}00578     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00579}00579 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00580}00580 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00581}00581 \textcolor{comment}{// If you get an error please report on github. You may try different GL context version or GLSL version. See GL<>GLSL version table at the top of this file.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00582}00582 \textcolor{keyword}{static} \textcolor{keywordtype}{bool} CheckShader(GLuint handle, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* desc)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00583}00583 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00584}00584     \mbox{\hyperlink{struct_im_gui___impl_open_g_l3___data}{ImGui\_ImplOpenGL3\_Data}}* bd = ImGui\_ImplOpenGL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00585}00585     GLint status = 0, log\_length = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00586}00586     glGetShaderiv(handle, GL\_COMPILE\_STATUS, \&status);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00587}00587     glGetShaderiv(handle, GL\_INFO\_LOG\_LENGTH, \&log\_length);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00588}00588     \textcolor{keywordflow}{if} ((GLboolean)status == GL\_FALSE)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00589}00589         fprintf(stderr, \textcolor{stringliteral}{"{}ERROR: ImGui\_ImplOpenGL3\_CreateDeviceObjects: failed to compile \%s! With GLSL: \%s\(\backslash\)n"{}}, desc, bd-\/>GlslVersionString);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00590}00590     \textcolor{keywordflow}{if} (log\_length > 1)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00591}00591     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00592}00592         \mbox{\hyperlink{struct_im_vector}{ImVector<char>}} buf;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00593}00593         buf.resize((\textcolor{keywordtype}{int})(log\_length + 1));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00594}00594         glGetShaderInfoLog(handle, log\_length, NULL, (GLchar*)buf.begin());}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00595}00595         fprintf(stderr, \textcolor{stringliteral}{"{}\%s\(\backslash\)n"{}}, buf.begin());}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00596}00596     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00597}00597     \textcolor{keywordflow}{return} (GLboolean)status == GL\_TRUE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00598}00598 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00599}00599 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00600}00600 \textcolor{comment}{// If you get an error please report on GitHub. You may try different GL context version or GLSL version.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00601}00601 \textcolor{keyword}{static} \textcolor{keywordtype}{bool} CheckProgram(GLuint handle, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* desc)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00602}00602 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00603}00603     \mbox{\hyperlink{struct_im_gui___impl_open_g_l3___data}{ImGui\_ImplOpenGL3\_Data}}* bd = ImGui\_ImplOpenGL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00604}00604     GLint status = 0, log\_length = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00605}00605     glGetProgramiv(handle, GL\_LINK\_STATUS, \&status);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00606}00606     glGetProgramiv(handle, GL\_INFO\_LOG\_LENGTH, \&log\_length);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00607}00607     \textcolor{keywordflow}{if} ((GLboolean)status == GL\_FALSE)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00608}00608         fprintf(stderr, \textcolor{stringliteral}{"{}ERROR: ImGui\_ImplOpenGL3\_CreateDeviceObjects: failed to link \%s! With GLSL \%s\(\backslash\)n"{}}, desc, bd-\/>GlslVersionString);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00609}00609     \textcolor{keywordflow}{if} (log\_length > 1)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00610}00610     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00611}00611         \mbox{\hyperlink{struct_im_vector}{ImVector<char>}} buf;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00612}00612         buf.resize((\textcolor{keywordtype}{int})(log\_length + 1));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00613}00613         glGetProgramInfoLog(handle, log\_length, NULL, (GLchar*)buf.begin());}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00614}00614         fprintf(stderr, \textcolor{stringliteral}{"{}\%s\(\backslash\)n"{}}, buf.begin());}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00615}00615     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00616}00616     \textcolor{keywordflow}{return} (GLboolean)status == GL\_TRUE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00617}00617 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00618}00618 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00619}00619 \textcolor{keywordtype}{bool}    ImGui\_ImplOpenGL3\_CreateDeviceObjects()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00620}00620 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00621}00621     \mbox{\hyperlink{struct_im_gui___impl_open_g_l3___data}{ImGui\_ImplOpenGL3\_Data}}* bd = ImGui\_ImplOpenGL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00622}00622 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00623}00623     \textcolor{comment}{// Backup GL state}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00624}00624     GLint last\_texture, last\_array\_buffer;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00625}00625     glGetIntegerv(GL\_TEXTURE\_BINDING\_2D, \&last\_texture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00626}00626     glGetIntegerv(GL\_ARRAY\_BUFFER\_BINDING, \&last\_array\_buffer);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00627}00627 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_OPENGL\_USE\_VERTEX\_ARRAY}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00628}00628     GLint last\_vertex\_array;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00629}00629     glGetIntegerv(GL\_VERTEX\_ARRAY\_BINDING, \&last\_vertex\_array);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00630}00630 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00631}00631 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00632}00632     \textcolor{comment}{// Parse GLSL version string}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00633}00633     \textcolor{keywordtype}{int} glsl\_version = 130;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00634}00634     sscanf(bd-\/>GlslVersionString, \textcolor{stringliteral}{"{}\#version \%d"{}}, \&glsl\_version);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00635}00635 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00636}00636     \textcolor{keyword}{const} GLchar* vertex\_shader\_glsl\_120 =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00637}00637         \textcolor{stringliteral}{"{}uniform mat4 ProjMtx;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00638}00638         \textcolor{stringliteral}{"{}attribute vec2 Position;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00639}00639         \textcolor{stringliteral}{"{}attribute vec2 UV;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00640}00640         \textcolor{stringliteral}{"{}attribute vec4 Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00641}00641         \textcolor{stringliteral}{"{}varying vec2 Frag\_UV;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00642}00642         \textcolor{stringliteral}{"{}varying vec4 Frag\_Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00643}00643         \textcolor{stringliteral}{"{}void main()\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00644}00644         \textcolor{stringliteral}{"{}\{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00645}00645         \textcolor{stringliteral}{"{}    Frag\_UV = UV;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00646}00646         \textcolor{stringliteral}{"{}    Frag\_Color = Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00647}00647         \textcolor{stringliteral}{"{}    gl\_Position = ProjMtx * vec4(Position.xy,0,1);\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00648}00648         \textcolor{stringliteral}{"{}\}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00649}00649 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00650}00650     \textcolor{keyword}{const} GLchar* vertex\_shader\_glsl\_130 =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00651}00651         \textcolor{stringliteral}{"{}uniform mat4 ProjMtx;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00652}00652         \textcolor{stringliteral}{"{}in vec2 Position;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00653}00653         \textcolor{stringliteral}{"{}in vec2 UV;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00654}00654         \textcolor{stringliteral}{"{}in vec4 Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00655}00655         \textcolor{stringliteral}{"{}out vec2 Frag\_UV;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00656}00656         \textcolor{stringliteral}{"{}out vec4 Frag\_Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00657}00657         \textcolor{stringliteral}{"{}void main()\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00658}00658         \textcolor{stringliteral}{"{}\{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00659}00659         \textcolor{stringliteral}{"{}    Frag\_UV = UV;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00660}00660         \textcolor{stringliteral}{"{}    Frag\_Color = Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00661}00661         \textcolor{stringliteral}{"{}    gl\_Position = ProjMtx * vec4(Position.xy,0,1);\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00662}00662         \textcolor{stringliteral}{"{}\}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00663}00663 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00664}00664     \textcolor{keyword}{const} GLchar* vertex\_shader\_glsl\_300\_es =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00665}00665         \textcolor{stringliteral}{"{}precision highp float;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00666}00666         \textcolor{stringliteral}{"{}layout (location = 0) in vec2 Position;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00667}00667         \textcolor{stringliteral}{"{}layout (location = 1) in vec2 UV;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00668}00668         \textcolor{stringliteral}{"{}layout (location = 2) in vec4 Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00669}00669         \textcolor{stringliteral}{"{}uniform mat4 ProjMtx;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00670}00670         \textcolor{stringliteral}{"{}out vec2 Frag\_UV;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00671}00671         \textcolor{stringliteral}{"{}out vec4 Frag\_Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00672}00672         \textcolor{stringliteral}{"{}void main()\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00673}00673         \textcolor{stringliteral}{"{}\{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00674}00674         \textcolor{stringliteral}{"{}    Frag\_UV = UV;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00675}00675         \textcolor{stringliteral}{"{}    Frag\_Color = Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00676}00676         \textcolor{stringliteral}{"{}    gl\_Position = ProjMtx * vec4(Position.xy,0,1);\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00677}00677         \textcolor{stringliteral}{"{}\}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00678}00678 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00679}00679     \textcolor{keyword}{const} GLchar* vertex\_shader\_glsl\_410\_core =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00680}00680         \textcolor{stringliteral}{"{}layout (location = 0) in vec2 Position;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00681}00681         \textcolor{stringliteral}{"{}layout (location = 1) in vec2 UV;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00682}00682         \textcolor{stringliteral}{"{}layout (location = 2) in vec4 Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00683}00683         \textcolor{stringliteral}{"{}uniform mat4 ProjMtx;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00684}00684         \textcolor{stringliteral}{"{}out vec2 Frag\_UV;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00685}00685         \textcolor{stringliteral}{"{}out vec4 Frag\_Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00686}00686         \textcolor{stringliteral}{"{}void main()\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00687}00687         \textcolor{stringliteral}{"{}\{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00688}00688         \textcolor{stringliteral}{"{}    Frag\_UV = UV;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00689}00689         \textcolor{stringliteral}{"{}    Frag\_Color = Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00690}00690         \textcolor{stringliteral}{"{}    gl\_Position = ProjMtx * vec4(Position.xy,0,1);\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00691}00691         \textcolor{stringliteral}{"{}\}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00692}00692 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00693}00693     \textcolor{keyword}{const} GLchar* fragment\_shader\_glsl\_120 =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00694}00694         \textcolor{stringliteral}{"{}\#ifdef GL\_ES\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00695}00695         \textcolor{stringliteral}{"{}    precision mediump float;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00696}00696         \textcolor{stringliteral}{"{}\#endif\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00697}00697         \textcolor{stringliteral}{"{}uniform sampler2D Texture;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00698}00698         \textcolor{stringliteral}{"{}varying vec2 Frag\_UV;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00699}00699         \textcolor{stringliteral}{"{}varying vec4 Frag\_Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00700}00700         \textcolor{stringliteral}{"{}void main()\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00701}00701         \textcolor{stringliteral}{"{}\{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00702}00702         \textcolor{stringliteral}{"{}    gl\_FragColor = Frag\_Color * texture2D(Texture, Frag\_UV.st);\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00703}00703         \textcolor{stringliteral}{"{}\}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00704}00704 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00705}00705     \textcolor{keyword}{const} GLchar* fragment\_shader\_glsl\_130 =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00706}00706         \textcolor{stringliteral}{"{}uniform sampler2D Texture;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00707}00707         \textcolor{stringliteral}{"{}in vec2 Frag\_UV;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00708}00708         \textcolor{stringliteral}{"{}in vec4 Frag\_Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00709}00709         \textcolor{stringliteral}{"{}out vec4 Out\_Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00710}00710         \textcolor{stringliteral}{"{}void main()\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00711}00711         \textcolor{stringliteral}{"{}\{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00712}00712         \textcolor{stringliteral}{"{}    Out\_Color = Frag\_Color * texture(Texture, Frag\_UV.st);\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00713}00713         \textcolor{stringliteral}{"{}\}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00714}00714 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00715}00715     \textcolor{keyword}{const} GLchar* fragment\_shader\_glsl\_300\_es =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00716}00716         \textcolor{stringliteral}{"{}precision mediump float;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00717}00717         \textcolor{stringliteral}{"{}uniform sampler2D Texture;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00718}00718         \textcolor{stringliteral}{"{}in vec2 Frag\_UV;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00719}00719         \textcolor{stringliteral}{"{}in vec4 Frag\_Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00720}00720         \textcolor{stringliteral}{"{}layout (location = 0) out vec4 Out\_Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00721}00721         \textcolor{stringliteral}{"{}void main()\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00722}00722         \textcolor{stringliteral}{"{}\{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00723}00723         \textcolor{stringliteral}{"{}    Out\_Color = Frag\_Color * texture(Texture, Frag\_UV.st);\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00724}00724         \textcolor{stringliteral}{"{}\}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00725}00725 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00726}00726     \textcolor{keyword}{const} GLchar* fragment\_shader\_glsl\_410\_core =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00727}00727         \textcolor{stringliteral}{"{}in vec2 Frag\_UV;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00728}00728         \textcolor{stringliteral}{"{}in vec4 Frag\_Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00729}00729         \textcolor{stringliteral}{"{}uniform sampler2D Texture;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00730}00730         \textcolor{stringliteral}{"{}layout (location = 0) out vec4 Out\_Color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00731}00731         \textcolor{stringliteral}{"{}void main()\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00732}00732         \textcolor{stringliteral}{"{}\{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00733}00733         \textcolor{stringliteral}{"{}    Out\_Color = Frag\_Color * texture(Texture, Frag\_UV.st);\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00734}00734         \textcolor{stringliteral}{"{}\}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00735}00735 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00736}00736     \textcolor{comment}{// Select shaders matching our GLSL versions}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00737}00737     \textcolor{keyword}{const} GLchar* vertex\_shader = NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00738}00738     \textcolor{keyword}{const} GLchar* fragment\_shader = NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00739}00739     \textcolor{keywordflow}{if} (glsl\_version < 130)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00740}00740     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00741}00741         vertex\_shader = vertex\_shader\_glsl\_120;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00742}00742         fragment\_shader = fragment\_shader\_glsl\_120;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00743}00743     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00744}00744     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (glsl\_version >= 410)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00745}00745     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00746}00746         vertex\_shader = vertex\_shader\_glsl\_410\_core;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00747}00747         fragment\_shader = fragment\_shader\_glsl\_410\_core;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00748}00748     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00749}00749     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (glsl\_version == 300)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00750}00750     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00751}00751         vertex\_shader = vertex\_shader\_glsl\_300\_es;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00752}00752         fragment\_shader = fragment\_shader\_glsl\_300\_es;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00753}00753     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00754}00754     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00755}00755     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00756}00756         vertex\_shader = vertex\_shader\_glsl\_130;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00757}00757         fragment\_shader = fragment\_shader\_glsl\_130;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00758}00758     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00759}00759 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00760}00760     \textcolor{comment}{// Create shaders}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00761}00761     \textcolor{keyword}{const} GLchar* vertex\_shader\_with\_version[2] = \{ bd-\/>GlslVersionString, vertex\_shader \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00762}00762     GLuint vert\_handle = glCreateShader(GL\_VERTEX\_SHADER);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00763}00763     glShaderSource(vert\_handle, 2, vertex\_shader\_with\_version, NULL);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00764}00764     glCompileShader(vert\_handle);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00765}00765     CheckShader(vert\_handle, \textcolor{stringliteral}{"{}vertex shader"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00766}00766 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00767}00767     \textcolor{keyword}{const} GLchar* fragment\_shader\_with\_version[2] = \{ bd-\/>GlslVersionString, fragment\_shader \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00768}00768     GLuint frag\_handle = glCreateShader(GL\_FRAGMENT\_SHADER);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00769}00769     glShaderSource(frag\_handle, 2, fragment\_shader\_with\_version, NULL);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00770}00770     glCompileShader(frag\_handle);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00771}00771     CheckShader(frag\_handle, \textcolor{stringliteral}{"{}fragment shader"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00772}00772 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00773}00773     \textcolor{comment}{// Link}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00774}00774     bd-\/>ShaderHandle = glCreateProgram();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00775}00775     glAttachShader(bd-\/>ShaderHandle, vert\_handle);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00776}00776     glAttachShader(bd-\/>ShaderHandle, frag\_handle);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00777}00777     glLinkProgram(bd-\/>ShaderHandle);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00778}00778     CheckProgram(bd-\/>ShaderHandle, \textcolor{stringliteral}{"{}shader program"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00779}00779 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00780}00780     glDetachShader(bd-\/>ShaderHandle, vert\_handle);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00781}00781     glDetachShader(bd-\/>ShaderHandle, frag\_handle);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00782}00782     glDeleteShader(vert\_handle);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00783}00783     glDeleteShader(frag\_handle);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00784}00784 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00785}00785     bd-\/>AttribLocationTex = glGetUniformLocation(bd-\/>ShaderHandle, \textcolor{stringliteral}{"{}Texture"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00786}00786     bd-\/>AttribLocationProjMtx = glGetUniformLocation(bd-\/>ShaderHandle, \textcolor{stringliteral}{"{}ProjMtx"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00787}00787     bd-\/>AttribLocationVtxPos = (GLuint)glGetAttribLocation(bd-\/>ShaderHandle, \textcolor{stringliteral}{"{}Position"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00788}00788     bd-\/>AttribLocationVtxUV = (GLuint)glGetAttribLocation(bd-\/>ShaderHandle, \textcolor{stringliteral}{"{}UV"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00789}00789     bd-\/>AttribLocationVtxColor = (GLuint)glGetAttribLocation(bd-\/>ShaderHandle, \textcolor{stringliteral}{"{}Color"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00790}00790 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00791}00791     \textcolor{comment}{// Create buffers}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00792}00792     glGenBuffers(1, \&bd-\/>VboHandle);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00793}00793     glGenBuffers(1, \&bd-\/>ElementsHandle);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00794}00794 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00795}00795     ImGui\_ImplOpenGL3\_CreateFontsTexture();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00796}00796 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00797}00797     \textcolor{comment}{// Restore modified GL state}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00798}00798     glBindTexture(GL\_TEXTURE\_2D, last\_texture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00799}00799     glBindBuffer(GL\_ARRAY\_BUFFER, last\_array\_buffer);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00800}00800 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_OPENGL\_USE\_VERTEX\_ARRAY}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00801}00801     glBindVertexArray(last\_vertex\_array);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00802}00802 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00803}00803 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00804}00804     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00805}00805 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00806}00806 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00807}00807 \textcolor{keywordtype}{void}    ImGui\_ImplOpenGL3\_DestroyDeviceObjects()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00808}00808 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00809}00809     \mbox{\hyperlink{struct_im_gui___impl_open_g_l3___data}{ImGui\_ImplOpenGL3\_Data}}* bd = ImGui\_ImplOpenGL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00810}00810     \textcolor{keywordflow}{if} (bd-\/>VboHandle)      \{ glDeleteBuffers(1, \&bd-\/>VboHandle); bd-\/>VboHandle = 0; \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00811}00811     \textcolor{keywordflow}{if} (bd-\/>ElementsHandle) \{ glDeleteBuffers(1, \&bd-\/>ElementsHandle); bd-\/>ElementsHandle = 0; \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00812}00812     \textcolor{keywordflow}{if} (bd-\/>ShaderHandle)   \{ glDeleteProgram(bd-\/>ShaderHandle); bd-\/>ShaderHandle = 0; \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00813}00813     ImGui\_ImplOpenGL3\_DestroyFontsTexture();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00814}00814 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00815}00815 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00816}00816 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00817}00817 \textcolor{comment}{// MULTI-\/VIEWPORT / PLATFORM INTERFACE SUPPORT}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00818}00818 \textcolor{comment}{// This is an \_advanced\_ and \_optional\_ feature, allowing the backend to create and handle multiple viewports simultaneously.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00819}00819 \textcolor{comment}{// If you are new to dear imgui or creating a new binding for dear imgui, it is recommended that you completely ignore this section first..}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00820}00820 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00821}00821 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00822}00822 \textcolor{keyword}{static} \textcolor{keywordtype}{void} ImGui\_ImplOpenGL3\_RenderWindow(\mbox{\hyperlink{struct_im_gui_viewport}{ImGuiViewport}}* viewport, \textcolor{keywordtype}{void}*)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00823}00823 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00824}00824     \textcolor{keywordflow}{if} (!(viewport-\/>Flags \& ImGuiViewportFlags\_NoRendererClear))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00825}00825     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00826}00826         \mbox{\hyperlink{struct_im_vec4}{ImVec4}} clear\_color = \mbox{\hyperlink{struct_im_vec4}{ImVec4}}(0.0f, 0.0f, 0.0f, 1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00827}00827         glClearColor(clear\_color.x, clear\_color.y, clear\_color.z, clear\_color.w);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00828}00828         glClear(GL\_COLOR\_BUFFER\_BIT);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00829}00829     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00830}00830     ImGui\_ImplOpenGL3\_RenderDrawData(viewport-\/>DrawData);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00831}00831 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00832}00832 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00833}00833 \textcolor{keyword}{static} \textcolor{keywordtype}{void} ImGui\_ImplOpenGL3\_InitPlatformInterface()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00834}00834 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00835}00835     \mbox{\hyperlink{struct_im_gui_platform_i_o}{ImGuiPlatformIO}}\& platform\_io = ImGui::GetPlatformIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00836}00836     platform\_io.Renderer\_RenderWindow = ImGui\_ImplOpenGL3\_RenderWindow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00837}00837 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00838}00838 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00839}00839 \textcolor{keyword}{static} \textcolor{keywordtype}{void} ImGui\_ImplOpenGL3\_ShutdownPlatformInterface()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00840}00840 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00841}00841     ImGui::DestroyPlatformWindows();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00842}00842 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00843}00843 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00844}00844 \textcolor{preprocessor}{\#if defined(\_\_clang\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00845}00845 \textcolor{preprocessor}{\#pragma clang diagnostic pop}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8cpp_source_l00846}00846 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

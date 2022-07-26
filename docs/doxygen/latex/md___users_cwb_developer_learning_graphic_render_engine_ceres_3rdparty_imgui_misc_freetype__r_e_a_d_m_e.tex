@@ -1,0 +1,18 @@
+Build font atlases using Free\+Type instead of stb\+\_\+truetype (which is the default font rasterizer). ~\newline
+by @vuhdo, @mikesart, @ocornut.\hypertarget{md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_autotoc_md554}{}\doxysubsection{Usage}\label{md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_autotoc_md554}
+
+\begin{DoxyEnumerate}
+\item Get latest Free\+Type binaries or build yourself (under Windows you may use vcpkg with {\ttfamily vcpkg install freetype -\/-\/triplet=x64-\/windows}, {\ttfamily vcpkg integrate install}).
+\item Add \mbox{\hyperlink{imgui__freetype_8h_source}{imgui\+\_\+freetype.\+h}}/cpp alongside your project files.
+\item Add {\ttfamily \#define IMGUI\+\_\+\+ENABLE\+\_\+\+FREETYPE} in your \href{https://github.com/ocornut/imgui/blob/master/imconfig.h}{\texttt{ imconfig.\+h}} file
+\end{DoxyEnumerate}\hypertarget{md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_autotoc_md555}{}\doxysubsection{About Gamma Correct Blending}\label{md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_autotoc_md555}
+Free\+Type assumes blending in linear space rather than gamma space. See Free\+Type note for \href{https://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html\#FT_Render_Glyph}{\texttt{ FT\+\_\+\+Render\+\_\+\+Glyph}}. For correct results you need to be using s\+RGB and convert to linear space in the pixel shader output. The default Dear Im\+Gui styles will be impacted by this change (alpha values will need tweaking).\hypertarget{md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_autotoc_md556}{}\doxysubsection{Testbed for toying with settings (for developers)}\label{md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_autotoc_md556}
+See \href{https://gist.github.com/ocornut/b3a9ecf13502fd818799a452969649ad}{\texttt{ https\+://gist.\+github.\+com/ocornut/b3a9ecf13502fd818799a452969649ad}}\hypertarget{md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_autotoc_md557}{}\doxysubsection{Known issues}\label{md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_autotoc_md557}
+
+\begin{DoxyItemize}
+\item Oversampling settins are ignored but also not so much necessary with the higher quality rendering.
+\end{DoxyItemize}\hypertarget{md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_autotoc_md558}{}\doxysubsection{Comparaison}\label{md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_autotoc_md558}
+Small, thin anti-\/aliased fonts are typically benefiting a lots from Freetype\textquotesingle{}s hinting\+: \hypertarget{md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_autotoc_md559}{}\doxysubsection{Colorful glyphs/emojis}\label{md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_autotoc_md559}
+You can use the {\ttfamily Im\+Gui\+Free\+Type\+Builder\+Flags\+\_\+\+Load\+Color} flag to load certain colorful glyphs. See \href{https://github.com/ocornut/imgui/edit/master/docs/FONTS.md\#using-colorful-glyphsemojis}{\texttt{ \char`\"{}\+Using Colorful Glyphs/\+Emojis\char`\"{}}} section of FONTS.\+md.
+
+ 

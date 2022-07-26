@@ -1,0 +1,27 @@
+\hypertarget{test__siphash_8c_source}{}\doxysection{test\+\_\+siphash.\+c}
+\label{test__siphash_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/test\_siphash.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/test\_siphash.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00001}00001 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00002}00002 }
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00003}00003 \textcolor{preprocessor}{\#define STB\_DS\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00004}00004 \textcolor{preprocessor}{\#define STBDS\_SIPHASH\_2\_4}}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00005}00005 \textcolor{preprocessor}{\#define STBDS\_TEST\_SIPHASH\_2\_4}}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00006}00006 \textcolor{preprocessor}{\#include "{}../stb\_ds.h"{}}}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00008}00008 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} **argv)}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00009}00009 \{}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00010}00010   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} mem[64];}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00011}00011   \textcolor{keywordtype}{int} i,j;}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00012}00012   \textcolor{keywordflow}{for} (i=0; i < 64; ++i) mem[i] = i;}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00013}00013   \textcolor{keywordflow}{for} (i=0; i < 64; ++i) \{}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00014}00014     \textcolor{keywordtype}{size\_t} hash = stbds\_hash\_bytes(mem, i, 0);}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00015}00015     printf(\textcolor{stringliteral}{"{}  \{ "{}});}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00016}00016     \textcolor{keywordflow}{for} (j=0; j < 8; ++j)}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00017}00017       printf(\textcolor{stringliteral}{"{}0x\%02x, "{}}, (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}) ((hash >> (j*8)) \& 255));}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00018}00018     printf(\textcolor{stringliteral}{"{} \},\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00019}00019   \}}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00020}00020   \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{test__siphash_8c_source_l00021}00021 \}}
+
+\end{DoxyCode}

@@ -1,0 +1,423 @@
+\hypertarget{tests_2window_8c_source}{}\doxysection{window.\+c}
+\label{tests_2window_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/tests/window.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/tests/window.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00001}00001 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00002}00002 \textcolor{comment}{// Window properties test}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00003}00003 \textcolor{comment}{// Copyright (c) Camilla Löwy <elmindreda@glfw.org>}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00005}00005 \textcolor{comment}{// This software is provided 'as-\/is', without any express or implied}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00006}00006 \textcolor{comment}{// warranty. In no event will the authors be held liable for any damages}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00007}00007 \textcolor{comment}{// arising from the use of this software.}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00009}00009 \textcolor{comment}{// Permission is granted to anyone to use this software for any purpose,}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00010}00010 \textcolor{comment}{// including commercial applications, and to alter it and redistribute it}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00011}00011 \textcolor{comment}{// freely, subject to the following restrictions:}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00012}00012 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00013}00013 \textcolor{comment}{// 1. The origin of this software must not be misrepresented; you must not}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00014}00014 \textcolor{comment}{//    claim that you wrote the original software. If you use this software}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00015}00015 \textcolor{comment}{//    in a product, an acknowledgment in the product documentation would}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00016}00016 \textcolor{comment}{//    be appreciated but is not required.}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00017}00017 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00018}00018 \textcolor{comment}{// 2. Altered source versions must be plainly marked as such, and must not}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00019}00019 \textcolor{comment}{//    be misrepresented as being the original software.}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00020}00020 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00021}00021 \textcolor{comment}{// 3. This notice may not be removed or altered from any source}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00022}00022 \textcolor{comment}{//    distribution.}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00023}00023 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00024}00024 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00026}00026 \textcolor{preprocessor}{\#include <glad/gl.h>}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00027}00027 \textcolor{preprocessor}{\#define GLFW\_INCLUDE\_NONE}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00028}00028 \textcolor{preprocessor}{\#include <GLFW/glfw3.h>}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00030}00030 \textcolor{preprocessor}{\#include <stdarg.h>}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00032}00032 \textcolor{preprocessor}{\#define NK\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00033}00033 \textcolor{preprocessor}{\#define NK\_INCLUDE\_FIXED\_TYPES}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00034}00034 \textcolor{preprocessor}{\#define NK\_INCLUDE\_FONT\_BAKING}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00035}00035 \textcolor{preprocessor}{\#define NK\_INCLUDE\_DEFAULT\_FONT}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00036}00036 \textcolor{preprocessor}{\#define NK\_INCLUDE\_DEFAULT\_ALLOCATOR}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00037}00037 \textcolor{preprocessor}{\#define NK\_INCLUDE\_VERTEX\_BUFFER\_OUTPUT}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00038}00038 \textcolor{preprocessor}{\#define NK\_INCLUDE\_STANDARD\_VARARGS}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00039}00039 \textcolor{preprocessor}{\#define NK\_BUTTON\_TRIGGER\_ON\_RELEASE}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00040}00040 \textcolor{preprocessor}{\#include <nuklear.h>}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00042}00042 \textcolor{preprocessor}{\#define NK\_GLFW\_GL2\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00043}00043 \textcolor{preprocessor}{\#include <nuklear\_glfw\_gl2.h>}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00045}00045 \textcolor{preprocessor}{\#include <stdbool.h>}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00046}00046 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00047}00047 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00048}00048 \textcolor{preprocessor}{\#include <limits.h>}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00050}00050 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char}** argv)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00051}00051 \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00052}00052     \textcolor{keywordtype}{int} windowed\_x, windowed\_y, windowed\_width, windowed\_height;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00053}00053     \textcolor{keywordtype}{int} last\_xpos = INT\_MIN, last\_ypos = INT\_MIN;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00054}00054     \textcolor{keywordtype}{int} last\_width = INT\_MIN, last\_height = INT\_MIN;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00055}00055     \textcolor{keywordtype}{int} limit\_aspect\_ratio = \textcolor{keyword}{false}, aspect\_numer = 1, aspect\_denom = 1;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00056}00056     \textcolor{keywordtype}{int} limit\_min\_size = \textcolor{keyword}{false}, min\_width = 400, min\_height = 400;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00057}00057     \textcolor{keywordtype}{int} limit\_max\_size = \textcolor{keyword}{false}, max\_width = 400, max\_height = 400;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00058}00058     \textcolor{keywordtype}{char} width\_buffer[10] = \textcolor{stringliteral}{"{}"{}}, height\_buffer[10] = \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00059}00059     \textcolor{keywordtype}{char} xpos\_buffer[10] = \textcolor{stringliteral}{"{}"{}}, ypos\_buffer[10] = \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00060}00060     \textcolor{keywordtype}{char} numer\_buffer[10] = \textcolor{stringliteral}{"{}"{}}, denom\_buffer[10] = \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00061}00061     \textcolor{keywordtype}{char} min\_width\_buffer[10] = \textcolor{stringliteral}{"{}"{}}, min\_height\_buffer[10] = \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00062}00062     \textcolor{keywordtype}{char} max\_width\_buffer[10] = \textcolor{stringliteral}{"{}"{}}, max\_height\_buffer[10] = \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00063}00063     \textcolor{keywordtype}{int} may\_close = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00065}00065     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{group__init_gab41771f0215a2e0afb4cf1cf98082d40}{glfwInit}}())}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00066}00066         exit(EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00068}00068     \mbox{\hyperlink{group__window_ga69c40728499720bef8a49aa925ea0efa}{glfwWindowHint}}(\mbox{\hyperlink{group__window_ga620bc4280c7eab81ac9f02204500ed47}{GLFW\_SCALE\_TO\_MONITOR}}, \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}});}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00069}00069     \mbox{\hyperlink{group__window_ga69c40728499720bef8a49aa925ea0efa}{glfwWindowHint}}(GLFW\_WIN32\_KEYBOARD\_MENU, \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}});}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00070}00070     \mbox{\hyperlink{group__window_ga69c40728499720bef8a49aa925ea0efa}{glfwWindowHint}}(\mbox{\hyperlink{group__window_gafe5e4922de1f9932d7e9849bb053b0c0}{GLFW\_CONTEXT\_VERSION\_MAJOR}}, 2);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00071}00071     \mbox{\hyperlink{group__window_ga69c40728499720bef8a49aa925ea0efa}{glfwWindowHint}}(\mbox{\hyperlink{group__window_ga31aca791e4b538c4e4a771eb95cc2d07}{GLFW\_CONTEXT\_VERSION\_MINOR}}, 1);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00073}00073     \mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window = \mbox{\hyperlink{group__window_gaaccd00fafe81e2db94e8cdf55721e055}{glfwCreateWindow}}(600, 600, \textcolor{stringliteral}{"{}Window Features"{}}, NULL, NULL);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00074}00074     \textcolor{keywordflow}{if} (!window)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00075}00075     \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00076}00076         \mbox{\hyperlink{group__init_gafd90e6fd4819ea9e22e5e739519a6504}{glfwTerminate}}();}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00077}00077         exit(EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00078}00078     \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00080}00080     \mbox{\hyperlink{group__context_gafd76c93e15ec8b0b90506a9936a46185}{glfwMakeContextCurrent}}(window);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00081}00081     gladLoadGL(\mbox{\hyperlink{group__context_ga0e8af175218929615c16e74938c10f2a}{glfwGetProcAddress}});}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00082}00082     \mbox{\hyperlink{group__context_ga12a595c06947cec4967c6e1f14210a8a}{glfwSwapInterval}}(0);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00083}00083 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00084}00084     \textcolor{keywordtype}{bool} position\_supported = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00086}00086     \mbox{\hyperlink{group__init_gaee7bac4c7e1b2769207747c1b5ae2f9e}{glfwGetError}}(NULL);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00087}00087     \mbox{\hyperlink{group__window_ga0076a8591ef7494d359730cf2250b45b}{glfwGetWindowPos}}(window, \&last\_xpos, \&last\_ypos);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00088}00088     sprintf(xpos\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, last\_xpos);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00089}00089     sprintf(ypos\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, last\_ypos);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00090}00090     \textcolor{keywordflow}{if} (\mbox{\hyperlink{group__init_gaee7bac4c7e1b2769207747c1b5ae2f9e}{glfwGetError}}(NULL) == \mbox{\hyperlink{group__errors_ga526fba20a01504a8086c763b6ca53ce5}{GLFW\_FEATURE\_UNAVAILABLE}})}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00091}00091         position\_supported = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00093}00093     \mbox{\hyperlink{group__window_ga7feb769ebb3f3d21579b5a3fb07be76e}{glfwGetWindowSize}}(window, \&last\_width, \&last\_height);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00094}00094     sprintf(width\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, last\_width);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00095}00095     sprintf(height\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, last\_height);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00096}00096 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00097}00097     sprintf(numer\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, aspect\_numer);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00098}00098     sprintf(denom\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, aspect\_denom);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00099}00099 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00100}00100     sprintf(min\_width\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, min\_width);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00101}00101     sprintf(min\_height\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, min\_height);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00102}00102     sprintf(max\_width\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, max\_width);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00103}00103     sprintf(max\_height\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, max\_height);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00105}00105     \textcolor{keyword}{struct }\mbox{\hyperlink{structnk__context}{nk\_context}}* nk = nk\_glfw3\_init(window, NK\_GLFW3\_INSTALL\_CALLBACKS);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00106}00106 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00107}00107     \textcolor{keyword}{struct }nk\_font\_atlas* atlas;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00108}00108     nk\_glfw3\_font\_stash\_begin(\&atlas);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00109}00109     nk\_glfw3\_font\_stash\_end();}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00111}00111     \textcolor{keywordflow}{while} (!(may\_close \&\& \mbox{\hyperlink{group__window_gaa6162f67dfa38b8beda2fea623649332}{glfwWindowShouldClose}}(window)))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00112}00112     \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00113}00113         \textcolor{keywordtype}{int} width, height;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00115}00115         \mbox{\hyperlink{group__window_ga7feb769ebb3f3d21579b5a3fb07be76e}{glfwGetWindowSize}}(window, \&width, \&height);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00117}00117         \textcolor{keyword}{struct }\mbox{\hyperlink{structnk__rect}{nk\_rect}} area = \mbox{\hyperlink{structnk__rect}{nk\_rect}}(0.f, 0.f, (\textcolor{keywordtype}{float}) width, (\textcolor{keywordtype}{float}) height);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00118}00118         nk\_window\_set\_bounds(nk, \textcolor{stringliteral}{"{}main"{}}, area);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00120}00120         nk\_glfw3\_new\_frame();}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00121}00121         \textcolor{keywordflow}{if} (nk\_begin(nk, \textcolor{stringliteral}{"{}main"{}}, area, 0))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00122}00122         \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00123}00123             nk\_layout\_row\_dynamic(nk, 30, 4);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00124}00124 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00125}00125             \textcolor{keywordflow}{if} (nk\_button\_label(nk, \textcolor{stringliteral}{"{}Toggle Fullscreen"{}}))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00126}00126             \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00127}00127                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{group__window_gad441645a53bc9274a0ee163d40f0c637}{glfwGetWindowMonitor}}(window))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00128}00128                 \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00129}00129                     \mbox{\hyperlink{group__window_ga12fabf78575e59c00f822f323ae0b6ae}{glfwSetWindowMonitor}}(window, NULL,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00130}00130                                          windowed\_x, windowed\_y,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00131}00131                                          windowed\_width, windowed\_height, 0);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00132}00132                 \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00133}00133                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00134}00134                 \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00135}00135                     \mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* monitor = \mbox{\hyperlink{group__monitor_ga34befff4f9f0fae09dd8de6fb0eb4f3e}{glfwGetPrimaryMonitor}}();}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00136}00136                     \textcolor{keyword}{const} \mbox{\hyperlink{struct_g_l_f_wvidmode}{GLFWvidmode}}* mode = \mbox{\hyperlink{group__monitor_ga21f7f60de4f4d0fa360c7ad159b75c9e}{glfwGetVideoMode}}(monitor);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00137}00137                     \mbox{\hyperlink{group__window_ga0076a8591ef7494d359730cf2250b45b}{glfwGetWindowPos}}(window, \&windowed\_x, \&windowed\_y);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00138}00138                     \mbox{\hyperlink{group__window_ga7feb769ebb3f3d21579b5a3fb07be76e}{glfwGetWindowSize}}(window, \&windowed\_width, \&windowed\_height);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00139}00139                     \mbox{\hyperlink{group__window_ga12fabf78575e59c00f822f323ae0b6ae}{glfwSetWindowMonitor}}(window, monitor,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00140}00140                                          0, 0, mode-\/>width, mode-\/>height,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00141}00141                                          mode-\/>refreshRate);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00142}00142                 \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00143}00143             \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00144}00144 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00145}00145             \textcolor{keywordflow}{if} (nk\_button\_label(nk, \textcolor{stringliteral}{"{}Maximize"{}}))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00146}00146                 \mbox{\hyperlink{group__window_ga4f825a55367d3fabde3d06e7f30128e8}{glfwMaximizeWindow}}(window);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00147}00147             \textcolor{keywordflow}{if} (nk\_button\_label(nk, \textcolor{stringliteral}{"{}Iconify"{}}))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00148}00148                 \mbox{\hyperlink{group__window_ga24274e3c6ecd44e11fec5e6b66e4d7f3}{glfwIconifyWindow}}(window);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00149}00149             \textcolor{keywordflow}{if} (nk\_button\_label(nk, \textcolor{stringliteral}{"{}Restore"{}}))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00150}00150                 \mbox{\hyperlink{group__window_ga1e29caf0b819f578b04db52fff17256c}{glfwRestoreWindow}}(window);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00151}00151 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00152}00152             nk\_layout\_row\_dynamic(nk, 30, 1);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00153}00153 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00154}00154             \textcolor{keywordflow}{if} (\mbox{\hyperlink{group__window_ga1bb0c7e100418e284dbb800789c63d40}{glfwGetWindowAttrib}}(window, \mbox{\hyperlink{group__window_ga88981797d29800808ec242274ab5c03a}{GLFW\_MOUSE\_PASSTHROUGH}}))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00155}00155             \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00156}00156                 nk\_label(nk, \textcolor{stringliteral}{"{}Press H to disable mouse passthrough"{}}, NK\_TEXT\_CENTERED);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00157}00157 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00158}00158                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{group__input_ga7d8ad8ffaf272808f04e1d5d33ec8859}{glfwGetKey}}(window, GLFW\_KEY\_H))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00159}00159                     \mbox{\hyperlink{group__window_gad39f43f07856efcf3d656426a9284c75}{glfwSetWindowAttrib}}(window, \mbox{\hyperlink{group__window_ga88981797d29800808ec242274ab5c03a}{GLFW\_MOUSE\_PASSTHROUGH}}, \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00160}00160             \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00161}00161 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00162}00162             nk\_label(nk, \textcolor{stringliteral}{"{}Press Enter in a text field to set value"{}}, NK\_TEXT\_CENTERED);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00163}00163 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00164}00164             nk\_flags events;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00165}00165             \textcolor{keyword}{const} nk\_flags flags = NK\_EDIT\_FIELD |}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00166}00166                                    NK\_EDIT\_SIG\_ENTER |}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00167}00167                                    NK\_EDIT\_GOTO\_END\_ON\_ACTIVATE;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00168}00168 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00169}00169             \textcolor{keywordflow}{if} (position\_supported)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00170}00170             \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00171}00171                 \textcolor{keywordtype}{int} xpos, ypos;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00172}00172                 \mbox{\hyperlink{group__window_ga0076a8591ef7494d359730cf2250b45b}{glfwGetWindowPos}}(window, \&xpos, \&ypos);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00173}00173 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00174}00174                 nk\_layout\_row\_dynamic(nk, 30, 3);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00175}00175                 nk\_label(nk, \textcolor{stringliteral}{"{}Position"{}}, NK\_TEXT\_LEFT);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00176}00176 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00177}00177                 events = nk\_edit\_string\_zero\_terminated(nk, flags, xpos\_buffer,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00178}00178                                                         \textcolor{keyword}{sizeof}(xpos\_buffer),}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00179}00179                                                         nk\_filter\_decimal);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00180}00180                 \textcolor{keywordflow}{if} (events \& NK\_EDIT\_COMMITED)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00181}00181                 \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00182}00182                     xpos = atoi(xpos\_buffer);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00183}00183                     \mbox{\hyperlink{group__window_ga0dc8d880a0d87be16d3ea8114561f6f0}{glfwSetWindowPos}}(window, xpos, ypos);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00184}00184                 \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00185}00185                 \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (xpos != last\_xpos || (events \& NK\_EDIT\_DEACTIVATED))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00186}00186                     sprintf(xpos\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, xpos);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00187}00187 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00188}00188                 events = nk\_edit\_string\_zero\_terminated(nk, flags, ypos\_buffer,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00189}00189                                                         \textcolor{keyword}{sizeof}(ypos\_buffer),}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00190}00190                                                         nk\_filter\_decimal);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00191}00191                 \textcolor{keywordflow}{if} (events \& NK\_EDIT\_COMMITED)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00192}00192                 \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00193}00193                     ypos = atoi(ypos\_buffer);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00194}00194                     \mbox{\hyperlink{group__window_ga0dc8d880a0d87be16d3ea8114561f6f0}{glfwSetWindowPos}}(window, xpos, ypos);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00195}00195                 \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00196}00196                 \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (ypos != last\_ypos || (events \& NK\_EDIT\_DEACTIVATED))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00197}00197                     sprintf(ypos\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, ypos);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00198}00198 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00199}00199                 last\_xpos = xpos;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00200}00200                 last\_ypos = ypos;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00201}00201             \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00202}00202             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00203}00203                 nk\_label(nk, \textcolor{stringliteral}{"{}Position not supported"{}}, NK\_TEXT\_LEFT);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00204}00204 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00205}00205             nk\_layout\_row\_dynamic(nk, 30, 3);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00206}00206             nk\_label(nk, \textcolor{stringliteral}{"{}Size"{}}, NK\_TEXT\_LEFT);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00207}00207 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00208}00208             events = nk\_edit\_string\_zero\_terminated(nk, flags, width\_buffer,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00209}00209                                                     \textcolor{keyword}{sizeof}(width\_buffer),}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00210}00210                                                     nk\_filter\_decimal);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00211}00211             \textcolor{keywordflow}{if} (events \& NK\_EDIT\_COMMITED)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00212}00212             \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00213}00213                 width = atoi(width\_buffer);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00214}00214                 \mbox{\hyperlink{group__window_gae54d1f4915ded15e267ddd3f41496cd2}{glfwSetWindowSize}}(window, width, height);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00215}00215             \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00216}00216             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (width != last\_width || (events \& NK\_EDIT\_DEACTIVATED))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00217}00217                 sprintf(width\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, width);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00218}00218 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00219}00219             events = nk\_edit\_string\_zero\_terminated(nk, flags, height\_buffer,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00220}00220                                                     \textcolor{keyword}{sizeof}(height\_buffer),}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00221}00221                                                     nk\_filter\_decimal);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00222}00222             \textcolor{keywordflow}{if} (events \& NK\_EDIT\_COMMITED)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00223}00223             \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00224}00224                 height = atoi(height\_buffer);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00225}00225                 \mbox{\hyperlink{group__window_gae54d1f4915ded15e267ddd3f41496cd2}{glfwSetWindowSize}}(window, width, height);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00226}00226             \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00227}00227             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (height != last\_height || (events \& NK\_EDIT\_DEACTIVATED))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00228}00228                 sprintf(height\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, height);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00229}00229 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00230}00230             last\_width = width;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00231}00231             last\_height = height;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00232}00232 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00233}00233             \textcolor{keywordtype}{bool} update\_ratio\_limit = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00234}00234             \textcolor{keywordflow}{if} (nk\_checkbox\_label(nk, \textcolor{stringliteral}{"{}Aspect Ratio"{}}, \&limit\_aspect\_ratio))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00235}00235                 update\_ratio\_limit = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00236}00236 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00237}00237             events = nk\_edit\_string\_zero\_terminated(nk, flags, numer\_buffer,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00238}00238                                                     \textcolor{keyword}{sizeof}(numer\_buffer),}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00239}00239                                                     nk\_filter\_decimal);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00240}00240             \textcolor{keywordflow}{if} (events \& NK\_EDIT\_COMMITED)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00241}00241             \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00242}00242                 aspect\_numer = \mbox{\hyperlink{group__core__func__common_ga693d77696ff36572a0da79efec965acd}{abs}}(atoi(numer\_buffer));}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00243}00243                 update\_ratio\_limit = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00244}00244             \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00245}00245             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (events \& NK\_EDIT\_DEACTIVATED)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00246}00246                 sprintf(numer\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, aspect\_numer);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00247}00247 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00248}00248             events = nk\_edit\_string\_zero\_terminated(nk, flags, denom\_buffer,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00249}00249                                                     \textcolor{keyword}{sizeof}(denom\_buffer),}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00250}00250                                                     nk\_filter\_decimal);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00251}00251             \textcolor{keywordflow}{if} (events \& NK\_EDIT\_COMMITED)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00252}00252             \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00253}00253                 aspect\_denom = \mbox{\hyperlink{group__core__func__common_ga693d77696ff36572a0da79efec965acd}{abs}}(atoi(denom\_buffer));}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00254}00254                 update\_ratio\_limit = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00255}00255             \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00256}00256             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (events \& NK\_EDIT\_DEACTIVATED)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00257}00257                 sprintf(denom\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, aspect\_denom);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00258}00258 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00259}00259             \textcolor{keywordflow}{if} (update\_ratio\_limit)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00260}00260             \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00261}00261                 \textcolor{keywordflow}{if} (limit\_aspect\_ratio)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00262}00262                     \mbox{\hyperlink{group__window_gad2ae94a2c5ee1c46a36e13a8f4ac68ac}{glfwSetWindowAspectRatio}}(window, aspect\_numer, aspect\_denom);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00263}00263                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00264}00264                     \mbox{\hyperlink{group__window_gad2ae94a2c5ee1c46a36e13a8f4ac68ac}{glfwSetWindowAspectRatio}}(window, GLFW\_DONT\_CARE, GLFW\_DONT\_CARE);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00265}00265             \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00266}00266 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00267}00267             \textcolor{keywordtype}{bool} update\_size\_limit = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00268}00268 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00269}00269             \textcolor{keywordflow}{if} (nk\_checkbox\_label(nk, \textcolor{stringliteral}{"{}Minimum Size"{}}, \&limit\_min\_size))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00270}00270                 update\_size\_limit = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00271}00271 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00272}00272             events = nk\_edit\_string\_zero\_terminated(nk, flags, min\_width\_buffer,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00273}00273                                                     \textcolor{keyword}{sizeof}(min\_width\_buffer),}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00274}00274                                                     nk\_filter\_decimal);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00275}00275             \textcolor{keywordflow}{if} (events \& NK\_EDIT\_COMMITED)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00276}00276             \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00277}00277                 min\_width = \mbox{\hyperlink{group__core__func__common_ga693d77696ff36572a0da79efec965acd}{abs}}(atoi(min\_width\_buffer));}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00278}00278                 update\_size\_limit = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00279}00279             \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00280}00280             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (events \& NK\_EDIT\_DEACTIVATED)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00281}00281                 sprintf(min\_width\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, min\_width);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00282}00282 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00283}00283             events = nk\_edit\_string\_zero\_terminated(nk, flags, min\_height\_buffer,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00284}00284                                                     \textcolor{keyword}{sizeof}(min\_height\_buffer),}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00285}00285                                                     nk\_filter\_decimal);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00286}00286             \textcolor{keywordflow}{if} (events \& NK\_EDIT\_COMMITED)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00287}00287             \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00288}00288                 min\_height = \mbox{\hyperlink{group__core__func__common_ga693d77696ff36572a0da79efec965acd}{abs}}(atoi(min\_height\_buffer));}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00289}00289                 update\_size\_limit = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00290}00290             \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00291}00291             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (events \& NK\_EDIT\_DEACTIVATED)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00292}00292                 sprintf(min\_height\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, min\_height);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00293}00293 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00294}00294             \textcolor{keywordflow}{if} (nk\_checkbox\_label(nk, \textcolor{stringliteral}{"{}Maximum Size"{}}, \&limit\_max\_size))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00295}00295                 update\_size\_limit = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00296}00296 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00297}00297             events = nk\_edit\_string\_zero\_terminated(nk, flags, max\_width\_buffer,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00298}00298                                                     \textcolor{keyword}{sizeof}(max\_width\_buffer),}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00299}00299                                                     nk\_filter\_decimal);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00300}00300             \textcolor{keywordflow}{if} (events \& NK\_EDIT\_COMMITED)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00301}00301             \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00302}00302                 max\_width = \mbox{\hyperlink{group__core__func__common_ga693d77696ff36572a0da79efec965acd}{abs}}(atoi(max\_width\_buffer));}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00303}00303                 update\_size\_limit = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00304}00304             \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00305}00305             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (events \& NK\_EDIT\_DEACTIVATED)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00306}00306                 sprintf(max\_width\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, max\_width);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00307}00307 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00308}00308             events = nk\_edit\_string\_zero\_terminated(nk, flags, max\_height\_buffer,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00309}00309                                                     \textcolor{keyword}{sizeof}(max\_height\_buffer),}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00310}00310                                                     nk\_filter\_decimal);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00311}00311             \textcolor{keywordflow}{if} (events \& NK\_EDIT\_COMMITED)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00312}00312             \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00313}00313                 max\_height = \mbox{\hyperlink{group__core__func__common_ga693d77696ff36572a0da79efec965acd}{abs}}(atoi(max\_height\_buffer));}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00314}00314                 update\_size\_limit = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00315}00315             \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00316}00316             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (events \& NK\_EDIT\_DEACTIVATED)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00317}00317                 sprintf(max\_height\_buffer, \textcolor{stringliteral}{"{}\%i"{}}, max\_height);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00318}00318 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00319}00319             \textcolor{keywordflow}{if} (update\_size\_limit)}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00320}00320             \{}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00321}00321                 \mbox{\hyperlink{group__window_ga8af814fc98d786d1de2505b40b707de8}{glfwSetWindowSizeLimits}}(window,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00322}00322                                         limit\_min\_size ? min\_width : GLFW\_DONT\_CARE,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00323}00323                                         limit\_min\_size ? min\_height : GLFW\_DONT\_CARE,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00324}00324                                         limit\_max\_size ? max\_width : GLFW\_DONT\_CARE,}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00325}00325                                         limit\_max\_size ? max\_height : GLFW\_DONT\_CARE);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00326}00326             \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00327}00327 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00328}00328             \textcolor{keywordtype}{int} fb\_width, fb\_height;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00329}00329             \mbox{\hyperlink{group__window_gaf7d17f3534b4b6dc9a6f905e3a240b7e}{glfwGetFramebufferSize}}(window, \&fb\_width, \&fb\_height);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00330}00330             nk\_label(nk, \textcolor{stringliteral}{"{}Framebuffer Size"{}}, NK\_TEXT\_LEFT);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00331}00331             nk\_labelf(nk, NK\_TEXT\_LEFT, \textcolor{stringliteral}{"{}\%i"{}}, fb\_width);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00332}00332             nk\_labelf(nk, NK\_TEXT\_LEFT, \textcolor{stringliteral}{"{}\%i"{}}, fb\_height);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00333}00333 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00334}00334             \textcolor{keywordtype}{float} xscale, yscale;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00335}00335             \mbox{\hyperlink{group__window_ga72718c983a9fffaa27f786bfe7d1c9ee}{glfwGetWindowContentScale}}(window, \&xscale, \&yscale);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00336}00336             nk\_label(nk, \textcolor{stringliteral}{"{}Content Scale"{}}, NK\_TEXT\_LEFT);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00337}00337             nk\_labelf(nk, NK\_TEXT\_LEFT, \textcolor{stringliteral}{"{}\%f"{}}, xscale);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00338}00338             nk\_labelf(nk, NK\_TEXT\_LEFT, \textcolor{stringliteral}{"{}\%f"{}}, yscale);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00339}00339 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00340}00340             nk\_layout\_row\_begin(nk, NK\_DYNAMIC, 30, 5);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00341}00341             \textcolor{keywordtype}{int} frame\_left, frame\_top, frame\_right, frame\_bottom;}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00342}00342             \mbox{\hyperlink{group__window_gaad46cdaae2eb732f68d3a1499a7c5409}{glfwGetWindowFrameSize}}(window, \&frame\_left, \&frame\_top, \&frame\_right, \&frame\_bottom);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00343}00343             nk\_layout\_row\_push(nk, 1.f / 3.f);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00344}00344             nk\_label(nk, \textcolor{stringliteral}{"{}Frame Size:"{}}, NK\_TEXT\_LEFT);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00345}00345             nk\_layout\_row\_push(nk, 1.f / 6.f);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00346}00346             nk\_labelf(nk, NK\_TEXT\_LEFT, \textcolor{stringliteral}{"{}\%i"{}}, frame\_left);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00347}00347             nk\_layout\_row\_push(nk, 1.f / 6.f);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00348}00348             nk\_labelf(nk, NK\_TEXT\_LEFT, \textcolor{stringliteral}{"{}\%i"{}}, frame\_top);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00349}00349             nk\_layout\_row\_push(nk, 1.f / 6.f);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00350}00350             nk\_labelf(nk, NK\_TEXT\_LEFT, \textcolor{stringliteral}{"{}\%i"{}}, frame\_right);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00351}00351             nk\_layout\_row\_push(nk, 1.f / 6.f);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00352}00352             nk\_labelf(nk, NK\_TEXT\_LEFT, \textcolor{stringliteral}{"{}\%i"{}}, frame\_bottom);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00353}00353             nk\_layout\_row\_end(nk);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00354}00354 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00355}00355             nk\_layout\_row\_begin(nk, NK\_DYNAMIC, 30, 2);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00356}00356             \textcolor{keywordtype}{float} opacity = \mbox{\hyperlink{group__window_gad124d57a1c1c519f60c9765cd0c2a89c}{glfwGetWindowOpacity}}(window);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00357}00357             nk\_layout\_row\_push(nk, 1.f / 3.f);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00358}00358             nk\_labelf(nk, NK\_TEXT\_LEFT, \textcolor{stringliteral}{"{}Opacity: \%0.3f"{}}, opacity);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00359}00359             nk\_layout\_row\_push(nk, 2.f / 3.f);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00360}00360             \textcolor{keywordflow}{if} (nk\_slider\_float(nk, 0.f, \&opacity, 1.f, 0.001f))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00361}00361                 \mbox{\hyperlink{group__window_ga62a784fe328f227727cbcd0d07480ff3}{glfwSetWindowOpacity}}(window, opacity);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00362}00362             nk\_layout\_row\_end(nk);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00363}00363 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00364}00364             nk\_layout\_row\_begin(nk, NK\_DYNAMIC, 30, 2);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00365}00365             \textcolor{keywordtype}{int} should\_close = \mbox{\hyperlink{group__window_gaa6162f67dfa38b8beda2fea623649332}{glfwWindowShouldClose}}(window);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00366}00366             nk\_layout\_row\_push(nk, 1.f / 3.f);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00367}00367             \textcolor{keywordflow}{if} (nk\_checkbox\_label(nk, \textcolor{stringliteral}{"{}Should Close"{}}, \&should\_close))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00368}00368                 \mbox{\hyperlink{group__window_ga1cadeda7a1e2f224e06a8415d30741aa}{glfwSetWindowShouldClose}}(window, should\_close);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00369}00369             nk\_layout\_row\_push(nk, 2.f / 3.f);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00370}00370             nk\_checkbox\_label(nk, \textcolor{stringliteral}{"{}May Close"{}}, \&may\_close);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00371}00371             nk\_layout\_row\_end(nk);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00372}00372 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00373}00373             nk\_layout\_row\_dynamic(nk, 30, 1);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00374}00374             nk\_label(nk, \textcolor{stringliteral}{"{}Attributes"{}}, NK\_TEXT\_CENTERED);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00375}00375 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00376}00376             nk\_layout\_row\_dynamic(nk, 30, width > 200 ? width / 200 : 1);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00377}00377 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00378}00378             \textcolor{keywordtype}{int} decorated = \mbox{\hyperlink{group__window_ga1bb0c7e100418e284dbb800789c63d40}{glfwGetWindowAttrib}}(window, \mbox{\hyperlink{group__window_ga21b854d36314c94d65aed84405b2f25e}{GLFW\_DECORATED}});}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00379}00379             \textcolor{keywordflow}{if} (nk\_checkbox\_label(nk, \textcolor{stringliteral}{"{}Decorated"{}}, \&decorated))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00380}00380                 \mbox{\hyperlink{group__window_gad39f43f07856efcf3d656426a9284c75}{glfwSetWindowAttrib}}(window, \mbox{\hyperlink{group__window_ga21b854d36314c94d65aed84405b2f25e}{GLFW\_DECORATED}}, decorated);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00381}00381 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00382}00382             \textcolor{keywordtype}{int} resizable = \mbox{\hyperlink{group__window_ga1bb0c7e100418e284dbb800789c63d40}{glfwGetWindowAttrib}}(window, \mbox{\hyperlink{group__window_gadba13c7a1b3aa40831eb2beedbd5bd1d}{GLFW\_RESIZABLE}});}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00383}00383             \textcolor{keywordflow}{if} (nk\_checkbox\_label(nk, \textcolor{stringliteral}{"{}Resizable"{}}, \&resizable))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00384}00384                 \mbox{\hyperlink{group__window_gad39f43f07856efcf3d656426a9284c75}{glfwSetWindowAttrib}}(window, \mbox{\hyperlink{group__window_gadba13c7a1b3aa40831eb2beedbd5bd1d}{GLFW\_RESIZABLE}}, resizable);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00385}00385 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00386}00386             \textcolor{keywordtype}{int} floating = \mbox{\hyperlink{group__window_ga1bb0c7e100418e284dbb800789c63d40}{glfwGetWindowAttrib}}(window, \mbox{\hyperlink{group__window_ga7fb0be51407783b41adbf5bec0b09d80}{GLFW\_FLOATING}});}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00387}00387             \textcolor{keywordflow}{if} (nk\_checkbox\_label(nk, \textcolor{stringliteral}{"{}Floating"{}}, \&floating))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00388}00388                 \mbox{\hyperlink{group__window_gad39f43f07856efcf3d656426a9284c75}{glfwSetWindowAttrib}}(window, \mbox{\hyperlink{group__window_ga7fb0be51407783b41adbf5bec0b09d80}{GLFW\_FLOATING}}, floating);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00389}00389 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00390}00390             \textcolor{keywordtype}{int} passthrough = \mbox{\hyperlink{group__window_ga1bb0c7e100418e284dbb800789c63d40}{glfwGetWindowAttrib}}(window, \mbox{\hyperlink{group__window_ga88981797d29800808ec242274ab5c03a}{GLFW\_MOUSE\_PASSTHROUGH}});}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00391}00391             \textcolor{keywordflow}{if} (nk\_checkbox\_label(nk, \textcolor{stringliteral}{"{}Mouse Passthrough"{}}, \&passthrough))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00392}00392                 \mbox{\hyperlink{group__window_gad39f43f07856efcf3d656426a9284c75}{glfwSetWindowAttrib}}(window, \mbox{\hyperlink{group__window_ga88981797d29800808ec242274ab5c03a}{GLFW\_MOUSE\_PASSTHROUGH}}, passthrough);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00393}00393 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00394}00394             \textcolor{keywordtype}{int} auto\_iconify = \mbox{\hyperlink{group__window_ga1bb0c7e100418e284dbb800789c63d40}{glfwGetWindowAttrib}}(window, \mbox{\hyperlink{group__window_ga9d9874fc928200136a6dcdad726aa252}{GLFW\_AUTO\_ICONIFY}});}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00395}00395             \textcolor{keywordflow}{if} (nk\_checkbox\_label(nk, \textcolor{stringliteral}{"{}Auto Iconify"{}}, \&auto\_iconify))}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00396}00396                 \mbox{\hyperlink{group__window_gad39f43f07856efcf3d656426a9284c75}{glfwSetWindowAttrib}}(window, \mbox{\hyperlink{group__window_ga9d9874fc928200136a6dcdad726aa252}{GLFW\_AUTO\_ICONIFY}}, auto\_iconify);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00397}00397 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00398}00398             nk\_value\_bool(nk, \textcolor{stringliteral}{"{}Focused"{}}, \mbox{\hyperlink{group__window_ga1bb0c7e100418e284dbb800789c63d40}{glfwGetWindowAttrib}}(window, \mbox{\hyperlink{group__window_ga54ddb14825a1541a56e22afb5f832a9e}{GLFW\_FOCUSED}}));}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00399}00399             nk\_value\_bool(nk, \textcolor{stringliteral}{"{}Hovered"{}}, \mbox{\hyperlink{group__window_ga1bb0c7e100418e284dbb800789c63d40}{glfwGetWindowAttrib}}(window, \mbox{\hyperlink{group__window_ga8665c71c6fa3d22425c6a0e8a3f89d8a}{GLFW\_HOVERED}}));}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00400}00400             nk\_value\_bool(nk, \textcolor{stringliteral}{"{}Visible"{}}, \mbox{\hyperlink{group__window_ga1bb0c7e100418e284dbb800789c63d40}{glfwGetWindowAttrib}}(window, \mbox{\hyperlink{group__window_gafb3cdc45297e06d8f1eb13adc69ca6c4}{GLFW\_VISIBLE}}));}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00401}00401             nk\_value\_bool(nk, \textcolor{stringliteral}{"{}Iconified"{}}, \mbox{\hyperlink{group__window_ga1bb0c7e100418e284dbb800789c63d40}{glfwGetWindowAttrib}}(window, \mbox{\hyperlink{group__window_ga39d44b7c056e55e581355a92d240b58a}{GLFW\_ICONIFIED}}));}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00402}00402             nk\_value\_bool(nk, \textcolor{stringliteral}{"{}Maximized"{}}, \mbox{\hyperlink{group__window_ga1bb0c7e100418e284dbb800789c63d40}{glfwGetWindowAttrib}}(window, \mbox{\hyperlink{group__window_gad8ccb396253ad0b72c6d4c917eb38a03}{GLFW\_MAXIMIZED}}));}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00403}00403         \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00404}00404         nk\_end(nk);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00405}00405 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00406}00406         glClear(GL\_COLOR\_BUFFER\_BIT);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00407}00407         nk\_glfw3\_render(NK\_ANTI\_ALIASING\_ON);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00408}00408         \mbox{\hyperlink{group__window_gafb827800eedbfcbc97b1e5408df668d7}{glfwSwapBuffers}}(window);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00409}00409 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00410}00410         \mbox{\hyperlink{group__window_ga6e042d05823c11e11c7339b81a237738}{glfwWaitEvents}}();}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00411}00411     \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00412}00412 }
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00413}00413     nk\_glfw3\_shutdown();}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00414}00414     \mbox{\hyperlink{group__init_gafd90e6fd4819ea9e22e5e739519a6504}{glfwTerminate}}();}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00415}00415     exit(EXIT\_SUCCESS);}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00416}00416 \}}
+\DoxyCodeLine{\Hypertarget{tests_2window_8c_source_l00417}00417 }
+
+\end{DoxyCode}

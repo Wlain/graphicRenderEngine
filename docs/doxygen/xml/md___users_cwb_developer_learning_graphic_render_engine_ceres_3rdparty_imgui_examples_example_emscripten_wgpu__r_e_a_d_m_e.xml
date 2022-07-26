@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_examples_example_emscripten_wgpu__r_e_a_d_m_e" kind="page">
+    <compoundname>md__Users_cwb_developer_learning_graphicRenderEngine_ceres_3rdparty_imgui_examples_example_emscripten_wgpu_README</compoundname>
+    <title>How to Build</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><itemizedlist>
+<listitem><para>You need to install Emscripten from <ulink url="https://emscripten.org/docs/getting_started/downloads.html">https://emscripten.org/docs/getting_started/downloads.html</ulink>, and have the environment variables set, as described in <ulink url="https://emscripten.org/docs/getting_started/downloads.html#installation-instructions">https://emscripten.org/docs/getting_started/downloads.html#installation-instructions</ulink></para>
+</listitem><listitem><para>Depending on your configuration, in Windows you may need to run <computeroutput>emsdk/emsdk_env.bat</computeroutput> in your console to access the Emscripten command-line tools.</para>
+</listitem><listitem><para>You may also refer to our <ulink url="https://github.com/ocornut/imgui/tree/master/.github/workflows">Continuous Integration setup</ulink> for Emscripten setup.</para>
+</listitem><listitem><para>Then build using <computeroutput>make</computeroutput> while in the <computeroutput>example_emscripten_wgpu/</computeroutput> directory.</para>
+</listitem><listitem><para>Requires recent Emscripten as WGPU is still a work-in-progress API.</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_examples_example_emscripten_wgpu__r_e_a_d_m_e_1autotoc_md549">
+<title>How to Run</title>
+<para>To run on a local machine:<itemizedlist>
+<listitem><para>Make sure your browse supports WGPU and it is enabled. WGPU is still WIP not enabled by default in most browser.</para>
+</listitem><listitem><para><computeroutput>make serve</computeroutput> will use Python3 to spawn a local webserver, you can then browse <ulink url="http://localhost:8000">http://localhost:8000</ulink> to access your build.</para>
+</listitem><listitem><para>Otherwise, generally you will need a local webserver:<itemizedlist>
+<listitem><para>Quoting <ulink url="https://emscripten.org/docs/getting_started/Tutorial.html#generating-html">https://emscripten.org/docs/getting_started</ulink>:<linebreak/>
+ _&quot;Unfortunately several browsers (including Chrome, Safari, and Internet Explorer) do not support file:// [XHR](https://emscripten.org/docs/site/glossary.html#term-xhr) requests, and can’t load extra files needed by the HTML (like a .wasm file, or packaged file data as mentioned lower down). For these browsers you’ll need to serve the files using a [local webserver](https://emscripten.org/docs/getting_started/FAQ.html#faq-local-webserver) and then open http://localhost:8000/hello.html.&quot;_</para>
+</listitem><listitem><para>Emscripten SDK has a handy <computeroutput>emrun</computeroutput> command: <computeroutput>emrun web/example_emscripten_opengl3.html --browser firefox</computeroutput> which will spawn a temporary local webserver (in Firefox). See <ulink url="https://emscripten.org/docs/compiling/Running-html-files-with-emrun.html">https://emscripten.org/docs/compiling/Running-html-files-with-emrun.html</ulink> for details.</para>
+</listitem><listitem><para>You may use Python 3 builtin webserver: <computeroutput>python -m http.server -d web</computeroutput> (this is what <computeroutput>make serve</computeroutput> uses).</para>
+</listitem><listitem><para>You may use Python 2 builtin webserver: <computeroutput>cd web &amp;&amp; python -m SimpleHTTPServer</computeroutput>.</para>
+</listitem><listitem><para>If you are accessing the files over a network, certain browsers, such as Firefox, will restrict Gamepad API access to secure contexts only (e.g. https only). </para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+    </detaileddescription>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/examples/example_emscripten_wgpu/README.md"/>
+  </compounddef>
+</doxygen>

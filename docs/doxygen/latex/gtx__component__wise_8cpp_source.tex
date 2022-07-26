@@ -1,0 +1,122 @@
+\hypertarget{gtx__component__wise_8cpp_source}{}\doxysection{gtx\+\_\+component\+\_\+wise.\+cpp}
+\label{gtx__component__wise_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/gtx/gtx\_component\_wise.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/gtx/gtx\_component\_wise.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00001}00001 \textcolor{preprocessor}{\#define GLM\_ENABLE\_EXPERIMENTAL}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00002}00002 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{component__wise_8hpp}{glm/gtx/component\_wise.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00003}00003 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{type__precision_8hpp}{glm/gtc/type\_precision.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00004}00004 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{epsilon_8hpp}{glm/gtc/epsilon.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00005}00005 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{constants_8hpp}{glm/gtc/constants.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#include <limits>}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00008}00008 \textcolor{keyword}{namespace }\mbox{\hyperlink{group__gtx__component__wise_ga3f5d893b2805999d155de26f7a9593d2}{compNormalize}}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00009}00009 \{}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00010}00010     \textcolor{keywordtype}{int} run()}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00011}00011     \{}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00012}00012         \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00013}00013 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00014}00014         \{}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00015}00015             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} \textcolor{keyword}{const} A = glm::compNormalize<float>(\mbox{\hyperlink{structglm_1_1vec}{glm::u8vec4}}(0, 127, 128, 255));}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00017}00017             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A.x, 0.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00018}00018             Error += A.y < 0.5f ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00019}00019             Error += A.z > 0.5f ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00020}00020             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A.w, 1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00021}00021         \}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00023}00023         \{}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00024}00024             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} \textcolor{keyword}{const} A = glm::compNormalize<float>(\mbox{\hyperlink{structglm_1_1vec}{glm::i8vec4}}(-\/128, -\/1, 0, 127));}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00026}00026             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A.x,-\/1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00027}00027             Error += A.y < 0.0f ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00028}00028             Error += A.z > 0.0f ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00029}00029             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A.w, 1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00030}00030         \}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00032}00032         \{}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00033}00033             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} \textcolor{keyword}{const} A = glm::compNormalize<float>(\mbox{\hyperlink{structglm_1_1vec}{glm::u16vec4}}(}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00034}00034                 \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{std::numeric\_limits<glm::u16>::min}}(),}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00035}00035                 (\mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{std::numeric\_limits<glm::u16>::max}}() >> 1) + 0,}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00036}00036                 (\mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{std::numeric\_limits<glm::u16>::max}}() >> 1) + 1,}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00037}00037                 \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{std::numeric\_limits<glm::u16>::max}}()));}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00039}00039             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A.x, 0.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00040}00040             Error += A.y < 0.5f ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00041}00041             Error += A.z > 0.5f ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00042}00042             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A.w, 1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00043}00043         \}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00045}00045         \{}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00046}00046             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} \textcolor{keyword}{const} A = glm::compNormalize<float>(\mbox{\hyperlink{structglm_1_1vec}{glm::i16vec4}}(}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00047}00047                 \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{std::numeric\_limits<glm::i16>::min}}(),}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00048}00048                 \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_ga35e5542ca05b29cc256fdafb8503d1fd}{glm::i16}}\textcolor{keyword}{>}(-\/1),}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00049}00049                 \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_ga35e5542ca05b29cc256fdafb8503d1fd}{glm::i16}}\textcolor{keyword}{>}(0),}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00050}00050                 \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{std::numeric\_limits<glm::i16>::max}}()));}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00052}00052             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A.x,-\/1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00053}00053             Error += A.y < 0.0f ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00054}00054             Error += A.z > 0.0f ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00055}00055             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A.w, 1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00056}00056         \}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00058}00058         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00059}00059     \}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00060}00060 \}\textcolor{comment}{//namespace compNormalize}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00062}00062 \textcolor{keyword}{namespace }\mbox{\hyperlink{group__gtx__component__wise_gab0e4a1a73c60f93d8bfbe97f331476a9}{compScale}}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00063}00063 \{}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00064}00064     \textcolor{keywordtype}{int} run()}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00065}00065     \{}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00066}00066         \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00068}00068         \{}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00069}00069             \mbox{\hyperlink{structglm_1_1vec}{glm::u8vec4}} \textcolor{keyword}{const} A = glm::compScale<glm::u8>(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(0.0f, 0.2f, 0.5f, 1.0f));}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00071}00071             Error += A.x == \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{std::numeric\_limits<glm::u8>::min}}() ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00072}00072             Error += A.y < (\mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{std::numeric\_limits<glm::u8>::max}}() >> 2) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00073}00073             Error += A.z == 127 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00074}00074             Error += A.w == 255 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00075}00075         \}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00077}00077         \{}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00078}00078             \mbox{\hyperlink{structglm_1_1vec}{glm::i8vec4}} \textcolor{keyword}{const} A = glm::compScale<glm::i8>(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(0.0f,-\/1.0f, 0.5f, 1.0f));}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00080}00080             Error += A.x == 0 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00081}00081             Error += A.y == -\/128 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00082}00082             Error += A.z == 63 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00083}00083             Error += A.w == 127 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00084}00084         \}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00086}00086         \{}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00087}00087             \mbox{\hyperlink{structglm_1_1vec}{glm::u16vec4}} \textcolor{keyword}{const} A = glm::compScale<glm::u16>(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(0.0f, 0.2f, 0.5f, 1.0f));}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00088}00088 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00089}00089             Error += A.x == \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{std::numeric\_limits<glm::u16>::min}}() ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00090}00090             Error += A.y < (\mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{std::numeric\_limits<glm::u16>::max}}() >> 2) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00091}00091             Error += A.z == 32767 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00092}00092             Error += A.w == 65535 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00093}00093         \}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00095}00095         \{}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00096}00096             \mbox{\hyperlink{structglm_1_1vec}{glm::i16vec4}} \textcolor{keyword}{const} A = glm::compScale<glm::i16>(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(0.0f,-\/1.0f, 0.5f, 1.0f));}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00098}00098             Error += A.x == 0 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00099}00099             Error += A.y == -\/32768 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00100}00100             Error += A.z == 16383 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00101}00101             Error += A.w == 32767 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00102}00102         \}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00103}00103 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00104}00104         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00105}00105     \}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00106}00106 \}\textcolor{comment}{// compScale}}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00108}00108 \textcolor{keywordtype}{int} main()}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00109}00109 \{}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00110}00110     \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00111}00111 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00112}00112     Error += compNormalize::run();}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00113}00113     Error += compScale::run();}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00115}00115     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__component__wise_8cpp_source_l00116}00116 \}}
+
+\end{DoxyCode}

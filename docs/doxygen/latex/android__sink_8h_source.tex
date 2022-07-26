@@ -1,0 +1,125 @@
+\hypertarget{android__sink_8h_source}{}\doxysection{android\+\_\+sink.\+h}
+\label{android__sink_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/sinks/android\_sink.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/sinks/android\_sink.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00001}00001 \textcolor{comment}{// Copyright(c) 2015-\/present, Gabi Melman \& spdlog contributors.}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00002}00002 \textcolor{comment}{// Distributed under the MIT License (http://opensource.org/licenses/MIT)}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00004}00004 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00006}00006 \textcolor{preprocessor}{\#ifdef \_\_ANDROID\_\_}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00008}00008 \textcolor{preprocessor}{\#    include <spdlog/details/fmt\_helper.h>}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00009}00009 \textcolor{preprocessor}{\#    include <spdlog/details/null\_mutex.h>}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00010}00010 \textcolor{preprocessor}{\#    include <spdlog/details/os.h>}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00011}00011 \textcolor{preprocessor}{\#    include <spdlog/sinks/base\_sink.h>}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00012}00012 \textcolor{preprocessor}{\#    include <spdlog/details/synchronous\_factory.h>}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00013}00013 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00014}00014 \textcolor{preprocessor}{\#    include <android/log.h>}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00015}00015 \textcolor{preprocessor}{\#    include <chrono>}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00016}00016 \textcolor{preprocessor}{\#    include <mutex>}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00017}00017 \textcolor{preprocessor}{\#    include <string>}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00018}00018 \textcolor{preprocessor}{\#    include <thread>}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00020}00020 \textcolor{preprocessor}{\#    if !defined(SPDLOG\_ANDROID\_RETRIES)}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00021}00021 \textcolor{preprocessor}{\#        define SPDLOG\_ANDROID\_RETRIES 2}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00022}00022 \textcolor{preprocessor}{\#    endif}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00023}00023 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00024}00024 \textcolor{keyword}{namespace }spdlog \{}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00025}00025 \textcolor{keyword}{namespace }sinks \{}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00027}00027 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00028}00028 \textcolor{comment}{ * Android sink (logging using \_\_android\_log\_write)}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00029}00029 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00030}00030 \textcolor{keyword}{template}<\textcolor{keyword}{typename} Mutex>}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00031}00031 \textcolor{keyword}{class }android\_sink final : \textcolor{keyword}{public} base\_sink<Mutex>}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00032}00032 \{}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00033}00033 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00034}00034     \textcolor{keyword}{explicit} android\_sink(std::string tag = \textcolor{stringliteral}{"{}spdlog"{}}, \textcolor{keywordtype}{bool} use\_raw\_msg = \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00035}00035         : tag\_(std::move(tag))}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00036}00036         , use\_raw\_msg\_(use\_raw\_msg)}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00037}00037     \{\}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00039}00039 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00040}00040     \textcolor{keywordtype}{void} sink\_it\_(\textcolor{keyword}{const} details::log\_msg \&msg)\textcolor{keyword}{ override}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00041}00041 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00042}00042         \textcolor{keyword}{const} android\_LogPriority priority = convert\_to\_android\_(msg.level);}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00043}00043         memory\_buf\_t formatted;}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00044}00044         \textcolor{keywordflow}{if} (use\_raw\_msg\_)}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00045}00045         \{}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00046}00046             details::fmt\_helper::append\_string\_view(msg.payload, formatted);}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00047}00047         \}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00048}00048         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00049}00049         \{}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00050}00050             base\_sink<Mutex>::formatter\_-\/>format(msg, formatted);}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00051}00051         \}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00052}00052         formatted.push\_back(\textcolor{charliteral}{'\(\backslash\)0'});}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00053}00053         \textcolor{keyword}{const} \textcolor{keywordtype}{char} *msg\_output = formatted.data();}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00055}00055         \textcolor{comment}{// See system/core/liblog/logger\_write.c for explanation of return value}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00056}00056         \textcolor{keywordtype}{int} ret = \_\_android\_log\_write(priority, tag\_.c\_str(), msg\_output);}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00057}00057         \textcolor{keywordtype}{int} retry\_count = 0;}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00058}00058         \textcolor{keywordflow}{while} ((ret == -\/11 \textcolor{comment}{/*EAGAIN*/}) \&\& (retry\_count < SPDLOG\_ANDROID\_RETRIES))}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00059}00059         \{}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00060}00060             details::os::sleep\_for\_millis(5);}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00061}00061             ret = \_\_android\_log\_write(priority, tag\_.c\_str(), msg\_output);}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00062}00062             retry\_count++;}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00063}00063         \}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00065}00065         \textcolor{keywordflow}{if} (ret < 0)}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00066}00066         \{}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00067}00067             throw\_spdlog\_ex(\textcolor{stringliteral}{"{}\_\_android\_log\_write() failed"{}}, ret);}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00068}00068         \}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00069}00069     \}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00071}00071     \textcolor{keywordtype}{void} flush\_()\textcolor{keyword}{ override }\{\}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00073}00073 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00074}00074     \textcolor{keyword}{static} android\_LogPriority convert\_to\_android\_(spdlog::level::level\_enum level)}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00075}00075     \{}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00076}00076         \textcolor{keywordflow}{switch} (level)}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00077}00077         \{}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00078}00078         \textcolor{keywordflow}{case} spdlog::level::trace:}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00079}00079             \textcolor{keywordflow}{return} ANDROID\_LOG\_VERBOSE;}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00080}00080         \textcolor{keywordflow}{case} spdlog::level::debug:}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00081}00081             \textcolor{keywordflow}{return} ANDROID\_LOG\_DEBUG;}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00082}00082         \textcolor{keywordflow}{case} spdlog::level::info:}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00083}00083             \textcolor{keywordflow}{return} ANDROID\_LOG\_INFO;}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00084}00084         \textcolor{keywordflow}{case} spdlog::level::warn:}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00085}00085             \textcolor{keywordflow}{return} ANDROID\_LOG\_WARN;}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00086}00086         \textcolor{keywordflow}{case} spdlog::level::err:}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00087}00087             \textcolor{keywordflow}{return} ANDROID\_LOG\_ERROR;}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00088}00088         \textcolor{keywordflow}{case} spdlog::level::critical:}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00089}00089             \textcolor{keywordflow}{return} ANDROID\_LOG\_FATAL;}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00090}00090         \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00091}00091             \textcolor{keywordflow}{return} ANDROID\_LOG\_DEFAULT;}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00092}00092         \}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00093}00093     \}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00095}00095     std::string tag\_;}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00096}00096     \textcolor{keywordtype}{bool} use\_raw\_msg\_;}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00097}00097 \};}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00098}00098 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00099}00099 \textcolor{keyword}{using} android\_sink\_mt = android\_sink<std::mutex>;}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00100}00100 \textcolor{keyword}{using} android\_sink\_st = android\_sink<details::null\_mutex>;}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00101}00101 \} \textcolor{comment}{// namespace sinks}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00103}00103 \textcolor{comment}{// Create and register android syslog logger}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00105}00105 \textcolor{keyword}{template}<\textcolor{keyword}{typename} Factory = spdlog::synchronous\_factory>}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00106}00106 \textcolor{keyword}{inline} std::shared\_ptr<logger> android\_logger\_mt(\textcolor{keyword}{const} std::string \&logger\_name, \textcolor{keyword}{const} std::string \&tag = \textcolor{stringliteral}{"{}spdlog"{}})}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00107}00107 \{}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00108}00108     \textcolor{keywordflow}{return} Factory::template create<sinks::android\_sink\_mt>(logger\_name, tag);}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00109}00109 \}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00111}00111 \textcolor{keyword}{template}<\textcolor{keyword}{typename} Factory = spdlog::synchronous\_factory>}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00112}00112 \textcolor{keyword}{inline} std::shared\_ptr<logger> android\_logger\_st(\textcolor{keyword}{const} std::string \&logger\_name, \textcolor{keyword}{const} std::string \&tag = \textcolor{stringliteral}{"{}spdlog"{}})}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00113}00113 \{}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00114}00114     \textcolor{keywordflow}{return} Factory::template create<sinks::android\_sink\_st>(logger\_name, tag);}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00115}00115 \}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00117}00117 \} \textcolor{comment}{// namespace spdlog}}
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00118}00118 }
+\DoxyCodeLine{\Hypertarget{android__sink_8h_source_l00119}00119 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_\_ANDROID\_\_}}
+
+\end{DoxyCode}

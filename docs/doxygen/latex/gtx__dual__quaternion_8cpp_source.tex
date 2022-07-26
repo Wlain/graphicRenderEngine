@@ -1,0 +1,211 @@
+\hypertarget{gtx__dual__quaternion_8cpp_source}{}\doxysection{gtx\+\_\+dual\+\_\+quaternion.\+cpp}
+\label{gtx__dual__quaternion_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/gtx/gtx\_dual\_quaternion.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/gtx/gtx\_dual\_quaternion.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00001}00001 \textcolor{preprocessor}{\#define GLM\_ENABLE\_EXPERIMENTAL}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00002}00002 \textcolor{preprocessor}{\#define GLM\_FORCE\_CTOR\_INIT}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00003}00003 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{dual__quaternion_8hpp}{glm/gtx/dual\_quaternion.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00004}00004 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{matrix__transform_8hpp}{glm/gtc/matrix\_transform.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00005}00005 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{epsilon_8hpp}{glm/gtc/epsilon.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{euler__angles_8hpp}{glm/gtx/euler\_angles.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00007}00007 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{vector__relational_8hpp}{glm/vector\_relational.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00008}00008 \textcolor{preprocessor}{\#if GLM\_HAS\_TRIVIAL\_QUERIES}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00009}00009 \textcolor{preprocessor}{\#   include <type\_traits>}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00010}00010 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00011}00011 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00012}00012 \textcolor{keywordtype}{int} myrand()}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00013}00013 \{}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00014}00014     \textcolor{keyword}{static} \textcolor{keywordtype}{int} holdrand = 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00015}00015     \textcolor{keywordflow}{return} (((holdrand = holdrand * 214013L + 2531011L) >> 16) \& 0x7fff);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00016}00016 \}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00017}00017 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00018}00018 \textcolor{keywordtype}{float} myfrand() \textcolor{comment}{// returns values from -\/1 to 1 inclusive}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00019}00019 \{}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00020}00020     \textcolor{keywordflow}{return} float(\textcolor{keywordtype}{double}(myrand()) / \textcolor{keywordtype}{double}( 0x7ffff )) * 2.0f -\/ 1.0f;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00021}00021 \}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00023}00023 \textcolor{keywordtype}{int} test\_dquat\_type()}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00024}00024 \{}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00025}00025     \mbox{\hyperlink{structglm_1_1vec}{glm::dvec3}} vA;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00026}00026     \mbox{\hyperlink{structglm_1_1tquat}{glm::dquat}} dqA, dqB;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00027}00027     \mbox{\hyperlink{structglm_1_1tdualquat}{glm::ddualquat}} C(dqA, dqB);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00028}00028     \mbox{\hyperlink{structglm_1_1tdualquat}{glm::ddualquat}} B(dqA);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00029}00029     \mbox{\hyperlink{structglm_1_1tdualquat}{glm::ddualquat}} D(dqA, vA);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00030}00030     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00031}00031 \}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00033}00033 \textcolor{keywordtype}{int} test\_scalars()}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00034}00034 \{}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00035}00035     \textcolor{keywordtype}{float} \textcolor{keyword}{const} Epsilon = 0.0001f;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00037}00037     \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00039}00039     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} src\_q1 = \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}}(1.0f,2.0f,3.0f,4.0f);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00040}00040     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} src\_q2 = \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}}(5.0f,6.0f,7.0f,8.0f);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00041}00041     \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} src1(src\_q1,src\_q2);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00043}00043     \{}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00044}00044         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} dst1 = src1 * 2.0f;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00045}00045         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} dst2 = 2.0f * src1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00046}00046         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} dst3 = src1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00047}00047         dst3 *= 2.0f;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00048}00048         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} dstCmp(src\_q1 * 2.0f,src\_q2 * 2.0f);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00049}00049         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(dst1.real,dstCmp.real, Epsilon)) \&\& \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(dst1.dual,dstCmp.dual, Epsilon)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00050}00050         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(dst2.real,dstCmp.real, Epsilon)) \&\& \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(dst2.dual,dstCmp.dual, Epsilon)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00051}00051         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(dst3.real,dstCmp.real, Epsilon)) \&\& \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(dst3.dual,dstCmp.dual, Epsilon)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00052}00052     \}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00054}00054     \{}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00055}00055         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} dst1 = src1 / 2.0f;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00056}00056         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} dst2 = src1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00057}00057         dst2 /= 2.0f;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00058}00058         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} dstCmp(src\_q1 / 2.0f,src\_q2 / 2.0f);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00059}00059         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(dst1.real,dstCmp.real, Epsilon)) \&\& \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(dst1.dual,dstCmp.dual, Epsilon)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00060}00060         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(dst2.real,dstCmp.real, Epsilon)) \&\& \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(dst2.dual,dstCmp.dual, Epsilon)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00061}00061     \}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00062}00062     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00063}00063 \}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00065}00065 \textcolor{keywordtype}{int} test\_inverse() }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00066}00066 \{}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00067}00067     \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00069}00069     \textcolor{keywordtype}{float} \textcolor{keyword}{const} Epsilon = 0.0001f;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00071}00071     \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} dqid = glm::dual\_quat\_identity<float, glm::defaultp>();}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00072}00072     \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} mid(1.0f);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00074}00074     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j = 0; j < 100; ++j)}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00075}00075     \{}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00076}00076         \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} rot = \mbox{\hyperlink{group__gtx__euler__angles_gaf9483e883509aad2888188699f9c63ed}{glm::yawPitchRoll}}(myfrand() * 360.0f, myfrand() * 360.0f, myfrand() * 360.0f);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00077}00077         \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} vt = \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(myfrand() * 10.0f, myfrand() * 10.0f, myfrand() * 10.0f);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00078}00078 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00079}00079         \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} m = \mbox{\hyperlink{group__gtc__matrix__transform_ga67d8473d6b293d1bb2b4eaf249795cab}{glm::translate}}(mid, vt) * rot;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00081}00081         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} qr = \mbox{\hyperlink{group__gtc__quaternion_ga0b5c2980cb63f45fdce502ff43ae92a7}{glm::quat\_cast}}(m);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00083}00083         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} dq(qr);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00085}00085         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} invdq = \mbox{\hyperlink{group__core__func__matrix_gace61e11fc177491beeca0c6971e2f3fc}{glm::inverse}}(dq);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00086}00086 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00087}00087         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} r1 = invdq * dq;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00088}00088         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} r2 = dq * invdq;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00089}00089 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00090}00090         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(r1.real, dqid.real, Epsilon)) \&\& \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(r1.dual, dqid.dual, Epsilon)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00091}00091         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(r2.real, dqid.real, Epsilon)) \&\& \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(r2.dual, dqid.dual, Epsilon)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00093}00093         \textcolor{comment}{// testing commutative property}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00094}00094         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} r (   \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}}( myfrand() * glm::pi<float>() * 2.0f, myfrand(), myfrand(), myfrand() ),}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00095}00095                             \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(myfrand() * 10.0f, myfrand() * 10.0f, myfrand() * 10.0f) );}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00096}00096         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} riq = (r * invdq) * dq;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00097}00097         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} rqi = (r * dq) * invdq;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00098}00098 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00099}00099         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(riq.real, rqi.real, Epsilon)) \&\& \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(riq.dual, rqi.dual, Epsilon)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00100}00100     \}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00101}00101 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00102}00102     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00103}00103 \}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00105}00105 \textcolor{keywordtype}{int} test\_mul() }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00106}00106 \{}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00107}00107     \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00108}00108 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00109}00109     \textcolor{keywordtype}{float} \textcolor{keyword}{const} Epsilon = 0.0001f;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00111}00111     \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} mid(1.0f);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00112}00112 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00113}00113     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j = 0; j < 100; ++j)}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00114}00114     \{}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00115}00115         \textcolor{comment}{// generate random rotations and translations and compare transformed by matrix and dualquats random points }}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00116}00116         \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} vt1 = \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(myfrand() * 10.0f, myfrand() * 10.0f, myfrand() * 10.0f);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00117}00117         \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} vt2 = \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(myfrand() * 10.0f, myfrand() * 10.0f, myfrand() * 10.0f);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00118}00118 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00119}00119         \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} rot1 = \mbox{\hyperlink{group__gtx__euler__angles_gaf9483e883509aad2888188699f9c63ed}{glm::yawPitchRoll}}(myfrand() * 360.0f, myfrand() * 360.0f, myfrand() * 360.0f);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00120}00120         \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} rot2 = \mbox{\hyperlink{group__gtx__euler__angles_gaf9483e883509aad2888188699f9c63ed}{glm::yawPitchRoll}}(myfrand() * 360.0f, myfrand() * 360.0f, myfrand() * 360.0f);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00121}00121         \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} m1 = \mbox{\hyperlink{group__gtc__matrix__transform_ga67d8473d6b293d1bb2b4eaf249795cab}{glm::translate}}(mid, vt1) * rot1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00122}00122         \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} m2 = \mbox{\hyperlink{group__gtc__matrix__transform_ga67d8473d6b293d1bb2b4eaf249795cab}{glm::translate}}(mid, vt2) * rot2;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00123}00123         \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} m3 = m2 * m1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00124}00124         \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} m4 = m1 * m2;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00126}00126         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} qrot1 = \mbox{\hyperlink{group__gtc__quaternion_ga0b5c2980cb63f45fdce502ff43ae92a7}{glm::quat\_cast}}(rot1);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00127}00127         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} qrot2 = \mbox{\hyperlink{group__gtc__quaternion_ga0b5c2980cb63f45fdce502ff43ae92a7}{glm::quat\_cast}}(rot2);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00128}00128 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00129}00129         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} dq1 = \mbox{\hyperlink{group__gtx__dual__quaternion_ga2f6227b5f9dc08a2e7682065a84b3aa9}{glm::dualquat}}(qrot1,vt1);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00130}00130         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} dq2 = \mbox{\hyperlink{group__gtx__dual__quaternion_ga2f6227b5f9dc08a2e7682065a84b3aa9}{glm::dualquat}}(qrot2,vt2);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00131}00131         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} dq3 = dq2 * dq1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00132}00132         \mbox{\hyperlink{structglm_1_1tdualquat}{glm::dualquat}} dq4 = dq1 * dq2;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00134}00134         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 100; ++i)}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00135}00135         \{}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00136}00136             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} src\_pt = \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(myfrand() * 4.0f, myfrand() * 5.0f, myfrand() * 3.0f,1.0f);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00137}00137             \textcolor{comment}{// test both multiplication orders        }}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00138}00138             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} dst\_pt\_m3  = m3 * src\_pt; }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00139}00139             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} dst\_pt\_dq3 = dq3 * src\_pt;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00140}00140 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00141}00141             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} dst\_pt\_m3\_i  = \mbox{\hyperlink{group__core__func__matrix_gace61e11fc177491beeca0c6971e2f3fc}{glm::inverse}}(m3) * src\_pt;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00142}00142             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} dst\_pt\_dq3\_i = src\_pt * dq3;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00143}00143 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00144}00144             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} dst\_pt\_m4  = m4 * src\_pt;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00145}00145             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} dst\_pt\_dq4 = dq4 * src\_pt;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00146}00146 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00147}00147             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} dst\_pt\_m4\_i  = \mbox{\hyperlink{group__core__func__matrix_gace61e11fc177491beeca0c6971e2f3fc}{glm::inverse}}(m4) * src\_pt;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00148}00148             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} dst\_pt\_dq4\_i = src\_pt * dq4;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00149}00149 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00150}00150             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(dst\_pt\_m3, dst\_pt\_dq3, Epsilon)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00151}00151             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(dst\_pt\_m4, dst\_pt\_dq4, Epsilon)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00152}00152             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(dst\_pt\_m3\_i, dst\_pt\_dq3\_i, Epsilon)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00153}00153             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(dst\_pt\_m4\_i, dst\_pt\_dq4\_i, Epsilon)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00154}00154         \}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00155}00155     \} }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00156}00156 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00157}00157     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00158}00158 \}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00159}00159 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00160}00160 \textcolor{keywordtype}{int} test\_dual\_quat\_ctr()}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00161}00161 \{}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00162}00162     \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00163}00163 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00164}00164 \textcolor{preprocessor}{\#   if GLM\_HAS\_TRIVIAL\_QUERIES}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00165}00165     \textcolor{comment}{//  Error += std::is\_trivially\_default\_constructible<glm::dualquat>::value ? 0 : 1;}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00166}00166     \textcolor{comment}{//  Error += std::is\_trivially\_default\_constructible<glm::ddualquat>::value ? 0 : 1;}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00167}00167     \textcolor{comment}{//  Error += std::is\_trivially\_copy\_assignable<glm::dualquat>::value ? 0 : 1;}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00168}00168     \textcolor{comment}{//  Error += std::is\_trivially\_copy\_assignable<glm::ddualquat>::value ? 0 : 1;}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00169}00169         Error += std::is\_trivially\_copyable<glm::dualquat>::value ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00170}00170         Error += std::is\_trivially\_copyable<glm::ddualquat>::value ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00171}00171 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00172}00172         Error += std::is\_copy\_constructible<glm::dualquat>::value ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00173}00173         Error += std::is\_copy\_constructible<glm::ddualquat>::value ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00174}00174 \textcolor{preprocessor}{\#   endif}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00175}00175 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00176}00176     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00177}00177 \}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00178}00178 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00179}00179 \textcolor{keywordtype}{int} test\_size()}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00180}00180 \{}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00181}00181     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00182}00182 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00183}00183     Error += 32 == \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtx__dual__quaternion_ga2f6227b5f9dc08a2e7682065a84b3aa9}{glm::dualquat}}) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00184}00184     Error += 64 == \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtx__dual__quaternion_ga373431ffdd82d5c03c258217a9e1f1a6}{glm::ddualquat}}) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00185}00185     Error += \mbox{\hyperlink{group__gtx__dual__quaternion_ga2f6227b5f9dc08a2e7682065a84b3aa9}{glm::dualquat}}().\mbox{\hyperlink{structglm_1_1tdualquat_a79fe24c72a3f26d906b080de34b92b4e}{length}}() == 2 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00186}00186     Error += \mbox{\hyperlink{group__gtx__dual__quaternion_ga373431ffdd82d5c03c258217a9e1f1a6}{glm::ddualquat}}().\mbox{\hyperlink{structglm_1_1tdualquat_a79fe24c72a3f26d906b080de34b92b4e}{length}}() == 2 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00187}00187     Error += \mbox{\hyperlink{structglm_1_1tdualquat_a79fe24c72a3f26d906b080de34b92b4e}{glm::dualquat::length}}() == 2 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00188}00188     Error += \mbox{\hyperlink{structglm_1_1tdualquat_a79fe24c72a3f26d906b080de34b92b4e}{glm::ddualquat::length}}() == 2 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00189}00189 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00190}00190     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00191}00191 \}}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00192}00192 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00193}00193 \textcolor{keywordtype}{int} main()}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00194}00194 \{}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00195}00195     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00196}00196 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00197}00197     Error += test\_dual\_quat\_ctr();}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00198}00198     Error += test\_dquat\_type();}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00199}00199     Error += test\_scalars();}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00200}00200     Error += test\_inverse();}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00201}00201     Error += test\_mul();}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00202}00202     Error += test\_size();}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00203}00203 }
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00204}00204     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__dual__quaternion_8cpp_source_l00205}00205 \}}
+
+\end{DoxyCode}

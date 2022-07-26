@@ -1,0 +1,150 @@
+\hypertarget{core__type__cast_8cpp_source}{}\doxysection{core\+\_\+type\+\_\+cast.\+cpp}
+\label{core__type__cast_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/core/core\_type\_cast.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/core/core\_type\_cast.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00001}00001 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{glm_8hpp}{glm/glm.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00002}00002 \textcolor{preprocessor}{\#include <algorithm>}}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00003}00003 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00004}00004 \textcolor{preprocessor}{\#include <iterator>}}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00006}\mbox{\hyperlink{structmy__vec2}{00006}} \textcolor{keyword}{struct }\mbox{\hyperlink{structmy__vec2}{my\_vec2}}}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00007}00007 \{}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00008}00008     \textcolor{keyword}{operator} \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}() \{ \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(x, y); \}}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00009}00009     \textcolor{keywordtype}{float} x, y;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00010}00010 \};}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00011}00011 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00012}00012 \textcolor{keywordtype}{int} test\_vec2\_cast()}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00013}00013 \{}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00014}00014     \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} A(1.0f, 2.0f);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00015}00015     \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_vec2}} B(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00016}00016     \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_vec2}} C(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00017}00017     \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_vec2}} D(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00018}00018     }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00019}00019     \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} E = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}\textcolor{keyword}{>}(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00020}00020     \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_vec2}} F = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_vec2}}\textcolor{keyword}{>}(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00021}00021     \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_vec2}} G = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_vec2}}\textcolor{keyword}{>}(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00022}00022     \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_vec2}} H = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_vec2}}\textcolor{keyword}{>}(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00023}00023     }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00024}00024     \mbox{\hyperlink{structmy__vec2}{my\_vec2}} I;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00025}00025     \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} J = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}\textcolor{keyword}{>}(I);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00026}00026     \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} K(7.8f);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00028}00028     \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00029}00029     }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00030}00030     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(A, E)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00031}00031     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(B, F)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00032}00032     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(C, G)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00033}00033     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(D, H)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00034}00034     }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00035}00035     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00036}00036 \}}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00038}00038 \textcolor{keywordtype}{int} test\_vec3\_cast()}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00039}00039 \{}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00040}00040     \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} A(1.0f, 2.0f, 3.0f);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00041}00041     \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_vec3}} B(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00042}00042     \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_vec3}} C(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00043}00043     \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_vec3}} D(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00044}00044     }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00045}00045     \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} E = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}\textcolor{keyword}{>}(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00046}00046     \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_vec3}} F = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_vec3}}\textcolor{keyword}{>}(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00047}00047     \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_vec3}} G = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_vec3}}\textcolor{keyword}{>}(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00048}00048     \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_vec3}} H = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_vec3}}\textcolor{keyword}{>}(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00049}00049     }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00050}00050     \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00051}00051     }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00052}00052     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(A, E)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00053}00053     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(B, F)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00054}00054     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(C, G)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00055}00055     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(D, H)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00056}00056     }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00057}00057     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00058}00058 \}}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00060}00060 \textcolor{keywordtype}{int} test\_vec4\_cast()}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00061}00061 \{}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00062}00062     \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} A(1.0f, 2.0f, 3.0f, 4.0f);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00063}00063     \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_vec4}} B(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00064}00064     \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_vec4}} C(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00065}00065     \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_vec4}} D(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00066}00066     }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00067}00067     \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} E = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}\textcolor{keyword}{>}(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00068}00068     \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_vec4}} F = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_vec4}}\textcolor{keyword}{>}(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00069}00069     \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_vec4}} G = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_vec4}}\textcolor{keyword}{>}(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00070}00070     \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_vec4}} H = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_vec4}}\textcolor{keyword}{>}(A);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00071}00071     }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00072}00072     \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00073}00073     }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00074}00074     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(A, E)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00075}00075     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(B, F)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00076}00076     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(C, G)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00077}00077     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(D, H)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00078}00078     }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00079}00079     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00080}00080 \}}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00082}00082 \textcolor{keywordtype}{int} test\_std\_copy()}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00083}00083 \{}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00084}00084     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00086}00086     \{}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00087}00087         std::vector<int> High;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00088}00088         High.resize(64);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00089}00089         std::vector<int> Medium(High.size());}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00090}00090         }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00091}00091         std::copy(High.begin(), High.end(), Medium.begin());}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00093}00093         *Medium.begin() = *High.begin();}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00094}00094     \}}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00095}00095 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00096}00096     \{}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00097}00097         std::vector<glm::dvec4> High4;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00098}00098         High4.resize(64);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00099}00099         std::vector<glm::vec4> Medium4(High4.size());}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00100}00100         }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00101}00101         std::copy(High4.begin(), High4.end(), Medium4.begin());}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00103}00103         *Medium4.begin() = *High4.begin();}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00104}00104     \}}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00106}00106     \{}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00107}00107         std::vector<glm::dvec3> High3;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00108}00108         High3.resize(64);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00109}00109         std::vector<glm::vec3> Medium3(High3.size());}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00111}00111         std::copy(High3.begin(), High3.end(), Medium3.begin());}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00112}00112 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00113}00113         *Medium3.begin() = *High3.begin();}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00114}00114     \}}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00115}00115 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00116}00116     \{}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00117}00117         std::vector<glm::dvec2> High2;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00118}00118         High2.resize(64);}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00119}00119         std::vector<glm::vec2> Medium2(High2.size());}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00121}00121         std::copy(High2.begin(), High2.end(), Medium2.begin());}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00122}00122 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00123}00123         *Medium2.begin() = *High2.begin();}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00124}00124     \}}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00126}00126     \mbox{\hyperlink{structglm_1_1vec}{glm::dvec4}} v1;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00127}00127     \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} v2;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00128}00128 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00129}00129     v2 = v1;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00130}00130 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00131}00131     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00132}00132 \}}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00134}00134 \textcolor{keywordtype}{int} main()}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00135}00135 \{}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00136}00136     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00137}00137 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00138}00138     Error += test\_std\_copy();}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00139}00139     Error += test\_vec2\_cast();}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00140}00140     Error += test\_vec3\_cast();}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00141}00141     Error += test\_vec4\_cast();}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00142}00142 }
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00143}00143     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__type__cast_8cpp_source_l00144}00144 \}}
+
+\end{DoxyCode}

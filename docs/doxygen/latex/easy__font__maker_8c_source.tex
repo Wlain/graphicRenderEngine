@@ -1,0 +1,217 @@
+\hypertarget{easy__font__maker_8c_source}{}\doxysection{easy\+\_\+font\+\_\+maker.\+c}
+\label{easy__font__maker_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tools/easy\_font\_maker.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tools/easy\_font\_maker.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00001}00001 \textcolor{comment}{// This program was used to encode the data for stb\_simple\_font.h}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00002}00002 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00003}00003 \textcolor{preprocessor}{\#define STB\_DEFINE}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00004}00004 \textcolor{preprocessor}{\#include "{}stb.h"{}}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00005}00005 \textcolor{preprocessor}{\#define STB\_IMAGE\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00006}00006 \textcolor{preprocessor}{\#include "{}stb\_image.h"{}}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00008}00008 \textcolor{keywordtype}{int} w,h;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00009}00009 uint8 *data;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00010}00010 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00011}00011 \textcolor{keywordtype}{int} last\_x[2], last\_y[2];}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00012}00012 \textcolor{keywordtype}{int} num\_seg[2], non\_empty;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00013}00013 \textcolor{preprocessor}{\#if 0}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00014}00014 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00015}00015 \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00016}00016    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} first\_segment;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00017}00017    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} advance;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00018}00018 \} \mbox{\hyperlink{structchardata}{chardata}};}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00020}00020 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00021}00021 \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00022}00022    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} x:4;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00023}00023    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} y:4;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00024}00024    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} len:3;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00025}00025    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} dir:1;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00026}00026 \} \mbox{\hyperlink{structsegment}{segment}};}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00028}00028 \mbox{\hyperlink{structsegment}{segment}} *segments;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00030}00030 \textcolor{keywordtype}{void} add\_seg(\textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} y, \textcolor{keywordtype}{int} len, \textcolor{keywordtype}{int} horizontal)}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00031}00031 \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00032}00032    \mbox{\hyperlink{structsegment}{segment}} s;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00033}00033    s.x = x;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00034}00034    s.y = y;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00035}00035    s.len = len;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00036}00036    s.dir = horizontal;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00037}00037    assert(s.x == x);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00038}00038    assert(s.y == y);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00039}00039    assert(s.len == len);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00040}00040    stb\_arr\_push(segments, s);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00041}00041 \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00042}00042 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00043}\mbox{\hyperlink{structchardata}{00043}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00044}00044 \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00045}00045    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} first\_segment:8;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00046}00046    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} first\_v\_segment:8;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00047}00047    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} advance:5;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00048}00048    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} voff:1;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00049}00049 \} \mbox{\hyperlink{structchardata}{chardata}};}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00051}00051 \textcolor{preprocessor}{\#define X\_LIMIT 1}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00052}00052 \textcolor{preprocessor}{\#define LEN\_LIMIT 7}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00054}\mbox{\hyperlink{structsegment}{00054}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00055}00055 \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00056}00056    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} dx:1;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00057}00057    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} y:4;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00058}00058    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} len:3;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00059}00059 \} \mbox{\hyperlink{structsegment}{segment}};}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00061}00061 \mbox{\hyperlink{structsegment}{segment}} *segments;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00062}00062 \mbox{\hyperlink{structsegment}{segment}} *vsegments;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00064}00064 \textcolor{keywordtype}{void} add\_seg(\textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} y, \textcolor{keywordtype}{int} len, \textcolor{keywordtype}{int} horizontal)}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00065}00065 \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00066}00066    \mbox{\hyperlink{structsegment}{segment}} s;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00068}00068    \textcolor{keywordflow}{while} (x -\/ last\_x[horizontal] > X\_LIMIT) \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00069}00069       add\_seg(last\_x[horizontal] + X\_LIMIT, 0, 0, horizontal);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00070}00070    \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00071}00071    \textcolor{keywordflow}{while} (len > LEN\_LIMIT) \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00072}00072       add\_seg(x, y, LEN\_LIMIT, horizontal);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00073}00073       len -\/= LEN\_LIMIT;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00074}00074       x += LEN\_LIMIT*horizontal;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00075}00075       y += LEN\_LIMIT*!horizontal;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00076}00076    \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00078}00078    s.dx = x -\/ last\_x[horizontal];}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00079}00079    s.y = y;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00080}00080    s.len = len;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00081}00081    non\_empty += len != 0;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00082}00082    \textcolor{comment}{//assert(s.x == x);}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00083}00083    assert(s.y == y);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00084}00084    assert(s.len == len);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00085}00085    ++num\_seg[horizontal];}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00086}00086    \textcolor{keywordflow}{if} (horizontal)}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00087}00087       stb\_arr\_push(segments, s);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00088}00088    \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00089}00089       stb\_arr\_push(vsegments, s);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00090}00090    last\_x[horizontal] = x;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00091}00091 \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00093}00093 \textcolor{keywordtype}{void} print\_segments(\mbox{\hyperlink{structsegment}{segment}} *s)}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00094}00094 \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00095}00095    \textcolor{keywordtype}{int} i, hpos;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00096}00096    printf(\textcolor{stringliteral}{"{}   "{}});}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00097}00097    hpos = 4;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00098}00098    \textcolor{keywordflow}{for} (i=0; i < stb\_arr\_len(s); ++i) \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00099}00099       \textcolor{comment}{// repack for portability}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00100}00100       \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} seg = s[i].len + s[i].dx*8 + s[i].y*16;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00101}00101       hpos += printf(\textcolor{stringliteral}{"{}\%d,"{}}, seg);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00102}00102       \textcolor{keywordflow}{if} (hpos > 72 \&\& i+1 < stb\_arr\_len(s)) \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00103}00103          hpos = 4;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00104}00104          printf(\textcolor{stringliteral}{"{}\(\backslash\)n    "{}});}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00105}00105       \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00106}00106    \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00107}00107    printf(\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00108}00108 \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00109}00109 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00110}00110 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00111}00111 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00112}00112 \mbox{\hyperlink{structchardata}{chardata}} charinfo[128];}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00113}00113 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00114}00114 \textcolor{keywordtype}{int} parse\_char(\textcolor{keywordtype}{int} x, \mbox{\hyperlink{structchardata}{chardata}} *c, \textcolor{keywordtype}{int} offset)}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00115}00115 \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00116}00116    \textcolor{keywordtype}{int} start\_x = x, end\_x, top\_y = 0, y;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00117}00117 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00118}00118    c-\/>first\_segment = stb\_arr\_len(segments);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00119}00119    c-\/>first\_v\_segment = stb\_arr\_len(vsegments) -\/ offset;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00120}00120    assert(c-\/>first\_segment == stb\_arr\_len(segments));}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00121}00121    assert(c-\/>first\_v\_segment + offset == stb\_arr\_len(vsegments));}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00122}00122 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00123}00123    \textcolor{comment}{// find advance distance}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00124}00124    end\_x = x+1;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00125}00125    \textcolor{keywordflow}{while} (data[end\_x*3] == 255)}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00126}00126       ++end\_x;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00127}00127    c-\/>advance = end\_x -\/ start\_x + 1;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00128}00128 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00129}00129    last\_x[0] = last\_x[1] = 0;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00130}00130    last\_y[0] = last\_y[1] = 0;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00131}00131 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00132}00132    \textcolor{keywordflow}{for} (y=2; y < h; ++y) \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00133}00133       \textcolor{keywordflow}{for} (x=start\_x; x < end\_x; ++x) \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00134}00134          \textcolor{keywordflow}{if} (data[y*3*w+x*3+1] < 255) \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00135}00135             top\_y = y;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00136}00136             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00137}00137          \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00138}00138       \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00139}00139       \textcolor{keywordflow}{if} (top\_y)}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00140}00140          \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00141}00141    \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00142}00142    c-\/>voff = top\_y > 2;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00143}00143    \textcolor{keywordflow}{if} (top\_y > 2) }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00144}00144       top\_y = 3;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00145}00145 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00146}00146    \textcolor{keywordflow}{for} (x=start\_x; x < end\_x; ++x) \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00147}00147       \textcolor{keywordtype}{int} y;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00148}00148       \textcolor{keywordflow}{for} (y=2; y < h; ++y) \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00149}00149          \textcolor{keywordflow}{if} (data[y*3*w+x*3+1] < 255) \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00150}00150             \textcolor{keywordflow}{if} (data[y*3*w+x*3+0] == 255) \{ \textcolor{comment}{// red}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00151}00151                \textcolor{keywordtype}{int} len=0;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00152}00152                \textcolor{keywordflow}{while} (y+len < h \&\& data[(y+len)*3*w+x*3+0] == 255 \&\& data[(y+len)*3*w+x*3+1] == 0) \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00153}00153                   data[(y+len)*3*w+x*3+0] = 0;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00154}00154                   ++len;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00155}00155                \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00156}00156                add\_seg(x-\/start\_x,y-\/top\_y,len,0);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00157}00157             \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00158}00158             \textcolor{keywordflow}{if} (data[y*3*w+x*3+2] == 255) \{ \textcolor{comment}{// blue}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00159}00159                \textcolor{keywordtype}{int} len=0;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00160}00160                \textcolor{keywordflow}{while} (x+len < end\_x \&\& data[y*3*w+(x+len)*3+2] == 255 \&\& data[y*3*w+(x+len)*3+1] == 0) \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00161}00161                   data[y*3*w+(x+len)*3+2] = 0;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00162}00162                   ++len;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00163}00163                \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00164}00164                add\_seg(x-\/start\_x,y-\/top\_y,len,1);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00165}00165             \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00166}00166          \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00167}00167       \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00168}00168    \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00169}00169    \textcolor{keywordflow}{return} end\_x;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00170}00170 \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00171}00171 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00172}00172 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00173}00173 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} **argv)}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00174}00174 \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00175}00175    \textcolor{keywordtype}{int} c, x=0;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00176}00176    data = stbi\_load(\textcolor{stringliteral}{"{}easy\_font\_raw.png"{}}, \&w, \&h, 0, 3);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00177}00177    \textcolor{keywordflow}{for} (c=32; c < 127; ++c) \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00178}00178       x = parse\_char(x, \&charinfo[c], 0);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00179}00179       printf(\textcolor{stringliteral}{"{}\%3d -\/-\/ \%3d \%3d\(\backslash\)n"{}}, c, charinfo[c].first\_segment, charinfo[c].first\_v\_segment);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00180}00180    \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00181}00181    printf(\textcolor{stringliteral}{"{}===\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00182}00182    printf(\textcolor{stringliteral}{"{}\%d \%d \%d\(\backslash\)n"{}}, num\_seg[0], num\_seg[1], non\_empty);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00183}00183    printf(\textcolor{stringliteral}{"{}\%d\(\backslash\)n"{}}, \textcolor{keyword}{sizeof}(segments[0]) * stb\_arr\_len(segments));}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00184}00184    printf(\textcolor{stringliteral}{"{}\%d\(\backslash\)n"{}}, \textcolor{keyword}{sizeof}(segments[0]) * stb\_arr\_len(segments) + \textcolor{keyword}{sizeof}(segments[0]) * stb\_arr\_len(vsegments) + \textcolor{keyword}{sizeof}(charinfo[32])*95);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00185}00185 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00186}00186    printf(\textcolor{stringliteral}{"{}struct \{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00187}00187           \textcolor{stringliteral}{"{}    unsigned char advance;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00188}00188           \textcolor{stringliteral}{"{}    unsigned char h\_seg;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00189}00189           \textcolor{stringliteral}{"{}    unsigned char v\_seg;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00190}00190           \textcolor{stringliteral}{"{}\} stb\_easy\_font\_charinfo[96] = \{\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00191}00191    charinfo[c].first\_segment = stb\_arr\_len(segments);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00192}00192    charinfo[c].first\_v\_segment = stb\_arr\_len(vsegments);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00193}00193    \textcolor{keywordflow}{for} (c=32; c < 128; ++c) \{}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00194}00194       \textcolor{keywordflow}{if} ((c \& 3) == 0) printf(\textcolor{stringliteral}{"{}    "{}});}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00195}00195       printf(\textcolor{stringliteral}{"{}\{ \%2d,\%3d,\%3d \},"{}},}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00196}00196          charinfo[c].advance + 16*charinfo[c].voff,}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00197}00197          charinfo[c].first\_segment,}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00198}00198          charinfo[c].first\_v\_segment);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00199}00199       \textcolor{keywordflow}{if} ((c \& 3) == 3) printf(\textcolor{stringliteral}{"{}\(\backslash\)n"{}}); \textcolor{keywordflow}{else} printf(\textcolor{stringliteral}{"{}  "{}});}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00200}00200    \}}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00201}00201    printf(\textcolor{stringliteral}{"{}\};\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00202}00202 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00203}00203    printf(\textcolor{stringliteral}{"{}unsigned char stb\_easy\_font\_hseg[\%d] = \{\(\backslash\)n"{}}, stb\_arr\_len(segments));}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00204}00204       print\_segments(segments);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00205}00205    printf(\textcolor{stringliteral}{"{}\};\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00206}00206 }
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00207}00207    printf(\textcolor{stringliteral}{"{}unsigned char stb\_easy\_font\_vseg[\%d] = \{\(\backslash\)n"{}}, stb\_arr\_len(vsegments));}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00208}00208       print\_segments(vsegments);}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00209}00209    printf(\textcolor{stringliteral}{"{}\};\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00210}00210    \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{easy__font__maker_8c_source_l00211}00211 \}}
+
+\end{DoxyCode}

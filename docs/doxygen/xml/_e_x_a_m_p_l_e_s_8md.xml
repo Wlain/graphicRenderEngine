@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="_e_x_a_m_p_l_e_s_8md" kind="file" language="Markdown">
+    <compoundname>EXAMPLES.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">_(You<sp/>may<sp/>browse<sp/>this<sp/>at<sp/>https://github.com/ocornut/imgui/blob/master/docs/EXAMPLES.md<sp/>or<sp/>view<sp/>this<sp/>file<sp/>with<sp/>any<sp/>Markdown<sp/>viewer)_</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Dear<sp/>ImGui:<sp/>Examples</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**The<sp/>[examples/](https://github.com/ocornut/imgui/blob/master/examples)<sp/>folder<sp/>example<sp/>applications<sp/>(standalone,<sp/>ready-to-build)<sp/>for<sp/>variety<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">platforms<sp/>and<sp/>graphics<sp/>APIs.**<sp/>They<sp/>all<sp/>use<sp/>standard<sp/>backends<sp/>from<sp/>the<sp/>[backends/](https://github.com/ocornut/imgui/blob/master/backends)<sp/>folder<sp/>(see<sp/>[BACKENDS.md](https://github.com/ocornut/imgui/blob/master/docs/BACKENDS.md)).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>purpose<sp/>of<sp/>Examples<sp/>is<sp/>to<sp/>showcase<sp/>integration<sp/>with<sp/>backends,<sp/>let<sp/>you<sp/>try<sp/>Dear<sp/>ImGui,<sp/>and<sp/>guide<sp/>you<sp/>toward</highlight></codeline>
+<codeline><highlight class="normal">integrating<sp/>Dear<sp/>ImGui<sp/>in<sp/>your<sp/>own<sp/>application/game/engine.</highlight></codeline>
+<codeline><highlight class="normal">**Once<sp/>Dear<sp/>ImGui<sp/>is<sp/>setup<sp/>and<sp/>running,<sp/>run<sp/>and<sp/>refer<sp/>to<sp/>`ImGui::ShowDemoWindow()`<sp/>in<sp/>imgui_demo.cpp<sp/>for<sp/>usage<sp/>of<sp/>the<sp/>end-user<sp/>API.**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>can<sp/>find<sp/>Windows<sp/>binaries<sp/>for<sp/>some<sp/>of<sp/>those<sp/>example<sp/>applications<sp/>at:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>http://www.dearimgui.org/binaries</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Getting<sp/>Started</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Integration<sp/>in<sp/>a<sp/>typical<sp/>existing<sp/>application,<sp/>should<sp/>take<sp/>&lt;20<sp/>lines<sp/>when<sp/>using<sp/>standard<sp/>backends.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>At<sp/>initialization:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>call<sp/>ImGui::CreateContext()</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>call<sp/>ImGui_ImplXXXX_Init()<sp/>for<sp/>each<sp/>backend.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>At<sp/>the<sp/>beginning<sp/>of<sp/>your<sp/>frame:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>call<sp/>ImGui_ImplXXXX_NewFrame()<sp/>for<sp/>each<sp/>backend.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>call<sp/>ImGui::NewFrame()</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>At<sp/>the<sp/>end<sp/>of<sp/>your<sp/>frame:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>call<sp/>ImGui::Render()</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>call<sp/>ImGui_ImplXXXX_RenderDrawData()<sp/>for<sp/>your<sp/>Renderer<sp/>backend.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>At<sp/>shutdown:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>call<sp/>ImGui_ImplXXXX_Shutdown()<sp/>for<sp/>each<sp/>backend.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>call<sp/>ImGui::DestroyContext()</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Example<sp/>(using<sp/>[backends/imgui_impl_win32.cpp](https://github.com/ocornut/imgui/blob/master/backends/imgui_impl_win32.cpp)<sp/>+<sp/>[backends/imgui_impl_dx11.cpp](https://github.com/ocornut/imgui/blob/master/backends/imgui_impl_dx11.cpp)):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>Create<sp/>a<sp/>Dear<sp/>ImGui<sp/>context,<sp/>setup<sp/>some<sp/>options</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui::CreateContext();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ImGuiIO&amp;<sp/>io<sp/>=<sp/>ImGui::GetIO();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>io.ConfigFlags<sp/>|=<sp/>ImGuiConfigFlags_NavEnableKeyboard;<sp/>//<sp/>Enable<sp/>some<sp/>options</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>Initialize<sp/>Platform<sp/>+<sp/>Renderer<sp/>backends<sp/>(here:<sp/>using<sp/>imgui_impl_win32.cpp<sp/>+<sp/>imgui_impl_dx11.cpp)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui_ImplWin32_Init(my_hwnd);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui_ImplDX11_Init(my_d3d_device,<sp/>my_d3d_device_context);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>Application<sp/>main<sp/>loop</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>while<sp/>(true)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Beginning<sp/>of<sp/>frame:<sp/>update<sp/>Renderer<sp/>+<sp/>Platform<sp/>backend,<sp/>start<sp/>Dear<sp/>ImGui<sp/>frame</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui_ImplDX11_NewFrame();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui_ImplWin32_NewFrame();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::NewFrame();</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Any<sp/>application<sp/>code<sp/>here</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::Text(&quot;Hello,<sp/>world!&quot;);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>End<sp/>of<sp/>frame:<sp/>render<sp/>Dear<sp/>ImGui</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::Render();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Swap</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_pSwapChain-&gt;Present(1,<sp/>0);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>Shutdown</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui_ImplDX11_Shutdown();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui_ImplWin32_Shutdown();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui::DestroyContext();</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Please<sp/>read<sp/>&apos;PROGRAMMER<sp/>GUIDE&apos;<sp/>in<sp/>imgui.cpp<sp/>for<sp/>notes<sp/>on<sp/>how<sp/>to<sp/>setup<sp/>Dear<sp/>ImGui<sp/>in<sp/>your<sp/>codebase.</highlight></codeline>
+<codeline><highlight class="normal">Please<sp/>read<sp/>the<sp/>comments<sp/>and<sp/>instruction<sp/>at<sp/>the<sp/>top<sp/>of<sp/>each<sp/>file.</highlight></codeline>
+<codeline><highlight class="normal">Please<sp/>read<sp/>FAQ<sp/>at<sp/>http://www.dearimgui.org/faq</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>are<sp/>using<sp/>of<sp/>the<sp/>backend<sp/>provided<sp/>here,<sp/>you<sp/>can<sp/>add<sp/>the<sp/>backends/imgui_impl_xxxx(.cpp,.h)</highlight></codeline>
+<codeline><highlight class="normal">files<sp/>to<sp/>your<sp/>project<sp/>and<sp/>use<sp/>as-in.<sp/>Each<sp/>imgui_impl_xxxx.cpp<sp/>file<sp/>comes<sp/>with<sp/>its<sp/>own<sp/>individual</highlight></codeline>
+<codeline><highlight class="normal">Changelog,<sp/>so<sp/>if<sp/>you<sp/>want<sp/>to<sp/>update<sp/>them<sp/>later<sp/>it<sp/>will<sp/>be<sp/>easier<sp/>to<sp/>catch<sp/>up<sp/>with<sp/>what<sp/>changed.</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Examples<sp/>Applications</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_allegro5/](https://github.com/ocornut/imgui/blob/master/examples/example_allegro5/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">Allegro<sp/>5<sp/>example.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>+<sp/>imgui_impl_allegro5.cpp</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_android_opengl3/](https://github.com/ocornut/imgui/blob/master/examples/example_android_opengl3/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">Android<sp/>+<sp/>OpenGL3<sp/>(ES)<sp/>example.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>+<sp/>imgui_impl_android.cpp<sp/>+<sp/>imgui_impl_opengl3.cpp</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_apple_metal/](https://github.com/ocornut/imgui/blob/master/examples/example_metal/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">OSX<sp/>&amp;<sp/>iOS<sp/>+<sp/>Metal<sp/>example.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.m<sp/>+<sp/>imgui_impl_osx.mm<sp/>+<sp/>imgui_impl_metal.mm<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">It<sp/>is<sp/>based<sp/>on<sp/>the<sp/>&quot;cross-platform&quot;<sp/>game<sp/>template<sp/>provided<sp/>with<sp/>Xcode<sp/>as<sp/>of<sp/>Xcode<sp/>9.</highlight></codeline>
+<codeline><highlight class="normal">(NB:<sp/>imgui_impl_osx.mm<sp/>is<sp/>currently<sp/>not<sp/>as<sp/>feature<sp/>complete<sp/>as<sp/>other<sp/>platforms<sp/>backends.</highlight></codeline>
+<codeline><highlight class="normal">You<sp/>may<sp/>prefer<sp/>to<sp/>use<sp/>the<sp/>GLFW<sp/>Or<sp/>SDL<sp/>backends,<sp/>which<sp/>will<sp/>also<sp/>support<sp/>Windows<sp/>and<sp/>Linux.)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_apple_opengl2/](https://github.com/ocornut/imgui/blob/master/examples/example_apple_opengl2/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">OSX<sp/>+<sp/>OpenGL2<sp/>example.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.mm<sp/>+<sp/>imgui_impl_osx.mm<sp/>+<sp/>imgui_impl_opengl2.cpp<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">(NB:<sp/>imgui_impl_osx.mm<sp/>is<sp/>currently<sp/>not<sp/>as<sp/>feature<sp/>complete<sp/>as<sp/>other<sp/>platforms<sp/>backends.</highlight></codeline>
+<codeline><highlight class="normal"><sp/>You<sp/>may<sp/>prefer<sp/>to<sp/>use<sp/>the<sp/>GLFW<sp/>Or<sp/>SDL<sp/>backends,<sp/>which<sp/>will<sp/>also<sp/>support<sp/>Windows<sp/>and<sp/>Linux.)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_emscripten_opengl3/](https://github.com/ocornut/imgui/blob/master/examples/example_emscripten_opengl3/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">Emcripten<sp/>+<sp/>SDL2<sp/>+<sp/>OpenGL3+/ES2/ES3<sp/>example.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>+<sp/>imgui_impl_sdl.cpp<sp/>+<sp/>imgui_impl_opengl3.cpp<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">Note<sp/>that<sp/>other<sp/>examples<sp/>based<sp/>on<sp/>SDL<sp/>or<sp/>GLFW<sp/>+<sp/>OpenGL<sp/>could<sp/>easily<sp/>be<sp/>modified<sp/>to<sp/>work<sp/>with<sp/>Emscripten.</highlight></codeline>
+<codeline><highlight class="normal">We<sp/>provide<sp/>this<sp/>to<sp/>make<sp/>the<sp/>Emscripten<sp/>differences<sp/>obvious,<sp/>and<sp/>have<sp/>them<sp/>not<sp/>pollute<sp/>all<sp/>other<sp/>examples.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_emscripten_wgpu/](https://github.com/ocornut/imgui/blob/master/examples/example_emscripten_wgpu/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">Emcripten<sp/>+<sp/>GLFW<sp/>+<sp/>WebGPU<sp/>example.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>+<sp/>imgui_impl_glfw.cpp<sp/>+<sp/>imgui_impl_wgpu.cpp</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_glfw_metal/](https://github.com/ocornut/imgui/blob/master/examples/example_glfw_metal/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">GLFW<sp/>(Mac)<sp/>+<sp/>Metal<sp/>example.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.mm<sp/>+<sp/>imgui_impl_glfw.cpp<sp/>+<sp/>imgui_impl_metal.mm</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_glfw_opengl2/](https://github.com/ocornut/imgui/blob/master/examples/example_glfw_opengl2/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">GLFW<sp/>+<sp/>OpenGL2<sp/>example<sp/>(legacy,<sp/>fixed<sp/>pipeline).<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>+<sp/>imgui_impl_glfw.cpp<sp/>+<sp/>imgui_impl_opengl2.cpp<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">**DO<sp/>NOT<sp/>USE<sp/>THIS<sp/>IF<sp/>YOUR<sp/>CODE/ENGINE<sp/>IS<sp/>USING<sp/>MODERN<sp/>OPENGL<sp/>(SHADERS,<sp/>VBO,<sp/>VAO,<sp/>etc.)**<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">This<sp/>code<sp/>is<sp/>mostly<sp/>provided<sp/>as<sp/>a<sp/>reference<sp/>to<sp/>learn<sp/>about<sp/>Dear<sp/>ImGui<sp/>integration,<sp/>because<sp/>it<sp/>is<sp/>shorter.</highlight></codeline>
+<codeline><highlight class="normal">If<sp/>your<sp/>code<sp/>is<sp/>using<sp/>GL3+<sp/>context<sp/>or<sp/>any<sp/>semi<sp/>modern<sp/>OpenGL<sp/>calls,<sp/>using<sp/>this<sp/>renderer<sp/>is<sp/>likely<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">make<sp/>things<sp/>more<sp/>complicated,<sp/>will<sp/>require<sp/>your<sp/>code<sp/>to<sp/>reset<sp/>many<sp/>OpenGL<sp/>attributes<sp/>to<sp/>their<sp/>initial</highlight></codeline>
+<codeline><highlight class="normal">state,<sp/>and<sp/>might<sp/>confuse<sp/>your<sp/>GPU<sp/>driver.<sp/>One<sp/>star,<sp/>not<sp/>recommended.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_glfw_opengl3/](https://github.com/ocornut/imgui/blob/master/examples/example_glfw_opengl3/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">GLFW<sp/>(Win32,<sp/>Mac,<sp/>Linux)<sp/>+<sp/>OpenGL3+/ES2/ES3<sp/>example<sp/>(modern,<sp/>programmable<sp/>pipeline).<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>+<sp/>imgui_impl_glfw.cpp<sp/>+<sp/>imgui_impl_opengl3.cpp<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">This<sp/>uses<sp/>more<sp/>modern<sp/>OpenGL<sp/>calls<sp/>and<sp/>custom<sp/>shaders.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">This<sp/>may<sp/>actually<sp/>also<sp/>work<sp/>with<sp/>OpenGL<sp/>2.x<sp/>contexts!<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">Prefer<sp/>using<sp/>that<sp/>if<sp/>you<sp/>are<sp/>using<sp/>modern<sp/>OpenGL<sp/>in<sp/>your<sp/>application<sp/>(anything<sp/>with<sp/>shaders).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_glfw_vulkan/](https://github.com/ocornut/imgui/blob/master/examples/example_glfw_vulkan/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">GLFW<sp/>(Win32,<sp/>Mac,<sp/>Linux)<sp/>+<sp/>Vulkan<sp/>example.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>+<sp/>imgui_impl_glfw.cpp<sp/>+<sp/>imgui_impl_vulkan.cpp<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">This<sp/>is<sp/>quite<sp/>long<sp/>and<sp/>tedious,<sp/>because:<sp/>Vulkan.</highlight></codeline>
+<codeline><highlight class="normal">For<sp/>this<sp/>example,<sp/>the<sp/>main.cpp<sp/>file<sp/>exceptionally<sp/>use<sp/>helpers<sp/>function<sp/>from<sp/>imgui_impl_vulkan.h/cpp.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_glut_opengl2/](https://github.com/ocornut/imgui/blob/master/examples/example_glut_opengl2/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">GLUT<sp/>(e.g.,<sp/>FreeGLUT<sp/>on<sp/>Linux/Windows,<sp/>GLUT<sp/>framework<sp/>on<sp/>OSX)<sp/>+<sp/>OpenGL2<sp/>example.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>+<sp/>imgui_impl_glut.cpp<sp/>+<sp/>imgui_impl_opengl2.cpp<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">Note<sp/>that<sp/>GLUT/FreeGLUT<sp/>is<sp/>largely<sp/>obsolete<sp/>software,<sp/>prefer<sp/>using<sp/>GLFW<sp/>or<sp/>SDL.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_null/](https://github.com/ocornut/imgui/blob/master/examples/example_null/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">Null<sp/>example,<sp/>compile<sp/>and<sp/>link<sp/>imgui,<sp/>create<sp/>context,<sp/>run<sp/>headless<sp/>with<sp/>no<sp/>inputs<sp/>and<sp/>no<sp/>graphics<sp/>output.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">This<sp/>is<sp/>used<sp/>to<sp/>quickly<sp/>test<sp/>compilation<sp/>of<sp/>core<sp/>imgui<sp/>files<sp/>in<sp/>as<sp/>many<sp/>setups<sp/>as<sp/>possible.</highlight></codeline>
+<codeline><highlight class="normal">Because<sp/>this<sp/>application<sp/>doesn&apos;t<sp/>create<sp/>a<sp/>window<sp/>nor<sp/>a<sp/>graphic<sp/>context,<sp/>there&apos;s<sp/>no<sp/>graphics<sp/>output.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_sdl_directx11/](https://github.com/ocornut/imgui/blob/master/examples/example_sdl_directx11/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">SDL2<sp/>+<sp/>DirectX11<sp/>example,<sp/>Windows<sp/>only.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>+<sp/>imgui_impl_sdl.cpp<sp/>+<sp/>imgui_impl_dx11.cpp<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">This<sp/>to<sp/>demonstrate<sp/>usage<sp/>of<sp/>DirectX<sp/>with<sp/>SDL.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_sdl_metal/](https://github.com/ocornut/imgui/blob/master/examples/example_sdl_metal/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">SDL2<sp/>(Mac)<sp/>+<sp/>Metal<sp/>example.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.mm<sp/>+<sp/>imgui_impl_sdl.cpp<sp/>+<sp/>imgui_impl_metal.mm</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_sdl_opengl2/](https://github.com/ocornut/imgui/blob/master/examples/example_sdl_opengl2/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">SDL2<sp/>(Win32,<sp/>Mac,<sp/>Linux<sp/>etc.)<sp/>+<sp/>OpenGL<sp/>example<sp/>(legacy,<sp/>fixed<sp/>pipeline).<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>+<sp/>imgui_impl_sdl.cpp<sp/>+<sp/>imgui_impl_opengl2.cpp<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">**DO<sp/>NOT<sp/>USE<sp/>OPENGL2<sp/>CODE<sp/>IF<sp/>YOUR<sp/>CODE/ENGINE<sp/>IS<sp/>USING<sp/>MODERN<sp/>OPENGL<sp/>(SHADERS,<sp/>VBO,<sp/>VAO,<sp/>etc.)**<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">This<sp/>code<sp/>is<sp/>mostly<sp/>provided<sp/>as<sp/>a<sp/>reference<sp/>to<sp/>learn<sp/>about<sp/>Dear<sp/>ImGui<sp/>integration,<sp/>because<sp/>it<sp/>is<sp/>shorter.</highlight></codeline>
+<codeline><highlight class="normal">If<sp/>your<sp/>code<sp/>is<sp/>using<sp/>GL3+<sp/>context<sp/>or<sp/>any<sp/>semi<sp/>modern<sp/>OpenGL<sp/>calls,<sp/>using<sp/>this<sp/>renderer<sp/>is<sp/>likely<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">make<sp/>things<sp/>more<sp/>complicated,<sp/>will<sp/>require<sp/>your<sp/>code<sp/>to<sp/>reset<sp/>many<sp/>OpenGL<sp/>attributes<sp/>to<sp/>their<sp/>initial</highlight></codeline>
+<codeline><highlight class="normal">state,<sp/>and<sp/>might<sp/>confuse<sp/>your<sp/>GPU<sp/>driver.<sp/>One<sp/>star,<sp/>not<sp/>recommended.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_sdl_opengl3/](https://github.com/ocornut/imgui/blob/master/examples/example_sdl_opengl3/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">SDL2<sp/>(Win32,<sp/>Mac,<sp/>Linux,<sp/>etc.)<sp/>+<sp/>OpenGL3+/ES2/ES3<sp/>example.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>+<sp/>imgui_impl_sdl.cpp<sp/>+<sp/>imgui_impl_opengl3.cpp<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">This<sp/>uses<sp/>more<sp/>modern<sp/>OpenGL<sp/>calls<sp/>and<sp/>custom<sp/>shaders.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">This<sp/>may<sp/>actually<sp/>also<sp/>work<sp/>with<sp/>OpenGL<sp/>2.x<sp/>contexts!<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_sdl_sdlrenderer/](https://github.com/ocornut/imgui/blob/master/examples/example_sdl_sdlrenderer/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">SDL2<sp/>(Win32,<sp/>Mac,<sp/>Linux,<sp/>etc.)<sp/>+<sp/>SDL_Renderer<sp/>(most<sp/>graphics<sp/>backends<sp/>are<sp/>supported<sp/>underneath)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>+<sp/>imgui_impl_sdl.cpp<sp/>+<sp/>imgui_impl_sdlrenderer.cpp<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">This<sp/>requires<sp/>SDL<sp/>2.0.17+<sp/>(expected<sp/>to<sp/>release<sp/>November<sp/>2021)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">We<sp/>do<sp/>not<sp/>really<sp/>recommend<sp/>using<sp/>SDL_Renderer<sp/>as<sp/>it<sp/>is<sp/>a<sp/>rather<sp/>primitive<sp/>API.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_sdl_vulkan/](https://github.com/ocornut/imgui/blob/master/examples/example_sdl_vulkan/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">SDL2<sp/>(Win32,<sp/>Mac,<sp/>Linux,<sp/>etc.)<sp/>+<sp/>Vulkan<sp/>example.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>+<sp/>imgui_impl_sdl.cpp<sp/>+<sp/>imgui_impl_vulkan.cpp<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">This<sp/>is<sp/>quite<sp/>long<sp/>and<sp/>tedious,<sp/>because:<sp/>Vulkan.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">For<sp/>this<sp/>example,<sp/>the<sp/>main.cpp<sp/>file<sp/>exceptionally<sp/>use<sp/>helpers<sp/>function<sp/>from<sp/>imgui_impl_vulkan.h/cpp.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_win32_directx9/](https://github.com/ocornut/imgui/blob/master/examples/example_win32_directx9/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">DirectX9<sp/>example,<sp/>Windows<sp/>only.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>+<sp/>imgui_impl_win32.cpp<sp/>+<sp/>imgui_impl_dx9.cpp</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_win32_directx10/](https://github.com/ocornut/imgui/blob/master/examples/example_win32_directx10/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">DirectX10<sp/>example,<sp/>Windows<sp/>only.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>+<sp/>imgui_impl_win32.cpp<sp/>+<sp/>imgui_impl_dx10.cpp</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_win32_directx11/](https://github.com/ocornut/imgui/blob/master/examples/example_win32_directx11/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">DirectX11<sp/>example,<sp/>Windows<sp/>only.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>+<sp/>imgui_impl_win32.cpp<sp/>+<sp/>imgui_impl_dx11.cpp</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[example_win32_directx12/](https://github.com/ocornut/imgui/blob/master/examples/example_win32_directx12/)<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">DirectX12<sp/>example,<sp/>Windows<sp/>only.<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">=<sp/>main.cpp<sp/>+<sp/>imgui_impl_win32.cpp<sp/>+<sp/>imgui_impl_dx12.cpp<sp/>&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">This<sp/>is<sp/>quite<sp/>long<sp/>and<sp/>tedious,<sp/>because:<sp/>DirectX12.</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Miscallaneous</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Building**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Unfortunately<sp/>nowadays<sp/>it<sp/>is<sp/>still<sp/>tedious<sp/>to<sp/>create<sp/>and<sp/>maintain<sp/>portable<sp/>build<sp/>files<sp/>using<sp/>external</highlight></codeline>
+<codeline><highlight class="normal">libraries<sp/>(the<sp/>kind<sp/>we&apos;re<sp/>using<sp/>here<sp/>to<sp/>create<sp/>a<sp/>window<sp/>and<sp/>render<sp/>3D<sp/>triangles)<sp/>without<sp/>relying<sp/>on</highlight></codeline>
+<codeline><highlight class="normal">third<sp/>party<sp/>software<sp/>and<sp/>build<sp/>systems.<sp/>For<sp/>most<sp/>examples<sp/>here<sp/>we<sp/>choose<sp/>to<sp/>provide:</highlight></codeline>
+<codeline><highlight class="normal"><sp/>-<sp/>Makefiles<sp/>for<sp/>Linux/OSX</highlight></codeline>
+<codeline><highlight class="normal"><sp/>-<sp/>Batch<sp/>files<sp/>for<sp/>Visual<sp/>Studio<sp/>2008+</highlight></codeline>
+<codeline><highlight class="normal"><sp/>-<sp/>A<sp/>.sln<sp/>project<sp/>file<sp/>for<sp/>Visual<sp/>Studio<sp/>2012+</highlight></codeline>
+<codeline><highlight class="normal"><sp/>-<sp/>Xcode<sp/>project<sp/>files<sp/>for<sp/>the<sp/>Apple<sp/>examples</highlight></codeline>
+<codeline><highlight class="normal">Please<sp/>let<sp/>us<sp/>know<sp/>if<sp/>they<sp/>don&apos;t<sp/>work<sp/>with<sp/>your<sp/>setup!</highlight></codeline>
+<codeline><highlight class="normal">You<sp/>can<sp/>probably<sp/>just<sp/>import<sp/>the<sp/>imgui_impl_xxx.cpp/.h<sp/>files<sp/>into<sp/>your<sp/>own<sp/>codebase<sp/>or<sp/>compile<sp/>those</highlight></codeline>
+<codeline><highlight class="normal">directly<sp/>with<sp/>a<sp/>command-line<sp/>compiler.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>are<sp/>interested<sp/>in<sp/>using<sp/>Cmake<sp/>to<sp/>build<sp/>and<sp/>links<sp/>examples,<sp/>see:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>https://github.com/ocornut/imgui/pull/1713<sp/>and<sp/>https://github.com/ocornut/imgui/pull/3027</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**About<sp/>mouse<sp/>cursor<sp/>latency**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Dear<sp/>ImGui<sp/>has<sp/>no<sp/>particular<sp/>extra<sp/>lag<sp/>for<sp/>most<sp/>behaviors,</highlight></codeline>
+<codeline><highlight class="normal">e.g.<sp/>the<sp/>value<sp/>of<sp/>&apos;io.MousePos&apos;<sp/>provided<sp/>at<sp/>the<sp/>time<sp/>of<sp/>NewFrame()<sp/>will<sp/>result<sp/>in<sp/>windows<sp/>being<sp/>moved</highlight></codeline>
+<codeline><highlight class="normal">to<sp/>the<sp/>right<sp/>spot<sp/>at<sp/>the<sp/>time<sp/>of<sp/>EndFrame()/Render().<sp/>At<sp/>60<sp/>FPS<sp/>your<sp/>experience<sp/>should<sp/>be<sp/>pleasant.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">However,<sp/>consider<sp/>that<sp/>OS<sp/>mouse<sp/>cursors<sp/>are<sp/>typically<sp/>drawn<sp/>through<sp/>a<sp/>very<sp/>specific<sp/>hardware<sp/>accelerated</highlight></codeline>
+<codeline><highlight class="normal">path<sp/>and<sp/>will<sp/>feel<sp/>smoother<sp/>than<sp/>the<sp/>majority<sp/>of<sp/>contents<sp/>rendered<sp/>via<sp/>regular<sp/>graphics<sp/>API<sp/>(including,</highlight></codeline>
+<codeline><highlight class="normal">but<sp/>not<sp/>limited<sp/>to<sp/>Dear<sp/>ImGui<sp/>windows).<sp/>Because<sp/>UI<sp/>rendering<sp/>and<sp/>interaction<sp/>happens<sp/>on<sp/>the<sp/>same<sp/>plane</highlight></codeline>
+<codeline><highlight class="normal">as<sp/>the<sp/>mouse,<sp/>that<sp/>disconnect<sp/>may<sp/>be<sp/>jarring<sp/>to<sp/>particularly<sp/>sensitive<sp/>users.</highlight></codeline>
+<codeline><highlight class="normal">You<sp/>may<sp/>experiment<sp/>with<sp/>enabling<sp/>the<sp/>io.MouseDrawCursor<sp/>flag<sp/>to<sp/>request<sp/>Dear<sp/>ImGui<sp/>to<sp/>draw<sp/>a<sp/>mouse<sp/>cursor</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>the<sp/>regular<sp/>graphics<sp/>API,<sp/>to<sp/>help<sp/>you<sp/>visualize<sp/>the<sp/>difference<sp/>between<sp/>a<sp/>&quot;hardware&quot;<sp/>cursor<sp/>and<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">regularly<sp/>rendered<sp/>software<sp/>cursor.</highlight></codeline>
+<codeline><highlight class="normal">However,<sp/>rendering<sp/>a<sp/>mouse<sp/>cursor<sp/>at<sp/>60<sp/>FPS<sp/>will<sp/>feel<sp/>sluggish<sp/>so<sp/>you<sp/>likely<sp/>won&apos;t<sp/>want<sp/>to<sp/>enable<sp/>that<sp/>at</highlight></codeline>
+<codeline><highlight class="normal">all<sp/>times.<sp/>It<sp/>might<sp/>be<sp/>beneficial<sp/>for<sp/>the<sp/>user<sp/>experience<sp/>to<sp/>switch<sp/>to<sp/>a<sp/>software<sp/>rendered<sp/>cursor<sp/>_only_</highlight></codeline>
+<codeline><highlight class="normal">when<sp/>an<sp/>interactive<sp/>drag<sp/>is<sp/>in<sp/>progress.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Note<sp/>that<sp/>some<sp/>setup<sp/>or<sp/>GPU<sp/>drivers<sp/>are<sp/>likely<sp/>to<sp/>be<sp/>causing<sp/>extra<sp/>display<sp/>lag<sp/>depending<sp/>on<sp/>their<sp/>settings.</highlight></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>feel<sp/>that<sp/>dragging<sp/>windows<sp/>feels<sp/>laggy<sp/>and<sp/>you<sp/>are<sp/>not<sp/>sure<sp/>what<sp/>the<sp/>cause<sp/>is:<sp/>try<sp/>to<sp/>build<sp/>a<sp/>simple</highlight></codeline>
+<codeline><highlight class="normal">drawing<sp/>a<sp/>flat<sp/>2D<sp/>shape<sp/>directly<sp/>under<sp/>the<sp/>mouse<sp/>cursor!</highlight></codeline>
+<codeline></codeline>
+    </programlisting>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/docs/EXAMPLES.md"/>
+  </compounddef>
+</doxygen>

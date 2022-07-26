@@ -1,0 +1,167 @@
+\hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source}{}\doxysection{main.\+cpp}
+\label{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/examples/example\_sdl\_sdlrenderer/main.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/examples/example\_sdl\_sdlrenderer/main.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00001}00001 \textcolor{comment}{// Dear ImGui: standalone example application for SDL2 + SDL\_Renderer}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00002}00002 \textcolor{comment}{// (SDL is a cross-\/platform general purpose library for handling windows, inputs, OpenGL/Vulkan/Metal graphics context creation, etc.)}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00003}00003 \textcolor{comment}{// If you are new to Dear ImGui, read documentation from the docs/ folder + read the top of imgui.cpp.}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00004}00004 \textcolor{comment}{// Read online: https://github.com/ocornut/imgui/tree/master/docs}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00006}00006 \textcolor{comment}{// Important to understand: SDL\_Renderer is an \_optional\_ component of SDL. We do not recommend you use SDL\_Renderer}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00007}00007 \textcolor{comment}{// because it provide a rather limited API to the end-\/user. We provide this backend for the sake of completeness.}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00008}00008 \textcolor{comment}{// For a multi-\/platform app consider using e.g. SDL+DirectX on Windows and SDL+OpenGL on Linux/OSX.}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00009}00009 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00010}00010 \textcolor{preprocessor}{\#include "{}imgui.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00011}00011 \textcolor{preprocessor}{\#include "{}imgui\_impl\_sdl.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00012}00012 \textcolor{preprocessor}{\#include "{}imgui\_impl\_sdlrenderer.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00013}00013 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00014}00014 \textcolor{preprocessor}{\#include <SDL.h>}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00016}00016 \textcolor{preprocessor}{\#if !SDL\_VERSION\_ATLEAST(2,0,17)}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00017}00017 \textcolor{preprocessor}{\#error This backend requires SDL 2.0.17+ because of SDL\_RenderGeometry() function}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00018}00018 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00020}00020 \textcolor{comment}{// Main code}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00021}00021 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int}, \textcolor{keywordtype}{char}**)}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00022}00022 \{}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00023}00023     \textcolor{comment}{// Setup SDL}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00024}00024     \textcolor{comment}{// (Some versions of SDL before <2.0.10 appears to have performance/stalling issues on a minority of Windows systems,}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00025}00025     \textcolor{comment}{// depending on whether SDL\_INIT\_GAMECONTROLLER is enabled or disabled.. updating to latest version of SDL is recommended!)}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00026}00026     \textcolor{keywordflow}{if} (SDL\_Init(SDL\_INIT\_VIDEO | SDL\_INIT\_TIMER | SDL\_INIT\_GAMECONTROLLER) != 0)}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00027}00027     \{}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00028}00028         printf(\textcolor{stringliteral}{"{}Error: \%s\(\backslash\)n"{}}, SDL\_GetError());}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00029}00029         \textcolor{keywordflow}{return} -\/1;}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00030}00030     \}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00032}00032     \textcolor{comment}{// Setup window}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00033}00033     SDL\_WindowFlags window\_flags = (SDL\_WindowFlags)(SDL\_WINDOW\_OPENGL | SDL\_WINDOW\_RESIZABLE | SDL\_WINDOW\_ALLOW\_HIGHDPI);}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00034}00034     SDL\_Window* window = SDL\_CreateWindow(\textcolor{stringliteral}{"{}Dear ImGui SDL2+SDL\_Renderer example"{}}, SDL\_WINDOWPOS\_CENTERED, SDL\_WINDOWPOS\_CENTERED, 1280, 720, window\_flags);}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00036}00036     \textcolor{comment}{// Setup SDL\_Renderer instance}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00037}00037     SDL\_Renderer* renderer = SDL\_CreateRenderer(window, -\/1, SDL\_RENDERER\_PRESENTVSYNC | SDL\_RENDERER\_ACCELERATED);}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00038}00038     \textcolor{keywordflow}{if} (renderer == NULL)}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00039}00039     \{}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00040}00040         SDL\_Log(\textcolor{stringliteral}{"{}Error creating SDL\_Renderer!"{}});}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00041}00041         \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00042}00042     \}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00043}00043     \textcolor{comment}{//SDL\_RendererInfo info;}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00044}00044     \textcolor{comment}{//SDL\_GetRendererInfo(renderer, \&info);}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00045}00045     \textcolor{comment}{//SDL\_Log("{}Current SDL\_Renderer: \%s"{}, info.name);}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00047}00047     \textcolor{comment}{// Setup Dear ImGui context}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00048}00048     IMGUI\_CHECKVERSION();}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00049}00049     ImGui::CreateContext();}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00050}00050     \mbox{\hyperlink{struct_im_gui_i_o}{ImGuiIO}}\& io = ImGui::GetIO(); (void)io;}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00051}00051     \textcolor{comment}{//io.ConfigFlags |= ImGuiConfigFlags\_NavEnableKeyboard;     // Enable Keyboard Controls}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00052}00052     \textcolor{comment}{//io.ConfigFlags |= ImGuiConfigFlags\_NavEnableGamepad;      // Enable Gamepad Controls}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00054}00054     \textcolor{comment}{// Setup Dear ImGui style}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00055}00055     ImGui::StyleColorsDark();}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00056}00056     \textcolor{comment}{//ImGui::StyleColorsClassic();}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00058}00058     \textcolor{comment}{// Setup Platform/Renderer backends}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00059}00059     ImGui\_ImplSDL2\_InitForSDLRenderer(window);}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00060}00060     ImGui\_ImplSDLRenderer\_Init(renderer);}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00062}00062     \textcolor{comment}{// Load Fonts}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00063}00063     \textcolor{comment}{// -\/ If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00064}00064     \textcolor{comment}{// -\/ AddFontFromFileTTF() will return the ImFont* so you can store it if you need to select the font among multiple.}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00065}00065     \textcolor{comment}{// -\/ If the file cannot be loaded, the function will return NULL. Please handle those errors in your application (e.g. use an assertion, or display an error and quit).}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00066}00066     \textcolor{comment}{// -\/ The fonts will be rasterized at a given size (w/ oversampling) and stored into a texture when calling ImFontAtlas::Build()/GetTexDataAsXXXX(), which ImGui\_ImplXXXX\_NewFrame below will call.}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00067}00067     \textcolor{comment}{// -\/ Read 'docs/FONTS.md' for more instructions and details.}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00068}00068     \textcolor{comment}{// -\/ Remember that in C/C++ if you want to include a backslash \(\backslash\) in a string literal you need to write a double backslash \(\backslash\)\(\backslash\) !}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00069}00069     \textcolor{comment}{//io.Fonts-\/>AddFontDefault();}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00070}00070     \textcolor{comment}{//io.Fonts-\/>AddFontFromFileTTF("{}../../misc/fonts/Roboto-\/Medium.ttf"{}, 16.0f);}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00071}00071     \textcolor{comment}{//io.Fonts-\/>AddFontFromFileTTF("{}../../misc/fonts/Cousine-\/Regular.ttf"{}, 15.0f);}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00072}00072     \textcolor{comment}{//io.Fonts-\/>AddFontFromFileTTF("{}../../misc/fonts/DroidSans.ttf"{}, 16.0f);}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00073}00073     \textcolor{comment}{//io.Fonts-\/>AddFontFromFileTTF("{}../../misc/fonts/ProggyTiny.ttf"{}, 10.0f);}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00074}00074     \textcolor{comment}{//ImFont* font = io.Fonts-\/>AddFontFromFileTTF("{}c:\(\backslash\)\(\backslash\)Windows\(\backslash\)\(\backslash\)Fonts\(\backslash\)\(\backslash\)ArialUni.ttf"{}, 18.0f, NULL, io.Fonts-\/>GetGlyphRangesJapanese());}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00075}00075     \textcolor{comment}{//IM\_ASSERT(font != NULL);}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00077}00077     \textcolor{comment}{// Our state}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00078}00078     \textcolor{keywordtype}{bool} show\_demo\_window = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00079}00079     \textcolor{keywordtype}{bool} show\_another\_window = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00080}00080     \mbox{\hyperlink{struct_im_vec4}{ImVec4}} clear\_color = \mbox{\hyperlink{struct_im_vec4}{ImVec4}}(0.45f, 0.55f, 0.60f, 1.00f);}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00082}00082     \textcolor{comment}{// Main loop}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00083}00083     \textcolor{keywordtype}{bool} done = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00084}00084     \textcolor{keywordflow}{while} (!done)}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00085}00085     \{}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00086}00086         \textcolor{comment}{// Poll and handle events (inputs, window resize, etc.)}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00087}00087         \textcolor{comment}{// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00088}00088         \textcolor{comment}{// -\/ When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00089}00089         \textcolor{comment}{// -\/ When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00090}00090         \textcolor{comment}{// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00091}00091         SDL\_Event event;}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00092}00092         \textcolor{keywordflow}{while} (SDL\_PollEvent(\&event))}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00093}00093         \{}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00094}00094             ImGui\_ImplSDL2\_ProcessEvent(\&event);}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00095}00095             \textcolor{keywordflow}{if} (event.type == SDL\_QUIT)}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00096}00096                 done = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00097}00097             \textcolor{keywordflow}{if} (event.type == SDL\_WINDOWEVENT \&\& event.window.event == SDL\_WINDOWEVENT\_CLOSE \&\& event.window.windowID == SDL\_GetWindowID(window))}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00098}00098                 done = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00099}00099         \}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00100}00100 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00101}00101         \textcolor{comment}{// Start the Dear ImGui frame}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00102}00102         ImGui\_ImplSDLRenderer\_NewFrame();}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00103}00103         ImGui\_ImplSDL2\_NewFrame(window);}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00104}00104         ImGui::NewFrame();}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00106}00106         \textcolor{comment}{// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00107}00107         \textcolor{keywordflow}{if} (show\_demo\_window)}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00108}00108             ImGui::ShowDemoWindow(\&show\_demo\_window);}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00109}00109 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00110}00110         \textcolor{comment}{// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00111}00111         \{}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00112}00112             \textcolor{keyword}{static} \textcolor{keywordtype}{float} f = 0.0f;}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00113}00113             \textcolor{keyword}{static} \textcolor{keywordtype}{int} counter = 0;}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00115}00115             ImGui::Begin(\textcolor{stringliteral}{"{}Hello, world!"{}});                          \textcolor{comment}{// Create a window called "{}Hello, world!"{} and append into it.}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00117}00117             ImGui::Text(\textcolor{stringliteral}{"{}This is some useful text."{}});               \textcolor{comment}{// Display some text (you can use a format strings too)}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00118}00118             ImGui::Checkbox(\textcolor{stringliteral}{"{}Demo Window"{}}, \&show\_demo\_window);      \textcolor{comment}{// Edit bools storing our window open/close state}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00119}00119             ImGui::Checkbox(\textcolor{stringliteral}{"{}Another Window"{}}, \&show\_another\_window);}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00121}00121             ImGui::SliderFloat(\textcolor{stringliteral}{"{}float"{}}, \&f, 0.0f, 1.0f);            \textcolor{comment}{// Edit 1 float using a slider from 0.0f to 1.0f}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00122}00122             ImGui::ColorEdit3(\textcolor{stringliteral}{"{}clear color"{}}, (\textcolor{keywordtype}{float}*)\&clear\_color); \textcolor{comment}{// Edit 3 floats representing a color}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00123}00123 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00124}00124             \textcolor{keywordflow}{if} (ImGui::Button(\textcolor{stringliteral}{"{}Button"{}}))                            \textcolor{comment}{// Buttons return true when clicked (most widgets return true when edited/activated)}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00125}00125                 counter++;}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00126}00126             ImGui::SameLine();}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00127}00127             ImGui::Text(\textcolor{stringliteral}{"{}counter = \%d"{}}, counter);}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00128}00128 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00129}00129             ImGui::Text(\textcolor{stringliteral}{"{}Application average \%.3f ms/frame (\%.1f FPS)"{}}, 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00130}00130             ImGui::End();}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00131}00131         \}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00132}00132 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00133}00133         \textcolor{comment}{// 3. Show another simple window.}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00134}00134         \textcolor{keywordflow}{if} (show\_another\_window)}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00135}00135         \{}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00136}00136             ImGui::Begin(\textcolor{stringliteral}{"{}Another Window"{}}, \&show\_another\_window);   \textcolor{comment}{// Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00137}00137             ImGui::Text(\textcolor{stringliteral}{"{}Hello from another window!"{}});}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00138}00138             \textcolor{keywordflow}{if} (ImGui::Button(\textcolor{stringliteral}{"{}Close Me"{}}))}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00139}00139                 show\_another\_window = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00140}00140             ImGui::End();}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00141}00141         \}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00142}00142 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00143}00143         \textcolor{comment}{// Rendering}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00144}00144         ImGui::Render();}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00145}00145         SDL\_SetRenderDrawColor(renderer, (Uint8)(clear\_color.x * 255), (Uint8)(clear\_color.y * 255), (Uint8)(clear\_color.z * 255), (Uint8)(clear\_color.w * 255));}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00146}00146         SDL\_RenderClear(renderer);}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00147}00147         ImGui\_ImplSDLRenderer\_RenderDrawData(ImGui::GetDrawData());}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00148}00148         SDL\_RenderPresent(renderer);}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00149}00149     \}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00150}00150 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00151}00151     \textcolor{comment}{// Cleanup}}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00152}00152     ImGui\_ImplSDLRenderer\_Shutdown();}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00153}00153     ImGui\_ImplSDL2\_Shutdown();}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00154}00154     ImGui::DestroyContext();}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00155}00155 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00156}00156     SDL\_DestroyRenderer(renderer);}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00157}00157     SDL\_DestroyWindow(window);}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00158}00158     SDL\_Quit();}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00159}00159 }
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00160}00160     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{imgui_2examples_2example__sdl__sdlrenderer_2main_8cpp_source_l00161}00161 \}}
+
+\end{DoxyCode}

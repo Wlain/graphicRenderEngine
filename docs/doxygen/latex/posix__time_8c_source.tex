@@ -1,0 +1,90 @@
+\hypertarget{posix__time_8c_source}{}\doxysection{posix\+\_\+time.\+c}
+\label{posix__time_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/posix\_time.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/posix\_time.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00001}00001 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00002}00002 \textcolor{comment}{// GLFW 3.4 POSIX -\/ www.glfw.org}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00003}00003 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00004}00004 \textcolor{comment}{// Copyright (c) 2002-\/2006 Marcus Geelnard}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00005}00005 \textcolor{comment}{// Copyright (c) 2006-\/2017 Camilla Löwy <elmindreda@glfw.org>}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00006}00006 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00007}00007 \textcolor{comment}{// This software is provided 'as-\/is', without any express or implied}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00008}00008 \textcolor{comment}{// warranty. In no event will the authors be held liable for any damages}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00009}00009 \textcolor{comment}{// arising from the use of this software.}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00011}00011 \textcolor{comment}{// Permission is granted to anyone to use this software for any purpose,}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00012}00012 \textcolor{comment}{// including commercial applications, and to alter it and redistribute it}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00013}00013 \textcolor{comment}{// freely, subject to the following restrictions:}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00014}00014 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00015}00015 \textcolor{comment}{// 1. The origin of this software must not be misrepresented; you must not}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00016}00016 \textcolor{comment}{//    claim that you wrote the original software. If you use this software}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00017}00017 \textcolor{comment}{//    in a product, an acknowledgment in the product documentation would}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00018}00018 \textcolor{comment}{//    be appreciated but is not required.}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00019}00019 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00020}00020 \textcolor{comment}{// 2. Altered source versions must be plainly marked as such, and must not}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00021}00021 \textcolor{comment}{//    be misrepresented as being the original software.}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00022}00022 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00023}00023 \textcolor{comment}{// 3. This notice may not be removed or altered from any source}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00024}00024 \textcolor{comment}{//    distribution.}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00025}00025 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00026}00026 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00027}00027 \textcolor{comment}{// It is fine to use C99 in this file because it will not be built with VS}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00028}00028 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00030}00030 \textcolor{preprocessor}{\#define \_POSIX\_C\_SOURCE 199309L}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00032}00032 \textcolor{preprocessor}{\#include "{}internal.h"{}}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00034}00034 \textcolor{preprocessor}{\#include <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00035}00035 \textcolor{preprocessor}{\#include <sys/time.h>}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00036}00036 \textcolor{preprocessor}{\#include <time.h>}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00043}00043 \textcolor{comment}{// Initialise timer}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00044}00044 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00045}00045 \textcolor{keywordtype}{void} \_glfwInitTimerPOSIX(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00046}00046 \{}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00047}00047 \textcolor{preprocessor}{\#if defined(\_POSIX\_TIMERS) \&\& defined(\_POSIX\_MONOTONIC\_CLOCK)}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00048}00048     \textcolor{keyword}{struct }timespec ts;}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00050}00050     \textcolor{keywordflow}{if} (clock\_gettime(CLOCK\_MONOTONIC, \&ts) == 0)}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00051}00051     \{}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00052}00052         \_glfw.timer.posix.monotonic = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00053}00053         \_glfw.timer.posix.frequency = 1000000000;}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00054}00054     \}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00055}00055     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00056}00056 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00057}00057     \{}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00058}00058         \_glfw.timer.posix.monotonic = \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00059}00059         \_glfw.timer.posix.frequency = 1000000;}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00060}00060     \}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00061}00061 \}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00062}00062 }
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00068}00068 uint64\_t \_glfwPlatformGetTimerValue(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00069}00069 \{}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00070}00070 \textcolor{preprocessor}{\#if defined(\_POSIX\_TIMERS) \&\& defined(\_POSIX\_MONOTONIC\_CLOCK)}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00071}00071     \textcolor{keywordflow}{if} (\_glfw.timer.posix.monotonic)}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00072}00072     \{}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00073}00073         \textcolor{keyword}{struct }timespec ts;}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00074}00074         clock\_gettime(CLOCK\_MONOTONIC, \&ts);}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00075}00075         \textcolor{keywordflow}{return} (uint64\_t) ts.tv\_sec * (\mbox{\hyperlink{group__gtc__type__precision_ga058f57c19e1befdcf12498944bd73e69}{uint64\_t}}) 1000000000 + (uint64\_t) ts.tv\_nsec;}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00076}00076     \}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00077}00077     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00078}00078 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00079}00079     \{}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00080}00080         \textcolor{keyword}{struct }timeval tv;}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00081}00081         gettimeofday(\&tv, NULL);}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00082}00082         \textcolor{keywordflow}{return} (uint64\_t) tv.tv\_sec * (\mbox{\hyperlink{group__gtc__type__precision_ga058f57c19e1befdcf12498944bd73e69}{uint64\_t}}) 1000000 + (uint64\_t) tv.tv\_usec;}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00083}00083     \}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00084}00084 \}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00086}00086 uint64\_t \_glfwPlatformGetTimerFrequency(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00087}00087 \{}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00088}00088     \textcolor{keywordflow}{return} \_glfw.timer.posix.frequency;}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00089}00089 \}}
+\DoxyCodeLine{\Hypertarget{posix__time_8c_source_l00090}00090 }
+
+\end{DoxyCode}

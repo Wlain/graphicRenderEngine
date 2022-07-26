@@ -1,0 +1,804 @@
+\hypertarget{x11__platform_8h_source}{}\doxysection{x11\+\_\+platform.\+h}
+\label{x11__platform_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/x11\_platform.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/x11\_platform.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00001}00001 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00002}00002 \textcolor{comment}{// GLFW 3.4 X11 -\/ www.glfw.org}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00003}00003 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00004}00004 \textcolor{comment}{// Copyright (c) 2002-\/2006 Marcus Geelnard}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00005}00005 \textcolor{comment}{// Copyright (c) 2006-\/2019 Camilla Löwy <elmindreda@glfw.org>}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00006}00006 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00007}00007 \textcolor{comment}{// This software is provided 'as-\/is', without any express or implied}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00008}00008 \textcolor{comment}{// warranty. In no event will the authors be held liable for any damages}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00009}00009 \textcolor{comment}{// arising from the use of this software.}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00011}00011 \textcolor{comment}{// Permission is granted to anyone to use this software for any purpose,}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00012}00012 \textcolor{comment}{// including commercial applications, and to alter it and redistribute it}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00013}00013 \textcolor{comment}{// freely, subject to the following restrictions:}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00014}00014 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00015}00015 \textcolor{comment}{// 1. The origin of this software must not be misrepresented; you must not}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00016}00016 \textcolor{comment}{//    claim that you wrote the original software. If you use this software}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00017}00017 \textcolor{comment}{//    in a product, an acknowledgment in the product documentation would}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00018}00018 \textcolor{comment}{//    be appreciated but is not required.}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00019}00019 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00020}00020 \textcolor{comment}{// 2. Altered source versions must be plainly marked as such, and must not}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00021}00021 \textcolor{comment}{//    be misrepresented as being the original software.}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00022}00022 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00023}00023 \textcolor{comment}{// 3. This notice may not be removed or altered from any source}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00024}00024 \textcolor{comment}{//    distribution.}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00025}00025 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00026}00026 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00028}00028 \textcolor{preprocessor}{\#include <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00029}00029 \textcolor{preprocessor}{\#include <signal.h>}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00030}00030 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00031}00031 \textcolor{preprocessor}{\#include <dlfcn.h>}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00033}00033 \textcolor{preprocessor}{\#include <X11/Xlib.h>}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00034}00034 \textcolor{preprocessor}{\#include <X11/keysym.h>}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00035}00035 \textcolor{preprocessor}{\#include <X11/Xatom.h>}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00036}00036 \textcolor{preprocessor}{\#include <X11/Xresource.h>}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00037}00037 \textcolor{preprocessor}{\#include <X11/Xcursor/Xcursor.h>}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00039}00039 \textcolor{comment}{// The XRandR extension provides mode setting and gamma control}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00040}00040 \textcolor{preprocessor}{\#include <X11/extensions/Xrandr.h>}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00042}00042 \textcolor{comment}{// The Xkb extension provides improved keyboard support}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00043}00043 \textcolor{preprocessor}{\#include <X11/XKBlib.h>}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00045}00045 \textcolor{comment}{// The Xinerama extension provides legacy monitor indices}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00046}00046 \textcolor{preprocessor}{\#include <X11/extensions/Xinerama.h>}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00048}00048 \textcolor{comment}{// The XInput extension provides raw mouse motion input}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00049}00049 \textcolor{preprocessor}{\#include <X11/extensions/XInput2.h>}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00051}00051 \textcolor{comment}{// The Shape extension provides custom window shapes}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00052}00052 \textcolor{preprocessor}{\#include <X11/extensions/shape.h>}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00054}00054 \textcolor{keyword}{typedef} XClassHint* (* PFN\_XAllocClassHint)(void);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00055}00055 \textcolor{keyword}{typedef} XSizeHints* (* PFN\_XAllocSizeHints)(void);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00056}00056 \textcolor{keyword}{typedef} XWMHints* (* PFN\_XAllocWMHints)(void);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00057}00057 \textcolor{keyword}{typedef} int (* PFN\_XChangeProperty)(Display*,Window,Atom,Atom,int,int,\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*,int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00058}00058 \textcolor{keyword}{typedef} int (* PFN\_XChangeWindowAttributes)(Display*,Window,\textcolor{keywordtype}{unsigned} long,XSetWindowAttributes*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00059}00059 \textcolor{keyword}{typedef} Bool (* PFN\_XCheckIfEvent)(Display*,XEvent*,Bool(*)(Display*,XEvent*,XPointer),XPointer);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00060}00060 \textcolor{keyword}{typedef} Bool (* PFN\_XCheckTypedWindowEvent)(Display*,Window,int,XEvent*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00061}00061 \textcolor{keyword}{typedef} int (* PFN\_XCloseDisplay)(Display*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00062}00062 \textcolor{keyword}{typedef} Status (* PFN\_XCloseIM)(XIM);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00063}00063 \textcolor{keyword}{typedef} int (* PFN\_XConvertSelection)(Display*,Atom,Atom,Atom,Window,Time);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00064}00064 \textcolor{keyword}{typedef} Colormap (* PFN\_XCreateColormap)(Display*,Window,Visual*,int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00065}00065 \textcolor{keyword}{typedef} Cursor (* PFN\_XCreateFontCursor)(Display*,\textcolor{keywordtype}{unsigned} int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00066}00066 \textcolor{keyword}{typedef} XIC (* PFN\_XCreateIC)(XIM,...);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00067}00067 \textcolor{keyword}{typedef} Region (* PFN\_XCreateRegion)(void);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00068}00068 \textcolor{keyword}{typedef} Window (* PFN\_XCreateWindow)(Display*,Window,int,int,\textcolor{keywordtype}{unsigned} int,\textcolor{keywordtype}{unsigned} int,\textcolor{keywordtype}{unsigned} int,int,\textcolor{keywordtype}{unsigned} int,Visual*,\textcolor{keywordtype}{unsigned} long,XSetWindowAttributes*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00069}00069 \textcolor{keyword}{typedef} int (* PFN\_XDefineCursor)(Display*,Window,Cursor);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00070}00070 \textcolor{keyword}{typedef} int (* PFN\_XDeleteContext)(Display*,XID,XContext);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00071}00071 \textcolor{keyword}{typedef} int (* PFN\_XDeleteProperty)(Display*,Window,Atom);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00072}00072 \textcolor{keyword}{typedef} void (* PFN\_XDestroyIC)(XIC);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00073}00073 \textcolor{keyword}{typedef} int (* PFN\_XDestroyRegion)(Region);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00074}00074 \textcolor{keyword}{typedef} int (* PFN\_XDestroyWindow)(Display*,Window);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00075}00075 \textcolor{keyword}{typedef} int (* PFN\_XDisplayKeycodes)(Display*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00076}00076 \textcolor{keyword}{typedef} int (* PFN\_XEventsQueued)(Display*,int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00077}00077 \textcolor{keyword}{typedef} Bool (* PFN\_XFilterEvent)(XEvent*,Window);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00078}00078 \textcolor{keyword}{typedef} int (* PFN\_XFindContext)(Display*,XID,XContext,XPointer*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00079}00079 \textcolor{keyword}{typedef} int (* PFN\_XFlush)(Display*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00080}00080 \textcolor{keyword}{typedef} int (* PFN\_XFree)(\textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00081}00081 \textcolor{keyword}{typedef} int (* PFN\_XFreeColormap)(Display*,Colormap);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00082}00082 \textcolor{keyword}{typedef} int (* PFN\_XFreeCursor)(Display*,Cursor);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00083}00083 \textcolor{keyword}{typedef} void (* PFN\_XFreeEventData)(Display*,XGenericEventCookie*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00084}00084 \textcolor{keyword}{typedef} int (* PFN\_XGetErrorText)(Display*,int,\textcolor{keywordtype}{char}*,int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00085}00085 \textcolor{keyword}{typedef} Bool (* PFN\_XGetEventData)(Display*,XGenericEventCookie*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00086}00086 \textcolor{keyword}{typedef} \textcolor{keywordtype}{char}* (* PFN\_XGetICValues)(XIC,...);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00087}00087 \textcolor{keyword}{typedef} \textcolor{keywordtype}{char}* (* PFN\_XGetIMValues)(XIM,...);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00088}00088 \textcolor{keyword}{typedef} int (* PFN\_XGetInputFocus)(Display*,Window*,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00089}00089 \textcolor{keyword}{typedef} KeySym* (* PFN\_XGetKeyboardMapping)(Display*,KeyCode,int,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00090}00090 \textcolor{keyword}{typedef} int (* PFN\_XGetScreenSaver)(Display*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00091}00091 \textcolor{keyword}{typedef} Window (* PFN\_XGetSelectionOwner)(Display*,Atom);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00092}00092 \textcolor{keyword}{typedef} XVisualInfo* (* PFN\_XGetVisualInfo)(Display*,long,XVisualInfo*,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00093}00093 \textcolor{keyword}{typedef} Status (* PFN\_XGetWMNormalHints)(Display*,Window,XSizeHints*,\textcolor{keywordtype}{long}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00094}00094 \textcolor{keyword}{typedef} Status (* PFN\_XGetWindowAttributes)(Display*,Window,XWindowAttributes*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00095}00095 \textcolor{keyword}{typedef} int (* PFN\_XGetWindowProperty)(Display*,Window,Atom,long,long,Bool,Atom,Atom*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long}*,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long}*,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}**);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00096}00096 \textcolor{keyword}{typedef} int (* PFN\_XGrabPointer)(Display*,Window,Bool,\textcolor{keywordtype}{unsigned} int,int,int,Window,Cursor,Time);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00097}00097 \textcolor{keyword}{typedef} Status (* PFN\_XIconifyWindow)(Display*,Window,int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00098}00098 \textcolor{keyword}{typedef} Status (* PFN\_XInitThreads)(void);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00099}00099 \textcolor{keyword}{typedef} Atom (* PFN\_XInternAtom)(Display*,\textcolor{keyword}{const} \textcolor{keywordtype}{char}*,Bool);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00100}00100 \textcolor{keyword}{typedef} int (* PFN\_XLookupString)(XKeyEvent*,\textcolor{keywordtype}{char}*,int,KeySym*,XComposeStatus*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00101}00101 \textcolor{keyword}{typedef} int (* PFN\_XMapRaised)(Display*,Window);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00102}00102 \textcolor{keyword}{typedef} int (* PFN\_XMapWindow)(Display*,Window);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00103}00103 \textcolor{keyword}{typedef} int (* PFN\_XMoveResizeWindow)(Display*,Window,int,int,\textcolor{keywordtype}{unsigned} int,\textcolor{keywordtype}{unsigned} int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00104}00104 \textcolor{keyword}{typedef} int (* PFN\_XMoveWindow)(Display*,Window,int,int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00105}00105 \textcolor{keyword}{typedef} int (* PFN\_XNextEvent)(Display*,XEvent*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00106}00106 \textcolor{keyword}{typedef} Display* (* PFN\_XOpenDisplay)(\textcolor{keyword}{const} \textcolor{keywordtype}{char}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00107}00107 \textcolor{keyword}{typedef} XIM (* PFN\_XOpenIM)(Display*,XrmDatabase*,\textcolor{keywordtype}{char}*,\textcolor{keywordtype}{char}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00108}00108 \textcolor{keyword}{typedef} int (* PFN\_XPeekEvent)(Display*,XEvent*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00109}00109 \textcolor{keyword}{typedef} int (* PFN\_XPending)(Display*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00110}00110 \textcolor{keyword}{typedef} Bool (* PFN\_XQueryExtension)(Display*,\textcolor{keyword}{const} \textcolor{keywordtype}{char}*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00111}00111 \textcolor{keyword}{typedef} Bool (* PFN\_XQueryPointer)(Display*,Window,Window*,Window*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00112}00112 \textcolor{keyword}{typedef} int (* PFN\_XRaiseWindow)(Display*,Window);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00113}00113 \textcolor{keyword}{typedef} Bool (* PFN\_XRegisterIMInstantiateCallback)(Display*,\textcolor{keywordtype}{void}*,\textcolor{keywordtype}{char}*,\textcolor{keywordtype}{char}*,XIDProc,XPointer);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00114}00114 \textcolor{keyword}{typedef} int (* PFN\_XResizeWindow)(Display*,Window,\textcolor{keywordtype}{unsigned} int,\textcolor{keywordtype}{unsigned} int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00115}00115 \textcolor{keyword}{typedef} \textcolor{keywordtype}{char}* (* PFN\_XResourceManagerString)(Display*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00116}00116 \textcolor{keyword}{typedef} int (* PFN\_XSaveContext)(Display*,XID,XContext,\textcolor{keyword}{const} \textcolor{keywordtype}{char}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00117}00117 \textcolor{keyword}{typedef} int (* PFN\_XSelectInput)(Display*,Window,long);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00118}00118 \textcolor{keyword}{typedef} Status (* PFN\_XSendEvent)(Display*,Window,Bool,long,XEvent*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00119}00119 \textcolor{keyword}{typedef} int (* PFN\_XSetClassHint)(Display*,Window,XClassHint*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00120}00120 \textcolor{keyword}{typedef} XErrorHandler (* PFN\_XSetErrorHandler)(XErrorHandler);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00121}00121 \textcolor{keyword}{typedef} void (* PFN\_XSetICFocus)(XIC);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00122}00122 \textcolor{keyword}{typedef} \textcolor{keywordtype}{char}* (* PFN\_XSetIMValues)(XIM,...);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00123}00123 \textcolor{keyword}{typedef} int (* PFN\_XSetInputFocus)(Display*,Window,int,Time);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00124}00124 \textcolor{keyword}{typedef} \textcolor{keywordtype}{char}* (* PFN\_XSetLocaleModifiers)(\textcolor{keyword}{const} \textcolor{keywordtype}{char}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00125}00125 \textcolor{keyword}{typedef} int (* PFN\_XSetScreenSaver)(Display*,int,int,int,int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00126}00126 \textcolor{keyword}{typedef} int (* PFN\_XSetSelectionOwner)(Display*,Atom,Window,Time);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00127}00127 \textcolor{keyword}{typedef} int (* PFN\_XSetWMHints)(Display*,Window,XWMHints*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00128}00128 \textcolor{keyword}{typedef} void (* PFN\_XSetWMNormalHints)(Display*,Window,XSizeHints*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00129}00129 \textcolor{keyword}{typedef} Status (* PFN\_XSetWMProtocols)(Display*,Window,Atom*,int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00130}00130 \textcolor{keyword}{typedef} Bool (* PFN\_XSupportsLocale)(void);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00131}00131 \textcolor{keyword}{typedef} int (* PFN\_XSync)(Display*,Bool);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00132}00132 \textcolor{keyword}{typedef} Bool (* PFN\_XTranslateCoordinates)(Display*,Window,Window,int,int,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*,Window*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00133}00133 \textcolor{keyword}{typedef} int (* PFN\_XUndefineCursor)(Display*,Window);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00134}00134 \textcolor{keyword}{typedef} int (* PFN\_XUngrabPointer)(Display*,Time);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00135}00135 \textcolor{keyword}{typedef} int (* PFN\_XUnmapWindow)(Display*,Window);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00136}00136 \textcolor{keyword}{typedef} void (* PFN\_XUnsetICFocus)(XIC);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00137}00137 \textcolor{keyword}{typedef} VisualID (* PFN\_XVisualIDFromVisual)(Visual*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00138}00138 \textcolor{keyword}{typedef} int (* PFN\_XWarpPointer)(Display*,Window,Window,int,int,\textcolor{keywordtype}{unsigned} int,\textcolor{keywordtype}{unsigned} int,int,int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00139}00139 \textcolor{keyword}{typedef} void (* PFN\_XkbFreeKeyboard)(XkbDescPtr,\textcolor{keywordtype}{unsigned} int,Bool);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00140}00140 \textcolor{keyword}{typedef} void (* PFN\_XkbFreeNames)(XkbDescPtr,\textcolor{keywordtype}{unsigned} int,Bool);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00141}00141 \textcolor{keyword}{typedef} XkbDescPtr (* PFN\_XkbGetMap)(Display*,\textcolor{keywordtype}{unsigned} int,\textcolor{keywordtype}{unsigned} int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00142}00142 \textcolor{keyword}{typedef} Status (* PFN\_XkbGetNames)(Display*,\textcolor{keywordtype}{unsigned} int,XkbDescPtr);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00143}00143 \textcolor{keyword}{typedef} Status (* PFN\_XkbGetState)(Display*,\textcolor{keywordtype}{unsigned} int,XkbStatePtr);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00144}00144 \textcolor{keyword}{typedef} KeySym (* PFN\_XkbKeycodeToKeysym)(Display*,KeyCode,int,int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00145}00145 \textcolor{keyword}{typedef} Bool (* PFN\_XkbQueryExtension)(Display*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00146}00146 \textcolor{keyword}{typedef} Bool (* PFN\_XkbSelectEventDetails)(Display*,\textcolor{keywordtype}{unsigned} int,\textcolor{keywordtype}{unsigned} int,\textcolor{keywordtype}{unsigned} long,\textcolor{keywordtype}{unsigned} long);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00147}00147 \textcolor{keyword}{typedef} Bool (* PFN\_XkbSetDetectableAutoRepeat)(Display*,Bool,Bool*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00148}00148 \textcolor{keyword}{typedef} void (* PFN\_XrmDestroyDatabase)(XrmDatabase);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00149}00149 \textcolor{keyword}{typedef} Bool (* PFN\_XrmGetResource)(XrmDatabase,\textcolor{keyword}{const} \textcolor{keywordtype}{char}*,\textcolor{keyword}{const} \textcolor{keywordtype}{char}*,\textcolor{keywordtype}{char}**,XrmValue*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00150}00150 \textcolor{keyword}{typedef} XrmDatabase (* PFN\_XrmGetStringDatabase)(\textcolor{keyword}{const} \textcolor{keywordtype}{char}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00151}00151 \textcolor{keyword}{typedef} void (* PFN\_XrmInitialize)(void);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00152}00152 \textcolor{keyword}{typedef} XrmQuark (* PFN\_XrmUniqueQuark)(void);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00153}00153 \textcolor{keyword}{typedef} Bool (* PFN\_XUnregisterIMInstantiateCallback)(Display*,\textcolor{keywordtype}{void}*,\textcolor{keywordtype}{char}*,\textcolor{keywordtype}{char}*,XIDProc,XPointer);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00154}00154 \textcolor{keyword}{typedef} int (* PFN\_Xutf8LookupString)(XIC,XKeyPressedEvent*,\textcolor{keywordtype}{char}*,int,KeySym*,Status*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00155}00155 \textcolor{keyword}{typedef} void (* PFN\_Xutf8SetWMProperties)(Display*,Window,\textcolor{keyword}{const} \textcolor{keywordtype}{char}*,\textcolor{keyword}{const} \textcolor{keywordtype}{char}*,\textcolor{keywordtype}{char}**,int,XSizeHints*,XWMHints*,XClassHint*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00156}00156 \textcolor{preprocessor}{\#define XAllocClassHint \_glfw.x11.xlib.AllocClassHint}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00157}00157 \textcolor{preprocessor}{\#define XAllocSizeHints \_glfw.x11.xlib.AllocSizeHints}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00158}00158 \textcolor{preprocessor}{\#define XAllocWMHints \_glfw.x11.xlib.AllocWMHints}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00159}00159 \textcolor{preprocessor}{\#define XChangeProperty \_glfw.x11.xlib.ChangeProperty}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00160}00160 \textcolor{preprocessor}{\#define XChangeWindowAttributes \_glfw.x11.xlib.ChangeWindowAttributes}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00161}00161 \textcolor{preprocessor}{\#define XCheckIfEvent \_glfw.x11.xlib.CheckIfEvent}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00162}00162 \textcolor{preprocessor}{\#define XCheckTypedWindowEvent \_glfw.x11.xlib.CheckTypedWindowEvent}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00163}00163 \textcolor{preprocessor}{\#define XCloseDisplay \_glfw.x11.xlib.CloseDisplay}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00164}00164 \textcolor{preprocessor}{\#define XCloseIM \_glfw.x11.xlib.CloseIM}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00165}00165 \textcolor{preprocessor}{\#define XConvertSelection \_glfw.x11.xlib.ConvertSelection}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00166}00166 \textcolor{preprocessor}{\#define XCreateColormap \_glfw.x11.xlib.CreateColormap}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00167}00167 \textcolor{preprocessor}{\#define XCreateFontCursor \_glfw.x11.xlib.CreateFontCursor}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00168}00168 \textcolor{preprocessor}{\#define XCreateIC \_glfw.x11.xlib.CreateIC}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00169}00169 \textcolor{preprocessor}{\#define XCreateRegion \_glfw.x11.xlib.CreateRegion}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00170}00170 \textcolor{preprocessor}{\#define XCreateWindow \_glfw.x11.xlib.CreateWindow}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00171}00171 \textcolor{preprocessor}{\#define XDefineCursor \_glfw.x11.xlib.DefineCursor}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00172}00172 \textcolor{preprocessor}{\#define XDeleteContext \_glfw.x11.xlib.DeleteContext}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00173}00173 \textcolor{preprocessor}{\#define XDeleteProperty \_glfw.x11.xlib.DeleteProperty}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00174}00174 \textcolor{preprocessor}{\#define XDestroyIC \_glfw.x11.xlib.DestroyIC}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00175}00175 \textcolor{preprocessor}{\#define XDestroyRegion \_glfw.x11.xlib.DestroyRegion}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00176}00176 \textcolor{preprocessor}{\#define XDestroyWindow \_glfw.x11.xlib.DestroyWindow}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00177}00177 \textcolor{preprocessor}{\#define XDisplayKeycodes \_glfw.x11.xlib.DisplayKeycodes}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00178}00178 \textcolor{preprocessor}{\#define XEventsQueued \_glfw.x11.xlib.EventsQueued}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00179}00179 \textcolor{preprocessor}{\#define XFilterEvent \_glfw.x11.xlib.FilterEvent}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00180}00180 \textcolor{preprocessor}{\#define XFindContext \_glfw.x11.xlib.FindContext}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00181}00181 \textcolor{preprocessor}{\#define XFlush \_glfw.x11.xlib.Flush}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00182}00182 \textcolor{preprocessor}{\#define XFree \_glfw.x11.xlib.Free}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00183}00183 \textcolor{preprocessor}{\#define XFreeColormap \_glfw.x11.xlib.FreeColormap}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00184}00184 \textcolor{preprocessor}{\#define XFreeCursor \_glfw.x11.xlib.FreeCursor}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00185}00185 \textcolor{preprocessor}{\#define XFreeEventData \_glfw.x11.xlib.FreeEventData}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00186}00186 \textcolor{preprocessor}{\#define XGetErrorText \_glfw.x11.xlib.GetErrorText}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00187}00187 \textcolor{preprocessor}{\#define XGetEventData \_glfw.x11.xlib.GetEventData}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00188}00188 \textcolor{preprocessor}{\#define XGetICValues \_glfw.x11.xlib.GetICValues}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00189}00189 \textcolor{preprocessor}{\#define XGetIMValues \_glfw.x11.xlib.GetIMValues}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00190}00190 \textcolor{preprocessor}{\#define XGetInputFocus \_glfw.x11.xlib.GetInputFocus}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00191}00191 \textcolor{preprocessor}{\#define XGetKeyboardMapping \_glfw.x11.xlib.GetKeyboardMapping}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00192}00192 \textcolor{preprocessor}{\#define XGetScreenSaver \_glfw.x11.xlib.GetScreenSaver}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00193}00193 \textcolor{preprocessor}{\#define XGetSelectionOwner \_glfw.x11.xlib.GetSelectionOwner}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00194}00194 \textcolor{preprocessor}{\#define XGetVisualInfo \_glfw.x11.xlib.GetVisualInfo}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00195}00195 \textcolor{preprocessor}{\#define XGetWMNormalHints \_glfw.x11.xlib.GetWMNormalHints}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00196}00196 \textcolor{preprocessor}{\#define XGetWindowAttributes \_glfw.x11.xlib.GetWindowAttributes}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00197}00197 \textcolor{preprocessor}{\#define XGetWindowProperty \_glfw.x11.xlib.GetWindowProperty}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00198}00198 \textcolor{preprocessor}{\#define XGrabPointer \_glfw.x11.xlib.GrabPointer}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00199}00199 \textcolor{preprocessor}{\#define XIconifyWindow \_glfw.x11.xlib.IconifyWindow}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00200}00200 \textcolor{preprocessor}{\#define XInitThreads \_glfw.x11.xlib.InitThreads}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00201}00201 \textcolor{preprocessor}{\#define XInternAtom \_glfw.x11.xlib.InternAtom}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00202}00202 \textcolor{preprocessor}{\#define XLookupString \_glfw.x11.xlib.LookupString}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00203}00203 \textcolor{preprocessor}{\#define XMapRaised \_glfw.x11.xlib.MapRaised}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00204}00204 \textcolor{preprocessor}{\#define XMapWindow \_glfw.x11.xlib.MapWindow}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00205}00205 \textcolor{preprocessor}{\#define XMoveResizeWindow \_glfw.x11.xlib.MoveResizeWindow}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00206}00206 \textcolor{preprocessor}{\#define XMoveWindow \_glfw.x11.xlib.MoveWindow}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00207}00207 \textcolor{preprocessor}{\#define XNextEvent \_glfw.x11.xlib.NextEvent}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00208}00208 \textcolor{preprocessor}{\#define XOpenDisplay \_glfw.x11.xlib.OpenDisplay}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00209}00209 \textcolor{preprocessor}{\#define XOpenIM \_glfw.x11.xlib.OpenIM}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00210}00210 \textcolor{preprocessor}{\#define XPeekEvent \_glfw.x11.xlib.PeekEvent}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00211}00211 \textcolor{preprocessor}{\#define XPending \_glfw.x11.xlib.Pending}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00212}00212 \textcolor{preprocessor}{\#define XQueryExtension \_glfw.x11.xlib.QueryExtension}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00213}00213 \textcolor{preprocessor}{\#define XQueryPointer \_glfw.x11.xlib.QueryPointer}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00214}00214 \textcolor{preprocessor}{\#define XRaiseWindow \_glfw.x11.xlib.RaiseWindow}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00215}00215 \textcolor{preprocessor}{\#define XRegisterIMInstantiateCallback \_glfw.x11.xlib.RegisterIMInstantiateCallback}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00216}00216 \textcolor{preprocessor}{\#define XResizeWindow \_glfw.x11.xlib.ResizeWindow}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00217}00217 \textcolor{preprocessor}{\#define XResourceManagerString \_glfw.x11.xlib.ResourceManagerString}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00218}00218 \textcolor{preprocessor}{\#define XSaveContext \_glfw.x11.xlib.SaveContext}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00219}00219 \textcolor{preprocessor}{\#define XSelectInput \_glfw.x11.xlib.SelectInput}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00220}00220 \textcolor{preprocessor}{\#define XSendEvent \_glfw.x11.xlib.SendEvent}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00221}00221 \textcolor{preprocessor}{\#define XSetClassHint \_glfw.x11.xlib.SetClassHint}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00222}00222 \textcolor{preprocessor}{\#define XSetErrorHandler \_glfw.x11.xlib.SetErrorHandler}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00223}00223 \textcolor{preprocessor}{\#define XSetICFocus \_glfw.x11.xlib.SetICFocus}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00224}00224 \textcolor{preprocessor}{\#define XSetIMValues \_glfw.x11.xlib.SetIMValues}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00225}00225 \textcolor{preprocessor}{\#define XSetInputFocus \_glfw.x11.xlib.SetInputFocus}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00226}00226 \textcolor{preprocessor}{\#define XSetLocaleModifiers \_glfw.x11.xlib.SetLocaleModifiers}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00227}00227 \textcolor{preprocessor}{\#define XSetScreenSaver \_glfw.x11.xlib.SetScreenSaver}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00228}00228 \textcolor{preprocessor}{\#define XSetSelectionOwner \_glfw.x11.xlib.SetSelectionOwner}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00229}00229 \textcolor{preprocessor}{\#define XSetWMHints \_glfw.x11.xlib.SetWMHints}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00230}00230 \textcolor{preprocessor}{\#define XSetWMNormalHints \_glfw.x11.xlib.SetWMNormalHints}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00231}00231 \textcolor{preprocessor}{\#define XSetWMProtocols \_glfw.x11.xlib.SetWMProtocols}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00232}00232 \textcolor{preprocessor}{\#define XSupportsLocale \_glfw.x11.xlib.SupportsLocale}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00233}00233 \textcolor{preprocessor}{\#define XSync \_glfw.x11.xlib.Sync}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00234}00234 \textcolor{preprocessor}{\#define XTranslateCoordinates \_glfw.x11.xlib.TranslateCoordinates}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00235}00235 \textcolor{preprocessor}{\#define XUndefineCursor \_glfw.x11.xlib.UndefineCursor}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00236}00236 \textcolor{preprocessor}{\#define XUngrabPointer \_glfw.x11.xlib.UngrabPointer}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00237}00237 \textcolor{preprocessor}{\#define XUnmapWindow \_glfw.x11.xlib.UnmapWindow}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00238}00238 \textcolor{preprocessor}{\#define XUnsetICFocus \_glfw.x11.xlib.UnsetICFocus}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00239}00239 \textcolor{preprocessor}{\#define XVisualIDFromVisual \_glfw.x11.xlib.VisualIDFromVisual}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00240}00240 \textcolor{preprocessor}{\#define XWarpPointer \_glfw.x11.xlib.WarpPointer}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00241}00241 \textcolor{preprocessor}{\#define XkbFreeKeyboard \_glfw.x11.xkb.FreeKeyboard}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00242}00242 \textcolor{preprocessor}{\#define XkbFreeNames \_glfw.x11.xkb.FreeNames}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00243}00243 \textcolor{preprocessor}{\#define XkbGetMap \_glfw.x11.xkb.GetMap}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00244}00244 \textcolor{preprocessor}{\#define XkbGetNames \_glfw.x11.xkb.GetNames}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00245}00245 \textcolor{preprocessor}{\#define XkbGetState \_glfw.x11.xkb.GetState}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00246}00246 \textcolor{preprocessor}{\#define XkbKeycodeToKeysym \_glfw.x11.xkb.KeycodeToKeysym}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00247}00247 \textcolor{preprocessor}{\#define XkbQueryExtension \_glfw.x11.xkb.QueryExtension}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00248}00248 \textcolor{preprocessor}{\#define XkbSelectEventDetails \_glfw.x11.xkb.SelectEventDetails}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00249}00249 \textcolor{preprocessor}{\#define XkbSetDetectableAutoRepeat \_glfw.x11.xkb.SetDetectableAutoRepeat}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00250}00250 \textcolor{preprocessor}{\#define XrmDestroyDatabase \_glfw.x11.xrm.DestroyDatabase}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00251}00251 \textcolor{preprocessor}{\#define XrmGetResource \_glfw.x11.xrm.GetResource}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00252}00252 \textcolor{preprocessor}{\#define XrmGetStringDatabase \_glfw.x11.xrm.GetStringDatabase}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00253}00253 \textcolor{preprocessor}{\#define XrmInitialize \_glfw.x11.xrm.Initialize}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00254}00254 \textcolor{preprocessor}{\#define XrmUniqueQuark \_glfw.x11.xrm.UniqueQuark}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00255}00255 \textcolor{preprocessor}{\#define XUnregisterIMInstantiateCallback \_glfw.x11.xlib.UnregisterIMInstantiateCallback}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00256}00256 \textcolor{preprocessor}{\#define Xutf8LookupString \_glfw.x11.xlib.utf8LookupString}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00257}00257 \textcolor{preprocessor}{\#define Xutf8SetWMProperties \_glfw.x11.xlib.utf8SetWMProperties}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00258}00258 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00259}00259 \textcolor{keyword}{typedef} XRRCrtcGamma* (* PFN\_XRRAllocGamma)(int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00260}00260 \textcolor{keyword}{typedef} void (* PFN\_XRRFreeCrtcInfo)(XRRCrtcInfo*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00261}00261 \textcolor{keyword}{typedef} void (* PFN\_XRRFreeGamma)(XRRCrtcGamma*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00262}00262 \textcolor{keyword}{typedef} void (* PFN\_XRRFreeOutputInfo)(XRROutputInfo*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00263}00263 \textcolor{keyword}{typedef} void (* PFN\_XRRFreeScreenResources)(XRRScreenResources*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00264}00264 \textcolor{keyword}{typedef} XRRCrtcGamma* (* PFN\_XRRGetCrtcGamma)(Display*,RRCrtc);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00265}00265 \textcolor{keyword}{typedef} int (* PFN\_XRRGetCrtcGammaSize)(Display*,RRCrtc);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00266}00266 \textcolor{keyword}{typedef} XRRCrtcInfo* (* PFN\_XRRGetCrtcInfo) (Display*,XRRScreenResources*,RRCrtc);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00267}00267 \textcolor{keyword}{typedef} XRROutputInfo* (* PFN\_XRRGetOutputInfo)(Display*,XRRScreenResources*,RROutput);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00268}00268 \textcolor{keyword}{typedef} RROutput (* PFN\_XRRGetOutputPrimary)(Display*,Window);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00269}00269 \textcolor{keyword}{typedef} XRRScreenResources* (* PFN\_XRRGetScreenResourcesCurrent)(Display*,Window);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00270}00270 \textcolor{keyword}{typedef} Bool (* PFN\_XRRQueryExtension)(Display*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00271}00271 \textcolor{keyword}{typedef} Status (* PFN\_XRRQueryVersion)(Display*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00272}00272 \textcolor{keyword}{typedef} void (* PFN\_XRRSelectInput)(Display*,Window,int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00273}00273 \textcolor{keyword}{typedef} Status (* PFN\_XRRSetCrtcConfig)(Display*,XRRScreenResources*,RRCrtc,Time,int,int,RRMode,Rotation,RROutput*,int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00274}00274 \textcolor{keyword}{typedef} void (* PFN\_XRRSetCrtcGamma)(Display*,RRCrtc,XRRCrtcGamma*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00275}00275 \textcolor{keyword}{typedef} int (* PFN\_XRRUpdateConfiguration)(XEvent*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00276}00276 \textcolor{preprocessor}{\#define XRRAllocGamma \_glfw.x11.randr.AllocGamma}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00277}00277 \textcolor{preprocessor}{\#define XRRFreeCrtcInfo \_glfw.x11.randr.FreeCrtcInfo}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00278}00278 \textcolor{preprocessor}{\#define XRRFreeGamma \_glfw.x11.randr.FreeGamma}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00279}00279 \textcolor{preprocessor}{\#define XRRFreeOutputInfo \_glfw.x11.randr.FreeOutputInfo}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00280}00280 \textcolor{preprocessor}{\#define XRRFreeScreenResources \_glfw.x11.randr.FreeScreenResources}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00281}00281 \textcolor{preprocessor}{\#define XRRGetCrtcGamma \_glfw.x11.randr.GetCrtcGamma}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00282}00282 \textcolor{preprocessor}{\#define XRRGetCrtcGammaSize \_glfw.x11.randr.GetCrtcGammaSize}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00283}00283 \textcolor{preprocessor}{\#define XRRGetCrtcInfo \_glfw.x11.randr.GetCrtcInfo}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00284}00284 \textcolor{preprocessor}{\#define XRRGetOutputInfo \_glfw.x11.randr.GetOutputInfo}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00285}00285 \textcolor{preprocessor}{\#define XRRGetOutputPrimary \_glfw.x11.randr.GetOutputPrimary}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00286}00286 \textcolor{preprocessor}{\#define XRRGetScreenResourcesCurrent \_glfw.x11.randr.GetScreenResourcesCurrent}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00287}00287 \textcolor{preprocessor}{\#define XRRQueryExtension \_glfw.x11.randr.QueryExtension}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00288}00288 \textcolor{preprocessor}{\#define XRRQueryVersion \_glfw.x11.randr.QueryVersion}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00289}00289 \textcolor{preprocessor}{\#define XRRSelectInput \_glfw.x11.randr.SelectInput}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00290}00290 \textcolor{preprocessor}{\#define XRRSetCrtcConfig \_glfw.x11.randr.SetCrtcConfig}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00291}00291 \textcolor{preprocessor}{\#define XRRSetCrtcGamma \_glfw.x11.randr.SetCrtcGamma}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00292}00292 \textcolor{preprocessor}{\#define XRRUpdateConfiguration \_glfw.x11.randr.UpdateConfiguration}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00293}00293 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00294}00294 \textcolor{keyword}{typedef} XcursorImage* (* PFN\_XcursorImageCreate)(int,int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00295}00295 \textcolor{keyword}{typedef} void (* PFN\_XcursorImageDestroy)(XcursorImage*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00296}00296 \textcolor{keyword}{typedef} Cursor (* PFN\_XcursorImageLoadCursor)(Display*,\textcolor{keyword}{const} XcursorImage*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00297}00297 \textcolor{keyword}{typedef} \textcolor{keywordtype}{char}* (* PFN\_XcursorGetTheme)(Display*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00298}00298 \textcolor{keyword}{typedef} int (* PFN\_XcursorGetDefaultSize)(Display*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00299}00299 \textcolor{keyword}{typedef} XcursorImage* (* PFN\_XcursorLibraryLoadImage)(\textcolor{keyword}{const} \textcolor{keywordtype}{char}*,\textcolor{keyword}{const} \textcolor{keywordtype}{char}*,int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00300}00300 \textcolor{preprocessor}{\#define XcursorImageCreate \_glfw.x11.xcursor.ImageCreate}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00301}00301 \textcolor{preprocessor}{\#define XcursorImageDestroy \_glfw.x11.xcursor.ImageDestroy}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00302}00302 \textcolor{preprocessor}{\#define XcursorImageLoadCursor \_glfw.x11.xcursor.ImageLoadCursor}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00303}00303 \textcolor{preprocessor}{\#define XcursorGetTheme \_glfw.x11.xcursor.GetTheme}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00304}00304 \textcolor{preprocessor}{\#define XcursorGetDefaultSize \_glfw.x11.xcursor.GetDefaultSize}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00305}00305 \textcolor{preprocessor}{\#define XcursorLibraryLoadImage \_glfw.x11.xcursor.LibraryLoadImage}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00306}00306 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00307}00307 \textcolor{keyword}{typedef} Bool (* PFN\_XineramaIsActive)(Display*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00308}00308 \textcolor{keyword}{typedef} Bool (* PFN\_XineramaQueryExtension)(Display*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00309}00309 \textcolor{keyword}{typedef} XineramaScreenInfo* (* PFN\_XineramaQueryScreens)(Display*,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00310}00310 \textcolor{preprocessor}{\#define XineramaIsActive \_glfw.x11.xinerama.IsActive}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00311}00311 \textcolor{preprocessor}{\#define XineramaQueryExtension \_glfw.x11.xinerama.QueryExtension}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00312}00312 \textcolor{preprocessor}{\#define XineramaQueryScreens \_glfw.x11.xinerama.QueryScreens}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00313}00313 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00314}00314 \textcolor{keyword}{typedef} XID xcb\_window\_t;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00315}00315 \textcolor{keyword}{typedef} XID xcb\_visualid\_t;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00316}00316 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }xcb\_connection\_t xcb\_connection\_t;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00317}00317 \textcolor{keyword}{typedef} xcb\_connection\_t* (* PFN\_XGetXCBConnection)(Display*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00318}00318 \textcolor{preprocessor}{\#define XGetXCBConnection \_glfw.x11.x11xcb.GetXCBConnection}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00319}00319 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00320}00320 \textcolor{keyword}{typedef} Bool (* PFN\_XF86VidModeQueryExtension)(Display*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00321}00321 \textcolor{keyword}{typedef} Bool (* PFN\_XF86VidModeGetGammaRamp)(Display*,int,int,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short}*,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short}*,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00322}00322 \textcolor{keyword}{typedef} Bool (* PFN\_XF86VidModeSetGammaRamp)(Display*,int,int,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short}*,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short}*,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00323}00323 \textcolor{keyword}{typedef} Bool (* PFN\_XF86VidModeGetGammaRampSize)(Display*,int,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00324}00324 \textcolor{preprocessor}{\#define XF86VidModeQueryExtension \_glfw.x11.vidmode.QueryExtension}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00325}00325 \textcolor{preprocessor}{\#define XF86VidModeGetGammaRamp \_glfw.x11.vidmode.GetGammaRamp}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00326}00326 \textcolor{preprocessor}{\#define XF86VidModeSetGammaRamp \_glfw.x11.vidmode.SetGammaRamp}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00327}00327 \textcolor{preprocessor}{\#define XF86VidModeGetGammaRampSize \_glfw.x11.vidmode.GetGammaRampSize}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00328}00328 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00329}00329 \textcolor{keyword}{typedef} Status (* PFN\_XIQueryVersion)(Display*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00330}00330 \textcolor{keyword}{typedef} int (* PFN\_XISelectEvents)(Display*,Window,XIEventMask*,int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00331}00331 \textcolor{preprocessor}{\#define XIQueryVersion \_glfw.x11.xi.QueryVersion}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00332}00332 \textcolor{preprocessor}{\#define XISelectEvents \_glfw.x11.xi.SelectEvents}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00333}00333 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00334}00334 \textcolor{keyword}{typedef} Bool (* PFN\_XRenderQueryExtension)(Display*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00335}00335 \textcolor{keyword}{typedef} Status (* PFN\_XRenderQueryVersion)(Display*dpy,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00336}00336 \textcolor{keyword}{typedef} XRenderPictFormat* (* PFN\_XRenderFindVisualFormat)(Display*,Visual \textcolor{keyword}{const}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00337}00337 \textcolor{preprocessor}{\#define XRenderQueryExtension \_glfw.x11.xrender.QueryExtension}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00338}00338 \textcolor{preprocessor}{\#define XRenderQueryVersion \_glfw.x11.xrender.QueryVersion}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00339}00339 \textcolor{preprocessor}{\#define XRenderFindVisualFormat \_glfw.x11.xrender.FindVisualFormat}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00340}00340 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00341}00341 \textcolor{keyword}{typedef} Bool (* PFN\_XShapeQueryExtension)(Display*,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00342}00342 \textcolor{keyword}{typedef} Status (* PFN\_XShapeQueryVersion)(Display*dpy,\textcolor{keywordtype}{int}*,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00343}00343 \textcolor{keyword}{typedef} void (* PFN\_XShapeCombineRegion)(Display*,Window,int,int,int,Region,int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00344}00344 \textcolor{keyword}{typedef} void (* PFN\_XShapeCombineMask)(Display*,Window,int,int,int,Pixmap,int);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00345}00345 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00346}00346 \textcolor{preprocessor}{\#define XShapeQueryExtension \_glfw.x11.xshape.QueryExtension}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00347}00347 \textcolor{preprocessor}{\#define XShapeQueryVersion \_glfw.x11.xshape.QueryVersion}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00348}00348 \textcolor{preprocessor}{\#define XShapeCombineRegion \_glfw.x11.xshape.ShapeCombineRegion}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00349}00349 \textcolor{preprocessor}{\#define XShapeCombineMask \_glfw.x11.xshape.ShapeCombineMask}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00350}00350 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00351}00351 \textcolor{keyword}{typedef} VkFlags VkXlibSurfaceCreateFlagsKHR;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00352}00352 \textcolor{keyword}{typedef} VkFlags VkXcbSurfaceCreateFlagsKHR;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00353}00353 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00354}\mbox{\hyperlink{struct_vk_xlib_surface_create_info_k_h_r}{00354}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_vk_xlib_surface_create_info_k_h_r}{VkXlibSurfaceCreateInfoKHR}}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00355}00355 \{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00356}00356     VkStructureType             sType;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00357}00357     \textcolor{keyword}{const} \textcolor{keywordtype}{void}*                 pNext;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00358}00358     VkXlibSurfaceCreateFlagsKHR flags;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00359}00359     Display*                    dpy;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00360}00360     Window                      window;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00361}00361 \} \mbox{\hyperlink{struct_vk_xlib_surface_create_info_k_h_r}{VkXlibSurfaceCreateInfoKHR}};}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00362}00362 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00363}\mbox{\hyperlink{struct_vk_xcb_surface_create_info_k_h_r}{00363}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_vk_xcb_surface_create_info_k_h_r}{VkXcbSurfaceCreateInfoKHR}}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00364}00364 \{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00365}00365     VkStructureType             sType;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00366}00366     \textcolor{keyword}{const} \textcolor{keywordtype}{void}*                 pNext;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00367}00367     VkXcbSurfaceCreateFlagsKHR  flags;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00368}00368     xcb\_connection\_t*           connection;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00369}00369     xcb\_window\_t                window;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00370}00370 \} \mbox{\hyperlink{struct_vk_xcb_surface_create_info_k_h_r}{VkXcbSurfaceCreateInfoKHR}};}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00371}00371 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00372}00372 \textcolor{keyword}{typedef} VkResult (APIENTRY *PFN\_vkCreateXlibSurfaceKHR)(VkInstance,\textcolor{keyword}{const} \mbox{\hyperlink{struct_vk_xlib_surface_create_info_k_h_r}{VkXlibSurfaceCreateInfoKHR}}*,\textcolor{keyword}{const} \mbox{\hyperlink{struct_vk_allocation_callbacks}{VkAllocationCallbacks}}*,VkSurfaceKHR*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00373}00373 \textcolor{keyword}{typedef} VkBool32 (APIENTRY *PFN\_vkGetPhysicalDeviceXlibPresentationSupportKHR)(VkPhysicalDevice,\mbox{\hyperlink{group__gtc__type__precision_ga822ca53a9ad412504532838906276a99}{uint32\_t}},Display*,VisualID);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00374}00374 \textcolor{keyword}{typedef} VkResult (APIENTRY *PFN\_vkCreateXcbSurfaceKHR)(VkInstance,\textcolor{keyword}{const} \mbox{\hyperlink{struct_vk_xcb_surface_create_info_k_h_r}{VkXcbSurfaceCreateInfoKHR}}*,\textcolor{keyword}{const} \mbox{\hyperlink{struct_vk_allocation_callbacks}{VkAllocationCallbacks}}*,VkSurfaceKHR*);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00375}00375 \textcolor{keyword}{typedef} VkBool32 (APIENTRY *PFN\_vkGetPhysicalDeviceXcbPresentationSupportKHR)(VkPhysicalDevice,\mbox{\hyperlink{group__gtc__type__precision_ga822ca53a9ad412504532838906276a99}{uint32\_t}},xcb\_connection\_t*,xcb\_visualid\_t);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00376}00376 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00377}00377 \textcolor{preprocessor}{\#include "{}posix\_thread.h"{}}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00378}00378 \textcolor{preprocessor}{\#include "{}posix\_time.h"{}}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00379}00379 \textcolor{preprocessor}{\#include "{}xkb\_unicode.h"{}}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00380}00380 \textcolor{preprocessor}{\#include "{}glx\_context.h"{}}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00381}00381 \textcolor{preprocessor}{\#if defined(\_\_linux\_\_)}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00382}00382 \textcolor{preprocessor}{\#include "{}linux\_joystick.h"{}}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00383}00383 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00384}00384 \textcolor{preprocessor}{\#include "{}null\_joystick.h"{}}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00385}00385 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00386}00386 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00387}00387 \textcolor{preprocessor}{\#define \_glfw\_dlopen(name) dlopen(name, RTLD\_LAZY | RTLD\_LOCAL)}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00388}00388 \textcolor{preprocessor}{\#define \_glfw\_dlclose(handle) dlclose(handle)}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00389}00389 \textcolor{preprocessor}{\#define \_glfw\_dlsym(handle, name) dlsym(handle, name)}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00390}00390 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00391}00391 \textcolor{preprocessor}{\#define \_GLFW\_PLATFORM\_WINDOW\_STATE         \_GLFWwindowX11  x11}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00392}00392 \textcolor{preprocessor}{\#define \_GLFW\_PLATFORM\_LIBRARY\_WINDOW\_STATE \_GLFWlibraryX11 x11}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00393}00393 \textcolor{preprocessor}{\#define \_GLFW\_PLATFORM\_MONITOR\_STATE        \_GLFWmonitorX11 x11}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00394}00394 \textcolor{preprocessor}{\#define \_GLFW\_PLATFORM\_CURSOR\_STATE         \_GLFWcursorX11  x11}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00395}00395 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00396}00396 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00397}00397 \textcolor{comment}{// X11-\/specific per-\/window data}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00398}00398 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00399}\mbox{\hyperlink{struct___g_l_f_wwindow_x11}{00399}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___g_l_f_wwindow_x11}{\_GLFWwindowX11}}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00400}00400 \{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00401}00401     Colormap        colormap;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00402}00402     Window          handle;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00403}00403     Window          parent;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00404}00404     XIC             ic;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00405}00405 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00406}00406     GLFWbool        overrideRedirect;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00407}00407     GLFWbool        iconified;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00408}00408     GLFWbool        maximized;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00409}00409 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00410}00410     \textcolor{comment}{// Whether the visual supports framebuffer transparency}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00411}00411     GLFWbool        transparent;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00412}00412 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00413}00413     \textcolor{comment}{// Cached position and size used to filter out duplicate events}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00414}00414     \textcolor{keywordtype}{int}             width, height;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00415}00415     \textcolor{keywordtype}{int}             xpos, ypos;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00416}00416 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00417}00417     \textcolor{comment}{// The last received cursor position, regardless of source}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00418}00418     \textcolor{keywordtype}{int}             lastCursorPosX, lastCursorPosY;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00419}00419     \textcolor{comment}{// The last position the cursor was warped to by GLFW}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00420}00420     \textcolor{keywordtype}{int}             warpCursorPosX, warpCursorPosY;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00421}00421 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00422}00422     \textcolor{comment}{// The time of the last KeyPress event per keycode, for discarding}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00423}00423     \textcolor{comment}{// duplicate key events generated for some keys by ibus}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00424}00424     Time            keyPressTimes[256];}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00425}00425 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00426}00426 \} \mbox{\hyperlink{struct___g_l_f_wwindow_x11}{\_GLFWwindowX11}};}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00427}00427 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00428}00428 \textcolor{comment}{// X11-\/specific global data}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00429}00429 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00430}\mbox{\hyperlink{struct___g_l_f_wlibrary_x11}{00430}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___g_l_f_wlibrary_x11}{\_GLFWlibraryX11}}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00431}00431 \{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00432}00432     Display*        display;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00433}00433     \textcolor{keywordtype}{int}             screen;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00434}00434     Window          root;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00435}00435 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00436}00436     \textcolor{comment}{// System content scale}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00437}00437     \textcolor{keywordtype}{float}           contentScaleX, contentScaleY;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00438}00438     \textcolor{comment}{// Helper window for IPC}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00439}00439     Window          helperWindowHandle;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00440}00440     \textcolor{comment}{// Invisible cursor for hidden cursor mode}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00441}00441     Cursor          hiddenCursorHandle;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00442}00442     \textcolor{comment}{// Context for mapping window XIDs to \_GLFWwindow pointers}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00443}00443     XContext        context;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00444}00444     \textcolor{comment}{// XIM input method}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00445}00445     XIM             im;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00446}00446     \textcolor{comment}{// Most recent error code received by X error handler}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00447}00447     \textcolor{keywordtype}{int}             errorCode;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00448}00448     \textcolor{comment}{// Primary selection string (while the primary selection is owned)}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00449}00449     \textcolor{keywordtype}{char}*           primarySelectionString;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00450}00450     \textcolor{comment}{// Clipboard string (while the selection is owned)}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00451}00451     \textcolor{keywordtype}{char}*           clipboardString;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00452}00452     \textcolor{comment}{// Key name string}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00453}00453     \textcolor{keywordtype}{char}            keynames[GLFW\_KEY\_LAST + 1][5];}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00454}00454     \textcolor{comment}{// X11 keycode to GLFW key LUT}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00455}00455     \textcolor{keywordtype}{short} \textcolor{keywordtype}{int}       keycodes[256];}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00456}00456     \textcolor{comment}{// GLFW key to X11 keycode LUT}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00457}00457     \textcolor{keywordtype}{short} \textcolor{keywordtype}{int}       scancodes[GLFW\_KEY\_LAST + 1];}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00458}00458     \textcolor{comment}{// Where to place the cursor when re-\/enabled}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00459}00459     \textcolor{keywordtype}{double}          restoreCursorPosX, restoreCursorPosY;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00460}00460     \textcolor{comment}{// The window whose disabled cursor mode is active}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00461}00461     \mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}*    disabledCursorWindow;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00462}00462 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00463}00463     \textcolor{comment}{// Window manager atoms}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00464}00464     Atom            NET\_SUPPORTED;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00465}00465     Atom            NET\_SUPPORTING\_WM\_CHECK;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00466}00466     Atom            WM\_PROTOCOLS;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00467}00467     Atom            WM\_STATE;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00468}00468     Atom            WM\_DELETE\_WINDOW;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00469}00469     Atom            NET\_WM\_NAME;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00470}00470     Atom            NET\_WM\_ICON\_NAME;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00471}00471     Atom            NET\_WM\_ICON;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00472}00472     Atom            NET\_WM\_PID;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00473}00473     Atom            NET\_WM\_PING;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00474}00474     Atom            NET\_WM\_WINDOW\_TYPE;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00475}00475     Atom            NET\_WM\_WINDOW\_TYPE\_NORMAL;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00476}00476     Atom            NET\_WM\_STATE;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00477}00477     Atom            NET\_WM\_STATE\_ABOVE;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00478}00478     Atom            NET\_WM\_STATE\_FULLSCREEN;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00479}00479     Atom            NET\_WM\_STATE\_MAXIMIZED\_VERT;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00480}00480     Atom            NET\_WM\_STATE\_MAXIMIZED\_HORZ;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00481}00481     Atom            NET\_WM\_STATE\_DEMANDS\_ATTENTION;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00482}00482     Atom            NET\_WM\_BYPASS\_COMPOSITOR;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00483}00483     Atom            NET\_WM\_FULLSCREEN\_MONITORS;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00484}00484     Atom            NET\_WM\_WINDOW\_OPACITY;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00485}00485     Atom            NET\_WM\_CM\_Sx;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00486}00486     Atom            NET\_WORKAREA;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00487}00487     Atom            NET\_CURRENT\_DESKTOP;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00488}00488     Atom            NET\_ACTIVE\_WINDOW;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00489}00489     Atom            NET\_FRAME\_EXTENTS;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00490}00490     Atom            NET\_REQUEST\_FRAME\_EXTENTS;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00491}00491     Atom            MOTIF\_WM\_HINTS;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00492}00492 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00493}00493     \textcolor{comment}{// Xdnd (drag and drop) atoms}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00494}00494     Atom            XdndAware;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00495}00495     Atom            XdndEnter;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00496}00496     Atom            XdndPosition;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00497}00497     Atom            XdndStatus;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00498}00498     Atom            XdndActionCopy;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00499}00499     Atom            XdndDrop;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00500}00500     Atom            XdndFinished;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00501}00501     Atom            XdndSelection;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00502}00502     Atom            XdndTypeList;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00503}00503     Atom            text\_uri\_list;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00504}00504 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00505}00505     \textcolor{comment}{// Selection (clipboard) atoms}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00506}00506     Atom            TARGETS;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00507}00507     Atom            MULTIPLE;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00508}00508     Atom            INCR;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00509}00509     Atom            CLIPBOARD;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00510}00510     Atom            PRIMARY;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00511}00511     Atom            CLIPBOARD\_MANAGER;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00512}00512     Atom            SAVE\_TARGETS;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00513}00513     Atom            NULL\_;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00514}00514     Atom            UTF8\_STRING;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00515}00515     Atom            COMPOUND\_STRING;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00516}00516     Atom            ATOM\_PAIR;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00517}00517     Atom            GLFW\_SELECTION;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00518}00518 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00519}00519     \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00520}00520         \textcolor{keywordtype}{void}*       handle;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00521}00521         GLFWbool    utf8;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00522}00522         PFN\_XAllocClassHint AllocClassHint;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00523}00523         PFN\_XAllocSizeHints AllocSizeHints;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00524}00524         PFN\_XAllocWMHints AllocWMHints;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00525}00525         PFN\_XChangeProperty ChangeProperty;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00526}00526         PFN\_XChangeWindowAttributes ChangeWindowAttributes;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00527}00527         PFN\_XCheckIfEvent CheckIfEvent;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00528}00528         PFN\_XCheckTypedWindowEvent CheckTypedWindowEvent;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00529}00529         PFN\_XCloseDisplay CloseDisplay;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00530}00530         PFN\_XCloseIM CloseIM;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00531}00531         PFN\_XConvertSelection ConvertSelection;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00532}00532         PFN\_XCreateColormap CreateColormap;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00533}00533         PFN\_XCreateFontCursor CreateFontCursor;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00534}00534         PFN\_XCreateIC CreateIC;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00535}00535         PFN\_XCreateRegion CreateRegion;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00536}00536         PFN\_XCreateWindow CreateWindow;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00537}00537         PFN\_XDefineCursor DefineCursor;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00538}00538         PFN\_XDeleteContext DeleteContext;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00539}00539         PFN\_XDeleteProperty DeleteProperty;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00540}00540         PFN\_XDestroyIC DestroyIC;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00541}00541         PFN\_XDestroyRegion DestroyRegion;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00542}00542         PFN\_XDestroyWindow DestroyWindow;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00543}00543         PFN\_XDisplayKeycodes DisplayKeycodes;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00544}00544         PFN\_XEventsQueued EventsQueued;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00545}00545         PFN\_XFilterEvent FilterEvent;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00546}00546         PFN\_XFindContext FindContext;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00547}00547         PFN\_XFlush Flush;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00548}00548         PFN\_XFree Free;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00549}00549         PFN\_XFreeColormap FreeColormap;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00550}00550         PFN\_XFreeCursor FreeCursor;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00551}00551         PFN\_XFreeEventData FreeEventData;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00552}00552         PFN\_XGetErrorText GetErrorText;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00553}00553         PFN\_XGetEventData GetEventData;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00554}00554         PFN\_XGetICValues GetICValues;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00555}00555         PFN\_XGetIMValues GetIMValues;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00556}00556         PFN\_XGetInputFocus GetInputFocus;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00557}00557         PFN\_XGetKeyboardMapping GetKeyboardMapping;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00558}00558         PFN\_XGetScreenSaver GetScreenSaver;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00559}00559         PFN\_XGetSelectionOwner GetSelectionOwner;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00560}00560         PFN\_XGetVisualInfo GetVisualInfo;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00561}00561         PFN\_XGetWMNormalHints GetWMNormalHints;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00562}00562         PFN\_XGetWindowAttributes GetWindowAttributes;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00563}00563         PFN\_XGetWindowProperty GetWindowProperty;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00564}00564         PFN\_XGrabPointer GrabPointer;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00565}00565         PFN\_XIconifyWindow IconifyWindow;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00566}00566         PFN\_XInitThreads InitThreads;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00567}00567         PFN\_XInternAtom InternAtom;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00568}00568         PFN\_XLookupString LookupString;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00569}00569         PFN\_XMapRaised MapRaised;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00570}00570         PFN\_XMapWindow MapWindow;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00571}00571         PFN\_XMoveResizeWindow MoveResizeWindow;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00572}00572         PFN\_XMoveWindow MoveWindow;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00573}00573         PFN\_XNextEvent NextEvent;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00574}00574         PFN\_XOpenDisplay OpenDisplay;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00575}00575         PFN\_XOpenIM OpenIM;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00576}00576         PFN\_XPeekEvent PeekEvent;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00577}00577         PFN\_XPending Pending;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00578}00578         PFN\_XQueryExtension QueryExtension;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00579}00579         PFN\_XQueryPointer QueryPointer;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00580}00580         PFN\_XRaiseWindow RaiseWindow;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00581}00581         PFN\_XRegisterIMInstantiateCallback RegisterIMInstantiateCallback;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00582}00582         PFN\_XResizeWindow ResizeWindow;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00583}00583         PFN\_XResourceManagerString ResourceManagerString;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00584}00584         PFN\_XSaveContext SaveContext;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00585}00585         PFN\_XSelectInput SelectInput;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00586}00586         PFN\_XSendEvent SendEvent;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00587}00587         PFN\_XSetClassHint SetClassHint;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00588}00588         PFN\_XSetErrorHandler SetErrorHandler;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00589}00589         PFN\_XSetICFocus SetICFocus;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00590}00590         PFN\_XSetIMValues SetIMValues;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00591}00591         PFN\_XSetInputFocus SetInputFocus;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00592}00592         PFN\_XSetLocaleModifiers SetLocaleModifiers;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00593}00593         PFN\_XSetScreenSaver SetScreenSaver;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00594}00594         PFN\_XSetSelectionOwner SetSelectionOwner;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00595}00595         PFN\_XSetWMHints SetWMHints;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00596}00596         PFN\_XSetWMNormalHints SetWMNormalHints;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00597}00597         PFN\_XSetWMProtocols SetWMProtocols;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00598}00598         PFN\_XSupportsLocale SupportsLocale;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00599}00599         PFN\_XSync Sync;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00600}00600         PFN\_XTranslateCoordinates TranslateCoordinates;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00601}00601         PFN\_XUndefineCursor UndefineCursor;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00602}00602         PFN\_XUngrabPointer UngrabPointer;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00603}00603         PFN\_XUnmapWindow UnmapWindow;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00604}00604         PFN\_XUnsetICFocus UnsetICFocus;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00605}00605         PFN\_XVisualIDFromVisual VisualIDFromVisual;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00606}00606         PFN\_XWarpPointer WarpPointer;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00607}00607         PFN\_XUnregisterIMInstantiateCallback UnregisterIMInstantiateCallback;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00608}00608         PFN\_Xutf8LookupString utf8LookupString;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00609}00609         PFN\_Xutf8SetWMProperties utf8SetWMProperties;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00610}00610     \} xlib;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00611}00611 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00612}00612     \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00613}00613         PFN\_XrmDestroyDatabase DestroyDatabase;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00614}00614         PFN\_XrmGetResource GetResource;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00615}00615         PFN\_XrmGetStringDatabase GetStringDatabase;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00616}00616         PFN\_XrmInitialize Initialize;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00617}00617         PFN\_XrmUniqueQuark UniqueQuark;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00618}00618     \} xrm;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00619}00619 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00620}00620     \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00621}00621         GLFWbool    available;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00622}00622         \textcolor{keywordtype}{void}*       handle;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00623}00623         \textcolor{keywordtype}{int}         eventBase;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00624}00624         \textcolor{keywordtype}{int}         errorBase;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00625}00625         \textcolor{keywordtype}{int}         major;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00626}00626         \textcolor{keywordtype}{int}         minor;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00627}00627         GLFWbool    gammaBroken;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00628}00628         GLFWbool    monitorBroken;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00629}00629         PFN\_XRRAllocGamma AllocGamma;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00630}00630         PFN\_XRRFreeCrtcInfo FreeCrtcInfo;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00631}00631         PFN\_XRRFreeGamma FreeGamma;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00632}00632         PFN\_XRRFreeOutputInfo FreeOutputInfo;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00633}00633         PFN\_XRRFreeScreenResources FreeScreenResources;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00634}00634         PFN\_XRRGetCrtcGamma GetCrtcGamma;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00635}00635         PFN\_XRRGetCrtcGammaSize GetCrtcGammaSize;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00636}00636         PFN\_XRRGetCrtcInfo GetCrtcInfo;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00637}00637         PFN\_XRRGetOutputInfo GetOutputInfo;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00638}00638         PFN\_XRRGetOutputPrimary GetOutputPrimary;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00639}00639         PFN\_XRRGetScreenResourcesCurrent GetScreenResourcesCurrent;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00640}00640         PFN\_XRRQueryExtension QueryExtension;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00641}00641         PFN\_XRRQueryVersion QueryVersion;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00642}00642         PFN\_XRRSelectInput SelectInput;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00643}00643         PFN\_XRRSetCrtcConfig SetCrtcConfig;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00644}00644         PFN\_XRRSetCrtcGamma SetCrtcGamma;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00645}00645         PFN\_XRRUpdateConfiguration UpdateConfiguration;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00646}00646     \} randr;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00647}00647 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00648}00648     \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00649}00649         GLFWbool     available;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00650}00650         GLFWbool     detectable;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00651}00651         \textcolor{keywordtype}{int}          majorOpcode;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00652}00652         \textcolor{keywordtype}{int}          eventBase;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00653}00653         \textcolor{keywordtype}{int}          errorBase;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00654}00654         \textcolor{keywordtype}{int}          major;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00655}00655         \textcolor{keywordtype}{int}          minor;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00656}00656         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} group;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00657}00657         PFN\_XkbFreeKeyboard FreeKeyboard;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00658}00658         PFN\_XkbFreeNames FreeNames;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00659}00659         PFN\_XkbGetMap GetMap;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00660}00660         PFN\_XkbGetNames GetNames;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00661}00661         PFN\_XkbGetState GetState;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00662}00662         PFN\_XkbKeycodeToKeysym KeycodeToKeysym;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00663}00663         PFN\_XkbQueryExtension QueryExtension;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00664}00664         PFN\_XkbSelectEventDetails SelectEventDetails;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00665}00665         PFN\_XkbSetDetectableAutoRepeat SetDetectableAutoRepeat;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00666}00666     \} xkb;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00667}00667 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00668}00668     \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00669}00669         \textcolor{keywordtype}{int}         count;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00670}00670         \textcolor{keywordtype}{int}         timeout;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00671}00671         \textcolor{keywordtype}{int}         interval;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00672}00672         \textcolor{keywordtype}{int}         blanking;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00673}00673         \textcolor{keywordtype}{int}         exposure;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00674}00674     \} saver;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00675}00675 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00676}00676     \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00677}00677         \textcolor{keywordtype}{int}         version;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00678}00678         Window      source;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00679}00679         Atom        format;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00680}00680     \} xdnd;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00681}00681 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00682}00682     \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00683}00683         \textcolor{keywordtype}{void}*       handle;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00684}00684         PFN\_XcursorImageCreate ImageCreate;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00685}00685         PFN\_XcursorImageDestroy ImageDestroy;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00686}00686         PFN\_XcursorImageLoadCursor ImageLoadCursor;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00687}00687         PFN\_XcursorGetTheme GetTheme;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00688}00688         PFN\_XcursorGetDefaultSize GetDefaultSize;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00689}00689         PFN\_XcursorLibraryLoadImage LibraryLoadImage;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00690}00690     \} xcursor;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00691}00691 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00692}00692     \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00693}00693         GLFWbool    available;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00694}00694         \textcolor{keywordtype}{void}*       handle;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00695}00695         \textcolor{keywordtype}{int}         major;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00696}00696         \textcolor{keywordtype}{int}         minor;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00697}00697         PFN\_XineramaIsActive IsActive;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00698}00698         PFN\_XineramaQueryExtension QueryExtension;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00699}00699         PFN\_XineramaQueryScreens QueryScreens;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00700}00700     \} xinerama;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00701}00701 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00702}00702     \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00703}00703         \textcolor{keywordtype}{void}*       handle;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00704}00704         PFN\_XGetXCBConnection GetXCBConnection;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00705}00705     \} x11xcb;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00706}00706 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00707}00707     \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00708}00708         GLFWbool    available;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00709}00709         \textcolor{keywordtype}{void}*       handle;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00710}00710         \textcolor{keywordtype}{int}         eventBase;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00711}00711         \textcolor{keywordtype}{int}         errorBase;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00712}00712         PFN\_XF86VidModeQueryExtension QueryExtension;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00713}00713         PFN\_XF86VidModeGetGammaRamp GetGammaRamp;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00714}00714         PFN\_XF86VidModeSetGammaRamp SetGammaRamp;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00715}00715         PFN\_XF86VidModeGetGammaRampSize GetGammaRampSize;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00716}00716     \} vidmode;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00717}00717 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00718}00718     \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00719}00719         GLFWbool    available;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00720}00720         \textcolor{keywordtype}{void}*       handle;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00721}00721         \textcolor{keywordtype}{int}         majorOpcode;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00722}00722         \textcolor{keywordtype}{int}         eventBase;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00723}00723         \textcolor{keywordtype}{int}         errorBase;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00724}00724         \textcolor{keywordtype}{int}         major;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00725}00725         \textcolor{keywordtype}{int}         minor;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00726}00726         PFN\_XIQueryVersion QueryVersion;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00727}00727         PFN\_XISelectEvents SelectEvents;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00728}00728     \} xi;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00729}00729 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00730}00730     \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00731}00731         GLFWbool    available;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00732}00732         \textcolor{keywordtype}{void}*       handle;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00733}00733         \textcolor{keywordtype}{int}         major;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00734}00734         \textcolor{keywordtype}{int}         minor;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00735}00735         \textcolor{keywordtype}{int}         eventBase;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00736}00736         \textcolor{keywordtype}{int}         errorBase;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00737}00737         PFN\_XRenderQueryExtension QueryExtension;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00738}00738         PFN\_XRenderQueryVersion QueryVersion;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00739}00739         PFN\_XRenderFindVisualFormat FindVisualFormat;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00740}00740     \} xrender;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00741}00741 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00742}00742     \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00743}00743         GLFWbool    available;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00744}00744         \textcolor{keywordtype}{void}*       handle;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00745}00745         \textcolor{keywordtype}{int}         major;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00746}00746         \textcolor{keywordtype}{int}         minor;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00747}00747         \textcolor{keywordtype}{int}         eventBase;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00748}00748         \textcolor{keywordtype}{int}         errorBase;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00749}00749         PFN\_XShapeQueryExtension QueryExtension;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00750}00750         PFN\_XShapeCombineRegion ShapeCombineRegion;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00751}00751         PFN\_XShapeQueryVersion QueryVersion;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00752}00752         PFN\_XShapeCombineMask ShapeCombineMask;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00753}00753     \} xshape;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00754}00754 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00755}00755 \} \mbox{\hyperlink{struct___g_l_f_wlibrary_x11}{\_GLFWlibraryX11}};}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00756}00756 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00757}00757 \textcolor{comment}{// X11-\/specific per-\/monitor data}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00758}00758 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00759}\mbox{\hyperlink{struct___g_l_f_wmonitor_x11}{00759}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___g_l_f_wmonitor_x11}{\_GLFWmonitorX11}}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00760}00760 \{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00761}00761     RROutput        \mbox{\hyperlink{structoutput}{output}};}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00762}00762     RRCrtc          crtc;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00763}00763     RRMode          oldMode;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00764}00764 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00765}00765     \textcolor{comment}{// Index of corresponding Xinerama screen,}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00766}00766     \textcolor{comment}{// for EWMH full screen window placement}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00767}00767     \textcolor{keywordtype}{int}             index;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00768}00768 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00769}00769 \} \mbox{\hyperlink{struct___g_l_f_wmonitor_x11}{\_GLFWmonitorX11}};}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00770}00770 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00771}00771 \textcolor{comment}{// X11-\/specific per-\/cursor data}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00772}00772 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00773}\mbox{\hyperlink{struct___g_l_f_wcursor_x11}{00773}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___g_l_f_wcursor_x11}{\_GLFWcursorX11}}}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00774}00774 \{}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00775}00775     Cursor handle;}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00776}00776 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00777}00777 \} \mbox{\hyperlink{struct___g_l_f_wcursor_x11}{\_GLFWcursorX11}};}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00778}00778 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00779}00779 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00780}00780 \textcolor{keywordtype}{void} \_glfwPollMonitorsX11(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00781}00781 \textcolor{keywordtype}{void} \_glfwSetVideoModeX11(\mbox{\hyperlink{struct___g_l_f_wmonitor}{\_GLFWmonitor}}* monitor, \textcolor{keyword}{const} \mbox{\hyperlink{struct_g_l_f_wvidmode}{GLFWvidmode}}* desired);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00782}00782 \textcolor{keywordtype}{void} \_glfwRestoreVideoModeX11(\mbox{\hyperlink{struct___g_l_f_wmonitor}{\_GLFWmonitor}}* monitor);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00783}00783 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00784}00784 Cursor \_glfwCreateCursorX11(\textcolor{keyword}{const} \mbox{\hyperlink{struct_g_l_f_wimage}{GLFWimage}}* image, \textcolor{keywordtype}{int} xhot, \textcolor{keywordtype}{int} yhot);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00785}00785 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00786}00786 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \_glfwGetWindowPropertyX11(Window window,}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00787}00787                                         Atom property,}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00788}00788                                         Atom type,}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00789}00789                                         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}** \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00790}00790 GLFWbool \_glfwIsVisualTransparentX11(Visual* visual);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00791}00791 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00792}00792 \textcolor{keywordtype}{void} \_glfwGrabErrorHandlerX11(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00793}00793 \textcolor{keywordtype}{void} \_glfwReleaseErrorHandlerX11(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00794}00794 \textcolor{keywordtype}{void} \_glfwInputErrorX11(\textcolor{keywordtype}{int} error, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* message);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00795}00795 }
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00796}00796 \textcolor{keywordtype}{void} \_glfwPushSelectionToManagerX11(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00797}00797 \textcolor{keywordtype}{void} \_glfwCreateInputContextX11(\mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}* window);}
+\DoxyCodeLine{\Hypertarget{x11__platform_8h_source_l00798}00798 }
+
+\end{DoxyCode}

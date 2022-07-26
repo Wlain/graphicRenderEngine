@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="imgui_2examples_2example__allegro5_2_r_e_a_d_m_e_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Configuration</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Dear<sp/>ImGui<sp/>outputs<sp/>16-bit<sp/>vertex<sp/>indices<sp/>by<sp/>default.</highlight></codeline>
+<codeline><highlight class="normal">Allegro<sp/>doesn&apos;t<sp/>support<sp/>them<sp/>natively,<sp/>so<sp/>we<sp/>have<sp/>two<sp/>solutions:<sp/>convert<sp/>the<sp/>indices<sp/>manually<sp/>in<sp/>imgui_impl_allegro5.cpp,<sp/>or<sp/>compile<sp/>dear<sp/>imgui<sp/>with<sp/>32-bit<sp/>indices.</highlight></codeline>
+<codeline><highlight class="normal">You<sp/>can<sp/>either<sp/>modify<sp/>imconfig.h<sp/>that<sp/>comes<sp/>with<sp/>Dear<sp/>ImGui<sp/>(easier),<sp/>or<sp/>set<sp/>a<sp/>C++<sp/>preprocessor<sp/>option<sp/>IMGUI_USER_CONFIG<sp/>to<sp/>find<sp/>to<sp/>a<sp/>filename.</highlight></codeline>
+<codeline><highlight class="normal">We<sp/>are<sp/>providing<sp/>`imconfig_allegro5.h`<sp/>that<sp/>enables<sp/>32-bit<sp/>indices.</highlight></codeline>
+<codeline><highlight class="normal">Note<sp/>that<sp/>the<sp/>backend<sp/>supports<sp/>_BOTH_<sp/>16-bit<sp/>and<sp/>32-bit<sp/>indices,<sp/>but<sp/>32-bit<sp/>indices<sp/>will<sp/>be<sp/>slightly<sp/>faster<sp/>as<sp/>they<sp/>won&apos;t<sp/>require<sp/>a<sp/>manual<sp/>conversion.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>How<sp/>to<sp/>Build</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>On<sp/>Ubuntu<sp/>14.04+<sp/>and<sp/>macOS</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">g++<sp/>-DIMGUI_USER_CONFIG=\&quot;examples/example_allegro5/imconfig_allegro5.h\&quot;<sp/>-I<sp/>..<sp/>-I<sp/>../..<sp/>main.cpp<sp/>../../backends/imgui_impl_allegro5.cpp<sp/>../../imgui*.cpp<sp/>-lallegro<sp/>-lallegro_main<sp/>-lallegro_primitives<sp/>-o<sp/>allegro5_example</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">On<sp/>macOS,<sp/>install<sp/>Allegro<sp/>with<sp/>homebrew:<sp/>`brew<sp/>install<sp/>allegro`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>On<sp/>Windows<sp/>with<sp/>Visual<sp/>Studio&apos;s<sp/>CLI</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>may<sp/>install<sp/>Allegro<sp/>using<sp/>vcpkg:</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">git<sp/>clone<sp/>https://github.com/Microsoft/vcpkg</highlight></codeline>
+<codeline><highlight class="normal">cd<sp/>vcpkg</highlight></codeline>
+<codeline><highlight class="normal">bootstrap-vcpkg.bat</highlight></codeline>
+<codeline><highlight class="normal">vcpkg<sp/>install<sp/>allegro5<sp/>--triplet=x86-windows<sp/><sp/><sp/><sp/>;<sp/>for<sp/>win32</highlight></codeline>
+<codeline><highlight class="normal">vcpkg<sp/>install<sp/>allegro5<sp/>--triplet=x64-windows<sp/><sp/><sp/><sp/>;<sp/>for<sp/>win64</highlight></codeline>
+<codeline><highlight class="normal">vcpkg<sp/>integrate<sp/>install<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>;<sp/>register<sp/>include<sp/>/<sp/>libs<sp/>in<sp/>Visual<sp/>Studio</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Build:</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">set<sp/>ALLEGRODIR=path_to_your_allegro5_folder</highlight></codeline>
+<codeline><highlight class="normal">cl<sp/>/Zi<sp/>/MD<sp/>/I<sp/>%ALLEGRODIR%\include<sp/>/DIMGUI_USER_CONFIG=\&quot;examples/example_allegro5/imconfig_allegro5.h\&quot;<sp/>/I<sp/>..<sp/>/I<sp/>..\..<sp/>main.cpp<sp/>..\..\backends\imgui_impl_allegro5.cpp<sp/>..\..\imgui*.cpp<sp/>/link<sp/>/LIBPATH:%ALLEGRODIR%\lib<sp/>allegro-5.0.10-monolith-md.lib<sp/>user32.lib</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+    </programlisting>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/examples/example_allegro5/README.md"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="geometric_8h" kind="file" language="C++">
+    <compoundname>geometric.h</compoundname>
+    <includes refid="glm_2glm_2simd_2common_8h" local="yes">common.h</includes>
+    <includedby refid="func__geometric__simd_8inl" local="yes">/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/detail/func_geometric_simd.inl</includedby>
+    <includedby refid="matrix_8h" local="yes">/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/simd/matrix.h</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>common.h</label>
+        <link refid="glm_2glm_2simd_2common_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/simd/geometric.h</label>
+        <link refid="geometric_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>platform.h</label>
+        <link refid="platform_8h"/>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/detail/func_geometric_simd.inl</label>
+        <link refid="func__geometric__simd_8inl"/>
+      </node>
+      <node id="1">
+        <label>/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/simd/geometric.h</label>
+        <link refid="geometric_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/simd/matrix.h</label>
+        <link refid="matrix_8h"/>
+      </node>
+    </invincdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>simd </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;common.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>GLM_ARCH<sp/>&amp;<sp/>GLM_ARCH_SSE2_BIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal">GLM_FUNC_DECL<sp/>glm_vec4<sp/>glm_vec4_dot(glm_vec4<sp/>v1,<sp/>glm_vec4<sp/>v2);</highlight></codeline>
+<codeline lineno="11"><highlight class="normal">GLM_FUNC_DECL<sp/>glm_vec4<sp/>glm_vec1_dot(glm_vec4<sp/>v1,<sp/>glm_vec4<sp/>v2);</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal">GLM_FUNC_QUALIFIER<sp/>glm_vec4<sp/>glm_vec4_length(glm_vec4<sp/>x)</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>dot0<sp/>=<sp/>glm_vec4_dot(x,<sp/>x);</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sqt0<sp/>=<sp/>_mm_sqrt_ps(dot0);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sqt0;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal">GLM_FUNC_QUALIFIER<sp/>glm_vec4<sp/>glm_vec4_distance(glm_vec4<sp/>p0,<sp/>glm_vec4<sp/>p1)</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sub0<sp/>=<sp/>_mm_sub_ps(p0,<sp/>p1);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>len0<sp/>=<sp/>glm_vec4_length(sub0);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>len0;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal">GLM_FUNC_QUALIFIER<sp/>glm_vec4<sp/>glm_vec4_dot(glm_vec4<sp/>v1,<sp/>glm_vec4<sp/>v2)</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/><sp/>if<sp/>GLM_ARCH<sp/>&amp;<sp/>GLM_ARCH_AVX_BIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_mm_dp_ps(v1,<sp/>v2,<sp/>0xff);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/><sp/>elif<sp/>GLM_ARCH<sp/>&amp;<sp/>GLM_ARCH_SSE3_BIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mul0<sp/>=<sp/>_mm_mul_ps(v1,<sp/>v2);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>hadd0<sp/>=<sp/>_mm_hadd_ps(mul0,<sp/>mul0);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>hadd1<sp/>=<sp/>_mm_hadd_ps(hadd0,<sp/>hadd0);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>hadd1;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/><sp/>else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mul0<sp/>=<sp/>_mm_mul_ps(v1,<sp/>v2);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>swp0<sp/>=<sp/>_mm_shuffle_ps(mul0,<sp/>mul0,<sp/>_MM_SHUFFLE(2,<sp/>3,<sp/>0,<sp/>1));</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>add0<sp/>=<sp/>_mm_add_ps(mul0,<sp/>swp0);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>swp1<sp/>=<sp/>_mm_shuffle_ps(add0,<sp/>add0,<sp/>_MM_SHUFFLE(0,<sp/>1,<sp/>2,<sp/>3));</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>add1<sp/>=<sp/>_mm_add_ps(add0,<sp/>swp1);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>add1;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/><sp/>endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">GLM_FUNC_QUALIFIER<sp/>glm_vec4<sp/>glm_vec1_dot(glm_vec4<sp/>v1,<sp/>glm_vec4<sp/>v2)</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/><sp/>if<sp/>GLM_ARCH<sp/>&amp;<sp/>GLM_ARCH_AVX_BIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_mm_dp_ps(v1,<sp/>v2,<sp/>0xff);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/><sp/>elif<sp/>GLM_ARCH<sp/>&amp;<sp/>GLM_ARCH_SSE3_BIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mul0<sp/>=<sp/>_mm_mul_ps(v1,<sp/>v2);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>had0<sp/>=<sp/>_mm_hadd_ps(mul0,<sp/>mul0);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>had1<sp/>=<sp/>_mm_hadd_ps(had0,<sp/>had0);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>had1;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/><sp/>else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mul0<sp/>=<sp/>_mm_mul_ps(v1,<sp/>v2);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mov0<sp/>=<sp/>_mm_movehl_ps(mul0,<sp/>mul0);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>add0<sp/>=<sp/>_mm_add_ps(mov0,<sp/>mul0);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>swp1<sp/>=<sp/>_mm_shuffle_ps(add0,<sp/>add0,<sp/>1);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>add1<sp/>=<sp/>_mm_add_ss(add0,<sp/>swp1);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>add1;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/><sp/>endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal">GLM_FUNC_QUALIFIER<sp/>glm_vec4<sp/>glm_vec4_cross(glm_vec4<sp/>v1,<sp/>glm_vec4<sp/>v2)</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>swp0<sp/>=<sp/>_mm_shuffle_ps(v1,<sp/>v1,<sp/>_MM_SHUFFLE(3,<sp/>0,<sp/>2,<sp/>1));</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>swp1<sp/>=<sp/>_mm_shuffle_ps(v1,<sp/>v1,<sp/>_MM_SHUFFLE(3,<sp/>1,<sp/>0,<sp/>2));</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>swp2<sp/>=<sp/>_mm_shuffle_ps(v2,<sp/>v2,<sp/>_MM_SHUFFLE(3,<sp/>0,<sp/>2,<sp/>1));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>swp3<sp/>=<sp/>_mm_shuffle_ps(v2,<sp/>v2,<sp/>_MM_SHUFFLE(3,<sp/>1,<sp/>0,<sp/>2));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mul0<sp/>=<sp/>_mm_mul_ps(swp0,<sp/>swp3);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mul1<sp/>=<sp/>_mm_mul_ps(swp1,<sp/>swp2);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sub0<sp/>=<sp/>_mm_sub_ps(mul0,<sp/>mul1);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sub0;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal">GLM_FUNC_QUALIFIER<sp/>glm_vec4<sp/>glm_vec4_normalize(glm_vec4<sp/>v)</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>dot0<sp/>=<sp/>glm_vec4_dot(v,<sp/>v);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>isr0<sp/>=<sp/>_mm_rsqrt_ps(dot0);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mul0<sp/>=<sp/>_mm_mul_ps(v,<sp/>isr0);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>mul0;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal">GLM_FUNC_QUALIFIER<sp/>glm_vec4<sp/>glm_vec4_faceforward(glm_vec4<sp/>N,<sp/>glm_vec4<sp/>I,<sp/>glm_vec4<sp/>Nref)</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>dot0<sp/>=<sp/>glm_vec4_dot(Nref,<sp/>I);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sgn0<sp/>=<sp/>glm_vec4_sign(dot0);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mul0<sp/>=<sp/>_mm_mul_ps(sgn0,<sp/>_mm_set1_ps(-1.0f));</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mul1<sp/>=<sp/>_mm_mul_ps(N,<sp/>mul0);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>mul1;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal">GLM_FUNC_QUALIFIER<sp/>glm_vec4<sp/>glm_vec4_reflect(glm_vec4<sp/>I,<sp/>glm_vec4<sp/>N)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>dot0<sp/>=<sp/>glm_vec4_dot(N,<sp/>I);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mul0<sp/>=<sp/>_mm_mul_ps(N,<sp/>dot0);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mul1<sp/>=<sp/>_mm_mul_ps(mul0,<sp/>_mm_set1_ps(2.0f));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sub0<sp/>=<sp/>_mm_sub_ps(I,<sp/>mul1);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sub0;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal">GLM_FUNC_QUALIFIER<sp/>__m128<sp/>glm_vec4_refract(glm_vec4<sp/>I,<sp/>glm_vec4<sp/>N,<sp/>glm_vec4<sp/>eta)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>dot0<sp/>=<sp/>glm_vec4_dot(N,<sp/>I);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mul0<sp/>=<sp/>_mm_mul_ps(eta,<sp/>eta);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mul1<sp/>=<sp/>_mm_mul_ps(dot0,<sp/>dot0);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sub0<sp/>=<sp/>_mm_sub_ps(_mm_set1_ps(1.0f),<sp/>mul0);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sub1<sp/>=<sp/>_mm_sub_ps(_mm_set1_ps(1.0f),<sp/>mul1);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mul2<sp/>=<sp/>_mm_mul_ps(sub0,<sp/>sub1);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(_mm_movemask_ps(_mm_cmplt_ss(mul2,<sp/>_mm_set1_ps(0.0f)))<sp/>==<sp/>0)</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_mm_set1_ps(0.0f);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sqt0<sp/>=<sp/>_mm_sqrt_ps(mul2);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mad0<sp/>=<sp/>glm_vec4_fma(eta,<sp/>dot0,<sp/>sqt0);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mul4<sp/>=<sp/>_mm_mul_ps(mad0,<sp/>N);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>mul5<sp/>=<sp/>_mm_mul_ps(eta,<sp/>I);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>glm_vec4<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sub2<sp/>=<sp/>_mm_sub_ps(mul5,<sp/>mul4);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sub2;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="comment">//GLM_ARCH<sp/>&amp;<sp/>GLM_ARCH_SSE2_BIT</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/simd/geometric.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,255 @@
+\hypertarget{imgui__impl__sdlrenderer_8cpp_source}{}\doxysection{imgui\+\_\+impl\+\_\+sdlrenderer.\+cpp}
+\label{imgui__impl__sdlrenderer_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/backends/imgui\_impl\_sdlrenderer.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/backends/imgui\_impl\_sdlrenderer.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00001}00001 \textcolor{comment}{// dear imgui: Renderer Backend for SDL\_Renderer}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00002}00002 \textcolor{comment}{// (Requires: SDL 2.0.17+)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00004}00004 \textcolor{comment}{// Important to understand: SDL\_Renderer is an \_optional\_ component of SDL.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00005}00005 \textcolor{comment}{// For a multi-\/platform app consider using e.g. SDL+DirectX on Windows and SDL+OpenGL on Linux/OSX.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00006}00006 \textcolor{comment}{// If your application will want to render any non trivial amount of graphics other than UI,}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00007}00007 \textcolor{comment}{// please be aware that SDL\_Renderer offers a limited graphic API to the end-\/user and it might}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00008}00008 \textcolor{comment}{// be difficult to step out of those boundaries.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00009}00009 \textcolor{comment}{// However, we understand it is a convenient choice to get an app started easily.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00010}00010 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00011}00011 \textcolor{comment}{// Implemented features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00012}00012 \textcolor{comment}{//  [X] Renderer: User texture binding. Use 'SDL\_Texture*' as ImTextureID. Read the FAQ about ImTextureID!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00013}00013 \textcolor{comment}{//  [X] Renderer: Support for large meshes (64k+ vertices) with 16-\/bit indices.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00014}00014 \textcolor{comment}{// Missing features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00015}00015 \textcolor{comment}{//  [ ] Renderer: Multi-\/viewport support (multiple windows).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00017}00017 \textcolor{comment}{// You can copy and use unmodified imgui\_impl\_* files in your project. See examples/ folder for examples of using this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00018}00018 \textcolor{comment}{// If you are new to Dear ImGui, read documentation from the docs/ folder + read the top of imgui.cpp.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00019}00019 \textcolor{comment}{// Read online: https://github.com/ocornut/imgui/tree/master/docs}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00020}00020 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00021}00021 \textcolor{comment}{// CHANGELOG}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00022}00022 \textcolor{comment}{//  2021-\/12-\/21: Update SDL\_RenderGeometryRaw() format to work with SDL 2.0.19.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00023}00023 \textcolor{comment}{//  2021-\/12-\/03: Added support for large mesh (64K+ vertices), enable ImGuiBackendFlags\_RendererHasVtxOffset flag.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00024}00024 \textcolor{comment}{//  2021-\/10-\/06: Backup and restore modified ClipRect/Viewport.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00025}00025 \textcolor{comment}{//  2021-\/09-\/21: Initial version.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00027}00027 \textcolor{preprocessor}{\#include "{}imgui.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00028}00028 \textcolor{preprocessor}{\#include "{}imgui\_impl\_sdlrenderer.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00029}00029 \textcolor{preprocessor}{\#if defined(\_MSC\_VER) \&\& \_MSC\_VER <= 1500 }\textcolor{comment}{// MSVC 2008 or earlier}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00030}00030 \textcolor{preprocessor}{\#include <stddef.h>}     \textcolor{comment}{// intptr\_t}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00031}00031 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00032}00032 \textcolor{preprocessor}{\#include <stdint.h>}     \textcolor{comment}{// intptr\_t}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00033}00033 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00035}00035 \textcolor{comment}{// SDL}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00036}00036 \textcolor{preprocessor}{\#include <SDL.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00037}00037 \textcolor{preprocessor}{\#if !SDL\_VERSION\_ATLEAST(2,0,17)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00038}00038 \textcolor{preprocessor}{\#error This backend requires SDL 2.0.17+ because of SDL\_RenderGeometry() function}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00039}00039 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00041}00041 \textcolor{comment}{// SDL\_Renderer data}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00042}\mbox{\hyperlink{struct_im_gui___impl_s_d_l_renderer___data}{00042}} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_im_gui___impl_s_d_l_renderer___data}{ImGui\_ImplSDLRenderer\_Data}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00043}00043 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00044}00044     SDL\_Renderer*   SDLRenderer;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00045}00045     SDL\_Texture*    FontTexture;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00046}00046     \mbox{\hyperlink{struct_im_gui___impl_s_d_l_renderer___data}{ImGui\_ImplSDLRenderer\_Data}}() \{ memset(\textcolor{keyword}{this}, 0, \textcolor{keyword}{sizeof}(*\textcolor{keyword}{this})); \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00047}00047 \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00049}00049 \textcolor{comment}{// Backend data stored in io.BackendRendererUserData to allow support for multiple Dear ImGui contexts}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00050}00050 \textcolor{comment}{// It is STRONGLY preferred that you use docking branch with multi-\/viewports (== single Dear ImGui context + multiple windows) instead of multiple Dear ImGui contexts.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00051}00051 \textcolor{keyword}{static} \mbox{\hyperlink{struct_im_gui___impl_s_d_l_renderer___data}{ImGui\_ImplSDLRenderer\_Data}}* ImGui\_ImplSDLRenderer\_GetBackendData()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00052}00052 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00053}00053     \textcolor{keywordflow}{return} ImGui::GetCurrentContext() ? (\mbox{\hyperlink{struct_im_gui___impl_s_d_l_renderer___data}{ImGui\_ImplSDLRenderer\_Data}}*)ImGui::GetIO().BackendRendererUserData : NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00054}00054 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00056}00056 \textcolor{comment}{// Functions}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00057}00057 \textcolor{keywordtype}{bool} ImGui\_ImplSDLRenderer\_Init(SDL\_Renderer* renderer)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00058}00058 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00059}00059     \mbox{\hyperlink{struct_im_gui_i_o}{ImGuiIO}}\& io = ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00060}00060     IM\_ASSERT(io.BackendRendererUserData == NULL \&\& \textcolor{stringliteral}{"{}Already initialized a renderer backend!"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00061}00061     IM\_ASSERT(renderer != NULL \&\& \textcolor{stringliteral}{"{}SDL\_Renderer not initialized!"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00062}00062 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00063}00063     \textcolor{comment}{// Setup backend capabilities flags}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00064}00064     \mbox{\hyperlink{struct_im_gui___impl_s_d_l_renderer___data}{ImGui\_ImplSDLRenderer\_Data}}* bd = IM\_NEW(\mbox{\hyperlink{struct_im_gui___impl_s_d_l_renderer___data}{ImGui\_ImplSDLRenderer\_Data}})();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00065}00065     io.BackendRendererUserData = (\textcolor{keywordtype}{void}*)bd;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00066}00066     io.BackendRendererName = \textcolor{stringliteral}{"{}imgui\_impl\_sdlrenderer"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00067}00067     io.BackendFlags |= ImGuiBackendFlags\_RendererHasVtxOffset;  \textcolor{comment}{// We can honor the ImDrawCmd::VtxOffset field, allowing for large meshes.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00069}00069     bd-\/>SDLRenderer = renderer;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00071}00071     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00072}00072 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00074}00074 \textcolor{keywordtype}{void} ImGui\_ImplSDLRenderer\_Shutdown()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00075}00075 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00076}00076     \mbox{\hyperlink{struct_im_gui___impl_s_d_l_renderer___data}{ImGui\_ImplSDLRenderer\_Data}}* bd = ImGui\_ImplSDLRenderer\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00077}00077     IM\_ASSERT(bd != NULL \&\& \textcolor{stringliteral}{"{}No renderer backend to shutdown, or already shutdown?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00078}00078     \mbox{\hyperlink{struct_im_gui_i_o}{ImGuiIO}}\& io = ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00080}00080     ImGui\_ImplSDLRenderer\_DestroyDeviceObjects();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00082}00082     io.BackendRendererName = NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00083}00083     io.BackendRendererUserData = NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00084}00084     IM\_DELETE(bd);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00085}00085 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00086}00086 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00087}00087 \textcolor{keyword}{static} \textcolor{keywordtype}{void} ImGui\_ImplSDLRenderer\_SetupRenderState()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00088}00088 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00089}00089     \mbox{\hyperlink{struct_im_gui___impl_s_d_l_renderer___data}{ImGui\_ImplSDLRenderer\_Data}}* bd = ImGui\_ImplSDLRenderer\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00091}00091     \textcolor{comment}{// Clear out any viewports and cliprect set by the user}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00092}00092     \textcolor{comment}{// FIXME: Technically speaking there are lots of other things we could backup/setup/restore during our render process.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00093}00093     SDL\_RenderSetViewport(bd-\/>SDLRenderer, NULL);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00094}00094     SDL\_RenderSetClipRect(bd-\/>SDLRenderer, NULL);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00095}00095 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00096}00096 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00097}00097 \textcolor{keywordtype}{void} ImGui\_ImplSDLRenderer\_NewFrame()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00098}00098 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00099}00099     \mbox{\hyperlink{struct_im_gui___impl_s_d_l_renderer___data}{ImGui\_ImplSDLRenderer\_Data}}* bd = ImGui\_ImplSDLRenderer\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00100}00100     IM\_ASSERT(bd != NULL \&\& \textcolor{stringliteral}{"{}Did you call ImGui\_ImplSDLRenderer\_Init()?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00101}00101 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00102}00102     \textcolor{keywordflow}{if} (!bd-\/>FontTexture)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00103}00103         ImGui\_ImplSDLRenderer\_CreateDeviceObjects();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00104}00104 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00106}00106 \textcolor{keywordtype}{void} ImGui\_ImplSDLRenderer\_RenderDrawData(\mbox{\hyperlink{struct_im_draw_data}{ImDrawData}}* draw\_data)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00107}00107 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00108}00108     \mbox{\hyperlink{struct_im_gui___impl_s_d_l_renderer___data}{ImGui\_ImplSDLRenderer\_Data}}* bd = ImGui\_ImplSDLRenderer\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00109}00109 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00110}00110     \textcolor{comment}{// If there's a scale factor set by the user, use that instead}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00111}00111     \textcolor{comment}{// If the user has specified a scale factor to SDL\_Renderer already via SDL\_RenderSetScale(), SDL will scale whatever we pass}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00112}00112     \textcolor{comment}{// to SDL\_RenderGeometryRaw() by that scale factor. In that case we don't want to be also scaling it ourselves here.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00113}00113     \textcolor{keywordtype}{float} rsx = 1.0f;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00114}00114     \textcolor{keywordtype}{float} rsy = 1.0f;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00115}00115     SDL\_RenderGetScale(bd-\/>SDLRenderer, \&rsx, \&rsy);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00116}00116     \mbox{\hyperlink{struct_im_vec2}{ImVec2}} render\_scale;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00117}00117     render\_scale.x = (rsx == 1.0f) ? draw\_data-\/>FramebufferScale.x : 1.0f;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00118}00118     render\_scale.y = (rsy == 1.0f) ? draw\_data-\/>FramebufferScale.y : 1.0f;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00120}00120     \textcolor{comment}{// Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00121}00121     \textcolor{keywordtype}{int} fb\_width = (int)(draw\_data-\/>DisplaySize.x * render\_scale.x);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00122}00122     \textcolor{keywordtype}{int} fb\_height = (int)(draw\_data-\/>DisplaySize.y * render\_scale.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00123}00123     \textcolor{keywordflow}{if} (fb\_width == 0 || fb\_height == 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00124}00124         \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00126}00126     \textcolor{comment}{// Backup SDL\_Renderer state that will be modified to restore it afterwards}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00127}00127     \textcolor{keyword}{struct }BackupSDLRendererState}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00128}00128     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00129}00129         SDL\_Rect    Viewport;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00130}00130         \textcolor{keywordtype}{bool}        ClipEnabled;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00131}00131         SDL\_Rect    ClipRect;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00132}00132     \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00133}00133     BackupSDLRendererState old = \{\};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00134}00134     old.ClipEnabled = SDL\_RenderIsClipEnabled(bd-\/>SDLRenderer) == SDL\_TRUE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00135}00135     SDL\_RenderGetViewport(bd-\/>SDLRenderer, \&old.Viewport);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00136}00136     SDL\_RenderGetClipRect(bd-\/>SDLRenderer, \&old.ClipRect);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00137}00137 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00138}00138     \textcolor{comment}{// Will project scissor/clipping rectangles into framebuffer space}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00139}00139     \mbox{\hyperlink{struct_im_vec2}{ImVec2}} clip\_off = draw\_data-\/>DisplayPos;         \textcolor{comment}{// (0,0) unless using multi-\/viewports}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00140}00140     \mbox{\hyperlink{struct_im_vec2}{ImVec2}} clip\_scale = render\_scale;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00141}00141 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00142}00142     \textcolor{comment}{// Render command lists}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00143}00143     ImGui\_ImplSDLRenderer\_SetupRenderState();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00144}00144     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} n = 0; n < draw\_data-\/>CmdListsCount; n++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00145}00145     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00146}00146         \textcolor{keyword}{const} \mbox{\hyperlink{struct_im_draw_list}{ImDrawList}}* cmd\_list = draw\_data-\/>CmdLists[n];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00147}00147         \textcolor{keyword}{const} \mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}* vtx\_buffer = cmd\_list-\/>VtxBuffer.Data;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00148}00148         \textcolor{keyword}{const} ImDrawIdx* idx\_buffer = cmd\_list-\/>IdxBuffer.Data;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00149}00149 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00150}00150         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} cmd\_i = 0; cmd\_i < cmd\_list-\/>CmdBuffer.Size; cmd\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00151}00151         \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00152}00152             \textcolor{keyword}{const} \mbox{\hyperlink{struct_im_draw_cmd}{ImDrawCmd}}* pcmd = \&cmd\_list-\/>CmdBuffer[cmd\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00153}00153             \textcolor{keywordflow}{if} (pcmd-\/>UserCallback)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00154}00154             \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00155}00155                 \textcolor{comment}{// User callback, registered via ImDrawList::AddCallback()}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00156}00156                 \textcolor{comment}{// (ImDrawCallback\_ResetRenderState is a special callback value used by the user to request the renderer to reset render state.)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00157}00157                 \textcolor{keywordflow}{if} (pcmd-\/>UserCallback == ImDrawCallback\_ResetRenderState)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00158}00158                     ImGui\_ImplSDLRenderer\_SetupRenderState();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00159}00159                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00160}00160                     pcmd-\/>UserCallback(cmd\_list, pcmd);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00161}00161             \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00162}00162             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00163}00163             \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00164}00164                 \textcolor{comment}{// Project scissor/clipping rectangles into framebuffer space}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00165}00165                 \mbox{\hyperlink{struct_im_vec2}{ImVec2}} clip\_min((pcmd-\/>ClipRect.x -\/ clip\_off.x) * clip\_scale.x, (pcmd-\/>ClipRect.y -\/ clip\_off.y) * clip\_scale.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00166}00166                 \mbox{\hyperlink{struct_im_vec2}{ImVec2}} clip\_max((pcmd-\/>ClipRect.z -\/ clip\_off.x) * clip\_scale.x, (pcmd-\/>ClipRect.w -\/ clip\_off.y) * clip\_scale.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00167}00167                 \textcolor{keywordflow}{if} (clip\_min.x < 0.0f) \{ clip\_min.x = 0.0f; \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00168}00168                 \textcolor{keywordflow}{if} (clip\_min.y < 0.0f) \{ clip\_min.y = 0.0f; \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00169}00169                 \textcolor{keywordflow}{if} (clip\_max.x > fb\_width) \{ clip\_max.x = (float)fb\_width; \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00170}00170                 \textcolor{keywordflow}{if} (clip\_max.y > fb\_height) \{ clip\_max.y = (float)fb\_height; \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00171}00171                 \textcolor{keywordflow}{if} (clip\_max.x <= clip\_min.x || clip\_max.y <= clip\_min.y)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00172}00172                     \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00173}00173 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00174}00174                 SDL\_Rect r = \{ (int)(clip\_min.x), (int)(clip\_min.y), (int)(clip\_max.x -\/ clip\_min.x), (int)(clip\_max.y -\/ clip\_min.y) \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00175}00175                 SDL\_RenderSetClipRect(bd-\/>SDLRenderer, \&r);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00176}00176 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00177}00177                 \textcolor{keyword}{const} \textcolor{keywordtype}{float}* xy = (\textcolor{keyword}{const} \textcolor{keywordtype}{float}*)((\textcolor{keyword}{const} \textcolor{keywordtype}{char}*)(vtx\_buffer + pcmd-\/>VtxOffset) + IM\_OFFSETOF(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}, pos));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00178}00178                 \textcolor{keyword}{const} \textcolor{keywordtype}{float}* uv = (\textcolor{keyword}{const} \textcolor{keywordtype}{float}*)((\textcolor{keyword}{const} \textcolor{keywordtype}{char}*)(vtx\_buffer + pcmd-\/>VtxOffset) + IM\_OFFSETOF(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}, uv));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00179}00179 \textcolor{preprocessor}{\#if SDL\_VERSION\_ATLEAST(2,0,19)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00180}00180                 \textcolor{keyword}{const} SDL\_Color* color = (\textcolor{keyword}{const} SDL\_Color*)((\textcolor{keyword}{const} \textcolor{keywordtype}{char}*)(vtx\_buffer + pcmd-\/>VtxOffset) + IM\_OFFSETOF(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}, col)); \textcolor{comment}{// SDL 2.0.19+}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00181}00181 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00182}00182                 \textcolor{keyword}{const} \textcolor{keywordtype}{int}* color = (\textcolor{keyword}{const} \textcolor{keywordtype}{int}*)((\textcolor{keyword}{const} \textcolor{keywordtype}{char}*)(vtx\_buffer + pcmd-\/>VtxOffset) + IM\_OFFSETOF(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}, col)); \textcolor{comment}{// SDL 2.0.17 and 2.0.18}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00183}00183 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00184}00184 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00185}00185                 \textcolor{comment}{// Bind texture, Draw}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00186}00186                 SDL\_Texture* tex = (SDL\_Texture*)pcmd-\/>GetTexID();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00187}00187                 SDL\_RenderGeometryRaw(bd-\/>SDLRenderer, tex,}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00188}00188                     xy, (\textcolor{keywordtype}{int})\textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}),}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00189}00189                     color, (\textcolor{keywordtype}{int})\textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}),}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00190}00190                     uv, (\textcolor{keywordtype}{int})\textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}),}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00191}00191                     cmd\_list-\/>VtxBuffer.Size -\/ pcmd-\/>VtxOffset,}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00192}00192                     idx\_buffer + pcmd-\/>IdxOffset, pcmd-\/>ElemCount, \textcolor{keyword}{sizeof}(ImDrawIdx));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00193}00193             \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00194}00194         \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00195}00195     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00196}00196 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00197}00197     \textcolor{comment}{// Restore modified SDL\_Renderer state}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00198}00198     SDL\_RenderSetViewport(bd-\/>SDLRenderer, \&old.Viewport);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00199}00199     SDL\_RenderSetClipRect(bd-\/>SDLRenderer, old.ClipEnabled ? \&old.ClipRect : NULL);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00200}00200 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00201}00201 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00202}00202 \textcolor{comment}{// Called by Init/NewFrame/Shutdown}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00203}00203 \textcolor{keywordtype}{bool} ImGui\_ImplSDLRenderer\_CreateFontsTexture()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00204}00204 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00205}00205     \mbox{\hyperlink{struct_im_gui_i_o}{ImGuiIO}}\& io = ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00206}00206     \mbox{\hyperlink{struct_im_gui___impl_s_d_l_renderer___data}{ImGui\_ImplSDLRenderer\_Data}}* bd = ImGui\_ImplSDLRenderer\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00207}00207 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00208}00208     \textcolor{comment}{// Build texture atlas}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00209}00209     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* pixels;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00210}00210     \textcolor{keywordtype}{int} width, height;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00211}00211     io.Fonts-\/>GetTexDataAsRGBA32(\&pixels, \&width, \&height);   \textcolor{comment}{// Load as RGBA 32-\/bit (75\% of the memory is wasted, but default font is so small) because it is more likely to be compatible with user's existing shaders. If your ImTextureId represent a higher-\/level concept than just a GL texture id, consider calling GetTexDataAsAlpha8() instead to save on GPU memory.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00212}00212 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00213}00213     \textcolor{comment}{// Upload texture to graphics system}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00214}00214     bd-\/>FontTexture = SDL\_CreateTexture(bd-\/>SDLRenderer, SDL\_PIXELFORMAT\_RGBA32, SDL\_TEXTUREACCESS\_STATIC, width, height);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00215}00215     \textcolor{keywordflow}{if} (bd-\/>FontTexture == NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00216}00216     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00217}00217         SDL\_Log(\textcolor{stringliteral}{"{}error creating texture"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00218}00218         \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00219}00219     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00220}00220     SDL\_UpdateTexture(bd-\/>FontTexture, NULL, pixels, 4 * width);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00221}00221     SDL\_SetTextureBlendMode(bd-\/>FontTexture, SDL\_BLENDMODE\_BLEND);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00222}00222 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00223}00223     \textcolor{comment}{// Store our identifier}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00224}00224     io.Fonts-\/>SetTexID((ImTextureID)(intptr\_t)bd-\/>FontTexture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00225}00225 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00226}00226     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00227}00227 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00228}00228 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00229}00229 \textcolor{keywordtype}{void} ImGui\_ImplSDLRenderer\_DestroyFontsTexture()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00230}00230 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00231}00231     \mbox{\hyperlink{struct_im_gui_i_o}{ImGuiIO}}\& io = ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00232}00232     \mbox{\hyperlink{struct_im_gui___impl_s_d_l_renderer___data}{ImGui\_ImplSDLRenderer\_Data}}* bd = ImGui\_ImplSDLRenderer\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00233}00233     \textcolor{keywordflow}{if} (bd-\/>FontTexture)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00234}00234     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00235}00235         io.Fonts-\/>SetTexID(0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00236}00236         SDL\_DestroyTexture(bd-\/>FontTexture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00237}00237         bd-\/>FontTexture = NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00238}00238     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00239}00239 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00240}00240 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00241}00241 \textcolor{keywordtype}{bool} ImGui\_ImplSDLRenderer\_CreateDeviceObjects()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00242}00242 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00243}00243     \textcolor{keywordflow}{return} ImGui\_ImplSDLRenderer\_CreateFontsTexture();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00244}00244 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00245}00245 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00246}00246 \textcolor{keywordtype}{void} ImGui\_ImplSDLRenderer\_DestroyDeviceObjects()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00247}00247 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00248}00248     ImGui\_ImplSDLRenderer\_DestroyFontsTexture();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer_8cpp_source_l00249}00249 \}}
+
+\end{DoxyCode}

@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="stb__voxel__render__interview_8md" kind="file" language="Markdown">
+    <compoundname>stb_voxel_render_interview.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>An<sp/>interview<sp/>with<sp/>STB<sp/>about<sp/>stb_voxel_render.h</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Q:**</highlight></codeline>
+<codeline><highlight class="normal">I<sp/>suppose<sp/>you<sp/>really<sp/>like<sp/>Minecraft?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**A:**</highlight></codeline>
+<codeline><highlight class="normal">Not<sp/>really.<sp/>I<sp/>mean,<sp/>I<sp/>do<sp/>own<sp/>it<sp/>and<sp/>play<sp/>it<sp/>some,<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">I<sp/>do<sp/>watch<sp/>YouTube<sp/>videos<sp/>of<sp/>other<sp/>people<sp/>playing<sp/>it</highlight></codeline>
+<codeline><highlight class="normal">once<sp/>in<sp/>a<sp/>while,<sp/>but<sp/>I&apos;m<sp/>not<sp/>saying<sp/>it&apos;s<sp/>that<sp/>great.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">But<sp/>I<sp/>do<sp/>love<sp/>voxels.<sp/>I&apos;ve<sp/>been<sp/>playing<sp/>with<sp/>voxel<sp/>rendering</highlight></codeline>
+<codeline><highlight class="normal">since<sp/>the<sp/>mid-late<sp/>90&apos;s<sp/>when<sp/>we<sp/>were<sp/>still<sp/>doing<sp/>software</highlight></codeline>
+<codeline><highlight class="normal">rendering<sp/>and<sp/>thinking<sp/>maybe<sp/>polygons<sp/>weren&apos;t<sp/>the<sp/>answer.</highlight></codeline>
+<codeline><highlight class="normal">Once<sp/>GPUs<sp/>came<sp/>along<sp/>that<sp/>kind<sp/>of<sp/>died<sp/>off,<sp/>at<sp/>least<sp/>until</highlight></codeline>
+<codeline><highlight class="normal">Minecraft<sp/>brought<sp/>it<sp/>back<sp/>to<sp/>attention.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Q:**</highlight></codeline>
+<codeline><highlight class="normal">Do<sp/>you<sp/>expect<sp/>people<sp/>will<sp/>make<sp/>a<sp/>lot<sp/>of<sp/>Minecraft<sp/>clones</highlight></codeline>
+<codeline><highlight class="normal">with<sp/>this?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**A:**</highlight></codeline>
+<codeline><highlight class="normal">I<sp/>hope<sp/>not!</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>one<sp/>thing,<sp/>it&apos;s<sp/>a<sp/>terrible<sp/>idea<sp/>for<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">developer.<sp/>Remember<sp/>before<sp/>Minecraft<sp/>was<sp/>on<sp/>the<sp/>Xbox<sp/>360,</highlight></codeline>
+<codeline><highlight class="normal">there<sp/>were<sp/>a<sp/>ton<sp/>of<sp/>&quot;indie&quot;<sp/>clones<sp/>(some<sp/>maybe<sp/>making</highlight></codeline>
+<codeline><highlight class="normal">decent<sp/>money<sp/>even),<sp/>but<sp/>then<sp/>the<sp/>real<sp/>Minecraft<sp/>came<sp/>out</highlight></codeline>
+<codeline><highlight class="normal">and<sp/>just<sp/>crushed<sp/>them<sp/>(as<sp/>far<sp/>as<sp/>I<sp/>know).<sp/>It&apos;s<sp/>just<sp/>not</highlight></codeline>
+<codeline><highlight class="normal">something<sp/>you<sp/>really<sp/>want<sp/>to<sp/>compete<sp/>with.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>reason<sp/>I<sp/>made<sp/>this<sp/>library<sp/>is<sp/>because<sp/>I&apos;d<sp/>like</highlight></codeline>
+<codeline><highlight class="normal">to<sp/>see<sp/>more<sp/>games<sp/>with<sp/>Minecraft&apos;s<sp/>*art<sp/>style*,<sp/>not</highlight></codeline>
+<codeline><highlight class="normal">necessary<sp/>its<sp/>*gameplay*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">I<sp/>can<sp/>understand<sp/>the<sp/>urge<sp/>to<sp/>clone<sp/>the<sp/>gameplay.<sp/>When</highlight></codeline>
+<codeline><highlight class="normal">you<sp/>have<sp/>a<sp/>world<sp/>made<sp/>of<sp/>voxels/blocks,<sp/>there<sp/>are<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">few<sp/>things<sp/>that<sp/>become<sp/>incredibly<sp/>easy<sp/>to<sp/>do<sp/>that<sp/>would</highlight></codeline>
+<codeline><highlight class="normal">otherwise<sp/>be<sp/>very<sp/>hard<sp/>(at<sp/>least<sp/>for<sp/>an<sp/>indie)<sp/>to<sp/>do<sp/>in<sp/>3D.</highlight></codeline>
+<codeline><highlight class="normal">One<sp/>thing<sp/>is<sp/>that<sp/>procedural<sp/>generation<sp/>becomes<sp/>much<sp/>easier.</highlight></codeline>
+<codeline><highlight class="normal">Another<sp/>is<sp/>that<sp/>destructible<sp/>environments<sp/>are<sp/>easy.<sp/>Another</highlight></codeline>
+<codeline><highlight class="normal">is<sp/>that<sp/>you<sp/>have<sp/>a<sp/>world<sp/>where<sp/>your<sp/>average<sp/>user<sp/>can<sp/>build</highlight></codeline>
+<codeline><highlight class="normal">stuff<sp/>that<sp/>they<sp/>find<sp/>satisfactory.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Minecraft<sp/>is<sp/>at<sp/>a<sp/>sort<sp/>of<sp/>local<sp/>maximum,<sp/>a<sp/>sweet<sp/>spot,<sp/>where</highlight></codeline>
+<codeline><highlight class="normal">it<sp/>leverages<sp/>all<sp/>of<sp/>those<sp/>easy-to-dos.<sp/>And<sp/>so<sp/>I&apos;m<sp/>sure<sp/>it&apos;s</highlight></codeline>
+<codeline><highlight class="normal">hard<sp/>to<sp/>look<sp/>at<sp/>the<sp/>space<sp/>of<sp/>&apos;games<sp/>using<sp/>voxels&apos;<sp/>and<sp/>move</highlight></codeline>
+<codeline><highlight class="normal">away<sp/>from<sp/>that<sp/>local<sp/>maximum,<sp/>to<sp/>give<sp/>up<sp/>some<sp/>of<sp/>that.</highlight></codeline>
+<codeline><highlight class="normal">But<sp/>I<sp/>think<sp/>that&apos;s<sp/>what<sp/>people<sp/>should<sp/>do.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Q:**</highlight></codeline>
+<codeline><highlight class="normal">So<sp/>what<sp/>else<sp/>can<sp/>people<sp/>do<sp/>with<sp/>stb_voxel_render?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**A:**</highlight></codeline>
+<codeline><highlight class="normal">All<sp/>of<sp/>those<sp/>benefits<sp/>I<sp/>mentioned<sp/>above<sp/>are<sp/>still<sp/>valid<sp/>even</highlight></codeline>
+<codeline><highlight class="normal">if<sp/>you<sp/>stay<sp/>away<sp/>from<sp/>the<sp/>sweet<sp/>spot.<sp/>You<sp/>can<sp/>make<sp/>a<sp/>3D<sp/>roguelike</highlight></codeline>
+<codeline><highlight class="normal">without<sp/>player-creation/destruction<sp/>that<sp/>uses<sp/>procedural<sp/>generation.</highlight></codeline>
+<codeline><highlight class="normal">You<sp/>could<sp/>make<sp/>a<sp/>shooter<sp/>with<sp/>pre-designed<sp/>maps<sp/>but<sp/>destructible</highlight></codeline>
+<codeline><highlight class="normal">environments.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">And<sp/>I&apos;m<sp/>sure<sp/>there<sp/>are<sp/>other<sp/>possible<sp/>benefits<sp/>to<sp/>using<sp/>voxels/blocks.</highlight></codeline>
+<codeline><highlight class="normal">Hopefully<sp/>this<sp/>will<sp/>make<sp/>it<sp/>easier<sp/>for<sp/>people<sp/>to<sp/>explore<sp/>the<sp/>space.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>library<sp/>has<sp/>a<sp/>pretty<sp/>wide<sp/>range<sp/>of<sp/>features<sp/>to<sp/>allow</highlight></codeline>
+<codeline><highlight class="normal">people<sp/>to<sp/>come<sp/>up<sp/>with<sp/>some<sp/>distinctive<sp/>looks.<sp/>For<sp/>example,</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>art<sp/>style<sp/>of<sp/>Continue?9876543210<sp/>was<sp/>one<sp/>of<sp/>the<sp/>inspirations</highlight></codeline>
+<codeline><highlight class="normal">for<sp/>trying<sp/>to<sp/>make<sp/>the<sp/>multitexturing<sp/>capabilities<sp/>flexible.</highlight></codeline>
+<codeline><highlight class="normal">I&apos;m<sp/>terrible<sp/>at<sp/>art,<sp/>so<sp/>this<sp/>isn&apos;t<sp/>really<sp/>something<sp/>I<sp/>can</highlight></codeline>
+<codeline><highlight class="normal">come<sp/>up<sp/>with<sp/>myself,<sp/>but<sp/>I<sp/>tried<sp/>to<sp/>put<sp/>in<sp/>flexible</highlight></codeline>
+<codeline><highlight class="normal">technology<sp/>that<sp/>could<sp/>be<sp/>used<sp/>multiple<sp/>ways.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">One<sp/>thing<sp/>I<sp/>did<sp/>intentionally<sp/>was<sp/>try<sp/>to<sp/>make<sp/>it<sp/>possible<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">make<sp/>nicer<sp/>looking<sp/>ground<sp/>terrain,<sp/>using<sp/>the<sp/>half-height</highlight></codeline>
+<codeline><highlight class="normal">slopes<sp/>and<sp/>&quot;weird<sp/>slopes&quot;.<sp/>There<sp/>are<sp/>Minecraft<sp/>mods<sp/>with</highlight></codeline>
+<codeline><highlight class="normal">drivable<sp/>cars<sp/>and<sp/>they<sp/>just<sp/>go<sp/>up<sp/>these<sp/>blocky<sp/>slopes<sp/>and,</highlight></codeline>
+<codeline><highlight class="normal">like,<sp/>what?<sp/>So<sp/>I<sp/>wanted<sp/>you<sp/>to<sp/>be<sp/>able<sp/>to<sp/>make<sp/>smoother</highlight></codeline>
+<codeline><highlight class="normal">terrain,<sp/>either<sp/>just<sp/>for<sp/>the<sp/>look,<sp/>or<sp/>for<sp/>vehicles<sp/>etc.</highlight></codeline>
+<codeline><highlight class="normal">Also,<sp/>you<sp/>can<sp/>spatially<sp/>cross-fade<sp/>between<sp/>two<sp/>ground<sp/>textures<sp/>for</highlight></codeline>
+<codeline><highlight class="normal">that<sp/>classic<sp/>bad<sp/>dirt/grass<sp/>transition<sp/>that<sp/>has<sp/>shipped</highlight></codeline>
+<codeline><highlight class="normal">in<sp/>plenty<sp/>of<sp/>professional<sp/>games.<sp/>Of<sp/>course,<sp/>you<sp/>could</highlight></codeline>
+<codeline><highlight class="normal">just<sp/>use<sp/>a<sp/>separate<sp/>non-voxel<sp/>ground<sp/>renderer<sp/>for<sp/>all<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">this.<sp/>But<sp/>this<sp/>way,<sp/>you<sp/>can<sp/>seamlessly<sp/>integrate<sp/>everything</highlight></codeline>
+<codeline><highlight class="normal">else<sp/>with<sp/>it.<sp/>E.g.<sp/>in<sp/>your<sp/>authoring<sp/>tool<sp/>(or<sp/>procedural</highlight></codeline>
+<codeline><highlight class="normal">generation)<sp/>you<sp/>can<sp/>make<sp/>smooth<sp/>ground<sp/>and<sp/>then<sp/>cut<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">sharp-edged<sp/>hole<sp/>in<sp/>it<sp/>for<sp/>a<sp/>building&apos;s<sp/>basement<sp/>or<sp/>whatever.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Another<sp/>thing<sp/>you<sp/>can<sp/>do<sp/>is<sp/>work<sp/>at<sp/>a<sp/>very<sp/>different<sp/>scale.</highlight></codeline>
+<codeline><highlight class="normal">In<sp/>Minecraft,<sp/>a<sp/>person<sp/>is<sp/>just<sp/>under<sp/>2<sp/>blocks<sp/>tall.<sp/>In</highlight></codeline>
+<codeline><highlight class="normal">Ace<sp/>of<sp/>Spades,<sp/>a<sp/>person<sp/>is<sp/>just<sp/>under<sp/>3<sp/>blocks<sp/>tall.<sp/>Why</highlight></codeline>
+<codeline><highlight class="normal">not<sp/>4<sp/>or<sp/>6?<sp/>Well,<sp/>partly<sp/>because<sp/>you<sp/>just<sp/>need<sp/>a<sp/>lot<sp/>more</highlight></codeline>
+<codeline><highlight class="normal">voxels;<sp/>if<sp/>a<sp/>meter<sp/>is<sp/>2<sp/>voxels<sp/>in<sp/>Mineraft<sp/>and<sp/>4<sp/>voxels<sp/>in</highlight></codeline>
+<codeline><highlight class="normal">your<sp/>game,<sp/>and<sp/>you<sp/>draw<sp/>the<sp/>same<sp/>number<sp/>of<sp/>voxels<sp/>due<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">hardware<sp/>limits,<sp/>then<sp/>your<sp/>game<sp/>has<sp/>half<sp/>the<sp/>view<sp/>distance</highlight></codeline>
+<codeline><highlight class="normal">of<sp/>Minecraft.<sp/>Since<sp/>stb_voxel_render<sp/>is<sp/>designed<sp/>to<sp/>keep</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>meshes<sp/>small<sp/>and<sp/>render<sp/>efficiently,<sp/>you<sp/>can<sp/>push<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">view<sp/>distance<sp/>out<sp/>further<sp/>than<sp/>Minecraft--or<sp/>use<sp/>a<sp/>similar</highlight></codeline>
+<codeline><highlight class="normal">view<sp/>distance<sp/>and<sp/>a<sp/>higher<sp/>voxel<sp/>resolution.<sp/>You<sp/>could<sp/>also</highlight></codeline>
+<codeline><highlight class="normal">stop<sp/>making<sp/>infinite<sp/>worlds<sp/>and<sp/>work<sp/>at<sp/>entirely<sp/>different</highlight></codeline>
+<codeline><highlight class="normal">scales;<sp/>where<sp/>Minecraft<sp/>is<sp/>1<sp/>voxel<sp/>per<sp/>meter,<sp/>you<sp/>could</highlight></codeline>
+<codeline><highlight class="normal">have<sp/>20<sp/>voxels<sp/>per<sp/>meter<sp/>and<sp/>make<sp/>a<sp/>small<sp/>arena<sp/>that&apos;s</highlight></codeline>
+<codeline><highlight class="normal">50<sp/>meters<sp/>wide<sp/>and<sp/>5<sp/>meters<sp/>tall.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Back<sp/>when<sp/>the<sp/>voxel<sp/>game<sp/>Voxatron<sp/>was<sp/>announced,<sp/>the<sp/>weekend</highlight></codeline>
+<codeline><highlight class="normal">after<sp/>the<sp/>trailer<sp/>came<sp/>out<sp/>I<sp/>wrote<sp/>my<sp/>own<sp/>little<sp/>GPU-accelerated</highlight></codeline>
+<codeline><highlight class="normal">version<sp/>of<sp/>the<sp/>engine<sp/>and<sp/>thought<sp/>that<sp/>was<sp/>pretty<sp/>cool.<sp/>I&apos;ve</highlight></codeline>
+<codeline><highlight class="normal">been<sp/>tempted<sp/>many<sp/>times<sp/>to<sp/>extract<sp/>that<sp/>and<sp/>release<sp/>it</highlight></codeline>
+<codeline><highlight class="normal">as<sp/>a<sp/>library,<sp/>but</highlight></codeline>
+<codeline><highlight class="normal">I<sp/>don&apos;t<sp/>want<sp/>to<sp/>steal<sp/>Voxatron&apos;s<sp/>thunder<sp/>so<sp/>I&apos;ve<sp/>avoided</highlight></codeline>
+<codeline><highlight class="normal">it.<sp/>You<sp/>could<sp/>use<sp/>this<sp/>engine<sp/>to<sp/>do<sp/>the<sp/>same<sp/>kind<sp/>of<sp/>thing,</highlight></codeline>
+<codeline><highlight class="normal">although<sp/>it<sp/>won&apos;t<sp/>be<sp/>as<sp/>efficient<sp/>as<sp/>an<sp/>engine<sp/>dedicated<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">that<sp/>style<sp/>of<sp/>thing<sp/>would<sp/>be.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Q:**</highlight></codeline>
+<codeline><highlight class="normal">What<sp/>one<sp/>thing<sp/>would<sp/>you<sp/>really<sp/>like<sp/>to<sp/>see<sp/>somebody<sp/>do?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**A:**</highlight></codeline>
+<codeline><highlight class="normal">Before<sp/>Unity,<sp/>3D<sp/>has<sp/>seemed<sp/>deeply<sp/>problematic<sp/>in<sp/>the<sp/>indie</highlight></codeline>
+<codeline><highlight class="normal">space.<sp/>Software<sp/>like<sp/>GameMaker<sp/>has<sp/>tried<sp/>to<sp/>support<sp/>3D<sp/>but</highlight></codeline>
+<codeline><highlight class="normal">it<sp/>seems<sp/>like<sp/>little<sp/>of<sp/>note<sp/>has<sp/>been<sp/>done<sp/>with<sp/>it.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Minecraft<sp/>has<sp/>shown<sp/>that<sp/>people<sp/>can<sp/>build<sp/>worlds<sp/>with<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">Minecraft<sp/>toolset<sp/>far<sp/>more<sp/>easily<sp/>than<sp/>we&apos;ve<sp/>ever<sp/>seen<sp/>from<sp/>those</highlight></codeline>
+<codeline><highlight class="normal">other<sp/>tools.<sp/>Obviously<sp/>people<sp/>have<sp/>done<sp/>great<sp/>things<sp/>with</highlight></codeline>
+<codeline><highlight class="normal">Unity,<sp/>but<sp/>those<sp/>people<sp/>are<sp/>much<sp/>closer<sp/>to<sp/>professional</highlight></codeline>
+<codeline><highlight class="normal">developers;<sp/>typically<sp/>they<sp/>still<sp/>need<sp/>real<sp/>3D<sp/>modelling</highlight></codeline>
+<codeline><highlight class="normal">and<sp/>all<sp/>of<sp/>that<sp/>stuff.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">So<sp/>what<sp/>I&apos;d<sp/>really<sp/>like<sp/>to<sp/>see<sp/>is<sp/>someone<sp/>build<sp/>some<sp/>kind</highlight></codeline>
+<codeline><highlight class="normal">of<sp/>voxel-game-construction-set.<sp/>Start<sp/>with<sp/>stb_voxel_render,</highlight></codeline>
+<codeline><highlight class="normal">maybe<sp/>expose<sp/>all<sp/>the<sp/>flexibility<sp/>of<sp/>stb_voxel_render<sp/>(so</highlight></codeline>
+<codeline><highlight class="normal">people<sp/>can<sp/>do<sp/>different<sp/>things).<sp/>Thrown<sp/>in<sp/>lua<sp/>or<sp/>something</highlight></codeline>
+<codeline><highlight class="normal">else<sp/>for<sp/>scripting,<sp/>make<sp/>some<sp/>kind<sp/>of<sp/>editor<sp/>that<sp/>feels</highlight></codeline>
+<codeline><highlight class="normal">at<sp/>least<sp/>as<sp/>good<sp/>as<sp/>Minecraft<sp/>and<sp/>Infinifactory,<sp/>and<sp/>see</highlight></codeline>
+<codeline><highlight class="normal">where<sp/>that<sp/>gets<sp/>you.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Q:**</highlight></codeline>
+<codeline><highlight class="normal">Why&apos;d<sp/>you<sp/>make<sp/>this<sp/>library?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**A:**</highlight></codeline>
+<codeline><highlight class="normal">Mainly<sp/>as<sp/>a<sp/>way<sp/>of<sp/>releasing<sp/>this<sp/>technology<sp/>I&apos;ve<sp/>been<sp/>working</highlight></codeline>
+<codeline><highlight class="normal">on<sp/>since<sp/>2011<sp/>and<sp/>seemed<sp/>unlikely<sp/>to<sp/>ever<sp/>ship<sp/>myself.<sp/>In<sp/>2011</highlight></codeline>
+<codeline><highlight class="normal">I<sp/>was<sp/>playing<sp/>the<sp/>voxel<sp/>shooter<sp/>Ace<sp/>of<sp/>Spades.<sp/>One<sp/>of<sp/>the<sp/>maps</highlight></codeline>
+<codeline><highlight class="normal">that<sp/>we<sp/>played<sp/>on<sp/>was<sp/>a<sp/>partial<sp/>port<sp/>of<sp/>Broville<sp/>(which<sp/>is<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">first<sp/>Minecraft<sp/>map<sp/>in<sp/>stb_voxel_render<sp/>release<sp/>trailer).<sp/>I&apos;d</highlight></codeline>
+<codeline><highlight class="normal">made<sp/>a<sp/>bunch<sp/>of<sp/>procedural<sp/>level<sp/>generators<sp/>for<sp/>the<sp/>game,<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">I<sp/>started<sp/>trying<sp/>to<sp/>make<sp/>a<sp/>city<sp/>generator<sp/>inspired<sp/>by<sp/>Broville.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">But<sp/>I<sp/>realized<sp/>it<sp/>would<sp/>be<sp/>a<sp/>lot<sp/>of<sp/>work,<sp/>and<sp/>of<sp/>very<sp/>little</highlight></codeline>
+<codeline><highlight class="normal">value<sp/>(most<sp/>of<sp/>my<sp/>maps<sp/>didn&apos;t<sp/>get<sp/>much<sp/>play<sp/>because<sp/>people</highlight></codeline>
+<codeline><highlight class="normal">preferred<sp/>to<sp/>play<sp/>on<sp/>maps<sp/>where<sp/>they<sp/>could<sp/>charge<sp/>straight</highlight></codeline>
+<codeline><highlight class="normal">at<sp/>the<sp/>enemies<sp/>and<sp/>shoot<sp/>them<sp/>as<sp/>fast<sp/>as<sp/>possible).<sp/>So<sp/>I</highlight></codeline>
+<codeline><highlight class="normal">wrote<sp/>my<sp/>own<sp/>voxel<sp/>engine<sp/>and<sp/>started<sp/>working<sp/>on<sp/>a<sp/>procedural</highlight></codeline>
+<codeline><highlight class="normal">city<sp/>game.<sp/>But<sp/>I<sp/>got<sp/>bogged<sp/>down<sp/>after<sp/>I<sp/>finally<sp/>got<sp/>the<sp/>road</highlight></codeline>
+<codeline><highlight class="normal">generator<sp/>working<sp/>and<sp/>never<sp/>got<sp/>anywhere<sp/>with<sp/>building</highlight></codeline>
+<codeline><highlight class="normal">generation<sp/>or<sp/>gameplay.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">stb_voxel_render<sp/>is<sp/>actually<sp/>a<sp/>complete<sp/>rewrite<sp/>from<sp/>scratch,</highlight></codeline>
+<codeline><highlight class="normal">but<sp/>it&apos;s<sp/>based<sp/>a<sp/>lot<sp/>on<sp/>what<sp/>I<sp/>learned<sp/>from<sp/>that<sp/>previous<sp/>work.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Q:**</highlight></codeline>
+<codeline><highlight class="normal">About<sp/>the<sp/>release<sp/>video...<sp/>how<sp/>long<sp/>did<sp/>that<sp/>take<sp/>to<sp/>edit?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**A:**</highlight></codeline>
+<codeline><highlight class="normal">About<sp/>seven<sp/>or<sp/>eight<sp/>hours.<sp/>I<sp/>had<sp/>the<sp/>first<sp/>version<sp/>done<sp/>in</highlight></codeline>
+<codeline><highlight class="normal">maybe<sp/>six<sp/>or<sp/>seven<sp/>hours,<sp/>but<sp/>then<sp/>I<sp/>realized<sp/>I&apos;d<sp/>left<sp/>out</highlight></codeline>
+<codeline><highlight class="normal">one<sp/>clip,<sp/>and<sp/>when<sp/>I<sp/>went<sp/>back<sp/>to<sp/>add<sp/>it<sp/>I<sp/>also<sp/>gussied<sp/>up</highlight></codeline>
+<codeline><highlight class="normal">a<sp/>couple<sp/>other<sp/>moments<sp/>in<sp/>the<sp/>video.<sp/>But<sp/>there<sp/>was<sp/>something</highlight></codeline>
+<codeline><highlight class="normal">basically<sp/>identical<sp/>to<sp/>it<sp/>that<sp/>was<sp/>done<sp/>in<sp/>around<sp/>six.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Q:**<sp/></highlight></codeline>
+<codeline><highlight class="normal">Ok,<sp/>that&apos;s<sp/>it.<sp/>Thanks,<sp/>me.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**A:**</highlight></codeline>
+<codeline><highlight class="normal">Thanks<sp/>*me!*</highlight></codeline>
+    </programlisting>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/docs/stb_voxel_render_interview.md"/>
+  </compounddef>
+</doxygen>

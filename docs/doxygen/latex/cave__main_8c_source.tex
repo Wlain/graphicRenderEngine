@@ -1,0 +1,604 @@
+\hypertarget{cave__main_8c_source}{}\doxysection{cave\+\_\+main.\+c}
+\label{cave__main_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/caveview/cave\_main.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/caveview/cave\_main.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00001}00001 \textcolor{preprocessor}{\#define \_WIN32\_WINNT 0x400}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00002}00002 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00003}00003 \textcolor{preprocessor}{\#include <assert.h>}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00004}00004 \textcolor{preprocessor}{\#include <windows.h>}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00006}00006 \textcolor{comment}{// stb.h}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00007}00007 \textcolor{preprocessor}{\#define STB\_DEFINE}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00008}00008 \textcolor{preprocessor}{\#include "{}stb.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00009}00009 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00010}00010 \textcolor{comment}{// stb\_gl.h}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00011}00011 \textcolor{preprocessor}{\#define STB\_GL\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00012}00012 \textcolor{preprocessor}{\#define STB\_GLEXT\_DEFINE "{}glext\_list.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00013}00013 \textcolor{preprocessor}{\#include "{}stb\_gl.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00015}00015 \textcolor{comment}{// SDL}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00016}00016 \textcolor{preprocessor}{\#include "{}sdl.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00017}00017 \textcolor{preprocessor}{\#include "{}SDL\_opengl.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00018}00018 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00019}00019 \textcolor{comment}{// stb\_glprog.h}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00020}00020 \textcolor{preprocessor}{\#define STB\_GLPROG\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00021}00021 \textcolor{preprocessor}{\#define STB\_GLPROG\_ARB\_DEFINE\_EXTENSIONS}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00022}00022 \textcolor{preprocessor}{\#include "{}stb\_glprog.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00023}00023 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00024}00024 \textcolor{comment}{// stb\_image.h}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00025}00025 \textcolor{preprocessor}{\#define STB\_IMAGE\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00026}00026 \textcolor{preprocessor}{\#include "{}stb\_image.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00028}00028 \textcolor{comment}{// stb\_easy\_font.h}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00029}00029 \textcolor{preprocessor}{\#include "{}stb\_easy\_font.h"{}} \textcolor{comment}{// doesn't require an IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00031}00031 \textcolor{preprocessor}{\#include "{}caveview.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00033}00033 \textcolor{keywordtype}{char} *game\_name = \textcolor{stringliteral}{"{}caveview"{}};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00036}00036 \textcolor{preprocessor}{\#define REVERSE\_DEPTH}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00040}00040 \textcolor{keyword}{static} \textcolor{keywordtype}{void} print\_string(\textcolor{keywordtype}{float} x, \textcolor{keywordtype}{float} y, \textcolor{keywordtype}{char} *text, \textcolor{keywordtype}{float} r, \textcolor{keywordtype}{float} g, \textcolor{keywordtype}{float} b)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00041}00041 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00042}00042    \textcolor{keyword}{static} \textcolor{keywordtype}{char} \mbox{\hyperlink{classbuffer}{buffer}}[99999];}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00043}00043    \textcolor{keywordtype}{int} num\_quads;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00044}00044    }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00045}00045    num\_quads = stb\_easy\_font\_print(x, y, text, NULL, \mbox{\hyperlink{classbuffer}{buffer}}, \textcolor{keyword}{sizeof}(\mbox{\hyperlink{classbuffer}{buffer}}));}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00047}00047    glColor3f(r,g,b);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00048}00048    glEnableClientState(GL\_VERTEX\_ARRAY);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00049}00049    glVertexPointer(2, GL\_FLOAT, 16, \mbox{\hyperlink{classbuffer}{buffer}});}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00050}00050    glDrawArrays(GL\_QUADS, 0, num\_quads*4);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00051}00051    glDisableClientState(GL\_VERTEX\_ARRAY);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00052}00052 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00054}00054 \textcolor{keyword}{static} \textcolor{keywordtype}{float} text\_color[3];}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00055}00055 \textcolor{keyword}{static} \textcolor{keywordtype}{float} pos\_x = 10;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00056}00056 \textcolor{keyword}{static} \textcolor{keywordtype}{float} pos\_y = 10;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00058}00058 \textcolor{keyword}{static} \textcolor{keywordtype}{void} print(\textcolor{keywordtype}{char} *text, ...)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00059}00059 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00060}00060    \textcolor{keywordtype}{char} \mbox{\hyperlink{classbuffer}{buffer}}[999];}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00061}00061    va\_list va;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00062}00062    va\_start(va, text);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00063}00063    vsprintf(\mbox{\hyperlink{classbuffer}{buffer}}, text, va);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00064}00064    va\_end(va);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00065}00065    print\_string(pos\_x, pos\_y, \mbox{\hyperlink{classbuffer}{buffer}}, text\_color[0], text\_color[1], text\_color[2]);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00066}00066    pos\_y += 10;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00067}00067 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00069}00069 \textcolor{keywordtype}{float} camang[3], camloc[3] = \{ 60,22,77 \};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00070}00070 \textcolor{keywordtype}{float} player\_zoom = 1.0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00071}00071 \textcolor{keywordtype}{float} rotate\_view = 0.0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00074}00074 \textcolor{keywordtype}{void} camera\_to\_worldspace(\textcolor{keywordtype}{float} world[3], \textcolor{keywordtype}{float} cam\_x, \textcolor{keywordtype}{float} cam\_y, \textcolor{keywordtype}{float} cam\_z)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00075}00075 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00076}00076    \textcolor{keywordtype}{float} \mbox{\hyperlink{structvec}{vec}}[3] = \{ cam\_x, cam\_y, cam\_z \};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00077}00077    \textcolor{keywordtype}{float} t[3];}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00078}00078    \textcolor{keywordtype}{float} s,c;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00079}00079    s = (float) \mbox{\hyperlink{group__core__func__trigonometric_ga3fcdcfa2d2ac38de9ba1885cd1c79414}{sin}}(camang[0]*3.141592/180);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00080}00080    c = (float) \mbox{\hyperlink{group__core__func__trigonometric_ga54745147add8b4fa05642f5c71f6833e}{cos}}(camang[0]*3.141592/180);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00082}00082    t[0] = \mbox{\hyperlink{structvec}{vec}}[0];}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00083}00083    t[1] = c*\mbox{\hyperlink{structvec}{vec}}[1] -\/ s*\mbox{\hyperlink{structvec}{vec}}[2];}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00084}00084    t[2] = s*\mbox{\hyperlink{structvec}{vec}}[1] + c*\mbox{\hyperlink{structvec}{vec}}[2];}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00086}00086    s = (float) \mbox{\hyperlink{group__core__func__trigonometric_ga3fcdcfa2d2ac38de9ba1885cd1c79414}{sin}}(camang[2]*3.141592/180);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00087}00087    c = (float) \mbox{\hyperlink{group__core__func__trigonometric_ga54745147add8b4fa05642f5c71f6833e}{cos}}(camang[2]*3.141592/180);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00088}00088    world[0] = c*t[0] -\/ s*t[1];}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00089}00089    world[1] = s*t[0] + c*t[1];}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00090}00090    world[2] = t[2];}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00091}00091 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00093}00093 \textcolor{comment}{// camera worldspace velocity}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00094}00094 \textcolor{keywordtype}{float} cam\_vel[3];}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00095}00095 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00096}00096 \textcolor{keywordtype}{int} controls;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00098}00098 \textcolor{preprocessor}{\#define MAX\_VEL  150.0f      }\textcolor{comment}{// blocks per second}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00099}00099 \textcolor{preprocessor}{\#define ACCEL      6.0f}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00100}00100 \textcolor{preprocessor}{\#define DECEL      3.0f}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00101}00101 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00102}00102 \textcolor{preprocessor}{\#define STATIC\_FRICTION   DECEL}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00103}00103 \textcolor{preprocessor}{\#define EFFECTIVE\_ACCEL   (ACCEL+DECEL)}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00105}00105 \textcolor{comment}{// dynamic friction:}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00106}00106 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00107}00107 \textcolor{comment}{//    if going at MAX\_VEL, ACCEL and friction must cancel}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00108}00108 \textcolor{comment}{//    EFFECTIVE\_ACCEL = DECEL + DYNAMIC\_FRIC*MAX\_VEL}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00109}00109 \textcolor{preprocessor}{\#define DYNAMIC\_FRICTION  (ACCEL/(float)MAX\_VEL)}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00111}00111 \textcolor{keywordtype}{float} view\_x\_vel = 0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00112}00112 \textcolor{keywordtype}{float} view\_z\_vel = 0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00113}00113 \textcolor{keywordtype}{float} pending\_view\_x;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00114}00114 \textcolor{keywordtype}{float} pending\_view\_z;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00115}00115 \textcolor{keywordtype}{float} pending\_view\_x;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00116}00116 \textcolor{keywordtype}{float} pending\_view\_z;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00117}00117 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00118}00118 \textcolor{keywordtype}{void} process\_tick\_raw(\textcolor{keywordtype}{float} dt)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00119}00119 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00120}00120    \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00121}00121    \textcolor{keywordtype}{float} thrust[3] = \{ 0,0,0 \};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00122}00122    \textcolor{keywordtype}{float} world\_thrust[3];}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00123}00123 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00124}00124    \textcolor{comment}{// choose direction to apply thrust}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00126}00126    thrust[0] = (controls \&  3)== 1 ? EFFECTIVE\_ACCEL : (controls \&  3)== 2 ? -\/EFFECTIVE\_ACCEL : 0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00127}00127    thrust[1] = (controls \& 12)== 4 ? EFFECTIVE\_ACCEL : (controls \& 12)== 8 ? -\/EFFECTIVE\_ACCEL : 0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00128}00128    thrust[2] = (controls \& 48)==16 ? EFFECTIVE\_ACCEL : (controls \& 48)==32 ? -\/EFFECTIVE\_ACCEL : 0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00129}00129 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00130}00130    \textcolor{comment}{// @TODO clamp thrust[0] \& thrust[1] vector length to EFFECTIVE\_ACCEL}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00131}00131 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00132}00132    camera\_to\_worldspace(world\_thrust, thrust[0], thrust[1], 0);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00133}00133    world\_thrust[2] += thrust[2];}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00134}00134 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00135}00135    \textcolor{keywordflow}{for} (i=0; i < 3; ++i) \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00136}00136       \textcolor{keywordtype}{float} acc = world\_thrust[i];}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00137}00137       cam\_vel[i] += acc*dt;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00138}00138    \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00139}00139 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00140}00140    \textcolor{keywordflow}{if} (cam\_vel[0] || cam\_vel[1] || cam\_vel[2])}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00141}00141    \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00142}00142       \textcolor{keywordtype}{float} vel = (float) \mbox{\hyperlink{group__core__func__exponential_ga1f904e09827e939a56e4158f45ca8ede}{sqrt}}(cam\_vel[0]*cam\_vel[0] + cam\_vel[1]*cam\_vel[1] + cam\_vel[2]*cam\_vel[2]);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00143}00143       \textcolor{keywordtype}{float} newvel = vel;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00144}00144       \textcolor{keywordtype}{float} dec = STATIC\_FRICTION + DYNAMIC\_FRICTION*vel;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00145}00145       newvel = vel -\/ dec*dt;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00146}00146       \textcolor{keywordflow}{if} (newvel < 0)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00147}00147          newvel = 0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00148}00148       cam\_vel[0] *= newvel/vel;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00149}00149       cam\_vel[1] *= newvel/vel;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00150}00150       cam\_vel[2] *= newvel/vel;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00151}00151    \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00152}00152 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00153}00153    camloc[0] += cam\_vel[0] * dt;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00154}00154    camloc[1] += cam\_vel[1] * dt;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00155}00155    camloc[2] += cam\_vel[2] * dt;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00156}00156 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00157}00157    view\_x\_vel *= (float) \mbox{\hyperlink{group__core__func__exponential_ga717a43207fffc8b5e8e66cf56ded5ace}{pow}}(0.75, dt);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00158}00158    view\_z\_vel *= (float) \mbox{\hyperlink{group__core__func__exponential_ga717a43207fffc8b5e8e66cf56ded5ace}{pow}}(0.75, dt);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00159}00159 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00160}00160    view\_x\_vel += (pending\_view\_x -\/ view\_x\_vel)*dt*60;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00161}00161    view\_z\_vel += (pending\_view\_z -\/ view\_z\_vel)*dt*60;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00162}00162 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00163}00163    pending\_view\_x -\/= view\_x\_vel * dt;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00164}00164    pending\_view\_z -\/= view\_z\_vel * dt;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00165}00165    camang[0] += view\_x\_vel * dt;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00166}00166    camang[2] += view\_z\_vel * dt;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00167}00167    camang[0] = stb\_clamp(camang[0], -\/90, 90);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00168}00168    camang[2] = (float) \mbox{\hyperlink{group__gtx__common_ga22feecd4248d9ef34b079a091f273281}{fmod}}(camang[2], 360);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00169}00169 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00170}00170 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00171}00171 \textcolor{keywordtype}{void} process\_tick(\textcolor{keywordtype}{float} dt)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00172}00172 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00173}00173    \textcolor{keywordflow}{while} (dt > 1.0f/60) \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00174}00174       process\_tick\_raw(1.0f/60);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00175}00175       dt -\/= 1.0f/60;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00176}00176    \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00177}00177    process\_tick\_raw(dt);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00178}00178 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00179}00179 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00180}00180 \textcolor{keywordtype}{void} update\_view(\textcolor{keywordtype}{float} dx, \textcolor{keywordtype}{float} dy)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00181}00181 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00182}00182    \textcolor{comment}{// hard-\/coded mouse sensitivity, not resolution independent?}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00183}00183    pending\_view\_z -\/= dx*300;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00184}00184    pending\_view\_x -\/= dy*700;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00185}00185 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00186}00186 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00187}00187 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} screen\_x, screen\_y;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00188}00188 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} is\_synchronous\_debug;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00189}00189 \textcolor{keywordtype}{float} render\_time;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00190}00190 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00191}00191 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} chunk\_locations, chunks\_considered, chunks\_in\_frustum;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00192}00192 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} quads\_considered, quads\_rendered;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00193}00193 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} chunk\_storage\_rendered, chunk\_storage\_considered, chunk\_storage\_total;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00194}00194 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} view\_dist\_in\_chunks;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00195}00195 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} num\_threads\_active, num\_meshes\_started, num\_meshes\_uploaded;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00196}00196 \textcolor{keyword}{extern} \textcolor{keywordtype}{float} chunk\_server\_activity;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00197}00197 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00198}00198 \textcolor{keyword}{static} Uint64 start\_time, end\_time; \textcolor{comment}{// render time}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00199}00199 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00200}00200 \textcolor{keywordtype}{float} chunk\_server\_status[32];}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00201}00201 \textcolor{keywordtype}{int} chunk\_server\_pos;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00202}00202 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00203}00203 \textcolor{keywordtype}{void} draw\_stats(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00204}00204 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00205}00205    \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00206}00206 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00207}00207    \textcolor{keyword}{static} Uint64 last\_frame\_time;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00208}00208    Uint64 cur\_time = SDL\_GetPerformanceCounter();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00209}00209    \textcolor{keywordtype}{float} chunk\_server=0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00210}00210    \textcolor{keywordtype}{float} frame\_time = (cur\_time -\/ last\_frame\_time) / (\textcolor{keywordtype}{float}) SDL\_GetPerformanceFrequency();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00211}00211    last\_frame\_time = cur\_time;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00212}00212 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00213}00213    chunk\_server\_status[chunk\_server\_pos] = chunk\_server\_activity;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00214}00214    chunk\_server\_pos = (chunk\_server\_pos+1) \%32;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00215}00215 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00216}00216    \textcolor{keywordflow}{for} (i=0; i < 32; ++i)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00217}00217       chunk\_server += chunk\_server\_status[i] / 32.0f;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00218}00218 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00219}00219    stb\_easy\_font\_spacing(-\/0.75);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00220}00220    pos\_y = 10;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00221}00221    text\_color[0] = text\_color[1] = text\_color[2] = 1.0f;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00222}00222    print(\textcolor{stringliteral}{"{}Frame time: \%6.2fms, CPU frame render time: \%5.2fms"{}}, frame\_time*1000, render\_time*1000);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00223}00223    print(\textcolor{stringliteral}{"{}Tris: \%4.1fM drawn of \%4.1fM in range"{}}, 2*quads\_rendered/1000000.0f, 2*quads\_considered/1000000.0f);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00224}00224    print(\textcolor{stringliteral}{"{}Vbuf storage: \%dMB in frustum of \%dMB in range of \%dMB in cache"{}}, chunk\_storage\_rendered>>20, chunk\_storage\_considered>>20, chunk\_storage\_total>>20);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00225}00225    print(\textcolor{stringliteral}{"{}Num mesh builds started this frame: \%d; num uploaded this frame: \%d\(\backslash\)n"{}}, num\_meshes\_started, num\_meshes\_uploaded);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00226}00226    print(\textcolor{stringliteral}{"{}QChunks: \%3d in frustum of \%3d valid of \%3d in range"{}}, chunks\_in\_frustum, chunks\_considered, chunk\_locations);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00227}00227    print(\textcolor{stringliteral}{"{}Mesh worker threads active: \%d"{}}, num\_threads\_active);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00228}00228    print(\textcolor{stringliteral}{"{}View distance: \%d blocks"{}}, view\_dist\_in\_chunks*16);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00229}00229    print(\textcolor{stringliteral}{"{}\%s"{}}, glGetString(GL\_RENDERER));}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00230}00230 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00231}00231    \textcolor{keywordflow}{if} (is\_synchronous\_debug) \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00232}00232       text\_color[0] = 1.0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00233}00233       text\_color[1] = 0.5;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00234}00234       text\_color[2] = 0.5;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00235}00235       print(\textcolor{stringliteral}{"{}SLOWNESS: Synchronous debug output is enabled!"{}});}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00236}00236    \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00237}00237 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00238}00238 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00239}00239 \textcolor{keywordtype}{void} draw\_main(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00240}00240 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00241}00241    glEnable(GL\_CULL\_FACE);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00242}00242    glDisable(GL\_TEXTURE\_2D);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00243}00243    glDisable(GL\_LIGHTING);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00244}00244    glEnable(GL\_DEPTH\_TEST);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00245}00245 \textcolor{preprocessor}{   \#ifdef REVERSE\_DEPTH}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00246}00246    glDepthFunc(GL\_GREATER);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00247}00247    glClearDepth(0);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00248}00248 \textcolor{preprocessor}{   \#else}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00249}00249    glDepthFunc(GL\_LESS);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00250}00250    glClearDepth(1);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00251}00251 \textcolor{preprocessor}{   \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00252}00252    glDepthMask(GL\_TRUE);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00253}00253    glDisable(GL\_SCISSOR\_TEST);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00254}00254    glClearColor(0.6f,0.7f,0.9f,0.0f);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00255}00255    glClear(GL\_COLOR\_BUFFER\_BIT | GL\_DEPTH\_BUFFER\_BIT);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00256}00256 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00257}00257    glBlendFunc(GL\_SRC\_ALPHA, GL\_ONE\_MINUS\_SRC\_ALPHA);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00258}00258    glColor3f(1,1,1);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00259}00259    glFrontFace(GL\_CW);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00260}00260    glEnable(GL\_TEXTURE\_2D);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00261}00261    glDisable(GL\_BLEND);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00262}00262 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00263}00263 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00264}00264    glMatrixMode(GL\_PROJECTION);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00265}00265    glLoadIdentity();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00266}00266 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00267}00267 \textcolor{preprocessor}{   \#ifdef REVERSE\_DEPTH}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00268}00268    stbgl\_Perspective(player\_zoom, 90, 70, 3000, 1.0/16);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00269}00269 \textcolor{preprocessor}{   \#else}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00270}00270    stbgl\_Perspective(player\_zoom, 90, 70, 1.0/16, 3000);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00271}00271 \textcolor{preprocessor}{   \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00272}00272 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00273}00273    \textcolor{comment}{// now compute where the camera should be}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00274}00274    glMatrixMode(GL\_MODELVIEW);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00275}00275    glLoadIdentity();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00276}00276    stbgl\_initCamera\_zup\_facing\_y();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00277}00277 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00278}00278    glRotatef(-\/camang[0],1,0,0);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00279}00279    glRotatef(-\/camang[2],0,0,1);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00280}00280    glTranslatef(-\/camloc[0], -\/camloc[1], -\/camloc[2]);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00281}00281 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00282}00282    start\_time = SDL\_GetPerformanceCounter();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00283}00283    render\_caves(camloc);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00284}00284    end\_time = SDL\_GetPerformanceCounter();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00285}00285 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00286}00286    render\_time = (end\_time -\/ start\_time) / (\textcolor{keywordtype}{float}) SDL\_GetPerformanceFrequency();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00287}00287 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00288}00288    glMatrixMode(GL\_PROJECTION);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00289}00289    glLoadIdentity();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00290}00290    gluOrtho2D(0,screen\_x/2,screen\_y/2,0);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00291}00291    glMatrixMode(GL\_MODELVIEW);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00292}00292    glLoadIdentity();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00293}00293    glDisable(GL\_TEXTURE\_2D);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00294}00294    glDisable(GL\_BLEND);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00295}00295    glDisable(GL\_CULL\_FACE);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00296}00296    draw\_stats();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00297}00297 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00298}00298 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00299}00299 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00300}00300 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00301}00301 \textcolor{preprocessor}{\#pragma warning(disable:4244; disable:4305; disable:4018)}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00302}00302 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00303}00303 \textcolor{preprocessor}{\#define SCALE   2}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00304}00304 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00305}00305 \textcolor{keywordtype}{void} error(\textcolor{keywordtype}{char} *s)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00306}00306 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00307}00307    SDL\_ShowSimpleMessageBox(SDL\_MESSAGEBOX\_ERROR, \textcolor{stringliteral}{"{}Error"{}}, s, NULL);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00308}00308    exit(0);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00309}00309 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00310}00310 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00311}00311 \textcolor{keywordtype}{void} ods(\textcolor{keywordtype}{char} *fmt, ...)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00312}00312 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00313}00313    \textcolor{keywordtype}{char} \mbox{\hyperlink{classbuffer}{buffer}}[1000];}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00314}00314    va\_list va;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00315}00315    va\_start(va, fmt);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00316}00316    vsprintf(\mbox{\hyperlink{classbuffer}{buffer}}, fmt, va);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00317}00317    va\_end(va);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00318}00318    SDL\_Log(\textcolor{stringliteral}{"{}\%s"{}}, \mbox{\hyperlink{classbuffer}{buffer}});}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00319}00319 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00320}00320 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00321}00321 \textcolor{preprocessor}{\#define TICKS\_PER\_SECOND  60}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00322}00322 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00323}00323 \textcolor{keyword}{static} SDL\_Window *window;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00324}00324 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00325}00325 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} draw\_main(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00326}00326 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} process\_tick(\textcolor{keywordtype}{float} dt);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00327}00327 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} editor\_init(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00328}00328 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00329}00329 \textcolor{keywordtype}{void} draw(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00330}00330 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00331}00331    draw\_main();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00332}00332    SDL\_GL\_SwapWindow(window);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00333}00333 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00334}00334 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00335}00335 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00336}00336 \textcolor{keyword}{static} \textcolor{keywordtype}{int} initialized=0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00337}00337 \textcolor{keyword}{static} \textcolor{keywordtype}{float} last\_dt;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00338}00338 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00339}00339 \textcolor{keywordtype}{int} screen\_x,screen\_y;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00340}00340 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00341}00341 \textcolor{keywordtype}{float} carried\_dt = 0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00342}00342 \textcolor{preprocessor}{\#define TICKRATE 60}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00343}00343 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00344}00344 \textcolor{keywordtype}{float} tex2\_alpha = 1.0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00345}00345 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00346}00346 \textcolor{keywordtype}{int} raw\_level\_time;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00347}00347 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00348}00348 \textcolor{keywordtype}{float} global\_timer;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00349}00349 \textcolor{keywordtype}{int} global\_hack;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00350}00350 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00351}00351 \textcolor{keywordtype}{int} loopmode(\textcolor{keywordtype}{float} dt, \textcolor{keywordtype}{int} real, \textcolor{keywordtype}{int} in\_client)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00352}00352 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00353}00353    \textcolor{keywordflow}{if} (!initialized) \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00354}00354 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00355}00355    \textcolor{keywordflow}{if} (!real)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00356}00356       \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00357}00357 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00358}00358    \textcolor{comment}{// don't allow more than 6 frames to update at a time}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00359}00359    \textcolor{keywordflow}{if} (dt > 0.075) dt = 0.075;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00360}00360 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00361}00361    global\_timer += dt;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00362}00362 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00363}00363    carried\_dt += dt;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00364}00364    \textcolor{keywordflow}{while} (carried\_dt > 1.0/TICKRATE) \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00365}00365       \textcolor{keywordflow}{if} (global\_hack) \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00366}00366          tex2\_alpha += global\_hack / 60.0f;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00367}00367          \textcolor{keywordflow}{if} (tex2\_alpha < 0) tex2\_alpha = 0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00368}00368          \textcolor{keywordflow}{if} (tex2\_alpha > 1) tex2\_alpha = 1;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00369}00369       \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00370}00370       \textcolor{comment}{//update\_input();}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00371}00371       \textcolor{comment}{// if the player is dead, stop the sim}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00372}00372       carried\_dt -\/= 1.0/TICKRATE;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00373}00373    \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00374}00374 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00375}00375    process\_tick(dt);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00376}00376    draw();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00377}00377 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00378}00378    \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00379}00379 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00380}00380 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00381}00381 \textcolor{keyword}{static} \textcolor{keywordtype}{int} quit;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00382}00382 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00383}00383 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} controls;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00384}00384 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00385}00385 \textcolor{keywordtype}{void} active\_control\_set(\textcolor{keywordtype}{int} key)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00386}00386 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00387}00387    controls |= 1 << key;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00388}00388 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00389}00389 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00390}00390 \textcolor{keywordtype}{void} active\_control\_clear(\textcolor{keywordtype}{int} key)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00391}00391 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00392}00392    controls \&= \string~(1 << key);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00393}00393 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00394}00394 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00395}00395 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} update\_view(\textcolor{keywordtype}{float} dx, \textcolor{keywordtype}{float} dy);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00396}00396 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00397}00397 \textcolor{keywordtype}{void}  process\_sdl\_mouse(SDL\_Event *\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}})}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00398}00398 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00399}00399    update\_view((\textcolor{keywordtype}{float}) \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/>motion.xrel / screen\_x, (\textcolor{keywordtype}{float}) \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/>motion.yrel / screen\_y);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00400}00400 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00401}00401 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00402}00402 \textcolor{keywordtype}{void} process\_event(SDL\_Event *\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}})}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00403}00403 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00404}00404    \textcolor{keywordflow}{switch} (\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/>type) \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00405}00405       \textcolor{keywordflow}{case} SDL\_MOUSEMOTION:}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00406}00406          process\_sdl\_mouse(\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}});}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00407}00407          \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00408}00408       \textcolor{keywordflow}{case} SDL\_MOUSEBUTTONDOWN:}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00409}00409       \textcolor{keywordflow}{case} SDL\_MOUSEBUTTONUP:}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00410}00410          \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00411}00411 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00412}00412       \textcolor{keywordflow}{case} SDL\_QUIT:}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00413}00413          quit = 1;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00414}00414          \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00415}00415 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00416}00416       \textcolor{keywordflow}{case} SDL\_WINDOWEVENT:}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00417}00417          \textcolor{keywordflow}{switch} (\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/>window.event) \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00418}00418             \textcolor{keywordflow}{case} SDL\_WINDOWEVENT\_SIZE\_CHANGED:}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00419}00419                screen\_x = \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/>window.data1;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00420}00420                screen\_y = \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/>window.data2;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00421}00421                loopmode(0,1,0);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00422}00422                \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00423}00423          \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00424}00424          \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00425}00425 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00426}00426       \textcolor{keywordflow}{case} SDL\_KEYDOWN: \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00427}00427          \textcolor{keywordtype}{int} k = \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/>key.keysym.sym;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00428}00428          \textcolor{keywordtype}{int} s = \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/>key.keysym.scancode;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00429}00429          SDL\_Keymod mod;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00430}00430          mod = SDL\_GetModState();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00431}00431          \textcolor{keywordflow}{if} (k == SDLK\_ESCAPE)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00432}00432             quit = 1;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00433}00433 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00434}00434          \textcolor{keywordflow}{if} (s == SDL\_SCANCODE\_D)   active\_control\_set(0);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00435}00435          \textcolor{keywordflow}{if} (s == SDL\_SCANCODE\_A)   active\_control\_set(1);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00436}00436          \textcolor{keywordflow}{if} (s == SDL\_SCANCODE\_W)   active\_control\_set(2);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00437}00437          \textcolor{keywordflow}{if} (s == SDL\_SCANCODE\_S)   active\_control\_set(3);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00438}00438          \textcolor{keywordflow}{if} (k == SDLK\_SPACE)       active\_control\_set(4); }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00439}00439          \textcolor{keywordflow}{if} (s == SDL\_SCANCODE\_LCTRL)   active\_control\_set(5);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00440}00440          \textcolor{keywordflow}{if} (s == SDL\_SCANCODE\_S)   active\_control\_set(6);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00441}00441          \textcolor{keywordflow}{if} (s == SDL\_SCANCODE\_D)   active\_control\_set(7);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00442}00442          \textcolor{keywordflow}{if} (k == \textcolor{charliteral}{'1'}) global\_hack = !global\_hack;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00443}00443          \textcolor{keywordflow}{if} (k == \textcolor{charliteral}{'2'}) global\_hack = -\/1;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00444}00444 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00445}00445 \textcolor{preprocessor}{         \#if 0}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00446}00446          \textcolor{keywordflow}{if} (game\_mode == GAME\_editor) \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00447}00447             \textcolor{keywordflow}{switch} (k) \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00448}00448                \textcolor{keywordflow}{case} SDLK\_RIGHT: editor\_key(STBTE\_scroll\_right); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00449}00449                \textcolor{keywordflow}{case} SDLK\_LEFT : editor\_key(STBTE\_scroll\_left ); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00450}00450                \textcolor{keywordflow}{case} SDLK\_UP   : editor\_key(STBTE\_scroll\_up   ); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00451}00451                \textcolor{keywordflow}{case} SDLK\_DOWN : editor\_key(STBTE\_scroll\_down ); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00452}00452             \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00453}00453             \textcolor{keywordflow}{switch} (s) \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00454}00454                \textcolor{keywordflow}{case} SDL\_SCANCODE\_S: editor\_key(STBTE\_tool\_select); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00455}00455                \textcolor{keywordflow}{case} SDL\_SCANCODE\_B: editor\_key(STBTE\_tool\_brush ); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00456}00456                \textcolor{keywordflow}{case} SDL\_SCANCODE\_E: editor\_key(STBTE\_tool\_erase ); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00457}00457                \textcolor{keywordflow}{case} SDL\_SCANCODE\_R: editor\_key(STBTE\_tool\_rectangle ); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00458}00458                \textcolor{keywordflow}{case} SDL\_SCANCODE\_I: editor\_key(STBTE\_tool\_eyedropper); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00459}00459                \textcolor{keywordflow}{case} SDL\_SCANCODE\_L: editor\_key(STBTE\_tool\_link); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00460}00460                \textcolor{keywordflow}{case} SDL\_SCANCODE\_G: editor\_key(STBTE\_act\_toggle\_grid); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00461}00461             \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00462}00462             \textcolor{keywordflow}{if} ((\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/>key.keysym.mod \& KMOD\_CTRL) \&\& !(\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/>key.keysym.mod \& \string~KMOD\_CTRL)) \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00463}00463                \textcolor{keywordflow}{switch} (s) \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00464}00464                   \textcolor{keywordflow}{case} SDL\_SCANCODE\_X: editor\_key(STBTE\_act\_cut  ); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00465}00465                   \textcolor{keywordflow}{case} SDL\_SCANCODE\_C: editor\_key(STBTE\_act\_copy ); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00466}00466                   \textcolor{keywordflow}{case} SDL\_SCANCODE\_V: editor\_key(STBTE\_act\_paste); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00467}00467                   \textcolor{keywordflow}{case} SDL\_SCANCODE\_Z: editor\_key(STBTE\_act\_undo ); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00468}00468                   \textcolor{keywordflow}{case} SDL\_SCANCODE\_Y: editor\_key(STBTE\_act\_redo ); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00469}00469                \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00470}00470             \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00471}00471          \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00472}00472 \textcolor{preprocessor}{         \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00473}00473          \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00474}00474       \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00475}00475       \textcolor{keywordflow}{case} SDL\_KEYUP: \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00476}00476          \textcolor{keywordtype}{int} k = \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/>key.keysym.sym;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00477}00477          \textcolor{keywordtype}{int} s = \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/>key.keysym.scancode;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00478}00478          \textcolor{keywordflow}{if} (s == SDL\_SCANCODE\_D)   active\_control\_clear(0);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00479}00479          \textcolor{keywordflow}{if} (s == SDL\_SCANCODE\_A)   active\_control\_clear(1);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00480}00480          \textcolor{keywordflow}{if} (s == SDL\_SCANCODE\_W)   active\_control\_clear(2);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00481}00481          \textcolor{keywordflow}{if} (s == SDL\_SCANCODE\_S)   active\_control\_clear(3);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00482}00482          \textcolor{keywordflow}{if} (k == SDLK\_SPACE)       active\_control\_clear(4); }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00483}00483          \textcolor{keywordflow}{if} (s == SDL\_SCANCODE\_LCTRL)   active\_control\_clear(5);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00484}00484          \textcolor{keywordflow}{if} (s == SDL\_SCANCODE\_S)   active\_control\_clear(6);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00485}00485          \textcolor{keywordflow}{if} (s == SDL\_SCANCODE\_D)   active\_control\_clear(7);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00486}00486          \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00487}00487       \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00488}00488    \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00489}00489 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00490}00490 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00491}00491 \textcolor{keyword}{static} SDL\_GLContext *context;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00492}00492 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00493}00493 \textcolor{keyword}{static} \textcolor{keywordtype}{float} getTimestep(\textcolor{keywordtype}{float} minimum\_time)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00494}00494 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00495}00495    \textcolor{keywordtype}{float} elapsedTime;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00496}00496    \textcolor{keywordtype}{double} thisTime;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00497}00497    \textcolor{keyword}{static} \textcolor{keywordtype}{double} lastTime = -\/1;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00498}00498    }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00499}00499    \textcolor{keywordflow}{if} (lastTime == -\/1)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00500}00500       lastTime = SDL\_GetTicks() / 1000.0 -\/ minimum\_time;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00501}00501 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00502}00502    \textcolor{keywordflow}{for}(;;) \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00503}00503       thisTime = SDL\_GetTicks() / 1000.0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00504}00504       elapsedTime = (float) (thisTime -\/ lastTime);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00505}00505       \textcolor{keywordflow}{if} (elapsedTime >= minimum\_time) \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00506}00506          lastTime = thisTime;         }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00507}00507          \textcolor{keywordflow}{return} elapsedTime;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00508}00508       \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00509}00509       \textcolor{comment}{// @TODO: compute correct delay}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00510}00510       SDL\_Delay(1);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00511}00511    \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00512}00512 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00513}00513 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00514}00514 \textcolor{keywordtype}{void} APIENTRY gl\_debug(GLenum source, GLenum type, GLuint \textcolor{keywordtype}{id}, GLenum severity, GLsizei length, \textcolor{keyword}{const} GLchar *message, \textcolor{keyword}{const} \textcolor{keywordtype}{void} *param)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00515}00515 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00516}00516    ods(\textcolor{stringliteral}{"{}\%s\(\backslash\)n"{}}, message);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00517}00517 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00518}00518 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00519}00519 \textcolor{keywordtype}{int} is\_synchronous\_debug;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00520}00520 \textcolor{keywordtype}{void} enable\_synchronous(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00521}00521 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00522}00522    glEnable(GL\_DEBUG\_OUTPUT\_SYNCHRONOUS\_ARB);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00523}00523    is\_synchronous\_debug = 1;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00524}00524 \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00525}00525 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00526}00526 \textcolor{keywordtype}{void} prepare\_threads(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00527}00527 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00528}00528 \textcolor{comment}{//void stbwingraph\_main(void)}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00529}00529 \textcolor{keywordtype}{int} SDL\_main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} **argv)}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00530}00530 \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00531}00531    SDL\_Init(SDL\_INIT\_VIDEO);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00532}00532 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00533}00533    prepare\_threads();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00534}00534 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00535}00535    SDL\_GL\_SetAttribute(SDL\_GL\_RED\_SIZE  , 8);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00536}00536    SDL\_GL\_SetAttribute(SDL\_GL\_GREEN\_SIZE, 8);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00537}00537    SDL\_GL\_SetAttribute(SDL\_GL\_BLUE\_SIZE , 8);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00538}00538    SDL\_GL\_SetAttribute(SDL\_GL\_DEPTH\_SIZE, 24);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00539}00539 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00540}00540    SDL\_GL\_SetAttribute(SDL\_GL\_CONTEXT\_PROFILE\_MASK, SDL\_GL\_CONTEXT\_PROFILE\_COMPATIBILITY);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00541}00541    SDL\_GL\_SetAttribute(SDL\_GL\_CONTEXT\_MAJOR\_VERSION, 3);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00542}00542    SDL\_GL\_SetAttribute(SDL\_GL\_CONTEXT\_MINOR\_VERSION, 1);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00543}00543 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00544}00544 \textcolor{preprocessor}{   \#ifdef GL\_DEBUG}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00545}00545    SDL\_GL\_SetAttribute(SDL\_GL\_CONTEXT\_FLAGS, SDL\_GL\_CONTEXT\_DEBUG\_FLAG);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00546}00546 \textcolor{preprocessor}{   \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00547}00547 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00548}00548    SDL\_GL\_SetAttribute(SDL\_GL\_MULTISAMPLESAMPLES, 4);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00549}00549 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00550}00550    screen\_x = 1920;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00551}00551    screen\_y = 1080;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00552}00552 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00553}00553    window = SDL\_CreateWindow(\textcolor{stringliteral}{"{}caveview"{}}, SDL\_WINDOWPOS\_UNDEFINED, SDL\_WINDOWPOS\_UNDEFINED,}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00554}00554                                    screen\_x, screen\_y,}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00555}00555                                    SDL\_WINDOW\_OPENGL | SDL\_WINDOW\_RESIZABLE}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00556}00556                              );}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00557}00557    \textcolor{keywordflow}{if} (!window) error(\textcolor{stringliteral}{"{}Couldn't create window"{}});}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00558}00558 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00559}00559    context = SDL\_GL\_CreateContext(window);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00560}00560    \textcolor{keywordflow}{if} (!context) error(\textcolor{stringliteral}{"{}Couldn't create context"{}});}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00561}00561 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00562}00562    SDL\_GL\_MakeCurrent(window, context); \textcolor{comment}{// is this true by default?}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00563}00563 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00564}00564    SDL\_SetRelativeMouseMode(SDL\_TRUE);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00565}00565 \textcolor{preprocessor}{   \#if defined(\_MSC\_VER) \&\& \_MSC\_VER < 1300}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00566}00566    \textcolor{comment}{// work around broken behavior in VC6 debugging}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00567}00567    \textcolor{keywordflow}{if} (IsDebuggerPresent())}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00568}00568       SDL\_SetHint(SDL\_HINT\_MOUSE\_RELATIVE\_MODE\_WARP, \textcolor{stringliteral}{"{}1"{}});}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00569}00569 \textcolor{preprocessor}{   \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00570}00570 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00571}00571    stbgl\_initExtensions();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00572}00572 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00573}00573 \textcolor{preprocessor}{   \#ifdef GL\_DEBUG}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00574}00574    \textcolor{keywordflow}{if} (glDebugMessageCallbackARB) \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00575}00575       glDebugMessageCallbackARB(gl\_debug, NULL);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00576}00576 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00577}00577       enable\_synchronous();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00578}00578    \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00579}00579 \textcolor{preprocessor}{   \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00580}00580 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00581}00581    SDL\_GL\_SetSwapInterval(1);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00582}00582 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00583}00583    render\_init();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00584}00584    mesh\_init();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00585}00585    world\_init();}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00586}00586 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00587}00587    initialized = 1;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00588}00588 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00589}00589    \textcolor{keywordflow}{while} (!quit) \{}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00590}00590       SDL\_Event \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}};}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00591}00591       \textcolor{keywordflow}{while} (SDL\_PollEvent(\&\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}))}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00592}00592          process\_event(\&\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}});}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00593}00593 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00594}00594       loopmode(getTimestep(0.0166f/8), 1, 1);}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00595}00595    \}}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00596}00596 }
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00597}00597    \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{cave__main_8c_source_l00598}00598 \}}
+
+\end{DoxyCode}

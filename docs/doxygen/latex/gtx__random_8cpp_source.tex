@@ -1,0 +1,103 @@
+\hypertarget{gtx__random_8cpp_source}{}\doxysection{gtx\+\_\+random.\+cpp}
+\label{gtx__random_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/gtx/gtx\_random.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/gtx/gtx\_random.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00002}00002 \textcolor{comment}{// OpenGL Mathematics Copyright (c) 2005 -\/ 2012 G-\/Truc Creation (www.g-\/truc.net)}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00004}00004 \textcolor{comment}{}\textcolor{comment}{// Created : 2011-\/05-\/31}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00005}00005 \textcolor{comment}{// Updated : 2011-\/05-\/31}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00006}00006 \textcolor{comment}{// Licence : This source is under MIT licence}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00007}00007 \textcolor{comment}{// File    : test/gtx/random.cpp}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00009}00009 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00010}00010 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{glm_8hpp}{glm/glm.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00011}00011 \textcolor{preprocessor}{\#include <glm/gtx/random.hpp>}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00012}00012 \textcolor{preprocessor}{\#include <glm/gtx/epsilon.hpp>}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00013}00013 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00015}00015 \textcolor{keywordtype}{int} test\_signedRand1()}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00016}00016 \{}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00017}00017     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00018}00018 }
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00019}00019     \{}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00020}00020         \textcolor{keywordtype}{float} ResultFloat = 0.0f;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00021}00021         \textcolor{keywordtype}{double} ResultDouble = 0.0f;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00022}00022         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < 100000; ++i)}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00023}00023         \{}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00024}00024             ResultFloat += glm::signedRand1<float>();}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00025}00025             ResultDouble += glm::signedRand1<double>();}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00026}00026         \}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00028}00028         Error += glm::equalEpsilon(ResultFloat, 0.0f, 0.0001f);}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00029}00029         Error += glm::equalEpsilon(ResultDouble, 0.0, 0.0001);}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00030}00030     \}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00032}00032     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00033}00033 \}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00035}00035 \textcolor{keywordtype}{int} test\_normalizedRand2()}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00036}00036 \{}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00037}00037     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00039}00039     \{}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00040}00040         std::size\_t Max = 100000;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00041}00041         \textcolor{keywordtype}{float} ResultFloat = 0.0f;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00042}00042         \textcolor{keywordtype}{double} ResultDouble = 0.0f;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00043}00043         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < Max; ++i)}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00044}00044         \{}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00045}00045             ResultFloat += glm::length(glm::normalizedRand2<float>());}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00046}00046             ResultDouble += glm::length(glm::normalizedRand2<double>());}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00047}00047         \}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00049}00049         Error += glm::equalEpsilon(ResultFloat, \textcolor{keywordtype}{float}(Max), 0.000001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00050}00050         Error += glm::equalEpsilon(ResultDouble, \textcolor{keywordtype}{double}(Max), 0.000001) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00051}00051         assert(!Error);}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00052}00052     \}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00054}00054     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00055}00055 \}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00057}00057 \textcolor{keywordtype}{int} test\_normalizedRand3()}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00058}00058 \{}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00059}00059     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00061}00061     \{}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00062}00062         std::size\_t Max = 100000;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00063}00063         \textcolor{keywordtype}{float} ResultFloatA = 0.0f;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00064}00064         \textcolor{keywordtype}{float} ResultFloatB = 0.0f;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00065}00065         \textcolor{keywordtype}{float} ResultFloatC = 0.0f;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00066}00066         \textcolor{keywordtype}{double} ResultDoubleA = 0.0f;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00067}00067         \textcolor{keywordtype}{double} ResultDoubleB = 0.0f;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00068}00068         \textcolor{keywordtype}{double} ResultDoubleC = 0.0f;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00069}00069         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < Max; ++i)}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00070}00070         \{}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00071}00071             ResultFloatA += glm::length(glm::normalizedRand3<float>());}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00072}00072             ResultDoubleA += glm::length(glm::normalizedRand3<double>());}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00073}00073             ResultFloatB += glm::length(glm::normalizedRand3(2.0f, 2.0f));}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00074}00074             ResultDoubleB += glm::length(glm::normalizedRand3(2.0, 2.0));}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00075}00075             ResultFloatC += glm::length(glm::normalizedRand3(1.0f, 3.0f));}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00076}00076             ResultDoubleC += glm::length(glm::normalizedRand3(1.0, 3.0));}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00077}00077         \}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00078}00078 }
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00079}00079         Error += glm::equalEpsilon(ResultFloatA, \textcolor{keywordtype}{float}(Max), 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00080}00080         Error += glm::equalEpsilon(ResultDoubleA, \textcolor{keywordtype}{double}(Max), 0.0001) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00081}00081         Error += glm::equalEpsilon(ResultFloatB, \textcolor{keywordtype}{float}(Max * 2), 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00082}00082         Error += glm::equalEpsilon(ResultDoubleB, \textcolor{keywordtype}{double}(Max * 2), 0.0001) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00083}00083         Error += (ResultFloatC >= float(Max) \&\& ResultFloatC <= float(Max * 3)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00084}00084         Error += (ResultDoubleC >= double(Max) \&\& ResultDoubleC <= double(Max * 3)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00085}00085     \}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00086}00086 }
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00087}00087     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00088}00088 \}}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00089}00089 }
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00090}00090 \textcolor{keywordtype}{int} main()}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00091}00091 \{}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00092}00092     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00093}00093 }
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00094}00094     Error += test\_signedRand1();}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00095}00095     Error += test\_normalizedRand2();}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00096}00096     Error += test\_normalizedRand3();}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00098}00098     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__random_8cpp_source_l00099}00099 \}}
+
+\end{DoxyCode}

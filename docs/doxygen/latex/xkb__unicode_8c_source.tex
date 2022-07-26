@@ -1,0 +1,945 @@
+\hypertarget{xkb__unicode_8c_source}{}\doxysection{xkb\+\_\+unicode.\+c}
+\label{xkb__unicode_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/xkb\_unicode.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/xkb\_unicode.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00001}00001 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00002}00002 \textcolor{comment}{// GLFW 3.4 X11 -\/ www.glfw.org}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00003}00003 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00004}00004 \textcolor{comment}{// Copyright (c) 2002-\/2006 Marcus Geelnard}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00005}00005 \textcolor{comment}{// Copyright (c) 2006-\/2017 Camilla Löwy <elmindreda@glfw.org>}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00006}00006 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00007}00007 \textcolor{comment}{// This software is provided 'as-\/is', without any express or implied}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00008}00008 \textcolor{comment}{// warranty. In no event will the authors be held liable for any damages}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00009}00009 \textcolor{comment}{// arising from the use of this software.}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00011}00011 \textcolor{comment}{// Permission is granted to anyone to use this software for any purpose,}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00012}00012 \textcolor{comment}{// including commercial applications, and to alter it and redistribute it}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00013}00013 \textcolor{comment}{// freely, subject to the following restrictions:}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00014}00014 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00015}00015 \textcolor{comment}{// 1. The origin of this software must not be misrepresented; you must not}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00016}00016 \textcolor{comment}{//    claim that you wrote the original software. If you use this software}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00017}00017 \textcolor{comment}{//    in a product, an acknowledgment in the product documentation would}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00018}00018 \textcolor{comment}{//    be appreciated but is not required.}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00019}00019 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00020}00020 \textcolor{comment}{// 2. Altered source versions must be plainly marked as such, and must not}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00021}00021 \textcolor{comment}{//    be misrepresented as being the original software.}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00022}00022 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00023}00023 \textcolor{comment}{// 3. This notice may not be removed or altered from any source}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00024}00024 \textcolor{comment}{//    distribution.}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00025}00025 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00026}00026 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00027}00027 \textcolor{comment}{// It is fine to use C99 in this file because it will not be built with VS}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00028}00028 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00030}00030 \textcolor{preprocessor}{\#include "{}internal.h"{}}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00033}00033 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00034}00034 \textcolor{comment}{ * Marcus: This code was originally written by Markus G. Kuhn.}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00035}00035 \textcolor{comment}{ * I have made some slight changes (trimmed it down a bit from >60 KB to}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00036}00036 \textcolor{comment}{ * 20 KB), but the functionality is the same.}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00037}00037 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00039}00039 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00040}00040 \textcolor{comment}{ * This module converts keysym values into the corresponding ISO 10646}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00041}00041 \textcolor{comment}{ * (UCS, Unicode) values.}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00042}00042 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00043}00043 \textcolor{comment}{ * The array keysymtab[] contains pairs of X11 keysym values for graphical}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00044}00044 \textcolor{comment}{ * characters and the corresponding Unicode value. The function}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00045}00045 \textcolor{comment}{ * \_glfwKeySym2Unicode() maps a keysym onto a Unicode value using a binary}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00046}00046 \textcolor{comment}{ * search, therefore keysymtab[] must remain SORTED by keysym value.}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00047}00047 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00048}00048 \textcolor{comment}{ * We allow to represent any UCS character in the range U-\/00000000 to}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00049}00049 \textcolor{comment}{ * U-\/00FFFFFF by a keysym value in the range 0x01000000 to 0x01ffffff.}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00050}00050 \textcolor{comment}{ * This admittedly does not cover the entire 31-\/bit space of UCS, but}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00051}00051 \textcolor{comment}{ * it does cover all of the characters up to U-\/10FFFF, which can be}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00052}00052 \textcolor{comment}{ * represented by UTF-\/16, and more, and it is very unlikely that higher}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00053}00053 \textcolor{comment}{ * UCS codes will ever be assigned by ISO. So to get Unicode character}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00054}00054 \textcolor{comment}{ * U+ABCD you can directly use keysym 0x0100abcd.}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00055}00055 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00056}00056 \textcolor{comment}{ * Original author: Markus G. Kuhn <mkuhn@acm.org>, University of}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00057}00057 \textcolor{comment}{ *                  Cambridge, April 2001}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00058}00058 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00059}00059 \textcolor{comment}{ * Special thanks to Richard Verhoeven <river@win.tue.nl> for preparing}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00060}00060 \textcolor{comment}{ * an initial draft of the mapping table.}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00061}00061 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00062}00062 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00065}00065 \textcolor{comment}{//************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00066}00066 \textcolor{comment}{//****                KeySym to Unicode mapping table                 ****}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00067}00067 \textcolor{comment}{//************************************************************************}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00069}00069 \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keyword}{struct }codepair \{}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00070}00070   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} keysym;}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00071}00071   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} ucs;}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00072}00072 \} keysymtab[] = \{}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00073}00073   \{ 0x01a1, 0x0104 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00074}00074   \{ 0x01a2, 0x02d8 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00075}00075   \{ 0x01a3, 0x0141 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00076}00076   \{ 0x01a5, 0x013d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00077}00077   \{ 0x01a6, 0x015a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00078}00078   \{ 0x01a9, 0x0160 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00079}00079   \{ 0x01aa, 0x015e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00080}00080   \{ 0x01ab, 0x0164 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00081}00081   \{ 0x01ac, 0x0179 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00082}00082   \{ 0x01ae, 0x017d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00083}00083   \{ 0x01af, 0x017b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00084}00084   \{ 0x01b1, 0x0105 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00085}00085   \{ 0x01b2, 0x02db \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00086}00086   \{ 0x01b3, 0x0142 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00087}00087   \{ 0x01b5, 0x013e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00088}00088   \{ 0x01b6, 0x015b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00089}00089   \{ 0x01b7, 0x02c7 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00090}00090   \{ 0x01b9, 0x0161 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00091}00091   \{ 0x01ba, 0x015f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00092}00092   \{ 0x01bb, 0x0165 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00093}00093   \{ 0x01bc, 0x017a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00094}00094   \{ 0x01bd, 0x02dd \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00095}00095   \{ 0x01be, 0x017e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00096}00096   \{ 0x01bf, 0x017c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00097}00097   \{ 0x01c0, 0x0154 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00098}00098   \{ 0x01c3, 0x0102 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00099}00099   \{ 0x01c5, 0x0139 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00100}00100   \{ 0x01c6, 0x0106 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00101}00101   \{ 0x01c8, 0x010c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00102}00102   \{ 0x01ca, 0x0118 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00103}00103   \{ 0x01cc, 0x011a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00104}00104   \{ 0x01cf, 0x010e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00105}00105   \{ 0x01d0, 0x0110 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00106}00106   \{ 0x01d1, 0x0143 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00107}00107   \{ 0x01d2, 0x0147 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00108}00108   \{ 0x01d5, 0x0150 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00109}00109   \{ 0x01d8, 0x0158 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00110}00110   \{ 0x01d9, 0x016e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00111}00111   \{ 0x01db, 0x0170 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00112}00112   \{ 0x01de, 0x0162 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00113}00113   \{ 0x01e0, 0x0155 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00114}00114   \{ 0x01e3, 0x0103 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00115}00115   \{ 0x01e5, 0x013a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00116}00116   \{ 0x01e6, 0x0107 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00117}00117   \{ 0x01e8, 0x010d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00118}00118   \{ 0x01ea, 0x0119 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00119}00119   \{ 0x01ec, 0x011b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00120}00120   \{ 0x01ef, 0x010f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00121}00121   \{ 0x01f0, 0x0111 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00122}00122   \{ 0x01f1, 0x0144 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00123}00123   \{ 0x01f2, 0x0148 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00124}00124   \{ 0x01f5, 0x0151 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00125}00125   \{ 0x01f8, 0x0159 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00126}00126   \{ 0x01f9, 0x016f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00127}00127   \{ 0x01fb, 0x0171 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00128}00128   \{ 0x01fe, 0x0163 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00129}00129   \{ 0x01ff, 0x02d9 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00130}00130   \{ 0x02a1, 0x0126 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00131}00131   \{ 0x02a6, 0x0124 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00132}00132   \{ 0x02a9, 0x0130 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00133}00133   \{ 0x02ab, 0x011e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00134}00134   \{ 0x02ac, 0x0134 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00135}00135   \{ 0x02b1, 0x0127 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00136}00136   \{ 0x02b6, 0x0125 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00137}00137   \{ 0x02b9, 0x0131 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00138}00138   \{ 0x02bb, 0x011f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00139}00139   \{ 0x02bc, 0x0135 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00140}00140   \{ 0x02c5, 0x010a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00141}00141   \{ 0x02c6, 0x0108 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00142}00142   \{ 0x02d5, 0x0120 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00143}00143   \{ 0x02d8, 0x011c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00144}00144   \{ 0x02dd, 0x016c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00145}00145   \{ 0x02de, 0x015c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00146}00146   \{ 0x02e5, 0x010b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00147}00147   \{ 0x02e6, 0x0109 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00148}00148   \{ 0x02f5, 0x0121 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00149}00149   \{ 0x02f8, 0x011d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00150}00150   \{ 0x02fd, 0x016d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00151}00151   \{ 0x02fe, 0x015d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00152}00152   \{ 0x03a2, 0x0138 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00153}00153   \{ 0x03a3, 0x0156 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00154}00154   \{ 0x03a5, 0x0128 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00155}00155   \{ 0x03a6, 0x013b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00156}00156   \{ 0x03aa, 0x0112 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00157}00157   \{ 0x03ab, 0x0122 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00158}00158   \{ 0x03ac, 0x0166 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00159}00159   \{ 0x03b3, 0x0157 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00160}00160   \{ 0x03b5, 0x0129 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00161}00161   \{ 0x03b6, 0x013c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00162}00162   \{ 0x03ba, 0x0113 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00163}00163   \{ 0x03bb, 0x0123 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00164}00164   \{ 0x03bc, 0x0167 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00165}00165   \{ 0x03bd, 0x014a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00166}00166   \{ 0x03bf, 0x014b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00167}00167   \{ 0x03c0, 0x0100 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00168}00168   \{ 0x03c7, 0x012e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00169}00169   \{ 0x03cc, 0x0116 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00170}00170   \{ 0x03cf, 0x012a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00171}00171   \{ 0x03d1, 0x0145 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00172}00172   \{ 0x03d2, 0x014c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00173}00173   \{ 0x03d3, 0x0136 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00174}00174   \{ 0x03d9, 0x0172 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00175}00175   \{ 0x03dd, 0x0168 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00176}00176   \{ 0x03de, 0x016a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00177}00177   \{ 0x03e0, 0x0101 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00178}00178   \{ 0x03e7, 0x012f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00179}00179   \{ 0x03ec, 0x0117 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00180}00180   \{ 0x03ef, 0x012b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00181}00181   \{ 0x03f1, 0x0146 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00182}00182   \{ 0x03f2, 0x014d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00183}00183   \{ 0x03f3, 0x0137 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00184}00184   \{ 0x03f9, 0x0173 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00185}00185   \{ 0x03fd, 0x0169 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00186}00186   \{ 0x03fe, 0x016b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00187}00187   \{ 0x047e, 0x203e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00188}00188   \{ 0x04a1, 0x3002 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00189}00189   \{ 0x04a2, 0x300c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00190}00190   \{ 0x04a3, 0x300d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00191}00191   \{ 0x04a4, 0x3001 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00192}00192   \{ 0x04a5, 0x30fb \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00193}00193   \{ 0x04a6, 0x30f2 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00194}00194   \{ 0x04a7, 0x30a1 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00195}00195   \{ 0x04a8, 0x30a3 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00196}00196   \{ 0x04a9, 0x30a5 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00197}00197   \{ 0x04aa, 0x30a7 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00198}00198   \{ 0x04ab, 0x30a9 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00199}00199   \{ 0x04ac, 0x30e3 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00200}00200   \{ 0x04ad, 0x30e5 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00201}00201   \{ 0x04ae, 0x30e7 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00202}00202   \{ 0x04af, 0x30c3 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00203}00203   \{ 0x04b0, 0x30fc \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00204}00204   \{ 0x04b1, 0x30a2 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00205}00205   \{ 0x04b2, 0x30a4 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00206}00206   \{ 0x04b3, 0x30a6 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00207}00207   \{ 0x04b4, 0x30a8 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00208}00208   \{ 0x04b5, 0x30aa \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00209}00209   \{ 0x04b6, 0x30ab \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00210}00210   \{ 0x04b7, 0x30ad \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00211}00211   \{ 0x04b8, 0x30af \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00212}00212   \{ 0x04b9, 0x30b1 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00213}00213   \{ 0x04ba, 0x30b3 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00214}00214   \{ 0x04bb, 0x30b5 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00215}00215   \{ 0x04bc, 0x30b7 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00216}00216   \{ 0x04bd, 0x30b9 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00217}00217   \{ 0x04be, 0x30bb \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00218}00218   \{ 0x04bf, 0x30bd \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00219}00219   \{ 0x04c0, 0x30bf \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00220}00220   \{ 0x04c1, 0x30c1 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00221}00221   \{ 0x04c2, 0x30c4 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00222}00222   \{ 0x04c3, 0x30c6 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00223}00223   \{ 0x04c4, 0x30c8 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00224}00224   \{ 0x04c5, 0x30ca \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00225}00225   \{ 0x04c6, 0x30cb \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00226}00226   \{ 0x04c7, 0x30cc \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00227}00227   \{ 0x04c8, 0x30cd \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00228}00228   \{ 0x04c9, 0x30ce \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00229}00229   \{ 0x04ca, 0x30cf \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00230}00230   \{ 0x04cb, 0x30d2 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00231}00231   \{ 0x04cc, 0x30d5 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00232}00232   \{ 0x04cd, 0x30d8 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00233}00233   \{ 0x04ce, 0x30db \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00234}00234   \{ 0x04cf, 0x30de \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00235}00235   \{ 0x04d0, 0x30df \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00236}00236   \{ 0x04d1, 0x30e0 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00237}00237   \{ 0x04d2, 0x30e1 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00238}00238   \{ 0x04d3, 0x30e2 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00239}00239   \{ 0x04d4, 0x30e4 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00240}00240   \{ 0x04d5, 0x30e6 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00241}00241   \{ 0x04d6, 0x30e8 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00242}00242   \{ 0x04d7, 0x30e9 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00243}00243   \{ 0x04d8, 0x30ea \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00244}00244   \{ 0x04d9, 0x30eb \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00245}00245   \{ 0x04da, 0x30ec \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00246}00246   \{ 0x04db, 0x30ed \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00247}00247   \{ 0x04dc, 0x30ef \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00248}00248   \{ 0x04dd, 0x30f3 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00249}00249   \{ 0x04de, 0x309b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00250}00250   \{ 0x04df, 0x309c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00251}00251   \{ 0x05ac, 0x060c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00252}00252   \{ 0x05bb, 0x061b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00253}00253   \{ 0x05bf, 0x061f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00254}00254   \{ 0x05c1, 0x0621 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00255}00255   \{ 0x05c2, 0x0622 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00256}00256   \{ 0x05c3, 0x0623 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00257}00257   \{ 0x05c4, 0x0624 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00258}00258   \{ 0x05c5, 0x0625 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00259}00259   \{ 0x05c6, 0x0626 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00260}00260   \{ 0x05c7, 0x0627 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00261}00261   \{ 0x05c8, 0x0628 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00262}00262   \{ 0x05c9, 0x0629 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00263}00263   \{ 0x05ca, 0x062a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00264}00264   \{ 0x05cb, 0x062b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00265}00265   \{ 0x05cc, 0x062c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00266}00266   \{ 0x05cd, 0x062d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00267}00267   \{ 0x05ce, 0x062e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00268}00268   \{ 0x05cf, 0x062f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00269}00269   \{ 0x05d0, 0x0630 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00270}00270   \{ 0x05d1, 0x0631 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00271}00271   \{ 0x05d2, 0x0632 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00272}00272   \{ 0x05d3, 0x0633 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00273}00273   \{ 0x05d4, 0x0634 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00274}00274   \{ 0x05d5, 0x0635 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00275}00275   \{ 0x05d6, 0x0636 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00276}00276   \{ 0x05d7, 0x0637 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00277}00277   \{ 0x05d8, 0x0638 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00278}00278   \{ 0x05d9, 0x0639 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00279}00279   \{ 0x05da, 0x063a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00280}00280   \{ 0x05e0, 0x0640 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00281}00281   \{ 0x05e1, 0x0641 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00282}00282   \{ 0x05e2, 0x0642 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00283}00283   \{ 0x05e3, 0x0643 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00284}00284   \{ 0x05e4, 0x0644 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00285}00285   \{ 0x05e5, 0x0645 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00286}00286   \{ 0x05e6, 0x0646 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00287}00287   \{ 0x05e7, 0x0647 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00288}00288   \{ 0x05e8, 0x0648 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00289}00289   \{ 0x05e9, 0x0649 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00290}00290   \{ 0x05ea, 0x064a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00291}00291   \{ 0x05eb, 0x064b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00292}00292   \{ 0x05ec, 0x064c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00293}00293   \{ 0x05ed, 0x064d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00294}00294   \{ 0x05ee, 0x064e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00295}00295   \{ 0x05ef, 0x064f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00296}00296   \{ 0x05f0, 0x0650 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00297}00297   \{ 0x05f1, 0x0651 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00298}00298   \{ 0x05f2, 0x0652 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00299}00299   \{ 0x06a1, 0x0452 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00300}00300   \{ 0x06a2, 0x0453 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00301}00301   \{ 0x06a3, 0x0451 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00302}00302   \{ 0x06a4, 0x0454 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00303}00303   \{ 0x06a5, 0x0455 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00304}00304   \{ 0x06a6, 0x0456 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00305}00305   \{ 0x06a7, 0x0457 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00306}00306   \{ 0x06a8, 0x0458 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00307}00307   \{ 0x06a9, 0x0459 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00308}00308   \{ 0x06aa, 0x045a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00309}00309   \{ 0x06ab, 0x045b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00310}00310   \{ 0x06ac, 0x045c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00311}00311   \{ 0x06ae, 0x045e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00312}00312   \{ 0x06af, 0x045f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00313}00313   \{ 0x06b0, 0x2116 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00314}00314   \{ 0x06b1, 0x0402 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00315}00315   \{ 0x06b2, 0x0403 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00316}00316   \{ 0x06b3, 0x0401 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00317}00317   \{ 0x06b4, 0x0404 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00318}00318   \{ 0x06b5, 0x0405 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00319}00319   \{ 0x06b6, 0x0406 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00320}00320   \{ 0x06b7, 0x0407 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00321}00321   \{ 0x06b8, 0x0408 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00322}00322   \{ 0x06b9, 0x0409 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00323}00323   \{ 0x06ba, 0x040a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00324}00324   \{ 0x06bb, 0x040b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00325}00325   \{ 0x06bc, 0x040c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00326}00326   \{ 0x06be, 0x040e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00327}00327   \{ 0x06bf, 0x040f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00328}00328   \{ 0x06c0, 0x044e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00329}00329   \{ 0x06c1, 0x0430 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00330}00330   \{ 0x06c2, 0x0431 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00331}00331   \{ 0x06c3, 0x0446 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00332}00332   \{ 0x06c4, 0x0434 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00333}00333   \{ 0x06c5, 0x0435 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00334}00334   \{ 0x06c6, 0x0444 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00335}00335   \{ 0x06c7, 0x0433 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00336}00336   \{ 0x06c8, 0x0445 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00337}00337   \{ 0x06c9, 0x0438 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00338}00338   \{ 0x06ca, 0x0439 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00339}00339   \{ 0x06cb, 0x043a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00340}00340   \{ 0x06cc, 0x043b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00341}00341   \{ 0x06cd, 0x043c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00342}00342   \{ 0x06ce, 0x043d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00343}00343   \{ 0x06cf, 0x043e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00344}00344   \{ 0x06d0, 0x043f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00345}00345   \{ 0x06d1, 0x044f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00346}00346   \{ 0x06d2, 0x0440 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00347}00347   \{ 0x06d3, 0x0441 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00348}00348   \{ 0x06d4, 0x0442 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00349}00349   \{ 0x06d5, 0x0443 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00350}00350   \{ 0x06d6, 0x0436 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00351}00351   \{ 0x06d7, 0x0432 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00352}00352   \{ 0x06d8, 0x044c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00353}00353   \{ 0x06d9, 0x044b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00354}00354   \{ 0x06da, 0x0437 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00355}00355   \{ 0x06db, 0x0448 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00356}00356   \{ 0x06dc, 0x044d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00357}00357   \{ 0x06dd, 0x0449 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00358}00358   \{ 0x06de, 0x0447 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00359}00359   \{ 0x06df, 0x044a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00360}00360   \{ 0x06e0, 0x042e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00361}00361   \{ 0x06e1, 0x0410 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00362}00362   \{ 0x06e2, 0x0411 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00363}00363   \{ 0x06e3, 0x0426 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00364}00364   \{ 0x06e4, 0x0414 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00365}00365   \{ 0x06e5, 0x0415 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00366}00366   \{ 0x06e6, 0x0424 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00367}00367   \{ 0x06e7, 0x0413 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00368}00368   \{ 0x06e8, 0x0425 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00369}00369   \{ 0x06e9, 0x0418 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00370}00370   \{ 0x06ea, 0x0419 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00371}00371   \{ 0x06eb, 0x041a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00372}00372   \{ 0x06ec, 0x041b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00373}00373   \{ 0x06ed, 0x041c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00374}00374   \{ 0x06ee, 0x041d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00375}00375   \{ 0x06ef, 0x041e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00376}00376   \{ 0x06f0, 0x041f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00377}00377   \{ 0x06f1, 0x042f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00378}00378   \{ 0x06f2, 0x0420 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00379}00379   \{ 0x06f3, 0x0421 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00380}00380   \{ 0x06f4, 0x0422 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00381}00381   \{ 0x06f5, 0x0423 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00382}00382   \{ 0x06f6, 0x0416 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00383}00383   \{ 0x06f7, 0x0412 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00384}00384   \{ 0x06f8, 0x042c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00385}00385   \{ 0x06f9, 0x042b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00386}00386   \{ 0x06fa, 0x0417 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00387}00387   \{ 0x06fb, 0x0428 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00388}00388   \{ 0x06fc, 0x042d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00389}00389   \{ 0x06fd, 0x0429 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00390}00390   \{ 0x06fe, 0x0427 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00391}00391   \{ 0x06ff, 0x042a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00392}00392   \{ 0x07a1, 0x0386 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00393}00393   \{ 0x07a2, 0x0388 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00394}00394   \{ 0x07a3, 0x0389 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00395}00395   \{ 0x07a4, 0x038a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00396}00396   \{ 0x07a5, 0x03aa \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00397}00397   \{ 0x07a7, 0x038c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00398}00398   \{ 0x07a8, 0x038e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00399}00399   \{ 0x07a9, 0x03ab \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00400}00400   \{ 0x07ab, 0x038f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00401}00401   \{ 0x07ae, 0x0385 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00402}00402   \{ 0x07af, 0x2015 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00403}00403   \{ 0x07b1, 0x03ac \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00404}00404   \{ 0x07b2, 0x03ad \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00405}00405   \{ 0x07b3, 0x03ae \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00406}00406   \{ 0x07b4, 0x03af \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00407}00407   \{ 0x07b5, 0x03ca \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00408}00408   \{ 0x07b6, 0x0390 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00409}00409   \{ 0x07b7, 0x03cc \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00410}00410   \{ 0x07b8, 0x03cd \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00411}00411   \{ 0x07b9, 0x03cb \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00412}00412   \{ 0x07ba, 0x03b0 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00413}00413   \{ 0x07bb, 0x03ce \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00414}00414   \{ 0x07c1, 0x0391 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00415}00415   \{ 0x07c2, 0x0392 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00416}00416   \{ 0x07c3, 0x0393 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00417}00417   \{ 0x07c4, 0x0394 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00418}00418   \{ 0x07c5, 0x0395 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00419}00419   \{ 0x07c6, 0x0396 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00420}00420   \{ 0x07c7, 0x0397 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00421}00421   \{ 0x07c8, 0x0398 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00422}00422   \{ 0x07c9, 0x0399 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00423}00423   \{ 0x07ca, 0x039a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00424}00424   \{ 0x07cb, 0x039b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00425}00425   \{ 0x07cc, 0x039c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00426}00426   \{ 0x07cd, 0x039d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00427}00427   \{ 0x07ce, 0x039e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00428}00428   \{ 0x07cf, 0x039f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00429}00429   \{ 0x07d0, 0x03a0 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00430}00430   \{ 0x07d1, 0x03a1 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00431}00431   \{ 0x07d2, 0x03a3 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00432}00432   \{ 0x07d4, 0x03a4 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00433}00433   \{ 0x07d5, 0x03a5 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00434}00434   \{ 0x07d6, 0x03a6 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00435}00435   \{ 0x07d7, 0x03a7 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00436}00436   \{ 0x07d8, 0x03a8 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00437}00437   \{ 0x07d9, 0x03a9 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00438}00438   \{ 0x07e1, 0x03b1 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00439}00439   \{ 0x07e2, 0x03b2 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00440}00440   \{ 0x07e3, 0x03b3 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00441}00441   \{ 0x07e4, 0x03b4 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00442}00442   \{ 0x07e5, 0x03b5 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00443}00443   \{ 0x07e6, 0x03b6 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00444}00444   \{ 0x07e7, 0x03b7 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00445}00445   \{ 0x07e8, 0x03b8 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00446}00446   \{ 0x07e9, 0x03b9 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00447}00447   \{ 0x07ea, 0x03ba \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00448}00448   \{ 0x07eb, 0x03bb \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00449}00449   \{ 0x07ec, 0x03bc \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00450}00450   \{ 0x07ed, 0x03bd \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00451}00451   \{ 0x07ee, 0x03be \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00452}00452   \{ 0x07ef, 0x03bf \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00453}00453   \{ 0x07f0, 0x03c0 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00454}00454   \{ 0x07f1, 0x03c1 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00455}00455   \{ 0x07f2, 0x03c3 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00456}00456   \{ 0x07f3, 0x03c2 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00457}00457   \{ 0x07f4, 0x03c4 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00458}00458   \{ 0x07f5, 0x03c5 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00459}00459   \{ 0x07f6, 0x03c6 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00460}00460   \{ 0x07f7, 0x03c7 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00461}00461   \{ 0x07f8, 0x03c8 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00462}00462   \{ 0x07f9, 0x03c9 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00463}00463   \{ 0x08a1, 0x23b7 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00464}00464   \{ 0x08a2, 0x250c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00465}00465   \{ 0x08a3, 0x2500 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00466}00466   \{ 0x08a4, 0x2320 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00467}00467   \{ 0x08a5, 0x2321 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00468}00468   \{ 0x08a6, 0x2502 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00469}00469   \{ 0x08a7, 0x23a1 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00470}00470   \{ 0x08a8, 0x23a3 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00471}00471   \{ 0x08a9, 0x23a4 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00472}00472   \{ 0x08aa, 0x23a6 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00473}00473   \{ 0x08ab, 0x239b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00474}00474   \{ 0x08ac, 0x239d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00475}00475   \{ 0x08ad, 0x239e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00476}00476   \{ 0x08ae, 0x23a0 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00477}00477   \{ 0x08af, 0x23a8 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00478}00478   \{ 0x08b0, 0x23ac \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00479}00479   \{ 0x08bc, 0x2264 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00480}00480   \{ 0x08bd, 0x2260 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00481}00481   \{ 0x08be, 0x2265 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00482}00482   \{ 0x08bf, 0x222b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00483}00483   \{ 0x08c0, 0x2234 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00484}00484   \{ 0x08c1, 0x221d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00485}00485   \{ 0x08c2, 0x221e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00486}00486   \{ 0x08c5, 0x2207 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00487}00487   \{ 0x08c8, 0x223c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00488}00488   \{ 0x08c9, 0x2243 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00489}00489   \{ 0x08cd, 0x21d4 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00490}00490   \{ 0x08ce, 0x21d2 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00491}00491   \{ 0x08cf, 0x2261 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00492}00492   \{ 0x08d6, 0x221a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00493}00493   \{ 0x08da, 0x2282 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00494}00494   \{ 0x08db, 0x2283 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00495}00495   \{ 0x08dc, 0x2229 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00496}00496   \{ 0x08dd, 0x222a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00497}00497   \{ 0x08de, 0x2227 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00498}00498   \{ 0x08df, 0x2228 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00499}00499   \{ 0x08ef, 0x2202 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00500}00500   \{ 0x08f6, 0x0192 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00501}00501   \{ 0x08fb, 0x2190 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00502}00502   \{ 0x08fc, 0x2191 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00503}00503   \{ 0x08fd, 0x2192 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00504}00504   \{ 0x08fe, 0x2193 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00505}00505   \{ 0x09e0, 0x25c6 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00506}00506   \{ 0x09e1, 0x2592 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00507}00507   \{ 0x09e2, 0x2409 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00508}00508   \{ 0x09e3, 0x240c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00509}00509   \{ 0x09e4, 0x240d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00510}00510   \{ 0x09e5, 0x240a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00511}00511   \{ 0x09e8, 0x2424 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00512}00512   \{ 0x09e9, 0x240b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00513}00513   \{ 0x09ea, 0x2518 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00514}00514   \{ 0x09eb, 0x2510 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00515}00515   \{ 0x09ec, 0x250c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00516}00516   \{ 0x09ed, 0x2514 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00517}00517   \{ 0x09ee, 0x253c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00518}00518   \{ 0x09ef, 0x23ba \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00519}00519   \{ 0x09f0, 0x23bb \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00520}00520   \{ 0x09f1, 0x2500 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00521}00521   \{ 0x09f2, 0x23bc \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00522}00522   \{ 0x09f3, 0x23bd \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00523}00523   \{ 0x09f4, 0x251c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00524}00524   \{ 0x09f5, 0x2524 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00525}00525   \{ 0x09f6, 0x2534 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00526}00526   \{ 0x09f7, 0x252c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00527}00527   \{ 0x09f8, 0x2502 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00528}00528   \{ 0x0aa1, 0x2003 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00529}00529   \{ 0x0aa2, 0x2002 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00530}00530   \{ 0x0aa3, 0x2004 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00531}00531   \{ 0x0aa4, 0x2005 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00532}00532   \{ 0x0aa5, 0x2007 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00533}00533   \{ 0x0aa6, 0x2008 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00534}00534   \{ 0x0aa7, 0x2009 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00535}00535   \{ 0x0aa8, 0x200a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00536}00536   \{ 0x0aa9, 0x2014 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00537}00537   \{ 0x0aaa, 0x2013 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00538}00538   \{ 0x0aae, 0x2026 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00539}00539   \{ 0x0aaf, 0x2025 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00540}00540   \{ 0x0ab0, 0x2153 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00541}00541   \{ 0x0ab1, 0x2154 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00542}00542   \{ 0x0ab2, 0x2155 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00543}00543   \{ 0x0ab3, 0x2156 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00544}00544   \{ 0x0ab4, 0x2157 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00545}00545   \{ 0x0ab5, 0x2158 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00546}00546   \{ 0x0ab6, 0x2159 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00547}00547   \{ 0x0ab7, 0x215a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00548}00548   \{ 0x0ab8, 0x2105 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00549}00549   \{ 0x0abb, 0x2012 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00550}00550   \{ 0x0abc, 0x2329 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00551}00551   \{ 0x0abe, 0x232a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00552}00552   \{ 0x0ac3, 0x215b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00553}00553   \{ 0x0ac4, 0x215c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00554}00554   \{ 0x0ac5, 0x215d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00555}00555   \{ 0x0ac6, 0x215e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00556}00556   \{ 0x0ac9, 0x2122 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00557}00557   \{ 0x0aca, 0x2613 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00558}00558   \{ 0x0acc, 0x25c1 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00559}00559   \{ 0x0acd, 0x25b7 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00560}00560   \{ 0x0ace, 0x25cb \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00561}00561   \{ 0x0acf, 0x25af \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00562}00562   \{ 0x0ad0, 0x2018 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00563}00563   \{ 0x0ad1, 0x2019 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00564}00564   \{ 0x0ad2, 0x201c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00565}00565   \{ 0x0ad3, 0x201d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00566}00566   \{ 0x0ad4, 0x211e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00567}00567   \{ 0x0ad6, 0x2032 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00568}00568   \{ 0x0ad7, 0x2033 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00569}00569   \{ 0x0ad9, 0x271d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00570}00570   \{ 0x0adb, 0x25ac \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00571}00571   \{ 0x0adc, 0x25c0 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00572}00572   \{ 0x0add, 0x25b6 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00573}00573   \{ 0x0ade, 0x25cf \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00574}00574   \{ 0x0adf, 0x25ae \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00575}00575   \{ 0x0ae0, 0x25e6 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00576}00576   \{ 0x0ae1, 0x25ab \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00577}00577   \{ 0x0ae2, 0x25ad \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00578}00578   \{ 0x0ae3, 0x25b3 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00579}00579   \{ 0x0ae4, 0x25bd \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00580}00580   \{ 0x0ae5, 0x2606 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00581}00581   \{ 0x0ae6, 0x2022 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00582}00582   \{ 0x0ae7, 0x25aa \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00583}00583   \{ 0x0ae8, 0x25b2 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00584}00584   \{ 0x0ae9, 0x25bc \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00585}00585   \{ 0x0aea, 0x261c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00586}00586   \{ 0x0aeb, 0x261e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00587}00587   \{ 0x0aec, 0x2663 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00588}00588   \{ 0x0aed, 0x2666 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00589}00589   \{ 0x0aee, 0x2665 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00590}00590   \{ 0x0af0, 0x2720 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00591}00591   \{ 0x0af1, 0x2020 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00592}00592   \{ 0x0af2, 0x2021 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00593}00593   \{ 0x0af3, 0x2713 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00594}00594   \{ 0x0af4, 0x2717 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00595}00595   \{ 0x0af5, 0x266f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00596}00596   \{ 0x0af6, 0x266d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00597}00597   \{ 0x0af7, 0x2642 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00598}00598   \{ 0x0af8, 0x2640 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00599}00599   \{ 0x0af9, 0x260e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00600}00600   \{ 0x0afa, 0x2315 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00601}00601   \{ 0x0afb, 0x2117 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00602}00602   \{ 0x0afc, 0x2038 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00603}00603   \{ 0x0afd, 0x201a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00604}00604   \{ 0x0afe, 0x201e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00605}00605   \{ 0x0ba3, 0x003c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00606}00606   \{ 0x0ba6, 0x003e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00607}00607   \{ 0x0ba8, 0x2228 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00608}00608   \{ 0x0ba9, 0x2227 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00609}00609   \{ 0x0bc0, 0x00af \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00610}00610   \{ 0x0bc2, 0x22a5 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00611}00611   \{ 0x0bc3, 0x2229 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00612}00612   \{ 0x0bc4, 0x230a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00613}00613   \{ 0x0bc6, 0x005f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00614}00614   \{ 0x0bca, 0x2218 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00615}00615   \{ 0x0bcc, 0x2395 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00616}00616   \{ 0x0bce, 0x22a4 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00617}00617   \{ 0x0bcf, 0x25cb \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00618}00618   \{ 0x0bd3, 0x2308 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00619}00619   \{ 0x0bd6, 0x222a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00620}00620   \{ 0x0bd8, 0x2283 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00621}00621   \{ 0x0bda, 0x2282 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00622}00622   \{ 0x0bdc, 0x22a2 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00623}00623   \{ 0x0bfc, 0x22a3 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00624}00624   \{ 0x0cdf, 0x2017 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00625}00625   \{ 0x0ce0, 0x05d0 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00626}00626   \{ 0x0ce1, 0x05d1 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00627}00627   \{ 0x0ce2, 0x05d2 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00628}00628   \{ 0x0ce3, 0x05d3 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00629}00629   \{ 0x0ce4, 0x05d4 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00630}00630   \{ 0x0ce5, 0x05d5 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00631}00631   \{ 0x0ce6, 0x05d6 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00632}00632   \{ 0x0ce7, 0x05d7 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00633}00633   \{ 0x0ce8, 0x05d8 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00634}00634   \{ 0x0ce9, 0x05d9 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00635}00635   \{ 0x0cea, 0x05da \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00636}00636   \{ 0x0ceb, 0x05db \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00637}00637   \{ 0x0cec, 0x05dc \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00638}00638   \{ 0x0ced, 0x05dd \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00639}00639   \{ 0x0cee, 0x05de \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00640}00640   \{ 0x0cef, 0x05df \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00641}00641   \{ 0x0cf0, 0x05e0 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00642}00642   \{ 0x0cf1, 0x05e1 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00643}00643   \{ 0x0cf2, 0x05e2 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00644}00644   \{ 0x0cf3, 0x05e3 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00645}00645   \{ 0x0cf4, 0x05e4 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00646}00646   \{ 0x0cf5, 0x05e5 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00647}00647   \{ 0x0cf6, 0x05e6 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00648}00648   \{ 0x0cf7, 0x05e7 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00649}00649   \{ 0x0cf8, 0x05e8 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00650}00650   \{ 0x0cf9, 0x05e9 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00651}00651   \{ 0x0cfa, 0x05ea \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00652}00652   \{ 0x0da1, 0x0e01 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00653}00653   \{ 0x0da2, 0x0e02 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00654}00654   \{ 0x0da3, 0x0e03 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00655}00655   \{ 0x0da4, 0x0e04 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00656}00656   \{ 0x0da5, 0x0e05 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00657}00657   \{ 0x0da6, 0x0e06 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00658}00658   \{ 0x0da7, 0x0e07 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00659}00659   \{ 0x0da8, 0x0e08 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00660}00660   \{ 0x0da9, 0x0e09 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00661}00661   \{ 0x0daa, 0x0e0a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00662}00662   \{ 0x0dab, 0x0e0b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00663}00663   \{ 0x0dac, 0x0e0c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00664}00664   \{ 0x0dad, 0x0e0d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00665}00665   \{ 0x0dae, 0x0e0e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00666}00666   \{ 0x0daf, 0x0e0f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00667}00667   \{ 0x0db0, 0x0e10 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00668}00668   \{ 0x0db1, 0x0e11 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00669}00669   \{ 0x0db2, 0x0e12 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00670}00670   \{ 0x0db3, 0x0e13 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00671}00671   \{ 0x0db4, 0x0e14 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00672}00672   \{ 0x0db5, 0x0e15 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00673}00673   \{ 0x0db6, 0x0e16 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00674}00674   \{ 0x0db7, 0x0e17 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00675}00675   \{ 0x0db8, 0x0e18 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00676}00676   \{ 0x0db9, 0x0e19 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00677}00677   \{ 0x0dba, 0x0e1a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00678}00678   \{ 0x0dbb, 0x0e1b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00679}00679   \{ 0x0dbc, 0x0e1c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00680}00680   \{ 0x0dbd, 0x0e1d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00681}00681   \{ 0x0dbe, 0x0e1e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00682}00682   \{ 0x0dbf, 0x0e1f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00683}00683   \{ 0x0dc0, 0x0e20 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00684}00684   \{ 0x0dc1, 0x0e21 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00685}00685   \{ 0x0dc2, 0x0e22 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00686}00686   \{ 0x0dc3, 0x0e23 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00687}00687   \{ 0x0dc4, 0x0e24 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00688}00688   \{ 0x0dc5, 0x0e25 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00689}00689   \{ 0x0dc6, 0x0e26 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00690}00690   \{ 0x0dc7, 0x0e27 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00691}00691   \{ 0x0dc8, 0x0e28 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00692}00692   \{ 0x0dc9, 0x0e29 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00693}00693   \{ 0x0dca, 0x0e2a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00694}00694   \{ 0x0dcb, 0x0e2b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00695}00695   \{ 0x0dcc, 0x0e2c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00696}00696   \{ 0x0dcd, 0x0e2d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00697}00697   \{ 0x0dce, 0x0e2e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00698}00698   \{ 0x0dcf, 0x0e2f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00699}00699   \{ 0x0dd0, 0x0e30 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00700}00700   \{ 0x0dd1, 0x0e31 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00701}00701   \{ 0x0dd2, 0x0e32 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00702}00702   \{ 0x0dd3, 0x0e33 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00703}00703   \{ 0x0dd4, 0x0e34 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00704}00704   \{ 0x0dd5, 0x0e35 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00705}00705   \{ 0x0dd6, 0x0e36 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00706}00706   \{ 0x0dd7, 0x0e37 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00707}00707   \{ 0x0dd8, 0x0e38 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00708}00708   \{ 0x0dd9, 0x0e39 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00709}00709   \{ 0x0dda, 0x0e3a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00710}00710   \{ 0x0ddf, 0x0e3f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00711}00711   \{ 0x0de0, 0x0e40 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00712}00712   \{ 0x0de1, 0x0e41 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00713}00713   \{ 0x0de2, 0x0e42 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00714}00714   \{ 0x0de3, 0x0e43 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00715}00715   \{ 0x0de4, 0x0e44 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00716}00716   \{ 0x0de5, 0x0e45 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00717}00717   \{ 0x0de6, 0x0e46 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00718}00718   \{ 0x0de7, 0x0e47 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00719}00719   \{ 0x0de8, 0x0e48 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00720}00720   \{ 0x0de9, 0x0e49 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00721}00721   \{ 0x0dea, 0x0e4a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00722}00722   \{ 0x0deb, 0x0e4b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00723}00723   \{ 0x0dec, 0x0e4c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00724}00724   \{ 0x0ded, 0x0e4d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00725}00725   \{ 0x0df0, 0x0e50 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00726}00726   \{ 0x0df1, 0x0e51 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00727}00727   \{ 0x0df2, 0x0e52 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00728}00728   \{ 0x0df3, 0x0e53 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00729}00729   \{ 0x0df4, 0x0e54 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00730}00730   \{ 0x0df5, 0x0e55 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00731}00731   \{ 0x0df6, 0x0e56 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00732}00732   \{ 0x0df7, 0x0e57 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00733}00733   \{ 0x0df8, 0x0e58 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00734}00734   \{ 0x0df9, 0x0e59 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00735}00735   \{ 0x0ea1, 0x3131 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00736}00736   \{ 0x0ea2, 0x3132 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00737}00737   \{ 0x0ea3, 0x3133 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00738}00738   \{ 0x0ea4, 0x3134 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00739}00739   \{ 0x0ea5, 0x3135 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00740}00740   \{ 0x0ea6, 0x3136 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00741}00741   \{ 0x0ea7, 0x3137 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00742}00742   \{ 0x0ea8, 0x3138 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00743}00743   \{ 0x0ea9, 0x3139 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00744}00744   \{ 0x0eaa, 0x313a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00745}00745   \{ 0x0eab, 0x313b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00746}00746   \{ 0x0eac, 0x313c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00747}00747   \{ 0x0ead, 0x313d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00748}00748   \{ 0x0eae, 0x313e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00749}00749   \{ 0x0eaf, 0x313f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00750}00750   \{ 0x0eb0, 0x3140 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00751}00751   \{ 0x0eb1, 0x3141 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00752}00752   \{ 0x0eb2, 0x3142 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00753}00753   \{ 0x0eb3, 0x3143 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00754}00754   \{ 0x0eb4, 0x3144 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00755}00755   \{ 0x0eb5, 0x3145 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00756}00756   \{ 0x0eb6, 0x3146 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00757}00757   \{ 0x0eb7, 0x3147 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00758}00758   \{ 0x0eb8, 0x3148 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00759}00759   \{ 0x0eb9, 0x3149 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00760}00760   \{ 0x0eba, 0x314a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00761}00761   \{ 0x0ebb, 0x314b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00762}00762   \{ 0x0ebc, 0x314c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00763}00763   \{ 0x0ebd, 0x314d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00764}00764   \{ 0x0ebe, 0x314e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00765}00765   \{ 0x0ebf, 0x314f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00766}00766   \{ 0x0ec0, 0x3150 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00767}00767   \{ 0x0ec1, 0x3151 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00768}00768   \{ 0x0ec2, 0x3152 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00769}00769   \{ 0x0ec3, 0x3153 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00770}00770   \{ 0x0ec4, 0x3154 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00771}00771   \{ 0x0ec5, 0x3155 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00772}00772   \{ 0x0ec6, 0x3156 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00773}00773   \{ 0x0ec7, 0x3157 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00774}00774   \{ 0x0ec8, 0x3158 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00775}00775   \{ 0x0ec9, 0x3159 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00776}00776   \{ 0x0eca, 0x315a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00777}00777   \{ 0x0ecb, 0x315b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00778}00778   \{ 0x0ecc, 0x315c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00779}00779   \{ 0x0ecd, 0x315d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00780}00780   \{ 0x0ece, 0x315e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00781}00781   \{ 0x0ecf, 0x315f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00782}00782   \{ 0x0ed0, 0x3160 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00783}00783   \{ 0x0ed1, 0x3161 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00784}00784   \{ 0x0ed2, 0x3162 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00785}00785   \{ 0x0ed3, 0x3163 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00786}00786   \{ 0x0ed4, 0x11a8 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00787}00787   \{ 0x0ed5, 0x11a9 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00788}00788   \{ 0x0ed6, 0x11aa \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00789}00789   \{ 0x0ed7, 0x11ab \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00790}00790   \{ 0x0ed8, 0x11ac \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00791}00791   \{ 0x0ed9, 0x11ad \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00792}00792   \{ 0x0eda, 0x11ae \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00793}00793   \{ 0x0edb, 0x11af \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00794}00794   \{ 0x0edc, 0x11b0 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00795}00795   \{ 0x0edd, 0x11b1 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00796}00796   \{ 0x0ede, 0x11b2 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00797}00797   \{ 0x0edf, 0x11b3 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00798}00798   \{ 0x0ee0, 0x11b4 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00799}00799   \{ 0x0ee1, 0x11b5 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00800}00800   \{ 0x0ee2, 0x11b6 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00801}00801   \{ 0x0ee3, 0x11b7 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00802}00802   \{ 0x0ee4, 0x11b8 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00803}00803   \{ 0x0ee5, 0x11b9 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00804}00804   \{ 0x0ee6, 0x11ba \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00805}00805   \{ 0x0ee7, 0x11bb \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00806}00806   \{ 0x0ee8, 0x11bc \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00807}00807   \{ 0x0ee9, 0x11bd \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00808}00808   \{ 0x0eea, 0x11be \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00809}00809   \{ 0x0eeb, 0x11bf \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00810}00810   \{ 0x0eec, 0x11c0 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00811}00811   \{ 0x0eed, 0x11c1 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00812}00812   \{ 0x0eee, 0x11c2 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00813}00813   \{ 0x0eef, 0x316d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00814}00814   \{ 0x0ef0, 0x3171 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00815}00815   \{ 0x0ef1, 0x3178 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00816}00816   \{ 0x0ef2, 0x317f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00817}00817   \{ 0x0ef3, 0x3181 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00818}00818   \{ 0x0ef4, 0x3184 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00819}00819   \{ 0x0ef5, 0x3186 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00820}00820   \{ 0x0ef6, 0x318d \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00821}00821   \{ 0x0ef7, 0x318e \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00822}00822   \{ 0x0ef8, 0x11eb \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00823}00823   \{ 0x0ef9, 0x11f0 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00824}00824   \{ 0x0efa, 0x11f9 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00825}00825   \{ 0x0eff, 0x20a9 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00826}00826   \{ 0x13a4, 0x20ac \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00827}00827   \{ 0x13bc, 0x0152 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00828}00828   \{ 0x13bd, 0x0153 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00829}00829   \{ 0x13be, 0x0178 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00830}00830   \{ 0x20ac, 0x20ac \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00831}00831   \{ 0xfe50,    \textcolor{charliteral}{'`'} \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00832}00832   \{ 0xfe51, 0x00b4 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00833}00833   \{ 0xfe52,    \textcolor{charliteral}{'\string^'} \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00834}00834   \{ 0xfe53,    \textcolor{charliteral}{'\string~'} \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00835}00835   \{ 0xfe54, 0x00af \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00836}00836   \{ 0xfe55, 0x02d8 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00837}00837   \{ 0xfe56, 0x02d9 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00838}00838   \{ 0xfe57, 0x00a8 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00839}00839   \{ 0xfe58, 0x02da \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00840}00840   \{ 0xfe59, 0x02dd \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00841}00841   \{ 0xfe5a, 0x02c7 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00842}00842   \{ 0xfe5b, 0x00b8 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00843}00843   \{ 0xfe5c, 0x02db \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00844}00844   \{ 0xfe5d, 0x037a \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00845}00845   \{ 0xfe5e, 0x309b \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00846}00846   \{ 0xfe5f, 0x309c \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00847}00847   \{ 0xfe63,    \textcolor{charliteral}{'/'} \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00848}00848   \{ 0xfe64, 0x02bc \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00849}00849   \{ 0xfe65, 0x02bd \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00850}00850   \{ 0xfe66, 0x02f5 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00851}00851   \{ 0xfe67, 0x02f3 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00852}00852   \{ 0xfe68, 0x02cd \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00853}00853   \{ 0xfe69, 0xa788 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00854}00854   \{ 0xfe6a, 0x02f7 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00855}00855   \{ 0xfe6e,    \textcolor{charliteral}{','} \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00856}00856   \{ 0xfe6f, 0x00a4 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00857}00857   \{ 0xfe80,    \textcolor{charliteral}{'a'} \}, \textcolor{comment}{// XK\_dead\_a}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00858}00858   \{ 0xfe81,    \textcolor{charliteral}{'A'} \}, \textcolor{comment}{// XK\_dead\_A}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00859}00859   \{ 0xfe82,    \textcolor{charliteral}{'e'} \}, \textcolor{comment}{// XK\_dead\_e}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00860}00860   \{ 0xfe83,    \textcolor{charliteral}{'E'} \}, \textcolor{comment}{// XK\_dead\_E}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00861}00861   \{ 0xfe84,    \textcolor{charliteral}{'i'} \}, \textcolor{comment}{// XK\_dead\_i}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00862}00862   \{ 0xfe85,    \textcolor{charliteral}{'I'} \}, \textcolor{comment}{// XK\_dead\_I}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00863}00863   \{ 0xfe86,    \textcolor{charliteral}{'o'} \}, \textcolor{comment}{// XK\_dead\_o}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00864}00864   \{ 0xfe87,    \textcolor{charliteral}{'O'} \}, \textcolor{comment}{// XK\_dead\_O}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00865}00865   \{ 0xfe88,    \textcolor{charliteral}{'u'} \}, \textcolor{comment}{// XK\_dead\_u}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00866}00866   \{ 0xfe89,    \textcolor{charliteral}{'U'} \}, \textcolor{comment}{// XK\_dead\_U}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00867}00867   \{ 0xfe8a, 0x0259 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00868}00868   \{ 0xfe8b, 0x018f \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00869}00869   \{ 0xfe8c, 0x00b5 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00870}00870   \{ 0xfe90,    \textcolor{charliteral}{'\_'} \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00871}00871   \{ 0xfe91, 0x02c8 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00872}00872   \{ 0xfe92, 0x02cc \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00873}00873   \{ 0xff80 \textcolor{comment}{/*XKB\_KEY\_KP\_Space*/},     \textcolor{charliteral}{' '} \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00874}00874   \{ 0xff95 \textcolor{comment}{/*XKB\_KEY\_KP\_7*/}, 0x0037 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00875}00875   \{ 0xff96 \textcolor{comment}{/*XKB\_KEY\_KP\_4*/}, 0x0034 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00876}00876   \{ 0xff97 \textcolor{comment}{/*XKB\_KEY\_KP\_8*/}, 0x0038 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00877}00877   \{ 0xff98 \textcolor{comment}{/*XKB\_KEY\_KP\_6*/}, 0x0036 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00878}00878   \{ 0xff99 \textcolor{comment}{/*XKB\_KEY\_KP\_2*/}, 0x0032 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00879}00879   \{ 0xff9a \textcolor{comment}{/*XKB\_KEY\_KP\_9*/}, 0x0039 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00880}00880   \{ 0xff9b \textcolor{comment}{/*XKB\_KEY\_KP\_3*/}, 0x0033 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00881}00881   \{ 0xff9c \textcolor{comment}{/*XKB\_KEY\_KP\_1*/}, 0x0031 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00882}00882   \{ 0xff9d \textcolor{comment}{/*XKB\_KEY\_KP\_5*/}, 0x0035 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00883}00883   \{ 0xff9e \textcolor{comment}{/*XKB\_KEY\_KP\_0*/}, 0x0030 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00884}00884   \{ 0xffaa \textcolor{comment}{/*XKB\_KEY\_KP\_Multiply*/},  \textcolor{charliteral}{'*'} \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00885}00885   \{ 0xffab \textcolor{comment}{/*XKB\_KEY\_KP\_Add*/},       \textcolor{charliteral}{'+'} \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00886}00886   \{ 0xffac \textcolor{comment}{/*XKB\_KEY\_KP\_Separator*/}, \textcolor{charliteral}{','} \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00887}00887   \{ 0xffad \textcolor{comment}{/*XKB\_KEY\_KP\_Subtract*/},  \textcolor{charliteral}{'-\/'} \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00888}00888   \{ 0xffae \textcolor{comment}{/*XKB\_KEY\_KP\_Decimal*/},   \textcolor{charliteral}{'.'} \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00889}00889   \{ 0xffaf \textcolor{comment}{/*XKB\_KEY\_KP\_Divide*/},    \textcolor{charliteral}{'/'} \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00890}00890   \{ 0xffb0 \textcolor{comment}{/*XKB\_KEY\_KP\_0*/}, 0x0030 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00891}00891   \{ 0xffb1 \textcolor{comment}{/*XKB\_KEY\_KP\_1*/}, 0x0031 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00892}00892   \{ 0xffb2 \textcolor{comment}{/*XKB\_KEY\_KP\_2*/}, 0x0032 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00893}00893   \{ 0xffb3 \textcolor{comment}{/*XKB\_KEY\_KP\_3*/}, 0x0033 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00894}00894   \{ 0xffb4 \textcolor{comment}{/*XKB\_KEY\_KP\_4*/}, 0x0034 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00895}00895   \{ 0xffb5 \textcolor{comment}{/*XKB\_KEY\_KP\_5*/}, 0x0035 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00896}00896   \{ 0xffb6 \textcolor{comment}{/*XKB\_KEY\_KP\_6*/}, 0x0036 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00897}00897   \{ 0xffb7 \textcolor{comment}{/*XKB\_KEY\_KP\_7*/}, 0x0037 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00898}00898   \{ 0xffb8 \textcolor{comment}{/*XKB\_KEY\_KP\_8*/}, 0x0038 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00899}00899   \{ 0xffb9 \textcolor{comment}{/*XKB\_KEY\_KP\_9*/}, 0x0039 \},}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00900}00900   \{ 0xffbd \textcolor{comment}{/*XKB\_KEY\_KP\_Equal*/},     \textcolor{charliteral}{'='} \}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00901}00901 \};}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00902}00902 }
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00903}00903 }
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00907}00907 }
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00908}00908 \textcolor{comment}{// Convert XKB KeySym to Unicode}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00909}00909 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00910}00910 \textcolor{keywordtype}{long} \_glfwKeySym2Unicode(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} keysym)}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00911}00911 \{}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00912}00912     \textcolor{keywordtype}{int} \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{min}} = 0;}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00913}00913     \textcolor{keywordtype}{int} \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{max}} = \textcolor{keyword}{sizeof}(keysymtab) / \textcolor{keyword}{sizeof}(\textcolor{keyword}{struct} codepair) -\/ 1;}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00914}00914     \textcolor{keywordtype}{int} mid;}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00915}00915 }
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00916}00916     \textcolor{comment}{// First check for Latin-\/1 characters (1:1 mapping)}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00917}00917     \textcolor{keywordflow}{if} ((keysym >= 0x0020 \&\& keysym <= 0x007e) ||}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00918}00918         (keysym >= 0x00a0 \&\& keysym <= 0x00ff))}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00919}00919     \{}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00920}00920         \textcolor{keywordflow}{return} keysym;}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00921}00921     \}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00922}00922 }
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00923}00923     \textcolor{comment}{// Also check for directly encoded 24-\/bit UCS characters}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00924}00924     \textcolor{keywordflow}{if} ((keysym \& 0xff000000) == 0x01000000)}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00925}00925         \textcolor{keywordflow}{return} keysym \& 0x00ffffff;}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00926}00926 }
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00927}00927     \textcolor{comment}{// Binary search in table}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00928}00928     \textcolor{keywordflow}{while} (\mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{max}} >= \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{min}})}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00929}00929     \{}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00930}00930         mid = (\mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{min}} + \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{max}}) / 2;}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00931}00931         \textcolor{keywordflow}{if} (keysymtab[mid].keysym < keysym)}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00932}00932             \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{min}} = mid + 1;}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00933}00933         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (keysymtab[mid].keysym > keysym)}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00934}00934             \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{max}} = mid -\/ 1;}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00935}00935         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00936}00936             \textcolor{keywordflow}{return} keysymtab[mid].ucs;}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00937}00937     \}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00938}00938 }
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00939}00939     \textcolor{comment}{// No matching Unicode value found}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00940}00940     \textcolor{keywordflow}{return} -\/1;}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00941}00941 \}}
+\DoxyCodeLine{\Hypertarget{xkb__unicode_8c_source_l00942}00942 }
+
+\end{DoxyCode}

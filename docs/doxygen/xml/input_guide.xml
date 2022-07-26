@@ -1,0 +1,619 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="input_guide" kind="page">
+    <compoundname>input_guide</compoundname>
+    <title>Input guide</title>
+    <tableofcontents>
+      <tocsect>
+        <name>Event processing</name>
+        <reference>input_guide_1events</reference>
+    </tocsect>
+      <tocsect>
+        <name>Keyboard input</name>
+        <reference>input_guide_1input_keyboard</reference>
+    <tableofcontents>
+      <tocsect>
+        <name>Key input</name>
+        <reference>input_guide_1input_key</reference>
+    </tocsect>
+      <tocsect>
+        <name>Text input</name>
+        <reference>input_guide_1input_char</reference>
+    </tocsect>
+      <tocsect>
+        <name>Key names</name>
+        <reference>input_guide_1input_key_name</reference>
+    </tocsect>
+    </tableofcontents>
+    </tocsect>
+      <tocsect>
+        <name>Mouse input</name>
+        <reference>input_guide_1input_mouse</reference>
+    <tableofcontents>
+      <tocsect>
+        <name>Cursor position</name>
+        <reference>input_guide_1cursor_pos</reference>
+    </tocsect>
+      <tocsect>
+        <name>Cursor mode</name>
+        <reference>input_guide_1cursor_mode</reference>
+    </tocsect>
+      <tocsect>
+        <name>Raw mouse motion</name>
+        <reference>input_guide_1raw_mouse_motion</reference>
+    </tocsect>
+      <tocsect>
+        <name>Cursor objects</name>
+        <reference>input_guide_1cursor_object</reference>
+    <tableofcontents>
+      <tocsect>
+        <name>Custom cursor creation</name>
+        <reference>input_guide_1cursor_custom</reference>
+    </tocsect>
+      <tocsect>
+        <name>Standard cursor creation</name>
+        <reference>input_guide_1cursor_standard</reference>
+    </tocsect>
+      <tocsect>
+        <name>Cursor destruction</name>
+        <reference>input_guide_1cursor_destruction</reference>
+    </tocsect>
+      <tocsect>
+        <name>Cursor setting</name>
+        <reference>input_guide_1cursor_set</reference>
+    </tocsect>
+    </tableofcontents>
+    </tocsect>
+      <tocsect>
+        <name>Cursor enter/leave events</name>
+        <reference>input_guide_1cursor_enter</reference>
+    </tocsect>
+      <tocsect>
+        <name>Mouse button input</name>
+        <reference>input_guide_1input_mouse_button</reference>
+    </tocsect>
+      <tocsect>
+        <name>Scroll input</name>
+        <reference>input_guide_1scrolling</reference>
+    </tocsect>
+    </tableofcontents>
+    </tocsect>
+      <tocsect>
+        <name>Joystick input</name>
+        <reference>input_guide_1joystick</reference>
+    <tableofcontents>
+      <tocsect>
+        <name>Joystick axis states</name>
+        <reference>input_guide_1joystick_axis</reference>
+    </tocsect>
+      <tocsect>
+        <name>Joystick button states</name>
+        <reference>input_guide_1joystick_button</reference>
+    </tocsect>
+      <tocsect>
+        <name>Joystick hat states</name>
+        <reference>input_guide_1joystick_hat</reference>
+    </tocsect>
+      <tocsect>
+        <name>Joystick name</name>
+        <reference>input_guide_1joystick_name</reference>
+    </tocsect>
+      <tocsect>
+        <name>Joystick user pointer</name>
+        <reference>input_guide_1joystick_userptr</reference>
+    </tocsect>
+      <tocsect>
+        <name>Joystick configuration changes</name>
+        <reference>input_guide_1joystick_event</reference>
+    </tocsect>
+      <tocsect>
+        <name>Gamepad input</name>
+        <reference>input_guide_1gamepad</reference>
+    </tocsect>
+      <tocsect>
+        <name>Gamepad mappings</name>
+        <reference>input_guide_1gamepad_mapping</reference>
+    </tocsect>
+    </tableofcontents>
+    </tocsect>
+      <tocsect>
+        <name>Time input</name>
+        <reference>input_guide_1time</reference>
+    </tocsect>
+      <tocsect>
+        <name>Clipboard input and output</name>
+        <reference>input_guide_1clipboard</reference>
+    </tocsect>
+      <tocsect>
+        <name>Path drop input</name>
+        <reference>input_guide_1path_drop</reference>
+    </tocsect>
+    </tableofcontents>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This guide introduces the input related functions of GLFW. For details on a specific function in this category, see the <ref refid="group__input" kindref="compound">Input reference</ref>. There are also guides for the other areas of GLFW.</para>
+<para><itemizedlist>
+<listitem><para><ref refid="intro_guide" kindref="compound">Introduction to the API</ref></para>
+</listitem><listitem><para><ref refid="window_guide" kindref="compound">Window guide</ref></para>
+</listitem><listitem><para><ref refid="context_guide" kindref="compound">Context guide</ref></para>
+</listitem><listitem><para><ref refid="vulkan_guide" kindref="compound">Vulkan guide</ref></para>
+</listitem><listitem><para><ref refid="monitor_guide" kindref="compound">Monitor guide</ref></para>
+</listitem></itemizedlist>
+</para>
+<para>GLFW provides many kinds of input. While some can only be polled, like time, or only received via callbacks, like scrolling, many provide both callbacks and polling. Callbacks are more work to use than polling but is less CPU intensive and guarantees that you do not miss state changes.</para>
+<para>All input callbacks receive a window handle. By using the <ref refid="window_guide_1window_userptr" kindref="member">window user pointer</ref>, you can access non-global structures or objects from your callbacks.</para>
+<para>To get a better feel for how the various events callbacks behave, run the <computeroutput>events</computeroutput> test program. It register every callback supported by GLFW and prints out all arguments provided for every event, along with time and sequence information.</para>
+<sect1 id="input_guide_1events">
+<title>Event processing</title>
+<para>GLFW needs to poll the window system for events both to provide input to the application and to prove to the window system that the application hasn&apos;t locked up. Event processing is normally done each frame after <ref refid="window_guide_1buffer_swap" kindref="member">buffer swapping</ref>. Even when you have no windows, event polling needs to be done in order to receive monitor and joystick connection events.</para>
+<para>There are three functions for processing pending events. <ref refid="group__window_1ga872d16e4c77f58c0436f356255920cfc" kindref="member">glfwPollEvents</ref>, processes only those events that have already been received and then returns immediately.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__window_1ga872d16e4c77f58c0436f356255920cfc" kindref="member">glfwPollEvents</ref>();</highlight></codeline>
+</programlisting></para>
+<para>This is the best choice when rendering continuously, like most games do.</para>
+<para>If you only need to update the contents of the window when you receive new input, <ref refid="group__window_1ga6e042d05823c11e11c7339b81a237738" kindref="member">glfwWaitEvents</ref> is a better choice.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__window_1ga6e042d05823c11e11c7339b81a237738" kindref="member">glfwWaitEvents</ref>();</highlight></codeline>
+</programlisting></para>
+<para>It puts the thread to sleep until at least one event has been received and then processes all received events. This saves a great deal of CPU cycles and is useful for, for example, editing tools.</para>
+<para>If you want to wait for events but have UI elements or other tasks that need periodic updates, <ref refid="group__window_1ga05223a0a4c5e50f10f289e60398153aa" kindref="member">glfwWaitEventsTimeout</ref> lets you specify a timeout.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__window_1ga05223a0a4c5e50f10f289e60398153aa" kindref="member">glfwWaitEventsTimeout</ref>(0.7);</highlight></codeline>
+</programlisting></para>
+<para>It puts the thread to sleep until at least one event has been received, or until the specified number of seconds have elapsed. It then processes any received events.</para>
+<para>If the main thread is sleeping in <ref refid="group__window_1ga6e042d05823c11e11c7339b81a237738" kindref="member">glfwWaitEvents</ref>, you can wake it from another thread by posting an empty event to the event queue with <ref refid="group__window_1gad6f6b997278c91c43b35970eb9713d7e" kindref="member">glfwPostEmptyEvent</ref>.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__window_1gad6f6b997278c91c43b35970eb9713d7e" kindref="member">glfwPostEmptyEvent</ref>();</highlight></codeline>
+</programlisting></para>
+<para>Do not assume that callbacks will <emphasis>only</emphasis> be called in response to the above functions. While it is necessary to process events in one or more of the ways above, window systems that require GLFW to register callbacks of its own can pass events to GLFW in response to many window system function calls. GLFW will pass those events on to the application callbacks before returning.</para>
+<para>For example, on Windows the system function that <ref refid="group__window_1gae54d1f4915ded15e267ddd3f41496cd2" kindref="member">glfwSetWindowSize</ref> is implemented with will send window size events directly to the event callback that every window has and that GLFW implements for its windows. If you have set a <ref refid="window_guide_1window_size" kindref="member">window size callback</ref> GLFW will call it in turn with the new size before everything returns back out of the <ref refid="group__window_1gae54d1f4915ded15e267ddd3f41496cd2" kindref="member">glfwSetWindowSize</ref> call.</para>
+</sect1>
+<sect1 id="input_guide_1input_keyboard">
+<title>Keyboard input</title>
+<para>GLFW divides keyboard input into two categories; key events and character events. Key events relate to actual physical keyboard keys, whereas character events relate to the Unicode code points generated by pressing some of them.</para>
+<para>Keys and characters do not map 1:1. A single key press may produce several characters, and a single character may require several keys to produce. This may not be the case on your machine, but your users are likely not all using the same keyboard layout, input method or even operating system as you.</para>
+<sect2 id="input_guide_1input_key">
+<title>Key input</title>
+<para>If you wish to be notified when a physical key is pressed or released or when it repeats, set a key callback.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1gaa4cbcb81b939b8800e44cea971ddae47" kindref="member">glfwSetKeyCallback</ref>(window,<sp/>key_callback);</highlight></codeline>
+</programlisting></para>
+<para>The callback function receives the <ref refid="group__keys" kindref="compound">keyboard key</ref>, platform-specific scancode, key action and <ref refid="group__mods" kindref="compound">modifier bits</ref>.</para>
+<para><programlisting><codeline><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>key_callback(<ref refid="group__window_1ga3c96d80d363e67d13a41b5d1821f3242" kindref="member">GLFWwindow</ref>*<sp/>window,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>key,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>scancode,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>action,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mods)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(key<sp/>==<sp/>GLFW_KEY_E<sp/>&amp;&amp;<sp/>action<sp/>==<sp/><ref refid="group__input_1ga2485743d0b59df3791c45951c4195265" kindref="member">GLFW_PRESS</ref>)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>activate_airship();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>The action is one of <computeroutput>GLFW_PRESS</computeroutput>, <computeroutput>GLFW_REPEAT</computeroutput> or <computeroutput>GLFW_RELEASE</computeroutput>. The key will be <computeroutput>GLFW_KEY_UNKNOWN</computeroutput> if GLFW lacks a key token for it, for example <emphasis>E-mail</emphasis> and <emphasis>Play</emphasis> keys.</para>
+<para>The scancode is unique for every key, regardless of whether it has a key token. Scancodes are platform-specific but consistent over time, so keys will have different scancodes depending on the platform but they are safe to save to disk. You can query the scancode for any <ref refid="group__keys" kindref="compound">named key</ref> on the current platform with <ref refid="group__input_1ga3ea3b9d74f8352506068620980e01fe5" kindref="member">glfwGetKeyScancode</ref>.</para>
+<para><programlisting><codeline><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>scancode<sp/>=<sp/><ref refid="group__input_1ga3ea3b9d74f8352506068620980e01fe5" kindref="member">glfwGetKeyScancode</ref>(GLFW_KEY_X);</highlight></codeline>
+<codeline><highlight class="normal">set_key_mapping(scancode,<sp/>swap_weapons);</highlight></codeline>
+</programlisting></para>
+<para>The last reported state for every <ref refid="group__keys" kindref="compound">named key</ref> is also saved in per-window state arrays that can be polled with <ref refid="group__input_1ga7d8ad8ffaf272808f04e1d5d33ec8859" kindref="member">glfwGetKey</ref>.</para>
+<para><programlisting><codeline><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>state<sp/>=<sp/><ref refid="group__input_1ga7d8ad8ffaf272808f04e1d5d33ec8859" kindref="member">glfwGetKey</ref>(window,<sp/>GLFW_KEY_E);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(state<sp/>==<sp/><ref refid="group__input_1ga2485743d0b59df3791c45951c4195265" kindref="member">GLFW_PRESS</ref>)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>activate_airship();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>The returned state is one of <computeroutput>GLFW_PRESS</computeroutput> or <computeroutput>GLFW_RELEASE</computeroutput>.</para>
+<para>This function only returns cached key event state. It does not poll the system for the current physical state of the key.</para>
+<para><anchor id="input_guide_1GLFW_STICKY_KEYS"/>Whenever you poll state, you risk missing the state change you are looking for. If a pressed key is released again before you poll its state, you will have missed the key press. The recommended solution for this is to use a key callback, but there is also the <computeroutput>GLFW_STICKY_KEYS</computeroutput> input mode.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1gae1eb729d2dd91dc33fd60e150a6e1684" kindref="member">glfwSetInputMode</ref>(window,<sp/>GLFW_STICKY_KEYS,<sp/><ref refid="group__init_1ga2744fbb29b5631bb28802dbe0cf36eba" kindref="member">GLFW_TRUE</ref>);</highlight></codeline>
+</programlisting></para>
+<para>When sticky keys mode is enabled, the pollable state of a key will remain <computeroutput>GLFW_PRESS</computeroutput> until the state of that key is polled with <ref refid="group__input_1ga7d8ad8ffaf272808f04e1d5d33ec8859" kindref="member">glfwGetKey</ref>. Once it has been polled, if a key release event had been processed in the meantime, the state will reset to <computeroutput>GLFW_RELEASE</computeroutput>, otherwise it will remain <computeroutput>GLFW_PRESS</computeroutput>.</para>
+<para><anchor id="input_guide_1GLFW_LOCK_KEY_MODS"/>If you wish to know what the state of the Caps Lock and Num Lock keys was when input events were generated, set the <computeroutput>GLFW_LOCK_KEY_MODS</computeroutput> input mode.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1gae1eb729d2dd91dc33fd60e150a6e1684" kindref="member">glfwSetInputMode</ref>(window,<sp/>GLFW_LOCK_KEY_MODS,<sp/><ref refid="group__init_1ga2744fbb29b5631bb28802dbe0cf36eba" kindref="member">GLFW_TRUE</ref>);</highlight></codeline>
+</programlisting></para>
+<para>When this input mode is enabled, any callback that receives <ref refid="group__mods" kindref="compound">modifier bits</ref> will have the <ref refid="group__mods_1gaefeef8fcf825a6e43e241b337897200f" kindref="member">GLFW_MOD_CAPS_LOCK</ref> bit set if Caps Lock was on when the event occurred and the <ref refid="group__mods_1ga64e020b8a42af8376e944baf61feecbe" kindref="member">GLFW_MOD_NUM_LOCK</ref> bit set if Num Lock was on.</para>
+<para>The <computeroutput>GLFW_KEY_LAST</computeroutput> constant holds the highest value of any <ref refid="group__keys" kindref="compound">named key</ref>.</para>
+</sect2>
+<sect2 id="input_guide_1input_char">
+<title>Text input</title>
+<para>GLFW supports text input in the form of a stream of <ulink url="https://en.wikipedia.org/wiki/Unicode">Unicode code points</ulink>, as produced by the operating system text input system. Unlike key input, text input obeys keyboard layouts and modifier keys and supports composing characters using <ulink url="https://en.wikipedia.org/wiki/Dead_key">dead keys</ulink>. Once received, you can encode the code points into UTF-8 or any other encoding you prefer.</para>
+<para>Because an <computeroutput>unsigned int</computeroutput> is 32 bits long on all platforms supported by GLFW, you can treat the code point argument as native endian UTF-32.</para>
+<para>If you wish to offer regular text input, set a character callback.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1gad3d7e6e3134fa034cc1604162579585e" kindref="member">glfwSetCharCallback</ref>(window,<sp/>character_callback);</highlight></codeline>
+</programlisting></para>
+<para>The callback function receives Unicode code points for key events that would have led to regular text input and generally behaves as a standard text field on that platform.</para>
+<para><programlisting><codeline><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>character_callback(<ref refid="group__window_1ga3c96d80d363e67d13a41b5d1821f3242" kindref="member">GLFWwindow</ref>*<sp/>window,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>codepoint)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+</sect2>
+<sect2 id="input_guide_1input_key_name">
+<title>Key names</title>
+<para>If you wish to refer to keys by name, you can query the keyboard layout dependent name of printable keys with <ref refid="group__input_1ga98293ec4493cfe8e7df8ff22ee402b46" kindref="member">glfwGetKeyName</ref>.</para>
+<para><programlisting><codeline><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key_name<sp/>=<sp/><ref refid="group__input_1ga98293ec4493cfe8e7df8ff22ee402b46" kindref="member">glfwGetKeyName</ref>(GLFW_KEY_W,<sp/>0);</highlight></codeline>
+<codeline><highlight class="normal">show_tutorial_hint(</highlight><highlight class="stringliteral">&quot;Press<sp/>%s<sp/>to<sp/>move<sp/>forward&quot;</highlight><highlight class="normal">,<sp/>key_name);</highlight></codeline>
+</programlisting></para>
+<para>This function can handle both <ref refid="input_guide_1input_key" kindref="member">keys and scancodes</ref>. If the specified key is <computeroutput>GLFW_KEY_UNKNOWN</computeroutput> then the scancode is used, otherwise it is ignored. This matches the behavior of the key callback, meaning the callback arguments can always be passed unmodified to this function.</para>
+</sect2>
+</sect1>
+<sect1 id="input_guide_1input_mouse">
+<title>Mouse input</title>
+<para>Mouse input comes in many forms, including mouse motion, button presses and scrolling offsets. The cursor appearance can also be changed, either to a custom image or a standard cursor Shape from the system theme.</para>
+<sect2 id="input_guide_1cursor_pos">
+<title>Cursor position</title>
+<para>If you wish to be notified when the cursor moves over the window, set a cursor position callback.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1ga74124d0eff27040fd10e4df9e17d129c" kindref="member">glfwSetCursorPosCallback</ref>(window,<sp/>cursor_position_callback);</highlight></codeline>
+</programlisting></para>
+<para>The callback functions receives the cursor position, measured in screen coordinates but relative to the top-left corner of the window content area. On platforms that provide it, the full sub-pixel cursor position is passed on.</para>
+<para><programlisting><codeline><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cursor_position_callback(<ref refid="group__window_1ga3c96d80d363e67d13a41b5d1821f3242" kindref="member">GLFWwindow</ref>*<sp/>window,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>xpos,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>ypos)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>The cursor position is also saved per-window and can be polled with <ref refid="group__input_1gad289438eb7cf53d11eca685373f44105" kindref="member">glfwGetCursorPos</ref>.</para>
+<para><programlisting><codeline><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>xpos,<sp/>ypos;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="group__input_1gad289438eb7cf53d11eca685373f44105" kindref="member">glfwGetCursorPos</ref>(window,<sp/>&amp;xpos,<sp/>&amp;ypos);</highlight></codeline>
+</programlisting></para>
+</sect2>
+<sect2 id="input_guide_1cursor_mode">
+<title>Cursor mode</title>
+<para><anchor id="input_guide_1GLFW_CURSOR"/>The <computeroutput>GLFW_CURSOR</computeroutput> input mode provides several cursor modes for special forms of mouse motion input. By default, the cursor mode is <computeroutput>GLFW_CURSOR_NORMAL</computeroutput>, meaning the regular arrow cursor (or another cursor set with <ref refid="group__input_1gafaf103cea2f43530cff7de4e01126a4f" kindref="member">glfwSetCursor</ref>) is used and cursor motion is not limited.</para>
+<para>If you wish to implement mouse motion based camera controls or other input schemes that require unlimited mouse movement, set the cursor mode to <computeroutput>GLFW_CURSOR_DISABLED</computeroutput>.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1gae1eb729d2dd91dc33fd60e150a6e1684" kindref="member">glfwSetInputMode</ref>(window,<sp/>GLFW_CURSOR,<sp/>GLFW_CURSOR_DISABLED);</highlight></codeline>
+</programlisting></para>
+<para>This will hide the cursor and lock it to the specified window. GLFW will then take care of all the details of cursor re-centering and offset calculation and providing the application with a virtual cursor position. This virtual position is provided normally via both the cursor position callback and through polling.</para>
+<para><simplesect kind="note"><para>You should not implement your own version of this functionality using other features of GLFW. It is not supported and will not work as robustly as <computeroutput>GLFW_CURSOR_DISABLED</computeroutput>.</para>
+</simplesect>
+If you only wish the cursor to become hidden when it is over a window but still want it to behave normally, set the cursor mode to <computeroutput>GLFW_CURSOR_HIDDEN</computeroutput>.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1gae1eb729d2dd91dc33fd60e150a6e1684" kindref="member">glfwSetInputMode</ref>(window,<sp/>GLFW_CURSOR,<sp/>GLFW_CURSOR_HIDDEN);</highlight></codeline>
+</programlisting></para>
+<para>This mode puts no limit on the motion of the cursor.</para>
+<para>To exit out of either of these special modes, restore the <computeroutput>GLFW_CURSOR_NORMAL</computeroutput> cursor mode.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1gae1eb729d2dd91dc33fd60e150a6e1684" kindref="member">glfwSetInputMode</ref>(window,<sp/>GLFW_CURSOR,<sp/>GLFW_CURSOR_NORMAL);</highlight></codeline>
+</programlisting></para>
+<para><anchor id="input_guide_1GLFW_RAW_MOUSE_MOTION"/></para>
+</sect2>
+<sect2 id="input_guide_1raw_mouse_motion">
+<title>Raw mouse motion</title>
+<para>When the cursor is disabled, raw (unscaled and unaccelerated) mouse motion can be enabled if available.</para>
+<para>Raw mouse motion is closer to the actual motion of the mouse across a surface. It is not affected by the scaling and acceleration applied to the motion of the desktop cursor. That processing is suitable for a cursor while raw motion is better for controlling for example a 3D camera. Because of this, raw mouse motion is only provided when the cursor is disabled.</para>
+<para>Call <ref refid="group__input_1ga9b83d8957a566b22b3b768c7d1d4be03" kindref="member">glfwRawMouseMotionSupported</ref> to check if the current machine provides raw motion and set the <computeroutput>GLFW_RAW_MOUSE_MOTION</computeroutput> input mode to enable it. It is disabled by default.</para>
+<para><programlisting><codeline><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="group__input_1ga9b83d8957a566b22b3b768c7d1d4be03" kindref="member">glfwRawMouseMotionSupported</ref>())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__input_1gae1eb729d2dd91dc33fd60e150a6e1684" kindref="member">glfwSetInputMode</ref>(window,<sp/>GLFW_RAW_MOUSE_MOTION,<sp/><ref refid="group__init_1ga2744fbb29b5631bb28802dbe0cf36eba" kindref="member">GLFW_TRUE</ref>);</highlight></codeline>
+</programlisting></para>
+<para>If supported, raw mouse motion can be enabled or disabled per-window and at any time but it will only be provided when the cursor is disabled.</para>
+</sect2>
+<sect2 id="input_guide_1cursor_object">
+<title>Cursor objects</title>
+<para>GLFW supports creating both custom and system theme cursor images, encapsulated as <ref refid="imgui_2examples_2libs_2glfw_2include_2_g_l_f_w_2glfw3_8h_1a89261ae18c75e863aaf2656ecdd238f4" kindref="member">GLFWcursor</ref> objects. They are created with <ref refid="group__input_1ga21fc9f020f062db88813aa722c30ba2c" kindref="member">glfwCreateCursor</ref> or <ref refid="group__input_1gab7c5b6023b39a0021b1fcdabd1d15f09" kindref="member">glfwCreateStandardCursor</ref> and destroyed with <ref refid="group__input_1ga27556b7122117bc1bbb4bb3cc003ea43" kindref="member">glfwDestroyCursor</ref>, or <ref refid="group__init_1gafd90e6fd4819ea9e22e5e739519a6504" kindref="member">glfwTerminate</ref>, if any remain.</para>
+<sect3 id="input_guide_1cursor_custom">
+<title>Custom cursor creation</title>
+<para>A custom cursor is created with <ref refid="group__input_1ga21fc9f020f062db88813aa722c30ba2c" kindref="member">glfwCreateCursor</ref>, which returns a handle to the created cursor object. For example, this creates a 16x16 white square cursor with the hot-spot in the upper-left corner:</para>
+<para><programlisting><codeline><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>pixels[16<sp/>*<sp/>16<sp/>*<sp/>4];</highlight></codeline>
+<codeline><highlight class="normal">memset(pixels,<sp/>0xff,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(pixels));</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="struct_g_l_f_wimage" kindref="compound">GLFWimage</ref><sp/>image;</highlight></codeline>
+<codeline><highlight class="normal">image.<ref refid="struct_g_l_f_wimage_1af6a71cc999fe6d3aea31dd7e9687d835" kindref="member">width</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline><highlight class="normal">image.height<sp/>=<sp/>16;</highlight></codeline>
+<codeline><highlight class="normal">image.pixels<sp/>=<sp/>pixels;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="group__input_1ga89261ae18c75e863aaf2656ecdd238f4" kindref="member">GLFWcursor</ref>*<sp/>cursor<sp/>=<sp/><ref refid="group__input_1ga21fc9f020f062db88813aa722c30ba2c" kindref="member">glfwCreateCursor</ref>(&amp;image,<sp/>0,<sp/>0);</highlight></codeline>
+</programlisting></para>
+<para>If cursor creation fails, <computeroutput>NULL</computeroutput> will be returned, so it is necessary to check the return value.</para>
+<para>The image data is 32-bit, little-endian, non-premultiplied RGBA, i.e. eight bits per channel with the red channel first. The pixels are arranged canonically as sequential rows, starting from the top-left corner.</para>
+</sect3>
+<sect3 id="input_guide_1cursor_standard">
+<title>Standard cursor creation</title>
+<para>A cursor with a <ref refid="group__shapes" kindref="compound">standard Shape</ref> from the current system cursor theme can be can be created with <ref refid="group__input_1gab7c5b6023b39a0021b1fcdabd1d15f09" kindref="member">glfwCreateStandardCursor</ref>.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1ga89261ae18c75e863aaf2656ecdd238f4" kindref="member">GLFWcursor</ref>*<sp/>url_cursor<sp/>=<sp/><ref refid="group__input_1gab7c5b6023b39a0021b1fcdabd1d15f09" kindref="member">glfwCreateStandardCursor</ref>(<ref refid="group__shapes_1gaad01a50929fb515bf27e4462c51f6ed0" kindref="member">GLFW_POINTING_HAND_CURSOR</ref>);</highlight></codeline>
+</programlisting></para>
+<para>These cursor objects behave in the exact same way as those created with <ref refid="group__input_1ga21fc9f020f062db88813aa722c30ba2c" kindref="member">glfwCreateCursor</ref> except that the system cursor theme provides the actual image.</para>
+<para>A few of these shapes are not available everywhere. If a Shape is unavailable, <computeroutput>NULL</computeroutput> is returned. See <ref refid="group__input_1gab7c5b6023b39a0021b1fcdabd1d15f09" kindref="member">glfwCreateStandardCursor</ref> for details.</para>
+</sect3>
+<sect3 id="input_guide_1cursor_destruction">
+<title>Cursor destruction</title>
+<para>When a cursor is no longer needed, destroy it with <ref refid="group__input_1ga27556b7122117bc1bbb4bb3cc003ea43" kindref="member">glfwDestroyCursor</ref>.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1ga27556b7122117bc1bbb4bb3cc003ea43" kindref="member">glfwDestroyCursor</ref>(cursor);</highlight></codeline>
+</programlisting></para>
+<para>Cursor destruction always succeeds. If the cursor is current for any window, that window will revert to the default cursor. This does not affect the cursor mode. All remaining cursors are destroyed when <ref refid="group__init_1gafd90e6fd4819ea9e22e5e739519a6504" kindref="member">glfwTerminate</ref> is called.</para>
+</sect3>
+<sect3 id="input_guide_1cursor_set">
+<title>Cursor setting</title>
+<para>A cursor can be set as current for a window with <ref refid="group__input_1gafaf103cea2f43530cff7de4e01126a4f" kindref="member">glfwSetCursor</ref>.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1gafaf103cea2f43530cff7de4e01126a4f" kindref="member">glfwSetCursor</ref>(window,<sp/>cursor);</highlight></codeline>
+</programlisting></para>
+<para>Once set, the cursor image will be used as long as the system cursor is over the content area of the window and the <ref refid="input_guide_1cursor_mode" kindref="member">cursor mode</ref> is set to <computeroutput>GLFW_CURSOR_NORMAL</computeroutput>.</para>
+<para>A single cursor may be set for any number of windows.</para>
+<para>To revert to the default cursor, set the cursor of that window to <computeroutput>NULL</computeroutput>.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1gafaf103cea2f43530cff7de4e01126a4f" kindref="member">glfwSetCursor</ref>(window,<sp/>NULL);</highlight></codeline>
+</programlisting></para>
+<para>When a cursor is destroyed, any window that has it set will revert to the default cursor. This does not affect the cursor mode.</para>
+</sect3>
+</sect2>
+<sect2 id="input_guide_1cursor_enter">
+<title>Cursor enter/leave events</title>
+<para>If you wish to be notified when the cursor enters or leaves the content area of a window, set a cursor enter/leave callback.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1gacdb3490e374c8bc08549c6f173ffa7c2" kindref="member">glfwSetCursorEnterCallback</ref>(window,<sp/>cursor_enter_callback);</highlight></codeline>
+</programlisting></para>
+<para>The callback function receives the new classification of the cursor.</para>
+<para><programlisting><codeline><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cursor_enter_callback(<ref refid="group__window_1ga3c96d80d363e67d13a41b5d1821f3242" kindref="member">GLFWwindow</ref>*<sp/>window,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>entered)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(entered)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>cursor<sp/>entered<sp/>the<sp/>content<sp/>area<sp/>of<sp/>the<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>cursor<sp/>left<sp/>the<sp/>content<sp/>area<sp/>of<sp/>the<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>You can query whether the cursor is currently inside the content area of the window with the <ref refid="window_guide_1GLFW_HOVERED_attrib" kindref="member">GLFW_HOVERED</ref> window attribute.</para>
+<para><programlisting><codeline><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="group__window_1ga1bb0c7e100418e284dbb800789c63d40" kindref="member">glfwGetWindowAttrib</ref>(window,<sp/><ref refid="group__window_1ga8665c71c6fa3d22425c6a0e8a3f89d8a" kindref="member">GLFW_HOVERED</ref>))</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>highlight_interface();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+</sect2>
+<sect2 id="input_guide_1input_mouse_button">
+<title>Mouse button input</title>
+<para>If you wish to be notified when a mouse button is pressed or released, set a mouse button callback.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1gab8f17646f43cdca14e5095512618fdf6" kindref="member">glfwSetMouseButtonCallback</ref>(window,<sp/>mouse_button_callback);</highlight></codeline>
+</programlisting></para>
+<para>The callback function receives the <ref refid="group__buttons" kindref="compound">mouse button</ref>, button action and <ref refid="group__mods" kindref="compound">modifier bits</ref>.</para>
+<para><programlisting><codeline><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>mouse_button_callback(<ref refid="group__window_1ga3c96d80d363e67d13a41b5d1821f3242" kindref="member">GLFWwindow</ref>*<sp/>window,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>button,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>action,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>mods)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(button<sp/>==<sp/>GLFW_MOUSE_BUTTON_RIGHT<sp/>&amp;&amp;<sp/>action<sp/>==<sp/><ref refid="group__input_1ga2485743d0b59df3791c45951c4195265" kindref="member">GLFW_PRESS</ref>)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>popup_menu();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>The action is one of <computeroutput>GLFW_PRESS</computeroutput> or <computeroutput>GLFW_RELEASE</computeroutput>.</para>
+<para>Mouse button states for <ref refid="group__buttons" kindref="compound">named buttons</ref> are also saved in per-window state arrays that can be polled with <ref refid="group__input_1ga6da5efb04f700c312a57a169fa9393a0" kindref="member">glfwGetMouseButton</ref>.</para>
+<para><programlisting><codeline><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>state<sp/>=<sp/><ref refid="group__input_1ga6da5efb04f700c312a57a169fa9393a0" kindref="member">glfwGetMouseButton</ref>(window,<sp/>GLFW_MOUSE_BUTTON_LEFT);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(state<sp/>==<sp/><ref refid="group__input_1ga2485743d0b59df3791c45951c4195265" kindref="member">GLFW_PRESS</ref>)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>upgrade_cow();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>The returned state is one of <computeroutput>GLFW_PRESS</computeroutput> or <computeroutput>GLFW_RELEASE</computeroutput>.</para>
+<para>This function only returns cached mouse button event state. It does not poll the system for the current state of the mouse button.</para>
+<para><anchor id="input_guide_1GLFW_STICKY_MOUSE_BUTTONS"/>Whenever you poll state, you risk missing the state change you are looking for. If a pressed mouse button is released again before you poll its state, you will have missed the button press. The recommended solution for this is to use a mouse button callback, but there is also the <computeroutput>GLFW_STICKY_MOUSE_BUTTONS</computeroutput> input mode.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1gae1eb729d2dd91dc33fd60e150a6e1684" kindref="member">glfwSetInputMode</ref>(window,<sp/>GLFW_STICKY_MOUSE_BUTTONS,<sp/><ref refid="group__init_1ga2744fbb29b5631bb28802dbe0cf36eba" kindref="member">GLFW_TRUE</ref>);</highlight></codeline>
+</programlisting></para>
+<para>When sticky mouse buttons mode is enabled, the pollable state of a mouse button will remain <computeroutput>GLFW_PRESS</computeroutput> until the state of that button is polled with <ref refid="group__input_1ga6da5efb04f700c312a57a169fa9393a0" kindref="member">glfwGetMouseButton</ref>. Once it has been polled, if a mouse button release event had been processed in the meantime, the state will reset to <computeroutput>GLFW_RELEASE</computeroutput>, otherwise it will remain <computeroutput>GLFW_PRESS</computeroutput>.</para>
+<para>The <computeroutput>GLFW_MOUSE_BUTTON_LAST</computeroutput> constant holds the highest value of any <ref refid="group__buttons" kindref="compound">named button</ref>.</para>
+</sect2>
+<sect2 id="input_guide_1scrolling">
+<title>Scroll input</title>
+<para>If you wish to be notified when the user scrolls, whether with a mouse wheel or touchpad gesture, set a scroll callback.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1gaa786b59f19ad8525d251cda8e0d7d29b" kindref="member">glfwSetScrollCallback</ref>(window,<sp/>scroll_callback);</highlight></codeline>
+</programlisting></para>
+<para>The callback function receives two-dimensional scroll offsets.</para>
+<para><programlisting><codeline><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>scroll_callback(<ref refid="group__window_1ga3c96d80d363e67d13a41b5d1821f3242" kindref="member">GLFWwindow</ref>*<sp/>window,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>xoffset,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>yoffset)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>A normal mouse wheel, being vertical, provides offsets along the Y-axis.</para>
+</sect2>
+</sect1>
+<sect1 id="input_guide_1joystick">
+<title>Joystick input</title>
+<para>The joystick functions expose connected joysticks and controllers, with both referred to as joysticks. It supports up to sixteen joysticks, ranging from <computeroutput>GLFW_JOYSTICK_1</computeroutput>, <computeroutput>GLFW_JOYSTICK_2</computeroutput> up to and including <computeroutput>GLFW_JOYSTICK_16</computeroutput> or <computeroutput>GLFW_JOYSTICK_LAST</computeroutput>. You can test whether a <ref refid="group__joysticks" kindref="compound">joystick</ref> is present with <ref refid="group__input_1gacb1b7dfd79df673d48814c06fc436eff" kindref="member">glfwJoystickPresent</ref>.</para>
+<para><programlisting><codeline><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>present<sp/>=<sp/><ref refid="group__input_1gacb1b7dfd79df673d48814c06fc436eff" kindref="member">glfwJoystickPresent</ref>(GLFW_JOYSTICK_1);</highlight></codeline>
+</programlisting></para>
+<para>Each joystick has zero or more axes, zero or more buttons, zero or more hats, a human-readable name, a user pointer and an SDL compatible GUID.</para>
+<para>Detected joysticks are added to the beginning of the array. Once a joystick is detected, it keeps its assigned ID until it is disconnected or the library is terminated, so as joysticks are connected and disconnected, there may appear gaps in the IDs.</para>
+<para>Joystick axis, button and hat state is updated when polled and does not require a window to be created or events to be processed. However, if you want joystick connection and disconnection events reliably delivered to the <ref refid="input_guide_1joystick_event" kindref="member">joystick callback</ref> then you must <ref refid="input_guide_1events" kindref="member">process events</ref>.</para>
+<para>To see all the properties of all connected joysticks in real-time, run the <computeroutput>joysticks</computeroutput> test program.</para>
+<sect2 id="input_guide_1joystick_axis">
+<title>Joystick axis states</title>
+<para>The positions of all axes of a joystick are returned by <ref refid="group__input_1gacd46b9f8d9d12dc50e45d7fe0ad32b23" kindref="member">glfwGetJoystickAxes</ref>. See the reference documentation for the lifetime of the returned array.</para>
+<para><programlisting><codeline><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>axes<sp/>=<sp/><ref refid="group__input_1gacd46b9f8d9d12dc50e45d7fe0ad32b23" kindref="member">glfwGetJoystickAxes</ref>(GLFW_JOYSTICK_5,<sp/>&amp;count);</highlight></codeline>
+</programlisting></para>
+<para>Each element in the returned array is a value between -1.0 and 1.0.</para>
+</sect2>
+<sect2 id="input_guide_1joystick_button">
+<title>Joystick button states</title>
+<para>The states of all buttons of a joystick are returned by <ref refid="group__input_1ga91cdcb462a3e17c647a55496eff7d0ee" kindref="member">glfwGetJoystickButtons</ref>. See the reference documentation for the lifetime of the returned array.</para>
+<para><programlisting><codeline><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buttons<sp/>=<sp/><ref refid="group__input_1ga91cdcb462a3e17c647a55496eff7d0ee" kindref="member">glfwGetJoystickButtons</ref>(GLFW_JOYSTICK_3,<sp/>&amp;count);</highlight></codeline>
+</programlisting></para>
+<para>Each element in the returned array is either <computeroutput>GLFW_PRESS</computeroutput> or <computeroutput>GLFW_RELEASE</computeroutput>.</para>
+<para>For backward compatibility with earlier versions that did not have <ref refid="group__input_1gaf0f00897c4d010af7bd1aea1f6193e6f" kindref="member">glfwGetJoystickHats</ref>, the button array by default also includes all hats. See the reference documentation for <ref refid="group__input_1ga91cdcb462a3e17c647a55496eff7d0ee" kindref="member">glfwGetJoystickButtons</ref> for details.</para>
+</sect2>
+<sect2 id="input_guide_1joystick_hat">
+<title>Joystick hat states</title>
+<para>The states of all hats are returned by <ref refid="group__input_1gaf0f00897c4d010af7bd1aea1f6193e6f" kindref="member">glfwGetJoystickHats</ref>. See the reference documentation for the lifetime of the returned array.</para>
+<para><programlisting><codeline><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>hats<sp/>=<sp/><ref refid="group__input_1gaf0f00897c4d010af7bd1aea1f6193e6f" kindref="member">glfwGetJoystickHats</ref>(GLFW_JOYSTICK_7,<sp/>&amp;count);</highlight></codeline>
+</programlisting></para>
+<para>Each element in the returned array is one of the following:</para>
+<para><table rows="10" cols="2"><row>
+<entry thead="yes"><para>Name   </para>
+</entry><entry thead="yes"><para>Value    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>GLFW_HAT_CENTERED</computeroutput>   </para>
+</entry><entry thead="no"><para>0    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>GLFW_HAT_UP</computeroutput>   </para>
+</entry><entry thead="no"><para>1    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>GLFW_HAT_RIGHT</computeroutput>   </para>
+</entry><entry thead="no"><para>2    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>GLFW_HAT_DOWN</computeroutput>   </para>
+</entry><entry thead="no"><para>4    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>GLFW_HAT_LEFT</computeroutput>   </para>
+</entry><entry thead="no"><para>8    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>GLFW_HAT_RIGHT_UP</computeroutput>   </para>
+</entry><entry thead="no"><para><computeroutput>GLFW_HAT_RIGHT</computeroutput> | <computeroutput>GLFW_HAT_UP</computeroutput>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>GLFW_HAT_RIGHT_DOWN</computeroutput>   </para>
+</entry><entry thead="no"><para><computeroutput>GLFW_HAT_RIGHT</computeroutput> | <computeroutput>GLFW_HAT_DOWN</computeroutput>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>GLFW_HAT_LEFT_UP</computeroutput>   </para>
+</entry><entry thead="no"><para><computeroutput>GLFW_HAT_LEFT</computeroutput> | <computeroutput>GLFW_HAT_UP</computeroutput>    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>GLFW_HAT_LEFT_DOWN</computeroutput>   </para>
+</entry><entry thead="no"><para><computeroutput>GLFW_HAT_LEFT</computeroutput> | <computeroutput>GLFW_HAT_DOWN</computeroutput>   </para>
+</entry></row>
+</table>
+</para>
+<para>The diagonal directions are bitwise combinations of the primary (up, right, down and left) directions and you can test for these individually by ANDing it with the corresponding direction.</para>
+<para><programlisting><codeline><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(hats[2]<sp/>&amp;<sp/>GLFW_HAT_RIGHT)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>State<sp/>of<sp/>hat<sp/>2<sp/>could<sp/>be<sp/>right-up,<sp/>right<sp/>or<sp/>right-down</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>For backward compatibility with earlier versions that did not have <ref refid="group__input_1gaf0f00897c4d010af7bd1aea1f6193e6f" kindref="member">glfwGetJoystickHats</ref>, all hats are by default also included in the button array. See the reference documentation for <ref refid="group__input_1ga91cdcb462a3e17c647a55496eff7d0ee" kindref="member">glfwGetJoystickButtons</ref> for details.</para>
+</sect2>
+<sect2 id="input_guide_1joystick_name">
+<title>Joystick name</title>
+<para>The human-readable, UTF-8 encoded name of a joystick is returned by <ref refid="group__input_1ga4b46e05195db3c2fc336cf69fc6c7128" kindref="member">glfwGetJoystickName</ref>. See the reference documentation for the lifetime of the returned string.</para>
+<para><programlisting><codeline><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name<sp/>=<sp/><ref refid="group__input_1ga4b46e05195db3c2fc336cf69fc6c7128" kindref="member">glfwGetJoystickName</ref>(GLFW_JOYSTICK_4);</highlight></codeline>
+</programlisting></para>
+<para>Joystick names are not guaranteed to be unique. Two joysticks of the same model and make may have the same name. Only the <ref refid="group__joysticks" kindref="compound">joystick ID</ref> is guaranteed to be unique, and only until that joystick is disconnected.</para>
+</sect2>
+<sect2 id="input_guide_1joystick_userptr">
+<title>Joystick user pointer</title>
+<para>Each joystick has a user pointer that can be set with <ref refid="group__input_1ga3a8999c2d2634c7bcf4a04f1ec64895c" kindref="member">glfwSetJoystickUserPointer</ref> and queried with <ref refid="group__input_1ga95c348e4b4308c44c59825def0d1367e" kindref="member">glfwGetJoystickUserPointer</ref>. This can be used for any purpose you need and will not be modified by GLFW. The value will be kept until the joystick is disconnected or until the library is terminated.</para>
+<para>The initial value of the pointer is <computeroutput>NULL</computeroutput>.</para>
+</sect2>
+<sect2 id="input_guide_1joystick_event">
+<title>Joystick configuration changes</title>
+<para>If you wish to be notified when a joystick is connected or disconnected, set a joystick callback.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1gad90f60a4c0e04629928305b53e96154a" kindref="member">glfwSetJoystickCallback</ref>(joystick_callback);</highlight></codeline>
+</programlisting></para>
+<para>The callback function receives the ID of the joystick that has been connected and disconnected and the event that occurred.</para>
+<para><programlisting><codeline><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>joystick_callback(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>jid,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>event)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(event<sp/>==<sp/>GLFW_CONNECTED)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>joystick<sp/>was<sp/>connected</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(event<sp/>==<sp/>GLFW_DISCONNECTED)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>joystick<sp/>was<sp/>disconnected</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>For joystick connection and disconnection events to be delivered on all platforms, you need to call one of the <ref refid="input_guide_1events" kindref="member">event processing</ref> functions. Joystick disconnection may also be detected and the callback called by joystick functions. The function will then return whatever it returns for a disconnected joystick.</para>
+<para>Only <ref refid="group__input_1ga4b46e05195db3c2fc336cf69fc6c7128" kindref="member">glfwGetJoystickName</ref> and <ref refid="group__input_1ga95c348e4b4308c44c59825def0d1367e" kindref="member">glfwGetJoystickUserPointer</ref> will return useful values for a disconnected joystick and only before the monitor callback returns.</para>
+</sect2>
+<sect2 id="input_guide_1gamepad">
+<title>Gamepad input</title>
+<para>The joystick functions provide unlabeled axes, buttons and hats, with no indication of where they are located on the device. Their order may also vary between platforms even with the same device.</para>
+<para>To solve this problem the SDL community crowdsourced the <ulink url="https://github.com/gabomdq/SDL_GameControllerDB">SDL_GameControllerDB</ulink> project, a database of mappings from many different devices to an Xbox-like gamepad.</para>
+<para>GLFW supports this mapping format and contains a copy of the mappings available at the time of release. See <ref refid="input_guide_1gamepad_mapping" kindref="member">Gamepad mappings</ref> for how to update this at runtime. Mappings will be assigned to joysticks automatically any time a joystick is connected or the mappings are updated.</para>
+<para>You can check whether a joystick is both present and has a gamepad mapping with <ref refid="group__input_1gac9720b6e5062a5fc5fc0bb4be6dc04a0" kindref="member">glfwJoystickIsGamepad</ref>.</para>
+<para><programlisting><codeline><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="group__input_1gac9720b6e5062a5fc5fc0bb4be6dc04a0" kindref="member">glfwJoystickIsGamepad</ref>(GLFW_JOYSTICK_2))</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>as<sp/>gamepad</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>If you are only interested in gamepad input you can use this function instead of <ref refid="group__input_1gacb1b7dfd79df673d48814c06fc436eff" kindref="member">glfwJoystickPresent</ref>.</para>
+<para>You can query the human-readable name provided by the gamepad mapping with <ref refid="group__input_1gab7a03c6ca8aa55a52b750d862d106ffe" kindref="member">glfwGetGamepadName</ref>. This may or may not be the same as the <ref refid="input_guide_1joystick_name" kindref="member">joystick name</ref>.</para>
+<para><programlisting><codeline><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name<sp/>=<sp/><ref refid="group__input_1gab7a03c6ca8aa55a52b750d862d106ffe" kindref="member">glfwGetGamepadName</ref>(GLFW_JOYSTICK_7);</highlight></codeline>
+</programlisting></para>
+<para>To retrieve the gamepad state of a joystick, call <ref refid="group__input_1ga6e138d3b0761546f5a12546f367501d6" kindref="member">glfwGetGamepadState</ref>.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="struct_g_l_f_wgamepadstate" kindref="compound">GLFWgamepadstate</ref><sp/>state;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="group__input_1ga6e138d3b0761546f5a12546f367501d6" kindref="member">glfwGetGamepadState</ref>(GLFW_JOYSTICK_3,<sp/>&amp;state))</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(state.<ref refid="struct_g_l_f_wgamepadstate_1a27e9896b51c65df15fba2c7139bfdb9a" kindref="member">buttons</ref>[GLFW_GAMEPAD_BUTTON_A])</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>input_jump();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>input_speed(state.<ref refid="struct_g_l_f_wgamepadstate_1a8b2c8939b1d31458de5359998375c189" kindref="member">axes</ref>[GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER]);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>The <ref refid="struct_g_l_f_wgamepadstate" kindref="compound">GLFWgamepadstate</ref> struct has two arrays; one for button states and one for axis states. The values for each button and axis are the same as for the <ref refid="group__input_1ga91cdcb462a3e17c647a55496eff7d0ee" kindref="member">glfwGetJoystickButtons</ref> and <ref refid="group__input_1gacd46b9f8d9d12dc50e45d7fe0ad32b23" kindref="member">glfwGetJoystickAxes</ref> functions, i.e. <computeroutput>GLFW_PRESS</computeroutput> or <computeroutput>GLFW_RELEASE</computeroutput> for buttons and -1.0 to 1.0 inclusive for axes.</para>
+<para>The sizes of the arrays and the positions within each array are fixed.</para>
+<para>The <ref refid="group__gamepad__buttons" kindref="compound">button indices</ref> are <computeroutput>GLFW_GAMEPAD_BUTTON_A</computeroutput>, <computeroutput>GLFW_GAMEPAD_BUTTON_B</computeroutput>, <computeroutput>GLFW_GAMEPAD_BUTTON_X</computeroutput>, <computeroutput>GLFW_GAMEPAD_BUTTON_Y</computeroutput>, <computeroutput>GLFW_GAMEPAD_BUTTON_LEFT_BUMPER</computeroutput>, <computeroutput>GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER</computeroutput>, <computeroutput>GLFW_GAMEPAD_BUTTON_BACK</computeroutput>, <computeroutput>GLFW_GAMEPAD_BUTTON_START</computeroutput>, <computeroutput>GLFW_GAMEPAD_BUTTON_GUIDE</computeroutput>, <computeroutput>GLFW_GAMEPAD_BUTTON_LEFT_THUMB</computeroutput>, <computeroutput>GLFW_GAMEPAD_BUTTON_RIGHT_THUMB</computeroutput>, <computeroutput>GLFW_GAMEPAD_BUTTON_DPAD_UP</computeroutput>, <computeroutput>GLFW_GAMEPAD_BUTTON_DPAD_RIGHT</computeroutput>, <computeroutput>GLFW_GAMEPAD_BUTTON_DPAD_DOWN</computeroutput> and <computeroutput>GLFW_GAMEPAD_BUTTON_DPAD_LEFT</computeroutput>.</para>
+<para>For those who prefer, there are also the <computeroutput>GLFW_GAMEPAD_BUTTON_CROSS</computeroutput>, <computeroutput>GLFW_GAMEPAD_BUTTON_CIRCLE</computeroutput>, <computeroutput>GLFW_GAMEPAD_BUTTON_SQUARE</computeroutput> and <computeroutput>GLFW_GAMEPAD_BUTTON_TRIANGLE</computeroutput> aliases for the A, B, X and Y button indices.</para>
+<para>The <ref refid="group__gamepad__axes" kindref="compound">axis indices</ref> are <computeroutput>GLFW_GAMEPAD_AXIS_LEFT_X</computeroutput>, <computeroutput>GLFW_GAMEPAD_AXIS_LEFT_Y</computeroutput>, <computeroutput>GLFW_GAMEPAD_AXIS_RIGHT_X</computeroutput>, <computeroutput>GLFW_GAMEPAD_AXIS_RIGHT_Y</computeroutput>, <computeroutput>GLFW_GAMEPAD_AXIS_LEFT_TRIGGER</computeroutput> and <computeroutput>GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER</computeroutput>.</para>
+<para>The <computeroutput>GLFW_GAMEPAD_BUTTON_LAST</computeroutput> and <computeroutput>GLFW_GAMEPAD_AXIS_LAST</computeroutput> constants equal the largest available index for each array.</para>
+</sect2>
+<sect2 id="input_guide_1gamepad_mapping">
+<title>Gamepad mappings</title>
+<para>GLFW contains a copy of the mappings available in <ulink url="https://github.com/gabomdq/SDL_GameControllerDB">SDL_GameControllerDB</ulink> at the time of release. Newer ones can be added at runtime with <ref refid="group__input_1ga276a2aec236a671a99f6f0a9be7fa3fc" kindref="member">glfwUpdateGamepadMappings</ref>.</para>
+<para><programlisting><codeline><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>mappings<sp/>=<sp/>load_file_contents(</highlight><highlight class="stringliteral">&quot;game/data/gamecontrollerdb.txt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="group__input_1ga276a2aec236a671a99f6f0a9be7fa3fc" kindref="member">glfwUpdateGamepadMappings</ref>(mappings);</highlight></codeline>
+</programlisting></para>
+<para>This function supports everything from single lines up to and including the unmodified contents of the whole <computeroutput>gamecontrollerdb.txt</computeroutput> file.</para>
+<para>Below is a description of the mapping format. Please keep in mind that <bold>this description is not authoritative</bold>. The format is defined by the SDL and SDL_GameControllerDB projects and their documentation and code takes precedence.</para>
+<para>Each mapping is a single line of comma-separated values describing the GUID, name and layout of the gamepad. Lines that do not begin with a hexadecimal digit are ignored.</para>
+<para>The first value is always the gamepad GUID, a 32 character long hexadecimal string that typically identifies its make, model, revision and the type of connection to the computer. When this information is not available, the GUID is generated using the gamepad name. GLFW uses the SDL 2.0.5+ GUID format but can convert from the older formats.</para>
+<para>The second value is always the human-readable name of the gamepad.</para>
+<para>All subsequent values are in the form <computeroutput>&lt;field&gt;:&lt;value&gt;</computeroutput> and describe the layout of the mapping. These fields may not all be present and may occur in any order.</para>
+<para>The button fields are <computeroutput>a</computeroutput>, <computeroutput>b</computeroutput>, <computeroutput>c</computeroutput>, <computeroutput>d</computeroutput>, <computeroutput>back</computeroutput>, <computeroutput>start</computeroutput>, <computeroutput>guide</computeroutput>, <computeroutput>dpup</computeroutput>, <computeroutput>dpright</computeroutput>, <computeroutput>dpdown</computeroutput>, <computeroutput>dpleft</computeroutput>, <computeroutput>leftshoulder</computeroutput>, <computeroutput>rightshoulder</computeroutput>, <computeroutput>leftstick</computeroutput> and <computeroutput>rightstick</computeroutput>.</para>
+<para>The axis fields are <computeroutput>leftx</computeroutput>, <computeroutput>lefty</computeroutput>, <computeroutput>rightx</computeroutput>, <computeroutput>righty</computeroutput>, <computeroutput>lefttrigger</computeroutput> and <computeroutput>righttrigger</computeroutput>.</para>
+<para>The value of an axis or button field can be a joystick button, a joystick axis, a hat bitmask or empty. Joystick buttons are specified as <computeroutput>bN</computeroutput>, for example <computeroutput>b2</computeroutput> for the third button. Joystick axes are specified as <computeroutput>aN</computeroutput>, for example <computeroutput>a7</computeroutput> for the eighth button. Joystick hat bit masks are specified as <computeroutput>hN.N</computeroutput>, for example <computeroutput>h0.8</computeroutput> for left on the first hat. More than one bit may be set in the mask.</para>
+<para>Before an axis there may be a <computeroutput>+</computeroutput> or <computeroutput>-</computeroutput> range modifier, for example <computeroutput>+a3</computeroutput> for the positive half of the fourth axis. This restricts input to only the positive or negative halves of the joystick axis. After an axis or half-axis there may be the <computeroutput>~</computeroutput> inversion modifier, for example <computeroutput>a2~</computeroutput> or <computeroutput>-a7~</computeroutput>. This negates the values of the gamepad axis.</para>
+<para>The hat bit mask match the <ref refid="group__hat__state" kindref="compound">hat states</ref> in the joystick functions.</para>
+<para>There is also the special <computeroutput>platform</computeroutput> field that specifies which platform the mapping is valid for. Possible values are <computeroutput>Windows</computeroutput>, <computeroutput>Mac OS X</computeroutput> and <computeroutput>Linux</computeroutput>.</para>
+<para>Below is an example of what a gamepad mapping might look like. It is the one built into GLFW for Xbox controllers accessed via the XInput API on Windows. This example has been broken into several lines to fit on the page, but real gamepad mappings must be a single line.</para>
+<para><programlisting filename=".unparsed"><codeline><highlight class="normal">78696e70757401000000000000000000,XInput<sp/>Gamepad<sp/>(GLFW),platform:Windows,a:b0,</highlight></codeline>
+<codeline><highlight class="normal">b:b1,x:b2,y:b3,leftshoulder:b4,rightshoulder:b5,back:b6,start:b7,leftstick:b8,</highlight></codeline>
+<codeline><highlight class="normal">rightstick:b9,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:a4,</highlight></codeline>
+<codeline><highlight class="normal">righttrigger:a5,dpup:h0.1,dpright:h0.2,dpdown:h0.4,dpleft:h0.8,</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>GLFW does not yet support the output range and modifiers <computeroutput>+</computeroutput> and <computeroutput>-</computeroutput> that were recently added to SDL. The input modifiers <computeroutput>+</computeroutput>, <computeroutput>-</computeroutput> and <computeroutput>~</computeroutput> are supported and described above.</para>
+</simplesect>
+</para>
+</sect2>
+</sect1>
+<sect1 id="input_guide_1time">
+<title>Time input</title>
+<para>GLFW provides high-resolution time input, in seconds, with <ref refid="group__input_1ga03d4a1039b8662c71eeb40beea8cb622" kindref="member">glfwGetTime</ref>.</para>
+<para><programlisting><codeline><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>seconds<sp/>=<sp/><ref refid="group__input_1ga03d4a1039b8662c71eeb40beea8cb622" kindref="member">glfwGetTime</ref>();</highlight></codeline>
+</programlisting></para>
+<para>It returns the number of seconds since the library was initialized with <ref refid="group__init_1gab41771f0215a2e0afb4cf1cf98082d40" kindref="member">glfwInit</ref>. The platform-specific time sources used typically have micro- or nanosecond resolution.</para>
+<para>You can modify the base time with <ref refid="group__input_1ga94360a3628a09f32708f83cc3fa48590" kindref="member">glfwSetTime</ref>.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1ga94360a3628a09f32708f83cc3fa48590" kindref="member">glfwSetTime</ref>(4.0);</highlight></codeline>
+</programlisting></para>
+<para>This sets the time to the specified time, in seconds, and it continues to count from there.</para>
+<para>You can also access the raw timer used to implement the functions above, with <ref refid="group__input_1gaa00c3e32227eb70b3968fca0bfe4ae26" kindref="member">glfwGetTimerValue</ref>.</para>
+<para><programlisting><codeline><highlight class="normal">uint64_t<sp/><ref refid="classvalue" kindref="compound">value</ref><sp/>=<sp/><ref refid="group__input_1gaa00c3e32227eb70b3968fca0bfe4ae26" kindref="member">glfwGetTimerValue</ref>();</highlight></codeline>
+</programlisting></para>
+<para>This value is in 1<nonbreakablespace/>/<nonbreakablespace/>frequency seconds. The frequency of the raw timer varies depending on the operating system and hardware. You can query the frequency, in Hz, with <ref refid="group__input_1gaa92d10b10013372778efbf6367714371" kindref="member">glfwGetTimerFrequency</ref>.</para>
+<para><programlisting><codeline><highlight class="normal">uint64_t<sp/>frequency<sp/>=<sp/><ref refid="group__input_1gaa92d10b10013372778efbf6367714371" kindref="member">glfwGetTimerFrequency</ref>();</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="input_guide_1clipboard">
+<title>Clipboard input and output</title>
+<para>If the system clipboard contains a UTF-8 encoded string or if it can be converted to one, you can retrieve it with <ref refid="group__input_1ga315b28b05797d00fe7cdf1ecfdc638dc" kindref="member">glfwGetClipboardString</ref>. See the reference documentation for the lifetime of the returned string.</para>
+<para><programlisting><codeline><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>text<sp/>=<sp/><ref refid="group__input_1ga315b28b05797d00fe7cdf1ecfdc638dc" kindref="member">glfwGetClipboardString</ref>(NULL);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(text)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>insert_text(text);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>If the clipboard is empty or if its contents could not be converted, <computeroutput>NULL</computeroutput> is returned.</para>
+<para>The contents of the system clipboard can be set to a UTF-8 encoded string with <ref refid="group__input_1ga7a580309bbc185a0459c3559021d2fd7" kindref="member">glfwSetClipboardString</ref>.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1ga7a580309bbc185a0459c3559021d2fd7" kindref="member">glfwSetClipboardString</ref>(NULL,<sp/></highlight><highlight class="stringliteral">&quot;A<sp/>string<sp/>with<sp/>words<sp/>in<sp/>it&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="input_guide_1path_drop">
+<title>Path drop input</title>
+<para>If you wish to receive the paths of files and/or directories dropped on a window, set a file drop callback.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="group__input_1ga8bab819b7b0ef9bc1a38e58c577c1d13" kindref="member">glfwSetDropCallback</ref>(window,<sp/>drop_callback);</highlight></codeline>
+</programlisting></para>
+<para>The callback function receives an array of paths encoded as UTF-8.</para>
+<para><programlisting><codeline><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>drop_callback(<ref refid="group__window_1ga3c96d80d363e67d13a41b5d1821f3242" kindref="member">GLFWwindow</ref>*<sp/>window,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>paths)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/><sp/>i<sp/>&lt;<sp/>count;<sp/><sp/>i++)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle_dropped_file(paths[i]);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>The path array and its strings are only valid until the file drop callback returns, as they may have been generated specifically for that event. You need to make a deep copy of the array if you want to keep the paths. </para>
+</sect1>
+    </detaileddescription>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/docs/input.dox"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,918 @@
+\hypertarget{gtc__type__precision_8cpp_source}{}\doxysection{gtc\+\_\+type\+\_\+precision.\+cpp}
+\label{gtc__type__precision_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/gtc/gtc\_type\_precision.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/gtc/gtc\_type\_precision.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00001}00001 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{type__precision_8hpp}{glm/gtc/type\_precision.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00002}00002 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{gtc_2quaternion_8hpp}{glm/gtc/quaternion.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00003}00003 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00004}00004 \textcolor{preprocessor}{\#if GLM\_HAS\_OPENMP}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00005}00005 \textcolor{preprocessor}{\#   include <omp.h>}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00008}00008 \textcolor{keyword}{static} \textcolor{keywordtype}{int} test\_scalar\_size()}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00009}00009 \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00010}00010     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00011}00011 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00012}00012     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga96254f9c1c4506fc8eb5cf3301ce8565}{glm::int8}}) != 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00013}00013     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga2945a61d12771f8954994fcddf02b021}{glm::int16}}) != 2;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00014}00014     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{glm::int32}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00015}00015     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga435d75819cce297cc5fa21bd84ef89a5}{glm::int64}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00016}00016     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga1a7dcd8aac97cc8020817c94049deff2}{glm::uint8}}) != 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00017}00017     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{glm::uint16}}) != 2;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00018}00018     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{glm::uint32}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00019}00019     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{glm::uint64}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00020}00020     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga814f2f65354b6588b067cc5c67a6b340}{glm::float32}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00021}00021     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gab721f828b41f46b20cf4883b50733d3b}{glm::float64}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00023}00023     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gaf9e675b6392764242ae87eb179e9d3d6}{glm::lowp\_int8}}) != 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00024}00024     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga71fc0c399fa4780507748b643733f153}{glm::lowp\_int16}}) != 2;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00025}00025     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gad9939c9d6fec1c6accc02a83c6500f08}{glm::lowp\_int32}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00026}00026     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gab8a8e75af347592406e41b3ae2c0712b}{glm::lowp\_int64}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00027}00027     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga4d9dc08b7b248a386dfe9afd00fc6b1e}{glm::lowp\_uint8}}) != 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00028}00028     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga9b8409887319f62f06e664f6ca121b9d}{glm::lowp\_uint16}}) != 2;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00029}00029     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gaf11e85af414720b4cd12bd57b3a81e68}{glm::lowp\_uint32}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00030}00030     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gacf666a9d9b309c4615c7a4f2ab0be289}{glm::lowp\_uint64}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00031}00031     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{fwd_8hpp_a92be8087f3c84504f3a44af1a9efc51e}{glm::lowp\_float32}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00032}00032     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{fwd_8hpp_a32e02689f4e83fb269c9047418536f2c}{glm::lowp\_float64}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00034}00034     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga3ee8faab2278c44c5785af04b7b18a14}{glm::mediump\_int8}}) != 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00035}00035     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga4611997edb6c61606daa11990cf08798}{glm::mediump\_int16}}) != 2;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00036}00036     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga0660a752402702f420f13c686a7fff29}{glm::mediump\_int32}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00037}00037     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga603c695fe5cd677d3f72a81343e19a74}{glm::mediump\_int64}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00038}00038     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gac4b849eaac0543a10f97f4bdda4850a8}{glm::mediump\_uint8}}) != 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00039}00039     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga2cef3a0d7b0fce75c9885f64656d8933}{glm::mediump\_uint16}}) != 2;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00040}00040     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga861dbd1051f488e425b3966001b568e5}{glm::mediump\_uint32}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00041}00041     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga6685788d15d0a973ee7c2460d0456dc1}{glm::mediump\_uint64}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00042}00042     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{fwd_8hpp_a1b5f74cbeed0c9d42cd57d77609be7ee}{glm::mediump\_float32}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00043}00043     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{fwd_8hpp_a9225ae6aed0f90b6eb65bf8d466199c1}{glm::mediump\_float64}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00045}00045     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga57c86999e666760c304453f9bfdc09d1}{glm::highp\_int8}}) != 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00046}00046     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gaf0430ed80e88c0d1dfbe47f359659c81}{glm::highp\_int16}}) != 2;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00047}00047     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gaa2045c92b9553d463191af6a20e997bb}{glm::highp\_int32}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00048}00048     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga7ffb27943e9569800979081bc548621c}{glm::highp\_int64}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00049}00049     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga2c27c6dd26e893786f04b10f99c1ee95}{glm::highp\_uint8}}) != 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00050}00050     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga4d32967d45ba8365e2a05eaaac85e978}{glm::highp\_uint16}}) != 2;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00051}00051     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga3145e44c73e2df7dfe4f3cb65974bf22}{glm::highp\_uint32}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00052}00052     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga8079c653e20cda03d34b99de629a7b09}{glm::highp\_uint64}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00053}00053     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{fwd_8hpp_a91af7513c1102410646f2c435ca29be5}{glm::highp\_float32}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00054}00054     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{fwd_8hpp_ab871a78c548d2fa53e1e8ec64a46eee7}{glm::highp\_float64}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00056}00056     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00057}00057 \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00059}00059 \textcolor{keyword}{static} \textcolor{keywordtype}{int} test\_fvec\_size()}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00060}00060 \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00061}00061     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00062}00062 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00063}00063     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gaeb896022a9c59e8c3c4ce627c66c9262}{glm::f32vec2}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00064}00064     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga4d08db2a75d1e8f85e0edbbd76f18ecf}{glm::f32vec3}}) != 12;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00065}00065     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga03e165a8b1ffe77625530fa335699e06}{glm::f32vec4}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00066}00066     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga6c794781267fd5c810d9a6e7086e02a6}{glm::f64vec2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00067}00067     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga659b65d8792f93da76c2da44f06e0b8b}{glm::f64vec3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00068}00068     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga41fb27973aedd37b7284789f2f997420}{glm::f64vec4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00070}00070     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_f32vec2}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00071}00071     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_f32vec3}}) != 12;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00072}00072     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_f32vec4}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00073}00073     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_f64vec2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00074}00074     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_f64vec3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00075}00075     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_f64vec4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00077}00077     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_f32vec2}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00078}00078     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_f32vec3}}) != 12;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00079}00079     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_f32vec4}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00080}00080     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_f64vec2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00081}00081     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_f64vec3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00082}00082     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_f64vec4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00083}00083 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00084}00084     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_f32vec2}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00085}00085     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_f32vec3}}) != 12;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00086}00086     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_f32vec4}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00087}00087     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_f64vec2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00088}00088     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_f64vec3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00089}00089     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_f64vec4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00091}00091     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00092}00092 \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00093}00093 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00094}00094 \textcolor{keyword}{static} \textcolor{keywordtype}{int} test\_fvec\_precision()}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00095}00095 \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00096}00096     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00097}00097 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00098}00098 \textcolor{comment}{    \{}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00099}00099 \textcolor{comment}{        glm::f32vec2 v1;}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00100}00100 \textcolor{comment}{        glm::lowp\_f32vec2 v2((glm::f32vec2(v1)));}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00101}00101 \textcolor{comment}{        glm::mediump\_f32vec2 v3((glm::f32vec2(v1)));}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00102}00102 \textcolor{comment}{        glm::highp\_f32vec2 v4((glm::f32vec2(v1)));}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00103}00103 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00104}00104 \textcolor{comment}{        Error += glm::all(glm::equal(v1, v2)) ? 0 : 1;}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00105}00105 \textcolor{comment}{        Error += glm::all(glm::equal(v1, v3)) ? 0 : 1;}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00106}00106 \textcolor{comment}{        Error += glm::all(glm::equal(v1, v4)) ? 0 : 1;}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00107}00107 \textcolor{comment}{    \}}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00108}00108 \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00109}00109     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00110}00110         \mbox{\hyperlink{structglm_1_1vec}{glm::f32vec2}} v1(1.f);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00111}00111         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_f32vec2}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00112}00112         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_f32vec2}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00113}00113         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_f32vec2}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00115}00115         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f32vec2}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00116}00116         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f32vec2}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00117}00117         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f32vec2}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00118}00118     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00120}00120     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00121}00121         \mbox{\hyperlink{structglm_1_1vec}{glm::f32vec3}} v1(1.f);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00122}00122         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_f32vec3}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00123}00123         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_f32vec3}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00124}00124         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_f32vec3}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00126}00126         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f32vec3}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00127}00127         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f32vec3}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00128}00128         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f32vec3}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00129}00129     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00130}00130     }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00131}00131     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00132}00132         \mbox{\hyperlink{structglm_1_1vec}{glm::f32vec4}} v1(1.f);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00133}00133         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_f32vec4}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00134}00134         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_f32vec4}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00135}00135         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_f32vec4}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00136}00136 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00137}00137         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f32vec4}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00138}00138         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f32vec4}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00139}00139         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f32vec4}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00140}00140     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00141}00141     }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00142}00142     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00143}00143 \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00144}00144 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00145}00145 \textcolor{keyword}{static} \textcolor{keywordtype}{int} test\_dvec\_precision()}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00146}00146 \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00147}00147     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00148}00148 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00149}00149     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00150}00150         \mbox{\hyperlink{structglm_1_1vec}{glm::f64vec2}} v1(1.0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00151}00151         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_f64vec2}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00152}00152         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_f64vec2}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00153}00153         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_f64vec2}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00154}00154 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00155}00155         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f64vec2}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00156}00156         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f64vec2}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00157}00157         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f64vec2}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00158}00158     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00159}00159 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00160}00160     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00161}00161         \mbox{\hyperlink{structglm_1_1vec}{glm::f64vec3}} v1(1.0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00162}00162         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_f64vec3}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00163}00163         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_f64vec3}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00164}00164         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_f64vec3}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00165}00165 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00166}00166         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f64vec3}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00167}00167         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f64vec3}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00168}00168         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f64vec3}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00169}00169     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00170}00170 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00171}00171     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00172}00172         \mbox{\hyperlink{structglm_1_1vec}{glm::f64vec4}} v1(1.0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00173}00173         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_f64vec4}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00174}00174         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_f64vec4}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00175}00175         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_f64vec4}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00176}00176 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00177}00177         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f64vec4}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00178}00178         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f64vec4}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00179}00179         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::f64vec4}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00180}00180     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00181}00181 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00182}00182     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00183}00183 \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00184}00184 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00185}00185 \textcolor{keyword}{static} \textcolor{keywordtype}{int} test\_ivec\_size()}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00186}00186 \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00187}00187     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00188}00188 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00189}00189     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gade57e4b55fe2b2345a4f2ac2b149cd32}{glm::i8vec2}}) != 2;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00190}00190     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga9babb834daa1f84c23821bd21669c2e8}{glm::i8vec3}}) != 3;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00191}00191     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gaaad99cfb998ddcb74e9c33d0149fdd0e}{glm::i8vec4}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00192}00192     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gad912fd04abb876a5b806118ec6e0f283}{glm::i16vec2}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00193}00193     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga1f2b1dd6e4d9109be5f4433c8ff38cb8}{glm::i16vec3}}) != 6;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00194}00194     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga99a249a4cc129cb527c48d3afd38b666}{glm::i16vec4}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00195}00195     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga99191e0de942ecc1df32d522f8064789}{glm::i32vec2}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00196}00196     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga9811a4ec26e517ea85c785d3f3f4baac}{glm::i32vec3}}) != 12;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00197}00197     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga78c16dde5527264e8085b375efba6f28}{glm::i32vec4}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00198}00198     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga8654a1b3a6f81677f53eec13f8dd4224}{glm::i64vec2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00199}00199     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gad7aa290b2d88847999c1305ed5c82669}{glm::i64vec3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00200}00200     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga77db970d924dd55ac93e00391ad4a10e}{glm::i64vec4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00201}00201 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00202}00202     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i8vec2}}) != 2;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00203}00203     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i8vec3}}) != 3;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00204}00204     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i8vec4}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00205}00205     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i16vec2}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00206}00206     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i16vec3}}) != 6;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00207}00207     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i16vec4}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00208}00208     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i32vec2}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00209}00209     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i32vec3}}) != 12;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00210}00210     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i32vec4}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00211}00211     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i64vec2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00212}00212     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i64vec3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00213}00213     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i64vec4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00214}00214 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00215}00215     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i8vec2}}) != 2;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00216}00216     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i8vec3}}) != 3;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00217}00217     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i8vec4}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00218}00218     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i16vec2}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00219}00219     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i16vec3}}) != 6;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00220}00220     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i16vec4}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00221}00221     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i32vec2}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00222}00222     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i32vec3}}) != 12;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00223}00223     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i32vec4}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00224}00224     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i64vec2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00225}00225     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i64vec3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00226}00226     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i64vec4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00227}00227 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00228}00228     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i8vec2}}) != 2;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00229}00229     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i8vec3}}) != 3;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00230}00230     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i8vec4}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00231}00231     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i16vec2}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00232}00232     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i16vec3}}) != 6;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00233}00233     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i16vec4}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00234}00234     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i32vec2}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00235}00235     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i32vec3}}) != 12;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00236}00236     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i32vec4}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00237}00237     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i64vec2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00238}00238     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i64vec3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00239}00239     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i64vec4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00240}00240 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00241}00241     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00242}00242 \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00243}00243 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00244}00244 \textcolor{keyword}{static} \textcolor{keywordtype}{int} test\_ivec\_precision()}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00245}00245 \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00246}00246     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00247}00247 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00248}00248     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00249}00249         \mbox{\hyperlink{structglm_1_1vec}{glm::i8vec2}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00250}00250         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i8vec2}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00251}00251         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i8vec2}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00252}00252         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i8vec2}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00253}00253 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00254}00254         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i8vec2}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00255}00255         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i8vec2}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00256}00256         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i8vec2}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00257}00257     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00258}00258 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00259}00259     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00260}00260         \mbox{\hyperlink{structglm_1_1vec}{glm::i8vec3}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00261}00261         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i8vec3}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00262}00262         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i8vec3}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00263}00263         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i8vec3}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00264}00264 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00265}00265         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i8vec3}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00266}00266         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i8vec3}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00267}00267         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i8vec3}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00268}00268     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00269}00269 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00270}00270     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00271}00271         \mbox{\hyperlink{structglm_1_1vec}{glm::i8vec4}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00272}00272         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i8vec4}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00273}00273         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i8vec4}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00274}00274         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i8vec4}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00275}00275 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00276}00276         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i8vec4}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00277}00277         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i8vec4}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00278}00278         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i8vec4}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00279}00279     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00280}00280 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00281}00281     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00282}00282         \mbox{\hyperlink{structglm_1_1vec}{glm::i16vec2}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00283}00283         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i16vec2}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00284}00284         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i16vec2}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00285}00285         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i16vec2}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00286}00286 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00287}00287         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i16vec2}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00288}00288         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i16vec2}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00289}00289         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i16vec2}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00290}00290     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00291}00291 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00292}00292     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00293}00293         \mbox{\hyperlink{structglm_1_1vec}{glm::i16vec3}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00294}00294         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i16vec3}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00295}00295         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i16vec3}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00296}00296         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i16vec3}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00297}00297 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00298}00298         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i16vec3}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00299}00299         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i16vec3}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00300}00300         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i16vec3}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00301}00301     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00302}00302 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00303}00303     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00304}00304         \mbox{\hyperlink{structglm_1_1vec}{glm::i16vec4}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00305}00305         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i16vec4}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00306}00306         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i16vec4}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00307}00307         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i16vec4}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00308}00308 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00309}00309         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i16vec4}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00310}00310         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i16vec4}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00311}00311         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i16vec4}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00312}00312     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00313}00313 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00314}00314     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00315}00315         \mbox{\hyperlink{structglm_1_1vec}{glm::i32vec2}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00316}00316         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i32vec2}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00317}00317         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i32vec2}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00318}00318         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i32vec2}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00319}00319 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00320}00320         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i32vec2}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00321}00321         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i32vec2}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00322}00322         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i32vec2}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00323}00323     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00324}00324 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00325}00325     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00326}00326         \mbox{\hyperlink{structglm_1_1vec}{glm::i32vec3}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00327}00327         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i32vec3}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00328}00328         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i32vec3}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00329}00329         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i32vec3}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00330}00330 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00331}00331         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i32vec3}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00332}00332         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i32vec3}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00333}00333         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i32vec3}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00334}00334     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00335}00335 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00336}00336     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00337}00337         \mbox{\hyperlink{structglm_1_1vec}{glm::i32vec4}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00338}00338         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i32vec4}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00339}00339         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i32vec4}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00340}00340         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i32vec4}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00341}00341 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00342}00342         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i32vec4}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00343}00343         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i32vec4}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00344}00344         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i32vec4}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00345}00345     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00346}00346 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00347}00347     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00348}00348         \mbox{\hyperlink{structglm_1_1vec}{glm::i64vec2}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00349}00349         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i64vec2}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00350}00350         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i64vec2}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00351}00351         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i64vec2}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00352}00352 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00353}00353         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i64vec2}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00354}00354         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i64vec2}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00355}00355         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i64vec2}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00356}00356     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00357}00357 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00358}00358     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00359}00359         \mbox{\hyperlink{structglm_1_1vec}{glm::i64vec3}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00360}00360         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i64vec3}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00361}00361         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i64vec3}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00362}00362         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i64vec3}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00363}00363 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00364}00364         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i64vec3}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00365}00365         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i64vec3}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00366}00366         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i64vec3}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00367}00367     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00368}00368 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00369}00369     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00370}00370         \mbox{\hyperlink{structglm_1_1vec}{glm::i64vec4}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00371}00371         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_i64vec4}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00372}00372         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_i64vec4}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00373}00373         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_i64vec4}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00374}00374 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00375}00375         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i64vec4}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00376}00376         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i64vec4}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00377}00377         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::i64vec4}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00378}00378     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00379}00379 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00380}00380     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00381}00381 \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00382}00382 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00383}00383 \textcolor{keyword}{static} \textcolor{keywordtype}{int} test\_uvec\_size()}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00384}00384 \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00385}00385     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00386}00386 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00387}00387     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga01e28d0272428f94d22ea6111f0112be}{glm::u8vec2}}) != 2;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00388}00388     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gaa86b325e581afdc643495fbe428c1f1b}{glm::u8vec3}}) != 3;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00389}00389     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga6c8841fa492bd5b1078b171452fd6974}{glm::u8vec4}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00390}00390     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga50bd2ceeb100a187e7c46f135269a0ec}{glm::u16vec2}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00391}00391     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gad60f14d1abd39b480cbe5c5cf848071a}{glm::u16vec3}}) != 6;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00392}00392     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga049d45ad8d0f78578d7ceb86a7fdaae4}{glm::u16vec4}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00393}00393     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gad854a1005ce84d8f6e8f05e42893f5c9}{glm::u32vec2}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00394}00394     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga342e504c37b635393e6747b85147151f}{glm::u32vec3}}) != 12;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00395}00395     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gad3f72b91c5b7efbc377625c44433824d}{glm::u32vec4}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00396}00396     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga989179a9ae798526e8bac59fb21678b7}{glm::u64vec2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00397}00397     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga2d3e22f2413f79536d5cf3561949cd53}{glm::u64vec3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00398}00398     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga70396c4f422824503c870db50b3059fd}{glm::u64vec4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00399}00399 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00400}00400     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u8vec2}}) != 2;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00401}00401     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u8vec3}}) != 3;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00402}00402     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u8vec4}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00403}00403     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u16vec2}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00404}00404     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u16vec3}}) != 6;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00405}00405     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u16vec4}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00406}00406     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u32vec2}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00407}00407     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u32vec3}}) != 12;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00408}00408     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u32vec4}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00409}00409     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u64vec2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00410}00410     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u64vec3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00411}00411     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u64vec4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00412}00412 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00413}00413     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u8vec2}}) != 2;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00414}00414     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u8vec3}}) != 3;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00415}00415     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u8vec4}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00416}00416     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u16vec2}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00417}00417     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u16vec3}}) != 6;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00418}00418     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u16vec4}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00419}00419     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u32vec2}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00420}00420     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u32vec3}}) != 12;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00421}00421     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u32vec4}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00422}00422     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u64vec2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00423}00423     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u64vec3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00424}00424     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u64vec4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00425}00425 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00426}00426     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u8vec2}}) != 2;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00427}00427     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u8vec3}}) != 3;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00428}00428     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u8vec4}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00429}00429     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u16vec2}}) != 4;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00430}00430     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u16vec3}}) != 6;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00431}00431     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u16vec4}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00432}00432     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u32vec2}}) != 8;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00433}00433     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u32vec3}}) != 12;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00434}00434     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u32vec4}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00435}00435     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u64vec2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00436}00436     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u64vec3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00437}00437     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u64vec4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00438}00438 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00439}00439     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00440}00440 \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00441}00441 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00442}00442 \textcolor{keyword}{static} \textcolor{keywordtype}{int} test\_uvec\_precision()}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00443}00443 \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00444}00444     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00445}00445 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00446}00446     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00447}00447         \mbox{\hyperlink{structglm_1_1vec}{glm::u8vec2}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00448}00448         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u8vec2}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00449}00449         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u8vec2}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00450}00450         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u8vec2}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00451}00451 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00452}00452         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u8vec2}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00453}00453         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u8vec2}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00454}00454         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u8vec2}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00455}00455     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00456}00456 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00457}00457     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00458}00458         \mbox{\hyperlink{structglm_1_1vec}{glm::u8vec3}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00459}00459         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u8vec3}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00460}00460         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u8vec3}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00461}00461         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u8vec3}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00462}00462 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00463}00463         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u8vec3}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00464}00464         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u8vec3}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00465}00465         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u8vec3}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00466}00466     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00467}00467     }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00468}00468     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00469}00469         \mbox{\hyperlink{structglm_1_1vec}{glm::u8vec4}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00470}00470         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u8vec4}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00471}00471         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u8vec4}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00472}00472         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u8vec4}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00473}00473 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00474}00474         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u8vec4}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00475}00475         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u8vec4}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00476}00476         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u8vec4}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00477}00477     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00478}00478 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00479}00479     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00480}00480         \mbox{\hyperlink{structglm_1_1vec}{glm::u16vec2}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00481}00481         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u16vec2}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00482}00482         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u16vec2}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00483}00483         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u16vec2}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00484}00484 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00485}00485         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u16vec2}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00486}00486         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u16vec2}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00487}00487         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u16vec2}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00488}00488     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00489}00489 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00490}00490     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00491}00491         \mbox{\hyperlink{structglm_1_1vec}{glm::u16vec3}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00492}00492         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u16vec3}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00493}00493         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u16vec3}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00494}00494         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u16vec3}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00495}00495 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00496}00496         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u16vec3}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00497}00497         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u16vec3}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00498}00498         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u16vec3}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00499}00499     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00500}00500     }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00501}00501     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00502}00502         \mbox{\hyperlink{structglm_1_1vec}{glm::u16vec4}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00503}00503         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u16vec4}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00504}00504         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u16vec4}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00505}00505         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u16vec4}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00506}00506 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00507}00507         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u16vec4}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00508}00508         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u16vec4}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00509}00509         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u16vec4}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00510}00510     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00511}00511 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00512}00512     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00513}00513         \mbox{\hyperlink{structglm_1_1vec}{glm::u32vec2}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00514}00514         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u32vec2}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00515}00515         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u32vec2}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00516}00516         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u32vec2}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00517}00517 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00518}00518         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u32vec2}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00519}00519         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u32vec2}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00520}00520         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u32vec2}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00521}00521     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00522}00522 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00523}00523     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00524}00524         \mbox{\hyperlink{structglm_1_1vec}{glm::u32vec3}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00525}00525         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u32vec3}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00526}00526         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u32vec3}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00527}00527         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u32vec3}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00528}00528 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00529}00529         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u32vec3}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00530}00530         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u32vec3}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00531}00531         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u32vec3}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00532}00532     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00533}00533     }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00534}00534     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00535}00535         \mbox{\hyperlink{structglm_1_1vec}{glm::u32vec4}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00536}00536         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u32vec4}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00537}00537         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u32vec4}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00538}00538         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u32vec4}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00539}00539 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00540}00540         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u32vec4}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00541}00541         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u32vec4}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00542}00542         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u32vec4}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00543}00543     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00544}00544     }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00545}00545     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00546}00546         \mbox{\hyperlink{structglm_1_1vec}{glm::u64vec2}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00547}00547         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u64vec2}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00548}00548         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u64vec2}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00549}00549         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u64vec2}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00550}00550 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00551}00551         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u64vec2}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00552}00552         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u64vec2}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00553}00553         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u64vec2}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00554}00554     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00555}00555 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00556}00556     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00557}00557         \mbox{\hyperlink{structglm_1_1vec}{glm::u64vec3}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00558}00558         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u64vec3}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00559}00559         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u64vec3}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00560}00560         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u64vec3}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00561}00561 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00562}00562         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u64vec3}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00563}00563         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u64vec3}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00564}00564         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u64vec3}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00565}00565     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00566}00566     }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00567}00567     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00568}00568         \mbox{\hyperlink{structglm_1_1vec}{glm::u64vec4}} v1(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00569}00569         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_u64vec4}} v2(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00570}00570         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_u64vec4}} v3(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00571}00571         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_u64vec4}} v4(v1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00572}00572 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00573}00573         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u64vec4}}(v2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00574}00574         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u64vec4}}(v3))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00575}00575         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::u64vec4}}(v4))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00576}00576     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00577}00577     }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00578}00578     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00579}00579 \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00580}00580 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00581}00581 \textcolor{keyword}{static} \textcolor{keywordtype}{int} test\_fmat\_size()}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00582}00582 \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00583}00583     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00584}00584 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00585}00585     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__types_ga8357ec0aab6f8cf69313592492663c3f}{glm::mat2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00586}00586     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__types_gadfaff2a7dce5cbf4e77a47ecea42ac5b}{glm::mat3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00587}00587     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__types_ga7dcd2365c2e368e6af5b7adeb6a9c8df}{glm::mat4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00588}00588     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__types_gaeddc14adb4963d9bad73866cc202fb40}{glm::mat2x2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00589}00589     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__types_gaea02797b8231f6dd9380345f6ff12155}{glm::mat2x3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00590}00590     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__types_gaa9bfb36efaf88ecad32369ec8a01d901}{glm::mat2x4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00591}00591     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__types_gad7476e0e866186f12ee87975c6b01552}{glm::mat3x2}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00592}00592     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__types_ga6fecca6a869070b6bf8acb44ce1c2af3}{glm::mat3x3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00593}00593     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__types_ga5524ae15d7fc00a68b8e0e3a0733cc2a}{glm::mat3x4}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00594}00594     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__types_ga72cf8ec4f4cda85943f4683531e421bc}{glm::mat4x2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00595}00595     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__types_gad3f3f750dcdc74a9037342c5cae55f5e}{glm::mat4x3}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00596}00596     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__types_ga63e3ee9447ed593484140a9368e738ec}{glm::mat4x4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00597}00597 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00598}00598     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga687a2fb53c536086879726d0c0f88a8b}{glm::fmat2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00599}00599     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga5d1e667b4d603704203af21ff6dbe4e5}{glm::fmat3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00600}00600     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga96345dda8e140bf8511b3e53128c0196}{glm::fmat4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00601}00601     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gad3b3ab6399b8b960e8994b37521bab86}{glm::fmat2x2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00602}00602     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga872da486765a299d84e9e8e6232ed306}{glm::fmat2x3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00603}00603     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gabaf7537f5284456254b1da1cd6fd2b78}{glm::fmat2x4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00604}00604     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gaed9c8fe9d2e094bf3bc7c606bbae1a6b}{glm::fmat3x2}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00605}00605     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga5bf6f06e3cac1ed82489f858a0816aaa}{glm::fmat3x3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00606}00606     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gab2daf8468a8b9343c065816df07e29fe}{glm::fmat3x4}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00607}00607     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga279cf309f0098c3d26ce88fe8a26375a}{glm::fmat4x2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00608}00608     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga0ab797a258612fe48345951a0bdd6b8c}{glm::fmat4x3}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00609}00609     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gaeda4baa9a8e3113ff879dd5e7bdf5334}{glm::fmat4x4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00610}00610 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00611}00611     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gace6703eef94c05b9985f85759fb113fa}{glm::f32mat2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00612}00612     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gaf4cf4ab937cf94a202e7decd85cf1e6d}{glm::f32mat3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00613}00613     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga4f0717d91e376ba76e675324dbe21576}{glm::f32mat4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00614}00614     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga3c0ffd3a47ae47ff05d5ea6e90825caa}{glm::f32mat2x2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00615}00615     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga1f5a1129669d427f5fbc5f02ff52c366}{glm::f32mat2x3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00616}00616     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga56deb277c1d5c1f42a80982372b4ed6c}{glm::f32mat2x4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00617}00617     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga924b933089d954df062aa8d0735fc005}{glm::f32mat3x2}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00618}00618     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga177c076d6d9aea27a5ae87b52607e57a}{glm::f32mat3x3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00619}00619     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga8459d79e94eb107e31f0ee600e9bae3f}{glm::f32mat3x4}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00620}00620     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gab0498cc84bb77002f41630e3cd0be87b}{glm::f32mat4x2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00621}00621     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga74544c9bd76adba0e7767b6b2a574d0f}{glm::f32mat4x3}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00622}00622     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga2ba95a5c37eef05b26ac10e03daa5c84}{glm::f32mat4x4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00623}00623 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00624}00624 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00625}00625     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga786e43e2a310fa4bddba3e41b786aa82}{glm::lowp\_mat2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00626}00626     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga8845e8da3db051cd798abc644850c6c2}{glm::lowp\_mat3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00627}00627     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga692c14e84ad690b182373bec9fdf1ab9}{glm::lowp\_mat4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00628}00628     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_gaab9064a0fd0e3ac8d4ae8ceb2dc4fe56}{glm::lowp\_mat2x2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00629}00629     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_gafb73af64c7fb56c398efec50b5cb5108}{glm::lowp\_mat2x3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00630}00630     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga674d889016f44d1084ec467c73df8434}{glm::lowp\_mat2x4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00631}00631     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga90265674cd36951273e63c70689d9a86}{glm::lowp\_mat3x2}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00632}00632     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga6880ce658287c90c081aa60fa1f6f0a5}{glm::lowp\_mat3x3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00633}00633     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga9340ce338f4e973abeccf7309281ef31}{glm::lowp\_mat3x4}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00634}00634     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_gacd6c35b61e9de6ad39767ea58660a602}{glm::lowp\_mat4x2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00635}00635     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga23926fa6809eae2c18451a1a7b4dd6a8}{glm::lowp\_mat4x3}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00636}00636     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_gaf8957db9f94a9c01a63db849da81bea0}{glm::lowp\_mat4x4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00637}00637 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00638}00638     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_fmat2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00639}00639     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_fmat3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00640}00640     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_fmat4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00641}00641     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_fmat2x2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00642}00642     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_fmat2x3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00643}00643     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_fmat2x4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00644}00644     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_fmat3x2}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00645}00645     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_fmat3x3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00646}00646     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_fmat3x4}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00647}00647     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_fmat4x2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00648}00648     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_fmat4x3}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00649}00649     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_fmat4x4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00650}00650 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00651}00651     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f32mat2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00652}00652     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f32mat3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00653}00653     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f32mat4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00654}00654     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f32mat2x2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00655}00655     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f32mat2x3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00656}00656     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f32mat2x4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00657}00657     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f32mat3x2}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00658}00658     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f32mat3x3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00659}00659     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f32mat3x4}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00660}00660     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f32mat4x2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00661}00661     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f32mat4x3}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00662}00662     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f32mat4x4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00663}00663 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00664}00664     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga698131fdb127cb55e8b70cc1b2c4ff67}{glm::mediump\_mat2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00665}00665     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga718616ee458f17e2525641b94975c184}{glm::mediump\_mat3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00666}00666     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga0987ea03f27d035ebd79fd71ca394be1}{glm::mediump\_mat4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00667}00667     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_gaa7581ec892b01e6ba19c4fdbc7c60df4}{glm::mediump\_mat2x2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00668}00668     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_gae5003c3cea9aa152bf452223b7fd0fd5}{glm::mediump\_mat2x3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00669}00669     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga9778942a37cd364cc4129cbf423df429}{glm::mediump\_mat2x4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00670}00670     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga1215c51719dd5e01efb27ff525e431fb}{glm::mediump\_mat3x2}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00671}00671     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga774bbcb2f667fc0a91add50e55d8ac04}{glm::mediump\_mat3x3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00672}00672     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga61dd8c2c7fd60c1343a6b3aca7f86c25}{glm::mediump\_mat3x4}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00673}00673     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_gaf0c9bd4c952160fa6f63ae8ab243beea}{glm::mediump\_mat4x2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00674}00674     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga2d5eb7a43e7564b4e048512b8488994a}{glm::mediump\_mat4x3}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00675}00675     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga80dd7aaae2879e86a588c36a39652ee4}{glm::mediump\_mat4x4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00676}00676 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00677}00677     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_fmat2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00678}00678     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_fmat3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00679}00679     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_fmat4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00680}00680     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_fmat2x2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00681}00681     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_fmat2x3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00682}00682     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_fmat2x4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00683}00683     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_fmat3x2}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00684}00684     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_fmat3x3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00685}00685     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_fmat3x4}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00686}00686     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_fmat4x2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00687}00687     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_fmat4x3}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00688}00688     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_fmat4x4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00689}00689 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00690}00690     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f32mat2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00691}00691     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f32mat3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00692}00692     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f32mat4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00693}00693     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f32mat2x2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00694}00694     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f32mat2x3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00695}00695     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f32mat2x4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00696}00696     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f32mat3x2}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00697}00697     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f32mat3x3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00698}00698     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f32mat3x4}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00699}00699     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f32mat4x2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00700}00700     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f32mat4x3}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00701}00701     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f32mat4x4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00702}00702 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00703}00703     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_gae7066dac53a008363d6faeabf46ccb03}{glm::highp\_mat2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00704}00704     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_gaa1178bd043ab93d1207bda8d06cd078c}{glm::highp\_mat3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00705}00705     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_gab46132805773d55f00fce859bc71e799}{glm::highp\_mat4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00706}00706     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_gacdb012ddb9e783ed51b0ee009bf0d822}{glm::highp\_mat2x2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00707}00707     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga9d61903aea75d6932829cd049f2e622a}{glm::highp\_mat2x3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00708}00708     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga4ad5980b248b3d4dcf014db8fa4495cf}{glm::highp\_mat2x4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00709}00709     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga2188c0b772ac9d6210d46af34e04f375}{glm::highp\_mat3x2}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00710}00710     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga83105b0c326393a133a43c426aae2a9c}{glm::highp\_mat3x3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00711}00711     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga201566a8dbec6e27bec9e8e96ed4cdb6}{glm::highp\_mat3x4}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00712}00712     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga0355949c79024224f7e9cfa06bc82153}{glm::highp\_mat4x2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00713}00713     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga20620a62fd7d4e020e772c4d258cf2e4}{glm::highp\_mat4x3}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00714}00714     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga93c7db376e7b0bd24ef4947667468c9a}{glm::highp\_mat4x4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00715}00715 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00716}00716     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_fmat2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00717}00717     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_fmat3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00718}00718     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_fmat4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00719}00719     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_fmat2x2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00720}00720     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_fmat2x3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00721}00721     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_fmat2x4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00722}00722     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_fmat3x2}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00723}00723     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_fmat3x3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00724}00724     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_fmat3x4}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00725}00725     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_fmat4x2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00726}00726     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_fmat4x3}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00727}00727     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_fmat4x4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00728}00728 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00729}00729     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f32mat2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00730}00730     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f32mat3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00731}00731     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f32mat4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00732}00732     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f32mat2x2}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00733}00733     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f32mat2x3}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00734}00734     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f32mat2x4}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00735}00735     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f32mat3x2}}) != 24;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00736}00736     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f32mat3x3}}) != 36;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00737}00737     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f32mat3x4}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00738}00738     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f32mat4x2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00739}00739     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f32mat4x3}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00740}00740     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f32mat4x4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00741}00741 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00742}00742     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00743}00743 \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00744}00744 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00745}00745 \textcolor{keyword}{static} \textcolor{keywordtype}{int} test\_dmat\_size()}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00746}00746 \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00747}00747     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00748}00748 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00749}00749     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga477d3143dab8df258829c0eaf3067770}{glm::f64mat2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00750}00750     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga44a41778554076393a2c59a98fe5128e}{glm::f64mat3}}) != 72;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00751}00751     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga9dfc41169318c3a9ca532e087c7641e9}{glm::f64mat4}}) != 128;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00752}00752     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gae18de078e2885803ceda215c6e04a08a}{glm::f64mat2x2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00753}00753     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga7816d266eaf216e384c3c6d1e570b9f3}{glm::f64mat2x3}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00754}00754     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gae075a2083e1801ada5c99c91f79eb6ed}{glm::f64mat2x4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00755}00755     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga311a3bf48bfe2c95150e9f71db9063c5}{glm::f64mat3x2}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00756}00756     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga3b494201796c4200886e59f9695ecff0}{glm::f64mat3x3}}) != 72;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00757}00757     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gaddb7f46e5a007c31348305de542e0d52}{glm::f64mat3x4}}) != 96;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00758}00758     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga704001c2ed5838498ff61f55995fed3a}{glm::f64mat4x2}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00759}00759     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gaf9b2bfbb2c79a39c693e2ab2bedf30e5}{glm::f64mat4x3}}) != 96;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00760}00760     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga5fc21633b1546e4599609c47b4c8dac4}{glm::f64mat4x4}}) != 128;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00761}00761 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00762}00762     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f64mat2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00763}00763     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f64mat3}}) != 72;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00764}00764     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f64mat4}}) != 128;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00765}00765     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f64mat2x2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00766}00766     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f64mat2x3}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00767}00767     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f64mat2x4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00768}00768     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f64mat3x2}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00769}00769     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f64mat3x3}}) != 72;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00770}00770     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f64mat3x4}}) != 96;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00771}00771     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f64mat4x2}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00772}00772     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f64mat4x3}}) != 96;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00773}00773     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::lowp\_f64mat4x4}}) != 128;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00774}00774 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00775}00775     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f64mat2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00776}00776     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f64mat3}}) != 72;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00777}00777     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f64mat4}}) != 128;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00778}00778     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f64mat2x2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00779}00779     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f64mat2x3}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00780}00780     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f64mat2x4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00781}00781     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f64mat3x2}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00782}00782     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f64mat3x3}}) != 72;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00783}00783     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f64mat3x4}}) != 96;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00784}00784     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f64mat4x2}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00785}00785     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f64mat4x3}}) != 96;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00786}00786     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::mediump\_f64mat4x4}}) != 128;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00787}00787 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00788}00788     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f64mat2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00789}00789     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f64mat3}}) != 72;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00790}00790     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f64mat4}}) != 128;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00791}00791     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f64mat2x2}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00792}00792     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f64mat2x3}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00793}00793     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f64mat2x4}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00794}00794     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f64mat3x2}}) != 48;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00795}00795     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f64mat3x3}}) != 72;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00796}00796     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f64mat3x4}}) != 96;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00797}00797     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f64mat4x2}}) != 64;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00798}00798     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f64mat4x3}}) != 96;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00799}00799     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1mat}{glm::highp\_f64mat4x4}}) != 128;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00800}00800 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00801}00801     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00802}00802 \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00803}00803 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00804}00804 \textcolor{keyword}{static} \textcolor{keywordtype}{int} test\_quat\_size()}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00805}00805 \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00806}00806     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00807}00807 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00808}00808     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_gac59c4d798396552e4bbb866b3d8a2f18}{glm::f32quat}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00809}00809     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga5b54d7b36fbee5e271f73e6ed74e7172}{glm::f64quat}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00810}00810 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00811}00811     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1tquat}{glm::lowp\_f32quat}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00812}00812     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1tquat}{glm::lowp\_f64quat}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00813}00813 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00814}00814     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1tquat}{glm::mediump\_f32quat}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00815}00815     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1tquat}{glm::mediump\_f64quat}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00816}00816 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00817}00817     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1tquat}{glm::highp\_f32quat}}) != 16;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00818}00818     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1tquat}{glm::highp\_f64quat}}) != 32;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00819}00819 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00820}00820     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00821}00821 \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00822}00822 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00823}00823 \textcolor{keyword}{static} \textcolor{keywordtype}{int} test\_quat\_precision()}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00824}00824 \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00825}00825     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00826}00826     }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00827}00827     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00828}00828         \mbox{\hyperlink{structglm_1_1tquat}{glm::f32quat}} q1(0.f, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0.f, 0.f, 1.f));}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00829}00829         \mbox{\hyperlink{structglm_1_1tquat}{glm::lowp\_f32quat}} qA(q1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00830}00830         \mbox{\hyperlink{structglm_1_1tquat}{glm::mediump\_f32quat}} qB(q1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00831}00831         \mbox{\hyperlink{structglm_1_1tquat}{glm::highp\_f32quat}} qC(q1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00832}00832         \mbox{\hyperlink{structglm_1_1tquat}{glm::f32quat}} q2(qA);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00833}00833         \mbox{\hyperlink{structglm_1_1tquat}{glm::f32quat}} q3(qB);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00834}00834         \mbox{\hyperlink{structglm_1_1tquat}{glm::f32quat}} q4(qC);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00835}00835         }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00836}00836         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(q1, q2)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00837}00837         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(q1, q3)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00838}00838         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(q1, q4)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00839}00839     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00840}00840 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00841}00841     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00842}00842 \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00843}00843 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00844}00844 \textcolor{keyword}{static} \textcolor{keywordtype}{int} test\_fvec\_conversion()}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00845}00845 \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00846}00846     \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00847}00847 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00848}00848     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00849}00849         \mbox{\hyperlink{structglm_1_1vec}{glm::highp\_vec4}} a = \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1, 2, 3, 4);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00850}00850         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_vec4}} b = \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1, 2, 3, 4);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00851}00851         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_vec4}} c = b;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00852}00852         \mbox{\hyperlink{structglm_1_1vec}{glm::mediump\_vec4}} d = c;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00853}00853         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_ivec4}} \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}} = \mbox{\hyperlink{group__core__types_gaa4560ddc50320ea8f8a70d5c9c249fea}{glm::ivec4}}(d);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00854}00854         \mbox{\hyperlink{structglm_1_1vec}{glm::lowp\_ivec3}} f = \mbox{\hyperlink{group__core__types_ga6e12a4ca00d696f07da1df4eb73e0fe8}{glm::ivec3}}(\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}});}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00855}00855 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00856}00856         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(b, d)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00857}00857     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00858}00858 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00859}00859     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00860}00860 \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00861}00861 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00862}00862 \textcolor{preprocessor}{\#if GLM\_HAS\_OPENMP}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00863}00863 \textcolor{keyword}{static} \textcolor{keywordtype}{int} test\_openmp()}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00864}00864 \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00865}00865     std::vector<glm::u8vec3> VectorA(1000);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00866}00866     std::vector<glm::u8vec3> VectorB(1000);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00867}00867     std::vector<glm::u8vec3> VectorC(1000);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00868}00868 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00869}00869     \textcolor{keywordflow}{for} (std::size\_t i = 0; i < VectorA.size(); ++i)}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00870}00870     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00871}00871         VectorA[i] = \mbox{\hyperlink{group__gtc__type__precision_gaa86b325e581afdc643495fbe428c1f1b}{glm::u8vec3}}(1, 1, 1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00872}00872         VectorB[i] = \mbox{\hyperlink{group__gtc__type__precision_gaa86b325e581afdc643495fbe428c1f1b}{glm::u8vec3}}(1, 1, 1);}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00873}00873     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00874}00874 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00875}00875 \textcolor{preprocessor}{    \#pragma omp parallel for default(none) shared(VectorA, VectorB, VectorC)}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00876}00876     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < static\_cast<int>(VectorC.size()); ++i)}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00877}00877     \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00878}00878         VectorC[i] = VectorA[i] + VectorB[i];}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00879}00879     \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00880}00880 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00881}00881     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00882}00882 \}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00883}00883 \textcolor{preprocessor}{\#endif}\textcolor{comment}{//GLM\_HAS\_OPENMP}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00884}00884 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00885}00885 \textcolor{keywordtype}{int} main()}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00886}00886 \{}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00887}00887     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00888}00888 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00889}00889     Error += test\_scalar\_size();}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00890}00890     Error += test\_fvec\_size();}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00891}00891 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00892}00892     Error += test\_fvec\_precision();}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00893}00893     Error += test\_fvec\_conversion();}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00894}00894 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00895}00895     Error += test\_dvec\_precision();}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00896}00896 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00897}00897     Error += test\_uvec\_size();}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00898}00898     Error += test\_uvec\_precision();}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00899}00899     Error += test\_ivec\_size();}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00900}00900     Error += test\_ivec\_precision();}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00901}00901 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00902}00902     Error += test\_fmat\_size();}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00903}00903     Error += test\_dmat\_size();}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00904}00904     Error += test\_quat\_size();}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00905}00905     Error += test\_quat\_precision();}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00906}00906 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00907}00907 \textcolor{preprocessor}{\#   if GLM\_HAS\_OPENMP}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00908}00908         Error += test\_openmp();}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00909}00909 \textcolor{preprocessor}{\#   endif}\textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00910}00910 }
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00911}00911     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__type__precision_8cpp_source_l00912}00912 \}}
+
+\end{DoxyCode}

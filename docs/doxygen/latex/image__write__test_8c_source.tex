@@ -1,0 +1,66 @@
+\hypertarget{image__write__test_8c_source}{}\doxysection{image\+\_\+write\+\_\+test.\+c}
+\label{image__write__test_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/image\_write\_test.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/image\_write\_test.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00001}00001 \textcolor{preprocessor}{\#ifdef \_\_clang\_\_}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00002}00002 \textcolor{preprocessor}{\#define STBIWDEF static inline}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00003}00003 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00004}00004 \textcolor{preprocessor}{\#define STB\_IMAGE\_WRITE\_STATIC}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00005}00005 \textcolor{preprocessor}{\#define STB\_IMAGE\_WRITE\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00006}00006 \textcolor{preprocessor}{\#include "{}stb\_image\_write.h"{}}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00008}00008 \textcolor{comment}{// using an 'F' since it has no rotational symmetries, and 6x5}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00009}00009 \textcolor{comment}{// because it's a small, atypical size likely to trigger edge cases.}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00011}00011 \textcolor{comment}{// conveniently, it's also small enough to fully fit inside a typical}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00012}00012 \textcolor{comment}{// directory listing thumbnail, which simplifies checking at a glance.}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00013}00013 \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{char} img6x5\_template[] =}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00014}00014    \textcolor{stringliteral}{"{}.****."{}}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00015}00015    \textcolor{stringliteral}{"{}.*...."{}}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00016}00016    \textcolor{stringliteral}{"{}.***.."{}}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00017}00017    \textcolor{stringliteral}{"{}.*...."{}}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00018}00018    \textcolor{stringliteral}{"{}.*...."{}};}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00020}00020 \textcolor{keywordtype}{void} image\_write\_test(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00021}00021 \{}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00022}00022    \textcolor{comment}{// make a RGB version of the template image}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00023}00023    \textcolor{comment}{// use red on blue to detect R<-\/>B swaps}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00024}00024    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} img6x5\_rgb[6*5*3];}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00025}00025    \textcolor{keywordtype}{float} img6x5\_rgbf[6*5*3];}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00026}00026    \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00028}00028    \textcolor{keywordflow}{for} (i = 0; i < 6*5; i++) \{}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00029}00029       \textcolor{keywordtype}{int} on = img6x5\_template[i] == \textcolor{charliteral}{'*'};}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00030}00030       img6x5\_rgb[i*3 + 0] = on ? 255 : 0;}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00031}00031       img6x5\_rgb[i*3 + 1] = 0;}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00032}00032       img6x5\_rgb[i*3 + 2] = on ? 0 : 255;}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00034}00034       img6x5\_rgbf[i*3 + 0] = on ? 1.0f : 0.0f;}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00035}00035       img6x5\_rgbf[i*3 + 1] = 0.0f;}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00036}00036       img6x5\_rgbf[i*3 + 2] = on ? 0.0f : 1.0f;}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00037}00037    \}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00039}00039    stbi\_write\_png(\textcolor{stringliteral}{"{}output/wr6x5\_regular.png"{}}, 6, 5, 3, img6x5\_rgb, 6*3);}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00040}00040    stbi\_write\_bmp(\textcolor{stringliteral}{"{}output/wr6x5\_regular.bmp"{}}, 6, 5, 3, img6x5\_rgb);}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00041}00041    stbi\_write\_tga(\textcolor{stringliteral}{"{}output/wr6x5\_regular.tga"{}}, 6, 5, 3, img6x5\_rgb);}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00042}00042    stbi\_write\_jpg(\textcolor{stringliteral}{"{}output/wr6x5\_regular.jpg"{}}, 6, 5, 3, img6x5\_rgb, 95);}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00043}00043    stbi\_write\_hdr(\textcolor{stringliteral}{"{}output/wr6x5\_regular.hdr"{}}, 6, 5, 3, img6x5\_rgbf);}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00045}00045    stbi\_flip\_vertically\_on\_write(1);}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00047}00047    stbi\_write\_png(\textcolor{stringliteral}{"{}output/wr6x5\_flip.png"{}}, 6, 5, 3, img6x5\_rgb, 6*3);}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00048}00048    stbi\_write\_bmp(\textcolor{stringliteral}{"{}output/wr6x5\_flip.bmp"{}}, 6, 5, 3, img6x5\_rgb);}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00049}00049    stbi\_write\_tga(\textcolor{stringliteral}{"{}output/wr6x5\_flip.tga"{}}, 6, 5, 3, img6x5\_rgb);}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00050}00050    stbi\_write\_jpg(\textcolor{stringliteral}{"{}output/wr6x5\_flip.jpg"{}}, 6, 5, 3, img6x5\_rgb, 95);}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00051}00051    stbi\_write\_hdr(\textcolor{stringliteral}{"{}output/wr6x5\_flip.hdr"{}}, 6, 5, 3, img6x5\_rgbf);}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00052}00052 \}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00054}00054 \textcolor{preprocessor}{\#ifdef IWT\_TEST}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00055}00055 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} **argv)}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00056}00056 \{}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00057}00057    image\_write\_test();}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00058}00058    \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00059}00059 \}}
+\DoxyCodeLine{\Hypertarget{image__write__test_8c_source_l00060}00060 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

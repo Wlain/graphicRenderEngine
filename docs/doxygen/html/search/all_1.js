@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['framebuffer_0',['FrameBuffer',['../classre_1_1_frame_buffer.html',1,'re']]],
-  ['framebufferbuilder_1',['FrameBufferBuilder',['../classre_1_1_frame_buffer_1_1_frame_buffer_builder.html',1,'re::FrameBuffer']]]
+  ['camera_0',['Camera',['../classceres_1_1_camera.html',1,'ceres']]],
+  ['color_1',['Color',['../classceres_1_1_color.html',1,'ceres']]],
+  ['create_2',['create',['../classceres_1_1_particle_emitter.html#adc58cc8ff35937befc1c8e90ae7389fd',1,'ceres::ParticleEmitter']]]
 ];

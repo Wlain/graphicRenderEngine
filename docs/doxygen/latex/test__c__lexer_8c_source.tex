@@ -1,0 +1,56 @@
+\hypertarget{test__c__lexer_8c_source}{}\doxysection{test\+\_\+c\+\_\+lexer.\+c}
+\label{test__c__lexer_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/test\_c\_lexer.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/test\_c\_lexer.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00001}00001 \textcolor{preprocessor}{\#include "{}stb\_c\_lexer.h"{}}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00002}00002 }
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00003}00003 \textcolor{preprocessor}{\#define STB\_C\_LEX\_C\_DECIMAL\_INTS    Y   }\textcolor{comment}{//  "{}0|[1-\/9][0-\/9]*"{}                        CLEX\_intlit}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00004}00004 \textcolor{preprocessor}{\#define STB\_C\_LEX\_C\_HEX\_INTS        Y   }\textcolor{comment}{//  "{}0x[0-\/9a-\/fA-\/F]+"{}                       CLEX\_intlit}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00005}00005 \textcolor{preprocessor}{\#define STB\_C\_LEX\_C\_OCTAL\_INTS      Y   }\textcolor{comment}{//  "{}[0-\/7]+"{}                               CLEX\_intlit}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00006}00006 \textcolor{preprocessor}{\#define STB\_C\_LEX\_C\_DECIMAL\_FLOATS  Y   }\textcolor{comment}{//  "{}[0-\/9]*(.[0-\/9]*([eE][-\/+]?[0-\/9]+)?)     CLEX\_floatlit}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00007}00007 \textcolor{preprocessor}{\#define STB\_C\_LEX\_C99\_HEX\_FLOATS    N   }\textcolor{comment}{//  "{}0x\{hex\}+(.\{hex\}*)?[pP][-\/+]?\{hex\}+     CLEX\_floatlit}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00008}00008 \textcolor{preprocessor}{\#define STB\_C\_LEX\_C\_IDENTIFIERS     Y   }\textcolor{comment}{//  "{}[\_a-\/zA-\/Z][\_a-\/zA-\/Z0-\/9]*"{}               CLEX\_id}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00009}00009 \textcolor{preprocessor}{\#define STB\_C\_LEX\_C\_DQ\_STRINGS      Y   }\textcolor{comment}{//  double-\/quote-\/delimited strings with escapes  CLEX\_dqstring}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00010}00010 \textcolor{preprocessor}{\#define STB\_C\_LEX\_C\_SQ\_STRINGS      N   }\textcolor{comment}{//  single-\/quote-\/delimited strings with escapes  CLEX\_ssstring}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00011}00011 \textcolor{preprocessor}{\#define STB\_C\_LEX\_C\_CHARS           Y   }\textcolor{comment}{//  single-\/quote-\/delimited character with escape CLEX\_charlits}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00012}00012 \textcolor{preprocessor}{\#define STB\_C\_LEX\_C\_COMMENTS        Y   }\textcolor{comment}{//  "{}/* comment */"{}}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00013}00013 \textcolor{preprocessor}{\#define STB\_C\_LEX\_CPP\_COMMENTS      Y   }\textcolor{comment}{//  "{}// comment to end of line\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00014}00014 \textcolor{preprocessor}{\#define STB\_C\_LEX\_C\_COMPARISONS     Y   }\textcolor{comment}{//  "{}=="{} CLEX\_eq  "{}!="{} CLEX\_noteq   "{}<="{} CLEX\_lesseq  "{}>="{} CLEX\_greatereq}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00015}00015 \textcolor{preprocessor}{\#define STB\_C\_LEX\_C\_LOGICAL         Y   }\textcolor{comment}{//  "{}\&\&"{}  CLEX\_andand   "{}||"{}  CLEX\_oror}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00016}00016 \textcolor{preprocessor}{\#define STB\_C\_LEX\_C\_SHIFTS          Y   }\textcolor{comment}{//  "{}<<"{}  CLEX\_shl      "{}>>"{}  CLEX\_shr}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00017}00017 \textcolor{preprocessor}{\#define STB\_C\_LEX\_C\_INCREMENTS      Y   }\textcolor{comment}{//  "{}++"{}  CLEX\_plusplus "{}-\/-\/"{}  CLEX\_minusminus}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00018}00018 \textcolor{preprocessor}{\#define STB\_C\_LEX\_C\_ARROW           Y   }\textcolor{comment}{//  "{}-\/>"{}  CLEX\_arrow}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00019}00019 \textcolor{preprocessor}{\#define STB\_C\_LEX\_EQUAL\_ARROW       N   }\textcolor{comment}{//  "{}=>"{}  CLEX\_eqarrow}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00020}00020 \textcolor{preprocessor}{\#define STB\_C\_LEX\_C\_BITWISEEQ       Y   }\textcolor{comment}{//  "{}\&="{}  CLEX\_andeq    "{}|="{}  CLEX\_oreq     "{}\string^="{}  CLEX\_xoreq}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00021}00021 \textcolor{preprocessor}{\#define STB\_C\_LEX\_C\_ARITHEQ         Y   }\textcolor{comment}{//  "{}+="{}  CLEX\_pluseq   "{}-\/="{}  CLEX\_minuseq}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00022}00022                                         \textcolor{comment}{//  "{}*="{}  CLEX\_muleq    "{}/="{}  CLEX\_diveq    "{}\%="{} CLEX\_modeq}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00023}00023                                         \textcolor{comment}{//  if both STB\_C\_LEX\_SHIFTS \& STB\_C\_LEX\_ARITHEQ:}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00024}00024                                         \textcolor{comment}{//                      "{}<<="{} CLEX\_shleq    "{}>>="{} CLEX\_shreq}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00026}00026 \textcolor{preprocessor}{\#define STB\_C\_LEX\_PARSE\_SUFFIXES    N   }\textcolor{comment}{// letters after numbers are parsed as part of those numbers, and must be in suffix list below}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00027}00027 \textcolor{preprocessor}{\#define STB\_C\_LEX\_DECIMAL\_SUFFIXES  "{}"{}}  \textcolor{comment}{// decimal integer suffixes e.g. "{}uUlL"{} -\/-\/ these are returned as-\/is in string storage}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00028}00028 \textcolor{preprocessor}{\#define STB\_C\_LEX\_HEX\_SUFFIXES      "{}"{}}  \textcolor{comment}{// e.g. "{}uUlL"{}}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00029}00029 \textcolor{preprocessor}{\#define STB\_C\_LEX\_OCTAL\_SUFFIXES    "{}"{}}  \textcolor{comment}{// e.g. "{}uUlL"{}}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00030}00030 \textcolor{preprocessor}{\#define STB\_C\_LEX\_FLOAT\_SUFFIXES    "{}"{}}  \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00032}00032 \textcolor{preprocessor}{\#define STB\_C\_LEX\_0\_IS\_EOF             Y  }\textcolor{comment}{// if Y, ends parsing at '\(\backslash\)0'; if N, returns '\(\backslash\)0' as token}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00033}00033 \textcolor{preprocessor}{\#define STB\_C\_LEX\_INTEGERS\_AS\_DOUBLES  N  }\textcolor{comment}{// parses integers as doubles so they can be larger than 'int', but only if STB\_C\_LEX\_STDLIB==N}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00034}00034 \textcolor{preprocessor}{\#define STB\_C\_LEX\_MULTILINE\_DSTRINGS   N  }\textcolor{comment}{// allow newlines in double-\/quoted strings}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00035}00035 \textcolor{preprocessor}{\#define STB\_C\_LEX\_MULTILINE\_SSTRINGS   N  }\textcolor{comment}{// allow newlines in single-\/quoted strings}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00036}00036 \textcolor{preprocessor}{\#define STB\_C\_LEX\_USE\_STDLIB           Y  }\textcolor{comment}{// use strtod,strtol for parsing \#s; otherwise inaccurate hack}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00037}00037 \textcolor{preprocessor}{\#define STB\_C\_LEX\_DOLLAR\_IDENTIFIER    Y  }\textcolor{comment}{// allow \$ as an identifier character}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00038}00038 \textcolor{preprocessor}{\#define STB\_C\_LEX\_FLOAT\_NO\_DECIMAL     Y  }\textcolor{comment}{// allow floats that have no decimal point if they have an exponent}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00040}00040 \textcolor{preprocessor}{\#define STB\_C\_LEX\_DEFINE\_ALL\_TOKEN\_NAMES  N   }\textcolor{comment}{// if Y, all CLEX\_ token names are defined, even if never returned}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00041}00041                                               \textcolor{comment}{// leaving it as N should help you catch config bugs}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00043}00043 \textcolor{preprocessor}{\#define STB\_C\_LEX\_DISCARD\_PREPROCESSOR    Y   }\textcolor{comment}{// discard C-\/preprocessor directives (e.g. after prepocess}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00044}00044                                               \textcolor{comment}{// still have \#line, \#pragma, etc)}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00046}00046 \textcolor{comment}{//\#define STB\_C\_LEX\_ISWHITE(str)    ... // return length in bytes of whitespace characters if first char is whitespace}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00048}00048 \textcolor{preprocessor}{\#define STB\_C\_LEXER\_DEFINITIONS         }\textcolor{comment}{// This line prevents the header file from replacing your definitions}}
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{test__c__lexer_8c_source_l00050}00050 \textcolor{preprocessor}{\#include "{}stb\_c\_lexer.h"{}}}
+
+\end{DoxyCode}

@@ -1,0 +1,233 @@
+\hypertarget{egl__context_8h_source}{}\doxysection{egl\+\_\+context.\+h}
+\label{egl__context_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/egl\_context.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/egl\_context.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00001}00001 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00002}00002 \textcolor{comment}{// GLFW 3.4 EGL -\/ www.glfw.org}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00003}00003 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00004}00004 \textcolor{comment}{// Copyright (c) 2002-\/2006 Marcus Geelnard}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00005}00005 \textcolor{comment}{// Copyright (c) 2006-\/2017 Camilla Löwy <elmindreda@glfw.org>}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00006}00006 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00007}00007 \textcolor{comment}{// This software is provided 'as-\/is', without any express or implied}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00008}00008 \textcolor{comment}{// warranty. In no event will the authors be held liable for any damages}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00009}00009 \textcolor{comment}{// arising from the use of this software.}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00011}00011 \textcolor{comment}{// Permission is granted to anyone to use this software for any purpose,}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00012}00012 \textcolor{comment}{// including commercial applications, and to alter it and redistribute it}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00013}00013 \textcolor{comment}{// freely, subject to the following restrictions:}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00014}00014 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00015}00015 \textcolor{comment}{// 1. The origin of this software must not be misrepresented; you must not}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00016}00016 \textcolor{comment}{//    claim that you wrote the original software. If you use this software}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00017}00017 \textcolor{comment}{//    in a product, an acknowledgment in the product documentation would}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00018}00018 \textcolor{comment}{//    be appreciated but is not required.}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00019}00019 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00020}00020 \textcolor{comment}{// 2. Altered source versions must be plainly marked as such, and must not}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00021}00021 \textcolor{comment}{//    be misrepresented as being the original software.}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00022}00022 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00023}00023 \textcolor{comment}{// 3. This notice may not be removed or altered from any source}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00024}00024 \textcolor{comment}{//    distribution.}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00025}00025 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00026}00026 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00028}00028 \textcolor{preprocessor}{\#if defined(\_GLFW\_WIN32)}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00029}00029 \textcolor{preprocessor}{ \#define EGLAPIENTRY \_\_stdcall}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00030}00030 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00031}00031 \textcolor{preprocessor}{ \#define EGLAPIENTRY}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00032}00032 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00034}00034 \textcolor{preprocessor}{\#define EGL\_SUCCESS 0x3000}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00035}00035 \textcolor{preprocessor}{\#define EGL\_NOT\_INITIALIZED 0x3001}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00036}00036 \textcolor{preprocessor}{\#define EGL\_BAD\_ACCESS 0x3002}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00037}00037 \textcolor{preprocessor}{\#define EGL\_BAD\_ALLOC 0x3003}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00038}00038 \textcolor{preprocessor}{\#define EGL\_BAD\_ATTRIBUTE 0x3004}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00039}00039 \textcolor{preprocessor}{\#define EGL\_BAD\_CONFIG 0x3005}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00040}00040 \textcolor{preprocessor}{\#define EGL\_BAD\_CONTEXT 0x3006}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00041}00041 \textcolor{preprocessor}{\#define EGL\_BAD\_CURRENT\_SURFACE 0x3007}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00042}00042 \textcolor{preprocessor}{\#define EGL\_BAD\_DISPLAY 0x3008}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00043}00043 \textcolor{preprocessor}{\#define EGL\_BAD\_MATCH 0x3009}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00044}00044 \textcolor{preprocessor}{\#define EGL\_BAD\_NATIVE\_PIXMAP 0x300a}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00045}00045 \textcolor{preprocessor}{\#define EGL\_BAD\_NATIVE\_WINDOW 0x300b}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00046}00046 \textcolor{preprocessor}{\#define EGL\_BAD\_PARAMETER 0x300c}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00047}00047 \textcolor{preprocessor}{\#define EGL\_BAD\_SURFACE 0x300d}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00048}00048 \textcolor{preprocessor}{\#define EGL\_CONTEXT\_LOST 0x300e}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00049}00049 \textcolor{preprocessor}{\#define EGL\_COLOR\_BUFFER\_TYPE 0x303f}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00050}00050 \textcolor{preprocessor}{\#define EGL\_RGB\_BUFFER 0x308e}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00051}00051 \textcolor{preprocessor}{\#define EGL\_SURFACE\_TYPE 0x3033}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00052}00052 \textcolor{preprocessor}{\#define EGL\_WINDOW\_BIT 0x0004}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00053}00053 \textcolor{preprocessor}{\#define EGL\_RENDERABLE\_TYPE 0x3040}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00054}00054 \textcolor{preprocessor}{\#define EGL\_OPENGL\_ES\_BIT 0x0001}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00055}00055 \textcolor{preprocessor}{\#define EGL\_OPENGL\_ES2\_BIT 0x0004}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00056}00056 \textcolor{preprocessor}{\#define EGL\_OPENGL\_BIT 0x0008}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00057}00057 \textcolor{preprocessor}{\#define EGL\_ALPHA\_SIZE 0x3021}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00058}00058 \textcolor{preprocessor}{\#define EGL\_BLUE\_SIZE 0x3022}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00059}00059 \textcolor{preprocessor}{\#define EGL\_GREEN\_SIZE 0x3023}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00060}00060 \textcolor{preprocessor}{\#define EGL\_RED\_SIZE 0x3024}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00061}00061 \textcolor{preprocessor}{\#define EGL\_DEPTH\_SIZE 0x3025}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00062}00062 \textcolor{preprocessor}{\#define EGL\_STENCIL\_SIZE 0x3026}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00063}00063 \textcolor{preprocessor}{\#define EGL\_SAMPLES 0x3031}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00064}00064 \textcolor{preprocessor}{\#define EGL\_OPENGL\_ES\_API 0x30a0}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00065}00065 \textcolor{preprocessor}{\#define EGL\_OPENGL\_API 0x30a2}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00066}00066 \textcolor{preprocessor}{\#define EGL\_NONE 0x3038}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00067}00067 \textcolor{preprocessor}{\#define EGL\_EXTENSIONS 0x3055}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00068}00068 \textcolor{preprocessor}{\#define EGL\_CONTEXT\_CLIENT\_VERSION 0x3098}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00069}00069 \textcolor{preprocessor}{\#define EGL\_NATIVE\_VISUAL\_ID 0x302e}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00070}00070 \textcolor{preprocessor}{\#define EGL\_NO\_SURFACE ((EGLSurface) 0)}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00071}00071 \textcolor{preprocessor}{\#define EGL\_NO\_DISPLAY ((EGLDisplay) 0)}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00072}00072 \textcolor{preprocessor}{\#define EGL\_NO\_CONTEXT ((EGLContext) 0)}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00073}00073 \textcolor{preprocessor}{\#define EGL\_DEFAULT\_DISPLAY ((EGLNativeDisplayType) 0)}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00074}00074 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00075}00075 \textcolor{preprocessor}{\#define EGL\_CONTEXT\_OPENGL\_FORWARD\_COMPATIBLE\_BIT\_KHR 0x00000002}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00076}00076 \textcolor{preprocessor}{\#define EGL\_CONTEXT\_OPENGL\_CORE\_PROFILE\_BIT\_KHR 0x00000001}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00077}00077 \textcolor{preprocessor}{\#define EGL\_CONTEXT\_OPENGL\_COMPATIBILITY\_PROFILE\_BIT\_KHR 0x00000002}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00078}00078 \textcolor{preprocessor}{\#define EGL\_CONTEXT\_OPENGL\_DEBUG\_BIT\_KHR 0x00000001}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00079}00079 \textcolor{preprocessor}{\#define EGL\_CONTEXT\_OPENGL\_RESET\_NOTIFICATION\_STRATEGY\_KHR 0x31bd}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00080}00080 \textcolor{preprocessor}{\#define EGL\_NO\_RESET\_NOTIFICATION\_KHR 0x31be}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00081}00081 \textcolor{preprocessor}{\#define EGL\_LOSE\_CONTEXT\_ON\_RESET\_KHR 0x31bf}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00082}00082 \textcolor{preprocessor}{\#define EGL\_CONTEXT\_OPENGL\_ROBUST\_ACCESS\_BIT\_KHR 0x00000004}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00083}00083 \textcolor{preprocessor}{\#define EGL\_CONTEXT\_MAJOR\_VERSION\_KHR 0x3098}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00084}00084 \textcolor{preprocessor}{\#define EGL\_CONTEXT\_MINOR\_VERSION\_KHR 0x30fb}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00085}00085 \textcolor{preprocessor}{\#define EGL\_CONTEXT\_OPENGL\_PROFILE\_MASK\_KHR 0x30fd}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00086}00086 \textcolor{preprocessor}{\#define EGL\_CONTEXT\_FLAGS\_KHR 0x30fc}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00087}00087 \textcolor{preprocessor}{\#define EGL\_CONTEXT\_OPENGL\_NO\_ERROR\_KHR 0x31b3}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00088}00088 \textcolor{preprocessor}{\#define EGL\_GL\_COLORSPACE\_KHR 0x309d}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00089}00089 \textcolor{preprocessor}{\#define EGL\_GL\_COLORSPACE\_SRGB\_KHR 0x3089}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00090}00090 \textcolor{preprocessor}{\#define EGL\_CONTEXT\_RELEASE\_BEHAVIOR\_KHR 0x2097}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00091}00091 \textcolor{preprocessor}{\#define EGL\_CONTEXT\_RELEASE\_BEHAVIOR\_NONE\_KHR 0}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00092}00092 \textcolor{preprocessor}{\#define EGL\_CONTEXT\_RELEASE\_BEHAVIOR\_FLUSH\_KHR 0x2098}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00093}00093 \textcolor{preprocessor}{\#define EGL\_PLATFORM\_X11\_EXT 0x31d5}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00094}00094 \textcolor{preprocessor}{\#define EGL\_PLATFORM\_WAYLAND\_EXT 0x31d8}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00095}00095 \textcolor{preprocessor}{\#define EGL\_PLATFORM\_ANGLE\_ANGLE 0x3202}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00096}00096 \textcolor{preprocessor}{\#define EGL\_PLATFORM\_ANGLE\_TYPE\_ANGLE 0x3203}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00097}00097 \textcolor{preprocessor}{\#define EGL\_PLATFORM\_ANGLE\_TYPE\_OPENGL\_ANGLE 0x320d}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00098}00098 \textcolor{preprocessor}{\#define EGL\_PLATFORM\_ANGLE\_TYPE\_OPENGLES\_ANGLE 0x320e}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00099}00099 \textcolor{preprocessor}{\#define EGL\_PLATFORM\_ANGLE\_TYPE\_D3D9\_ANGLE 0x3207}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00100}00100 \textcolor{preprocessor}{\#define EGL\_PLATFORM\_ANGLE\_TYPE\_D3D11\_ANGLE 0x3208}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00101}00101 \textcolor{preprocessor}{\#define EGL\_PLATFORM\_ANGLE\_TYPE\_VULKAN\_ANGLE 0x3450}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00102}00102 \textcolor{preprocessor}{\#define EGL\_PLATFORM\_ANGLE\_TYPE\_METAL\_ANGLE 0x3489}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00103}00103 \textcolor{preprocessor}{\#define EGL\_PLATFORM\_ANGLE\_NATIVE\_PLATFORM\_TYPE\_ANGLE 0x348f}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00105}00105 \textcolor{keyword}{typedef} \textcolor{keywordtype}{int} EGLint;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00106}00106 \textcolor{keyword}{typedef} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} EGLBoolean;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00107}00107 \textcolor{keyword}{typedef} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} EGLenum;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00108}00108 \textcolor{keyword}{typedef} \textcolor{keywordtype}{void}* EGLConfig;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00109}00109 \textcolor{keyword}{typedef} \textcolor{keywordtype}{void}* EGLContext;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00110}00110 \textcolor{keyword}{typedef} \textcolor{keywordtype}{void}* EGLDisplay;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00111}00111 \textcolor{keyword}{typedef} \textcolor{keywordtype}{void}* EGLSurface;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00112}00112 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00113}00113 \textcolor{keyword}{typedef} \textcolor{keywordtype}{void}* EGLNativeDisplayType;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00114}00114 \textcolor{keyword}{typedef} \textcolor{keywordtype}{void}* EGLNativeWindowType;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00115}00115 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00116}00116 \textcolor{comment}{// EGL function pointer typedefs}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00117}00117 \textcolor{keyword}{typedef} EGLBoolean (EGLAPIENTRY * PFN\_eglGetConfigAttrib)(EGLDisplay,EGLConfig,EGLint,EGLint*);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00118}00118 \textcolor{keyword}{typedef} EGLBoolean (EGLAPIENTRY * PFN\_eglGetConfigs)(EGLDisplay,EGLConfig*,EGLint,EGLint*);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00119}00119 \textcolor{keyword}{typedef} EGLDisplay (EGLAPIENTRY * PFN\_eglGetDisplay)(EGLNativeDisplayType);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00120}00120 \textcolor{keyword}{typedef} EGLint (EGLAPIENTRY * PFN\_eglGetError)(void);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00121}00121 \textcolor{keyword}{typedef} EGLBoolean (EGLAPIENTRY * PFN\_eglInitialize)(EGLDisplay,EGLint*,EGLint*);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00122}00122 \textcolor{keyword}{typedef} EGLBoolean (EGLAPIENTRY * PFN\_eglTerminate)(EGLDisplay);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00123}00123 \textcolor{keyword}{typedef} EGLBoolean (EGLAPIENTRY * PFN\_eglBindAPI)(EGLenum);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00124}00124 \textcolor{keyword}{typedef} EGLContext (EGLAPIENTRY * PFN\_eglCreateContext)(EGLDisplay,EGLConfig,EGLContext,\textcolor{keyword}{const} EGLint*);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00125}00125 \textcolor{keyword}{typedef} EGLBoolean (EGLAPIENTRY * PFN\_eglDestroySurface)(EGLDisplay,EGLSurface);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00126}00126 \textcolor{keyword}{typedef} EGLBoolean (EGLAPIENTRY * PFN\_eglDestroyContext)(EGLDisplay,EGLContext);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00127}00127 \textcolor{keyword}{typedef} EGLSurface (EGLAPIENTRY * PFN\_eglCreateWindowSurface)(EGLDisplay,EGLConfig,EGLNativeWindowType,\textcolor{keyword}{const} EGLint*);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00128}00128 \textcolor{keyword}{typedef} EGLBoolean (EGLAPIENTRY * PFN\_eglMakeCurrent)(EGLDisplay,EGLSurface,EGLSurface,EGLContext);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00129}00129 \textcolor{keyword}{typedef} EGLBoolean (EGLAPIENTRY * PFN\_eglSwapBuffers)(EGLDisplay,EGLSurface);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00130}00130 \textcolor{keyword}{typedef} EGLBoolean (EGLAPIENTRY * PFN\_eglSwapInterval)(EGLDisplay,EGLint);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00131}00131 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \textcolor{keywordtype}{char}* (EGLAPIENTRY * PFN\_eglQueryString)(EGLDisplay,EGLint);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00132}00132 \textcolor{keyword}{typedef} \mbox{\hyperlink{group__context_ga3d47c2d2fbe0be9c505d0e04e91a133c}{GLFWglproc}} (EGLAPIENTRY * PFN\_eglGetProcAddress)(\textcolor{keyword}{const} \textcolor{keywordtype}{char}*);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00133}00133 \textcolor{preprocessor}{\#define eglGetConfigAttrib \_glfw.egl.GetConfigAttrib}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00134}00134 \textcolor{preprocessor}{\#define eglGetConfigs \_glfw.egl.GetConfigs}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00135}00135 \textcolor{preprocessor}{\#define eglGetDisplay \_glfw.egl.GetDisplay}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00136}00136 \textcolor{preprocessor}{\#define eglGetError \_glfw.egl.GetError}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00137}00137 \textcolor{preprocessor}{\#define eglInitialize \_glfw.egl.Initialize}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00138}00138 \textcolor{preprocessor}{\#define eglTerminate \_glfw.egl.Terminate}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00139}00139 \textcolor{preprocessor}{\#define eglBindAPI \_glfw.egl.BindAPI}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00140}00140 \textcolor{preprocessor}{\#define eglCreateContext \_glfw.egl.CreateContext}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00141}00141 \textcolor{preprocessor}{\#define eglDestroySurface \_glfw.egl.DestroySurface}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00142}00142 \textcolor{preprocessor}{\#define eglDestroyContext \_glfw.egl.DestroyContext}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00143}00143 \textcolor{preprocessor}{\#define eglCreateWindowSurface \_glfw.egl.CreateWindowSurface}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00144}00144 \textcolor{preprocessor}{\#define eglMakeCurrent \_glfw.egl.MakeCurrent}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00145}00145 \textcolor{preprocessor}{\#define eglSwapBuffers \_glfw.egl.SwapBuffers}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00146}00146 \textcolor{preprocessor}{\#define eglSwapInterval \_glfw.egl.SwapInterval}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00147}00147 \textcolor{preprocessor}{\#define eglQueryString \_glfw.egl.QueryString}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00148}00148 \textcolor{preprocessor}{\#define eglGetProcAddress \_glfw.egl.GetProcAddress}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00149}00149 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00150}00150 \textcolor{keyword}{typedef} EGLDisplay (EGLAPIENTRY * PFNEGLGETPLATFORMDISPLAYEXTPROC)(EGLenum,\textcolor{keywordtype}{void}*,\textcolor{keyword}{const} EGLint*);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00151}00151 \textcolor{keyword}{typedef} EGLSurface (EGLAPIENTRY * PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC)(EGLDisplay,EGLConfig,\textcolor{keywordtype}{void}*,\textcolor{keyword}{const} EGLint*);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00152}00152 \textcolor{preprocessor}{\#define eglGetPlatformDisplayEXT \_glfw.egl.GetPlatformDisplayEXT}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00153}00153 \textcolor{preprocessor}{\#define eglCreatePlatformWindowSurfaceEXT \_glfw.egl.CreatePlatformWindowSurfaceEXT}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00154}00154 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00155}00155 \textcolor{comment}{// EGL-\/specific per-\/context data}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00156}00156 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00157}\mbox{\hyperlink{struct___g_l_f_wcontext_e_g_l}{00157}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___g_l_f_wcontext_e_g_l}{\_GLFWcontextEGL}}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00158}00158 \{}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00159}00159    EGLConfig        config;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00160}00160    EGLContext       handle;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00161}00161    EGLSurface       surface;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00162}00162 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00163}00163    \textcolor{keywordtype}{void}*            client;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00164}00164 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00165}00165 \} \mbox{\hyperlink{struct___g_l_f_wcontext_e_g_l}{\_GLFWcontextEGL}};}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00166}00166 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00167}00167 \textcolor{comment}{// EGL-\/specific global data}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00168}00168 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00169}\mbox{\hyperlink{struct___g_l_f_wlibrary_e_g_l}{00169}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___g_l_f_wlibrary_e_g_l}{\_GLFWlibraryEGL}}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00170}00170 \{}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00171}00171     EGLenum         platform;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00172}00172     EGLDisplay      display;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00173}00173     EGLint          major, minor;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00174}00174     GLFWbool        prefix;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00175}00175 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00176}00176     GLFWbool        KHR\_create\_context;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00177}00177     GLFWbool        KHR\_create\_context\_no\_error;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00178}00178     GLFWbool        KHR\_gl\_colorspace;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00179}00179     GLFWbool        KHR\_get\_all\_proc\_addresses;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00180}00180     GLFWbool        KHR\_context\_flush\_control;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00181}00181     GLFWbool        EXT\_client\_extensions;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00182}00182     GLFWbool        EXT\_platform\_base;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00183}00183     GLFWbool        EXT\_platform\_x11;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00184}00184     GLFWbool        EXT\_platform\_wayland;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00185}00185     GLFWbool        ANGLE\_platform\_angle;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00186}00186     GLFWbool        ANGLE\_platform\_angle\_opengl;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00187}00187     GLFWbool        ANGLE\_platform\_angle\_d3d;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00188}00188     GLFWbool        ANGLE\_platform\_angle\_vulkan;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00189}00189     GLFWbool        ANGLE\_platform\_angle\_metal;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00190}00190 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00191}00191     \textcolor{keywordtype}{void}*           handle;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00192}00192 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00193}00193     PFN\_eglGetConfigAttrib      GetConfigAttrib;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00194}00194     PFN\_eglGetConfigs           GetConfigs;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00195}00195     PFN\_eglGetDisplay           GetDisplay;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00196}00196     PFN\_eglGetError             GetError;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00197}00197     PFN\_eglInitialize           Initialize;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00198}00198     PFN\_eglTerminate            Terminate;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00199}00199     PFN\_eglBindAPI              BindAPI;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00200}00200     PFN\_eglCreateContext        CreateContext;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00201}00201     PFN\_eglDestroySurface       DestroySurface;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00202}00202     PFN\_eglDestroyContext       DestroyContext;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00203}00203     PFN\_eglCreateWindowSurface  CreateWindowSurface;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00204}00204     PFN\_eglMakeCurrent          MakeCurrent;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00205}00205     PFN\_eglSwapBuffers          SwapBuffers;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00206}00206     PFN\_eglSwapInterval         SwapInterval;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00207}00207     PFN\_eglQueryString          QueryString;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00208}00208     PFN\_eglGetProcAddress       GetProcAddress;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00209}00209 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00210}00210     PFNEGLGETPLATFORMDISPLAYEXTPROC GetPlatformDisplayEXT;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00211}00211     PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC CreatePlatformWindowSurfaceEXT;}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00212}00212 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00213}00213 \} \mbox{\hyperlink{struct___g_l_f_wlibrary_e_g_l}{\_GLFWlibraryEGL}};}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00214}00214 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00215}00215 }
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00216}00216 GLFWbool \_glfwInitEGL(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00217}00217 \textcolor{keywordtype}{void} \_glfwTerminateEGL(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00218}00218 GLFWbool \_glfwCreateContextEGL(\mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}* window,}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00219}00219                                \textcolor{keyword}{const} \mbox{\hyperlink{struct___g_l_f_wctxconfig}{\_GLFWctxconfig}}* ctxconfig,}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00220}00220                                \textcolor{keyword}{const} \mbox{\hyperlink{struct___g_l_f_wfbconfig}{\_GLFWfbconfig}}* fbconfig);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00221}00221 \textcolor{preprocessor}{\#if defined(\_GLFW\_X11)}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00222}00222 GLFWbool \_glfwChooseVisualEGL(\textcolor{keyword}{const} \mbox{\hyperlink{struct___g_l_f_wwndconfig}{\_GLFWwndconfig}}* wndconfig,}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00223}00223                               \textcolor{keyword}{const} \mbox{\hyperlink{struct___g_l_f_wctxconfig}{\_GLFWctxconfig}}* ctxconfig,}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00224}00224                               \textcolor{keyword}{const} \mbox{\hyperlink{struct___g_l_f_wfbconfig}{\_GLFWfbconfig}}* fbconfig,}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00225}00225                               Visual** visual, \textcolor{keywordtype}{int}* depth);}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00226}00226 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/*\_GLFW\_X11*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{egl__context_8h_source_l00227}00227 }
+
+\end{DoxyCode}

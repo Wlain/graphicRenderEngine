@@ -1,0 +1,212 @@
+\hypertarget{cocoa__platform_8h_source}{}\doxysection{cocoa\+\_\+platform.\+h}
+\label{cocoa__platform_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/cocoa\_platform.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/cocoa\_platform.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00001}00001 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00002}00002 \textcolor{comment}{// GLFW 3.4 macOS -\/ www.glfw.org}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00003}00003 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00004}00004 \textcolor{comment}{// Copyright (c) 2009-\/2019 Camilla Löwy <elmindreda@glfw.org>}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00005}00005 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00006}00006 \textcolor{comment}{// This software is provided 'as-\/is', without any express or implied}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00007}00007 \textcolor{comment}{// warranty. In no event will the authors be held liable for any damages}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00008}00008 \textcolor{comment}{// arising from the use of this software.}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00009}00009 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00010}00010 \textcolor{comment}{// Permission is granted to anyone to use this software for any purpose,}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00011}00011 \textcolor{comment}{// including commercial applications, and to alter it and redistribute it}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00012}00012 \textcolor{comment}{// freely, subject to the following restrictions:}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00013}00013 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00014}00014 \textcolor{comment}{// 1. The origin of this software must not be misrepresented; you must not}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00015}00015 \textcolor{comment}{//    claim that you wrote the original software. If you use this software}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00016}00016 \textcolor{comment}{//    in a product, an acknowledgment in the product documentation would}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00017}00017 \textcolor{comment}{//    be appreciated but is not required.}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00018}00018 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00019}00019 \textcolor{comment}{// 2. Altered source versions must be plainly marked as such, and must not}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00020}00020 \textcolor{comment}{//    be misrepresented as being the original software.}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00021}00021 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00022}00022 \textcolor{comment}{// 3. This notice may not be removed or altered from any source}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00023}00023 \textcolor{comment}{//    distribution.}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00024}00024 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00025}00025 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00027}00027 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00028}00028 \textcolor{preprocessor}{\#include <dlfcn.h>}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00030}00030 \textcolor{preprocessor}{\#include <Carbon/Carbon.h>}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00032}00032 \textcolor{comment}{// NOTE: All of NSGL was deprecated in the 10.14 SDK}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00033}00033 \textcolor{comment}{//       This disables the pointless warnings for every symbol we use}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00034}00034 \textcolor{preprocessor}{\#define GL\_SILENCE\_DEPRECATION}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00036}00036 \textcolor{preprocessor}{\#if defined(\_\_OBJC\_\_)}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00037}00037 \textcolor{preprocessor}{\#import <Cocoa/Cocoa.h>}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00038}00038 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00039}00039 \textcolor{keyword}{typedef} \textcolor{keywordtype}{void}* id;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00040}00040 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00042}00042 \textcolor{comment}{// NOTE: Many Cocoa enum values have been renamed and we need to build across}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00043}00043 \textcolor{comment}{//       SDK versions where one is unavailable or the other deprecated}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00044}00044 \textcolor{comment}{//       We use the newer names in code and these macros to handle compatibility}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00045}00045 \textcolor{preprocessor}{\#if MAC\_OS\_X\_VERSION\_MAX\_ALLOWED < 101200}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00046}00046 \textcolor{preprocessor}{ \#define NSBitmapFormatAlphaNonpremultiplied NSAlphaNonpremultipliedBitmapFormat}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00047}00047 \textcolor{preprocessor}{ \#define NSEventMaskAny NSAnyEventMask}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00048}00048 \textcolor{preprocessor}{ \#define NSEventMaskKeyUp NSKeyUpMask}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00049}00049 \textcolor{preprocessor}{ \#define NSEventModifierFlagCapsLock NSAlphaShiftKeyMask}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00050}00050 \textcolor{preprocessor}{ \#define NSEventModifierFlagCommand NSCommandKeyMask}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00051}00051 \textcolor{preprocessor}{ \#define NSEventModifierFlagControl NSControlKeyMask}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00052}00052 \textcolor{preprocessor}{ \#define NSEventModifierFlagDeviceIndependentFlagsMask NSDeviceIndependentModifierFlagsMask}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00053}00053 \textcolor{preprocessor}{ \#define NSEventModifierFlagOption NSAlternateKeyMask}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00054}00054 \textcolor{preprocessor}{ \#define NSEventModifierFlagShift NSShiftKeyMask}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00055}00055 \textcolor{preprocessor}{ \#define NSEventTypeApplicationDefined NSApplicationDefined}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00056}00056 \textcolor{preprocessor}{ \#define NSWindowStyleMaskBorderless NSBorderlessWindowMask}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00057}00057 \textcolor{preprocessor}{ \#define NSWindowStyleMaskClosable NSClosableWindowMask}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00058}00058 \textcolor{preprocessor}{ \#define NSWindowStyleMaskMiniaturizable NSMiniaturizableWindowMask}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00059}00059 \textcolor{preprocessor}{ \#define NSWindowStyleMaskResizable NSResizableWindowMask}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00060}00060 \textcolor{preprocessor}{ \#define NSWindowStyleMaskTitled NSTitledWindowMask}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00061}00061 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00062}00062 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00063}00063 \textcolor{keyword}{typedef} VkFlags VkMacOSSurfaceCreateFlagsMVK;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00064}00064 \textcolor{keyword}{typedef} VkFlags VkMetalSurfaceCreateFlagsEXT;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00065}00065 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00066}\mbox{\hyperlink{struct_vk_mac_o_s_surface_create_info_m_v_k}{00066}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_vk_mac_o_s_surface_create_info_m_v_k}{VkMacOSSurfaceCreateInfoMVK}}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00067}00067 \{}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00068}00068     VkStructureType                 sType;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00069}00069     \textcolor{keyword}{const} \textcolor{keywordtype}{void}*                     pNext;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00070}00070     VkMacOSSurfaceCreateFlagsMVK    flags;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00071}00071     \textcolor{keyword}{const} \textcolor{keywordtype}{void}*                     pView;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00072}00072 \} \mbox{\hyperlink{struct_vk_mac_o_s_surface_create_info_m_v_k}{VkMacOSSurfaceCreateInfoMVK}};}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00074}\mbox{\hyperlink{struct_vk_metal_surface_create_info_e_x_t}{00074}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_vk_metal_surface_create_info_e_x_t}{VkMetalSurfaceCreateInfoEXT}}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00075}00075 \{}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00076}00076     VkStructureType                 sType;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00077}00077     \textcolor{keyword}{const} \textcolor{keywordtype}{void}*                     pNext;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00078}00078     VkMetalSurfaceCreateFlagsEXT    flags;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00079}00079     \textcolor{keyword}{const} \textcolor{keywordtype}{void}*                     pLayer;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00080}00080 \} \mbox{\hyperlink{struct_vk_metal_surface_create_info_e_x_t}{VkMetalSurfaceCreateInfoEXT}};}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00082}00082 \textcolor{keyword}{typedef} VkResult (APIENTRY *PFN\_vkCreateMacOSSurfaceMVK)(VkInstance,\textcolor{keyword}{const} \mbox{\hyperlink{struct_vk_mac_o_s_surface_create_info_m_v_k}{VkMacOSSurfaceCreateInfoMVK}}*,\textcolor{keyword}{const} \mbox{\hyperlink{struct_vk_allocation_callbacks}{VkAllocationCallbacks}}*,VkSurfaceKHR*);}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00083}00083 \textcolor{keyword}{typedef} VkResult (APIENTRY *PFN\_vkCreateMetalSurfaceEXT)(VkInstance,\textcolor{keyword}{const} \mbox{\hyperlink{struct_vk_metal_surface_create_info_e_x_t}{VkMetalSurfaceCreateInfoEXT}}*,\textcolor{keyword}{const} \mbox{\hyperlink{struct_vk_allocation_callbacks}{VkAllocationCallbacks}}*,VkSurfaceKHR*);}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00085}00085 \textcolor{preprocessor}{\#include "{}posix\_thread.h"{}}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00086}00086 \textcolor{preprocessor}{\#include "{}cocoa\_joystick.h"{}}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00087}00087 \textcolor{preprocessor}{\#include "{}nsgl\_context.h"{}}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00088}00088 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00089}00089 \textcolor{preprocessor}{\#define \_glfw\_dlopen(name) dlopen(name, RTLD\_LAZY | RTLD\_LOCAL)}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00090}00090 \textcolor{preprocessor}{\#define \_glfw\_dlclose(handle) dlclose(handle)}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00091}00091 \textcolor{preprocessor}{\#define \_glfw\_dlsym(handle, name) dlsym(handle, name)}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00093}00093 \textcolor{preprocessor}{\#define \_GLFW\_PLATFORM\_WINDOW\_STATE         \_GLFWwindowNS  ns}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00094}00094 \textcolor{preprocessor}{\#define \_GLFW\_PLATFORM\_LIBRARY\_WINDOW\_STATE \_GLFWlibraryNS ns}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00095}00095 \textcolor{preprocessor}{\#define \_GLFW\_PLATFORM\_LIBRARY\_TIMER\_STATE  \_GLFWtimerNS   ns}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00096}00096 \textcolor{preprocessor}{\#define \_GLFW\_PLATFORM\_MONITOR\_STATE        \_GLFWmonitorNS ns}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00097}00097 \textcolor{preprocessor}{\#define \_GLFW\_PLATFORM\_CURSOR\_STATE         \_GLFWcursorNS  ns}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00098}00098 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00099}00099 \textcolor{comment}{// HIToolbox.framework pointer typedefs}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00100}00100 \textcolor{preprocessor}{\#define kTISPropertyUnicodeKeyLayoutData \_glfw.ns.tis.kPropertyUnicodeKeyLayoutData}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00101}00101 \textcolor{keyword}{typedef} TISInputSourceRef (*PFN\_TISCopyCurrentKeyboardLayoutInputSource)(void);}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00102}00102 \textcolor{preprocessor}{\#define TISCopyCurrentKeyboardLayoutInputSource \_glfw.ns.tis.CopyCurrentKeyboardLayoutInputSource}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00103}00103 \textcolor{keyword}{typedef} \textcolor{keywordtype}{void}* (*PFN\_TISGetInputSourceProperty)(TISInputSourceRef,CFStringRef);}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00104}00104 \textcolor{preprocessor}{\#define TISGetInputSourceProperty \_glfw.ns.tis.GetInputSourceProperty}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00105}00105 \textcolor{keyword}{typedef} UInt8 (*PFN\_LMGetKbdType)(void);}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00106}00106 \textcolor{preprocessor}{\#define LMGetKbdType \_glfw.ns.tis.GetKbdType}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00108}00108 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00109}00109 \textcolor{comment}{// Cocoa-\/specific per-\/window data}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00110}00110 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00111}\mbox{\hyperlink{struct___g_l_f_wwindow_n_s}{00111}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___g_l_f_wwindow_n_s}{\_GLFWwindowNS}}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00112}00112 \{}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00113}00113     \textcolor{keywordtype}{id}              object;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00114}00114     \textcolor{keywordtype}{id}              delegate;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00115}00115     \textcolor{keywordtype}{id}              \mbox{\hyperlink{structview}{view}};}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00116}00116     \textcolor{keywordtype}{id}              layer;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00117}00117 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00118}00118     GLFWbool        maximized;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00119}00119     GLFWbool        occluded;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00120}00120     GLFWbool        retina;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00121}00121 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00122}00122     \textcolor{comment}{// Cached window properties to filter out duplicate events}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00123}00123     \textcolor{keywordtype}{int}             width, height;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00124}00124     \textcolor{keywordtype}{int}             fbWidth, fbHeight;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00125}00125     \textcolor{keywordtype}{float}           xscale, yscale;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00126}00126 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00127}00127     \textcolor{comment}{// The total sum of the distances the cursor has been warped}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00128}00128     \textcolor{comment}{// since the last cursor motion event was processed}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00129}00129     \textcolor{comment}{// This is kept to counteract Cocoa doing the same internally}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00130}00130     \textcolor{keywordtype}{double}          cursorWarpDeltaX, cursorWarpDeltaY;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00131}00131 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00132}00132 \} \mbox{\hyperlink{struct___g_l_f_wwindow_n_s}{\_GLFWwindowNS}};}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00134}00134 \textcolor{comment}{// Cocoa-\/specific global data}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00135}00135 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00136}\mbox{\hyperlink{struct___g_l_f_wlibrary_n_s}{00136}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___g_l_f_wlibrary_n_s}{\_GLFWlibraryNS}}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00137}00137 \{}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00138}00138     CGEventSourceRef    eventSource;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00139}00139     \textcolor{keywordtype}{id}                  delegate;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00140}00140     GLFWbool            cursorHidden;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00141}00141     TISInputSourceRef   inputSource;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00142}00142     IOHIDManagerRef     hidManager;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00143}00143     \textcolor{keywordtype}{id}                  unicodeData;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00144}00144     \textcolor{keywordtype}{id}                  helper;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00145}00145     \textcolor{keywordtype}{id}                  keyUpMonitor;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00146}00146     \textcolor{keywordtype}{id}                  nibObjects;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00147}00147 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00148}00148     \textcolor{keywordtype}{char}                keynames[GLFW\_KEY\_LAST + 1][17];}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00149}00149     \textcolor{keywordtype}{short} \textcolor{keywordtype}{int}           keycodes[256];}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00150}00150     \textcolor{keywordtype}{short} \textcolor{keywordtype}{int}           scancodes[GLFW\_KEY\_LAST + 1];}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00151}00151     \textcolor{keywordtype}{char}*               clipboardString;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00152}00152     CGPoint             cascadePoint;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00153}00153     \textcolor{comment}{// Where to place the cursor when re-\/enabled}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00154}00154     \textcolor{keywordtype}{double}              restoreCursorPosX, restoreCursorPosY;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00155}00155     \textcolor{comment}{// The window whose disabled cursor mode is active}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00156}00156     \mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}*        disabledCursorWindow;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00157}00157 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00158}00158     \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00159}00159         CFBundleRef     bundle;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00160}00160         PFN\_TISCopyCurrentKeyboardLayoutInputSource CopyCurrentKeyboardLayoutInputSource;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00161}00161         PFN\_TISGetInputSourceProperty GetInputSourceProperty;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00162}00162         PFN\_LMGetKbdType GetKbdType;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00163}00163         CFStringRef     kPropertyUnicodeKeyLayoutData;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00164}00164     \} tis;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00165}00165 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00166}00166 \} \mbox{\hyperlink{struct___g_l_f_wlibrary_n_s}{\_GLFWlibraryNS}};}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00167}00167 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00168}00168 \textcolor{comment}{// Cocoa-\/specific per-\/monitor data}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00169}00169 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00170}\mbox{\hyperlink{struct___g_l_f_wmonitor_n_s}{00170}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___g_l_f_wmonitor_n_s}{\_GLFWmonitorNS}}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00171}00171 \{}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00172}00172     CGDirectDisplayID   displayID;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00173}00173     CGDisplayModeRef    previousMode;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00174}00174     uint32\_t            unitNumber;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00175}00175     \textcolor{keywordtype}{id}                  screen;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00176}00176     \textcolor{keywordtype}{double}              fallbackRefreshRate;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00177}00177 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00178}00178 \} \mbox{\hyperlink{struct___g_l_f_wmonitor_n_s}{\_GLFWmonitorNS}};}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00179}00179 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00180}00180 \textcolor{comment}{// Cocoa-\/specific per-\/cursor data}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00181}00181 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00182}\mbox{\hyperlink{struct___g_l_f_wcursor_n_s}{00182}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___g_l_f_wcursor_n_s}{\_GLFWcursorNS}}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00183}00183 \{}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00184}00184     \textcolor{keywordtype}{id}              object;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00185}00185 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00186}00186 \} \mbox{\hyperlink{struct___g_l_f_wcursor_n_s}{\_GLFWcursorNS}};}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00187}00187 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00188}00188 \textcolor{comment}{// Cocoa-\/specific global timer data}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00189}00189 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00190}\mbox{\hyperlink{struct___g_l_f_wtimer_n_s}{00190}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___g_l_f_wtimer_n_s}{\_GLFWtimerNS}}}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00191}00191 \{}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00192}00192     uint64\_t        frequency;}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00193}00193 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00194}00194 \} \mbox{\hyperlink{struct___g_l_f_wtimer_n_s}{\_GLFWtimerNS}};}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00195}00195 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00196}00196 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00197}00197 \textcolor{keywordtype}{void} \_glfwInitTimerNS(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00198}00198 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00199}00199 \textcolor{keywordtype}{void} \_glfwPollMonitorsNS(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00200}00200 \textcolor{keywordtype}{void} \_glfwSetVideoModeNS(\mbox{\hyperlink{struct___g_l_f_wmonitor}{\_GLFWmonitor}}* monitor, \textcolor{keyword}{const} \mbox{\hyperlink{struct_g_l_f_wvidmode}{GLFWvidmode}}* desired);}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00201}00201 \textcolor{keywordtype}{void} \_glfwRestoreVideoModeNS(\mbox{\hyperlink{struct___g_l_f_wmonitor}{\_GLFWmonitor}}* monitor);}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00202}00202 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00203}00203 \textcolor{keywordtype}{float} \_glfwTransformYNS(\textcolor{keywordtype}{float} y);}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00204}00204 }
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00205}00205 \textcolor{keywordtype}{void}* \_glfwLoadLocalVulkanLoaderNS(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{cocoa__platform_8h_source_l00206}00206 }
+
+\end{DoxyCode}

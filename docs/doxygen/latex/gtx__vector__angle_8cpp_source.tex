@@ -1,0 +1,65 @@
+\hypertarget{gtx__vector__angle_8cpp_source}{}\doxysection{gtx\+\_\+vector\+\_\+angle.\+cpp}
+\label{gtx__vector__angle_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/gtx/gtx\_vector\_angle.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/gtx/gtx\_vector\_angle.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00001}00001 \textcolor{preprocessor}{\#define GLM\_ENABLE\_EXPERIMENTAL}}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00002}00002 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{constants_8hpp}{glm/gtc/constants.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00003}00003 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{vector__angle_8hpp}{glm/gtx/vector\_angle.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00004}00004 \textcolor{preprocessor}{\#include <limits>}}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00006}00006 \textcolor{keywordtype}{int} test\_angle()}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00007}00007 \{}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00008}00008     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00009}00009     }
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00010}00010     \textcolor{keywordtype}{float} AngleA = \mbox{\hyperlink{group__gtc__quaternion_gaaee6c856cae3217d274a240238cb6373}{glm::angle}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1, 0), glm::normalize(\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1, 1)));}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00011}00011     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(AngleA, glm::pi<float>() * 0.25f, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00012}00012     \textcolor{keywordtype}{float} AngleB = \mbox{\hyperlink{group__gtc__quaternion_gaaee6c856cae3217d274a240238cb6373}{glm::angle}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1, 0, 0), glm::normalize(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1, 1, 0)));}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00013}00013     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(AngleB, glm::pi<float>() * 0.25f, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00014}00014     \textcolor{keywordtype}{float} AngleC = \mbox{\hyperlink{group__gtc__quaternion_gaaee6c856cae3217d274a240238cb6373}{glm::angle}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1, 0, 0, 0), glm::normalize(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1, 1, 0, 0)));}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00015}00015     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(AngleC, glm::pi<float>() * 0.25f, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00017}00017     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00018}00018 \}}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00020}00020 \textcolor{keywordtype}{int} test\_orientedAngle\_vec2()}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00021}00021 \{}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00022}00022     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00023}00023     }
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00024}00024     \textcolor{keywordtype}{float} AngleA = \mbox{\hyperlink{group__gtx__vector__angle_ga9556a803dce87fe0f42fdabe4ebba1d5}{glm::orientedAngle}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1, 0), glm::normalize(\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1, 1)));}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00025}00025     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(AngleA, glm::pi<float>() * 0.25f, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00026}00026     \textcolor{keywordtype}{float} AngleB = \mbox{\hyperlink{group__gtx__vector__angle_ga9556a803dce87fe0f42fdabe4ebba1d5}{glm::orientedAngle}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(0, 1), glm::normalize(\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1, 1)));}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00027}00027     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(AngleB, -\/glm::pi<float>() * 0.25f, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00028}00028     \textcolor{keywordtype}{float} AngleC = \mbox{\hyperlink{group__gtx__vector__angle_ga9556a803dce87fe0f42fdabe4ebba1d5}{glm::orientedAngle}}(glm::normalize(\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1, 1)), \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(0, 1));}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00029}00029     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(AngleC, glm::pi<float>() * 0.25f, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00031}00031     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00032}00032 \}}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00034}00034 \textcolor{keywordtype}{int} test\_orientedAngle\_vec3()}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00035}00035 \{}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00036}00036     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00037}00037     }
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00038}00038     \textcolor{keywordtype}{float} AngleA = \mbox{\hyperlink{group__gtx__vector__angle_ga9556a803dce87fe0f42fdabe4ebba1d5}{glm::orientedAngle}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1, 0, 0), glm::normalize(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1, 1, 0)), \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 0, 1));}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00039}00039     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(AngleA, glm::pi<float>() * 0.25f, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00040}00040     \textcolor{keywordtype}{float} AngleB = \mbox{\hyperlink{group__gtx__vector__angle_ga9556a803dce87fe0f42fdabe4ebba1d5}{glm::orientedAngle}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 1, 0), glm::normalize(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1, 1, 0)), \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 0, 1));}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00041}00041     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(AngleB, -\/glm::pi<float>() * 0.25f, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00042}00042     \textcolor{keywordtype}{float} AngleC = \mbox{\hyperlink{group__gtx__vector__angle_ga9556a803dce87fe0f42fdabe4ebba1d5}{glm::orientedAngle}}(glm::normalize(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1, 1, 0)), \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 1, 0), \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 0, 1));}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00043}00043     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(AngleC, glm::pi<float>() * 0.25f, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00045}00045     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00046}00046 \}}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00048}00048 \textcolor{keywordtype}{int} main()}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00049}00049 \{}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00050}00050     \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00051}00051     }
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00052}00052     Error += test\_angle();}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00053}00053     Error += test\_orientedAngle\_vec2();}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00054}00054     Error += test\_orientedAngle\_vec3();}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00056}00056     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00057}00057 \}}
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{gtx__vector__angle_8cpp_source_l00059}00059 }
+
+\end{DoxyCode}

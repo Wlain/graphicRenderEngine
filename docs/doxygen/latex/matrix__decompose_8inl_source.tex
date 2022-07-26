@@ -1,0 +1,190 @@
+\hypertarget{matrix__decompose_8inl_source}{}\doxysection{matrix\+\_\+decompose.\+inl}
+\label{matrix__decompose_8inl_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtx/matrix\_decompose.inl@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtx/matrix\_decompose.inl}}
+\mbox{\hyperlink{matrix__decompose_8inl}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00004}00004 \textcolor{preprocessor}{\#include "{}../gtc/constants.hpp"{}}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00005}00005 \textcolor{preprocessor}{\#include "{}../gtc/epsilon.hpp"{}}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00006}00006 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00007}00007 \textcolor{keyword}{namespace }glm\{}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00008}00008 \textcolor{keyword}{namespace }detail}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00009}00009 \{}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00011}00011     \textcolor{comment}{// result = (a * ascl) + (b * bscl)}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00012}00012     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00013}\mbox{\hyperlink{matrix__decompose_8inl_a4363abf5c2e8ba2090523a122202fe76}{00013}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \mbox{\hyperlink{matrix__decompose_8inl_a4363abf5c2e8ba2090523a122202fe76}{combine}}(}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00014}00014         \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& a,}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00015}00015         \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& b,}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00016}00016         T ascl, T bscl)}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00017}00017     \{}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00018}00018         \textcolor{keywordflow}{return} (a * ascl) + (b * bscl);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00019}00019     \}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00020}00020 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00021}00021     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00022}00022     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} scale(\mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& v, T desiredLength)}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00023}00023     \{}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00024}00024         \textcolor{keywordflow}{return} v * desiredLength / length(v);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00025}00025     \}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00026}00026 \}\textcolor{comment}{//namespace detail}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00028}00028     \textcolor{comment}{// Matrix decompose}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00029}00029     \textcolor{comment}{// http://www.opensource.apple.com/source/WebCore/WebCore-\/514/platform/graphics/transforms/TransformationMatrix.cpp}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00030}00030     \textcolor{comment}{// Decomposes the mode matrix to translations,rotation scale components}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00032}00032     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00033}\mbox{\hyperlink{group__gtx__matrix__decompose_ga91185463739c855d602596907a9994bc}{00033}}     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{bool} \mbox{\hyperlink{group__gtx__matrix__decompose_ga91185463739c855d602596907a9994bc}{decompose}}(\mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \textcolor{keyword}{const}\& ModelMatrix, \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \& Scale, \mbox{\hyperlink{structglm_1_1tquat}{tquat<T, Q>}} \& Orientation, \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \& Translation, \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \& Skew, \mbox{\hyperlink{structglm_1_1vec_3_014_00_01_t_00_01_q_01_4}{vec<4, T, Q>}} \& Perspective)}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00034}00034     \{}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00035}00035         \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} LocalMatrix(ModelMatrix);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00037}00037         \textcolor{comment}{// Normalize the matrix.}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00038}00038         \textcolor{keywordflow}{if}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(LocalMatrix[3][3], \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0), epsilon<T>()))}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00039}00039             \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00041}00041         \textcolor{keywordflow}{for}(length\_t i = 0; i < 4; ++i)}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00042}00042         \textcolor{keywordflow}{for}(length\_t j = 0; j < 4; ++j)}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00043}00043             LocalMatrix[i][j] /= LocalMatrix[3][3];}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00045}00045         \textcolor{comment}{// perspectiveMatrix is used to solve for perspective, but it also provides}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00046}00046         \textcolor{comment}{// an easy way to test for singularity of the upper 3x3 component.}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00047}00047         \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} PerspectiveMatrix(LocalMatrix);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00049}00049         \textcolor{keywordflow}{for}(length\_t i = 0; i < 3; i++)}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00050}00050             PerspectiveMatrix[i][3] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00051}00051         PerspectiveMatrix[3][3] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00054}00054         \textcolor{keywordflow}{if}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(\mbox{\hyperlink{group__core__func__matrix_gad7928795124768e058f99dce270f5c8d}{determinant}}(PerspectiveMatrix), \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0), epsilon<T>()))}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00055}00055             \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00057}00057         \textcolor{comment}{// First, isolate perspective.  This is the messiest.}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00058}00058         \textcolor{keywordflow}{if}(}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00059}00059             \mbox{\hyperlink{group__gtc__epsilon_ga5a19d270e1912843d95f476fe2d3882d}{epsilonNotEqual}}(LocalMatrix[0][3], \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0), epsilon<T>()) ||}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00060}00060             \mbox{\hyperlink{group__gtc__epsilon_ga5a19d270e1912843d95f476fe2d3882d}{epsilonNotEqual}}(LocalMatrix[1][3], \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0), epsilon<T>()) ||}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00061}00061             \mbox{\hyperlink{group__gtc__epsilon_ga5a19d270e1912843d95f476fe2d3882d}{epsilonNotEqual}}(LocalMatrix[2][3], \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0), epsilon<T>()))}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00062}00062         \{}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00063}00063             \textcolor{comment}{// rightHandSide is the right hand side of the equation.}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00064}00064             \mbox{\hyperlink{structglm_1_1vec_3_014_00_01_t_00_01_q_01_4}{vec<4, T, Q>}} RightHandSide;}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00065}00065             RightHandSide[0] = LocalMatrix[0][3];}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00066}00066             RightHandSide[1] = LocalMatrix[1][3];}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00067}00067             RightHandSide[2] = LocalMatrix[2][3];}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00068}00068             RightHandSide[3] = LocalMatrix[3][3];}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00070}00070             \textcolor{comment}{// Solve the equation by inverting PerspectiveMatrix and multiplying}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00071}00071             \textcolor{comment}{// rightHandSide by the inverse.  (This is the easiest way, not}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00072}00072             \textcolor{comment}{// necessarily the best.)}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00073}00073             \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} InversePerspectiveMatrix = \mbox{\hyperlink{group__core__func__matrix_gace61e11fc177491beeca0c6971e2f3fc}{glm::inverse}}(PerspectiveMatrix);\textcolor{comment}{//   inverse(PerspectiveMatrix, inversePerspectiveMatrix);}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00074}00074             \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} TransposedInversePerspectiveMatrix = \mbox{\hyperlink{group__core__func__matrix_ga4d251df5957b62996391bccb61cc9974}{glm::transpose}}(InversePerspectiveMatrix);\textcolor{comment}{//   transposeMatrix4(inversePerspectiveMatrix, transposedInversePerspectiveMatrix);}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00075}00075 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00076}00076             Perspective = TransposedInversePerspectiveMatrix * RightHandSide;}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00077}00077             \textcolor{comment}{//  v4MulPointByMatrix(rightHandSide, transposedInversePerspectiveMatrix, perspectivePoint);}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00078}00078 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00079}00079             \textcolor{comment}{// Clear the perspective partition}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00080}00080             LocalMatrix[0][3] = LocalMatrix[1][3] = LocalMatrix[2][3] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00081}00081             LocalMatrix[3][3] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00082}00082         \}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00083}00083         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00084}00084         \{}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00085}00085             \textcolor{comment}{// No perspective.}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00086}00086             Perspective = \mbox{\hyperlink{structglm_1_1vec_3_014_00_01_t_00_01_q_01_4}{vec<4, T, Q>}}(0, 0, 0, 1);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00087}00087         \}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00088}00088 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00089}00089         \textcolor{comment}{// Next take care of translation (easy).}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00090}00090         Translation = \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}}(LocalMatrix[3]);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00091}00091         LocalMatrix[3] = \mbox{\hyperlink{structglm_1_1vec_3_014_00_01_t_00_01_q_01_4}{vec<4, T, Q>}}(0, 0, 0, LocalMatrix[3].w);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00093}00093         \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} Row[3], Pdum3;}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00095}00095         \textcolor{comment}{// Now get scale and shear.}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00096}00096         \textcolor{keywordflow}{for}(length\_t i = 0; i < 3; ++i)}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00097}00097         \textcolor{keywordflow}{for}(length\_t j = 0; j < 3; ++j)}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00098}00098             Row[i][j] = LocalMatrix[i][j];}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00099}00099 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00100}00100         \textcolor{comment}{// Compute X scale factor and normalize first row.}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00101}00101         Scale.x = length(Row[0]);\textcolor{comment}{// v3Length(Row[0]);}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00103}00103         Row[0] = detail::scale(Row[0], \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1));}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00105}00105         \textcolor{comment}{// Compute XY shear factor and make 2nd row orthogonal to 1st.}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00106}00106         Skew.z = dot(Row[0], Row[1]);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00107}00107         Row[1] = detail::combine(Row[1], Row[0], \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1), -\/Skew.z);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00108}00108 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00109}00109         \textcolor{comment}{// Now, compute Y scale and normalize 2nd row.}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00110}00110         Scale.y = length(Row[1]);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00111}00111         Row[1] = detail::scale(Row[1], \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1));}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00112}00112         Skew.z /= Scale.y;}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00113}00113 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00114}00114         \textcolor{comment}{// Compute XZ and YZ shears, orthogonalize 3rd row.}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00115}00115         Skew.y = glm::dot(Row[0], Row[2]);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00116}00116         Row[2] = detail::combine(Row[2], Row[0], \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1), -\/Skew.y);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00117}00117         Skew.x = glm::dot(Row[1], Row[2]);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00118}00118         Row[2] = detail::combine(Row[2], Row[1], \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1), -\/Skew.x);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00120}00120         \textcolor{comment}{// Next, get Z scale and normalize 3rd row.}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00121}00121         Scale.z = length(Row[2]);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00122}00122         Row[2] = detail::scale(Row[2], \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1));}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00123}00123         Skew.y /= Scale.z;}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00124}00124         Skew.x /= Scale.z;}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00126}00126         \textcolor{comment}{// At this point, the matrix (in rows[]) is orthonormal.}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00127}00127         \textcolor{comment}{// Check for a coordinate system flip.  If the determinant}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00128}00128         \textcolor{comment}{// is -\/1, then negate the matrix and the scaling factors.}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00129}00129         Pdum3 = \mbox{\hyperlink{group__core__func__geometric_gaa9583340130a6b700eced5b100c5ccaa}{cross}}(Row[1], Row[2]); \textcolor{comment}{// v3Cross(row[1], row[2], Pdum3);}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00130}00130         \textcolor{keywordflow}{if}(dot(Row[0], Pdum3) < 0)}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00131}00131         \{}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00132}00132             \textcolor{keywordflow}{for}(length\_t i = 0; i < 3; i++)}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00133}00133             \{}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00134}00134                 Scale[i] *= \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(-\/1);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00135}00135                 Row[i] *= \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(-\/1);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00136}00136             \}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00137}00137         \}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00138}00138 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00139}00139         \textcolor{comment}{// Now, get the rotations out, as described in the gem.}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00140}00140 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00141}00141         \textcolor{comment}{// FIXME -\/ Add the ability to return either quaternions (which are}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00142}00142         \textcolor{comment}{// easier to recompose with) or Euler angles (rx, ry, rz), which}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00143}00143         \textcolor{comment}{// are easier for authors to deal with. The latter will only be useful}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00144}00144         \textcolor{comment}{// when we fix https://bugs.webkit.org/show\_bug.cgi?id=23799, so I}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00145}00145         \textcolor{comment}{// will leave the Euler angle code here for now.}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00146}00146 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00147}00147         \textcolor{comment}{// ret.rotateY = asin(-\/Row[0][2]);}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00148}00148         \textcolor{comment}{// if (cos(ret.rotateY) != 0) \{}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00149}00149         \textcolor{comment}{//     ret.rotateX = atan2(Row[1][2], Row[2][2]);}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00150}00150         \textcolor{comment}{//     ret.rotateZ = atan2(Row[0][1], Row[0][0]);}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00151}00151         \textcolor{comment}{// \} else \{}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00152}00152         \textcolor{comment}{//     ret.rotateX = atan2(-\/Row[2][0], Row[1][1]);}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00153}00153         \textcolor{comment}{//     ret.rotateZ = 0;}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00154}00154         \textcolor{comment}{// \}}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00155}00155 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00156}00156         \textcolor{keywordtype}{int} i, j, k = 0;}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00157}00157         \textcolor{keywordtype}{float} root, trace = Row[0].x + Row[1].y + Row[2].z;}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00158}00158         \textcolor{keywordflow}{if}(trace > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0))}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00159}00159         \{}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00160}00160             root = \mbox{\hyperlink{group__core__func__exponential_ga1f904e09827e939a56e4158f45ca8ede}{sqrt}}(trace + \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1.0));}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00161}00161             Orientation.w = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5) * root;}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00162}00162             root = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5) / root;}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00163}00163             Orientation.x = root * (Row[1].z -\/ Row[2].y);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00164}00164             Orientation.y = root * (Row[2].x -\/ Row[0].z);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00165}00165             Orientation.z = root * (Row[0].y -\/ Row[1].x);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00166}00166         \} \textcolor{comment}{// End if > 0}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00167}00167         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00168}00168         \{}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00169}00169             \textcolor{keyword}{static} \textcolor{keywordtype}{int} Next[3] = \{1, 2, 0\};}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00170}00170             i = 0;}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00171}00171             \textcolor{keywordflow}{if}(Row[1].y > Row[0].x) i = 1;}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00172}00172             \textcolor{keywordflow}{if}(Row[2].z > Row[i][i]) i = 2;}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00173}00173             j = Next[i];}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00174}00174             k = Next[j];}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00175}00175 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00176}00176             root = \mbox{\hyperlink{group__core__func__exponential_ga1f904e09827e939a56e4158f45ca8ede}{sqrt}}(Row[i][i] -\/ Row[j][j] -\/ Row[k][k] + \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1.0));}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00177}00177 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00178}00178             Orientation[i] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5) * root;}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00179}00179             root = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5) / root;}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00180}00180             Orientation[j] = root * (Row[i][j] + Row[j][i]);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00181}00181             Orientation[k] = root * (Row[i][k] + Row[k][i]);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00182}00182             Orientation.w = root * (Row[j][k] -\/ Row[k][j]);}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00183}00183         \} \textcolor{comment}{// End if <= 0}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00184}00184 }
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00185}00185         \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00186}00186     \}}
+\DoxyCodeLine{\Hypertarget{matrix__decompose_8inl_source_l00187}00187 \}\textcolor{comment}{//namespace glm}}
+
+\end{DoxyCode}

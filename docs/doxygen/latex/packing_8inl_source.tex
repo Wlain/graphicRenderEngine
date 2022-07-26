@@ -1,0 +1,943 @@
+\hypertarget{packing_8inl_source}{}\doxysection{packing.\+inl}
+\label{packing_8inl_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtc/packing.inl@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtc/packing.inl}}
+\mbox{\hyperlink{packing_8inl}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00004}00004 \textcolor{preprocessor}{\#include "{}../common.hpp"{}}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00005}00005 \textcolor{preprocessor}{\#include "{}../vector\_relational.hpp"{}}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00006}00006 \textcolor{preprocessor}{\#include "{}../vec2.hpp"{}}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00007}00007 \textcolor{preprocessor}{\#include "{}../vec3.hpp"{}}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00008}00008 \textcolor{preprocessor}{\#include "{}../vec4.hpp"{}}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00009}00009 \textcolor{preprocessor}{\#include "{}../detail/type\_half.hpp"{}}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00010}00010 \textcolor{preprocessor}{\#include <cstring>}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00011}00011 \textcolor{preprocessor}{\#include <limits>}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00013}00013 \textcolor{keyword}{namespace }glm\{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00014}00014 \textcolor{keyword}{namespace }detail}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00015}00015 \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00016}00016     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{glm::uint16}} float2half(\mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{glm::uint32}} f)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00017}00017     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00018}00018         \textcolor{comment}{// 10 bits    =>                         EE EEEFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00019}00019         \textcolor{comment}{// 11 bits    =>                        EEE EEFFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00020}00020         \textcolor{comment}{// Half bits  =>                   SEEEEEFF FFFFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00021}00021         \textcolor{comment}{// Float bits => SEEEEEEE EFFFFFFF FFFFFFFF FFFFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00023}00023         \textcolor{comment}{// 0x00007c00 => 00000000 00000000 01111100 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00024}00024         \textcolor{comment}{// 0x000003ff => 00000000 00000000 00000011 11111111}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00025}00025         \textcolor{comment}{// 0x38000000 => 00111000 00000000 00000000 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00026}00026         \textcolor{comment}{// 0x7f800000 => 01111111 10000000 00000000 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00027}00027         \textcolor{comment}{// 0x00008000 => 00000000 00000000 10000000 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00028}00028         \textcolor{keywordflow}{return}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00029}00029             ((f >> 16) \& 0x8000) | \textcolor{comment}{// sign}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00030}00030             ((((f \& 0x7f800000) -\/ 0x38000000) >> 13) \& 0x7c00) | \textcolor{comment}{// exponential}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00031}00031             ((f >> 13) \& 0x03ff); \textcolor{comment}{// Mantissa}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00032}00032     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00034}00034     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{glm::uint32}} float2packed11(\mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{glm::uint32}} f)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00035}00035     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00036}00036         \textcolor{comment}{// 10 bits    =>                         EE EEEFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00037}00037         \textcolor{comment}{// 11 bits    =>                        EEE EEFFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00038}00038         \textcolor{comment}{// Half bits  =>                   SEEEEEFF FFFFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00039}00039         \textcolor{comment}{// Float bits => SEEEEEEE EFFFFFFF FFFFFFFF FFFFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00041}00041         \textcolor{comment}{// 0x000007c0 => 00000000 00000000 00000111 11000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00042}00042         \textcolor{comment}{// 0x00007c00 => 00000000 00000000 01111100 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00043}00043         \textcolor{comment}{// 0x000003ff => 00000000 00000000 00000011 11111111}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00044}00044         \textcolor{comment}{// 0x38000000 => 00111000 00000000 00000000 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00045}00045         \textcolor{comment}{// 0x7f800000 => 01111111 10000000 00000000 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00046}00046         \textcolor{comment}{// 0x00008000 => 00000000 00000000 10000000 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00047}00047         \textcolor{keywordflow}{return}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00048}00048             ((((f \& 0x7f800000) -\/ 0x38000000) >> 17) \& 0x07c0) | \textcolor{comment}{// exponential}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00049}00049             ((f >> 17) \& 0x003f); \textcolor{comment}{// Mantissa}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00050}00050     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00052}00052     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{glm::uint32}} packed11ToFloat(\mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{glm::uint32}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00053}00053     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00054}00054         \textcolor{comment}{// 10 bits    =>                         EE EEEFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00055}00055         \textcolor{comment}{// 11 bits    =>                        EEE EEFFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00056}00056         \textcolor{comment}{// Half bits  =>                   SEEEEEFF FFFFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00057}00057         \textcolor{comment}{// Float bits => SEEEEEEE EFFFFFFF FFFFFFFF FFFFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00059}00059         \textcolor{comment}{// 0x000007c0 => 00000000 00000000 00000111 11000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00060}00060         \textcolor{comment}{// 0x00007c00 => 00000000 00000000 01111100 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00061}00061         \textcolor{comment}{// 0x000003ff => 00000000 00000000 00000011 11111111}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00062}00062         \textcolor{comment}{// 0x38000000 => 00111000 00000000 00000000 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00063}00063         \textcolor{comment}{// 0x7f800000 => 01111111 10000000 00000000 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00064}00064         \textcolor{comment}{// 0x00008000 => 00000000 00000000 10000000 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00065}00065         \textcolor{keywordflow}{return}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00066}00066             ((((p \& 0x07c0) << 17) + 0x38000000) \& 0x7f800000) | \textcolor{comment}{// exponential}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00067}00067             ((p \& 0x003f) << 17); \textcolor{comment}{// Mantissa}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00068}00068     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00070}00070     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{glm::uint32}} float2packed10(\mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{glm::uint32}} f)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00071}00071     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00072}00072         \textcolor{comment}{// 10 bits    =>                         EE EEEFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00073}00073         \textcolor{comment}{// 11 bits    =>                        EEE EEFFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00074}00074         \textcolor{comment}{// Half bits  =>                   SEEEEEFF FFFFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00075}00075         \textcolor{comment}{// Float bits => SEEEEEEE EFFFFFFF FFFFFFFF FFFFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00077}00077         \textcolor{comment}{// 0x0000001F => 00000000 00000000 00000000 00011111}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00078}00078         \textcolor{comment}{// 0x0000003F => 00000000 00000000 00000000 00111111}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00079}00079         \textcolor{comment}{// 0x000003E0 => 00000000 00000000 00000011 11100000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00080}00080         \textcolor{comment}{// 0x000007C0 => 00000000 00000000 00000111 11000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00081}00081         \textcolor{comment}{// 0x00007C00 => 00000000 00000000 01111100 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00082}00082         \textcolor{comment}{// 0x000003FF => 00000000 00000000 00000011 11111111}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00083}00083         \textcolor{comment}{// 0x38000000 => 00111000 00000000 00000000 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00084}00084         \textcolor{comment}{// 0x7f800000 => 01111111 10000000 00000000 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00085}00085         \textcolor{comment}{// 0x00008000 => 00000000 00000000 10000000 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00086}00086         \textcolor{keywordflow}{return}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00087}00087             ((((f \& 0x7f800000) -\/ 0x38000000) >> 18) \& 0x03E0) | \textcolor{comment}{// exponential}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00088}00088             ((f >> 18) \& 0x001f); \textcolor{comment}{// Mantissa}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00089}00089     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00091}00091     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{glm::uint32}} packed10ToFloat(\mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{glm::uint32}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00092}00092     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00093}00093         \textcolor{comment}{// 10 bits    =>                         EE EEEFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00094}00094         \textcolor{comment}{// 11 bits    =>                        EEE EEFFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00095}00095         \textcolor{comment}{// Half bits  =>                   SEEEEEFF FFFFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00096}00096         \textcolor{comment}{// Float bits => SEEEEEEE EFFFFFFF FFFFFFFF FFFFFFFF}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00098}00098         \textcolor{comment}{// 0x0000001F => 00000000 00000000 00000000 00011111}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00099}00099         \textcolor{comment}{// 0x0000003F => 00000000 00000000 00000000 00111111}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00100}00100         \textcolor{comment}{// 0x000003E0 => 00000000 00000000 00000011 11100000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00101}00101         \textcolor{comment}{// 0x000007C0 => 00000000 00000000 00000111 11000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00102}00102         \textcolor{comment}{// 0x00007C00 => 00000000 00000000 01111100 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00103}00103         \textcolor{comment}{// 0x000003FF => 00000000 00000000 00000011 11111111}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00104}00104         \textcolor{comment}{// 0x38000000 => 00111000 00000000 00000000 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00105}00105         \textcolor{comment}{// 0x7f800000 => 01111111 10000000 00000000 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00106}00106         \textcolor{comment}{// 0x00008000 => 00000000 00000000 10000000 00000000}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00107}00107         \textcolor{keywordflow}{return}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00108}00108             ((((p \& 0x03E0) << 18) + 0x38000000) \& 0x7f800000) | \textcolor{comment}{// exponential}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00109}00109             ((p \& 0x001f) << 18); \textcolor{comment}{// Mantissa}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00110}00110     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00111}00111 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00112}00112     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{glm::uint}} half2float(\mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{glm::uint}} h)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00113}00113     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00114}00114         \textcolor{keywordflow}{return} ((h \& 0x8000) << 16) | ((( h \& 0x7c00) + 0x1C000) << 13) | ((h \& 0x03FF) << 13);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00115}00115     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00117}00117     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{glm::uint}} floatTo11bit(\textcolor{keywordtype}{float} x)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00118}00118     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00119}00119         \textcolor{keywordflow}{if}(x == 0.0f)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00120}00120             \textcolor{keywordflow}{return} 0u;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00121}00121         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(\mbox{\hyperlink{group__core__func__common_ga81f85e3c56f1f559034422b357c37e21}{glm::isnan}}(x))}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00122}00122             \textcolor{keywordflow}{return} \string~0u;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00123}00123         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(\mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}(x))}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00124}00124             \textcolor{keywordflow}{return} 0x1Fu << 6u;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00126}00126         uint Pack = 0u;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00127}00127         memcpy(\&Pack, \&x, \textcolor{keyword}{sizeof}(Pack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00128}00128         \textcolor{keywordflow}{return} float2packed11(Pack);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00129}00129     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00130}00130 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00131}00131     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{float} packed11bitToFloat(\mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{glm::uint}} x)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00132}00132     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00133}00133         \textcolor{keywordflow}{if}(x == 0)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00134}00134             \textcolor{keywordflow}{return} 0.0f;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00135}00135         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(x == ((1 << 11) -\/ 1))}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00136}00136             \textcolor{keywordflow}{return} \string~0;\textcolor{comment}{//NaN}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00137}00137         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(x == (0x1f << 6))}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00138}00138             \textcolor{keywordflow}{return} \string~0;\textcolor{comment}{//Inf}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00139}00139 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00140}00140         uint Result = packed11ToFloat(x);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00141}00141 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00142}00142         \textcolor{keywordtype}{float} Temp = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00143}00143         memcpy(\&Temp, \&Result, \textcolor{keyword}{sizeof}(Temp));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00144}00144         \textcolor{keywordflow}{return} Temp;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00145}00145     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00146}00146 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00147}00147     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{glm::uint}} floatTo10bit(\textcolor{keywordtype}{float} x)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00148}00148     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00149}00149         \textcolor{keywordflow}{if}(x == 0.0f)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00150}00150             \textcolor{keywordflow}{return} 0u;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00151}00151         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(\mbox{\hyperlink{group__core__func__common_ga81f85e3c56f1f559034422b357c37e21}{glm::isnan}}(x))}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00152}00152             \textcolor{keywordflow}{return} \string~0u;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00153}00153         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(\mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}(x))}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00154}00154             \textcolor{keywordflow}{return} 0x1Fu << 5u;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00155}00155 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00156}00156         uint Pack = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00157}00157         memcpy(\&Pack, \&x, \textcolor{keyword}{sizeof}(Pack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00158}00158         \textcolor{keywordflow}{return} float2packed10(Pack);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00159}00159     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00160}00160 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00161}00161     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{float} packed10bitToFloat(\mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{glm::uint}} x)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00162}00162     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00163}00163         \textcolor{keywordflow}{if}(x == 0)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00164}00164             \textcolor{keywordflow}{return} 0.0f;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00165}00165         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(x == ((1 << 10) -\/ 1))}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00166}00166             \textcolor{keywordflow}{return} \string~0;\textcolor{comment}{//NaN}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00167}00167         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(x == (0x1f << 5))}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00168}00168             \textcolor{keywordflow}{return} \string~0;\textcolor{comment}{//Inf}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00169}00169 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00170}00170         uint Result = packed10ToFloat(x);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00171}00171 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00172}00172         \textcolor{keywordtype}{float} Temp = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00173}00173         memcpy(\&Temp, \&Result, \textcolor{keyword}{sizeof}(Temp));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00174}00174         \textcolor{keywordflow}{return} Temp;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00175}00175     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00176}00176 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00177}00177 \textcolor{comment}{//  GLM\_FUNC\_QUALIFIER glm::uint f11\_f11\_f10(float x, float y, float z)}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00178}00178 \textcolor{comment}{//  \{}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00179}00179 \textcolor{comment}{//      return ((floatTo11bit(x) \& ((1 << 11) -\/ 1)) << 0) |  ((floatTo11bit(y) \& ((1 << 11) -\/ 1)) << 11) | ((floatTo10bit(z) \& ((1 << 10) -\/ 1)) << 22);}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00180}00180 \textcolor{comment}{//  \}}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00181}00181 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00182}\mbox{\hyperlink{unionglm_1_1detail_1_1u3u3u2}{00182}}     \textcolor{keyword}{union }\mbox{\hyperlink{unionglm_1_1detail_1_1u3u3u2}{u3u3u2}}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00183}00183     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00184}00184         \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00185}00185         \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00186}00186             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} x : 3;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00187}00187             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} y : 3;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00188}00188             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} z : 2;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00189}00189         \} data;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00190}00190         uint8 pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00191}00191     \};}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00192}00192 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00193}\mbox{\hyperlink{unionglm_1_1detail_1_1u4u4}{00193}}     \textcolor{keyword}{union }\mbox{\hyperlink{unionglm_1_1detail_1_1u4u4}{u4u4}}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00194}00194     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00195}00195         \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00196}00196         \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00197}00197             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} x : 4;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00198}00198             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} y : 4;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00199}00199         \} data;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00200}00200         uint8 pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00201}00201     \};}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00202}00202 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00203}\mbox{\hyperlink{unionglm_1_1detail_1_1u4u4u4u4}{00203}}     \textcolor{keyword}{union }\mbox{\hyperlink{unionglm_1_1detail_1_1u4u4u4u4}{u4u4u4u4}}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00204}00204     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00205}00205         \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00206}00206         \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00207}00207             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} x : 4;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00208}00208             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} y : 4;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00209}00209             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} z : 4;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00210}00210             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} w : 4;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00211}00211         \} data;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00212}00212         uint16 pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00213}00213     \};}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00214}00214 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00215}\mbox{\hyperlink{unionglm_1_1detail_1_1u5u6u5}{00215}}     \textcolor{keyword}{union }\mbox{\hyperlink{unionglm_1_1detail_1_1u5u6u5}{u5u6u5}}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00216}00216     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00217}00217         \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00218}00218         \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00219}00219             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} x : 5;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00220}00220             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} y : 6;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00221}00221             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} z : 5;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00222}00222         \} data;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00223}00223         uint16 pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00224}00224     \};}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00225}00225 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00226}\mbox{\hyperlink{unionglm_1_1detail_1_1u5u5u5u1}{00226}}     \textcolor{keyword}{union }\mbox{\hyperlink{unionglm_1_1detail_1_1u5u5u5u1}{u5u5u5u1}}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00227}00227     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00228}00228         \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00229}00229         \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00230}00230             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} x : 5;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00231}00231             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} y : 5;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00232}00232             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} z : 5;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00233}00233             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} w : 1;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00234}00234         \} data;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00235}00235         uint16 pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00236}00236     \};}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00237}00237 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00238}\mbox{\hyperlink{unionglm_1_1detail_1_1u10u10u10u2}{00238}}     \textcolor{keyword}{union }\mbox{\hyperlink{unionglm_1_1detail_1_1u10u10u10u2}{u10u10u10u2}}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00239}00239     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00240}00240         \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00241}00241         \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00242}00242             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} x : 10;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00243}00243             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} y : 10;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00244}00244             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} z : 10;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00245}00245             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} w : 2;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00246}00246         \} data;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00247}00247         uint32 pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00248}00248     \};}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00249}00249 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00250}\mbox{\hyperlink{unionglm_1_1detail_1_1i10i10i10i2}{00250}}     \textcolor{keyword}{union }\mbox{\hyperlink{unionglm_1_1detail_1_1i10i10i10i2}{i10i10i10i2}}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00251}00251     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00252}00252         \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00253}00253         \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00254}00254             \textcolor{keywordtype}{int} x : 10;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00255}00255             \textcolor{keywordtype}{int} y : 10;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00256}00256             \textcolor{keywordtype}{int} z : 10;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00257}00257             \textcolor{keywordtype}{int} w : 2;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00258}00258         \} data;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00259}00259         uint32 pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00260}00260     \};}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00261}00261 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00262}\mbox{\hyperlink{unionglm_1_1detail_1_1u9u9u9e5}{00262}}     \textcolor{keyword}{union }\mbox{\hyperlink{unionglm_1_1detail_1_1u9u9u9e5}{u9u9u9e5}}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00263}00263     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00264}00264         \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00265}00265         \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00266}00266             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} x : 9;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00267}00267             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} y : 9;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00268}00268             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} z : 9;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00269}00269             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} w : 5;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00270}00270         \} data;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00271}00271         uint32 pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00272}00272     \};}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00273}00273 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00274}00274     \textcolor{keyword}{template}<length\_t L, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00275}\mbox{\hyperlink{structglm_1_1detail_1_1compute__half}{00275}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structglm_1_1detail_1_1compute__half}{compute\_half}}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00276}00276     \{\};}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00277}00277 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00278}00278     \textcolor{keyword}{template}<qualifier Q>}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00279}\mbox{\hyperlink{structglm_1_1detail_1_1compute__half_3_011_00_01_q_01_4}{00279}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structglm_1_1detail_1_1compute__half}{compute\_half}}<1, Q>}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00280}00280     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00281}00281         GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \mbox{\hyperlink{structglm_1_1vec}{vec<1, uint16, Q>}} pack(\mbox{\hyperlink{structglm_1_1vec}{vec<1, float, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00282}00282         \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00283}00283             int16 \textcolor{keyword}{const} Unpack(detail::toFloat16(v.x));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00284}00284             \mbox{\hyperlink{structglm_1_1vec}{u16vec1}} Packed;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00285}00285             memcpy(\&Packed, \&Unpack, \textcolor{keyword}{sizeof}(Packed));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00286}00286             \textcolor{keywordflow}{return} Packed;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00287}00287         \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00288}00288 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00289}00289         GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \mbox{\hyperlink{structglm_1_1vec}{vec<1, float, Q>}} unpack(\mbox{\hyperlink{structglm_1_1vec}{vec<1, uint16, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00290}00290         \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00291}00291             \mbox{\hyperlink{structglm_1_1vec}{i16vec1}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00292}00292             memcpy(\&Unpack, \&v, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00293}00293             \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec}{vec<1, float, Q>}}(detail::toFloat32(v.x));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00294}00294         \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00295}00295     \};}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00296}00296 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00297}00297     \textcolor{keyword}{template}<qualifier Q>}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00298}\mbox{\hyperlink{structglm_1_1detail_1_1compute__half_3_012_00_01_q_01_4}{00298}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structglm_1_1detail_1_1compute__half}{compute\_half}}<2, Q>}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00299}00299     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00300}00300         GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \mbox{\hyperlink{structglm_1_1vec}{vec<2, uint16, Q>}} pack(\mbox{\hyperlink{structglm_1_1vec}{vec<2, float, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00301}00301         \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00302}00302             \mbox{\hyperlink{structglm_1_1vec}{vec<2, int16, Q>}} \textcolor{keyword}{const} Unpack(detail::toFloat16(v.x), detail::toFloat16(v.y));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00303}00303             \mbox{\hyperlink{structglm_1_1vec}{u16vec2}} Packed;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00304}00304             memcpy(\&Packed, \&Unpack, \textcolor{keyword}{sizeof}(Packed));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00305}00305             \textcolor{keywordflow}{return} Packed;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00306}00306         \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00307}00307 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00308}00308         GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \mbox{\hyperlink{structglm_1_1vec}{vec<2, float, Q>}} unpack(\mbox{\hyperlink{structglm_1_1vec}{vec<2, uint16, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00309}00309         \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00310}00310             \mbox{\hyperlink{structglm_1_1vec}{i16vec2}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00311}00311             memcpy(\&Unpack, \&v, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00312}00312             \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec}{vec<2, float, Q>}}(detail::toFloat32(v.x), detail::toFloat32(v.y));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00313}00313         \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00314}00314     \};}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00315}00315 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00316}00316     \textcolor{keyword}{template}<qualifier Q>}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00317}\mbox{\hyperlink{structglm_1_1detail_1_1compute__half_3_013_00_01_q_01_4}{00317}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structglm_1_1detail_1_1compute__half}{compute\_half}}<3, Q>}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00318}00318     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00319}00319         GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \mbox{\hyperlink{structglm_1_1vec}{vec<3, uint16, Q>}} pack(\mbox{\hyperlink{structglm_1_1vec}{vec<3, float, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00320}00320         \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00321}00321             \mbox{\hyperlink{structglm_1_1vec}{vec<3, int16, Q>}} \textcolor{keyword}{const} Unpack(detail::toFloat16(v.x), detail::toFloat16(v.y), detail::toFloat16(v.z));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00322}00322             \mbox{\hyperlink{structglm_1_1vec}{u16vec3}} Packed;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00323}00323             memcpy(\&Packed, \&Unpack, \textcolor{keyword}{sizeof}(Packed));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00324}00324             \textcolor{keywordflow}{return} Packed;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00325}00325         \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00326}00326 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00327}00327         GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \mbox{\hyperlink{structglm_1_1vec}{vec<3, float, Q>}} unpack(\mbox{\hyperlink{structglm_1_1vec}{vec<3, uint16, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00328}00328         \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00329}00329             \mbox{\hyperlink{structglm_1_1vec}{i16vec3}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00330}00330             memcpy(\&Unpack, \&v, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00331}00331             \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec}{vec<3, float, Q>}}(detail::toFloat32(v.x), detail::toFloat32(v.y), detail::toFloat32(v.z));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00332}00332         \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00333}00333     \};}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00334}00334 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00335}00335     \textcolor{keyword}{template}<qualifier Q>}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00336}\mbox{\hyperlink{structglm_1_1detail_1_1compute__half_3_014_00_01_q_01_4}{00336}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structglm_1_1detail_1_1compute__half}{compute\_half}}<4, Q>}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00337}00337     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00338}00338         GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \mbox{\hyperlink{structglm_1_1vec}{vec<4, uint16, Q>}} pack(\mbox{\hyperlink{structglm_1_1vec}{vec<4, float, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00339}00339         \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00340}00340             \mbox{\hyperlink{structglm_1_1vec}{vec<4, int16, Q>}} \textcolor{keyword}{const} Unpack(detail::toFloat16(v.x), detail::toFloat16(v.y), detail::toFloat16(v.z), detail::toFloat16(v.w));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00341}00341             \mbox{\hyperlink{structglm_1_1vec}{u16vec4}} Packed;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00342}00342             memcpy(\&Packed, \&Unpack, \textcolor{keyword}{sizeof}(Packed));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00343}00343             \textcolor{keywordflow}{return} Packed;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00344}00344         \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00345}00345 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00346}00346         GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \mbox{\hyperlink{structglm_1_1vec}{vec<4, float, Q>}} unpack(\mbox{\hyperlink{structglm_1_1vec}{vec<4, uint16, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00347}00347         \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00348}00348             \mbox{\hyperlink{structglm_1_1vec}{i16vec4}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00349}00349             memcpy(\&Unpack, \&v, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00350}00350             \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec}{vec<4, float, Q>}}(detail::toFloat32(v.x), detail::toFloat32(v.y), detail::toFloat32(v.z), detail::toFloat32(v.w));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00351}00351         \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00352}00352     \};}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00353}00353 \}\textcolor{comment}{//namespace detail}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00354}00354 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00355}\mbox{\hyperlink{group__gtc__packing_ga2f9963e5d762b10085b280d3662017ba}{00355}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga1a7dcd8aac97cc8020817c94049deff2}{uint8}} \mbox{\hyperlink{group__gtc__packing_ga2f9963e5d762b10085b280d3662017ba}{packUnorm1x8}}(\textcolor{keywordtype}{float} v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00356}00356     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00357}00357         \textcolor{keywordflow}{return} \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_ga1a7dcd8aac97cc8020817c94049deff2}{uint8}}\textcolor{keyword}{>}(\mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{round}}(\mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(v, 0.0f, 1.0f) * 255.0f));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00358}00358     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00359}00359 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00360}\mbox{\hyperlink{group__gtc__packing_ga32f3f2642df2ea87449d59fb614a8305}{00360}}     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{float} \mbox{\hyperlink{group__gtc__packing_ga32f3f2642df2ea87449d59fb614a8305}{unpackUnorm1x8}}(\mbox{\hyperlink{group__gtc__type__precision_ga1a7dcd8aac97cc8020817c94049deff2}{uint8}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00361}00361     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00362}00362         \textcolor{keywordtype}{float} \textcolor{keyword}{const} Unpack(p);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00363}00363         \textcolor{keywordflow}{return} Unpack * \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(0.0039215686274509803921568627451); \textcolor{comment}{// 1 / 255}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00364}00364     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00365}00365 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00366}\mbox{\hyperlink{group__gtc__packing_ga833288fc0d4a79f19d0db75a6843bfe6}{00366}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} \mbox{\hyperlink{group__gtc__packing_ga833288fc0d4a79f19d0db75a6843bfe6}{packUnorm2x8}}(\mbox{\hyperlink{structglm_1_1vec}{vec2}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00367}00367     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00368}00368         \mbox{\hyperlink{structglm_1_1vec}{u8vec2}} \textcolor{keyword}{const} Topack(\mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{round}}(\mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(v, 0.0f, 1.0f) * 255.0f));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00369}00369 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00370}00370         \mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} Unpack = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00371}00371         memcpy(\&Unpack, \&Topack, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00372}00372         \textcolor{keywordflow}{return} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00373}00373     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00374}00374 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00375}\mbox{\hyperlink{group__gtc__packing_ga96ce0c24339ee676e28a027fffd1edf6}{00375}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec2}} \mbox{\hyperlink{group__gtc__packing_ga96ce0c24339ee676e28a027fffd1edf6}{unpackUnorm2x8}}(\mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00376}00376     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00377}00377         \mbox{\hyperlink{structglm_1_1vec}{u8vec2}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00378}00378         memcpy(\&Unpack, \&p, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00379}00379         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{vec2}}(Unpack) * float(0.0039215686274509803921568627451); \textcolor{comment}{// 1 / 255}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00380}00380     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00381}00381 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00382}\mbox{\hyperlink{group__gtc__packing_ga26b6cd7a35c46c4b6a342f3b97b47423}{00382}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga1a7dcd8aac97cc8020817c94049deff2}{uint8}} \mbox{\hyperlink{group__gtc__packing_ga26b6cd7a35c46c4b6a342f3b97b47423}{packSnorm1x8}}(\textcolor{keywordtype}{float} v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00383}00383     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00384}00384         \mbox{\hyperlink{group__gtc__type__precision_ga96254f9c1c4506fc8eb5cf3301ce8565}{int8}} \textcolor{keyword}{const} Topack(\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_ga96254f9c1c4506fc8eb5cf3301ce8565}{int8}}\textcolor{keyword}{>}(\mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{round}}(\mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(v ,-\/1.0f, 1.0f) * 127.0f)));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00385}00385         \mbox{\hyperlink{group__gtc__type__precision_ga1a7dcd8aac97cc8020817c94049deff2}{uint8}} Packed = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00386}00386         memcpy(\&Packed, \&Topack, \textcolor{keyword}{sizeof}(Packed));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00387}00387         \textcolor{keywordflow}{return} Packed;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00388}00388     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00389}00389 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00390}\mbox{\hyperlink{group__gtc__packing_ga6f2bebf536fbf7c8b97d4b306bb3354e}{00390}}     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{float} \mbox{\hyperlink{group__gtc__packing_ga6f2bebf536fbf7c8b97d4b306bb3354e}{unpackSnorm1x8}}(\mbox{\hyperlink{group__gtc__type__precision_ga1a7dcd8aac97cc8020817c94049deff2}{uint8}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00391}00391     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00392}00392         \mbox{\hyperlink{group__gtc__type__precision_ga96254f9c1c4506fc8eb5cf3301ce8565}{int8}} Unpack = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00393}00393         memcpy(\&Unpack, \&p, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00394}00394         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00395}00395             \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(Unpack) * 0.00787401574803149606299212598425f, \textcolor{comment}{// 1.0f / 127.0f}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00396}00396             -\/1.0f, 1.0f);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00397}00397     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00398}00398 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00399}\mbox{\hyperlink{group__gtc__packing_ga05d08a82923166ec7cd5d0e6154c9953}{00399}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} \mbox{\hyperlink{group__gtc__packing_ga05d08a82923166ec7cd5d0e6154c9953}{packSnorm2x8}}(\mbox{\hyperlink{structglm_1_1vec}{vec2}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00400}00400     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00401}00401         \mbox{\hyperlink{structglm_1_1vec}{i8vec2}} \textcolor{keyword}{const} Topack(\mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{round}}(\mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(v, -\/1.0f, 1.0f) * 127.0f));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00402}00402         \mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} Packed = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00403}00403         memcpy(\&Packed, \&Topack, \textcolor{keyword}{sizeof}(Packed));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00404}00404         \textcolor{keywordflow}{return} Packed;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00405}00405     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00406}00406 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00407}\mbox{\hyperlink{group__gtc__packing_ga27f30f0281b88e152b0895f5e2ead878}{00407}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec2}} \mbox{\hyperlink{group__gtc__packing_ga27f30f0281b88e152b0895f5e2ead878}{unpackSnorm2x8}}(\mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00408}00408     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00409}00409         \mbox{\hyperlink{structglm_1_1vec}{i8vec2}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00410}00410         memcpy(\&Unpack, \&p, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00411}00411         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00412}00412             \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{vec2}}(Unpack) * 0.00787401574803149606299212598425f, \textcolor{comment}{// 1.0f / 127.0f}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00413}00413             -\/1.0f, 1.0f);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00414}00414     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00415}00415 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00416}\mbox{\hyperlink{group__gtc__packing_ga60c7d915f5653559ae02c2f79a8c5c1d}{00416}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} \mbox{\hyperlink{group__gtc__packing_ga60c7d915f5653559ae02c2f79a8c5c1d}{packUnorm1x16}}(\textcolor{keywordtype}{float} s)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00417}00417     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00418}00418         \textcolor{keywordflow}{return} \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}}\textcolor{keyword}{>}(\mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{round}}(\mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(s, 0.0f, 1.0f) * 65535.0f));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00419}00419     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00420}00420 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00421}\mbox{\hyperlink{group__gtc__packing_ga7770e3ade4f4764cc1b2eb42ac4ec188}{00421}}     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{float} \mbox{\hyperlink{group__gtc__packing_ga7770e3ade4f4764cc1b2eb42ac4ec188}{unpackUnorm1x16}}(\mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00422}00422     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00423}00423         \textcolor{keywordtype}{float} \textcolor{keyword}{const} Unpack(p);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00424}00424         \textcolor{keywordflow}{return} Unpack * 1.5259021896696421759365224689097e-\/5f; \textcolor{comment}{// 1.0 / 65535.0}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00425}00425     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00426}00426 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00427}\mbox{\hyperlink{group__gtc__packing_gac561f06c908b7302537a8ef29fcb409e}{00427}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}} \mbox{\hyperlink{group__gtc__packing_gac561f06c908b7302537a8ef29fcb409e}{packUnorm4x16}}(\mbox{\hyperlink{structglm_1_1vec}{vec4}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00428}00428     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00429}00429         \mbox{\hyperlink{structglm_1_1vec}{u16vec4}} \textcolor{keyword}{const} Topack(\mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{round}}(\mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(v , 0.0f, 1.0f) * 65535.0f));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00430}00430         \mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}} Packed = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00431}00431         memcpy(\&Packed, \&Topack, \textcolor{keyword}{sizeof}(Packed));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00432}00432         \textcolor{keywordflow}{return} Packed;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00433}00433     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00434}00434 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00435}\mbox{\hyperlink{group__gtc__packing_gafb2b502bc406031a5618ce930139a9e3}{00435}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec4}} \mbox{\hyperlink{group__gtc__packing_gafb2b502bc406031a5618ce930139a9e3}{unpackUnorm4x16}}(\mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00436}00436     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00437}00437         \mbox{\hyperlink{structglm_1_1vec}{u16vec4}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00438}00438         memcpy(\&Unpack, \&p, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00439}00439         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{vec4}}(Unpack) * 1.5259021896696421759365224689097e-\/5f; \textcolor{comment}{// 1.0 / 65535.0}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00440}00440     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00441}00441 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00442}\mbox{\hyperlink{group__gtc__packing_gac29411d6c0f6ed0fe9f0396dfe92e0e8}{00442}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} \mbox{\hyperlink{group__gtc__packing_gac29411d6c0f6ed0fe9f0396dfe92e0e8}{packSnorm1x16}}(\textcolor{keywordtype}{float} v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00443}00443     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00444}00444         \mbox{\hyperlink{group__gtc__type__precision_ga2945a61d12771f8954994fcddf02b021}{int16}} \textcolor{keyword}{const} Topack = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_ga2945a61d12771f8954994fcddf02b021}{int16}}\textcolor{keyword}{>}(\mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{round}}(\mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(v ,-\/1.0f, 1.0f) * 32767.0f));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00445}00445         \mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} Packed = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00446}00446         memcpy(\&Packed, \&Topack, \textcolor{keyword}{sizeof}(Packed));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00447}00447         \textcolor{keywordflow}{return} Packed;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00448}00448     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00449}00449 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00450}\mbox{\hyperlink{group__gtc__packing_ga246f451cebf590726324f7a283e3d65e}{00450}}     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{float} \mbox{\hyperlink{group__gtc__packing_ga246f451cebf590726324f7a283e3d65e}{unpackSnorm1x16}}(\mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00451}00451     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00452}00452         \mbox{\hyperlink{group__gtc__type__precision_ga2945a61d12771f8954994fcddf02b021}{int16}} Unpack = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00453}00453         memcpy(\&Unpack, \&p, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00454}00454         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00455}00455             \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(Unpack) * 3.0518509475997192297128208258309e-\/5f, \textcolor{comment}{//1.0f / 32767.0f,}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00456}00456             -\/1.0f, 1.0f);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00457}00457     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00458}00458 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00459}\mbox{\hyperlink{group__gtc__packing_ga9b237d7c66b7a71964e6d1f4dc06539f}{00459}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}} \mbox{\hyperlink{group__gtc__packing_ga9b237d7c66b7a71964e6d1f4dc06539f}{packSnorm4x16}}(\mbox{\hyperlink{structglm_1_1vec}{vec4}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00460}00460     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00461}00461         \mbox{\hyperlink{structglm_1_1vec}{i16vec4}} \textcolor{keyword}{const} Topack(\mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{round}}(\mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(v ,-\/1.0f, 1.0f) * 32767.0f));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00462}00462         \mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}} Packed = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00463}00463         memcpy(\&Packed, \&Topack, \textcolor{keyword}{sizeof}(Packed));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00464}00464         \textcolor{keywordflow}{return} Packed;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00465}00465     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00466}00466 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00467}\mbox{\hyperlink{group__gtc__packing_ga1bfaa3f217fd7a4b6b9d3117ecb3fcac}{00467}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec4}} \mbox{\hyperlink{group__gtc__packing_ga1bfaa3f217fd7a4b6b9d3117ecb3fcac}{unpackSnorm4x16}}(\mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00468}00468     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00469}00469         \mbox{\hyperlink{structglm_1_1vec}{i16vec4}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00470}00470         memcpy(\&Unpack, \&p, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00471}00471         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00472}00472             \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{vec4}}(Unpack) * 3.0518509475997192297128208258309e-\/5f, \textcolor{comment}{//1.0f / 32767.0f,}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00473}00473             -\/1.0f, 1.0f);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00474}00474     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00475}00475 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00476}\mbox{\hyperlink{group__gtc__packing_gaba534b320836a35372e00af5771dd1a2}{00476}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} \mbox{\hyperlink{group__gtc__packing_gaba534b320836a35372e00af5771dd1a2}{packHalf1x16}}(\textcolor{keywordtype}{float} v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00477}00477     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00478}00478         \mbox{\hyperlink{group__gtc__type__precision_ga2945a61d12771f8954994fcddf02b021}{int16}} \textcolor{keyword}{const} Topack(detail::toFloat16(v));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00479}00479         \mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} Packed = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00480}00480         memcpy(\&Packed, \&Topack, \textcolor{keyword}{sizeof}(Packed));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00481}00481         \textcolor{keywordflow}{return} Packed;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00482}00482     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00483}00483 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00484}\mbox{\hyperlink{group__gtc__packing_gaa6eebcdfc746584b7d1823f1d5344fed}{00484}}     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{float} \mbox{\hyperlink{group__gtc__packing_gaa6eebcdfc746584b7d1823f1d5344fed}{unpackHalf1x16}}(\mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00485}00485     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00486}00486         \mbox{\hyperlink{group__gtc__type__precision_ga2945a61d12771f8954994fcddf02b021}{int16}} Unpack = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00487}00487         memcpy(\&Unpack, \&v, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00488}00488         \textcolor{keywordflow}{return} detail::toFloat32(Unpack);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00489}00489     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00490}00490 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00491}\mbox{\hyperlink{group__gtc__packing_ga8104f0b719b7792491f2b789a6dd6f96}{00491}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}} \mbox{\hyperlink{group__gtc__packing_ga8104f0b719b7792491f2b789a6dd6f96}{packHalf4x16}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00492}00492     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00493}00493         \mbox{\hyperlink{structglm_1_1vec}{i16vec4}} \textcolor{keyword}{const} Unpack(}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00494}00494             detail::toFloat16(v.x),}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00495}00495             detail::toFloat16(v.y),}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00496}00496             detail::toFloat16(v.z),}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00497}00497             detail::toFloat16(v.w));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00498}00498         \mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}} Packed = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00499}00499         memcpy(\&Packed, \&Unpack, \textcolor{keyword}{sizeof}(Packed));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00500}00500         \textcolor{keywordflow}{return} Packed;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00501}00501     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00502}00502 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00503}\mbox{\hyperlink{group__gtc__packing_gaea526d6491ad40401eac34803984bf27}{00503}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} \mbox{\hyperlink{group__gtc__packing_gaea526d6491ad40401eac34803984bf27}{unpackHalf4x16}}(\mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}} v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00504}00504     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00505}00505         \mbox{\hyperlink{structglm_1_1vec}{i16vec4}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00506}00506         memcpy(\&Unpack, \&v, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00507}00507         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{vec4}}(}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00508}00508             detail::toFloat32(Unpack.x),}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00509}00509             detail::toFloat32(Unpack.y),}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00510}00510             detail::toFloat32(Unpack.z),}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00511}00511             detail::toFloat32(Unpack.w));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00512}00512     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00513}00513 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00514}\mbox{\hyperlink{group__gtc__packing_ga032e18fa5bc5b8f3897104aeb2f1e195}{00514}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{uint32}} \mbox{\hyperlink{group__gtc__packing_ga032e18fa5bc5b8f3897104aeb2f1e195}{packI3x10\_1x2}}(\mbox{\hyperlink{structglm_1_1vec}{ivec4}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00515}00515     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00516}00516         \mbox{\hyperlink{unionglm_1_1detail_1_1i10i10i10i2}{detail::i10i10i10i2}} Result;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00517}00517         Result.data.x = v.x;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00518}00518         Result.data.y = v.y;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00519}00519         Result.data.z = v.z;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00520}00520         Result.data.w = v.w;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00521}00521         \textcolor{keywordflow}{return} Result.pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00522}00522     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00523}00523 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00524}\mbox{\hyperlink{group__gtc__packing_ga08bcd34cf9c34701d658dd861ee6e300}{00524}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{ivec4}} \mbox{\hyperlink{group__gtc__packing_ga08bcd34cf9c34701d658dd861ee6e300}{unpackI3x10\_1x2}}(\mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{uint32}} v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00525}00525     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00526}00526         \mbox{\hyperlink{unionglm_1_1detail_1_1i10i10i10i2}{detail::i10i10i10i2}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00527}00527         Unpack.pack = v;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00528}00528         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__types_gaa4560ddc50320ea8f8a70d5c9c249fea}{ivec4}}(}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00529}00529             Unpack.data.x,}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00530}00530             Unpack.data.y,}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00531}00531             Unpack.data.z,}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00532}00532             Unpack.data.w);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00533}00533     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00534}00534 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00535}\mbox{\hyperlink{group__gtc__packing_gaf656d8862628f96b20de7a36eaa1fe56}{00535}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{uint32}} \mbox{\hyperlink{group__gtc__packing_gaf656d8862628f96b20de7a36eaa1fe56}{packU3x10\_1x2}}(\mbox{\hyperlink{structglm_1_1vec}{uvec4}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00536}00536     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00537}00537         \mbox{\hyperlink{unionglm_1_1detail_1_1u10u10u10u2}{detail::u10u10u10u2}} Result;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00538}00538         Result.data.x = v.x;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00539}00539         Result.data.y = v.y;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00540}00540         Result.data.z = v.z;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00541}00541         Result.data.w = v.w;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00542}00542         \textcolor{keywordflow}{return} Result.pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00543}00543     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00544}00544 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00545}\mbox{\hyperlink{group__gtc__packing_ga119aa2d7d55952f9dc4214390a6ffefc}{00545}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{uvec4}} \mbox{\hyperlink{group__gtc__packing_ga119aa2d7d55952f9dc4214390a6ffefc}{unpackU3x10\_1x2}}(\mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{uint32}} v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00546}00546     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00547}00547         \mbox{\hyperlink{unionglm_1_1detail_1_1u10u10u10u2}{detail::u10u10u10u2}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00548}00548         Unpack.pack = v;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00549}00549         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__types_ga1c426d19627b32b14f0089f7f4ba7b1d}{uvec4}}(}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00550}00550             Unpack.data.x,}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00551}00551             Unpack.data.y,}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00552}00552             Unpack.data.z,}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00553}00553             Unpack.data.w);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00554}00554     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00555}00555 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00556}\mbox{\hyperlink{group__gtc__packing_ga0d4157cec37c0312216a7be1cc92df54}{00556}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{uint32}} \mbox{\hyperlink{group__gtc__packing_ga0d4157cec37c0312216a7be1cc92df54}{packSnorm3x10\_1x2}}(\mbox{\hyperlink{structglm_1_1vec}{vec4}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00557}00557     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00558}00558         \mbox{\hyperlink{structglm_1_1vec}{ivec4}} \textcolor{keyword}{const} Pack(\mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{round}}(\mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(v,-\/1.0f, 1.0f) * \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{vec4}}(511.f, 511.f, 511.f, 1.f)));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00559}00559 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00560}00560         \mbox{\hyperlink{unionglm_1_1detail_1_1i10i10i10i2}{detail::i10i10i10i2}} Result;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00561}00561         Result.data.x = Pack.x;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00562}00562         Result.data.y = Pack.y;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00563}00563         Result.data.z = Pack.z;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00564}00564         Result.data.w = Pack.w;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00565}00565         \textcolor{keywordflow}{return} Result.pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00566}00566     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00567}00567 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00568}\mbox{\hyperlink{group__gtc__packing_ga8b8bb827a3743ca553d8702d3e337101}{00568}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec4}} \mbox{\hyperlink{group__gtc__packing_ga8b8bb827a3743ca553d8702d3e337101}{unpackSnorm3x10\_1x2}}(\mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{uint32}} v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00569}00569     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00570}00570         \mbox{\hyperlink{unionglm_1_1detail_1_1i10i10i10i2}{detail::i10i10i10i2}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00571}00571         Unpack.pack = v;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00572}00572 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00573}00573         \mbox{\hyperlink{structglm_1_1vec}{vec4}} \textcolor{keyword}{const} Result(Unpack.data.x, Unpack.data.y, Unpack.data.z, Unpack.data.w);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00574}00574 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00575}00575         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(Result * \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{vec4}}(1.f / 511.f, 1.f / 511.f, 1.f / 511.f, 1.f), -\/1.0f, 1.0f);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00576}00576     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00577}00577 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00578}\mbox{\hyperlink{group__gtc__packing_ga2cf2d11b40bd48639110456fd74c2e33}{00578}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{uint32}} \mbox{\hyperlink{group__gtc__packing_ga2cf2d11b40bd48639110456fd74c2e33}{packUnorm3x10\_1x2}}(\mbox{\hyperlink{structglm_1_1vec}{vec4}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00579}00579     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00580}00580         \mbox{\hyperlink{structglm_1_1vec}{uvec4}} \textcolor{keyword}{const} Unpack(\mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{round}}(\mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(v, 0.0f, 1.0f) * \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{vec4}}(1023.f, 1023.f, 1023.f, 3.f)));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00581}00581 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00582}00582         \mbox{\hyperlink{unionglm_1_1detail_1_1u10u10u10u2}{detail::u10u10u10u2}} Result;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00583}00583         Result.data.x = Unpack.x;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00584}00584         Result.data.y = Unpack.y;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00585}00585         Result.data.z = Unpack.z;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00586}00586         Result.data.w = Unpack.w;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00587}00587         \textcolor{keywordflow}{return} Result.pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00588}00588     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00589}00589 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00590}\mbox{\hyperlink{group__gtc__packing_gaf69ace2b5e9234f8afb4e99c3df1193d}{00590}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec4}} \mbox{\hyperlink{group__gtc__packing_gaf69ace2b5e9234f8afb4e99c3df1193d}{unpackUnorm3x10\_1x2}}(\mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{uint32}} v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00591}00591     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00592}00592         \mbox{\hyperlink{structglm_1_1vec}{vec4}} \textcolor{keyword}{const} ScaleFactors(1.0f / 1023.f, 1.0f / 1023.f, 1.0f / 1023.f, 1.0f / 3.f);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00593}00593 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00594}00594         \mbox{\hyperlink{unionglm_1_1detail_1_1u10u10u10u2}{detail::u10u10u10u2}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00595}00595         Unpack.pack = v;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00596}00596         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{vec4}}(Unpack.data.x, Unpack.data.y, Unpack.data.z, Unpack.data.w) * ScaleFactors;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00597}00597     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00598}00598 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00599}\mbox{\hyperlink{group__gtc__packing_ga8c2a0eeee677ca4dafd9e093d9e81062}{00599}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{uint32}} \mbox{\hyperlink{group__gtc__packing_ga8c2a0eeee677ca4dafd9e093d9e81062}{packF2x11\_1x10}}(\mbox{\hyperlink{structglm_1_1vec}{vec3}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00600}00600     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00601}00601         \textcolor{keywordflow}{return}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00602}00602             ((detail::floatTo11bit(v.x) \& ((1 << 11) -\/ 1)) <<  0) |}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00603}00603             ((detail::floatTo11bit(v.y) \& ((1 << 11) -\/ 1)) << 11) |}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00604}00604             ((detail::floatTo10bit(v.z) \& ((1 << 10) -\/ 1)) << 22);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00605}00605     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00606}00606 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00607}\mbox{\hyperlink{group__gtc__packing_ga8b9c7991eb021d95c778bf5c0b2f7824}{00607}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec3}} \mbox{\hyperlink{group__gtc__packing_ga8b9c7991eb021d95c778bf5c0b2f7824}{unpackF2x11\_1x10}}(\mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{uint32}} v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00608}00608     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00609}00609         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{vec3}}(}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00610}00610             detail::packed11bitToFloat(v >> 0),}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00611}00611             detail::packed11bitToFloat(v >> 11),}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00612}00612             detail::packed10bitToFloat(v >> 22));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00613}00613     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00614}00614 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00615}\mbox{\hyperlink{group__gtc__packing_ga0984f9598edc648d59a9643d9a61b121}{00615}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{uint32}} \mbox{\hyperlink{group__gtc__packing_ga0984f9598edc648d59a9643d9a61b121}{packF3x9\_E1x5}}(\mbox{\hyperlink{structglm_1_1vec}{vec3}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00616}00616     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00617}00617         \textcolor{keywordtype}{float} \textcolor{keyword}{const} SharedExpMax = (\mbox{\hyperlink{group__core__func__exponential_ga717a43207fffc8b5e8e66cf56ded5ace}{pow}}(2.0f, 9.0f -\/ 1.0f) / \mbox{\hyperlink{group__core__func__exponential_ga717a43207fffc8b5e8e66cf56ded5ace}{pow}}(2.0f, 9.0f)) * \mbox{\hyperlink{group__core__func__exponential_ga717a43207fffc8b5e8e66cf56ded5ace}{pow}}(2.0f, 31.f -\/ 15.f);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00618}00618         \mbox{\hyperlink{structglm_1_1vec}{vec3}} \textcolor{keyword}{const} Color = \mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(v, 0.0f, SharedExpMax);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00619}00619         \textcolor{keywordtype}{float} \textcolor{keyword}{const} MaxColor = \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{max}}(Color.x, \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{max}}(Color.y, Color.z));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00620}00620 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00621}00621         \textcolor{keywordtype}{float} \textcolor{keyword}{const} ExpSharedP = \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{max}}(-\/15.f -\/ 1.f, \mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{floor}}(log2(MaxColor))) + 1.0f + 15.f;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00622}00622         \textcolor{keywordtype}{float} \textcolor{keyword}{const} MaxShared = \mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{floor}}(MaxColor / \mbox{\hyperlink{group__core__func__exponential_ga717a43207fffc8b5e8e66cf56ded5ace}{pow}}(2.0f, (ExpSharedP -\/ 15.f -\/ 9.f)) + 0.5f);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00623}00623         \textcolor{keywordtype}{float} \textcolor{keyword}{const} ExpShared = \mbox{\hyperlink{structglm_1_1detail_1_1compute__equal}{detail::compute\_equal<float>::call}}(MaxShared, \mbox{\hyperlink{group__core__func__exponential_ga717a43207fffc8b5e8e66cf56ded5ace}{pow}}(2.0f, 9.0f)) ? ExpSharedP + 1.0f : ExpSharedP;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00624}00624 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00625}00625         \mbox{\hyperlink{structglm_1_1vec}{uvec3}} \textcolor{keyword}{const} ColorComp(\mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{floor}}(Color / \mbox{\hyperlink{group__core__func__exponential_ga717a43207fffc8b5e8e66cf56ded5ace}{pow}}(2.f, (ExpShared -\/ 15.f -\/ 9.f)) + 0.5f));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00626}00626 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00627}00627         \mbox{\hyperlink{unionglm_1_1detail_1_1u9u9u9e5}{detail::u9u9u9e5}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00628}00628         Unpack.data.x = ColorComp.x;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00629}00629         Unpack.data.y = ColorComp.y;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00630}00630         Unpack.data.z = ColorComp.z;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00631}00631         Unpack.data.w = \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}}(ExpShared);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00632}00632         \textcolor{keywordflow}{return} Unpack.pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00633}00633     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00634}00634 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00635}\mbox{\hyperlink{group__gtc__packing_ga15d8845a31e1e55d493803d0c8cb5910}{00635}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec3}} \mbox{\hyperlink{group__gtc__packing_ga15d8845a31e1e55d493803d0c8cb5910}{unpackF3x9\_E1x5}}(\mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{uint32}} v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00636}00636     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00637}00637         \mbox{\hyperlink{unionglm_1_1detail_1_1u9u9u9e5}{detail::u9u9u9e5}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00638}00638         Unpack.pack = v;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00639}00639 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00640}00640         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{vec3}}(Unpack.data.x, Unpack.data.y, Unpack.data.z) * \mbox{\hyperlink{group__core__func__exponential_ga717a43207fffc8b5e8e66cf56ded5ace}{pow}}(2.0f, Unpack.data.w -\/ 15.f -\/ 9.f);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00641}00641     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00642}00642 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00643}00643     \textcolor{comment}{// Based on Brian Karis http://graphicrants.blogspot.fr/2009/04/rgbm-\/color-\/encoding.html}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00644}00644     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00645}\mbox{\hyperlink{group__gtc__packing_ga41bf9d8daf1bb553fbffb6d2762853b0}{00645}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec_3_014_00_01_t_00_01_q_01_4}{vec<4, T, Q>}} \mbox{\hyperlink{group__gtc__packing_ga41bf9d8daf1bb553fbffb6d2762853b0}{packRGBM}}(\mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& \mbox{\hyperlink{structrgb}{rgb}})}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00646}00646     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00647}00647         \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const} Color(\mbox{\hyperlink{structrgb}{rgb}} * \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1.0 / 6.0));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00648}00648         T Alpha = \mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(\mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{max}}(\mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{max}}(Color.x, Color.y), \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{max}}(Color.z, \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/6))), \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0), \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00649}00649         Alpha = \mbox{\hyperlink{group__core__func__common_ga7a508730e49e5cec65af435d92ee4baf}{ceil}}(Alpha * \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(255.0)) / \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(255.0);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00650}00650         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec_3_014_00_01_t_00_01_q_01_4}{vec<4, T, Q>}}(Color / Alpha, Alpha);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00651}00651     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00652}00652 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00653}00653     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00654}\mbox{\hyperlink{group__gtc__packing_gafba3d7070c4918ad1ce3ac3112b30a8f}{00654}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \mbox{\hyperlink{group__gtc__packing_gafba3d7070c4918ad1ce3ac3112b30a8f}{unpackRGBM}}(\mbox{\hyperlink{structglm_1_1vec_3_014_00_01_t_00_01_q_01_4}{vec<4, T, Q>}} \textcolor{keyword}{const}\& rgbm)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00655}00655     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00656}00656         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}}(rgbm.x, rgbm.y, rgbm.z) * rgbm.w * \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(6);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00657}00657     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00658}00658 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00659}00659     \textcolor{keyword}{template}<length\_t L, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00660}\mbox{\hyperlink{group__gtc__packing_ga72b41f62169feb06d2c86613b8e1e6bf}{00660}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint16, Q>}} \mbox{\hyperlink{group__gtc__packing_ga72b41f62169feb06d2c86613b8e1e6bf}{packHalf}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, float, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00661}00661     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00662}00662         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1detail_1_1compute__half}{detail::compute\_half<L, Q>::pack}}(v);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00663}00663     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00664}00664 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00665}00665     \textcolor{keyword}{template}<length\_t L, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00666}\mbox{\hyperlink{group__gtc__packing_ga7b2b3383bd086048acad804fe9dd4685}{00666}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec<L, float, Q>}} \mbox{\hyperlink{group__gtc__packing_ga7b2b3383bd086048acad804fe9dd4685}{unpackHalf}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, uint16, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00667}00667     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00668}00668         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1detail_1_1compute__half}{detail::compute\_half<L, Q>::unpack}}(v);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00669}00669     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00670}00670 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00671}00671     \textcolor{keyword}{template}<\textcolor{keyword}{typename} u\textcolor{keywordtype}{int}Type, length\_t L, \textcolor{keyword}{typename} \textcolor{keywordtype}{float}Type, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00672}\mbox{\hyperlink{group__gtc__packing_ga224c97fa9cec9235173084d851fbd78e}{00672}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec<L, uintType, Q>}} \mbox{\hyperlink{group__gtc__packing_ga224c97fa9cec9235173084d851fbd78e}{packUnorm}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, floatType, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00673}00673     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00674}00674         GLM\_STATIC\_ASSERT(std::numeric\_limits<uintType>::is\_integer, \textcolor{stringliteral}{"{}uintType must be an integer type"{}});}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00675}00675         GLM\_STATIC\_ASSERT(std::numeric\_limits<floatType>::is\_iec559, \textcolor{stringliteral}{"{}floatType must be a floating point type"{}});}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00676}00676 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00677}00677         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec}{vec<L, uintType, Q>}}(\mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{round}}(\mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(v, \textcolor{keyword}{static\_cast<}floatType\textcolor{keyword}{>}(0), \textcolor{keyword}{static\_cast<}floatType\textcolor{keyword}{>}(1)) * \textcolor{keyword}{static\_cast<}floatType\textcolor{keyword}{>}(\mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{std::numeric\_limits<uintType>::max}}())));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00678}00678     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00679}00679 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00680}00680     \textcolor{keyword}{template}<\textcolor{keyword}{typename} \textcolor{keywordtype}{float}Type, length\_t L, \textcolor{keyword}{typename} u\textcolor{keywordtype}{int}Type, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00681}\mbox{\hyperlink{group__gtc__packing_ga620ed87ba2ddf15f641e93a9b0257e25}{00681}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec<L, floatType, Q>}} \mbox{\hyperlink{group__gtc__packing_ga620ed87ba2ddf15f641e93a9b0257e25}{unpackUnorm}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, uintType, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00682}00682     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00683}00683         GLM\_STATIC\_ASSERT(std::numeric\_limits<uintType>::is\_integer, \textcolor{stringliteral}{"{}uintType must be an integer type"{}});}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00684}00684         GLM\_STATIC\_ASSERT(std::numeric\_limits<floatType>::is\_iec559, \textcolor{stringliteral}{"{}floatType must be a floating point type"{}});}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00685}00685 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00686}00686         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec}{vec<L, float, Q>}}(v) * (\textcolor{keyword}{static\_cast<}floatType\textcolor{keyword}{>}(1) / \textcolor{keyword}{static\_cast<}floatType\textcolor{keyword}{>}(\mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{std::numeric\_limits<uintType>::max}}()));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00687}00687     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00688}00688 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00689}00689     \textcolor{keyword}{template}<\textcolor{keyword}{typename} \textcolor{keywordtype}{int}Type, length\_t L, \textcolor{keyword}{typename} \textcolor{keywordtype}{float}Type, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00690}\mbox{\hyperlink{group__gtc__packing_ga4063fe32d0d7ac6aff3b4001429e7c9d}{00690}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec<L, intType, Q>}} \mbox{\hyperlink{group__gtc__packing_ga4063fe32d0d7ac6aff3b4001429e7c9d}{packSnorm}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, floatType, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00691}00691     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00692}00692         GLM\_STATIC\_ASSERT(std::numeric\_limits<intType>::is\_integer, \textcolor{stringliteral}{"{}uintType must be an integer type"{}});}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00693}00693         GLM\_STATIC\_ASSERT(std::numeric\_limits<floatType>::is\_iec559, \textcolor{stringliteral}{"{}floatType must be a floating point type"{}});}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00694}00694 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00695}00695         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec}{vec<L, intType, Q>}}(\mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{round}}(\mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(v , \textcolor{keyword}{static\_cast<}floatType\textcolor{keyword}{>}(-\/1), \textcolor{keyword}{static\_cast<}floatType\textcolor{keyword}{>}(1)) * \textcolor{keyword}{static\_cast<}floatType\textcolor{keyword}{>}(\mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{std::numeric\_limits<intType>::max}}())));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00696}00696     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00697}00697 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00698}00698     \textcolor{keyword}{template}<\textcolor{keyword}{typename} \textcolor{keywordtype}{float}Type, length\_t L, \textcolor{keyword}{typename} \textcolor{keywordtype}{int}Type, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00699}\mbox{\hyperlink{group__gtc__packing_ga5ea23187b1b7d15b53cf06ef286a8f09}{00699}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec<L, floatType, Q>}} \mbox{\hyperlink{group__gtc__packing_ga5ea23187b1b7d15b53cf06ef286a8f09}{unpackSnorm}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, intType, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00700}00700     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00701}00701         GLM\_STATIC\_ASSERT(std::numeric\_limits<intType>::is\_integer, \textcolor{stringliteral}{"{}uintType must be an integer type"{}});}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00702}00702         GLM\_STATIC\_ASSERT(std::numeric\_limits<floatType>::is\_iec559, \textcolor{stringliteral}{"{}floatType must be a floating point type"{}});}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00703}00703 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00704}00704         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, floatType, Q>}}(v) * (\textcolor{keyword}{static\_cast<}floatType\textcolor{keyword}{>}(1) / \textcolor{keyword}{static\_cast<}floatType\textcolor{keyword}{>}(\mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{std::numeric\_limits<intType>::max}}())), \textcolor{keyword}{static\_cast<}floatType\textcolor{keyword}{>}(-\/1), \textcolor{keyword}{static\_cast<}floatType\textcolor{keyword}{>}(1));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00705}00705     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00706}00706 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00707}\mbox{\hyperlink{group__gtc__packing_gad68eb2f848ba867192b8787998c0595a}{00707}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga1a7dcd8aac97cc8020817c94049deff2}{uint8}} \mbox{\hyperlink{group__gtc__packing_gad68eb2f848ba867192b8787998c0595a}{packUnorm2x4}}(\mbox{\hyperlink{structglm_1_1vec}{vec2}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00708}00708     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00709}00709         \mbox{\hyperlink{structglm_1_1vec}{u32vec2}} \textcolor{keyword}{const} Unpack(\mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{round}}(\mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(v, 0.0f, 1.0f) * 15.0f));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00710}00710         \mbox{\hyperlink{unionglm_1_1detail_1_1u4u4}{detail::u4u4}} Result;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00711}00711         Result.data.x = Unpack.x;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00712}00712         Result.data.y = Unpack.y;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00713}00713         \textcolor{keywordflow}{return} Result.pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00714}00714     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00715}00715 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00716}\mbox{\hyperlink{group__gtc__packing_ga3afb0452954320f2d83fe6f38cb24147}{00716}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec2}} \mbox{\hyperlink{group__gtc__packing_ga3afb0452954320f2d83fe6f38cb24147}{unpackUnorm2x4}}(\mbox{\hyperlink{group__gtc__type__precision_ga1a7dcd8aac97cc8020817c94049deff2}{uint8}} v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00717}00717     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00718}00718         \textcolor{keywordtype}{float} \textcolor{keyword}{const} ScaleFactor(1.f / 15.f);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00719}00719         \mbox{\hyperlink{unionglm_1_1detail_1_1u4u4}{detail::u4u4}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00720}00720         Unpack.pack = v;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00721}00721         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{vec2}}(Unpack.data.x, Unpack.data.y) * ScaleFactor;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00722}00722     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00723}00723 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00724}\mbox{\hyperlink{group__gtc__packing_gad493c9f130e91dd8a4b360b05dcea573}{00724}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} \mbox{\hyperlink{group__gtc__packing_gad493c9f130e91dd8a4b360b05dcea573}{packUnorm4x4}}(\mbox{\hyperlink{structglm_1_1vec}{vec4}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00725}00725     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00726}00726         \mbox{\hyperlink{structglm_1_1vec}{u32vec4}} \textcolor{keyword}{const} Unpack(\mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{round}}(\mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(v, 0.0f, 1.0f) * 15.0f));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00727}00727         \mbox{\hyperlink{unionglm_1_1detail_1_1u4u4u4u4}{detail::u4u4u4u4}} Result;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00728}00728         Result.data.x = Unpack.x;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00729}00729         Result.data.y = Unpack.y;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00730}00730         Result.data.z = Unpack.z;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00731}00731         Result.data.w = Unpack.w;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00732}00732         \textcolor{keywordflow}{return} Result.pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00733}00733     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00734}00734 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00735}\mbox{\hyperlink{group__gtc__packing_ga38a0a518d53e15a9481c31dc1e574a40}{00735}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec4}} \mbox{\hyperlink{group__gtc__packing_ga38a0a518d53e15a9481c31dc1e574a40}{unpackUnorm4x4}}(\mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00736}00736     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00737}00737         \textcolor{keywordtype}{float} \textcolor{keyword}{const} ScaleFactor(1.f / 15.f);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00738}00738         \mbox{\hyperlink{unionglm_1_1detail_1_1u4u4u4u4}{detail::u4u4u4u4}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00739}00739         Unpack.pack = v;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00740}00740         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{vec4}}(Unpack.data.x, Unpack.data.y, Unpack.data.z, Unpack.data.w) * ScaleFactor;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00741}00741     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00742}00742 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00743}\mbox{\hyperlink{group__gtc__packing_ga0fcb493167d540aca105d11df5c55503}{00743}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} \mbox{\hyperlink{group__gtc__packing_ga0fcb493167d540aca105d11df5c55503}{packUnorm1x5\_1x6\_1x5}}(\mbox{\hyperlink{structglm_1_1vec}{vec3}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00744}00744     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00745}00745         \mbox{\hyperlink{structglm_1_1vec}{u32vec3}} \textcolor{keyword}{const} Unpack(\mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{round}}(\mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(v, 0.0f, 1.0f) * \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{vec3}}(31.f, 63.f, 31.f)));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00746}00746         \mbox{\hyperlink{unionglm_1_1detail_1_1u5u6u5}{detail::u5u6u5}} Result;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00747}00747         Result.data.x = Unpack.x;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00748}00748         Result.data.y = Unpack.y;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00749}00749         Result.data.z = Unpack.z;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00750}00750         \textcolor{keywordflow}{return} Result.pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00751}00751     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00752}00752 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00753}\mbox{\hyperlink{group__gtc__packing_ga6804d0525daf68bcac226f46fbb3b24e}{00753}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec3}} \mbox{\hyperlink{group__gtc__packing_ga6804d0525daf68bcac226f46fbb3b24e}{unpackUnorm1x5\_1x6\_1x5}}(\mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00754}00754     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00755}00755         \mbox{\hyperlink{structglm_1_1vec}{vec3}} \textcolor{keyword}{const} ScaleFactor(1.f / 31.f, 1.f / 63.f, 1.f / 31.f);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00756}00756         \mbox{\hyperlink{unionglm_1_1detail_1_1u5u6u5}{detail::u5u6u5}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00757}00757         Unpack.pack = v;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00758}00758         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{vec3}}(Unpack.data.x, Unpack.data.y, Unpack.data.z) * ScaleFactor;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00759}00759     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00760}00760 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00761}\mbox{\hyperlink{group__gtc__packing_ga1b41375846ed66768da78ca299d8d010}{00761}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} \mbox{\hyperlink{group__gtc__packing_ga1b41375846ed66768da78ca299d8d010}{packUnorm3x5\_1x1}}(\mbox{\hyperlink{structglm_1_1vec}{vec4}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00762}00762     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00763}00763         \mbox{\hyperlink{structglm_1_1vec}{u32vec4}} \textcolor{keyword}{const} Unpack(\mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{round}}(\mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(v, 0.0f, 1.0f) * \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{vec4}}(31.f, 31.f, 31.f, 1.f)));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00764}00764         \mbox{\hyperlink{unionglm_1_1detail_1_1u5u5u5u1}{detail::u5u5u5u1}} Result;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00765}00765         Result.data.x = Unpack.x;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00766}00766         Result.data.y = Unpack.y;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00767}00767         Result.data.z = Unpack.z;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00768}00768         Result.data.w = Unpack.w;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00769}00769         \textcolor{keywordflow}{return} Result.pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00770}00770     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00771}00771 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00772}\mbox{\hyperlink{group__gtc__packing_gaab3b476e8f320670717fd518f350ce28}{00772}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec4}} \mbox{\hyperlink{group__gtc__packing_gaab3b476e8f320670717fd518f350ce28}{unpackUnorm3x5\_1x1}}(\mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00773}00773     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00774}00774         \mbox{\hyperlink{structglm_1_1vec}{vec4}} \textcolor{keyword}{const} ScaleFactor(1.f / 31.f, 1.f / 31.f, 1.f / 31.f, 1.f);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00775}00775         \mbox{\hyperlink{unionglm_1_1detail_1_1u5u5u5u1}{detail::u5u5u5u1}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00776}00776         Unpack.pack = v;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00777}00777         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{vec4}}(Unpack.data.x, Unpack.data.y, Unpack.data.z, Unpack.data.w) * ScaleFactor;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00778}00778     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00779}00779 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00780}\mbox{\hyperlink{group__gtc__packing_ga0acca4eb99c300fe2edeef7ebd8fa08b}{00780}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga1a7dcd8aac97cc8020817c94049deff2}{uint8}} \mbox{\hyperlink{group__gtc__packing_ga0acca4eb99c300fe2edeef7ebd8fa08b}{packUnorm2x3\_1x2}}(\mbox{\hyperlink{structglm_1_1vec}{vec3}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00781}00781     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00782}00782         \mbox{\hyperlink{structglm_1_1vec}{u32vec3}} \textcolor{keyword}{const} Unpack(\mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{round}}(\mbox{\hyperlink{group__core__func__common_ga93bce26c7d80d30a62f5c508f8498a6c}{clamp}}(v, 0.0f, 1.0f) * \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{vec3}}(7.f, 7.f, 3.f)));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00783}00783         \mbox{\hyperlink{unionglm_1_1detail_1_1u3u3u2}{detail::u3u3u2}} Result;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00784}00784         Result.data.x = Unpack.x;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00785}00785         Result.data.y = Unpack.y;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00786}00786         Result.data.z = Unpack.z;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00787}00787         \textcolor{keywordflow}{return} Result.pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00788}00788     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00789}00789 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00790}\mbox{\hyperlink{group__gtc__packing_gaeeacc5275329100c50fe8fc0871eb423}{00790}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec3}} \mbox{\hyperlink{group__gtc__packing_gaeeacc5275329100c50fe8fc0871eb423}{unpackUnorm2x3\_1x2}}(\mbox{\hyperlink{group__gtc__type__precision_ga1a7dcd8aac97cc8020817c94049deff2}{uint8}} v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00791}00791     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00792}00792         \mbox{\hyperlink{structglm_1_1vec}{vec3}} \textcolor{keyword}{const} ScaleFactor(1.f / 7.f, 1.f / 7.f, 1.f / 3.f);}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00793}00793         \mbox{\hyperlink{unionglm_1_1detail_1_1u3u3u2}{detail::u3u3u2}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00794}00794         Unpack.pack = v;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00795}00795         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{vec3}}(Unpack.data.x, Unpack.data.y, Unpack.data.z) * ScaleFactor;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00796}00796     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00797}00797 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00798}\mbox{\hyperlink{group__gtc__packing_ga532b06d8915c6c65649f828e9106a1d9}{00798}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga2945a61d12771f8954994fcddf02b021}{int16}} \mbox{\hyperlink{group__gtc__packing_ga532b06d8915c6c65649f828e9106a1d9}{packInt2x8}}(\mbox{\hyperlink{structglm_1_1vec}{i8vec2}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00799}00799     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00800}00800         \mbox{\hyperlink{group__gtc__type__precision_ga2945a61d12771f8954994fcddf02b021}{int16}} Pack = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00801}00801         memcpy(\&Pack, \&v, \textcolor{keyword}{sizeof}(Pack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00802}00802         \textcolor{keywordflow}{return} Pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00803}00803     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00804}00804 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00805}\mbox{\hyperlink{group__gtc__packing_ga55b4670bffab6ddb39d4a0fbf98718c1}{00805}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{i8vec2}} \mbox{\hyperlink{group__gtc__packing_ga55b4670bffab6ddb39d4a0fbf98718c1}{unpackInt2x8}}(\mbox{\hyperlink{group__gtc__type__precision_ga2945a61d12771f8954994fcddf02b021}{int16}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00806}00806     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00807}00807         \mbox{\hyperlink{structglm_1_1vec}{i8vec2}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00808}00808         memcpy(\&Unpack, \&p, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00809}00809         \textcolor{keywordflow}{return} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00810}00810     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00811}00811 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00812}\mbox{\hyperlink{group__gtc__packing_ga4a431a30aa5dfb425be3ea84fe561844}{00812}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} \mbox{\hyperlink{group__gtc__packing_ga4a431a30aa5dfb425be3ea84fe561844}{packUint2x8}}(\mbox{\hyperlink{structglm_1_1vec}{u8vec2}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00813}00813     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00814}00814         \mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} Pack = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00815}00815         memcpy(\&Pack, \&v, \textcolor{keyword}{sizeof}(Pack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00816}00816         \textcolor{keywordflow}{return} Pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00817}00817     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00818}00818 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00819}\mbox{\hyperlink{group__gtc__packing_ga060e0e7e299aa73ff869c197ebf44210}{00819}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{u8vec2}} \mbox{\hyperlink{group__gtc__packing_ga060e0e7e299aa73ff869c197ebf44210}{unpackUint2x8}}(\mbox{\hyperlink{group__gtc__type__precision_gad8c2939e1fdd8e5828b31d95c52255d5}{uint16}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00820}00820     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00821}00821         \mbox{\hyperlink{structglm_1_1vec}{u8vec2}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00822}00822         memcpy(\&Unpack, \&p, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00823}00823         \textcolor{keywordflow}{return} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00824}00824     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00825}00825 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00826}\mbox{\hyperlink{group__gtc__packing_gac04277b39f9ca1ae2ca4840a3cb987e8}{00826}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{int32}} \mbox{\hyperlink{group__gtc__packing_gac04277b39f9ca1ae2ca4840a3cb987e8}{packInt4x8}}(\mbox{\hyperlink{structglm_1_1vec}{i8vec4}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00827}00827     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00828}00828         \mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{int32}} Pack = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00829}00829         memcpy(\&Pack, \&v, \textcolor{keyword}{sizeof}(Pack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00830}00830         \textcolor{keywordflow}{return} Pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00831}00831     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00832}00832 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00833}\mbox{\hyperlink{group__gtc__packing_gaeed27076c5d26f4cca0d06637d3e878c}{00833}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{i8vec4}} \mbox{\hyperlink{group__gtc__packing_gaeed27076c5d26f4cca0d06637d3e878c}{unpackInt4x8}}(\mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{int32}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00834}00834     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00835}00835         \mbox{\hyperlink{structglm_1_1vec}{i8vec4}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00836}00836         memcpy(\&Unpack, \&p, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00837}00837         \textcolor{keywordflow}{return} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00838}00838     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00839}00839 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00840}\mbox{\hyperlink{group__gtc__packing_gaeb4262f799821affa62edf7067deaef9}{00840}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{uint32}} \mbox{\hyperlink{group__gtc__packing_gaeb4262f799821affa62edf7067deaef9}{packUint4x8}}(\mbox{\hyperlink{structglm_1_1vec}{u8vec4}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00841}00841     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00842}00842         \mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{uint32}} Pack = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00843}00843         memcpy(\&Pack, \&v, \textcolor{keyword}{sizeof}(Pack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00844}00844         \textcolor{keywordflow}{return} Pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00845}00845     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00846}00846 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00847}\mbox{\hyperlink{group__gtc__packing_ga99229dc6cb31d82c39a324d5753792c6}{00847}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{u8vec4}} \mbox{\hyperlink{group__gtc__packing_ga99229dc6cb31d82c39a324d5753792c6}{unpackUint4x8}}(\mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{uint32}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00848}00848     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00849}00849         \mbox{\hyperlink{structglm_1_1vec}{u8vec4}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00850}00850         memcpy(\&Unpack, \&p, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00851}00851         \textcolor{keywordflow}{return} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00852}00852     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00853}00853 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00854}\mbox{\hyperlink{group__gtc__packing_ga0182984c14b2b59fd74e72af3f3b4bb9}{00854}}     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{int} \mbox{\hyperlink{group__gtc__packing_ga0182984c14b2b59fd74e72af3f3b4bb9}{packInt2x16}}(\mbox{\hyperlink{structglm_1_1vec}{i16vec2}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00855}00855     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00856}00856         \textcolor{keywordtype}{int} Pack = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00857}00857         memcpy(\&Pack, \&v, \textcolor{keyword}{sizeof}(Pack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00858}00858         \textcolor{keywordflow}{return} Pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00859}00859     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00860}00860 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00861}\mbox{\hyperlink{group__gtc__packing_ga639c216b452fc364b32c15eb5b8b6a87}{00861}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{i16vec2}} \mbox{\hyperlink{group__gtc__packing_ga639c216b452fc364b32c15eb5b8b6a87}{unpackInt2x16}}(\textcolor{keywordtype}{int} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00862}00862     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00863}00863         \mbox{\hyperlink{structglm_1_1vec}{i16vec2}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00864}00864         memcpy(\&Unpack, \&p, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00865}00865         \textcolor{keywordflow}{return} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00866}00866     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00867}00867 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00868}\mbox{\hyperlink{group__gtc__packing_gac3ef78d62735b5c34503c33e37e401c2}{00868}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga435d75819cce297cc5fa21bd84ef89a5}{int64}} \mbox{\hyperlink{group__gtc__packing_gac3ef78d62735b5c34503c33e37e401c2}{packInt4x16}}(\mbox{\hyperlink{structglm_1_1vec}{i16vec4}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00869}00869     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00870}00870         \mbox{\hyperlink{group__gtc__type__precision_ga435d75819cce297cc5fa21bd84ef89a5}{int64}} Pack = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00871}00871         memcpy(\&Pack, \&v, \textcolor{keyword}{sizeof}(Pack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00872}00872         \textcolor{keywordflow}{return} Pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00873}00873     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00874}00874 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00875}\mbox{\hyperlink{group__gtc__packing_ga625619888b95299a1ee0d9e50469c482}{00875}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{i16vec4}} \mbox{\hyperlink{group__gtc__packing_ga625619888b95299a1ee0d9e50469c482}{unpackInt4x16}}(\mbox{\hyperlink{group__gtc__type__precision_ga435d75819cce297cc5fa21bd84ef89a5}{int64}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00876}00876     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00877}00877         \mbox{\hyperlink{structglm_1_1vec}{i16vec4}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00878}00878         memcpy(\&Unpack, \&p, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00879}00879         \textcolor{keywordflow}{return} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00880}00880     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00881}00881 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00882}\mbox{\hyperlink{group__gtc__packing_gad5ca2e64edae3c233657c9fb0d18a9c9}{00882}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} \mbox{\hyperlink{group__gtc__packing_gad5ca2e64edae3c233657c9fb0d18a9c9}{packUint2x16}}(\mbox{\hyperlink{structglm_1_1vec}{u16vec2}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00883}00883     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00884}00884         \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} Pack = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00885}00885         memcpy(\&Pack, \&v, \textcolor{keyword}{sizeof}(Pack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00886}00886         \textcolor{keywordflow}{return} Pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00887}00887     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00888}00888 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00889}\mbox{\hyperlink{group__gtc__packing_ga7778efa924e6efc386cb9f373bb06b72}{00889}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{u16vec2}} \mbox{\hyperlink{group__gtc__packing_ga7778efa924e6efc386cb9f373bb06b72}{unpackUint2x16}}(\mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00890}00890     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00891}00891         \mbox{\hyperlink{structglm_1_1vec}{u16vec2}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00892}00892         memcpy(\&Unpack, \&p, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00893}00893         \textcolor{keywordflow}{return} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00894}00894     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00895}00895 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00896}\mbox{\hyperlink{group__gtc__packing_ga19813cb34dd7102f9612ba6c0d9ef377}{00896}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}} \mbox{\hyperlink{group__gtc__packing_ga19813cb34dd7102f9612ba6c0d9ef377}{packUint4x16}}(\mbox{\hyperlink{structglm_1_1vec}{u16vec4}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00897}00897     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00898}00898         \mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}} Pack = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00899}00899         memcpy(\&Pack, \&v, \textcolor{keyword}{sizeof}(Pack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00900}00900         \textcolor{keywordflow}{return} Pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00901}00901     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00902}00902 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00903}\mbox{\hyperlink{group__gtc__packing_gaf1eea82404af955004aae19a2dcb55f1}{00903}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{u16vec4}} \mbox{\hyperlink{group__gtc__packing_gaf1eea82404af955004aae19a2dcb55f1}{unpackUint4x16}}(\mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00904}00904     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00905}00905         \mbox{\hyperlink{structglm_1_1vec}{u16vec4}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00906}00906         memcpy(\&Unpack, \&p, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00907}00907         \textcolor{keywordflow}{return} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00908}00908     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00909}00909 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00910}\mbox{\hyperlink{group__gtc__packing_ga1d6c24ff4f2b198eb2c4a2e4dcf7c336}{00910}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_ga435d75819cce297cc5fa21bd84ef89a5}{int64}} \mbox{\hyperlink{group__gtc__packing_ga1d6c24ff4f2b198eb2c4a2e4dcf7c336}{packInt2x32}}(\mbox{\hyperlink{structglm_1_1vec}{i32vec2}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00911}00911     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00912}00912         \mbox{\hyperlink{group__gtc__type__precision_ga435d75819cce297cc5fa21bd84ef89a5}{int64}} Pack = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00913}00913         memcpy(\&Pack, \&v, \textcolor{keyword}{sizeof}(Pack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00914}00914         \textcolor{keywordflow}{return} Pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00915}00915     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00916}00916 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00917}\mbox{\hyperlink{group__gtc__packing_ga6410b50fa48d15e70b2c34174ee4a3fc}{00917}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{i32vec2}} \mbox{\hyperlink{group__gtc__packing_ga6410b50fa48d15e70b2c34174ee4a3fc}{unpackInt2x32}}(\mbox{\hyperlink{group__gtc__type__precision_ga435d75819cce297cc5fa21bd84ef89a5}{int64}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00918}00918     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00919}00919         \mbox{\hyperlink{structglm_1_1vec}{i32vec2}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00920}00920         memcpy(\&Unpack, \&p, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00921}00921         \textcolor{keywordflow}{return} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00922}00922     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00923}00923 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00924}\mbox{\hyperlink{group__gtc__packing_ga4c4e4d6ab81a6b14cf066b40b6967c0a}{00924}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}} \mbox{\hyperlink{group__gtc__packing_ga4c4e4d6ab81a6b14cf066b40b6967c0a}{packUint2x32}}(\mbox{\hyperlink{structglm_1_1vec}{u32vec2}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00925}00925     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00926}00926         \mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}} Pack = 0;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00927}00927         memcpy(\&Pack, \&v, \textcolor{keyword}{sizeof}(Pack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00928}00928         \textcolor{keywordflow}{return} Pack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00929}00929     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00930}00930 }
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00931}\mbox{\hyperlink{group__gtc__packing_gab211ea5f8cf86f00efa4fd53cb302c82}{00931}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{u32vec2}} \mbox{\hyperlink{group__gtc__packing_gab211ea5f8cf86f00efa4fd53cb302c82}{unpackUint2x32}}(\mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}} p)}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00932}00932     \{}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00933}00933         \mbox{\hyperlink{structglm_1_1vec}{u32vec2}} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00934}00934         memcpy(\&Unpack, \&p, \textcolor{keyword}{sizeof}(Unpack));}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00935}00935         \textcolor{keywordflow}{return} Unpack;}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00936}00936     \}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00937}00937 \}\textcolor{comment}{//namespace glm}}
+\DoxyCodeLine{\Hypertarget{packing_8inl_source_l00938}00938 }
+
+\end{DoxyCode}

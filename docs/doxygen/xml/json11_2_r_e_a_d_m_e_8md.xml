@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="json11_2_r_e_a_d_m_e_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">json11</highlight></codeline>
+<codeline><highlight class="normal">------</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">json11<sp/>is<sp/>a<sp/>tiny<sp/>JSON<sp/>library<sp/>for<sp/>C++11,<sp/>providing<sp/>JSON<sp/>parsing<sp/>and<sp/>serialization.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>core<sp/>object<sp/>provided<sp/>by<sp/>the<sp/>library<sp/>is<sp/>json11::Json.<sp/>A<sp/>Json<sp/>object<sp/>represents<sp/>any<sp/>JSON</highlight></codeline>
+<codeline><highlight class="normal">value:<sp/>null,<sp/>bool,<sp/>number<sp/>(int<sp/>or<sp/>double),<sp/>string<sp/>(std::string),<sp/>array<sp/>(std::vector),<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">object<sp/>(std::map).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Json<sp/>objects<sp/>act<sp/>like<sp/>values.<sp/>They<sp/>can<sp/>be<sp/>assigned,<sp/>copied,<sp/>moved,<sp/>compared<sp/>for<sp/>equality<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">order,<sp/>and<sp/>so<sp/>on.<sp/>There<sp/>are<sp/>also<sp/>helper<sp/>methods<sp/>Json::dump,<sp/>to<sp/>serialize<sp/>a<sp/>Json<sp/>to<sp/>a<sp/>string,<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">Json::parse<sp/>(static)<sp/>to<sp/>parse<sp/>a<sp/>std::string<sp/>as<sp/>a<sp/>Json<sp/>object.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">It&apos;s<sp/>easy<sp/>to<sp/>make<sp/>a<sp/>JSON<sp/>object<sp/>with<sp/>C++11&apos;s<sp/>new<sp/>initializer<sp/>syntax:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Json<sp/>my_json<sp/>=<sp/>Json::object<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>&quot;key1&quot;,<sp/>&quot;value1&quot;<sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>&quot;key2&quot;,<sp/>false<sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>&quot;key3&quot;,<sp/>Json::array<sp/>{<sp/>1,<sp/>2,<sp/>3<sp/>}<sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>my_json.dump();</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">There<sp/>are<sp/>also<sp/>implicit<sp/>constructors<sp/>that<sp/>allow<sp/>standard<sp/>and<sp/>user-defined<sp/>types<sp/>to<sp/>be</highlight></codeline>
+<codeline><highlight class="normal">automatically<sp/>converted<sp/>to<sp/>JSON.<sp/>For<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>class<sp/>Point<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>public:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int<sp/>x;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int<sp/>y;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Point<sp/>(int<sp/>x,<sp/>int<sp/>y)<sp/>:<sp/>x(x),<sp/>y(y)<sp/>{}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Json<sp/>to_json()<sp/>const<sp/>{<sp/>return<sp/>Json::array<sp/>{<sp/>x,<sp/>y<sp/>};<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Point&gt;<sp/>points<sp/>=<sp/>{<sp/>{<sp/>1,<sp/>2<sp/>},<sp/>{<sp/>10,<sp/>20<sp/>},<sp/>{<sp/>100,<sp/>200<sp/>}<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>points_json<sp/>=<sp/>Json(points).dump();</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">JSON<sp/>values<sp/>can<sp/>have<sp/>their<sp/>values<sp/>queried<sp/>and<sp/>inspected:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Json<sp/>json<sp/>=<sp/>Json::array<sp/>{<sp/>Json::object<sp/>{<sp/>{<sp/>&quot;k&quot;,<sp/>&quot;v&quot;<sp/>}<sp/>}<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>str<sp/>=<sp/>json[0][&quot;k&quot;].string_value();</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>more<sp/>documentation<sp/>see<sp/>json11.hpp.</highlight></codeline>
+    </programlisting>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/json11/README.md"/>
+  </compounddef>
+</doxygen>

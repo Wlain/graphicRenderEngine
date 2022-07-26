@@ -1,0 +1,368 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="group__context" kind="group">
+    <compoundname>context</compoundname>
+    <title>Context reference</title>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__context_1ga3d47c2d2fbe0be9c505d0e04e91a133c" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* GLFWglproc) (void)</definition>
+        <argsstring>)(void)</argsstring>
+        <name>GLFWglproc</name>
+        <briefdescription>
+<para>Client API function pointer type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generic function pointer used for returning client API function pointers without forcing a cast from a regular pointer.</para>
+<para><simplesect kind="see"><para><ref refid="context_guide_1context_glext" kindref="member">OpenGL and OpenGL ES extensions</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__context_1ga0e8af175218929615c16e74938c10f2a" kindref="member">glfwGetProcAddress</ref></para>
+</simplesect>
+<simplesect kind="since"><para>Added in version 3.0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/include/GLFW/glfw3.h" line="1274" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/include/GLFW/glfw3.h" bodystart="1274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__context_1ga3d47c2d2fbe0be9c505d0e04e91a133c" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* GLFWglproc) (void)</definition>
+        <argsstring>)(void)</argsstring>
+        <name>GLFWglproc</name>
+        <briefdescription>
+<para>Client API function pointer type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generic function pointer used for returning client API function pointers without forcing a cast from a regular pointer.</para>
+<para><simplesect kind="see"><para><ref refid="context_guide_1context_glext" kindref="member">OpenGL and OpenGL ES extensions</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__context_1ga0e8af175218929615c16e74938c10f2a" kindref="member">glfwGetProcAddress</ref></para>
+</simplesect>
+<simplesect kind="since"><para>Added in version 3.0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/examples/libs/glfw/include/GLFW/glfw3.h" line="744" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/examples/libs/glfw/include/GLFW/glfw3.h" bodystart="744" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__context_1gafd76c93e15ec8b0b90506a9936a46185" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GLFWAPI void</type>
+        <definition>GLFWAPI void glfwMakeContextCurrent</definition>
+        <argsstring>(GLFWwindow *window)</argsstring>
+        <name>glfwMakeContextCurrent</name>
+        <param>
+          <type><ref refid="group__window_1ga3c96d80d363e67d13a41b5d1821f3242" kindref="member">GLFWwindow</ref> *</type>
+          <declname>window</declname>
+        </param>
+        <briefdescription>
+<para>Makes the context of the specified window current for the calling thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function makes the OpenGL or OpenGL ES context of the specified window current on the calling thread. A context must only be made current on a single thread at a time and each thread can have only a single current context at a time.</para>
+<para>When moving a context between threads, you must make it non-current on the old thread before making it current on the new one.</para>
+<para>By default, making a context non-current implicitly forces a pipeline flush. On machines that support <computeroutput>GL_KHR_context_flush_control</computeroutput>, you can control whether a context performs this flush by setting the <ref refid="window_guide_1GLFW_CONTEXT_RELEASE_BEHAVIOR_hint" kindref="member">GLFW_CONTEXT_RELEASE_BEHAVIOR</ref> hint.</para>
+<para>The specified window must have an OpenGL or OpenGL ES context. Specifying a window without a context will generate a <ref refid="group__errors_1gacff24d2757da752ae4c80bf452356487" kindref="member">GLFW_NO_WINDOW_CONTEXT</ref> error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The window whose context to make current, or <computeroutput>NULL</computeroutput> to detach the current context.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+@errors Possible errors include <ref refid="group__errors_1ga2374ee02c177f12e1fa76ff3ed15e14a" kindref="member">GLFW_NOT_INITIALIZED</ref>, <ref refid="group__errors_1gacff24d2757da752ae4c80bf452356487" kindref="member">GLFW_NO_WINDOW_CONTEXT</ref> and <ref refid="group__errors_1gad44162d78100ea5e87cdd38426b8c7a1" kindref="member">GLFW_PLATFORM_ERROR</ref>.</para>
+<para>@thread_safety This function may be called from any thread.</para>
+<para><simplesect kind="see"><para><ref refid="context_guide_1context_current" kindref="member">Current context</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__context_1gab5fde1ef6238bfb82c7a2293f86172de" kindref="member">glfwGetCurrentContext</ref></para>
+</simplesect>
+<simplesect kind="since"><para>Added in version 3.0.</para>
+</simplesect>
+This function makes the OpenGL or OpenGL ES context of the specified window current on the calling thread. A context can only be made current on a single thread at a time and each thread can have only a single current context at a time.</para>
+<para>By default, making a context non-current implicitly forces a pipeline flush. On machines that support <computeroutput>GL_KHR_context_flush_control</computeroutput>, you can control whether a context performs this flush by setting the <ref refid="window_guide_1window_hints_ctx" kindref="member">GLFW_CONTEXT_RELEASE_BEHAVIOR</ref> window hint.</para>
+<para>The specified window must have an OpenGL or OpenGL ES context. Specifying a window without a context will generate a <ref refid="group__errors_1gacff24d2757da752ae4c80bf452356487" kindref="member">GLFW_NO_WINDOW_CONTEXT</ref> error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The window whose context to make current, or <computeroutput>NULL</computeroutput> to detach the current context.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+@errors Possible errors include <ref refid="group__errors_1ga2374ee02c177f12e1fa76ff3ed15e14a" kindref="member">GLFW_NOT_INITIALIZED</ref>, <ref refid="group__errors_1gacff24d2757da752ae4c80bf452356487" kindref="member">GLFW_NO_WINDOW_CONTEXT</ref> and <ref refid="group__errors_1gad44162d78100ea5e87cdd38426b8c7a1" kindref="member">GLFW_PLATFORM_ERROR</ref>.</para>
+<para>@thread_safety This function may be called from any thread.</para>
+<para><simplesect kind="see"><para><ref refid="context_guide_1context_current" kindref="member">Current context</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__context_1gab5fde1ef6238bfb82c7a2293f86172de" kindref="member">glfwGetCurrentContext</ref></para>
+</simplesect>
+<simplesect kind="since"><para>Added in version 3.0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/include/GLFW/glfw3.h" line="5628" column="14" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/context.c" bodystart="613" bodyend="635" declfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/include/GLFW/glfw3.h" declline="5628" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="group__context_1gab5fde1ef6238bfb82c7a2293f86172de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GLFWAPI <ref refid="group__window_1ga3c96d80d363e67d13a41b5d1821f3242" kindref="member">GLFWwindow</ref> *</type>
+        <definition>GLFWAPI GLFWwindow * glfwGetCurrentContext</definition>
+        <argsstring>(void)</argsstring>
+        <name>glfwGetCurrentContext</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Returns the window whose context is current on the calling thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function returns the window whose OpenGL or OpenGL ES context is current on the calling thread.</para>
+<para><simplesect kind="return"><para>The window whose context is current, or <computeroutput>NULL</computeroutput> if no window&apos;s context is current.</para>
+</simplesect>
+@errors Possible errors include <ref refid="group__errors_1ga2374ee02c177f12e1fa76ff3ed15e14a" kindref="member">GLFW_NOT_INITIALIZED</ref>.</para>
+<para>@thread_safety This function may be called from any thread.</para>
+<para><simplesect kind="see"><para><ref refid="context_guide_1context_current" kindref="member">Current context</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__context_1gafd76c93e15ec8b0b90506a9936a46185" kindref="member">glfwMakeContextCurrent</ref></para>
+</simplesect>
+<simplesect kind="since"><para>Added in version 3.0.</para>
+</simplesect>
+This function returns the window whose OpenGL or OpenGL ES context is current on the calling thread.</para>
+<para><simplesect kind="return"><para>The window whose context is current, or <computeroutput>NULL</computeroutput> if no window&apos;s context is current.</para>
+</simplesect>
+@errors Possible errors include <ref refid="group__errors_1ga2374ee02c177f12e1fa76ff3ed15e14a" kindref="member">GLFW_NOT_INITIALIZED</ref>.</para>
+<para>@thread_safety This function may be called from any thread.</para>
+<para><simplesect kind="see"><para><ref refid="context_guide_1context_current" kindref="member">Current context</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__context_1gafd76c93e15ec8b0b90506a9936a46185" kindref="member">glfwMakeContextCurrent</ref></para>
+</simplesect>
+<simplesect kind="since"><para>Added in version 3.0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/include/GLFW/glfw3.h" line="5649" column="20" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/context.c" bodystart="637" bodyend="641" declfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/include/GLFW/glfw3.h" declline="5649" declcolumn="20"/>
+      </memberdef>
+      <memberdef kind="function" id="group__context_1ga12a595c06947cec4967c6e1f14210a8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GLFWAPI void</type>
+        <definition>GLFWAPI void glfwSwapInterval</definition>
+        <argsstring>(int interval)</argsstring>
+        <name>glfwSwapInterval</name>
+        <param>
+          <type>int</type>
+          <declname>interval</declname>
+        </param>
+        <briefdescription>
+<para>Sets the swap interval for the current context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function sets the swap interval for the current OpenGL or OpenGL ES context, i.e. the number of screen updates to wait from the time <ref refid="group__window_1gafb827800eedbfcbc97b1e5408df668d7" kindref="member">glfwSwapBuffers</ref> was called before swapping the buffers and returning. This is sometimes called <emphasis>vertical synchronization</emphasis>, <emphasis>vertical retrace synchronization</emphasis> or just <emphasis>vsync</emphasis>.</para>
+<para>A context that supports either of the <computeroutput>WGL_EXT_swap_control_tear</computeroutput> and <computeroutput>GLX_EXT_swap_control_tear</computeroutput> extensions also accepts <emphasis>negative</emphasis> swap intervals, which allows the driver to swap immediately even if a frame arrives a little bit late. You can check for these extensions with <ref refid="group__context_1ga9a28c712d35f9e43534e1d03b051c04c" kindref="member">glfwExtensionSupported</ref>.</para>
+<para>A context must be current on the calling thread. Calling this function without a current context will cause a <ref refid="group__errors_1gaa8290386e9528ccb9e42a3a4e16fc0d0" kindref="member">GLFW_NO_CURRENT_CONTEXT</ref> error.</para>
+<para>This function does not apply to Vulkan. If you are rendering with Vulkan, see the present mode of your swapchain instead.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The minimum number of screen updates to wait for until the buffers are swapped by <ref refid="group__window_1gafb827800eedbfcbc97b1e5408df668d7" kindref="member">glfwSwapBuffers</ref>.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+@errors Possible errors include <ref refid="group__errors_1ga2374ee02c177f12e1fa76ff3ed15e14a" kindref="member">GLFW_NOT_INITIALIZED</ref>, <ref refid="group__errors_1gaa8290386e9528ccb9e42a3a4e16fc0d0" kindref="member">GLFW_NO_CURRENT_CONTEXT</ref> and <ref refid="group__errors_1gad44162d78100ea5e87cdd38426b8c7a1" kindref="member">GLFW_PLATFORM_ERROR</ref>.</para>
+<para><simplesect kind="remark"><para>This function is not called during context creation, leaving the swap interval set to whatever is the default on that platform. This is done because some swap interval extensions used by GLFW do not allow the swap interval to be reset to zero once it has been set to a non-zero value.</para>
+</simplesect>
+<simplesect kind="remark"><para>Some GPU drivers do not honor the requested swap interval, either because of a user setting that overrides the application&apos;s request or due to bugs in the driver.</para>
+</simplesect>
+@thread_safety This function may be called from any thread.</para>
+<para><simplesect kind="see"><para><ref refid="window_guide_1buffer_swap" kindref="member">Buffer swapping</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__window_1gafb827800eedbfcbc97b1e5408df668d7" kindref="member">glfwSwapBuffers</ref></para>
+</simplesect>
+<simplesect kind="since"><para>Added in version 1.0.</para>
+</simplesect>
+This function sets the swap interval for the current OpenGL or OpenGL ES context, i.e. the number of screen updates to wait from the time <ref refid="group__window_1gafb827800eedbfcbc97b1e5408df668d7" kindref="member">glfwSwapBuffers</ref> was called before swapping the buffers and returning. This is sometimes called <emphasis>vertical synchronization</emphasis>, <emphasis>vertical retrace synchronization</emphasis> or just <emphasis>vsync</emphasis>.</para>
+<para>Contexts that support either of the <computeroutput>WGL_EXT_swap_control_tear</computeroutput> and <computeroutput>GLX_EXT_swap_control_tear</computeroutput> extensions also accept negative swap intervals, which allow the driver to swap even if a frame arrives a little bit late. You can check for the presence of these extensions using <ref refid="group__context_1ga9a28c712d35f9e43534e1d03b051c04c" kindref="member">glfwExtensionSupported</ref>. For more information about swap tearing, see the extension specifications.</para>
+<para>A context must be current on the calling thread. Calling this function without a current context will cause a <ref refid="group__errors_1gaa8290386e9528ccb9e42a3a4e16fc0d0" kindref="member">GLFW_NO_CURRENT_CONTEXT</ref> error.</para>
+<para>This function does not apply to Vulkan. If you are rendering with Vulkan, see the present mode of your swapchain instead.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The minimum number of screen updates to wait for until the buffers are swapped by <ref refid="group__window_1gafb827800eedbfcbc97b1e5408df668d7" kindref="member">glfwSwapBuffers</ref>.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+@errors Possible errors include <ref refid="group__errors_1ga2374ee02c177f12e1fa76ff3ed15e14a" kindref="member">GLFW_NOT_INITIALIZED</ref>, <ref refid="group__errors_1gaa8290386e9528ccb9e42a3a4e16fc0d0" kindref="member">GLFW_NO_CURRENT_CONTEXT</ref> and <ref refid="group__errors_1gad44162d78100ea5e87cdd38426b8c7a1" kindref="member">GLFW_PLATFORM_ERROR</ref>.</para>
+<para><simplesect kind="remark"><para>This function is not called during context creation, leaving the swap interval set to whatever is the default on that platform. This is done because some swap interval extensions used by GLFW do not allow the swap interval to be reset to zero once it has been set to a non-zero value.</para>
+</simplesect>
+<simplesect kind="remark"><para>Some GPU drivers do not honor the requested swap interval, either because of a user setting that overrides the application&apos;s request or due to bugs in the driver.</para>
+</simplesect>
+@thread_safety This function may be called from any thread.</para>
+<para><simplesect kind="see"><para><ref refid="window_guide_1buffer_swap" kindref="member">Buffer swapping</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__window_1gafb827800eedbfcbc97b1e5408df668d7" kindref="member">glfwSwapBuffers</ref></para>
+</simplesect>
+<simplesect kind="since"><para>Added in version 1.0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/include/GLFW/glfw3.h" line="5729" column="14" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/context.c" bodystart="660" bodyend="675" declfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/include/GLFW/glfw3.h" declline="5729" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="group__context_1ga9a28c712d35f9e43534e1d03b051c04c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GLFWAPI int</type>
+        <definition>GLFWAPI int glfwExtensionSupported</definition>
+        <argsstring>(const char *extension)</argsstring>
+        <name>glfwExtensionSupported</name>
+        <param>
+          <type>const char *</type>
+          <declname>extension</declname>
+        </param>
+        <briefdescription>
+<para>Returns whether the specified extension is available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function returns whether the specified <ref refid="context_guide_1context_glext" kindref="member">API extension</ref> is supported by the current OpenGL or OpenGL ES context. It searches both for client API extension and context creation API extensions.</para>
+<para>A context must be current on the calling thread. Calling this function without a current context will cause a <ref refid="group__errors_1gaa8290386e9528ccb9e42a3a4e16fc0d0" kindref="member">GLFW_NO_CURRENT_CONTEXT</ref> error.</para>
+<para>As this functions retrieves and searches one or more extension strings each call, it is recommended that you cache its results if it is going to be used frequently. The extension strings will not change during the lifetime of a context, so there is no danger in doing this.</para>
+<para>This function does not apply to Vulkan. If you are using Vulkan, see <ref refid="group__vulkan_1gada152edc5bbbd0c2138728878632fd9c" kindref="member">glfwGetRequiredInstanceExtensions</ref>, <computeroutput>vkEnumerateInstanceExtensionProperties</computeroutput> and <computeroutput>vkEnumerateDeviceExtensionProperties</computeroutput> instead.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">extension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ASCII encoded name of the extension. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>GLFW_TRUE</computeroutput> if the extension is available, or <computeroutput>GLFW_FALSE</computeroutput> otherwise.</para>
+</simplesect>
+@errors Possible errors include <ref refid="group__errors_1ga2374ee02c177f12e1fa76ff3ed15e14a" kindref="member">GLFW_NOT_INITIALIZED</ref>, <ref refid="group__errors_1gaa8290386e9528ccb9e42a3a4e16fc0d0" kindref="member">GLFW_NO_CURRENT_CONTEXT</ref>, <ref refid="group__errors_1gaaf2ef9aa8202c2b82ac2d921e554c687" kindref="member">GLFW_INVALID_VALUE</ref> and <ref refid="group__errors_1gad44162d78100ea5e87cdd38426b8c7a1" kindref="member">GLFW_PLATFORM_ERROR</ref>.</para>
+<para>@thread_safety This function may be called from any thread.</para>
+<para><simplesect kind="see"><para><ref refid="context_guide_1context_glext" kindref="member">OpenGL and OpenGL ES extensions</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__context_1ga0e8af175218929615c16e74938c10f2a" kindref="member">glfwGetProcAddress</ref></para>
+</simplesect>
+<simplesect kind="since"><para>Added in version 1.0.</para>
+</simplesect>
+This function returns whether the specified <ref refid="context_guide_1context_glext" kindref="member">API extension</ref> is supported by the current OpenGL or OpenGL ES context. It searches both for client API extension and context creation API extensions.</para>
+<para>A context must be current on the calling thread. Calling this function without a current context will cause a <ref refid="group__errors_1gaa8290386e9528ccb9e42a3a4e16fc0d0" kindref="member">GLFW_NO_CURRENT_CONTEXT</ref> error.</para>
+<para>As this functions retrieves and searches one or more extension strings each call, it is recommended that you cache its results if it is going to be used frequently. The extension strings will not change during the lifetime of a context, so there is no danger in doing this.</para>
+<para>This function does not apply to Vulkan. If you are using Vulkan, see <ref refid="group__vulkan_1gada152edc5bbbd0c2138728878632fd9c" kindref="member">glfwGetRequiredInstanceExtensions</ref>, <computeroutput>vkEnumerateInstanceExtensionProperties</computeroutput> and <computeroutput>vkEnumerateDeviceExtensionProperties</computeroutput> instead.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">extension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ASCII encoded name of the extension. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>GLFW_TRUE</computeroutput> if the extension is available, or <computeroutput>GLFW_FALSE</computeroutput> otherwise.</para>
+</simplesect>
+@errors Possible errors include <ref refid="group__errors_1ga2374ee02c177f12e1fa76ff3ed15e14a" kindref="member">GLFW_NOT_INITIALIZED</ref>, <ref refid="group__errors_1gaa8290386e9528ccb9e42a3a4e16fc0d0" kindref="member">GLFW_NO_CURRENT_CONTEXT</ref>, <ref refid="group__errors_1gaaf2ef9aa8202c2b82ac2d921e554c687" kindref="member">GLFW_INVALID_VALUE</ref> and <ref refid="group__errors_1gad44162d78100ea5e87cdd38426b8c7a1" kindref="member">GLFW_PLATFORM_ERROR</ref>.</para>
+<para>@thread_safety This function may be called from any thread.</para>
+<para><simplesect kind="see"><para><ref refid="context_guide_1context_glext" kindref="member">OpenGL and OpenGL ES extensions</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__context_1ga0e8af175218929615c16e74938c10f2a" kindref="member">glfwGetProcAddress</ref></para>
+</simplesect>
+<simplesect kind="since"><para>Added in version 1.0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/include/GLFW/glfw3.h" line="5767" column="13" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/context.c" bodystart="677" bodyend="741" declfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/include/GLFW/glfw3.h" declline="5767" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__context_1ga0e8af175218929615c16e74938c10f2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GLFWAPI <ref refid="group__context_1ga3d47c2d2fbe0be9c505d0e04e91a133c" kindref="member">GLFWglproc</ref></type>
+        <definition>GLFWAPI GLFWglproc glfwGetProcAddress</definition>
+        <argsstring>(const char *procname)</argsstring>
+        <name>glfwGetProcAddress</name>
+        <param>
+          <type>const char *</type>
+          <declname>procname</declname>
+        </param>
+        <briefdescription>
+<para>Returns the address of the specified function for the current context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function returns the address of the specified OpenGL or OpenGL ES <ref refid="context_guide_1context_glext" kindref="member">core or extension function</ref>, if it is supported by the current context.</para>
+<para>A context must be current on the calling thread. Calling this function without a current context will cause a <ref refid="group__errors_1gaa8290386e9528ccb9e42a3a4e16fc0d0" kindref="member">GLFW_NO_CURRENT_CONTEXT</ref> error.</para>
+<para>This function does not apply to Vulkan. If you are rendering with Vulkan, see glfwGetInstanceProcAddress, <computeroutput>vkGetInstanceProcAddr</computeroutput> and <computeroutput>vkGetDeviceProcAddr</computeroutput> instead.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">procname</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ASCII encoded name of the function. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The address of the function, or <computeroutput>NULL</computeroutput> if an <ref refid="intro_guide_1error_handling" kindref="member">error</ref> occurred.</para>
+</simplesect>
+@errors Possible errors include <ref refid="group__errors_1ga2374ee02c177f12e1fa76ff3ed15e14a" kindref="member">GLFW_NOT_INITIALIZED</ref>, <ref refid="group__errors_1gaa8290386e9528ccb9e42a3a4e16fc0d0" kindref="member">GLFW_NO_CURRENT_CONTEXT</ref> and <ref refid="group__errors_1gad44162d78100ea5e87cdd38426b8c7a1" kindref="member">GLFW_PLATFORM_ERROR</ref>.</para>
+<para><simplesect kind="remark"><para>The address of a given function is not guaranteed to be the same between contexts.</para>
+</simplesect>
+<simplesect kind="remark"><para>This function may return a non-<computeroutput>NULL</computeroutput> address despite the associated version or extension not being available. Always check the context version or extension string first.</para>
+</simplesect>
+@pointer_lifetime The returned function pointer is valid until the context is destroyed or the library is terminated.</para>
+<para>@thread_safety This function may be called from any thread.</para>
+<para><simplesect kind="see"><para><ref refid="context_guide_1context_glext" kindref="member">OpenGL and OpenGL ES extensions</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__context_1ga9a28c712d35f9e43534e1d03b051c04c" kindref="member">glfwExtensionSupported</ref></para>
+</simplesect>
+<simplesect kind="since"><para>Added in version 1.0.</para>
+</simplesect>
+This function returns the address of the specified OpenGL or OpenGL ES <ref refid="context_guide_1context_glext" kindref="member">core or extension function</ref>, if it is supported by the current context.</para>
+<para>A context must be current on the calling thread. Calling this function without a current context will cause a <ref refid="group__errors_1gaa8290386e9528ccb9e42a3a4e16fc0d0" kindref="member">GLFW_NO_CURRENT_CONTEXT</ref> error.</para>
+<para>This function does not apply to Vulkan. If you are rendering with Vulkan, see glfwGetInstanceProcAddress, <computeroutput>vkGetInstanceProcAddr</computeroutput> and <computeroutput>vkGetDeviceProcAddr</computeroutput> instead.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">procname</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ASCII encoded name of the function. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The address of the function, or <computeroutput>NULL</computeroutput> if an <ref refid="intro_guide_1error_handling" kindref="member">error</ref> occurred.</para>
+</simplesect>
+@errors Possible errors include <ref refid="group__errors_1ga2374ee02c177f12e1fa76ff3ed15e14a" kindref="member">GLFW_NOT_INITIALIZED</ref>, <ref refid="group__errors_1gaa8290386e9528ccb9e42a3a4e16fc0d0" kindref="member">GLFW_NO_CURRENT_CONTEXT</ref> and <ref refid="group__errors_1gad44162d78100ea5e87cdd38426b8c7a1" kindref="member">GLFW_PLATFORM_ERROR</ref>.</para>
+<para><simplesect kind="remark"><para>The address of a given function is not guaranteed to be the same between contexts.</para>
+</simplesect>
+<simplesect kind="remark"><para>This function may return a non-<computeroutput>NULL</computeroutput> address despite the associated version or extension not being available. Always check the context version or extension string first.</para>
+</simplesect>
+@pointer_lifetime The returned function pointer is valid until the context is destroyed or the library is terminated.</para>
+<para>@thread_safety This function may be called from any thread.</para>
+<para><simplesect kind="see"><para><ref refid="context_guide_1context_glext" kindref="member">OpenGL and OpenGL ES extensions</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="group__context_1ga9a28c712d35f9e43534e1d03b051c04c" kindref="member">glfwExtensionSupported</ref></para>
+</simplesect>
+<simplesect kind="since"><para>Added in version 1.0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/include/GLFW/glfw3.h" line="5809" column="20" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/context.c" bodystart="743" bodyend="759" declfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/include/GLFW/glfw3.h" declline="5809" declcolumn="20"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Functions and types related to OpenGL and OpenGL ES contexts. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This is the reference documentation for OpenGL and OpenGL ES context related functions. For more task-oriented information, see the <ref refid="context_guide" kindref="compound">Context guide</ref>. </para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

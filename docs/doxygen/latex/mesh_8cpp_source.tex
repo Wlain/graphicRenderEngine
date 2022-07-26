@@ -1,5 +1,5 @@
 \hypertarget{mesh_8cpp_source}{}\doxysection{mesh.\+cpp}
-\label{mesh_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/re/core/mesh.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/re/core/mesh.cpp}}
+\label{mesh_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/core/mesh.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/core/mesh.cpp}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00001}00001 }
@@ -16,7 +16,7 @@
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00012}00012 }
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00013}00013 \textcolor{preprocessor}{\#include <glm/gtc/constants.hpp>}}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00014}00014 \textcolor{preprocessor}{\#include <iomanip>}}
-\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00015}00015 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00015}00015 \textcolor{keyword}{namespace }ceres}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00016}00016 \{}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00017}00017 Mesh::Mesh(std::map<std::string, std::vector<float>>\&\& attributesFloat, std::map<std::string, std::vector<glm::vec2>>\&\& attributesVec2, std::map<std::string, std::vector<glm::vec3>>\&\& attributesVec3,}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00018}00018            std::map<std::string, std::vector<glm::vec4>>\&\& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>\&\& attributesIVec4, std::vector<std::vector<uint16\_t>>\&\& indices,}
@@ -25,7 +25,7 @@
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00021}00021     m\_meshId = m\_meshIdCount++;}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00022}00022     \textcolor{keywordflow}{if} (Renderer::s\_instance == \textcolor{keyword}{nullptr})}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00023}00023     \{}
-\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00024}00024         \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"{}Cannot instantiate re::Mesh before re::Renderer is created."{}});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00024}00024         \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"{}Cannot instantiate re::Mesh before ceres::Renderer is created."{}});}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00025}00025     \}}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00026}00026     glGenBuffers(1, \&m\_vbo);}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00027}00027     update(std::move(attributesFloat), std::move(attributesVec2), std::move(attributesVec3), std::move(attributesVec4), std::move(attributesIVec4), std::move(indices), meshTopology, bufferUsage, name, renderStats);}
@@ -197,7 +197,7 @@
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00193}00193 Mesh::MeshBuilder Mesh::update()}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00194}00194 \{}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00195}00195     Mesh::MeshBuilder builder;}
-\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00196}00196     builder.m\_updateMesh = \textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00196}00196     builder.m\_mesh = \textcolor{keyword}{this};}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00197}00197     builder.m\_attributesFloat = m\_attributesFloat;}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00198}00198     builder.m\_attributesVec2 = m\_attributesVec2;}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00199}00199     builder.m\_attributesVec3 = m\_attributesVec3;}
@@ -773,11 +773,11 @@
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00769}00769             withTangents(newTangents);}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00770}00770         \}}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00771}00771     \}}
-\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00772}00772     \textcolor{keywordflow}{if} (m\_updateMesh != \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00772}00772     \textcolor{keywordflow}{if} (m\_mesh != \textcolor{keyword}{nullptr})}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00773}00773     \{}
-\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00774}00774         renderStats.meshBytes -\/= m\_updateMesh-\/>getDataSize();}
-\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00775}00775         m\_updateMesh-\/>update(std::move(m\_attributesFloat), std::move(m\_attributesVec2), std::move(m\_attributesVec3), std::move(m\_attributesVec4), std::move(m\_attributesIVec4), std::move(m\_indices), m\_topologies, m\_bufferUsage, m\_name, renderStats);}
-\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00776}00776         \textcolor{keywordflow}{return} m\_updateMesh-\/>shared\_from\_this();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00774}00774         renderStats.meshBytes -\/= m\_mesh-\/>getDataSize();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00775}00775         m\_mesh-\/>update(std::move(m\_attributesFloat), std::move(m\_attributesVec2), std::move(m\_attributesVec3), std::move(m\_attributesVec4), std::move(m\_attributesIVec4), std::move(m\_indices), m\_topologies, m\_bufferUsage, m\_name, renderStats);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00776}00776         \textcolor{keywordflow}{return} m\_mesh-\/>shared\_from\_this();}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00777}00777     \}}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00778}00778     \textcolor{keyword}{auto}* mesh = \textcolor{keyword}{new} Mesh(std::move(m\_attributesFloat), std::move(m\_attributesVec2), std::move(m\_attributesVec3), std::move(m\_attributesVec4), std::move(m\_attributesIVec4), std::move(m\_indices), m\_topologies, m\_bufferUsage, m\_name, renderStats);}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00779}00779     renderStats.meshCount++;}
@@ -786,7 +786,7 @@
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00782}00782 }
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00783}00783 Mesh::MeshBuilder\& Mesh::MeshBuilder::withAttribute(std::string\_view name, \textcolor{keyword}{const} std::vector<float>\& values)}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00784}00784 \{}
-\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00785}00785     \textcolor{keywordflow}{if} (m\_updateMesh != \textcolor{keyword}{nullptr} \&\& m\_attributesFloat.find(name.data()) == m\_attributesFloat.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00785}00785     \textcolor{keywordflow}{if} (m\_mesh != \textcolor{keyword}{nullptr} \&\& m\_attributesFloat.find(name.data()) == m\_attributesFloat.end())}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00786}00786     \{}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00787}00787         LOG\_ERROR(\textcolor{stringliteral}{"{}Cannot change mesh structure. \{\} did not exist in original mesh."{}}, name.data());}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00788}00788     \}}
@@ -799,7 +799,7 @@
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00795}00795 }
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00796}00796 Mesh::MeshBuilder\& Mesh::MeshBuilder::withAttribute(std::string\_view name, \textcolor{keyword}{const} std::vector<glm::vec2>\& values)}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00797}00797 \{}
-\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00798}00798     \textcolor{keywordflow}{if} (m\_updateMesh != \textcolor{keyword}{nullptr} \&\& m\_attributesVec2.find(name.data()) == m\_attributesVec2.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00798}00798     \textcolor{keywordflow}{if} (m\_mesh != \textcolor{keyword}{nullptr} \&\& m\_attributesVec2.find(name.data()) == m\_attributesVec2.end())}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00799}00799     \{}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00800}00800         LOG\_ERROR(\textcolor{stringliteral}{"{}Cannot change mesh structure. \{\} did not exist in original mesh."{}}, name.data());}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00801}00801     \}}
@@ -812,7 +812,7 @@
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00808}00808 }
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00809}00809 Mesh::MeshBuilder\& Mesh::MeshBuilder::withAttribute(std::string\_view name, \textcolor{keyword}{const} std::vector<glm::vec3>\& values)}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00810}00810 \{}
-\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00811}00811     \textcolor{keywordflow}{if} (m\_updateMesh != \textcolor{keyword}{nullptr} \&\& m\_attributesVec3.find(name.data()) == m\_attributesVec3.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00811}00811     \textcolor{keywordflow}{if} (m\_mesh != \textcolor{keyword}{nullptr} \&\& m\_attributesVec3.find(name.data()) == m\_attributesVec3.end())}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00812}00812     \{}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00813}00813         LOG\_ERROR(\textcolor{stringliteral}{"{}Cannot change mesh structure. \{\} did not exist in original mesh."{}}, name.data());}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00814}00814     \}}
@@ -825,7 +825,7 @@
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00821}00821 }
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00822}00822 Mesh::MeshBuilder\& Mesh::MeshBuilder::withAttribute(std::string\_view name, \textcolor{keyword}{const} std::vector<glm::vec4>\& values)}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00823}00823 \{}
-\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00824}00824     \textcolor{keywordflow}{if} (m\_updateMesh != \textcolor{keyword}{nullptr} \&\& m\_attributesVec4.find(name.data()) == m\_attributesVec4.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00824}00824     \textcolor{keywordflow}{if} (m\_mesh != \textcolor{keyword}{nullptr} \&\& m\_attributesVec4.find(name.data()) == m\_attributesVec4.end())}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00825}00825     \{}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00826}00826         LOG\_ERROR(\textcolor{stringliteral}{"{}Cannot change mesh structure. \{\} did not exist in original mesh."{}}, name.data());}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00827}00827     \}}
@@ -1121,7 +1121,7 @@
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01117}01117 }
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01118}01118 Mesh::MeshBuilder\& Mesh::MeshBuilder::withAttribute(std::string\_view name, \textcolor{keyword}{const} std::vector<glm::i32vec4>\& values)}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01119}01119 \{}
-\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01120}01120     \textcolor{keywordflow}{if} (m\_updateMesh != \textcolor{keyword}{nullptr} \&\& m\_attributesIVec4.find(name.data()) == m\_attributesIVec4.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01120}01120     \textcolor{keywordflow}{if} (m\_mesh != \textcolor{keyword}{nullptr} \&\& m\_attributesIVec4.find(name.data()) == m\_attributesIVec4.end())}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01121}01121     \{}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01122}01122         LOG\_ERROR(\textcolor{stringliteral}{"{}Cannot change mesh structure. \{\} did not exist in original mesh."{}}, name.data());}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01123}01123     \}}
@@ -1188,6 +1188,6 @@
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01184}01184     \}}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01185}01185 \}}
 \DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01186}01186 }
-\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01187}01187 \} \textcolor{comment}{// namespace re}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01187}01187 \} \textcolor{comment}{// namespace ceres}}
 
 \end{DoxyCode}

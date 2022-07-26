@@ -1,0 +1,939 @@
+\hypertarget{cave__mesher_8c_source}{}\doxysection{cave\+\_\+mesher.\+c}
+\label{cave__mesher_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/caveview/cave\_mesher.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/caveview/cave\_mesher.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00001}00001 \textcolor{comment}{// This file takes minecraft chunks (decoded by cave\_parse) and}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00002}00002 \textcolor{comment}{// uses stb\_voxel\_render to turn them into vertex buffers.}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00004}00004 \textcolor{preprocessor}{\#define STB\_GLEXT\_DECLARE "{}glext\_list.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00005}00005 \textcolor{preprocessor}{\#include "{}stb\_gl.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00006}00006 \textcolor{preprocessor}{\#include "{}stb\_image.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00007}00007 \textcolor{preprocessor}{\#include "{}stb\_glprog.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00009}00009 \textcolor{preprocessor}{\#include "{}caveview.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00010}00010 \textcolor{preprocessor}{\#include "{}cave\_parse.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00011}00011 \textcolor{preprocessor}{\#include "{}stb.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00012}00012 \textcolor{preprocessor}{\#include "{}sdl.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00013}00013 \textcolor{preprocessor}{\#include "{}sdl\_thread.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00014}00014 \textcolor{preprocessor}{\#include <math.h>}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00016}00016 \textcolor{comment}{//\#define VHEIGHT\_TEST}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00017}00017 \textcolor{comment}{//\#define STBVOX\_OPTIMIZED\_VHEIGHT}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00018}00018 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00019}00019 \textcolor{preprocessor}{\#define STBVOX\_CONFIG\_MODE  1}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00020}00020 \textcolor{preprocessor}{\#define STBVOX\_CONFIG\_OPENGL\_MODELVIEW}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00021}00021 \textcolor{preprocessor}{\#define STBVOX\_CONFIG\_PREFER\_TEXBUFFER}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00022}00022 \textcolor{comment}{//\#define STBVOX\_CONFIG\_LIGHTING\_SIMPLE}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00023}00023 \textcolor{preprocessor}{\#define STBVOX\_CONFIG\_FOG\_SMOOTHSTEP}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00024}00024 \textcolor{comment}{//\#define STBVOX\_CONFIG\_PREMULTIPLIED\_ALPHA  // this doesn't work properly alpha test without next \#define}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00025}00025 \textcolor{comment}{//\#define STBVOX\_CONFIG\_UNPREMULTIPLY  // slower, fixes alpha test makes windows \& fancy leaves look better}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00026}00026 \textcolor{comment}{//\#define STBVOX\_CONFIG\_TEX1\_EDGE\_CLAMP}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00027}00027 \textcolor{preprocessor}{\#define STBVOX\_CONFIG\_DISABLE\_TEX2}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00028}00028 \textcolor{comment}{//\#define STBVOX\_CONFIG\_DOWN\_TEXLERP\_PACKED}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00029}00029 \textcolor{preprocessor}{\#define STBVOX\_CONFIG\_ROTATION\_IN\_LIGHTING}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00031}00031 \textcolor{preprocessor}{\#define STB\_VOXEL\_RENDER\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00032}00032 \textcolor{preprocessor}{\#include "{}stb\_voxel\_render.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00034}00034 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} ods(\textcolor{keywordtype}{char} *fmt, ...);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00036}00036 \textcolor{comment}{//\#define FANCY\_LEAVES  // nearly 2x the triangles when enabled (if underground is filled)}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00037}00037 \textcolor{preprocessor}{\#define FAST\_CHUNK}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00038}00038 \textcolor{preprocessor}{\#define IN\_PLACE}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00040}00040 \textcolor{preprocessor}{\#define SKIP\_TERRAIN   0}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00041}00041 \textcolor{comment}{//\#define SKIP\_TERRAIN   48 // use to avoid building underground stuff}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00042}00042                           \textcolor{comment}{// allows you to see what perf would be like if underground was efficiently culled,}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00043}00043                           \textcolor{comment}{// or if you were making a game without underground}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00045}00045 \textcolor{keyword}{enum}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00046}00046 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00047}00047    C\_empty,}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00048}00048    C\_solid,}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00049}00049    C\_trans,}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00050}00050    C\_cross,}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00051}00051    C\_water,}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00052}00052    C\_slab,}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00053}00053    C\_stair,}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00054}00054    C\_force,}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00055}00055 \};}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00057}00057 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} geom\_map[] =}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00058}00058 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00059}00059    STBVOX\_GEOM\_empty,}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00060}00060    STBVOX\_GEOM\_solid,}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00061}00061    STBVOX\_GEOM\_transp,}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00062}00062    STBVOX\_GEOM\_crossed\_pair,}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00063}00063    STBVOX\_GEOM\_solid,}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00064}00064    STBVOX\_GEOM\_slab\_lower,}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00065}00065    STBVOX\_GEOM\_floor\_slope\_north\_is\_top,}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00066}00066    STBVOX\_GEOM\_force,}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00067}00067 \};}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00069}00069 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} minecraft\_info[256][7] =}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00070}00070 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00071}00071    \{ C\_empty, 0,0,0,0,0,0 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00072}00072    \{ C\_solid, 1,1,1,1,1,1 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00073}00073    \{ C\_solid, 3,3,3,3,40,2 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00074}00074    \{ C\_solid, 2,2,2,2,2,2 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00075}00075    \{ C\_solid, 16,16,16,16,16,16 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00076}00076    \{ C\_solid, 4,4,4,4,4,4 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00077}00077    \{ C\_cross, 15,15,15,15 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00078}00078    \{ C\_solid, 17,17,17,17,17,17 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00080}00080    \textcolor{comment}{// 8}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00081}00081    \{ C\_water, 223,223,223,223,223,223 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00082}00082    \{ C\_water, 223,223,223,223,223,223 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00083}00083    \{ C\_solid, 255,255,255,255,255,255 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00084}00084    \{ C\_solid, 255,255,255,255,255,255 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00085}00085    \{ C\_solid, 18,18,18,18,18,18 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00086}00086    \{ C\_solid, 19,19,19,19,19,19 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00087}00087    \{ C\_solid, 32,32,32,32,32,32 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00088}00088    \{ C\_solid, 33,33,33,33,33,33 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00089}00089 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00090}00090    \textcolor{comment}{// 16}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00091}00091    \{ C\_solid, 34,34,34,34,34,34 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00092}00092    \{ C\_solid, 20,20,20,20,21,21 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00093}00093 \textcolor{preprocessor}{\#ifdef FANCY\_LEAVES}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00094}00094    \{ C\_force, 52,52,52,52,52,52 \}, \textcolor{comment}{// leaves}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00095}00095 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00096}00096    \{ C\_solid, 53,53,53,53,53,53 \}, \textcolor{comment}{// leaves}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00097}00097 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00098}00098    \{ C\_solid, 24,24,24,24,24,24 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00099}00099    \{ C\_trans, 49,49,49,49,49,49 \}, \textcolor{comment}{// glass}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00100}00100    \{ C\_solid, 160,160,160,160,160,160 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00101}00101    \{ C\_solid, 144,144,144,144,144,144 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00102}00102    \{ C\_solid, 46,45,45,45,62,62 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00103}00103 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00104}00104    \textcolor{comment}{// 24}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00105}00105    \{ C\_solid, 192,192,192,192, 176,176 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00106}00106    \{ C\_solid, 74,74,74,74,74,74 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00107}00107    \{ C\_empty \}, \textcolor{comment}{// bed}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00108}00108    \{ C\_empty \}, \textcolor{comment}{// powered rail}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00109}00109    \{ C\_empty \}, \textcolor{comment}{// detector rail}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00110}00110    \{ C\_solid, 106,108,109,108,108,108 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00111}00111    \{ C\_empty \}, \textcolor{comment}{// cobweb=11}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00112}00112    \{ C\_cross, 39,39,39,39 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00113}00113 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00114}00114    \textcolor{comment}{// 32}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00115}00115    \{ C\_cross, 55,55,55,55,0,0 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00116}00116    \{ C\_solid, 107,108,109,108,108,108 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00117}00117    \{ C\_empty \}, \textcolor{comment}{// piston head}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00118}00118    \{ C\_solid, 64,64,64,64,64,64 \}, \textcolor{comment}{// various colors}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00119}00119    \{ C\_empty \}, \textcolor{comment}{// unused}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00120}00120    \{ C\_cross, 13,13,13,13,0,0 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00121}00121    \{ C\_cross, 12,12,12,12,0,0 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00122}00122    \{ C\_cross, 29,29,29,29,0,0 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00123}00123 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00124}00124    \textcolor{comment}{// 40}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00125}00125    \{ C\_cross, 28,28,28,28,0,0 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00126}00126    \{ C\_solid, 23,23,23,23,23,23 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00127}00127    \{ C\_solid, 22,22,22,22,22,22 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00128}00128    \{ C\_solid, 5,5,5,5,6,6, \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00129}00129    \{ C\_slab , 5,5,5,5,6,6, \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00130}00130    \{ C\_solid, 7,7,7,7,7,7, \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00131}00131    \{ C\_solid, 8,8,8,8,9,10 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00132}00132    \{ C\_solid, 35,35,35,35,4,4, \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00134}00134    \textcolor{comment}{// 48}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00135}00135    \textcolor{comment}{//\{ C\_solid, 36,36,36,36,36,36 \},}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00136}00136    \{ C\_force, 36,36,36,36,36,36 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00137}00137    \{ C\_solid, 37,37,37,37,37,37 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00138}00138    \{ C\_cross, 80,80,80,80,80,80 \}, \textcolor{comment}{// torch}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00139}00139    \{ C\_empty \}, \textcolor{comment}{// fire}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00140}00140    \{ C\_trans, 65,65,65,65,65,65 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00141}00141    \{ C\_stair, 4,4,4,4,4,4 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00142}00142    \{ C\_solid, 26,26,26,27,25,25 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00143}00143    \{ C\_empty \}, \textcolor{comment}{// redstone}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00144}00144 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00145}00145    \textcolor{comment}{// 56}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00146}00146    \{ C\_solid, 50,50,50,50,50,50 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00147}00147    \textcolor{comment}{//\{ C\_force, 50,50,50,50,50,50 \},}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00148}00148    \{ C\_solid, 26,26,26,26,26,26 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00149}00149    \{ C\_solid, 60,59,59,59,43,43 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00150}00150    \{ C\_cross, 95,95,95,95 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00151}00151    \{ C\_solid, 2,2,2,2,86,2 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00152}00152    \{ C\_solid, 44,45,45,45,62,62 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00153}00153    \{ C\_solid, 61,45,45,45,62,62 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00154}00154    \{ C\_empty \}, \textcolor{comment}{// sign}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00155}00155 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00156}00156    \textcolor{comment}{// 64}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00157}00157    \{ C\_empty \}, \textcolor{comment}{// door}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00158}00158    \{ C\_empty \}, \textcolor{comment}{// ladder}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00159}00159    \{ C\_empty \}, \textcolor{comment}{// rail}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00160}00160    \{ C\_stair, 16,16,16,16,16,16 \}, \textcolor{comment}{// cobblestone stairs}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00161}00161    \{ C\_empty \}, \textcolor{comment}{// sign}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00162}00162    \{ C\_empty \}, \textcolor{comment}{// lever}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00163}00163    \{ C\_empty \}, \textcolor{comment}{// stone pressure plate}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00164}00164    \{ C\_empty \}, \textcolor{comment}{// iron door}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00165}00165 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00166}00166    \textcolor{comment}{// 72}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00167}00167    \{ C\_empty \}, \textcolor{comment}{// wooden pressure}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00168}00168    \{ C\_solid, 51,51,51,51,51,51 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00169}00169    \{ C\_solid, 51,51,51,51,51,51 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00170}00170    \{ C\_empty \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00171}00171    \{ C\_empty \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00172}00172    \{ C\_empty \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00173}00173    \{ C\_empty \}, \textcolor{comment}{// snow on block below, do as half slab?}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00174}00174    \{ C\_solid, 67,67,67,67,67,67 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00175}00175 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00176}00176    \textcolor{comment}{// 80}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00177}00177    \{ C\_solid, 66,66,66,66,66,66 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00178}00178    \{ C\_solid, 70,70,70,70,69,71 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00179}00179    \{ C\_solid, 72,72,72,72,72,72 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00180}00180    \{ C\_cross, 73,73,73,73,73,73 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00181}00181    \{ C\_solid, 74,74,74,74,75,74 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00182}00182    \{ C\_empty \}, \textcolor{comment}{// fence}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00183}00183    \{ C\_solid,119,118,118,118,102,102 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00184}00184    \{ C\_solid,103,103,103,103,103,103 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00185}00185 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00186}00186    \textcolor{comment}{// 88}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00187}00187    \{ C\_solid, 104,104,104,104,104,104 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00188}00188    \{ C\_solid, 105,105,105,105,105,105 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00189}00189    \{ C\_solid, 167,167,167,167,167,167 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00190}00190    \{ C\_solid, 120,118,118,118,102,102 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00191}00191    \{ C\_empty \}, \textcolor{comment}{// cake}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00192}00192    \{ C\_empty \}, \textcolor{comment}{// repeater}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00193}00193    \{ C\_empty \}, \textcolor{comment}{// repeater}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00194}00194    \{ C\_solid, 49,49,49,49,49,49 \}, \textcolor{comment}{// colored glass}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00195}00195 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00196}00196    \textcolor{comment}{// 96}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00197}00197    \{ C\_empty \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00198}00198    \{ C\_empty \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00199}00199    \{ C\_solid, 54,54,54,54,54,54 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00200}00200    \{ C\_solid, 125,125,125,125,125,125 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00201}00201    \{ C\_solid, 126,126,126,126,126,126 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00202}00202    \{ C\_empty \}, \textcolor{comment}{// bars}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00203}00203    \{ C\_trans, 49,49,49,49,49,49 \}, \textcolor{comment}{// glass pane}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00204}00204    \{ C\_solid, 136,136,136,136,137,137 \}, \textcolor{comment}{// melon}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00205}00205 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00206}00206    \textcolor{comment}{// 104}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00207}00207    \{ C\_empty \}, \textcolor{comment}{// pumpkin stem}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00208}00208    \{ C\_empty \}, \textcolor{comment}{// melon stem}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00209}00209    \{ C\_empty \}, \textcolor{comment}{// vines}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00210}00210    \{ C\_empty \}, \textcolor{comment}{// gate}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00211}00211    \{ C\_stair, 7,7,7,7,7,7, \}, \textcolor{comment}{// brick stairs}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00212}00212    \{ C\_stair, 54,54,54,54,54,54 \}, \textcolor{comment}{// stone brick stairs}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00213}00213    \{ C\_empty \}, \textcolor{comment}{// mycelium}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00214}00214    \{ C\_empty \}, \textcolor{comment}{// lily pad}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00215}00215 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00216}00216    \textcolor{comment}{// 112}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00217}00217    \{ C\_solid, 224,224,224,224,224,224 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00218}00218    \{ C\_empty \}, \textcolor{comment}{// nether brick fence}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00219}00219    \{ C\_stair, 224,224,224,224,224,224 \}, \textcolor{comment}{// nether brick stairs}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00220}00220    \{ C\_empty \}, \textcolor{comment}{// nether wart}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00221}00221    \{ C\_solid, 182,182,182,182,166,183 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00222}00222    \{ C\_empty \}, \textcolor{comment}{// brewing stand}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00223}00223    \{ C\_empty \}, \textcolor{comment}{// cauldron}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00224}00224    \{ C\_empty \}, \textcolor{comment}{// end portal}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00225}00225 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00226}00226    \textcolor{comment}{// 120}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00227}00227    \{ C\_solid, 159,159,159,159,158,158 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00228}00228    \{ C\_solid, 175,175,175,175,175,175 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00229}00229    \{ C\_empty \}, \textcolor{comment}{// dragon egg}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00230}00230    \{ C\_solid, 211,211,211,211,211,211 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00231}00231    \{ C\_solid, 212,212,212,212,212,212 \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00232}00232    \{ C\_solid, 4,4,4,4,4,4, \}, \textcolor{comment}{// wood double-\/slab}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00233}00233    \{ C\_slab , 4,4,4,4,4,4, \}, \textcolor{comment}{// wood slab}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00234}00234    \{ C\_empty \}, \textcolor{comment}{// cocoa}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00235}00235 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00236}00236    \textcolor{comment}{// 128}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00237}00237    \{ C\_solid, 192,192,192,192,176,176 \}, \textcolor{comment}{// sandstone stairs}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00238}00238    \{ C\_solid, 32,32,32,32,32,32 \}, \textcolor{comment}{// emerald ore}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00239}00239    \{ C\_solid, 26,26,26,27,25,25 \}, \textcolor{comment}{// ender chest}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00240}00240    \{ C\_empty \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00241}00241    \{ C\_empty \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00242}00242    \{ C\_solid, 23,23,23,23,23,23 \}, \textcolor{comment}{// emerald block}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00243}00243    \{ C\_solid, 198,198,198,198,198,198 \}, \textcolor{comment}{// spruce stairs}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00244}00244    \{ C\_solid, 214,214,214,214,214,214 \}, \textcolor{comment}{// birch stairs}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00245}00245 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00246}00246    \textcolor{comment}{// 136}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00247}00247    \{ C\_stair, 199,199,199,199,199,199 \}, \textcolor{comment}{// jungle stairs}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00248}00248    \{ C\_empty \}, \textcolor{comment}{// command block}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00249}00249    \{ C\_empty \}, \textcolor{comment}{// beacon}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00250}00250    \{ C\_slab, 16,16,16,16,16,16 \}, \textcolor{comment}{// cobblestone wall}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00251}00251    \{ C\_empty \}, \textcolor{comment}{// flower pot}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00252}00252    \{ C\_empty \}, \textcolor{comment}{// carrot}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00253}00253    \{ C\_empty \}, \textcolor{comment}{// potatoes}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00254}00254    \{ C\_empty \}, \textcolor{comment}{// wooden button}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00255}00255 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00256}00256    \textcolor{comment}{// 144}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00257}00257    \{ C\_empty \}, \textcolor{comment}{// mob head}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00258}00258    \{ C\_empty \}, \textcolor{comment}{// anvil}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00259}00259    \{ C\_solid, 26,26,26,27,25,25 \}, \textcolor{comment}{// trapped chest}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00260}00260    \{ C\_empty \}, \textcolor{comment}{// weighted pressure plate light}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00261}00261    \{ C\_empty \}, \textcolor{comment}{// weighted pressure plat eheavy}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00262}00262    \{ C\_empty \}, \textcolor{comment}{// comparator inactive}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00263}00263    \{ C\_empty \}, \textcolor{comment}{// comparator active}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00264}00264    \{ C\_empty \}, \textcolor{comment}{// daylight sensor}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00265}00265 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00266}00266    \textcolor{comment}{// 152}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00267}00267    \{ C\_solid, 135,135,135,135,135,135 \}, \textcolor{comment}{// redstone block}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00268}00268    \{ C\_solid, 0,0,0,0,0,0, \}, \textcolor{comment}{// nether quartz ore}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00269}00269    \{ C\_empty \}, \textcolor{comment}{// hopper}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00270}00270    \{ C\_solid, 22,22,22,22,22,22 \}, \textcolor{comment}{// quartz block}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00271}00271    \{ C\_stair, 22,22,22,22,22,22 \}, \textcolor{comment}{// quartz stairs}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00272}00272    \{ C\_empty \}, \textcolor{comment}{// activator rail}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00273}00273    \{ C\_solid, 46,45,45,45,62,62 \}, \textcolor{comment}{// dropper}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00274}00274    \{ C\_solid, 72,72,72,72,72,72 \}, \textcolor{comment}{// stained clay}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00275}00275 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00276}00276    \textcolor{comment}{// 160}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00277}00277    \{ C\_trans, 49,49,49,49,49,49 \}, \textcolor{comment}{// stained glass pane}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00278}00278 \textcolor{preprocessor}{   \#ifdef FANCY\_LEAVES}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00279}00279    \{ C\_force, 52,52,52,52,52,52 \}, \textcolor{comment}{// leaves}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00280}00280 \textcolor{preprocessor}{   \#else}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00281}00281    \{ C\_solid, 53,53,53,53,53,53 \}, \textcolor{comment}{// acacia leaves}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00282}00282 \textcolor{preprocessor}{   \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00283}00283    \{ C\_solid, 20,20,20,20,21,21 \}, \textcolor{comment}{// acacia tree}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00284}00284    \{ C\_solid, 199,199,199,199,199,199 \}, \textcolor{comment}{// acacia wood stairs}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00285}00285    \{ C\_solid, 198,198,198,198,198,198 \}, \textcolor{comment}{// dark oak stairs}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00286}00286    \{ C\_solid, 146,146,146,146,146,146 \}, \textcolor{comment}{// slime block}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00287}00287 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00288}00288    \{ C\_solid, 176,176,176,176,176,176 \}, \textcolor{comment}{// red sandstone}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00289}00289    \{ C\_solid, 176,176,176,176,176,176 \}, \textcolor{comment}{// red sandstone}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00290}00290 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00291}00291    \textcolor{comment}{// 168}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00292}00292    \{ C\_empty \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00293}00293    \{ C\_empty \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00294}00294    \{ C\_empty \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00295}00295    \{ C\_empty \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00296}00296    \{ C\_solid, 72,72,72,72,72,72 \}, \textcolor{comment}{// hardened clay}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00297}00297    \{ C\_empty \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00298}00298    \{ C\_empty \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00299}00299    \{ C\_empty \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00300}00300 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00301}00301    \textcolor{comment}{// 176}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00302}00302    \{ C\_empty \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00303}00303    \{ C\_empty \},}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00304}00304    \{ C\_solid, 176,176,176,176,176,176 \}, \textcolor{comment}{// red sandstone}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00305}00305 \};}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00306}00306 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00307}00307 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} minecraft\_tex1\_for\_blocktype[256][6];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00308}00308 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} effective\_blocktype[256];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00309}00309 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} minecraft\_color\_for\_blocktype[256][6];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00310}00310 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} minecraft\_geom\_for\_blocktype[256];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00311}00311 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00312}00312 uint8 build\_buffer[BUILD\_BUFFER\_SIZE];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00313}00313 uint8 face\_buffer[FACE\_BUFFER\_SIZE];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00314}00314 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00315}00315 \textcolor{comment}{//GLuint vbuf, fbuf, fbuf\_tex;}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00316}00316 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00317}00317 \textcolor{comment}{//unsigned char tex1\_for\_blocktype[256][6];}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00318}00318 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00319}00319 \textcolor{comment}{//unsigned char blocktype[34][34][257];}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00320}00320 \textcolor{comment}{//unsigned char lighting[34][34][257];}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00321}00321 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00322}00322 \textcolor{comment}{// a superchunk is 64x64x256, with the border blocks computed as well,}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00323}00323 \textcolor{comment}{// which means we need 4x4 chunks plus 16 border chunks plus 4 corner chunks}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00324}00324 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00325}00325 \textcolor{preprocessor}{\#define SUPERCHUNK\_X   4}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00326}00326 \textcolor{preprocessor}{\#define SUPERCHUNK\_Y   4}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00327}00327 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00328}00328 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} remap\_data[16][16];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00329}00329 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} remap[256];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00330}00330 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} rotate\_data[4] = \{ 1,3,2,0 \};}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00331}00331 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00332}00332 \textcolor{keywordtype}{void} convert\_fastchunk\_inplace(\mbox{\hyperlink{structfast__chunk}{fast\_chunk}} *fc)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00333}00333 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00334}00334    \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00335}00335    \textcolor{keywordtype}{int} num\_blocks=0, \mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{step}}=0;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00336}00336    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} rot[4096];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00337}00337 \textcolor{preprocessor}{   \#ifndef IN\_PLACE}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00338}00338    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *storage;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00339}00339 \textcolor{preprocessor}{   \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00340}00340 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00341}00341    memset(rot, 0, 4096);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00342}00342 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00343}00343    \textcolor{keywordflow}{for} (i=0; i < 16; ++i)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00344}00344       num\_blocks += fc-\/>blockdata[i] != NULL;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00345}00345 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00346}00346    \#ifndef IN\_PLACE}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00347}00347    storage = malloc(16*16*16*2 * num\_blocks);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00348}00348 \textcolor{preprocessor}{   \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00349}00349 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00350}00350    \textcolor{keywordflow}{for} (i=0; i < 16; ++i) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00351}00351       \textcolor{keywordflow}{if} (fc-\/>blockdata[i]) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00352}00352          \textcolor{keywordtype}{int} o=0;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00353}00353          \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *bd,*dd,*lt,*sky;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00354}00354          \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *out, *outb;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00355}00355 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00356}00356          \textcolor{comment}{// this ordering allows us to determine which data we can safely overwrite for in-\/place processing}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00357}00357          bd = fc-\/>blockdata[i];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00358}00358          dd = fc-\/>data[i];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00359}00359          lt = fc-\/>light[i];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00360}00360          sky = fc-\/>skylight[i];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00361}00361 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00362}00362 \textcolor{preprocessor}{         \#ifdef IN\_PLACE}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00363}00363          out = bd;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00364}00364 \textcolor{preprocessor}{         \#else}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00365}00365          out = storage + 16*16*16*2*\mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{step}};}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00366}00366 \textcolor{preprocessor}{         \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00367}00367 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00368}00368          \textcolor{comment}{// bd is written in place, but also reads from dd}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00369}00369          \textcolor{keywordflow}{for} (o=0; o < 16*16*16/2; o += 1) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00370}00370             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} v1,v2;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00371}00371             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} d = dd[o];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00372}00372             v1 = bd[o*2+0];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00373}00373             v2 = bd[o*2+1];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00374}00374 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00375}00375             \textcolor{keywordflow}{if} (remap[v1])}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00376}00376             \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00377}00377                \textcolor{comment}{//unsigned char d = bd[o] \& 15;}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00378}00378                v1 = remap\_data[remap[v1]][d\&15];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00379}00379                rot[o*2+0] = rotate\_data[d\&3];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00380}00380             \} \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00381}00381                v1 = effective\_blocktype[v1];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00382}00382 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00383}00383             \textcolor{keywordflow}{if} (remap[v2])}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00384}00384             \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00385}00385                \textcolor{comment}{//unsigned char d = bd[o] >> 4;}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00386}00386                v2 = remap\_data[remap[v2]][d>>4];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00387}00387                rot[o*2+1] = rotate\_data[(d>>4)\&3];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00388}00388             \} \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00389}00389                v2 = effective\_blocktype[v2];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00390}00390 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00391}00391             out[o*2+0] = v1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00392}00392             out[o*2+1] = v2;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00393}00393          \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00394}00394 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00395}00395          \textcolor{comment}{// this reads from lt \& sky}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00396}00396 \textcolor{preprocessor}{         \#ifndef IN\_PLACE}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00397}00397          outb = out + 16*16*16;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00398}00398          ++\mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{step}};}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00399}00399 \textcolor{preprocessor}{         \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00400}00400 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00401}00401          \textcolor{comment}{// MC used to write in this order and it makes it possible to compute in-\/place}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00402}00402          \textcolor{keywordflow}{if} (dd < sky \&\& sky < lt) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00403}00403             \textcolor{comment}{// @TODO go this path always if !IN\_PLACE}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00404}00404 \textcolor{preprocessor}{            \#ifdef IN\_PLACE}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00405}00405             outb = dd;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00406}00406 \textcolor{preprocessor}{            \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00407}00407 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00408}00408             \textcolor{keywordflow}{for} (o=0; o < 16*16*16/2; ++o) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00409}00409                \textcolor{keywordtype}{int} bright;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00410}00410                bright = (lt[o]\&15)*12 + 15 + (sky[o]\&15)*16;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00411}00411                \textcolor{keywordflow}{if} (bright > 255) bright = 255;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00412}00412                \textcolor{keywordflow}{if} (bright <  32) bright =  32;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00413}00413                outb[o*2+0] = STBVOX\_MAKE\_LIGHTING\_EXT((\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}) bright, (rot[o*2+0]\&3));}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00414}00414 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00415}00415                bright = (lt[o]>>4)*12 + 15 + (sky[o]>>4)*16;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00416}00416                \textcolor{keywordflow}{if} (bright > 255) bright = 255;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00417}00417                \textcolor{keywordflow}{if} (bright <  32) bright =  32;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00418}00418                outb[o*2+1] = STBVOX\_MAKE\_LIGHTING\_EXT((\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}) bright, (rot[o*2+1]\&3));}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00419}00419             \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00420}00420          \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00421}00421             \textcolor{comment}{// @TODO: if blocktype is in between others, this breaks; need to find which side has two pointers, and use that}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00422}00422             \textcolor{comment}{// overwrite rot[] array, then copy out}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00423}00423 \textcolor{preprocessor}{            \#ifdef IN\_PLACE}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00424}00424             outb = (dd < sky) ? dd : sky;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00425}00425             \textcolor{keywordflow}{if} (lt < outb) lt = outb;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00426}00426 \textcolor{preprocessor}{            \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00427}00427 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00428}00428             \textcolor{keywordflow}{for} (o=0; o < 16*16*16/2; ++o) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00429}00429                \textcolor{keywordtype}{int} bright;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00430}00430                bright = (lt[o]\&15)*12 + 15 + (sky[o]\&15)*16;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00431}00431                \textcolor{keywordflow}{if} (bright > 255) bright = 255;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00432}00432                \textcolor{keywordflow}{if} (bright <  32) bright =  32;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00433}00433                rot[o*2+0] = STBVOX\_MAKE\_LIGHTING\_EXT((\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}) bright, (rot[o*2+0]\&3));}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00434}00434 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00435}00435                bright = (lt[o]>>4)*12 + 15 + (sky[o]>>4)*16;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00436}00436                \textcolor{keywordflow}{if} (bright > 255) bright = 255;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00437}00437                \textcolor{keywordflow}{if} (bright <  32) bright =  32;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00438}00438                rot[o*2+1] = STBVOX\_MAKE\_LIGHTING\_EXT((\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}) bright, (rot[o*2+1]\&3));}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00439}00439             \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00440}00440 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00441}00441             memcpy(outb, rot, 4096);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00442}00442             fc-\/>data[i] = outb;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00443}00443          \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00444}00444 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00445}00445 \textcolor{preprocessor}{         \#ifndef IN\_PLACE}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00446}00446          fc-\/>blockdata[i] = out;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00447}00447          fc-\/>data[i] = outb;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00448}00448 \textcolor{preprocessor}{         \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00449}00449       \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00450}00450    \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00451}00451 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00452}00452 \textcolor{preprocessor}{   \#ifndef IN\_PLACE}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00453}00453    free(fc-\/>pointer\_to\_free);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00454}00454    fc-\/>pointer\_to\_free = storage;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00455}00455 \textcolor{preprocessor}{   \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00456}00456 \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00457}00457 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00458}00458 \textcolor{keywordtype}{void} make\_converted\_fastchunk(\mbox{\hyperlink{structfast__chunk}{fast\_chunk}} *fc, \textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} y, \textcolor{keywordtype}{int} \mbox{\hyperlink{structsegment}{segment}}, uint8 *sv\_blocktype, uint8 *sv\_lighting)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00459}00459 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00460}00460    \textcolor{keywordtype}{int} z;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00461}00461    assert(fc == NULL || (fc-\/>refcount > 0 \&\& fc-\/>refcount < 64));}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00462}00462    \textcolor{keywordflow}{if} (fc == NULL || fc-\/>blockdata[\mbox{\hyperlink{structsegment}{segment}}] == NULL) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00463}00463       \textcolor{keywordflow}{for} (z=0; z < 16; ++z) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00464}00464          sv\_blocktype[z] = C\_empty;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00465}00465          sv\_lighting[z] = 255;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00466}00466       \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00467}00467    \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00468}00468       \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *block = fc-\/>blockdata[\mbox{\hyperlink{structsegment}{segment}}];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00469}00469       \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *data  = fc-\/>data[\mbox{\hyperlink{structsegment}{segment}}];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00470}00470       y = 15-\/y;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00471}00471       \textcolor{keywordflow}{for} (z=0; z < 16; ++z) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00472}00472          sv\_blocktype[z] = block[z*256 + y*16 + x];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00473}00473          sv\_lighting [z] = data [z*256 + y*16 + x];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00474}00474       \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00475}00475    \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00476}00476 \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00477}00477 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00478}00478 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00479}00479 \textcolor{preprocessor}{\#define CHUNK\_CACHE   64}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00480}\mbox{\hyperlink{structcached__converted__chunk}{00480}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00481}00481 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00482}00482    \textcolor{keywordtype}{int} valid;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00483}00483    \textcolor{keywordtype}{int} chunk\_x, chunk\_y;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00484}00484    \mbox{\hyperlink{structfast__chunk}{fast\_chunk}} *fc;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00485}00485 \} \mbox{\hyperlink{structcached__converted__chunk}{cached\_converted\_chunk}};}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00486}00486 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00487}00487 \mbox{\hyperlink{structcached__converted__chunk}{cached\_converted\_chunk}} chunk\_cache[CHUNK\_CACHE][CHUNK\_CACHE];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00488}00488 \textcolor{keywordtype}{int} cache\_size = CHUNK\_CACHE;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00489}00489 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00490}00490 \textcolor{keywordtype}{void} reset\_cache\_size(\textcolor{keywordtype}{int} size)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00491}00491 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00492}00492    \textcolor{keywordtype}{int} i,j;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00493}00493    \textcolor{keywordflow}{for} (j=size; j < cache\_size; ++j) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00494}00494       \textcolor{keywordflow}{for} (i=size; i < cache\_size; ++i) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00495}00495          \mbox{\hyperlink{structcached__converted__chunk}{cached\_converted\_chunk}} *ccc = \&chunk\_cache[j][i];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00496}00496          \textcolor{keywordflow}{if} (ccc-\/>valid) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00497}00497             \textcolor{keywordflow}{if} (ccc-\/>fc) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00498}00498                free(ccc-\/>fc-\/>pointer\_to\_free);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00499}00499                free(ccc-\/>fc);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00500}00500                ccc-\/>fc = NULL;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00501}00501             \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00502}00502             ccc-\/>valid = 0;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00503}00503          \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00504}00504       \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00505}00505    \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00506}00506    cache\_size = size;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00507}00507 \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00508}00508 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00509}00509 \textcolor{comment}{// this must be called inside mutex}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00510}00510 \textcolor{keywordtype}{void} deref\_fastchunk(\mbox{\hyperlink{structfast__chunk}{fast\_chunk}} *fc)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00511}00511 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00512}00512    \textcolor{keywordflow}{if} (fc) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00513}00513       assert(fc-\/>refcount > 0);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00514}00514       -\/-\/fc-\/>refcount;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00515}00515       \textcolor{keywordflow}{if} (fc-\/>refcount == 0) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00516}00516          free(fc-\/>pointer\_to\_free);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00517}00517          free(fc);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00518}00518       \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00519}00519    \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00520}00520 \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00521}00521 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00522}00522 SDL\_mutex * chunk\_cache\_mutex;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00523}00523 SDL\_mutex * chunk\_get\_mutex;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00524}00524 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00525}00525 \textcolor{keywordtype}{void} lock\_chunk\_get\_mutex(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00526}00526 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00527}00527    SDL\_LockMutex(chunk\_get\_mutex);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00528}00528 \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00529}00529 \textcolor{keywordtype}{void} unlock\_chunk\_get\_mutex(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00530}00530 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00531}00531    SDL\_UnlockMutex(chunk\_get\_mutex);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00532}00532 \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00533}00533 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00534}00534 \mbox{\hyperlink{structfast__chunk}{fast\_chunk}} *get\_converted\_fastchunk(\textcolor{keywordtype}{int} chunk\_x, \textcolor{keywordtype}{int} chunk\_y)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00535}00535 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00536}00536    \textcolor{keywordtype}{int} slot\_x = (chunk\_x \& (cache\_size-\/1));}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00537}00537    \textcolor{keywordtype}{int} slot\_y = (chunk\_y \& (cache\_size-\/1));}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00538}00538    \mbox{\hyperlink{structfast__chunk}{fast\_chunk}} *fc;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00539}00539    \mbox{\hyperlink{structcached__converted__chunk}{cached\_converted\_chunk}} *ccc;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00540}00540    SDL\_LockMutex(chunk\_cache\_mutex);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00541}00541    ccc = \&chunk\_cache[slot\_y][slot\_x];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00542}00542    \textcolor{keywordflow}{if} (ccc-\/>valid) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00543}00543       \textcolor{keywordflow}{if} (ccc-\/>chunk\_x == chunk\_x \&\& ccc-\/>chunk\_y == chunk\_y) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00544}00544          \mbox{\hyperlink{structfast__chunk}{fast\_chunk}} *fc = ccc-\/>fc;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00545}00545          \textcolor{keywordflow}{if} (fc)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00546}00546             ++fc-\/>refcount;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00547}00547          SDL\_UnlockMutex(chunk\_cache\_mutex);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00548}00548          \textcolor{keywordflow}{return} fc;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00549}00549       \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00550}00550       \textcolor{keywordflow}{if} (ccc-\/>fc) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00551}00551          deref\_fastchunk(ccc-\/>fc);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00552}00552          ccc-\/>fc = NULL;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00553}00553          ccc-\/>valid = 0;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00554}00554       \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00555}00555    \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00556}00556    SDL\_UnlockMutex(chunk\_cache\_mutex);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00557}00557 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00558}00558    fc = get\_decoded\_fastchunk\_uncached(chunk\_x, -\/chunk\_y);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00559}00559    \textcolor{keywordflow}{if} (fc)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00560}00560       convert\_fastchunk\_inplace(fc);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00561}00561 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00562}00562    SDL\_LockMutex(chunk\_cache\_mutex);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00563}00563    \textcolor{comment}{// another thread might have updated it, so before we overwrite it...}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00564}00564    \textcolor{keywordflow}{if} (ccc-\/>fc) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00565}00565       deref\_fastchunk(ccc-\/>fc);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00566}00566       ccc-\/>fc = NULL;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00567}00567    \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00568}00568 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00569}00569    \textcolor{keywordflow}{if} (fc)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00570}00570       fc-\/>refcount = 1; \textcolor{comment}{// 1 in the cache}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00571}00571 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00572}00572    ccc-\/>chunk\_x = chunk\_x;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00573}00573    ccc-\/>chunk\_y = chunk\_y;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00574}00574    ccc-\/>valid = 1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00575}00575    \textcolor{keywordflow}{if} (fc)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00576}00576       ++fc-\/>refcount;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00577}00577    ccc-\/>fc = fc;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00578}00578    SDL\_UnlockMutex(chunk\_cache\_mutex);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00579}00579    \textcolor{keywordflow}{return} fc;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00580}00580 \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00581}00581 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00582}00582 \textcolor{keywordtype}{void} make\_map\_segment\_for\_superchunk\_preconvert(\textcolor{keywordtype}{int} chunk\_x, \textcolor{keywordtype}{int} chunk\_y, \textcolor{keywordtype}{int} \mbox{\hyperlink{structsegment}{segment}}, \mbox{\hyperlink{structfast__chunk}{fast\_chunk}} *fc\_table[4][4], uint8 sv\_blocktype[34][34][18], uint8 sv\_lighting[34][34][18])}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00583}00583 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00584}00584    \textcolor{keywordtype}{int} a,b;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00585}00585    assert((chunk\_x \& 1) == 0);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00586}00586    assert((chunk\_y \& 1) == 0);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00587}00587    \textcolor{keywordflow}{for} (b=-\/1; b < 3; ++b) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00588}00588       \textcolor{keywordflow}{for} (a=-\/1; a < 3; ++a) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00589}00589          \textcolor{keywordtype}{int} xo = a*16+1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00590}00590          \textcolor{keywordtype}{int} yo = b*16+1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00591}00591          \textcolor{keywordtype}{int} x,y;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00592}00592          \mbox{\hyperlink{structfast__chunk}{fast\_chunk}} *fc = fc\_table[b+1][a+1];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00593}00593          \textcolor{keywordflow}{for} (y=0; y < 16; ++y)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00594}00594             \textcolor{keywordflow}{for} (x=0; x < 16; ++x)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00595}00595                \textcolor{keywordflow}{if} (xo+x >= 0 \&\& xo+x < 34 \&\& yo+y >= 0 \&\& yo+y < 34)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00596}00596                   make\_converted\_fastchunk(fc,x,y, \mbox{\hyperlink{structsegment}{segment}}, sv\_blocktype[xo+x][yo+y], sv\_lighting[xo+x][yo+y]);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00597}00597       \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00598}00598    \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00599}00599 \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00600}00600 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00601}00601 \textcolor{comment}{// build 1 mesh covering 2x2 chunks}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00602}00602 \textcolor{keywordtype}{void} build\_chunk(\textcolor{keywordtype}{int} chunk\_x, \textcolor{keywordtype}{int} chunk\_y, \mbox{\hyperlink{structfast__chunk}{fast\_chunk}} *fc\_table[4][4], \mbox{\hyperlink{structraw__mesh}{raw\_mesh}} *rm)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00603}00603 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00604}00604    \textcolor{keywordtype}{int} a,b,z;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00605}00605    \mbox{\hyperlink{structstbvox__input__description}{stbvox\_input\_description}} *map;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00606}00606 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00607}00607 \textcolor{preprocessor}{   \#ifdef VHEIGHT\_TEST}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00608}00608    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} vheight[34][34][18];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00609}00609 \textcolor{preprocessor}{   \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00610}00610 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00611}00611 \textcolor{preprocessor}{   \#ifndef STBVOX\_CONFIG\_DISABLE\_TEX2}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00612}00612    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} tex2\_choice[34][34][18];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00613}00613 \textcolor{preprocessor}{   \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00614}00614 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00615}00615    assert((chunk\_x \& 1) == 0);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00616}00616    assert((chunk\_y \& 1) == 0);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00617}00617 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00618}00618    rm-\/>cx = chunk\_x;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00619}00619    rm-\/>cy = chunk\_y;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00620}00620 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00621}00621    stbvox\_set\_input\_stride(\&rm-\/>mm, 34*18, 18);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00622}00622 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00623}00623    assert(rm-\/>mm.input.geometry == NULL);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00624}00624 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00625}00625    map = stbvox\_get\_input\_description(\&rm-\/>mm);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00626}00626    map-\/>block\_tex1\_face = minecraft\_tex1\_for\_blocktype;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00627}00627    map-\/>block\_color\_face = minecraft\_color\_for\_blocktype;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00628}00628    map-\/>block\_geometry = minecraft\_geom\_for\_blocktype;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00629}00629 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00630}00630    stbvox\_reset\_buffers(\&rm-\/>mm);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00631}00631    stbvox\_set\_buffer(\&rm-\/>mm, 0, 0, rm-\/>build\_buffer, BUILD\_BUFFER\_SIZE);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00632}00632    stbvox\_set\_buffer(\&rm-\/>mm, 0, 1, rm-\/>face\_buffer , FACE\_BUFFER\_SIZE);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00633}00633 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00634}00634    map-\/>blocktype = \&rm-\/>sv\_blocktype[1][1][1]; \textcolor{comment}{// this is (0,0,0), but we need to be able to query off the edges}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00635}00635    map-\/>lighting = \&rm-\/>sv\_lighting[1][1][1];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00636}00636 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00637}00637    \textcolor{comment}{// fill in the top two rows of the buffer}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00638}00638    \textcolor{keywordflow}{for} (a=0; a < 34; ++a) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00639}00639       \textcolor{keywordflow}{for} (b=0; b < 34; ++b) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00640}00640          rm-\/>sv\_blocktype[a][b][16] = 0;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00641}00641          rm-\/>sv\_lighting [a][b][16] = 255;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00642}00642          rm-\/>sv\_blocktype[a][b][17] = 0;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00643}00643          rm-\/>sv\_lighting [a][b][17] = 255;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00644}00644       \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00645}00645    \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00646}00646 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00647}00647 \textcolor{preprocessor}{   \#ifndef STBVOX\_CONFIG\_DISABLE\_TEX2}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00648}00648    \textcolor{keywordflow}{for} (a=0; a < 34; ++a) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00649}00649       \textcolor{keywordflow}{for} (b=0; b < 34; ++b) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00650}00650          \textcolor{keywordtype}{int} px = chunk\_x*16 + a -\/ 1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00651}00651          \textcolor{keywordtype}{int} py = chunk\_y*16 + b -\/ 1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00652}00652          \textcolor{keywordtype}{float} dist = (float) \mbox{\hyperlink{group__core__func__exponential_ga1f904e09827e939a56e4158f45ca8ede}{sqrt}}(px*px + py*py);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00653}00653          \textcolor{keywordtype}{float} s1 = (float) \mbox{\hyperlink{group__core__func__trigonometric_ga3fcdcfa2d2ac38de9ba1885cd1c79414}{sin}}(dist / 16), s2, s3;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00654}00654          dist = (float) \mbox{\hyperlink{group__core__func__exponential_ga1f904e09827e939a56e4158f45ca8ede}{sqrt}}((px-\/80)*(px-\/80) + (py-\/50)*(py-\/50));}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00655}00655          s2 = (float) \mbox{\hyperlink{group__core__func__trigonometric_ga3fcdcfa2d2ac38de9ba1885cd1c79414}{sin}}(dist / 11);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00656}00656          \textcolor{keywordflow}{for} (z=0; z < 18; ++z) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00657}00657             s3 = (float) \mbox{\hyperlink{group__core__func__trigonometric_ga3fcdcfa2d2ac38de9ba1885cd1c79414}{sin}}(z * 3.141592 / 8);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00658}00658 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00659}00659             s3 = s1*s2*s3;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00660}00660             tex2\_choice[a][b][z] = 63 \& (int) stb\_linear\_remap(s3,-\/1,1, -\/20,83);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00661}00661          \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00662}00662       \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00663}00663    \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00664}00664 \textcolor{preprocessor}{   \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00665}00665 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00666}00666    \textcolor{keywordflow}{for} (z=256-\/16; z >= SKIP\_TERRAIN; z -\/= 16)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00667}00667    \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00668}00668       \textcolor{keywordtype}{int} z0 = z;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00669}00669       \textcolor{keywordtype}{int} z1 = z+16;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00670}00670       \textcolor{keywordflow}{if} (z1 == 256) z1 = 255;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00671}00671 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00672}00672       make\_map\_segment\_for\_superchunk\_preconvert(chunk\_x, chunk\_y, z >> 4, fc\_table, rm-\/>sv\_blocktype, rm-\/>sv\_lighting);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00673}00673 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00674}00674       map-\/>blocktype = \&rm-\/>sv\_blocktype[1][1][1-\/z]; \textcolor{comment}{// specify location of 0,0,0 so that accessing z0..z1 gets right data}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00675}00675       map-\/>lighting = \&rm-\/>sv\_lighting[1][1][1-\/z];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00676}00676 \textcolor{preprocessor}{      \#ifndef STBVOX\_CONFIG\_DISABLE\_TEX2}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00677}00677       map-\/>tex2 = \&tex2\_choice[1][1][1-\/z];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00678}00678 \textcolor{preprocessor}{      \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00679}00679 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00680}00680 \textcolor{preprocessor}{      \#ifdef VHEIGHT\_TEST}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00681}00681       \textcolor{comment}{// hacky test of vheight}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00682}00682       \textcolor{keywordflow}{for} (a=0; a < 34; ++a) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00683}00683          \textcolor{keywordflow}{for} (b=0; b < 34; ++b) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00684}00684             \textcolor{keywordtype}{int} c;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00685}00685             \textcolor{keywordflow}{for} (c=0; c < 17; ++c) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00686}00686                \textcolor{keywordflow}{if} (rm-\/>sv\_blocktype[a][b][c] != 0 \&\& rm-\/>sv\_blocktype[a][b][c+1] == 0) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00687}00687                   \textcolor{comment}{// topmost block}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00688}00688                   vheight[a][b][c] = rand() \& 255;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00689}00689                   rm-\/>sv\_blocktype[a][b][c] = 168;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00690}00690                \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (c > 0 \&\& rm-\/>sv\_blocktype[a][b][c] != 0 \&\& rm-\/>sv\_blocktype[a][b][c-\/1] == 0) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00691}00691                   \textcolor{comment}{// bottommost block}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00692}00692                   vheight[a][b][c] = ((rand() \% 3) << 6) + ((rand() \% 3) << 4) + ((rand() \% 3) << 2) + (rand() \% 3);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00693}00693                   rm-\/>sv\_blocktype[a][b][c] = 169;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00694}00694                \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00695}00695             \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00696}00696             vheight[a][b][c] = STBVOX\_MAKE\_VHEIGHT(2,2,2,2); \textcolor{comment}{// flat top}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00697}00697          \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00698}00698       \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00699}00699       map-\/>vheight = \&vheight[1][1][1-\/z];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00700}00700 \textcolor{preprocessor}{      \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00701}00701 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00702}00702       \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00703}00703          stbvox\_set\_input\_range(\&rm-\/>mm, 0,0,z0, 32,32,z1);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00704}00704          stbvox\_set\_default\_mesh(\&rm-\/>mm, 0);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00705}00705          stbvox\_make\_mesh(\&rm-\/>mm);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00706}00706       \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00707}00707 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00708}00708       \textcolor{comment}{// copy the bottom two rows of data up to the top}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00709}00709       \textcolor{keywordflow}{for} (a=0; a < 34; ++a) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00710}00710          \textcolor{keywordflow}{for} (b=0; b < 34; ++b) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00711}00711             rm-\/>sv\_blocktype[a][b][16] = rm-\/>sv\_blocktype[a][b][0];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00712}00712             rm-\/>sv\_blocktype[a][b][17] = rm-\/>sv\_blocktype[a][b][1];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00713}00713             rm-\/>sv\_lighting [a][b][16] = rm-\/>sv\_lighting [a][b][0];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00714}00714             rm-\/>sv\_lighting [a][b][17] = rm-\/>sv\_lighting [a][b][1];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00715}00715          \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00716}00716       \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00717}00717    \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00718}00718 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00719}00719    stbvox\_set\_mesh\_coordinates(\&rm-\/>mm, chunk\_x*16, chunk\_y*16, 0);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00720}00720    stbvox\_get\_transform(\&rm-\/>mm, rm-\/>transform);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00721}00721 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00722}00722    stbvox\_set\_input\_range(\&rm-\/>mm, 0,0,0, 32,32,255);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00723}00723    stbvox\_get\_bounds(\&rm-\/>mm, rm-\/>bounds);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00724}00724 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00725}00725    rm-\/>num\_quads = stbvox\_get\_quad\_count(\&rm-\/>mm, 0);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00726}00726 \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00727}00727 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00728}00728 \textcolor{keywordtype}{int} next\_blocktype = 255;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00729}00729 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00730}00730 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} mc\_rot[4] = \{ 1,3,2,0 \};}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00731}00731 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00732}00732 \textcolor{comment}{// create blocktypes with rotation baked into type...}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00733}00733 \textcolor{comment}{// @TODO we no longer need this now that we store rotations}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00734}00734 \textcolor{comment}{// in lighting}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00735}00735 \textcolor{keywordtype}{void} build\_stair\_rotations(\textcolor{keywordtype}{int} blocktype, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *map)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00736}00736 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00737}00737    \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00738}00738 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00739}00739    \textcolor{comment}{// use the existing block type for floor stairs; allocate a new type for ceil stairs}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00740}00740    \textcolor{keywordflow}{for} (i=0; i < 6; ++i) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00741}00741       minecraft\_color\_for\_blocktype[next\_blocktype][i] = minecraft\_color\_for\_blocktype[blocktype][i];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00742}00742       minecraft\_tex1\_for\_blocktype [next\_blocktype][i] = minecraft\_tex1\_for\_blocktype [blocktype][i];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00743}00743    \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00744}00744    minecraft\_geom\_for\_blocktype[next\_blocktype] = (\textcolor{keywordtype}{unsigned} char) STBVOX\_MAKE\_GEOMETRY(STBVOX\_GEOM\_ceil\_slope\_north\_is\_bottom, 0, 0);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00745}00745    minecraft\_geom\_for\_blocktype[     blocktype] = (\textcolor{keywordtype}{unsigned} char) STBVOX\_MAKE\_GEOMETRY(STBVOX\_GEOM\_floor\_slope\_north\_is\_top, 0, 0);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00746}00746 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00747}00747    \textcolor{keywordflow}{for} (i=0; i < 4; ++i) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00748}00748       map[0+i+8] = map[0+i] =      blocktype;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00749}00749       map[4+i+8] = map[4+i] = next\_blocktype;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00750}00750    \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00751}00751    -\/-\/next\_blocktype;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00752}00752 \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00753}00753 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00754}00754 \textcolor{keywordtype}{void} build\_wool\_variations(\textcolor{keywordtype}{int} bt, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *map)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00755}00755 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00756}00756    \textcolor{keywordtype}{int} i,k;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00757}00757    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} tex[16] = \{ 64, 210, 194, 178,  162, 146, 130, 114,  225, 209, 193, 177,  161, 145, 129, 113 \};}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00758}00758    \textcolor{keywordflow}{for} (i=0; i < 16; ++i) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00759}00759       \textcolor{keywordflow}{if} (i == 0)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00760}00760          map[i] = bt;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00761}00761       \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00762}00762          map[i] = next\_blocktype;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00763}00763          \textcolor{keywordflow}{for} (k=0; k < 6; ++k) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00764}00764             minecraft\_tex1\_for\_blocktype[next\_blocktype][k] = tex[i];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00765}00765          \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00766}00766          minecraft\_geom\_for\_blocktype[next\_blocktype] = minecraft\_geom\_for\_blocktype[bt];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00767}00767          -\/-\/next\_blocktype;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00768}00768       \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00769}00769    \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00770}00770 \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00771}00771 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00772}00772 \textcolor{keywordtype}{void} build\_wood\_variations(\textcolor{keywordtype}{int} bt, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *map)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00773}00773 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00774}00774    \textcolor{keywordtype}{int} i,k;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00775}00775    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} tex[4] = \{ 5, 198, 214, 199 \};}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00776}00776    \textcolor{keywordflow}{for} (i=0; i < 4; ++i) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00777}00777       \textcolor{keywordflow}{if} (i == 0)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00778}00778          map[i] = bt;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00779}00779       \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00780}00780          map[i] = next\_blocktype;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00781}00781          \textcolor{keywordflow}{for} (k=0; k < 6; ++k) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00782}00782             minecraft\_tex1\_for\_blocktype[next\_blocktype][k] = tex[i];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00783}00783          \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00784}00784          minecraft\_geom\_for\_blocktype[next\_blocktype] = minecraft\_geom\_for\_blocktype[bt];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00785}00785          -\/-\/next\_blocktype;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00786}00786       \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00787}00787    \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00788}00788    map[i] = map[i-\/1];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00789}00789    ++i;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00790}00790    \textcolor{keywordflow}{for} (; i < 16; ++i)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00791}00791       map[i] = bt;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00792}00792 \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00793}00793 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00794}00794 \textcolor{keywordtype}{void} remap\_in\_place(\textcolor{keywordtype}{int} bt, \textcolor{keywordtype}{int} rm)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00795}00795 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00796}00796    \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00797}00797    remap[bt] = rm;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00798}00798    \textcolor{keywordflow}{for} (i=0; i < 16; ++i)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00799}00799       remap\_data[rm][i] = bt;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00800}00800 \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00801}00801 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00802}00802 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00803}00803 \textcolor{keywordtype}{void} mesh\_init(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00804}00804 \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00805}00805    \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00806}00806 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00807}00807    chunk\_cache\_mutex = SDL\_CreateMutex();}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00808}00808    chunk\_get\_mutex   = SDL\_CreateMutex();}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00809}00809 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00810}00810    \textcolor{keywordflow}{for} (i=0; i < 256; ++i) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00811}00811       memcpy(minecraft\_tex1\_for\_blocktype[i], minecraft\_info[i]+1, 6);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00812}00812       effective\_blocktype[i] = (minecraft\_info[i][0] == C\_empty ? 0 : i);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00813}00813       minecraft\_geom\_for\_blocktype[i] = geom\_map[minecraft\_info[i][0]];}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00814}00814    \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00815}00815    \textcolor{comment}{//effective\_blocktype[50] = 0; // delete torches}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00816}00816 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00817}00817    \textcolor{keywordflow}{for} (i=0; i < 6*256; ++i) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00818}00818       \textcolor{keywordflow}{if} (minecraft\_tex1\_for\_blocktype[0][i] == 40)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00819}00819          minecraft\_color\_for\_blocktype[0][i] = 38 | 64; \textcolor{comment}{// apply to tex1}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00820}00820       \textcolor{keywordflow}{if} (minecraft\_tex1\_for\_blocktype[0][i] == 39)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00821}00821          minecraft\_color\_for\_blocktype[0][i] = 39 | 64; \textcolor{comment}{// apply to tex1}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00822}00822       \textcolor{keywordflow}{if} (minecraft\_tex1\_for\_blocktype[0][i] == 105)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00823}00823          minecraft\_color\_for\_blocktype[0][i] = 63; \textcolor{comment}{// emissive}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00824}00824       \textcolor{keywordflow}{if} (minecraft\_tex1\_for\_blocktype[0][i] == 212)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00825}00825          minecraft\_color\_for\_blocktype[0][i] = 63; \textcolor{comment}{// emissive}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00826}00826       \textcolor{keywordflow}{if} (minecraft\_tex1\_for\_blocktype[0][i] == 80)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00827}00827          minecraft\_color\_for\_blocktype[0][i] = 63; \textcolor{comment}{// emissive}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00828}00828    \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00829}00829 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00830}00830    \textcolor{keywordflow}{for} (i=0; i < 6; ++i) \{}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00831}00831       minecraft\_color\_for\_blocktype[172][i] = 47 | 64; \textcolor{comment}{// apply to tex1}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00832}00832       minecraft\_color\_for\_blocktype[178][i] = 47 | 64; \textcolor{comment}{// apply to tex1}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00833}00833       minecraft\_color\_for\_blocktype[18][i] = 39 | 64; \textcolor{comment}{// green}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00834}00834       minecraft\_color\_for\_blocktype[161][i] = 37 | 64; \textcolor{comment}{// green}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00835}00835       minecraft\_color\_for\_blocktype[10][i] = 63; \textcolor{comment}{// emissive lava}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00836}00836       minecraft\_color\_for\_blocktype[11][i] = 63; \textcolor{comment}{// emissive}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00837}00837       \textcolor{comment}{//minecraft\_color\_for\_blocktype[56][i] = 63; // emissive diamond}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00838}00838       minecraft\_color\_for\_blocktype[48][i] = 63; \textcolor{comment}{// emissive dungeon}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00839}00839    \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00840}00840 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00841}00841 \textcolor{preprocessor}{   \#ifdef VHEIGHT\_TEST}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00842}00842    effective\_blocktype[168] = 168;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00843}00843    minecraft\_tex1\_for\_blocktype[168][0] = 1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00844}00844    minecraft\_tex1\_for\_blocktype[168][1] = 1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00845}00845    minecraft\_tex1\_for\_blocktype[168][2] = 1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00846}00846    minecraft\_tex1\_for\_blocktype[168][3] = 1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00847}00847    minecraft\_tex1\_for\_blocktype[168][4] = 1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00848}00848    minecraft\_tex1\_for\_blocktype[168][5] = 1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00849}00849    minecraft\_geom\_for\_blocktype[168] = STBVOX\_GEOM\_floor\_vheight\_12;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00850}00850    effective\_blocktype[169] = 169;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00851}00851    minecraft\_tex1\_for\_blocktype[169][0] = 1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00852}00852    minecraft\_tex1\_for\_blocktype[169][1] = 1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00853}00853    minecraft\_tex1\_for\_blocktype[169][2] = 1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00854}00854    minecraft\_tex1\_for\_blocktype[169][3] = 1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00855}00855    minecraft\_tex1\_for\_blocktype[169][4] = 1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00856}00856    minecraft\_tex1\_for\_blocktype[169][5] = 1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00857}00857    minecraft\_geom\_for\_blocktype[169] = STBVOX\_GEOM\_ceil\_vheight\_03;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00858}00858 \textcolor{preprocessor}{   \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00859}00859 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00860}00860    remap[53] = 1;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00861}00861    remap[67] = 2;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00862}00862    remap[108] = 3;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00863}00863    remap[109] = 4;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00864}00864    remap[114] = 5;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00865}00865    remap[136] = 6;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00866}00866    remap[156] = 7;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00867}00867    \textcolor{keywordflow}{for} (i=0; i < 256; ++i)}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00868}00868       \textcolor{keywordflow}{if} (remap[i])}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00869}00869          build\_stair\_rotations(i, remap\_data[remap[i]]);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00870}00870    remap[35]  = 8;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00871}00871    build\_wool\_variations(35, remap\_data[remap[35]]);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00872}00872    remap[5] = 11;}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00873}00873    build\_wood\_variations(5, remap\_data[remap[5]]);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00874}00874 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00875}00875    \textcolor{comment}{// set the remap flags for these so they write the rotation values}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00876}00876    remap\_in\_place(54, 9);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00877}00877    remap\_in\_place(146, 10);}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00878}00878 \}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00879}00879 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00880}00880 \textcolor{comment}{// Timing stats while optimizing the single-\/threaded builder}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00881}00881 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00882}00882 \textcolor{comment}{// 32..-\/32, 32..-\/32, SKIP\_TERRAIN=0, !FANCY\_LEAVES on 'mcrealm' data set}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00883}00883 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00884}00884 \textcolor{comment}{// 6.27s  -\/ reblocked to do 16 z at a time instead of 256 (still using 66x66x258), 4 meshes in parallel}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00885}00885 \textcolor{comment}{// 5.96s  -\/ reblocked to use FAST\_CHUNK (no intermediate data structure)}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00886}00886 \textcolor{comment}{// 5.45s  -\/ unknown change, or previous measurement was wrong}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00887}00887 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00888}00888 \textcolor{comment}{// 6.12s  -\/ use preconverted data, not in-\/place}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00889}00889 \textcolor{comment}{// 5.91s  -\/ use preconverted, in-\/place}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00890}00890 \textcolor{comment}{// 5.34s  -\/ preconvert, in-\/place, avoid dependency chain (suggested by ryg)}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00891}00891 \textcolor{comment}{// 5.34s  -\/ preconvert, in-\/place, avoid dependency chain, use bit-\/table instead of byte-\/table}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00892}00892 \textcolor{comment}{// 5.50s  -\/ preconvert, in-\/place, branchless}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00893}00893 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00894}00894 \textcolor{comment}{// 6.42s  -\/ non-\/preconvert, avoid dependency chain (not an error)}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00895}00895 \textcolor{comment}{// 5.40s  -\/ non-\/preconvert, w/dependency chain (same as earlier)}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00896}00896 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00897}00897 \textcolor{comment}{// 5.50s  -\/ non-\/FAST\_CHUNK, reblocked outer loop for better cache reuse}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00898}00898 \textcolor{comment}{// 4.73s  -\/ FAST\_CHUNK non-\/preconvert, reblocked outer loop}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00899}00899 \textcolor{comment}{// 4.25s  -\/ preconvert, in-\/place, reblocked outer loop}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00900}00900 \textcolor{comment}{// 4.18s  -\/ preconvert, in-\/place, unrolled again}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00901}00901 \textcolor{comment}{// 4.10s  -\/ 34x34 1 mesh instead of 66x66 and 4 meshes (will make it easier to do multiple threads)}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00902}00902 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00903}00903 \textcolor{comment}{// 4.83s  -\/ building bitmasks but not using them (2 bits per block, one if empty, one if solid)}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00904}00904 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00905}00905 \textcolor{comment}{// 5.16s  -\/ using empty bitmasks to early out}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00906}00906 \textcolor{comment}{// 5.01s  -\/ using solid \& empty bitmasks to early out -\/ "{}foo"{}}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00907}00907 \textcolor{comment}{// 4.64s  -\/ empty bitmask only, test 8 at a time, then test geom}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00908}00908 \textcolor{comment}{// 4.72s  -\/ empty bitmask only, 8 at a time, then test bits}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00909}00909 \textcolor{comment}{// 4.46s  -\/ split bitmask building into three loops (each byte is separate)}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00910}00910 \textcolor{comment}{// 4.42s  -\/ further optimize computing bitmask}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00911}00911 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00912}00912 \textcolor{comment}{// 4.58s  -\/ using solid \& empty bitmasks to early out, same as "{}foo"{} but faster bitmask building}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00913}00913 \textcolor{comment}{// 4.12s  -\/ using solid \& empty bitmasks to efficiently test neighbors}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00914}00914 \textcolor{comment}{// 4.04s  -\/ using 16-\/bit fetches (not endian-\/independent)}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00915}00915 \textcolor{comment}{//        -\/ note this is first place that beats previous best '4.10s -\/ 34x34 1 mesh'}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00916}00916 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00917}00917 \textcolor{comment}{// 4.30s  -\/ current time with bitmasks disabled again (note was 4.10s earlier)}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00918}00918 \textcolor{comment}{// 3.95s  -\/ bitmasks enabled again, no other changes}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00919}00919 \textcolor{comment}{// 4.00s  -\/ current time with bitmasks disabled again, no other changes -\/-\/ wide variation that is time dependent?}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00920}00920 \textcolor{comment}{//          (note that most of the numbers listed here are median of 3 values already)}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00921}00921 \textcolor{comment}{// 3.98s  -\/ bitmasks enabled}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00922}00922 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00923}00923 \textcolor{comment}{// Bitmasks removed from the code as not worth the complexity increase}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00924}00924 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00925}00925 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00926}00926 }
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00927}00927 \textcolor{comment}{// Raw data for Q\&A:}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00928}00928 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00929}00929 \textcolor{comment}{//   26\% parsing \& loading minecraft files (4/5ths of which is zlib decode)}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00930}00930 \textcolor{comment}{//   39\% building mesh from stb input format}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00931}00931 \textcolor{comment}{//   18\% converting from minecraft blocks to stb blocks}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00932}00932 \textcolor{comment}{//    9\% reordering from minecraft axis order to stb axis order}}
+\DoxyCodeLine{\Hypertarget{cave__mesher_8c_source_l00933}00933 \textcolor{comment}{//    7\% uploading vertex buffer to OpenGL}}
+
+\end{DoxyCode}

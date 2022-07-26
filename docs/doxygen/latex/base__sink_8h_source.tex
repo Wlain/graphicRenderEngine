@@ -1,0 +1,58 @@
+\hypertarget{base__sink_8h_source}{}\doxysection{base\+\_\+sink.\+h}
+\label{base__sink_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/sinks/base\_sink.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/sinks/base\_sink.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00001}00001 \textcolor{comment}{// Copyright(c) 2015-\/present, Gabi Melman \& spdlog contributors.}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00002}00002 \textcolor{comment}{// Distributed under the MIT License (http://opensource.org/licenses/MIT)}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00004}00004 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00005}00005 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00006}00006 \textcolor{comment}{// base sink templated over a mutex (either dummy or real)}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00007}00007 \textcolor{comment}{// concrete implementation should override the sink\_it\_() and flush\_()  methods.}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00008}00008 \textcolor{comment}{// locking is taken care of in this class -\/ no locking needed by the}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00009}00009 \textcolor{comment}{// implementers..}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00011}00011 }
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00012}00012 \textcolor{preprocessor}{\#include <spdlog/common.h>}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00013}00013 \textcolor{preprocessor}{\#include <spdlog/details/log\_msg.h>}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00014}00014 \textcolor{preprocessor}{\#include <spdlog/sinks/sink.h>}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00016}00016 \textcolor{keyword}{namespace }spdlog \{}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00017}00017 \textcolor{keyword}{namespace }sinks \{}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00018}00018 \textcolor{keyword}{template}<\textcolor{keyword}{typename} Mutex>}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00019}\mbox{\hyperlink{classspdlog_1_1sinks_1_1base__sink}{00019}} \textcolor{keyword}{class }SPDLOG\_API \mbox{\hyperlink{classspdlog_1_1sinks_1_1base__sink}{base\_sink}} : \textcolor{keyword}{public} \mbox{\hyperlink{classspdlog_1_1sinks_1_1sink}{sink}}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00020}00020 \{}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00021}00021 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00022}00022     \mbox{\hyperlink{classspdlog_1_1sinks_1_1base__sink}{base\_sink}}();}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00023}00023     \textcolor{keyword}{explicit} \mbox{\hyperlink{classspdlog_1_1sinks_1_1base__sink}{base\_sink}}(std::unique\_ptr<spdlog::formatter> \mbox{\hyperlink{classspdlog_1_1formatter}{formatter}});}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00024}00024     \mbox{\hyperlink{classspdlog_1_1sinks_1_1base__sink}{\string~base\_sink}}() \textcolor{keyword}{override} = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00026}00026     \mbox{\hyperlink{classspdlog_1_1sinks_1_1base__sink}{base\_sink}}(\textcolor{keyword}{const} \mbox{\hyperlink{classspdlog_1_1sinks_1_1base__sink}{base\_sink}} \&) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00027}00027     \mbox{\hyperlink{classspdlog_1_1sinks_1_1base__sink}{base\_sink}}(\mbox{\hyperlink{classspdlog_1_1sinks_1_1base__sink}{base\_sink}} \&\&) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00028}00028 }
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00029}00029     \mbox{\hyperlink{classspdlog_1_1sinks_1_1base__sink}{base\_sink}} \&operator=(\textcolor{keyword}{const} \mbox{\hyperlink{classspdlog_1_1sinks_1_1base__sink}{base\_sink}} \&) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00030}00030     \mbox{\hyperlink{classspdlog_1_1sinks_1_1base__sink}{base\_sink}} \&operator=(\mbox{\hyperlink{classspdlog_1_1sinks_1_1base__sink}{base\_sink}} \&\&) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00032}00032     \textcolor{keywordtype}{void} \mbox{\hyperlink{group__core__func__exponential_gad26901b9f2fdd30612867a8dcfa73fbc}{log}}(\textcolor{keyword}{const} \mbox{\hyperlink{structspdlog_1_1details_1_1log__msg}{details::log\_msg}} \&msg) \textcolor{keyword}{final};}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00033}00033     \textcolor{keywordtype}{void} flush() \textcolor{keyword}{final};}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00034}00034     \textcolor{keywordtype}{void} set\_pattern(\textcolor{keyword}{const} std::string \&pattern) \textcolor{keyword}{final};}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00035}00035     \textcolor{keywordtype}{void} set\_formatter(std::unique\_ptr<spdlog::formatter> sink\_formatter) \textcolor{keyword}{final};}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00037}00037 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00038}00038     \textcolor{comment}{// sink formatter}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00039}00039     std::unique\_ptr<spdlog::formatter> formatter\_;}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00040}00040     Mutex mutex\_;}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00042}00042     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} sink\_it\_(\textcolor{keyword}{const} \mbox{\hyperlink{structspdlog_1_1details_1_1log__msg}{details::log\_msg}} \&msg) = 0;}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00043}00043     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} flush\_() = 0;}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00044}00044     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} set\_pattern\_(\textcolor{keyword}{const} std::string \&pattern);}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00045}00045     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} set\_formatter\_(std::unique\_ptr<spdlog::formatter> sink\_formatter);}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00046}00046 \};}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00047}00047 \} \textcolor{comment}{// namespace sinks}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00048}00048 \} \textcolor{comment}{// namespace spdlog}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00050}00050 \textcolor{preprocessor}{\#ifdef SPDLOG\_HEADER\_ONLY}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00051}00051 \textcolor{preprocessor}{\#    include "{}base\_sink-\/inl.h"{}}}
+\DoxyCodeLine{\Hypertarget{base__sink_8h_source_l00052}00052 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

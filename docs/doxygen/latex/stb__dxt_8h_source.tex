@@ -1,0 +1,725 @@
+\hypertarget{stb__dxt_8h_source}{}\doxysection{stb\+\_\+dxt.\+h}
+\label{stb__dxt_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/stb\_dxt.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/stb\_dxt.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00001}00001 \textcolor{comment}{// stb\_dxt.h -\/ v1.12 -\/ DXT1/DXT5 compressor -\/ public domain}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00002}00002 \textcolor{comment}{// original by fabian "{}ryg"{} giesen -\/ ported to C by stb}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00003}00003 \textcolor{comment}{// use '\#define STB\_DXT\_IMPLEMENTATION' before including to create the implementation}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00005}00005 \textcolor{comment}{// USAGE:}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00006}00006 \textcolor{comment}{//   call stb\_compress\_dxt\_block() for every block (you must pad)}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00007}00007 \textcolor{comment}{//     source should be a 4x4 block of RGBA data in row-\/major order;}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00008}00008 \textcolor{comment}{//     Alpha channel is not stored if you specify alpha=0 (but you}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00009}00009 \textcolor{comment}{//     must supply some constant alpha in the alpha channel).}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00010}00010 \textcolor{comment}{//     You can turn on dithering and "{}high quality"{} using mode.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00011}00011 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00012}00012 \textcolor{comment}{// version history:}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00013}00013 \textcolor{comment}{//   v1.12  -\/ (ryg) fix bug in single-\/color table generator}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00014}00014 \textcolor{comment}{//   v1.11  -\/ (ryg) avoid racy global init, better single-\/color tables, remove dither}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00015}00015 \textcolor{comment}{//   v1.10  -\/ (i.c) various small quality improvements}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00016}00016 \textcolor{comment}{//   v1.09  -\/ (stb) update documentation re: surprising alpha channel requirement}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00017}00017 \textcolor{comment}{//   v1.08  -\/ (stb) fix bug in dxt-\/with-\/alpha block}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00018}00018 \textcolor{comment}{//   v1.07  -\/ (stb) bc4; allow not using libc; add STB\_DXT\_STATIC}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00019}00019 \textcolor{comment}{//   v1.06  -\/ (stb) fix to known-\/broken 1.05}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00020}00020 \textcolor{comment}{//   v1.05  -\/ (stb) support bc5/3dc (Arvids Kokins), use extern "{}C"{} in C++ (Pavel Krajcevski)}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00021}00021 \textcolor{comment}{//   v1.04  -\/ (ryg) default to no rounding bias for lerped colors (as per S3TC/DX10 spec);}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00022}00022 \textcolor{comment}{//            single color match fix (allow for inexact color interpolation);}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00023}00023 \textcolor{comment}{//            optimal DXT5 index finder; "{}high quality"{} mode that runs multiple refinement steps.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00024}00024 \textcolor{comment}{//   v1.03  -\/ (stb) endianness support}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00025}00025 \textcolor{comment}{//   v1.02  -\/ (stb) fix alpha encoding bug}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00026}00026 \textcolor{comment}{//   v1.01  -\/ (stb) fix bug converting to RGB that messed up quality, thanks ryg \& cbloom}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00027}00027 \textcolor{comment}{//   v1.00  -\/ (stb) first release}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00028}00028 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00029}00029 \textcolor{comment}{// contributors:}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00030}00030 \textcolor{comment}{//   Rich Geldreich (more accurate index selection)}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00031}00031 \textcolor{comment}{//   Kevin Schmidt (\#defines for "{}freestanding"{} compilation)}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00032}00032 \textcolor{comment}{//   github:ppiastucki (BC4 support)}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00033}00033 \textcolor{comment}{//   Ignacio Castano -\/ improve DXT endpoint quantization}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00034}00034 \textcolor{comment}{//   Alan Hickman -\/ static table initialization}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00035}00035 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00036}00036 \textcolor{comment}{// LICENSE}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00037}00037 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00038}00038 \textcolor{comment}{//   See end of file for license information.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00040}00040 \textcolor{preprocessor}{\#ifndef STB\_INCLUDE\_STB\_DXT\_H}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00041}00041 \textcolor{preprocessor}{\#define STB\_INCLUDE\_STB\_DXT\_H}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00043}00043 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00044}00044 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00045}00045 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00047}00047 \textcolor{preprocessor}{\#ifdef STB\_DXT\_STATIC}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00048}00048 \textcolor{preprocessor}{\#define STBDDEF static}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00049}00049 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00050}00050 \textcolor{preprocessor}{\#define STBDDEF extern}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00051}00051 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00053}00053 \textcolor{comment}{// compression mode (bitflags)}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00054}00054 \textcolor{preprocessor}{\#define STB\_DXT\_NORMAL    0}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00055}00055 \textcolor{preprocessor}{\#define STB\_DXT\_DITHER    1   }\textcolor{comment}{// use dithering. was always dubious, now deprecated. does nothing!}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00056}00056 \textcolor{preprocessor}{\#define STB\_DXT\_HIGHQUAL  2   }\textcolor{comment}{// high quality mode, does two refinement steps instead of 1. \string~30-\/40\% slower.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00058}00058 STBDDEF \textcolor{keywordtype}{void} stb\_compress\_dxt\_block(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *dest, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *src\_rgba\_four\_bytes\_per\_pixel, \textcolor{keywordtype}{int} alpha, \textcolor{keywordtype}{int} mode);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00059}00059 STBDDEF \textcolor{keywordtype}{void} stb\_compress\_bc4\_block(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *dest, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *src\_r\_one\_byte\_per\_pixel);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00060}00060 STBDDEF \textcolor{keywordtype}{void} stb\_compress\_bc5\_block(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *dest, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *src\_rg\_two\_byte\_per\_pixel);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00062}00062 \textcolor{preprocessor}{\#define STB\_COMPRESS\_DXT\_BLOCK}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00064}00064 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00065}00065 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00066}00066 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00067}00067 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// STB\_INCLUDE\_STB\_DXT\_H}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00069}00069 \textcolor{preprocessor}{\#ifdef STB\_DXT\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00071}00071 \textcolor{comment}{// configuration options for DXT encoder. set them in the project/makefile or just define}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00072}00072 \textcolor{comment}{// them at the top.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00074}00074 \textcolor{comment}{// STB\_DXT\_USE\_ROUNDING\_BIAS}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00075}00075 \textcolor{comment}{//     use a rounding bias during color interpolation. this is closer to what "{}ideal"{}}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00076}00076 \textcolor{comment}{//     interpolation would do but doesn't match the S3TC/DX10 spec. old versions (pre-\/1.03)}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00077}00077 \textcolor{comment}{//     implicitly had this turned on.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00078}00078 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00079}00079 \textcolor{comment}{//     in case you're targeting a specific type of hardware (e.g. console programmers):}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00080}00080 \textcolor{comment}{//     NVidia and Intel GPUs (as of 2010) as well as DX9 ref use DXT decoders that are closer}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00081}00081 \textcolor{comment}{//     to STB\_DXT\_USE\_ROUNDING\_BIAS. AMD/ATI, S3 and DX10 ref are closer to rounding with no bias.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00082}00082 \textcolor{comment}{//     you also see "{}(a*5 + b*3) / 8"{} on some old GPU designs.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00083}00083 \textcolor{comment}{// \#define STB\_DXT\_USE\_ROUNDING\_BIAS}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00085}00085 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00086}00086 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00087}00087 \textcolor{preprocessor}{\#if !defined(STBD\_FABS)}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00088}00088 \textcolor{preprocessor}{\#include <math.h>}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00089}00089 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00091}00091 \textcolor{preprocessor}{\#ifndef STBD\_FABS}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00092}00092 \textcolor{preprocessor}{\#define STBD\_FABS(x)          fabs(x)}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00093}00093 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00095}00095 \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} stb\_\_OMatch5[256][2] = \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00096}00096    \{  0,  0 \}, \{  0,  0 \}, \{  0,  1 \}, \{  0,  1 \}, \{  1,  0 \}, \{  1,  0 \}, \{  1,  0 \}, \{  1,  1 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00097}00097    \{  1,  1 \}, \{  1,  1 \}, \{  1,  2 \}, \{  0,  4 \}, \{  2,  1 \}, \{  2,  1 \}, \{  2,  1 \}, \{  2,  2 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00098}00098    \{  2,  2 \}, \{  2,  2 \}, \{  2,  3 \}, \{  1,  5 \}, \{  3,  2 \}, \{  3,  2 \}, \{  4,  0 \}, \{  3,  3 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00099}00099    \{  3,  3 \}, \{  3,  3 \}, \{  3,  4 \}, \{  3,  4 \}, \{  3,  4 \}, \{  3,  5 \}, \{  4,  3 \}, \{  4,  3 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00100}00100    \{  5,  2 \}, \{  4,  4 \}, \{  4,  4 \}, \{  4,  5 \}, \{  4,  5 \}, \{  5,  4 \}, \{  5,  4 \}, \{  5,  4 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00101}00101    \{  6,  3 \}, \{  5,  5 \}, \{  5,  5 \}, \{  5,  6 \}, \{  4,  8 \}, \{  6,  5 \}, \{  6,  5 \}, \{  6,  5 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00102}00102    \{  6,  6 \}, \{  6,  6 \}, \{  6,  6 \}, \{  6,  7 \}, \{  5,  9 \}, \{  7,  6 \}, \{  7,  6 \}, \{  8,  4 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00103}00103    \{  7,  7 \}, \{  7,  7 \}, \{  7,  7 \}, \{  7,  8 \}, \{  7,  8 \}, \{  7,  8 \}, \{  7,  9 \}, \{  8,  7 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00104}00104    \{  8,  7 \}, \{  9,  6 \}, \{  8,  8 \}, \{  8,  8 \}, \{  8,  9 \}, \{  8,  9 \}, \{  9,  8 \}, \{  9,  8 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00105}00105    \{  9,  8 \}, \{ 10,  7 \}, \{  9,  9 \}, \{  9,  9 \}, \{  9, 10 \}, \{  8, 12 \}, \{ 10,  9 \}, \{ 10,  9 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00106}00106    \{ 10,  9 \}, \{ 10, 10 \}, \{ 10, 10 \}, \{ 10, 10 \}, \{ 10, 11 \}, \{  9, 13 \}, \{ 11, 10 \}, \{ 11, 10 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00107}00107    \{ 12,  8 \}, \{ 11, 11 \}, \{ 11, 11 \}, \{ 11, 11 \}, \{ 11, 12 \}, \{ 11, 12 \}, \{ 11, 12 \}, \{ 11, 13 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00108}00108    \{ 12, 11 \}, \{ 12, 11 \}, \{ 13, 10 \}, \{ 12, 12 \}, \{ 12, 12 \}, \{ 12, 13 \}, \{ 12, 13 \}, \{ 13, 12 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00109}00109    \{ 13, 12 \}, \{ 13, 12 \}, \{ 14, 11 \}, \{ 13, 13 \}, \{ 13, 13 \}, \{ 13, 14 \}, \{ 12, 16 \}, \{ 14, 13 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00110}00110    \{ 14, 13 \}, \{ 14, 13 \}, \{ 14, 14 \}, \{ 14, 14 \}, \{ 14, 14 \}, \{ 14, 15 \}, \{ 13, 17 \}, \{ 15, 14 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00111}00111    \{ 15, 14 \}, \{ 16, 12 \}, \{ 15, 15 \}, \{ 15, 15 \}, \{ 15, 15 \}, \{ 15, 16 \}, \{ 15, 16 \}, \{ 15, 16 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00112}00112    \{ 15, 17 \}, \{ 16, 15 \}, \{ 16, 15 \}, \{ 17, 14 \}, \{ 16, 16 \}, \{ 16, 16 \}, \{ 16, 17 \}, \{ 16, 17 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00113}00113    \{ 17, 16 \}, \{ 17, 16 \}, \{ 17, 16 \}, \{ 18, 15 \}, \{ 17, 17 \}, \{ 17, 17 \}, \{ 17, 18 \}, \{ 16, 20 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00114}00114    \{ 18, 17 \}, \{ 18, 17 \}, \{ 18, 17 \}, \{ 18, 18 \}, \{ 18, 18 \}, \{ 18, 18 \}, \{ 18, 19 \}, \{ 17, 21 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00115}00115    \{ 19, 18 \}, \{ 19, 18 \}, \{ 20, 16 \}, \{ 19, 19 \}, \{ 19, 19 \}, \{ 19, 19 \}, \{ 19, 20 \}, \{ 19, 20 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00116}00116    \{ 19, 20 \}, \{ 19, 21 \}, \{ 20, 19 \}, \{ 20, 19 \}, \{ 21, 18 \}, \{ 20, 20 \}, \{ 20, 20 \}, \{ 20, 21 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00117}00117    \{ 20, 21 \}, \{ 21, 20 \}, \{ 21, 20 \}, \{ 21, 20 \}, \{ 22, 19 \}, \{ 21, 21 \}, \{ 21, 21 \}, \{ 21, 22 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00118}00118    \{ 20, 24 \}, \{ 22, 21 \}, \{ 22, 21 \}, \{ 22, 21 \}, \{ 22, 22 \}, \{ 22, 22 \}, \{ 22, 22 \}, \{ 22, 23 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00119}00119    \{ 21, 25 \}, \{ 23, 22 \}, \{ 23, 22 \}, \{ 24, 20 \}, \{ 23, 23 \}, \{ 23, 23 \}, \{ 23, 23 \}, \{ 23, 24 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00120}00120    \{ 23, 24 \}, \{ 23, 24 \}, \{ 23, 25 \}, \{ 24, 23 \}, \{ 24, 23 \}, \{ 25, 22 \}, \{ 24, 24 \}, \{ 24, 24 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00121}00121    \{ 24, 25 \}, \{ 24, 25 \}, \{ 25, 24 \}, \{ 25, 24 \}, \{ 25, 24 \}, \{ 26, 23 \}, \{ 25, 25 \}, \{ 25, 25 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00122}00122    \{ 25, 26 \}, \{ 24, 28 \}, \{ 26, 25 \}, \{ 26, 25 \}, \{ 26, 25 \}, \{ 26, 26 \}, \{ 26, 26 \}, \{ 26, 26 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00123}00123    \{ 26, 27 \}, \{ 25, 29 \}, \{ 27, 26 \}, \{ 27, 26 \}, \{ 28, 24 \}, \{ 27, 27 \}, \{ 27, 27 \}, \{ 27, 27 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00124}00124    \{ 27, 28 \}, \{ 27, 28 \}, \{ 27, 28 \}, \{ 27, 29 \}, \{ 28, 27 \}, \{ 28, 27 \}, \{ 29, 26 \}, \{ 28, 28 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00125}00125    \{ 28, 28 \}, \{ 28, 29 \}, \{ 28, 29 \}, \{ 29, 28 \}, \{ 29, 28 \}, \{ 29, 28 \}, \{ 30, 27 \}, \{ 29, 29 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00126}00126    \{ 29, 29 \}, \{ 29, 30 \}, \{ 29, 30 \}, \{ 30, 29 \}, \{ 30, 29 \}, \{ 30, 29 \}, \{ 30, 30 \}, \{ 30, 30 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00127}00127    \{ 30, 30 \}, \{ 30, 31 \}, \{ 30, 31 \}, \{ 31, 30 \}, \{ 31, 30 \}, \{ 31, 30 \}, \{ 31, 31 \}, \{ 31, 31 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00128}00128 \};}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00129}00129 \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} stb\_\_OMatch6[256][2] = \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00130}00130    \{  0,  0 \}, \{  0,  1 \}, \{  1,  0 \}, \{  1,  1 \}, \{  1,  1 \}, \{  1,  2 \}, \{  2,  1 \}, \{  2,  2 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00131}00131    \{  2,  2 \}, \{  2,  3 \}, \{  3,  2 \}, \{  3,  3 \}, \{  3,  3 \}, \{  3,  4 \}, \{  4,  3 \}, \{  4,  4 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00132}00132    \{  4,  4 \}, \{  4,  5 \}, \{  5,  4 \}, \{  5,  5 \}, \{  5,  5 \}, \{  5,  6 \}, \{  6,  5 \}, \{  6,  6 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00133}00133    \{  6,  6 \}, \{  6,  7 \}, \{  7,  6 \}, \{  7,  7 \}, \{  7,  7 \}, \{  7,  8 \}, \{  8,  7 \}, \{  8,  8 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00134}00134    \{  8,  8 \}, \{  8,  9 \}, \{  9,  8 \}, \{  9,  9 \}, \{  9,  9 \}, \{  9, 10 \}, \{ 10,  9 \}, \{ 10, 10 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00135}00135    \{ 10, 10 \}, \{ 10, 11 \}, \{ 11, 10 \}, \{  8, 16 \}, \{ 11, 11 \}, \{ 11, 12 \}, \{ 12, 11 \}, \{  9, 17 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00136}00136    \{ 12, 12 \}, \{ 12, 13 \}, \{ 13, 12 \}, \{ 11, 16 \}, \{ 13, 13 \}, \{ 13, 14 \}, \{ 14, 13 \}, \{ 12, 17 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00137}00137    \{ 14, 14 \}, \{ 14, 15 \}, \{ 15, 14 \}, \{ 14, 16 \}, \{ 15, 15 \}, \{ 15, 16 \}, \{ 16, 14 \}, \{ 16, 15 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00138}00138    \{ 17, 14 \}, \{ 16, 16 \}, \{ 16, 17 \}, \{ 17, 16 \}, \{ 18, 15 \}, \{ 17, 17 \}, \{ 17, 18 \}, \{ 18, 17 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00139}00139    \{ 20, 14 \}, \{ 18, 18 \}, \{ 18, 19 \}, \{ 19, 18 \}, \{ 21, 15 \}, \{ 19, 19 \}, \{ 19, 20 \}, \{ 20, 19 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00140}00140    \{ 20, 20 \}, \{ 20, 20 \}, \{ 20, 21 \}, \{ 21, 20 \}, \{ 21, 21 \}, \{ 21, 21 \}, \{ 21, 22 \}, \{ 22, 21 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00141}00141    \{ 22, 22 \}, \{ 22, 22 \}, \{ 22, 23 \}, \{ 23, 22 \}, \{ 23, 23 \}, \{ 23, 23 \}, \{ 23, 24 \}, \{ 24, 23 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00142}00142    \{ 24, 24 \}, \{ 24, 24 \}, \{ 24, 25 \}, \{ 25, 24 \}, \{ 25, 25 \}, \{ 25, 25 \}, \{ 25, 26 \}, \{ 26, 25 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00143}00143    \{ 26, 26 \}, \{ 26, 26 \}, \{ 26, 27 \}, \{ 27, 26 \}, \{ 24, 32 \}, \{ 27, 27 \}, \{ 27, 28 \}, \{ 28, 27 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00144}00144    \{ 25, 33 \}, \{ 28, 28 \}, \{ 28, 29 \}, \{ 29, 28 \}, \{ 27, 32 \}, \{ 29, 29 \}, \{ 29, 30 \}, \{ 30, 29 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00145}00145    \{ 28, 33 \}, \{ 30, 30 \}, \{ 30, 31 \}, \{ 31, 30 \}, \{ 30, 32 \}, \{ 31, 31 \}, \{ 31, 32 \}, \{ 32, 30 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00146}00146    \{ 32, 31 \}, \{ 33, 30 \}, \{ 32, 32 \}, \{ 32, 33 \}, \{ 33, 32 \}, \{ 34, 31 \}, \{ 33, 33 \}, \{ 33, 34 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00147}00147    \{ 34, 33 \}, \{ 36, 30 \}, \{ 34, 34 \}, \{ 34, 35 \}, \{ 35, 34 \}, \{ 37, 31 \}, \{ 35, 35 \}, \{ 35, 36 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00148}00148    \{ 36, 35 \}, \{ 36, 36 \}, \{ 36, 36 \}, \{ 36, 37 \}, \{ 37, 36 \}, \{ 37, 37 \}, \{ 37, 37 \}, \{ 37, 38 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00149}00149    \{ 38, 37 \}, \{ 38, 38 \}, \{ 38, 38 \}, \{ 38, 39 \}, \{ 39, 38 \}, \{ 39, 39 \}, \{ 39, 39 \}, \{ 39, 40 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00150}00150    \{ 40, 39 \}, \{ 40, 40 \}, \{ 40, 40 \}, \{ 40, 41 \}, \{ 41, 40 \}, \{ 41, 41 \}, \{ 41, 41 \}, \{ 41, 42 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00151}00151    \{ 42, 41 \}, \{ 42, 42 \}, \{ 42, 42 \}, \{ 42, 43 \}, \{ 43, 42 \}, \{ 40, 48 \}, \{ 43, 43 \}, \{ 43, 44 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00152}00152    \{ 44, 43 \}, \{ 41, 49 \}, \{ 44, 44 \}, \{ 44, 45 \}, \{ 45, 44 \}, \{ 43, 48 \}, \{ 45, 45 \}, \{ 45, 46 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00153}00153    \{ 46, 45 \}, \{ 44, 49 \}, \{ 46, 46 \}, \{ 46, 47 \}, \{ 47, 46 \}, \{ 46, 48 \}, \{ 47, 47 \}, \{ 47, 48 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00154}00154    \{ 48, 46 \}, \{ 48, 47 \}, \{ 49, 46 \}, \{ 48, 48 \}, \{ 48, 49 \}, \{ 49, 48 \}, \{ 50, 47 \}, \{ 49, 49 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00155}00155    \{ 49, 50 \}, \{ 50, 49 \}, \{ 52, 46 \}, \{ 50, 50 \}, \{ 50, 51 \}, \{ 51, 50 \}, \{ 53, 47 \}, \{ 51, 51 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00156}00156    \{ 51, 52 \}, \{ 52, 51 \}, \{ 52, 52 \}, \{ 52, 52 \}, \{ 52, 53 \}, \{ 53, 52 \}, \{ 53, 53 \}, \{ 53, 53 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00157}00157    \{ 53, 54 \}, \{ 54, 53 \}, \{ 54, 54 \}, \{ 54, 54 \}, \{ 54, 55 \}, \{ 55, 54 \}, \{ 55, 55 \}, \{ 55, 55 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00158}00158    \{ 55, 56 \}, \{ 56, 55 \}, \{ 56, 56 \}, \{ 56, 56 \}, \{ 56, 57 \}, \{ 57, 56 \}, \{ 57, 57 \}, \{ 57, 57 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00159}00159    \{ 57, 58 \}, \{ 58, 57 \}, \{ 58, 58 \}, \{ 58, 58 \}, \{ 58, 59 \}, \{ 59, 58 \}, \{ 59, 59 \}, \{ 59, 59 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00160}00160    \{ 59, 60 \}, \{ 60, 59 \}, \{ 60, 60 \}, \{ 60, 60 \}, \{ 60, 61 \}, \{ 61, 60 \}, \{ 61, 61 \}, \{ 61, 61 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00161}00161    \{ 61, 62 \}, \{ 62, 61 \}, \{ 62, 62 \}, \{ 62, 62 \}, \{ 62, 63 \}, \{ 63, 62 \}, \{ 63, 63 \}, \{ 63, 63 \},}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00162}00162 \};}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00163}00163 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00164}00164 \textcolor{keyword}{static} \textcolor{keywordtype}{int} stb\_\_Mul8Bit(\textcolor{keywordtype}{int} a, \textcolor{keywordtype}{int} b)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00165}00165 \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00166}00166   \textcolor{keywordtype}{int} t = a*b + 128;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00167}00167   \textcolor{keywordflow}{return} (t + (t >> 8)) >> 8;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00168}00168 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00169}00169 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00170}00170 \textcolor{keyword}{static} \textcolor{keywordtype}{void} stb\_\_From16Bit(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *out, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} v)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00171}00171 \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00172}00172    \textcolor{keywordtype}{int} rv = (v \& 0xf800) >> 11;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00173}00173    \textcolor{keywordtype}{int} gv = (v \& 0x07e0) >>  5;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00174}00174    \textcolor{keywordtype}{int} bv = (v \& 0x001f) >>  0;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00175}00175 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00176}00176    \textcolor{comment}{// expand to 8 bits via bit replication}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00177}00177    out[0] = (rv * 33) >> 2;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00178}00178    out[1] = (gv * 65) >> 4;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00179}00179    out[2] = (bv * 33) >> 2;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00180}00180    out[3] = 0;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00181}00181 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00182}00182 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00183}00183 \textcolor{keyword}{static} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} stb\_\_As16Bit(\textcolor{keywordtype}{int} r, \textcolor{keywordtype}{int} g, \textcolor{keywordtype}{int} b)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00184}00184 \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00185}00185    \textcolor{keywordflow}{return} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short})((stb\_\_Mul8Bit(r,31) << 11) + (stb\_\_Mul8Bit(g,63) << 5) + stb\_\_Mul8Bit(b,31));}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00186}00186 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00187}00187 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00188}00188 \textcolor{comment}{// linear interpolation at 1/3 point between a and b, using desired rounding type}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00189}00189 \textcolor{keyword}{static} \textcolor{keywordtype}{int} stb\_\_Lerp13(\textcolor{keywordtype}{int} a, \textcolor{keywordtype}{int} b)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00190}00190 \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00191}00191 \textcolor{preprocessor}{\#ifdef STB\_DXT\_USE\_ROUNDING\_BIAS}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00192}00192    \textcolor{comment}{// with rounding bias}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00193}00193    \textcolor{keywordflow}{return} a + stb\_\_Mul8Bit(b-\/a, 0x55);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00194}00194 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00195}00195    \textcolor{comment}{// without rounding bias}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00196}00196    \textcolor{comment}{// replace "{}/ 3"{} by "{}* 0xaaab) >> 17"{} if your compiler sucks or you really need every ounce of speed.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00197}00197    \textcolor{keywordflow}{return} (2*a + b) / 3;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00198}00198 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00199}00199 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00200}00200 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00201}00201 \textcolor{comment}{// lerp RGB color}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00202}00202 \textcolor{keyword}{static} \textcolor{keywordtype}{void} stb\_\_Lerp13RGB(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *out, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *p1, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *p2)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00203}00203 \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00204}00204    out[0] = (\textcolor{keywordtype}{unsigned} char)stb\_\_Lerp13(p1[0], p2[0]);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00205}00205    out[1] = (\textcolor{keywordtype}{unsigned} char)stb\_\_Lerp13(p1[1], p2[1]);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00206}00206    out[2] = (\textcolor{keywordtype}{unsigned} char)stb\_\_Lerp13(p1[2], p2[2]);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00207}00207 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00208}00208 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00209}00209 \textcolor{comment}{/****************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00210}00210 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00211}00211 \textcolor{keyword}{static} \textcolor{keywordtype}{void} stb\_\_EvalColors(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *color,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} c0,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} c1)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00212}00212 \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00213}00213    stb\_\_From16Bit(color+ 0, c0);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00214}00214    stb\_\_From16Bit(color+ 4, c1);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00215}00215    stb\_\_Lerp13RGB(color+ 8, color+0, color+4);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00216}00216    stb\_\_Lerp13RGB(color+12, color+4, color+0);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00217}00217 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00218}00218 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00219}00219 \textcolor{comment}{// The color matching function}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00220}00220 \textcolor{keyword}{static} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} stb\_\_MatchColorsBlock(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *block, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *color)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00221}00221 \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00222}00222    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \mbox{\hyperlink{structmask}{mask}} = 0;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00223}00223    \textcolor{keywordtype}{int} dirr = color[0*4+0] -\/ color[1*4+0];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00224}00224    \textcolor{keywordtype}{int} dirg = color[0*4+1] -\/ color[1*4+1];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00225}00225    \textcolor{keywordtype}{int} dirb = color[0*4+2] -\/ color[1*4+2];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00226}00226    \textcolor{keywordtype}{int} dots[16];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00227}00227    \textcolor{keywordtype}{int} stops[4];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00228}00228    \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00229}00229    \textcolor{keywordtype}{int} c0Point, halfPoint, c3Point;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00230}00230 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00231}00231    \textcolor{keywordflow}{for}(i=0;i<16;i++)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00232}00232       dots[i] = block[i*4+0]*dirr + block[i*4+1]*dirg + block[i*4+2]*dirb;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00233}00233 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00234}00234    \textcolor{keywordflow}{for}(i=0;i<4;i++)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00235}00235       stops[i] = color[i*4+0]*dirr + color[i*4+1]*dirg + color[i*4+2]*dirb;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00236}00236 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00237}00237    \textcolor{comment}{// think of the colors as arranged on a line; project point onto that line, then choose}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00238}00238    \textcolor{comment}{// next color out of available ones. we compute the crossover points for "{}best color in top}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00239}00239    \textcolor{comment}{// half"{}/"{}best in bottom half"{} and then the same inside that subinterval.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00240}00240    \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00241}00241    \textcolor{comment}{// relying on this 1d approximation isn't always optimal in terms of euclidean distance,}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00242}00242    \textcolor{comment}{// but it's very close and a lot faster.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00243}00243    \textcolor{comment}{// http://cbloomrants.blogspot.com/2008/12/12-\/08-\/08-\/dxtc-\/summary.html}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00244}00244 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00245}00245    c0Point   = (stops[1] + stops[3]);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00246}00246    halfPoint = (stops[3] + stops[2]);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00247}00247    c3Point   = (stops[2] + stops[0]);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00248}00248 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00249}00249    \textcolor{keywordflow}{for} (i=15;i>=0;i-\/-\/) \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00250}00250       \textcolor{keywordtype}{int} dot = dots[i]*2;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00251}00251       \mbox{\hyperlink{structmask}{mask}} <<= 2;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00252}00252 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00253}00253       \textcolor{keywordflow}{if}(dot < halfPoint)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00254}00254          \mbox{\hyperlink{structmask}{mask}} |= (dot < c0Point) ? 1 : 3;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00255}00255       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00256}00256          \mbox{\hyperlink{structmask}{mask}} |= (dot < c3Point) ? 2 : 0;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00257}00257    \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00258}00258 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00259}00259    \textcolor{keywordflow}{return} \mbox{\hyperlink{structmask}{mask}};}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00260}00260 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00261}00261 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00262}00262 \textcolor{comment}{// The color optimization function. (Clever code, part 1)}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00263}00263 \textcolor{keyword}{static} \textcolor{keywordtype}{void} stb\_\_OptimizeColorsBlock(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *block, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} *pmax16, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} *pmin16)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00264}00264 \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00265}00265   \textcolor{keywordtype}{int} mind,maxd;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00266}00266   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *minp, *maxp;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00267}00267   \textcolor{keywordtype}{double} magn;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00268}00268   \textcolor{keywordtype}{int} v\_r,v\_g,v\_b;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00269}00269   \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{int} nIterPower = 4;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00270}00270   \textcolor{keywordtype}{float} covf[6],vfr,vfg,vfb;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00271}00271 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00272}00272   \textcolor{comment}{// determine color distribution}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00273}00273   \textcolor{keywordtype}{int} cov[6];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00274}00274   \textcolor{keywordtype}{int} mu[3],\mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{min}}[3],\mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{max}}[3];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00275}00275   \textcolor{keywordtype}{int} ch,i,iter;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00276}00276 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00277}00277   \textcolor{keywordflow}{for}(ch=0;ch<3;ch++)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00278}00278   \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00279}00279     \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *bp = ((\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *) block) + ch;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00280}00280     \textcolor{keywordtype}{int} muv,minv,maxv;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00281}00281 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00282}00282     muv = minv = maxv = bp[0];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00283}00283     \textcolor{keywordflow}{for}(i=4;i<64;i+=4)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00284}00284     \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00285}00285       muv += bp[i];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00286}00286       \textcolor{keywordflow}{if} (bp[i] < minv) minv = bp[i];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00287}00287       \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (bp[i] > maxv) maxv = bp[i];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00288}00288     \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00289}00289 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00290}00290     mu[ch] = (muv + 8) >> 4;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00291}00291     \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{min}}[ch] = minv;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00292}00292     \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{max}}[ch] = maxv;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00293}00293   \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00294}00294 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00295}00295   \textcolor{comment}{// determine covariance matrix}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00296}00296   \textcolor{keywordflow}{for} (i=0;i<6;i++)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00297}00297      cov[i] = 0;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00298}00298 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00299}00299   \textcolor{keywordflow}{for} (i=0;i<16;i++)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00300}00300   \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00301}00301     \textcolor{keywordtype}{int} r = block[i*4+0] -\/ mu[0];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00302}00302     \textcolor{keywordtype}{int} g = block[i*4+1] -\/ mu[1];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00303}00303     \textcolor{keywordtype}{int} b = block[i*4+2] -\/ mu[2];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00304}00304 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00305}00305     cov[0] += r*r;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00306}00306     cov[1] += r*g;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00307}00307     cov[2] += r*b;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00308}00308     cov[3] += g*g;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00309}00309     cov[4] += g*b;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00310}00310     cov[5] += b*b;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00311}00311   \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00312}00312 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00313}00313   \textcolor{comment}{// convert covariance matrix to float, find principal axis via power iter}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00314}00314   \textcolor{keywordflow}{for}(i=0;i<6;i++)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00315}00315     covf[i] = cov[i] / 255.0f;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00316}00316 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00317}00317   vfr = (float) (\mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{max}}[0] -\/ \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{min}}[0]);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00318}00318   vfg = (float) (\mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{max}}[1] -\/ \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{min}}[1]);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00319}00319   vfb = (float) (\mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{max}}[2] -\/ \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{min}}[2]);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00320}00320 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00321}00321   \textcolor{keywordflow}{for}(iter=0;iter<nIterPower;iter++)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00322}00322   \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00323}00323     \textcolor{keywordtype}{float} r = vfr*covf[0] + vfg*covf[1] + vfb*covf[2];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00324}00324     \textcolor{keywordtype}{float} g = vfr*covf[1] + vfg*covf[3] + vfb*covf[4];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00325}00325     \textcolor{keywordtype}{float} b = vfr*covf[2] + vfg*covf[4] + vfb*covf[5];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00326}00326 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00327}00327     vfr = r;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00328}00328     vfg = g;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00329}00329     vfb = b;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00330}00330   \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00331}00331 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00332}00332   magn = STBD\_FABS(vfr);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00333}00333   \textcolor{keywordflow}{if} (STBD\_FABS(vfg) > magn) magn = STBD\_FABS(vfg);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00334}00334   \textcolor{keywordflow}{if} (STBD\_FABS(vfb) > magn) magn = STBD\_FABS(vfb);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00335}00335 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00336}00336    \textcolor{keywordflow}{if}(magn < 4.0f) \{ \textcolor{comment}{// too small, default to luminance}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00337}00337       v\_r = 299; \textcolor{comment}{// JPEG YCbCr luma coefs, scaled by 1000.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00338}00338       v\_g = 587;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00339}00339       v\_b = 114;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00340}00340    \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00341}00341       magn = 512.0 / magn;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00342}00342       v\_r = (int) (vfr * magn);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00343}00343       v\_g = (int) (vfg * magn);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00344}00344       v\_b = (int) (vfb * magn);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00345}00345    \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00346}00346 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00347}00347    minp = maxp = block;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00348}00348    mind = maxd = block[0]*v\_r + block[1]*v\_g + block[2]*v\_b;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00349}00349    \textcolor{comment}{// Pick colors at extreme points}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00350}00350    \textcolor{keywordflow}{for}(i=1;i<16;i++)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00351}00351    \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00352}00352       \textcolor{keywordtype}{int} dot = block[i*4+0]*v\_r + block[i*4+1]*v\_g + block[i*4+2]*v\_b;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00353}00353 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00354}00354       \textcolor{keywordflow}{if} (dot < mind) \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00355}00355          mind = dot;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00356}00356          minp = block+i*4;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00357}00357       \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00358}00358 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00359}00359       \textcolor{keywordflow}{if} (dot > maxd) \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00360}00360          maxd = dot;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00361}00361          maxp = block+i*4;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00362}00362       \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00363}00363    \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00364}00364 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00365}00365    *pmax16 = stb\_\_As16Bit(maxp[0],maxp[1],maxp[2]);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00366}00366    *pmin16 = stb\_\_As16Bit(minp[0],minp[1],minp[2]);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00367}00367 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00368}00368 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00369}00369 \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{float} stb\_\_midpoints5[32] = \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00370}00370    0.015686f, 0.047059f, 0.078431f, 0.111765f, 0.145098f, 0.176471f, 0.207843f, 0.241176f, 0.274510f, 0.305882f, 0.337255f, 0.370588f, 0.403922f, 0.435294f, 0.466667f, 0.5f,}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00371}00371    0.533333f, 0.564706f, 0.596078f, 0.629412f, 0.662745f, 0.694118f, 0.725490f, 0.758824f, 0.792157f, 0.823529f, 0.854902f, 0.888235f, 0.921569f, 0.952941f, 0.984314f, 1.0f}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00372}00372 \};}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00373}00373 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00374}00374 \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{float} stb\_\_midpoints6[64] = \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00375}00375    0.007843f, 0.023529f, 0.039216f, 0.054902f, 0.070588f, 0.086275f, 0.101961f, 0.117647f, 0.133333f, 0.149020f, 0.164706f, 0.180392f, 0.196078f, 0.211765f, 0.227451f, 0.245098f,}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00376}00376    0.262745f, 0.278431f, 0.294118f, 0.309804f, 0.325490f, 0.341176f, 0.356863f, 0.372549f, 0.388235f, 0.403922f, 0.419608f, 0.435294f, 0.450980f, 0.466667f, 0.482353f, 0.500000f,}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00377}00377    0.517647f, 0.533333f, 0.549020f, 0.564706f, 0.580392f, 0.596078f, 0.611765f, 0.627451f, 0.643137f, 0.658824f, 0.674510f, 0.690196f, 0.705882f, 0.721569f, 0.737255f, 0.754902f,}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00378}00378    0.772549f, 0.788235f, 0.803922f, 0.819608f, 0.835294f, 0.850980f, 0.866667f, 0.882353f, 0.898039f, 0.913725f, 0.929412f, 0.945098f, 0.960784f, 0.976471f, 0.992157f, 1.0f}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00379}00379 \};}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00380}00380 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00381}00381 \textcolor{keyword}{static} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} stb\_\_Quantize5(\textcolor{keywordtype}{float} x)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00382}00382 \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00383}00383    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} q;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00384}00384    x = x < 0 ? 0 : x > 1 ? 1 : x;  \textcolor{comment}{// saturate}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00385}00385    q = (\textcolor{keywordtype}{unsigned} short)(x * 31);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00386}00386    q += (x > stb\_\_midpoints5[q]);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00387}00387    \textcolor{keywordflow}{return} q;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00388}00388 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00389}00389 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00390}00390 \textcolor{keyword}{static} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} stb\_\_Quantize6(\textcolor{keywordtype}{float} x)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00391}00391 \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00392}00392    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} q;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00393}00393    x = x < 0 ? 0 : x > 1 ? 1 : x;  \textcolor{comment}{// saturate}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00394}00394    q = (\textcolor{keywordtype}{unsigned} short)(x * 63);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00395}00395    q += (x > stb\_\_midpoints6[q]);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00396}00396    \textcolor{keywordflow}{return} q;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00397}00397 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00398}00398 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00399}00399 \textcolor{comment}{// The refinement function. (Clever code, part 2)}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00400}00400 \textcolor{comment}{// Tries to optimize colors to suit block contents better.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00401}00401 \textcolor{comment}{// (By solving a least squares system via normal equations+Cramer's rule)}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00402}00402 \textcolor{keyword}{static} \textcolor{keywordtype}{int} stb\_\_RefineBlock(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *block, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} *pmax16, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} *pmin16, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \mbox{\hyperlink{structmask}{mask}})}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00403}00403 \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00404}00404    \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{int} w1Tab[4] = \{ 3,0,2,1 \};}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00405}00405    \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{int} prods[4] = \{ 0x090000,0x000900,0x040102,0x010402 \};}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00406}00406    \textcolor{comment}{// \string^some magic to save a lot of multiplies in the accumulating loop...}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00407}00407    \textcolor{comment}{// (precomputed products of weights for least squares system, accumulated inside one 32-\/bit register)}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00408}00408 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00409}00409    \textcolor{keywordtype}{float} f;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00410}00410    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} oldMin, oldMax, min16, max16;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00411}00411    \textcolor{keywordtype}{int} i, akku = 0, xx,xy,yy;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00412}00412    \textcolor{keywordtype}{int} At1\_r,At1\_g,At1\_b;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00413}00413    \textcolor{keywordtype}{int} At2\_r,At2\_g,At2\_b;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00414}00414    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} cm = \mbox{\hyperlink{structmask}{mask}};}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00415}00415 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00416}00416    oldMin = *pmin16;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00417}00417    oldMax = *pmax16;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00418}00418 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00419}00419    \textcolor{keywordflow}{if}((\mbox{\hyperlink{structmask}{mask}} \string^ (\mbox{\hyperlink{structmask}{mask}}<<2)) < 4) \textcolor{comment}{// all pixels have the same index?}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00420}00420    \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00421}00421       \textcolor{comment}{// yes, linear system would be singular; solve using optimal}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00422}00422       \textcolor{comment}{// single-\/color match on average color}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00423}00423       \textcolor{keywordtype}{int} r = 8, g = 8, b = 8;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00424}00424       \textcolor{keywordflow}{for} (i=0;i<16;++i) \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00425}00425          r += block[i*4+0];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00426}00426          g += block[i*4+1];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00427}00427          b += block[i*4+2];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00428}00428       \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00429}00429 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00430}00430       r >>= 4; g >>= 4; b >>= 4;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00431}00431 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00432}00432       max16 = (stb\_\_OMatch5[r][0]<<11) | (stb\_\_OMatch6[g][0]<<5) | stb\_\_OMatch5[b][0];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00433}00433       min16 = (stb\_\_OMatch5[r][1]<<11) | (stb\_\_OMatch6[g][1]<<5) | stb\_\_OMatch5[b][1];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00434}00434    \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00435}00435       At1\_r = At1\_g = At1\_b = 0;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00436}00436       At2\_r = At2\_g = At2\_b = 0;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00437}00437       \textcolor{keywordflow}{for} (i=0;i<16;++i,cm>>=2) \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00438}00438          \textcolor{keywordtype}{int} \mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{step}} = cm\&3;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00439}00439          \textcolor{keywordtype}{int} w1 = w1Tab[\mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{step}}];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00440}00440          \textcolor{keywordtype}{int} r = block[i*4+0];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00441}00441          \textcolor{keywordtype}{int} g = block[i*4+1];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00442}00442          \textcolor{keywordtype}{int} b = block[i*4+2];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00443}00443 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00444}00444          akku    += prods[\mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{step}}];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00445}00445          At1\_r   += w1*r;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00446}00446          At1\_g   += w1*g;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00447}00447          At1\_b   += w1*b;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00448}00448          At2\_r   += r;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00449}00449          At2\_g   += g;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00450}00450          At2\_b   += b;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00451}00451       \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00452}00452 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00453}00453       At2\_r = 3*At2\_r -\/ At1\_r;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00454}00454       At2\_g = 3*At2\_g -\/ At1\_g;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00455}00455       At2\_b = 3*At2\_b -\/ At1\_b;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00456}00456 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00457}00457       \textcolor{comment}{// extract solutions and decide solvability}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00458}00458       xx = akku >> 16;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00459}00459       yy = (akku >> 8) \& 0xff;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00460}00460       xy = (akku >> 0) \& 0xff;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00461}00461 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00462}00462       f = 3.0f / 255.0f / (xx*yy -\/ xy*xy);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00463}00463 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00464}00464       max16 =  stb\_\_Quantize5((At1\_r*yy -\/ At2\_r * xy) * f) << 11;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00465}00465       max16 |= stb\_\_Quantize6((At1\_g*yy -\/ At2\_g * xy) * f) << 5;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00466}00466       max16 |= stb\_\_Quantize5((At1\_b*yy -\/ At2\_b * xy) * f) << 0;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00467}00467 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00468}00468       min16 =  stb\_\_Quantize5((At2\_r*xx -\/ At1\_r * xy) * f) << 11;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00469}00469       min16 |= stb\_\_Quantize6((At2\_g*xx -\/ At1\_g * xy) * f) << 5;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00470}00470       min16 |= stb\_\_Quantize5((At2\_b*xx -\/ At1\_b * xy) * f) << 0;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00471}00471    \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00472}00472 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00473}00473    *pmin16 = min16;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00474}00474    *pmax16 = max16;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00475}00475    \textcolor{keywordflow}{return} oldMin != min16 || oldMax != max16;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00476}00476 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00477}00477 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00478}00478 \textcolor{comment}{// Color block compression}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00479}00479 \textcolor{keyword}{static} \textcolor{keywordtype}{void} stb\_\_CompressColorBlock(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *dest, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *block, \textcolor{keywordtype}{int} mode)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00480}00480 \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00481}00481    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \mbox{\hyperlink{structmask}{mask}};}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00482}00482    \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00483}00483    \textcolor{keywordtype}{int} refinecount;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00484}00484    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} max16, min16;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00485}00485    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} color[4*4];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00486}00486 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00487}00487    refinecount = (mode \& STB\_DXT\_HIGHQUAL) ? 2 : 1;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00488}00488 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00489}00489    \textcolor{comment}{// check if block is constant}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00490}00490    \textcolor{keywordflow}{for} (i=1;i<16;i++)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00491}00491       \textcolor{keywordflow}{if} (((\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} *) block)[i] != ((\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} *) block)[0])}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00492}00492          \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00493}00493 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00494}00494    \textcolor{keywordflow}{if}(i == 16) \{ \textcolor{comment}{// constant color}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00495}00495       \textcolor{keywordtype}{int} r = block[0], g = block[1], b = block[2];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00496}00496       \mbox{\hyperlink{structmask}{mask}}  = 0xaaaaaaaa;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00497}00497       max16 = (stb\_\_OMatch5[r][0]<<11) | (stb\_\_OMatch6[g][0]<<5) | stb\_\_OMatch5[b][0];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00498}00498       min16 = (stb\_\_OMatch5[r][1]<<11) | (stb\_\_OMatch6[g][1]<<5) | stb\_\_OMatch5[b][1];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00499}00499    \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00500}00500       \textcolor{comment}{// first step: PCA+map along principal axis}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00501}00501       stb\_\_OptimizeColorsBlock(block,\&max16,\&min16);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00502}00502       \textcolor{keywordflow}{if} (max16 != min16) \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00503}00503          stb\_\_EvalColors(color,max16,min16);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00504}00504          \mbox{\hyperlink{structmask}{mask}} = stb\_\_MatchColorsBlock(block,color);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00505}00505       \} \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00506}00506          \mbox{\hyperlink{structmask}{mask}} = 0;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00507}00507 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00508}00508       \textcolor{comment}{// third step: refine (multiple times if requested)}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00509}00509       \textcolor{keywordflow}{for} (i=0;i<refinecount;i++) \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00510}00510          \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} lastmask = \mbox{\hyperlink{structmask}{mask}};}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00511}00511 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00512}00512          \textcolor{keywordflow}{if} (stb\_\_RefineBlock(block,\&max16,\&min16,\mbox{\hyperlink{structmask}{mask}})) \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00513}00513             \textcolor{keywordflow}{if} (max16 != min16) \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00514}00514                stb\_\_EvalColors(color,max16,min16);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00515}00515                \mbox{\hyperlink{structmask}{mask}} = stb\_\_MatchColorsBlock(block,color);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00516}00516             \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00517}00517                \mbox{\hyperlink{structmask}{mask}} = 0;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00518}00518                \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00519}00519             \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00520}00520          \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00521}00521 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00522}00522          \textcolor{keywordflow}{if}(\mbox{\hyperlink{structmask}{mask}} == lastmask)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00523}00523             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00524}00524       \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00525}00525   \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00526}00526 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00527}00527   \textcolor{comment}{// write the color block}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00528}00528   \textcolor{keywordflow}{if}(max16 < min16)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00529}00529   \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00530}00530      \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} t = min16;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00531}00531      min16 = max16;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00532}00532      max16 = t;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00533}00533      \mbox{\hyperlink{structmask}{mask}} \string^= 0x55555555;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00534}00534   \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00535}00535 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00536}00536   dest[0] = (\textcolor{keywordtype}{unsigned} char) (max16);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00537}00537   dest[1] = (\textcolor{keywordtype}{unsigned} char) (max16 >> 8);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00538}00538   dest[2] = (\textcolor{keywordtype}{unsigned} char) (min16);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00539}00539   dest[3] = (\textcolor{keywordtype}{unsigned} char) (min16 >> 8);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00540}00540   dest[4] = (\textcolor{keywordtype}{unsigned} char) (\mbox{\hyperlink{structmask}{mask}});}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00541}00541   dest[5] = (\textcolor{keywordtype}{unsigned} char) (\mbox{\hyperlink{structmask}{mask}} >> 8);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00542}00542   dest[6] = (\textcolor{keywordtype}{unsigned} char) (\mbox{\hyperlink{structmask}{mask}} >> 16);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00543}00543   dest[7] = (\textcolor{keywordtype}{unsigned} char) (\mbox{\hyperlink{structmask}{mask}} >> 24);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00544}00544 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00545}00545 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00546}00546 \textcolor{comment}{// Alpha block compression (this is easy for a change)}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00547}00547 \textcolor{keyword}{static} \textcolor{keywordtype}{void} stb\_\_CompressAlphaBlock(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *dest,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *src, \textcolor{keywordtype}{int} stride)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00548}00548 \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00549}00549    \textcolor{keywordtype}{int} i,dist,bias,dist4,dist2,bits,\mbox{\hyperlink{structmask}{mask}};}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00550}00550 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00551}00551    \textcolor{comment}{// find min/max color}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00552}00552    \textcolor{keywordtype}{int} mn,mx;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00553}00553    mn = mx = src[0];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00554}00554 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00555}00555    \textcolor{keywordflow}{for} (i=1;i<16;i++)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00556}00556    \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00557}00557       \textcolor{keywordflow}{if} (src[i*stride] < mn) mn = src[i*stride];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00558}00558       \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (src[i*stride] > mx) mx = src[i*stride];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00559}00559    \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00560}00560 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00561}00561    \textcolor{comment}{// encode them}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00562}00562    dest[0] = (\textcolor{keywordtype}{unsigned} char)mx;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00563}00563    dest[1] = (\textcolor{keywordtype}{unsigned} char)mn;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00564}00564    dest += 2;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00565}00565 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00566}00566    \textcolor{comment}{// determine bias and emit color indices}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00567}00567    \textcolor{comment}{// given the choice of mx/mn, these indices are optimal:}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00568}00568    \textcolor{comment}{// http://fgiesen.wordpress.com/2009/12/15/dxt5-\/alpha-\/block-\/index-\/determination/}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00569}00569    dist = mx-\/mn;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00570}00570    dist4 = dist*4;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00571}00571    dist2 = dist*2;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00572}00572    bias = (dist < 8) ? (dist -\/ 1) : (dist/2 + 2);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00573}00573    bias -\/= mn * 7;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00574}00574    bits = 0,\mbox{\hyperlink{structmask}{mask}}=0;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00575}00575 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00576}00576    \textcolor{keywordflow}{for} (i=0;i<16;i++) \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00577}00577       \textcolor{keywordtype}{int} a = src[i*stride]*7 + bias;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00578}00578       \textcolor{keywordtype}{int} ind,t;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00579}00579 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00580}00580       \textcolor{comment}{// select index. this is a "{}linear scale"{} lerp factor between 0 (val=min) and 7 (val=max).}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00581}00581       t = (a >= dist4) ? -\/1 : 0; ind =  t \& 4; a -\/= dist4 \& t;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00582}00582       t = (a >= dist2) ? -\/1 : 0; ind += t \& 2; a -\/= dist2 \& t;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00583}00583       ind += (a >= dist);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00584}00584 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00585}00585       \textcolor{comment}{// turn linear scale into DXT index (0/1 are extremal pts)}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00586}00586       ind = -\/ind \& 7;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00587}00587       ind \string^= (2 > ind);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00588}00588 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00589}00589       \textcolor{comment}{// write index}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00590}00590       \mbox{\hyperlink{structmask}{mask}} |= ind << bits;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00591}00591       \textcolor{keywordflow}{if}((bits += 3) >= 8) \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00592}00592          *dest++ = (\textcolor{keywordtype}{unsigned} char)\mbox{\hyperlink{structmask}{mask}};}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00593}00593          \mbox{\hyperlink{structmask}{mask}} >>= 8;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00594}00594          bits -\/= 8;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00595}00595       \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00596}00596    \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00597}00597 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00598}00598 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00599}00599 \textcolor{keywordtype}{void} stb\_compress\_dxt\_block(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *dest, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *src, \textcolor{keywordtype}{int} alpha, \textcolor{keywordtype}{int} mode)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00600}00600 \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00601}00601    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} data[16][4];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00602}00602    \textcolor{keywordflow}{if} (alpha) \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00603}00603       \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00604}00604       stb\_\_CompressAlphaBlock(dest,(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*) src+3, 4);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00605}00605       dest += 8;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00606}00606       \textcolor{comment}{// make a new copy of the data in which alpha is opaque,}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00607}00607       \textcolor{comment}{// because code uses a fast test for color constancy}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00608}00608       memcpy(data, src, 4*16);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00609}00609       \textcolor{keywordflow}{for} (i=0; i < 16; ++i)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00610}00610          data[i][3] = 255;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00611}00611       src = \&data[0][0];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00612}00612    \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00613}00613 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00614}00614    stb\_\_CompressColorBlock(dest,(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*) src,mode);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00615}00615 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00616}00616 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00617}00617 \textcolor{keywordtype}{void} stb\_compress\_bc4\_block(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *dest, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *src)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00618}00618 \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00619}00619    stb\_\_CompressAlphaBlock(dest,(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*) src, 1);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00620}00620 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00621}00621 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00622}00622 \textcolor{keywordtype}{void} stb\_compress\_bc5\_block(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *dest, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *src)}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00623}00623 \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00624}00624    stb\_\_CompressAlphaBlock(dest,(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*) src,2);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00625}00625    stb\_\_CompressAlphaBlock(dest + 8,(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*) src+1,2);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00626}00626 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00627}00627 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// STB\_DXT\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00628}00628 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00629}00629 \textcolor{comment}{// Compile with STB\_DXT\_IMPLEMENTATION and STB\_DXT\_GENERATE\_TABLES}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00630}00630 \textcolor{comment}{// defined to generate the tables above.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00631}00631 \textcolor{preprocessor}{\#ifdef STB\_DXT\_GENERATE\_TABLES}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00632}00632 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00633}00633 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00634}00634 \textcolor{keywordtype}{int} main()}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00635}00635 \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00636}00636    \textcolor{keywordtype}{int} i, j;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00637}00637    \textcolor{keyword}{const} \textcolor{keywordtype}{char} *omatch\_names[] = \{ \textcolor{stringliteral}{"{}stb\_\_OMatch5"{}}, \textcolor{stringliteral}{"{}stb\_\_OMatch6"{}} \};}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00638}00638    \textcolor{keywordtype}{int} dequant\_mults[2] = \{ 33*4, 65 \}; \textcolor{comment}{// .4 fixed-\/point dequant multipliers}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00639}00639 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00640}00640    \textcolor{comment}{// optimal endpoint tables}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00641}00641    \textcolor{keywordflow}{for} (i = 0; i < 2; ++i) \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00642}00642       \textcolor{keywordtype}{int} dequant = dequant\_mults[i];}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00643}00643       \textcolor{keywordtype}{int} size = i ? 64 : 32;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00644}00644       printf(\textcolor{stringliteral}{"{}static const unsigned char \%s[256][2] = \{\(\backslash\)n"{}}, omatch\_names[i]);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00645}00645       \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j = 0; j < 256; ++j) \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00646}00646          \textcolor{keywordtype}{int} mn, mx;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00647}00647          \textcolor{keywordtype}{int} best\_mn = 0, best\_mx = 0;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00648}00648          \textcolor{keywordtype}{int} best\_err = 256 * 100;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00649}00649          \textcolor{keywordflow}{for} (mn=0;mn<size;mn++) \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00650}00650             \textcolor{keywordflow}{for} (mx=0;mx<size;mx++) \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00651}00651                \textcolor{keywordtype}{int} mine = (mn * dequant) >> 4;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00652}00652                \textcolor{keywordtype}{int} maxe = (mx * dequant) >> 4;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00653}00653                \textcolor{keywordtype}{int} err = \mbox{\hyperlink{group__core__func__common_ga693d77696ff36572a0da79efec965acd}{abs}}(stb\_\_Lerp13(maxe, mine) -\/ j) * 100;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00654}00654 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00655}00655                \textcolor{comment}{// DX10 spec says that interpolation must be within 3\% of "{}correct"{} result,}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00656}00656                \textcolor{comment}{// add this as error term. Normally we'd expect a random distribution of}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00657}00657                \textcolor{comment}{// +-\/1.5\% error, but nowhere in the spec does it say that the error has to be}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00658}00658                \textcolor{comment}{// unbiased -\/ better safe than sorry.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00659}00659                err += \mbox{\hyperlink{group__core__func__common_ga693d77696ff36572a0da79efec965acd}{abs}}(maxe -\/ mine) * 3;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00660}00660 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00661}00661                \textcolor{keywordflow}{if}(err < best\_err) \{}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00662}00662                   best\_mn = mn;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00663}00663                   best\_mx = mx;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00664}00664                   best\_err = err;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00665}00665                \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00666}00666             \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00667}00667          \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00668}00668          \textcolor{keywordflow}{if} ((j \% 8) == 0) printf(\textcolor{stringliteral}{"{}  "{}}); \textcolor{comment}{// 2 spaces, third is done below}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00669}00669          printf(\textcolor{stringliteral}{"{} \{ \%2d, \%2d \},"{}}, best\_mx, best\_mn);}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00670}00670          \textcolor{keywordflow}{if} ((j \% 8) == 7) printf(\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00671}00671       \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00672}00672       printf(\textcolor{stringliteral}{"{}\};\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00673}00673    \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00674}00674 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00675}00675    \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00676}00676 \}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00677}00677 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00678}00678 }
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00679}00679 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00680}00680 \textcolor{comment}{-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00681}00681 \textcolor{comment}{This software is available under 2 licenses -\/-\/ choose whichever you prefer.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00682}00682 \textcolor{comment}{-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00683}00683 \textcolor{comment}{ALTERNATIVE A -\/ MIT License}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00684}00684 \textcolor{comment}{Copyright (c) 2017 Sean Barrett}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00685}00685 \textcolor{comment}{Permission is hereby granted, free of charge, to any person obtaining a copy of}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00686}00686 \textcolor{comment}{this software and associated documentation files (the "{}Software"{}), to deal in}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00687}00687 \textcolor{comment}{the Software without restriction, including without limitation the rights to}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00688}00688 \textcolor{comment}{use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00689}00689 \textcolor{comment}{of the Software, and to permit persons to whom the Software is furnished to do}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00690}00690 \textcolor{comment}{so, subject to the following conditions:}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00691}00691 \textcolor{comment}{The above copyright notice and this permission notice shall be included in all}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00692}00692 \textcolor{comment}{copies or substantial portions of the Software.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00693}00693 \textcolor{comment}{THE SOFTWARE IS PROVIDED "{}AS IS"{}, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00694}00694 \textcolor{comment}{IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00695}00695 \textcolor{comment}{FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00696}00696 \textcolor{comment}{AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00697}00697 \textcolor{comment}{LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00698}00698 \textcolor{comment}{OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00699}00699 \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00700}00700 \textcolor{comment}{-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00701}00701 \textcolor{comment}{ALTERNATIVE B -\/ Public Domain (www.unlicense.org)}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00702}00702 \textcolor{comment}{This is free and unencumbered software released into the public domain.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00703}00703 \textcolor{comment}{Anyone is free to copy, modify, publish, use, compile, sell, or distribute this}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00704}00704 \textcolor{comment}{software, either in source code form or as a compiled binary, for any purpose,}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00705}00705 \textcolor{comment}{commercial or non-\/commercial, and by any means.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00706}00706 \textcolor{comment}{In jurisdictions that recognize copyright laws, the author or authors of this}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00707}00707 \textcolor{comment}{software dedicate any and all copyright interest in the software to the public}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00708}00708 \textcolor{comment}{domain. We make this dedication for the benefit of the public at large and to}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00709}00709 \textcolor{comment}{the detriment of our heirs and successors. We intend this dedication to be an}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00710}00710 \textcolor{comment}{overt act of relinquishment in perpetuity of all present and future rights to}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00711}00711 \textcolor{comment}{this software under copyright law.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00712}00712 \textcolor{comment}{THE SOFTWARE IS PROVIDED "{}AS IS"{}, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00713}00713 \textcolor{comment}{IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00714}00714 \textcolor{comment}{FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00715}00715 \textcolor{comment}{AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00716}00716 \textcolor{comment}{ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00717}00717 \textcolor{comment}{WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00718}00718 \textcolor{comment}{-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{stb__dxt_8h_source_l00719}00719 \textcolor{comment}{*/}}
+
+\end{DoxyCode}

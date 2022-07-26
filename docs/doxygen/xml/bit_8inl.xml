@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="bit_8inl" kind="file" language="C++">
+    <compoundname>bit.inl</compoundname>
+    <includedby refid="bit_8hpp" local="yes">/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtx/bit.hpp</includedby>
+    <invincdepgraph>
+      <node id="2">
+        <label>/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtx/bit.hpp</label>
+        <link refid="bit_8hpp"/>
+      </node>
+      <node id="1">
+        <label>/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtx/bit.inl</label>
+        <link refid="bit_8inl"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespaceglm">glm</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="group__gtx__bit" kindref="compound">GLM_GTX_bit</ref> </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">glm</highlight></codeline>
+<codeline lineno="5"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>highestBitValue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genIUType&gt;</highlight></codeline>
+<codeline lineno="10" refid="group__gtx__bit_1ga0dcc8fe7c3d3ad60dea409281efa3d05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>GLM_FUNC_QUALIFIER<sp/>genIUType<sp/><ref refid="group__gtx__bit_1gad9bf719d4374c5264e051f18dca0d660" kindref="member">highestBitValue</ref>(genIUType<sp/>Value)</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>genIUType<sp/>tmp<sp/>=<sp/>Value;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>genIUType<sp/><ref refid="structresult" kindref="compound">result</ref><sp/>=<sp/>genIUType(0);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(tmp)</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structresult" kindref="compound">result</ref><sp/>=<sp/>(tmp<sp/>&amp;<sp/>(~tmp<sp/>+<sp/>1));<sp/></highlight><highlight class="comment">//<sp/>grab<sp/>lowest<sp/>bit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tmp<sp/>&amp;=<sp/><ref refid="structresult" kindref="compound">~result</ref>;<sp/></highlight><highlight class="comment">//<sp/>clear<sp/>lowest<sp/>bit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structresult" kindref="compound">result</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;length_t<sp/>L,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/>qualifier<sp/>Q&gt;</highlight></codeline>
+<codeline lineno="23" refid="group__gtx__bit_1gad9bf719d4374c5264e051f18dca0d660" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>GLM_FUNC_QUALIFIER<sp/><ref refid="structglm_1_1vec" kindref="compound">vec&lt;L, T, Q&gt;</ref><sp/><ref refid="group__gtx__bit_1gad9bf719d4374c5264e051f18dca0d660" kindref="member">highestBitValue</ref>(<ref refid="structglm_1_1vec" kindref="compound">vec&lt;L, T, Q&gt;</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>v)</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structglm_1_1detail_1_1functor1" kindref="compound">detail::functor1&lt;L, T, T, Q&gt;::call</ref>(<ref refid="group__gtx__bit_1gad9bf719d4374c5264e051f18dca0d660" kindref="member">highestBitValue</ref>,<sp/>v);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>lowestBitValue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genIUType&gt;</highlight></codeline>
+<codeline lineno="32" refid="group__gtx__bit_1ga2ff6568089f3a9b67f5c30918855fc6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>GLM_FUNC_QUALIFIER<sp/>genIUType<sp/><ref refid="group__gtx__bit_1ga2ff6568089f3a9b67f5c30918855fc6f" kindref="member">lowestBitValue</ref>(genIUType<sp/>Value)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(Value<sp/>&amp;<sp/>(~Value<sp/>+<sp/>1));</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;length_t<sp/>L,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/>qualifier<sp/>Q&gt;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>GLM_FUNC_QUALIFIER<sp/><ref refid="structvec" kindref="compound">vec&lt;L, T, Q&gt;</ref><sp/>lowestBitValue(<ref refid="structvec" kindref="compound">vec&lt;L, T, Q&gt;</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>v)</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>detail::functor1&lt;L,<sp/>T,<sp/>T,<sp/>Q&gt;::call(lowestBitValue,<sp/>v);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>powerOfTwoAbove</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType&gt;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>GLM_FUNC_QUALIFIER<sp/>genType<sp/><ref refid="group__gtx__bit_1gad26991a3aead0f1c7f55749ee6bbc2c8" kindref="member">powerOfTwoAbove</ref>(genType<sp/><ref refid="classvalue" kindref="compound">value</ref>)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="group__gtc__round_1gadf491730354aa7da67fbe23d4d688763" kindref="member">isPowerOfTwo</ref>(<ref refid="classvalue" kindref="compound">value</ref>)<sp/>?<sp/><ref refid="classvalue" kindref="compound">value</ref><sp/>:<sp/><ref refid="group__gtx__bit_1gad9bf719d4374c5264e051f18dca0d660" kindref="member">highestBitValue</ref>(<ref refid="classvalue" kindref="compound">value</ref>)<sp/>&lt;&lt;<sp/>1;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;length_t<sp/>L,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/>qualifier<sp/>Q&gt;</highlight></codeline>
+<codeline lineno="53" refid="group__gtx__bit_1gad26991a3aead0f1c7f55749ee6bbc2c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>GLM_FUNC_QUALIFIER<sp/><ref refid="structglm_1_1vec" kindref="compound">vec&lt;L, T, Q&gt;</ref><sp/><ref refid="group__gtx__bit_1gad26991a3aead0f1c7f55749ee6bbc2c8" kindref="member">powerOfTwoAbove</ref>(<ref refid="structglm_1_1vec" kindref="compound">vec&lt;L, T, Q&gt;</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>v)</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structglm_1_1detail_1_1functor1" kindref="compound">detail::functor1&lt;L, T, T, Q&gt;::call</ref>(<ref refid="group__gtx__bit_1gad26991a3aead0f1c7f55749ee6bbc2c8" kindref="member">powerOfTwoAbove</ref>,<sp/>v);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>powerOfTwoBelow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType&gt;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>GLM_FUNC_QUALIFIER<sp/>genType<sp/><ref refid="group__gtx__bit_1gaa7467f2caf7797c2e60a381622e0e7f7" kindref="member">powerOfTwoBelow</ref>(genType<sp/><ref refid="classvalue" kindref="compound">value</ref>)</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="group__gtc__round_1gadf491730354aa7da67fbe23d4d688763" kindref="member">isPowerOfTwo</ref>(<ref refid="classvalue" kindref="compound">value</ref>)<sp/>?<sp/><ref refid="classvalue" kindref="compound">value</ref><sp/>:<sp/><ref refid="group__gtx__bit_1gad9bf719d4374c5264e051f18dca0d660" kindref="member">highestBitValue</ref>(<ref refid="classvalue" kindref="compound">value</ref>);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;length_t<sp/>L,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/>qualifier<sp/>Q&gt;</highlight></codeline>
+<codeline lineno="68" refid="group__gtx__bit_1gaa7467f2caf7797c2e60a381622e0e7f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>GLM_FUNC_QUALIFIER<sp/><ref refid="structglm_1_1vec" kindref="compound">vec&lt;L, T, Q&gt;</ref><sp/><ref refid="group__gtx__bit_1gaa7467f2caf7797c2e60a381622e0e7f7" kindref="member">powerOfTwoBelow</ref>(<ref refid="structglm_1_1vec" kindref="compound">vec&lt;L, T, Q&gt;</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>v)</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structglm_1_1detail_1_1functor1" kindref="compound">detail::functor1&lt;L, T, T, Q&gt;::call</ref>(<ref refid="group__gtx__bit_1gaa7467f2caf7797c2e60a381622e0e7f7" kindref="member">powerOfTwoBelow</ref>,<sp/>v);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>powerOfTwoNearest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType&gt;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>GLM_FUNC_QUALIFIER<sp/>genType<sp/><ref refid="group__gtx__bit_1ga53446682159c70ca9a80e1db89cdb424" kindref="member">powerOfTwoNearest</ref>(genType<sp/><ref refid="classvalue" kindref="compound">value</ref>)</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="group__gtc__round_1gadf491730354aa7da67fbe23d4d688763" kindref="member">isPowerOfTwo</ref>(<ref refid="classvalue" kindref="compound">value</ref>))</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classvalue" kindref="compound">value</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>genType<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>prev<sp/>=<sp/><ref refid="group__gtx__bit_1gad9bf719d4374c5264e051f18dca0d660" kindref="member">highestBitValue</ref>(<ref refid="classvalue" kindref="compound">value</ref>);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>genType<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>next<sp/>=<sp/>prev<sp/>&lt;&lt;<sp/>1;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(next<sp/>-<sp/><ref refid="classvalue" kindref="compound">value</ref>)<sp/>&lt;<sp/>(<ref refid="classvalue" kindref="compound">value</ref><sp/>-<sp/>prev)<sp/>?<sp/>next<sp/>:<sp/>prev;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;length_t<sp/>L,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/>qualifier<sp/>Q&gt;</highlight></codeline>
+<codeline lineno="88" refid="group__gtx__bit_1ga53446682159c70ca9a80e1db89cdb424" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>GLM_FUNC_QUALIFIER<sp/><ref refid="structglm_1_1vec" kindref="compound">vec&lt;L, T, Q&gt;</ref><sp/><ref refid="group__gtx__bit_1ga53446682159c70ca9a80e1db89cdb424" kindref="member">powerOfTwoNearest</ref>(<ref refid="structglm_1_1vec" kindref="compound">vec&lt;L, T, Q&gt;</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>v)</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structglm_1_1detail_1_1functor1" kindref="compound">detail::functor1&lt;L, T, T, Q&gt;::call</ref>(<ref refid="group__gtx__bit_1ga53446682159c70ca9a80e1db89cdb424" kindref="member">powerOfTwoNearest</ref>,<sp/>v);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight><highlight class="comment">//namespace<sp/>glm</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtx/bit.inl"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,332 @@
+\hypertarget{vulkan_8c_source}{}\doxysection{vulkan.\+c}
+\label{vulkan_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/vulkan.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/vulkan.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00001}00001 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00002}00002 \textcolor{comment}{// GLFW 3.4 -\/ www.glfw.org}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00003}00003 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00004}00004 \textcolor{comment}{// Copyright (c) 2002-\/2006 Marcus Geelnard}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00005}00005 \textcolor{comment}{// Copyright (c) 2006-\/2018 Camilla Löwy <elmindreda@glfw.org>}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00006}00006 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00007}00007 \textcolor{comment}{// This software is provided 'as-\/is', without any express or implied}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00008}00008 \textcolor{comment}{// warranty. In no event will the authors be held liable for any damages}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00009}00009 \textcolor{comment}{// arising from the use of this software.}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00011}00011 \textcolor{comment}{// Permission is granted to anyone to use this software for any purpose,}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00012}00012 \textcolor{comment}{// including commercial applications, and to alter it and redistribute it}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00013}00013 \textcolor{comment}{// freely, subject to the following restrictions:}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00014}00014 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00015}00015 \textcolor{comment}{// 1. The origin of this software must not be misrepresented; you must not}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00016}00016 \textcolor{comment}{//    claim that you wrote the original software. If you use this software}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00017}00017 \textcolor{comment}{//    in a product, an acknowledgment in the product documentation would}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00018}00018 \textcolor{comment}{//    be appreciated but is not required.}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00019}00019 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00020}00020 \textcolor{comment}{// 2. Altered source versions must be plainly marked as such, and must not}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00021}00021 \textcolor{comment}{//    be misrepresented as being the original software.}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00022}00022 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00023}00023 \textcolor{comment}{// 3. This notice may not be removed or altered from any source}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00024}00024 \textcolor{comment}{//    distribution.}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00025}00025 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00026}00026 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00027}00027 \textcolor{comment}{// Please use C89 style variable declarations in this file because VS 2010}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00028}00028 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00030}00030 \textcolor{preprocessor}{\#include "{}internal.h"{}}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00032}00032 \textcolor{preprocessor}{\#include <assert.h>}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00033}00033 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00034}00034 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00036}00036 \textcolor{preprocessor}{\#define \_GLFW\_FIND\_LOADER    1}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00037}00037 \textcolor{preprocessor}{\#define \_GLFW\_REQUIRE\_LOADER 2}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00044}00044 GLFWbool \_glfwInitVulkan(\textcolor{keywordtype}{int} mode)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00045}00045 \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00046}00046     VkResult err;}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00047}00047     \mbox{\hyperlink{struct_vk_extension_properties}{VkExtensionProperties}}* ep;}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00048}00048     uint32\_t i, count;}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00050}00050     \textcolor{keywordflow}{if} (\_glfw.vk.available)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00051}00051         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00053}00053 \textcolor{preprocessor}{\#if !defined(\_GLFW\_VULKAN\_STATIC)}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00054}00054 \textcolor{preprocessor}{\#if defined(\_GLFW\_VULKAN\_LIBRARY)}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00055}00055     \_glfw.vk.handle = \_glfw\_dlopen(\_GLFW\_VULKAN\_LIBRARY);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00056}00056 \textcolor{preprocessor}{\#elif defined(\_GLFW\_WIN32)}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00057}00057     \_glfw.vk.handle = \_glfw\_dlopen(\textcolor{stringliteral}{"{}vulkan-\/1.dll"{}});}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00058}00058 \textcolor{preprocessor}{\#elif defined(\_GLFW\_COCOA)}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00059}00059     \_glfw.vk.handle = \_glfw\_dlopen(\textcolor{stringliteral}{"{}libvulkan.1.dylib"{}});}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00060}00060     \textcolor{keywordflow}{if} (!\_glfw.vk.handle)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00061}00061         \_glfw.vk.handle = \_glfwLoadLocalVulkanLoaderNS();}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00062}00062 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00063}00063     \_glfw.vk.handle = \_glfw\_dlopen(\textcolor{stringliteral}{"{}libvulkan.so.1"{}});}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00064}00064 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00065}00065     \textcolor{keywordflow}{if} (!\_glfw.vk.handle)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00066}00066     \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00067}00067         \textcolor{keywordflow}{if} (mode == \_GLFW\_REQUIRE\_LOADER)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00068}00068             \_glfwInputError(\mbox{\hyperlink{group__errors_ga56882b290db23261cc6c053c40c2d08e}{GLFW\_API\_UNAVAILABLE}}, \textcolor{stringliteral}{"{}Vulkan: Loader not found"{}});}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00070}00070         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00071}00071     \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00073}00073     \_glfw.vk.GetInstanceProcAddr = (PFN\_vkGetInstanceProcAddr)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00074}00074         \_glfw\_dlsym(\_glfw.vk.handle, \textcolor{stringliteral}{"{}vkGetInstanceProcAddr"{}});}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00075}00075     \textcolor{keywordflow}{if} (!\_glfw.vk.GetInstanceProcAddr)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00076}00076     \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00077}00077         \_glfwInputError(\mbox{\hyperlink{group__errors_ga56882b290db23261cc6c053c40c2d08e}{GLFW\_API\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00078}00078                         \textcolor{stringliteral}{"{}Vulkan: Loader does not export vkGetInstanceProcAddr"{}});}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00080}00080         \_glfwTerminateVulkan();}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00081}00081         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00082}00082     \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00083}00083 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00084}00084     \_glfw.vk.EnumerateInstanceExtensionProperties = (PFN\_vkEnumerateInstanceExtensionProperties)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00085}00085         vkGetInstanceProcAddr(NULL, \textcolor{stringliteral}{"{}vkEnumerateInstanceExtensionProperties"{}});}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00086}00086     \textcolor{keywordflow}{if} (!\_glfw.vk.EnumerateInstanceExtensionProperties)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00087}00087     \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00088}00088         \_glfwInputError(\mbox{\hyperlink{group__errors_ga56882b290db23261cc6c053c40c2d08e}{GLFW\_API\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00089}00089                         \textcolor{stringliteral}{"{}Vulkan: Failed to retrieve vkEnumerateInstanceExtensionProperties"{}});}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00091}00091         \_glfwTerminateVulkan();}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00092}00092         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00093}00093     \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00094}00094 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_GLFW\_VULKAN\_STATIC}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00095}00095 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00096}00096     err = vkEnumerateInstanceExtensionProperties(NULL, \&count, NULL);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00097}00097     \textcolor{keywordflow}{if} (err)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00098}00098     \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00099}00099         \textcolor{comment}{// NOTE: This happens on systems with a loader but without any Vulkan ICD}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00100}00100         \textcolor{keywordflow}{if} (mode == \_GLFW\_REQUIRE\_LOADER)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00101}00101         \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00102}00102             \_glfwInputError(\mbox{\hyperlink{group__errors_ga56882b290db23261cc6c053c40c2d08e}{GLFW\_API\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00103}00103                             \textcolor{stringliteral}{"{}Vulkan: Failed to query instance extension count: \%s"{}},}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00104}00104                             \_glfwGetVulkanResultString(err));}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00105}00105         \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00106}00106 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00107}00107         \_glfwTerminateVulkan();}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00108}00108         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00109}00109     \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00111}00111     ep = calloc(count, \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_vk_extension_properties}{VkExtensionProperties}}));}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00112}00112 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00113}00113     err = vkEnumerateInstanceExtensionProperties(NULL, \&count, ep);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00114}00114     \textcolor{keywordflow}{if} (err)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00115}00115     \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00116}00116         \_glfwInputError(\mbox{\hyperlink{group__errors_ga56882b290db23261cc6c053c40c2d08e}{GLFW\_API\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00117}00117                         \textcolor{stringliteral}{"{}Vulkan: Failed to query instance extensions: \%s"{}},}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00118}00118                         \_glfwGetVulkanResultString(err));}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00120}00120         free(ep);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00121}00121         \_glfwTerminateVulkan();}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00122}00122         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00123}00123     \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00124}00124 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00125}00125     \textcolor{keywordflow}{for} (i = 0;  i < count;  i++)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00126}00126     \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00127}00127         \textcolor{keywordflow}{if} (strcmp(ep[i].extensionName, \textcolor{stringliteral}{"{}VK\_KHR\_surface"{}}) == 0)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00128}00128             \_glfw.vk.KHR\_surface = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00129}00129 \textcolor{preprocessor}{\#if defined(\_GLFW\_WIN32)}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00130}00130         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (strcmp(ep[i].extensionName, \textcolor{stringliteral}{"{}VK\_KHR\_win32\_surface"{}}) == 0)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00131}00131             \_glfw.vk.KHR\_win32\_surface = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00132}00132 \textcolor{preprocessor}{\#elif defined(\_GLFW\_COCOA)}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00133}00133         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (strcmp(ep[i].extensionName, \textcolor{stringliteral}{"{}VK\_MVK\_macos\_surface"{}}) == 0)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00134}00134             \_glfw.vk.MVK\_macos\_surface = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00135}00135         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (strcmp(ep[i].extensionName, \textcolor{stringliteral}{"{}VK\_EXT\_metal\_surface"{}}) == 0)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00136}00136             \_glfw.vk.EXT\_metal\_surface = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00137}00137 \textcolor{preprocessor}{\#elif defined(\_GLFW\_X11)}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00138}00138         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (strcmp(ep[i].extensionName, \textcolor{stringliteral}{"{}VK\_KHR\_xlib\_surface"{}}) == 0)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00139}00139             \_glfw.vk.KHR\_xlib\_surface = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00140}00140         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (strcmp(ep[i].extensionName, \textcolor{stringliteral}{"{}VK\_KHR\_xcb\_surface"{}}) == 0)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00141}00141             \_glfw.vk.KHR\_xcb\_surface = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00142}00142 \textcolor{preprocessor}{\#elif defined(\_GLFW\_WAYLAND)}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00143}00143         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (strcmp(ep[i].extensionName, \textcolor{stringliteral}{"{}VK\_KHR\_wayland\_surface"{}}) == 0)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00144}00144             \_glfw.vk.KHR\_wayland\_surface = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00145}00145 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00146}00146     \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00147}00147 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00148}00148     free(ep);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00149}00149 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00150}00150     \_glfw.vk.available = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00151}00151 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00152}00152     \_glfwPlatformGetRequiredInstanceExtensions(\_glfw.vk.extensions);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00153}00153 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00154}00154     \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00155}00155 \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00156}00156 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00157}00157 \textcolor{keywordtype}{void} \_glfwTerminateVulkan(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00158}00158 \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00159}00159 \textcolor{preprocessor}{\#if !defined(\_GLFW\_VULKAN\_STATIC)}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00160}00160     \textcolor{keywordflow}{if} (\_glfw.vk.handle)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00161}00161         \_glfw\_dlclose(\_glfw.vk.handle);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00162}00162 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00163}00163 \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00164}00164 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00165}00165 \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \_glfwGetVulkanResultString(VkResult \mbox{\hyperlink{structresult}{result}})}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00166}00166 \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00167}00167     \textcolor{keywordflow}{switch} (\mbox{\hyperlink{structresult}{result}})}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00168}00168     \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00169}00169         \textcolor{keywordflow}{case} VK\_SUCCESS:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00170}00170             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}Success"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00171}00171         \textcolor{keywordflow}{case} VK\_NOT\_READY:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00172}00172             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}A fence or query has not yet completed"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00173}00173         \textcolor{keywordflow}{case} VK\_TIMEOUT:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00174}00174             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}A wait operation has not completed in the specified time"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00175}00175         \textcolor{keywordflow}{case} VK\_EVENT\_SET:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00176}00176             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}An event is signaled"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00177}00177         \textcolor{keywordflow}{case} VK\_EVENT\_RESET:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00178}00178             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}An event is unsignaled"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00179}00179         \textcolor{keywordflow}{case} VK\_INCOMPLETE:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00180}00180             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}A return array was too small for the result"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00181}00181         \textcolor{keywordflow}{case} VK\_ERROR\_OUT\_OF\_HOST\_MEMORY:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00182}00182             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}A host memory allocation has failed"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00183}00183         \textcolor{keywordflow}{case} VK\_ERROR\_OUT\_OF\_DEVICE\_MEMORY:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00184}00184             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}A device memory allocation has failed"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00185}00185         \textcolor{keywordflow}{case} VK\_ERROR\_INITIALIZATION\_FAILED:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00186}00186             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}Initialization of an object could not be completed for implementation-\/specific reasons"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00187}00187         \textcolor{keywordflow}{case} VK\_ERROR\_DEVICE\_LOST:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00188}00188             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}The logical or physical device has been lost"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00189}00189         \textcolor{keywordflow}{case} VK\_ERROR\_MEMORY\_MAP\_FAILED:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00190}00190             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}Mapping of a memory object has failed"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00191}00191         \textcolor{keywordflow}{case} VK\_ERROR\_LAYER\_NOT\_PRESENT:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00192}00192             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}A requested layer is not present or could not be loaded"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00193}00193         \textcolor{keywordflow}{case} VK\_ERROR\_EXTENSION\_NOT\_PRESENT:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00194}00194             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}A requested extension is not supported"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00195}00195         \textcolor{keywordflow}{case} VK\_ERROR\_FEATURE\_NOT\_PRESENT:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00196}00196             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}A requested feature is not supported"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00197}00197         \textcolor{keywordflow}{case} VK\_ERROR\_INCOMPATIBLE\_DRIVER:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00198}00198             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}The requested version of Vulkan is not supported by the driver or is otherwise incompatible"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00199}00199         \textcolor{keywordflow}{case} VK\_ERROR\_TOO\_MANY\_OBJECTS:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00200}00200             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}Too many objects of the type have already been created"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00201}00201         \textcolor{keywordflow}{case} VK\_ERROR\_FORMAT\_NOT\_SUPPORTED:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00202}00202             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}A requested format is not supported on this device"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00203}00203         \textcolor{keywordflow}{case} VK\_ERROR\_SURFACE\_LOST\_KHR:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00204}00204             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}A surface is no longer available"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00205}00205         \textcolor{keywordflow}{case} VK\_SUBOPTIMAL\_KHR:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00206}00206             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}A swapchain no longer matches the surface properties exactly, but can still be used"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00207}00207         \textcolor{keywordflow}{case} VK\_ERROR\_OUT\_OF\_DATE\_KHR:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00208}00208             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}A surface has changed in such a way that it is no longer compatible with the swapchain"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00209}00209         \textcolor{keywordflow}{case} VK\_ERROR\_INCOMPATIBLE\_DISPLAY\_KHR:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00210}00210             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}The display used by a swapchain does not use the same presentable image layout"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00211}00211         \textcolor{keywordflow}{case} VK\_ERROR\_NATIVE\_WINDOW\_IN\_USE\_KHR:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00212}00212             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}The requested window is already connected to a VkSurfaceKHR, or to some other non-\/Vulkan API"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00213}00213         \textcolor{keywordflow}{case} VK\_ERROR\_VALIDATION\_FAILED\_EXT:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00214}00214             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}A validation layer found an error"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00215}00215         \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00216}00216             \textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}ERROR: UNKNOWN VULKAN ERROR"{}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00217}00217     \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00218}00218 \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00219}00219 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00220}00220 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00224}00224 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00225}\mbox{\hyperlink{group__vulkan_ga72e7c3757d9ff2333181a5569bb7c403}{00225}} GLFWAPI \textcolor{keywordtype}{int} \mbox{\hyperlink{group__vulkan_ga72e7c3757d9ff2333181a5569bb7c403}{glfwVulkanSupported}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00226}00226 \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00227}00227     \_GLFW\_REQUIRE\_INIT\_OR\_RETURN(\mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}});}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00228}00228     \textcolor{keywordflow}{return} \_glfwInitVulkan(\_GLFW\_FIND\_LOADER);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00229}00229 \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00230}00230 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00231}\mbox{\hyperlink{group__vulkan_gada152edc5bbbd0c2138728878632fd9c}{00231}} GLFWAPI \textcolor{keyword}{const} \textcolor{keywordtype}{char}** \mbox{\hyperlink{group__vulkan_gada152edc5bbbd0c2138728878632fd9c}{glfwGetRequiredInstanceExtensions}}(uint32\_t* count)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00232}00232 \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00233}00233     assert(count != NULL);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00234}00234 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00235}00235     *count = 0;}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00236}00236 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00237}00237     \_GLFW\_REQUIRE\_INIT\_OR\_RETURN(NULL);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00238}00238 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00239}00239     \textcolor{keywordflow}{if} (!\_glfwInitVulkan(\_GLFW\_REQUIRE\_LOADER))}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00240}00240         \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00241}00241 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00242}00242     \textcolor{keywordflow}{if} (!\_glfw.vk.extensions[0])}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00243}00243         \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00244}00244 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00245}00245     *count = 2;}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00246}00246     \textcolor{keywordflow}{return} (\textcolor{keyword}{const} \textcolor{keywordtype}{char}**) \_glfw.vk.extensions;}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00247}00247 \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00248}00248 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00249}00249 GLFWAPI \mbox{\hyperlink{group__vulkan_ga70c01918dc9d233a4fbe0681a43018af}{GLFWvkproc}} glfwGetInstanceProcAddress(VkInstance instance,}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00250}00250                                               \textcolor{keyword}{const} \textcolor{keywordtype}{char}* procname)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00251}00251 \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00252}00252     \mbox{\hyperlink{group__vulkan_ga70c01918dc9d233a4fbe0681a43018af}{GLFWvkproc}} proc;}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00253}00253     assert(procname != NULL);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00254}00254 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00255}00255     \_GLFW\_REQUIRE\_INIT\_OR\_RETURN(NULL);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00256}00256 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00257}00257     \textcolor{keywordflow}{if} (!\_glfwInitVulkan(\_GLFW\_REQUIRE\_LOADER))}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00258}00258         \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00259}00259 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00260}00260     proc = (\mbox{\hyperlink{group__vulkan_ga70c01918dc9d233a4fbe0681a43018af}{GLFWvkproc}}) vkGetInstanceProcAddr(instance, procname);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00261}00261 \textcolor{preprocessor}{\#if defined(\_GLFW\_VULKAN\_STATIC)}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00262}00262     \textcolor{keywordflow}{if} (!proc)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00263}00263     \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00264}00264         \textcolor{keywordflow}{if} (strcmp(procname, \textcolor{stringliteral}{"{}vkGetInstanceProcAddr"{}}) == 0)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00265}00265             \textcolor{keywordflow}{return} (\mbox{\hyperlink{group__vulkan_ga70c01918dc9d233a4fbe0681a43018af}{GLFWvkproc}}) vkGetInstanceProcAddr;}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00266}00266     \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00267}00267 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00268}00268     \textcolor{keywordflow}{if} (!proc)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00269}00269         proc = (\mbox{\hyperlink{group__vulkan_ga70c01918dc9d233a4fbe0681a43018af}{GLFWvkproc}}) \_glfw\_dlsym(\_glfw.vk.handle, procname);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00270}00270 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00271}00271 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00272}00272     \textcolor{keywordflow}{return} proc;}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00273}00273 \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00274}00274 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00275}00275 GLFWAPI \textcolor{keywordtype}{int} glfwGetPhysicalDevicePresentationSupport(VkInstance instance,}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00276}00276                                                      VkPhysicalDevice device,}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00277}00277                                                      uint32\_t queuefamily)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00278}00278 \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00279}00279     assert(instance != VK\_NULL\_HANDLE);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00280}00280     assert(device != VK\_NULL\_HANDLE);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00281}00281 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00282}00282     \_GLFW\_REQUIRE\_INIT\_OR\_RETURN(\mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}});}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00283}00283 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00284}00284     \textcolor{keywordflow}{if} (!\_glfwInitVulkan(\_GLFW\_REQUIRE\_LOADER))}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00285}00285         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00286}00286 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00287}00287     \textcolor{keywordflow}{if} (!\_glfw.vk.extensions[0])}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00288}00288     \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00289}00289         \_glfwInputError(\mbox{\hyperlink{group__errors_ga56882b290db23261cc6c053c40c2d08e}{GLFW\_API\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00290}00290                         \textcolor{stringliteral}{"{}Vulkan: Window surface creation extensions not found"{}});}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00291}00291         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00292}00292     \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00293}00293 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00294}00294     \textcolor{keywordflow}{return} \_glfwPlatformGetPhysicalDevicePresentationSupport(instance,}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00295}00295                                                              device,}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00296}00296                                                              queuefamily);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00297}00297 \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00298}00298 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00299}00299 GLFWAPI VkResult glfwCreateWindowSurface(VkInstance instance,}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00300}00300                                          \mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* handle,}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00301}00301                                          \textcolor{keyword}{const} \mbox{\hyperlink{struct_vk_allocation_callbacks}{VkAllocationCallbacks}}* allocator,}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00302}00302                                          VkSurfaceKHR* surface)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00303}00303 \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00304}00304     \mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}* window = (\mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}*) handle;}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00305}00305     assert(instance != VK\_NULL\_HANDLE);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00306}00306     assert(window != NULL);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00307}00307     assert(surface != NULL);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00308}00308 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00309}00309     *surface = VK\_NULL\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00310}00310 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00311}00311     \_GLFW\_REQUIRE\_INIT\_OR\_RETURN(VK\_ERROR\_INITIALIZATION\_FAILED);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00312}00312 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00313}00313     \textcolor{keywordflow}{if} (!\_glfwInitVulkan(\_GLFW\_REQUIRE\_LOADER))}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00314}00314         \textcolor{keywordflow}{return} VK\_ERROR\_INITIALIZATION\_FAILED;}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00315}00315 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00316}00316     \textcolor{keywordflow}{if} (!\_glfw.vk.extensions[0])}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00317}00317     \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00318}00318         \_glfwInputError(\mbox{\hyperlink{group__errors_ga56882b290db23261cc6c053c40c2d08e}{GLFW\_API\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00319}00319                         \textcolor{stringliteral}{"{}Vulkan: Window surface creation extensions not found"{}});}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00320}00320         \textcolor{keywordflow}{return} VK\_ERROR\_EXTENSION\_NOT\_PRESENT;}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00321}00321     \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00322}00322 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00323}00323     \textcolor{keywordflow}{if} (window-\/>context.client != GLFW\_NO\_API)}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00324}00324     \{}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00325}00325         \_glfwInputError(\mbox{\hyperlink{group__errors_gaaf2ef9aa8202c2b82ac2d921e554c687}{GLFW\_INVALID\_VALUE}},}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00326}00326                         \textcolor{stringliteral}{"{}Vulkan: Window surface creation requires the window to have the client API set to GLFW\_NO\_API"{}});}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00327}00327         \textcolor{keywordflow}{return} VK\_ERROR\_NATIVE\_WINDOW\_IN\_USE\_KHR;}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00328}00328     \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00329}00329 }
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00330}00330     \textcolor{keywordflow}{return} \_glfwPlatformCreateWindowSurface(instance, window, allocator, surface);}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00331}00331 \}}
+\DoxyCodeLine{\Hypertarget{vulkan_8c_source_l00332}00332 }
+
+\end{DoxyCode}

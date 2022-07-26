@@ -1,0 +1,1273 @@
+\hypertarget{core__func__common_8cpp_source}{}\doxysection{core\+\_\+func\+\_\+common.\+cpp}
+\label{core__func__common_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/core/core\_func\_common.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/core/core\_func\_common.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00001}00001 \textcolor{preprocessor}{\#define GLM\_FORCE\_EXPLICIT\_CTOR}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00002}00002 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{common_8hpp}{glm/common.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00003}00003 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{constants_8hpp}{glm/gtc/constants.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00004}00004 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{epsilon_8hpp}{glm/gtc/epsilon.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00005}00005 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{gtc_2vec1_8hpp}{glm/gtc/vec1.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{random_8hpp}{glm/gtc/random.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00007}00007 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00008}00008 \textcolor{preprocessor}{\#include <cstdio>}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00009}00009 \textcolor{preprocessor}{\#include <cmath>}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00010}00010 \textcolor{preprocessor}{\#include <ctime>}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00011}00011 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00012}00012 \textcolor{comment}{// This file has divisions by zero to test isnan}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00013}00013 \textcolor{preprocessor}{\#if GLM\_COMPILER \& GLM\_COMPILER\_VC}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00014}00014 \textcolor{preprocessor}{\#   pragma warning(disable : 4723)}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00015}00015 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00017}00017 \textcolor{keyword}{namespace }floor\_}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00018}00018 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00019}00019     \textcolor{keyword}{static} \textcolor{keywordtype}{int} test()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00020}00020     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00021}00021         \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00023}00023         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00024}00024             \textcolor{keywordtype}{float} A = 1.1f;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00025}00025             \textcolor{keywordtype}{float} B = \mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{glm::floor}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00026}00026             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B, 1.f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00027}00027         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00028}00028 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00029}00029         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00030}00030             \textcolor{keywordtype}{double} A = 1.1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00031}00031             \textcolor{keywordtype}{double} B = \mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{glm::floor}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00032}00032             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B, 1.0, 0.0001) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00033}00033         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00035}00035         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00036}00036             \mbox{\hyperlink{structglm_1_1vec}{glm::vec1}} A(1.1f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00037}00037             \mbox{\hyperlink{structglm_1_1vec}{glm::vec1}} B = \mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{glm::floor}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00039}00039             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B, \mbox{\hyperlink{structglm_1_1vec}{glm::vec1}}(1.0), 0.0001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00040}00040         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00042}00042         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00043}00043             \mbox{\hyperlink{structglm_1_1vec}{glm::dvec1}} A(1.1);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00044}00044             \mbox{\hyperlink{structglm_1_1vec}{glm::dvec1}} B = \mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{glm::floor}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00046}00046             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B, \mbox{\hyperlink{structglm_1_1vec}{glm::dvec1}}(1.0), 0.0001)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00047}00047         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00049}00049         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00050}00050             \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} A(1.1f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00051}00051             \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} B = \mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{glm::floor}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00053}00053             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B, \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1.0), 0.0001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00054}00054         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00056}00056         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00057}00057             \mbox{\hyperlink{structglm_1_1vec}{glm::dvec2}} A(1.1);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00058}00058             \mbox{\hyperlink{structglm_1_1vec}{glm::dvec2}} B = \mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{glm::floor}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00060}00060             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B, \mbox{\hyperlink{structglm_1_1vec}{glm::dvec2}}(1.0), 0.0001)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00061}00061         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00062}00062 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00063}00063         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00064}00064             \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} A(1.1f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00065}00065             \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} B = \mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{glm::floor}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00066}00066 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00067}00067             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1.0), 0.0001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00068}00068         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00070}00070         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00071}00071             \mbox{\hyperlink{structglm_1_1vec}{glm::dvec3}} A(1.1);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00072}00072             \mbox{\hyperlink{structglm_1_1vec}{glm::dvec3}} B = \mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{glm::floor}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00074}00074             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B, \mbox{\hyperlink{structglm_1_1vec}{glm::dvec3}}(1.0), 0.0001)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00075}00075         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00077}00077         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00078}00078             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} A(1.1f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00079}00079             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} B = \mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{glm::floor}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00081}00081             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B, \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1.0), 0.0001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00082}00082         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00083}00083 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00084}00084         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00085}00085             \mbox{\hyperlink{structglm_1_1vec}{glm::dvec4}} A(1.1);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00086}00086             \mbox{\hyperlink{structglm_1_1vec}{glm::dvec4}} B = \mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{glm::floor}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00088}00088             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B, \mbox{\hyperlink{structglm_1_1vec}{glm::dvec4}}(1.0), 0.0001)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00089}00089         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00091}00091         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00092}00092     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00093}00093 \}\textcolor{comment}{//namespace floor}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00095}00095 \textcolor{keyword}{namespace }modf\_}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00096}00096 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00097}00097     \textcolor{keyword}{static} \textcolor{keywordtype}{int} test()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00098}00098     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00099}00099         \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00100}00100 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00101}00101         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00102}00102             \textcolor{keywordtype}{float} X(1.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00103}00103             \textcolor{keywordtype}{float} I(0.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00104}00104             \textcolor{keywordtype}{float} A = \mbox{\hyperlink{group__core__func__common_ga85e33f139b8db1b39b590a5713b9e679}{glm::modf}}(X, I);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00106}00106             Error += I == 1.0f ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00107}00107             Error += A == 0.5f ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00108}00108         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00109}00109 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00110}00110         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00111}00111             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} X(1.1f, 1.2f, 1.5f, 1.7f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00112}00112             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} I(0.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00113}00113             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} A = \mbox{\hyperlink{group__core__func__common_ga85e33f139b8db1b39b590a5713b9e679}{glm::modf}}(X, I);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00115}00115             Error += I == \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00116}00116             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(0.1f, 0.2f, 0.5f, 0.7f), 0.00001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00117}00117         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00118}00118 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00119}00119         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00120}00120             \mbox{\hyperlink{structglm_1_1vec}{glm::dvec4}} X(1.1, 1.2, 1.5, 1.7);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00121}00121             \mbox{\hyperlink{structglm_1_1vec}{glm::dvec4}} I(0.0);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00122}00122             \mbox{\hyperlink{structglm_1_1vec}{glm::dvec4}} A = \mbox{\hyperlink{group__core__func__common_ga85e33f139b8db1b39b590a5713b9e679}{glm::modf}}(X, I);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00123}00123 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00124}00124             Error += I == \mbox{\hyperlink{group__core__types_ga0824ceed7ec3b2fba89765501c1540b5}{glm::dvec4}}(1.0) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00125}00125             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, \mbox{\hyperlink{structglm_1_1vec}{glm::dvec4}}(0.1, 0.2, 0.5, 0.7), 0.000000001)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00126}00126         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00127}00127 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00128}00128         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00129}00129             \textcolor{keywordtype}{double} X(1.5);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00130}00130             \textcolor{keywordtype}{double} I(0.0);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00131}00131             \textcolor{keywordtype}{double} A = \mbox{\hyperlink{group__core__func__common_ga85e33f139b8db1b39b590a5713b9e679}{glm::modf}}(X, I);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00132}00132 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00133}00133             Error += I == 1.0 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00134}00134             Error += A == 0.5 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00135}00135         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00136}00136 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00137}00137         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00138}00138     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00139}00139 \}\textcolor{comment}{//namespace modf}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00140}00140 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00141}00141 \textcolor{keyword}{namespace }mod\_}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00142}00142 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00143}00143     \textcolor{keyword}{static} \textcolor{keywordtype}{int} test()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00144}00144     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00145}00145         \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00146}00146 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00147}00147         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00148}00148             \textcolor{keywordtype}{float} A(1.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00149}00149             \textcolor{keywordtype}{float} B(1.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00150}00150             \textcolor{keywordtype}{float} C = glm::mod(A, B);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00151}00151 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00152}00152             Error += \mbox{\hyperlink{group__core__func__common_ga693d77696ff36572a0da79efec965acd}{glm::abs}}(C -\/ 0.5f) < 0.00001f ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00153}00153         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00154}00154 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00155}00155         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00156}00156             \textcolor{keywordtype}{float} A(-\/0.2f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00157}00157             \textcolor{keywordtype}{float} B(1.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00158}00158             \textcolor{keywordtype}{float} C = glm::mod(A, B);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00159}00159 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00160}00160             Error += \mbox{\hyperlink{group__core__func__common_ga693d77696ff36572a0da79efec965acd}{glm::abs}}(C -\/ 0.8f) < 0.00001f ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00161}00161         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00162}00162 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00163}00163         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00164}00164             \textcolor{keywordtype}{float} A(3.0);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00165}00165             \textcolor{keywordtype}{float} B(2.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00166}00166             \textcolor{keywordtype}{float} C = glm::mod(A, B);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00167}00167 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00168}00168             Error += \mbox{\hyperlink{group__core__func__common_ga693d77696ff36572a0da79efec965acd}{glm::abs}}(C -\/ 1.0f) < 0.00001f ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00169}00169         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00170}00170 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00171}00171         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00172}00172             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} A(3.0);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00173}00173             \textcolor{keywordtype}{float} B(2.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00174}00174             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} C = glm::mod(A, B);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00175}00175 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00176}00176             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C, \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1.0f), 0.00001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00177}00177         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00178}00178 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00179}00179         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00180}00180             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} A(3.0);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00181}00181             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} B(2.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00182}00182             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} C = glm::mod(A, B);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00183}00183 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00184}00184             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C, \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1.0f), 0.00001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00185}00185         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00186}00186 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00187}00187         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00188}00188     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00189}00189 \}\textcolor{comment}{//namespace mod\_}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00190}00190 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00191}00191 \textcolor{keyword}{namespace }\mbox{\hyperlink{group__core__func__common_gadc6a536a7bef046c3293d2ccad6d9ca2}{floatBitsToInt}}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00192}00192 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00193}00193     \textcolor{keyword}{static} \textcolor{keywordtype}{int} test()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00194}00194     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00195}00195         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00196}00196     }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00197}00197         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00198}00198             \textcolor{keywordtype}{float} A = 1.0f;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00199}00199             \textcolor{keywordtype}{int} B = \mbox{\hyperlink{group__core__func__common_gadc6a536a7bef046c3293d2ccad6d9ca2}{glm::floatBitsToInt}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00200}00200             \textcolor{keywordtype}{float} C = \mbox{\hyperlink{group__core__func__common_ga2650dc57b2148a6ffbce20944fb4d97a}{glm::intBitsToFloat}}(B);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00201}00201             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, C, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00202}00202         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00203}00203 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00204}00204         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00205}00205             \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} A(1.0f, 2.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00206}00206             \mbox{\hyperlink{structglm_1_1vec}{glm::ivec2}} B = \mbox{\hyperlink{group__core__func__common_gadc6a536a7bef046c3293d2ccad6d9ca2}{glm::floatBitsToInt}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00207}00207             \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} C = \mbox{\hyperlink{group__core__func__common_ga2650dc57b2148a6ffbce20944fb4d97a}{glm::intBitsToFloat}}(B);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00208}00208             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, C, 0.0001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00209}00209         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00210}00210 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00211}00211         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00212}00212             \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} A(1.0f, 2.0f, 3.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00213}00213             \mbox{\hyperlink{structglm_1_1vec}{glm::ivec3}} B = \mbox{\hyperlink{group__core__func__common_gadc6a536a7bef046c3293d2ccad6d9ca2}{glm::floatBitsToInt}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00214}00214             \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} C = \mbox{\hyperlink{group__core__func__common_ga2650dc57b2148a6ffbce20944fb4d97a}{glm::intBitsToFloat}}(B);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00215}00215             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, C, 0.0001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00216}00216         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00217}00217     }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00218}00218         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00219}00219             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} A(1.0f, 2.0f, 3.0f, 4.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00220}00220             \mbox{\hyperlink{structglm_1_1vec}{glm::ivec4}} B = \mbox{\hyperlink{group__core__func__common_gadc6a536a7bef046c3293d2ccad6d9ca2}{glm::floatBitsToInt}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00221}00221             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} C = \mbox{\hyperlink{group__core__func__common_ga2650dc57b2148a6ffbce20944fb4d97a}{glm::intBitsToFloat}}(B);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00222}00222             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, C, 0.0001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00223}00223         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00224}00224     }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00225}00225         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00226}00226     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00227}00227 \}\textcolor{comment}{//namespace floatBitsToInt}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00228}00228 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00229}00229 \textcolor{keyword}{namespace }\mbox{\hyperlink{group__core__func__common_ga748b4d2819b48d28ca09dc8733488873}{floatBitsToUint}}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00230}00230 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00231}00231     \textcolor{keyword}{static} \textcolor{keywordtype}{int} test()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00232}00232     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00233}00233         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00234}00234     }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00235}00235         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00236}00236             \textcolor{keywordtype}{float} A = 1.0f;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00237}00237             \mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{glm::uint}} B = \mbox{\hyperlink{group__core__func__common_ga748b4d2819b48d28ca09dc8733488873}{glm::floatBitsToUint}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00238}00238             \textcolor{keywordtype}{float} C = \mbox{\hyperlink{group__core__func__common_ga97464ca9ff4267de30ea408f700d4ca8}{glm::uintBitsToFloat}}(B);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00239}00239             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, C, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00240}00240         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00241}00241     }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00242}00242         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00243}00243             \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} A(1.0f, 2.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00244}00244             \mbox{\hyperlink{structglm_1_1vec}{glm::uvec2}} B = \mbox{\hyperlink{group__core__func__common_ga748b4d2819b48d28ca09dc8733488873}{glm::floatBitsToUint}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00245}00245             \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} C = \mbox{\hyperlink{group__core__func__common_ga97464ca9ff4267de30ea408f700d4ca8}{glm::uintBitsToFloat}}(B);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00246}00246             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, C, 0.0001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00247}00247         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00248}00248     }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00249}00249         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00250}00250             \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} A(1.0f, 2.0f, 3.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00251}00251             \mbox{\hyperlink{structglm_1_1vec}{glm::uvec3}} B = \mbox{\hyperlink{group__core__func__common_ga748b4d2819b48d28ca09dc8733488873}{glm::floatBitsToUint}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00252}00252             \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} C = \mbox{\hyperlink{group__core__func__common_ga97464ca9ff4267de30ea408f700d4ca8}{glm::uintBitsToFloat}}(B);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00253}00253             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, C, 0.0001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00254}00254         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00255}00255     }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00256}00256         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00257}00257             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} A(1.0f, 2.0f, 3.0f, 4.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00258}00258             \mbox{\hyperlink{structglm_1_1vec}{glm::uvec4}} B = \mbox{\hyperlink{group__core__func__common_ga748b4d2819b48d28ca09dc8733488873}{glm::floatBitsToUint}}(A);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00259}00259             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} C = \mbox{\hyperlink{group__core__func__common_ga97464ca9ff4267de30ea408f700d4ca8}{glm::uintBitsToFloat}}(B);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00260}00260             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, C, 0.0001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00261}00261         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00262}00262     }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00263}00263         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00264}00264     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00265}00265 \}\textcolor{comment}{//namespace floatBitsToUint}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00266}00266 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00267}00267 \textcolor{keyword}{namespace }min\_}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00268}00268 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00269}00269     \textcolor{keyword}{static} \textcolor{keywordtype}{int} test()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00270}00270     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00271}00271         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00272}00272 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00273}00273         \mbox{\hyperlink{structglm_1_1vec}{glm::vec1}} A0 = \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{glm::min}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec1}}(1), \mbox{\hyperlink{structglm_1_1vec}{glm::vec1}}(1));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00274}00274 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00275}00275         \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} B0 = \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{glm::min}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1), \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00276}00276         \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} B1 = \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{glm::min}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1), 1.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00277}00277         \textcolor{keywordtype}{bool} B2 = \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(B0, B1));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00278}00278         Error += B2 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00279}00279 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00280}00280         \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} C0 = \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{glm::min}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1), \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00281}00281         \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} C1 = \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{glm::min}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1), 1.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00282}00282         \textcolor{keywordtype}{bool} C2 = \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(C0, C1));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00283}00283         Error += C2 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00284}00284 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00285}00285         \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} D0 = \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{glm::min}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1), \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00286}00286         \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} D1 = \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{glm::min}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1), 1.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00287}00287         \textcolor{keywordtype}{bool} D2 = \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(D0, D1));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00288}00288         Error += D2 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00289}00289 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00290}00290         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00291}00291     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00292}00292 \}\textcolor{comment}{//namespace min\_}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00293}00293 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00294}00294 \textcolor{keyword}{namespace }max\_}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00295}00295 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00296}00296     \textcolor{keyword}{static} \textcolor{keywordtype}{int} test()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00297}00297     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00298}00298         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00299}00299 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00300}00300         \mbox{\hyperlink{structglm_1_1vec}{glm::vec1}} A0 = \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{glm::max}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec1}}(1), \mbox{\hyperlink{structglm_1_1vec}{glm::vec1}}(1));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00301}00301 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00302}00302         \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} B0 = \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{glm::max}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1), \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00303}00303         \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} B1 = \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{glm::max}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1), 1.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00304}00304         \textcolor{keywordtype}{bool} B2 = \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(B0, B1));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00305}00305         Error += B2 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00306}00306 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00307}00307         \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} C0 = \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{glm::max}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1), \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00308}00308         \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} C1 = \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{glm::max}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1), 1.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00309}00309         \textcolor{keywordtype}{bool} C2 = \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(C0, C1));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00310}00310         Error += C2 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00311}00311 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00312}00312         \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} D0 = \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{glm::max}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1), \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00313}00313         \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} D1 = \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{glm::max}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1), 1.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00314}00314         \textcolor{keywordtype}{bool} D2 = \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(D0, D1));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00315}00315         Error += D2 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00316}00316 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00317}00317         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00318}00318     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00319}00319 \}\textcolor{comment}{//namespace max\_}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00320}00320 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00321}00321 \textcolor{keyword}{namespace }clamp\_}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00322}00322 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00323}00323     \textcolor{keyword}{static} \textcolor{keywordtype}{int} test()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00324}00324     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00325}00325         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00326}00326 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00327}00327         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00328}00328     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00329}00329 \}\textcolor{comment}{//namespace clamp\_}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00330}00330 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00331}00331 \textcolor{keyword}{namespace }mix\_}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00332}00332 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00333}00333     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} B>}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00334}\mbox{\hyperlink{structmix___1_1entry}{00334}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structmix___1_1entry}{entry}}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00335}00335     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00336}00336         T x;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00337}00337         T y;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00338}00338         B a;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00339}00339         T Result;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00340}00340     \};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00341}00341 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00342}00342     \mbox{\hyperlink{structmix___1_1entry}{entry<float, bool>}} \textcolor{keyword}{const} TestBool[] =}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00343}00343     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00344}00344         \{0.0f, 1.0f, \textcolor{keyword}{false}, 0.0f\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00345}00345         \{0.0f, 1.0f, \textcolor{keyword}{true}, 1.0f\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00346}00346         \{-\/1.0f, 1.0f, \textcolor{keyword}{false}, -\/1.0f\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00347}00347         \{-\/1.0f, 1.0f, \textcolor{keyword}{true}, 1.0f\}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00348}00348     \};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00349}00349 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00350}00350     entry<float, float> \textcolor{keyword}{const} TestFloat[] =}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00351}00351     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00352}00352         \{0.0f, 1.0f, 0.0f, 0.0f\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00353}00353         \{0.0f, 1.0f, 1.0f, 1.0f\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00354}00354         \{-\/1.0f, 1.0f, 0.0f, -\/1.0f\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00355}00355         \{-\/1.0f, 1.0f, 1.0f, 1.0f\}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00356}00356     \};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00357}00357 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00358}00358     entry<glm::vec2, bool> \textcolor{keyword}{const} TestVec2Bool[] =}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00359}00359     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00360}00360         \{\mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(0.0f), \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(1.0f), \textcolor{keyword}{false}, \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(0.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00361}00361         \{\mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(0.0f), \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(1.0f), \textcolor{keyword}{true}, \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(1.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00362}00362         \{\mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(-\/1.0f), \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(1.0f), \textcolor{keyword}{false}, \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(-\/1.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00363}00363         \{\mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(-\/1.0f), \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(1.0f), \textcolor{keyword}{true}, \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(1.0f)\}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00364}00364     \};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00365}00365 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00366}00366     entry<glm::vec2, glm::bvec2> \textcolor{keyword}{const} TestBVec2[] =}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00367}00367     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00368}00368         \{\mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(0.0f), \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(1.0f), \mbox{\hyperlink{group__core__types_ga7523cf292181cf7daef3aa0a3267d8e3}{glm::bvec2}}(\textcolor{keyword}{false}), \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(0.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00369}00369         \{\mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(0.0f), \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(1.0f), \mbox{\hyperlink{group__core__types_ga7523cf292181cf7daef3aa0a3267d8e3}{glm::bvec2}}(\textcolor{keyword}{true}), \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(1.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00370}00370         \{\mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(-\/1.0f), \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(1.0f), \mbox{\hyperlink{group__core__types_ga7523cf292181cf7daef3aa0a3267d8e3}{glm::bvec2}}(\textcolor{keyword}{false}), \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(-\/1.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00371}00371         \{\mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(-\/1.0f), \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(1.0f), \mbox{\hyperlink{group__core__types_ga7523cf292181cf7daef3aa0a3267d8e3}{glm::bvec2}}(\textcolor{keyword}{true}), \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(1.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00372}00372         \{\mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(-\/1.0f), \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(1.0f), \mbox{\hyperlink{group__core__types_ga7523cf292181cf7daef3aa0a3267d8e3}{glm::bvec2}}(\textcolor{keyword}{true}, \textcolor{keyword}{false}), \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(1.0f, -\/1.0f)\}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00373}00373     \};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00374}00374 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00375}00375     entry<glm::vec3, bool> \textcolor{keyword}{const} TestVec3Bool[] =}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00376}00376     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00377}00377         \{\mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(0.0f), \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(1.0f), \textcolor{keyword}{false}, \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(0.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00378}00378         \{\mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(0.0f), \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(1.0f), \textcolor{keyword}{true}, \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(1.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00379}00379         \{\mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(-\/1.0f), \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(1.0f), \textcolor{keyword}{false}, \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(-\/1.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00380}00380         \{\mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(-\/1.0f), \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(1.0f), \textcolor{keyword}{true}, \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(1.0f)\}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00381}00381     \};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00382}00382 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00383}00383     entry<glm::vec3, glm::bvec3> \textcolor{keyword}{const} TestBVec3[] =}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00384}00384     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00385}00385         \{\mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(0.0f), \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(1.0f), \mbox{\hyperlink{group__core__types_ga3f07d6d37fc6fe875170fd5799685bcf}{glm::bvec3}}(\textcolor{keyword}{false}), \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(0.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00386}00386         \{\mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(0.0f), \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(1.0f), \mbox{\hyperlink{group__core__types_ga3f07d6d37fc6fe875170fd5799685bcf}{glm::bvec3}}(\textcolor{keyword}{true}), \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(1.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00387}00387         \{\mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(-\/1.0f), \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(1.0f), \mbox{\hyperlink{group__core__types_ga3f07d6d37fc6fe875170fd5799685bcf}{glm::bvec3}}(\textcolor{keyword}{false}), \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(-\/1.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00388}00388         \{\mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(-\/1.0f), \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(1.0f), \mbox{\hyperlink{group__core__types_ga3f07d6d37fc6fe875170fd5799685bcf}{glm::bvec3}}(\textcolor{keyword}{true}), \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(1.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00389}00389         \{\mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(1.0f, 2.0f, 3.0f), \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(4.0f, 5.0f, 6.0f), \mbox{\hyperlink{group__core__types_ga3f07d6d37fc6fe875170fd5799685bcf}{glm::bvec3}}(\textcolor{keyword}{true}, \textcolor{keyword}{false}, \textcolor{keyword}{true}), \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(4.0f, 2.0f, 6.0f)\}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00390}00390     \};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00391}00391 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00392}00392     entry<glm::vec4, bool> \textcolor{keyword}{const} TestVec4Bool[] = }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00393}00393     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00394}00394         \{\mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(0.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f), \textcolor{keyword}{false}, \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(0.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00395}00395         \{\mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(0.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f), \textcolor{keyword}{true}, \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00396}00396         \{\mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(-\/1.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f), \textcolor{keyword}{false}, \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(-\/1.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00397}00397         \{\mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(-\/1.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f), \textcolor{keyword}{true}, \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f)\}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00398}00398     \};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00399}00399 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00400}00400     entry<glm::vec4, glm::bvec4> \textcolor{keyword}{const} TestBVec4[] = }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00401}00401     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00402}00402         \{\mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(0.0f, 0.0f, 1.0f, 1.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(2.0f, 2.0f, 3.0f, 3.0f), \mbox{\hyperlink{group__core__types_ga6bb211b3d3bebae3867548d5673ca5cd}{glm::bvec4}}(\textcolor{keyword}{false}, \textcolor{keyword}{true}, \textcolor{keyword}{false}, \textcolor{keyword}{true}), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(0.0f, 2.0f, 1.0f, 3.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00403}00403         \{\mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(0.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f), \mbox{\hyperlink{group__core__types_ga6bb211b3d3bebae3867548d5673ca5cd}{glm::bvec4}}(\textcolor{keyword}{true}), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00404}00404         \{\mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(-\/1.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f), \mbox{\hyperlink{group__core__types_ga6bb211b3d3bebae3867548d5673ca5cd}{glm::bvec4}}(\textcolor{keyword}{false}), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(-\/1.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00405}00405         \{\mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(-\/1.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f), \mbox{\hyperlink{group__core__types_ga6bb211b3d3bebae3867548d5673ca5cd}{glm::bvec4}}(\textcolor{keyword}{true}), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00406}00406         \{\mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f, 2.0f, 3.0f, 4.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(5.0f, 6.0f, 7.0f, 8.0f), \mbox{\hyperlink{group__core__types_ga6bb211b3d3bebae3867548d5673ca5cd}{glm::bvec4}}(\textcolor{keyword}{true}, \textcolor{keyword}{false}, \textcolor{keyword}{true}, \textcolor{keyword}{false}), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(5.0f, 2.0f, 7.0f, 4.0f)\}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00407}00407     \};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00408}00408 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00409}00409     \textcolor{keyword}{static} \textcolor{keywordtype}{int} test()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00410}00410     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00411}00411         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00412}00412 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00413}00413         \textcolor{comment}{// Float with bool}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00414}00414         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00415}00415             \textcolor{keywordflow}{for}(std::size\_t i = 0; i < \textcolor{keyword}{sizeof}(TestBool) / \textcolor{keyword}{sizeof}(entry<float, bool>); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00416}00416             \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00417}00417                 \textcolor{keywordtype}{float} Result = \mbox{\hyperlink{group__core__func__common_ga8e93f374aae27d1a88b921860351f8d4}{glm::mix}}(TestBool[i].x, TestBool[i].y, TestBool[i].a);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00418}00418                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result, TestBool[i].Result, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00419}00419             \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00420}00420         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00421}00421 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00422}00422         \textcolor{comment}{// Float with float}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00423}00423         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00424}00424             \textcolor{keywordflow}{for}(std::size\_t i = 0; i < \textcolor{keyword}{sizeof}(TestFloat) / \textcolor{keyword}{sizeof}(entry<float, float>); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00425}00425             \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00426}00426                 \textcolor{keywordtype}{float} Result = \mbox{\hyperlink{group__core__func__common_ga8e93f374aae27d1a88b921860351f8d4}{glm::mix}}(TestFloat[i].x, TestFloat[i].y, TestFloat[i].a);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00427}00427                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result, TestFloat[i].Result, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00428}00428             \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00429}00429         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00430}00430 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00431}00431         \textcolor{comment}{// vec2 with bool}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00432}00432         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00433}00433             \textcolor{keywordflow}{for}(std::size\_t i = 0; i < \textcolor{keyword}{sizeof}(TestVec2Bool) / \textcolor{keyword}{sizeof}(entry<glm::vec2, bool>); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00434}00434             \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00435}00435                 \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} Result = \mbox{\hyperlink{group__core__func__common_ga8e93f374aae27d1a88b921860351f8d4}{glm::mix}}(TestVec2Bool[i].x, TestVec2Bool[i].y, TestVec2Bool[i].a);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00436}00436                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.x, TestVec2Bool[i].Result.x, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00437}00437                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.y, TestVec2Bool[i].Result.y, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00438}00438             \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00439}00439         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00440}00440 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00441}00441         \textcolor{comment}{// vec2 with bvec2}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00442}00442         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00443}00443             \textcolor{keywordflow}{for}(std::size\_t i = 0; i < \textcolor{keyword}{sizeof}(TestBVec2) / \textcolor{keyword}{sizeof}(entry<glm::vec2, glm::bvec2>); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00444}00444             \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00445}00445                 \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} Result = \mbox{\hyperlink{group__core__func__common_ga8e93f374aae27d1a88b921860351f8d4}{glm::mix}}(TestBVec2[i].x, TestBVec2[i].y, TestBVec2[i].a);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00446}00446                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.x, TestBVec2[i].Result.x, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00447}00447                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.y, TestBVec2[i].Result.y, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00448}00448             \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00449}00449         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00450}00450 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00451}00451         \textcolor{comment}{// vec3 with bool}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00452}00452         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00453}00453             \textcolor{keywordflow}{for}(std::size\_t i = 0; i < \textcolor{keyword}{sizeof}(TestVec3Bool) / \textcolor{keyword}{sizeof}(entry<glm::vec3, bool>); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00454}00454             \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00455}00455                 \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} Result = \mbox{\hyperlink{group__core__func__common_ga8e93f374aae27d1a88b921860351f8d4}{glm::mix}}(TestVec3Bool[i].x, TestVec3Bool[i].y, TestVec3Bool[i].a);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00456}00456                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.x, TestVec3Bool[i].Result.x, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00457}00457                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.y, TestVec3Bool[i].Result.y, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00458}00458                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.z, TestVec3Bool[i].Result.z, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00459}00459             \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00460}00460         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00461}00461 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00462}00462         \textcolor{comment}{// vec3 with bvec3}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00463}00463         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00464}00464             \textcolor{keywordflow}{for}(std::size\_t i = 0; i < \textcolor{keyword}{sizeof}(TestBVec3) / \textcolor{keyword}{sizeof}(entry<glm::vec3, glm::bvec3>); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00465}00465             \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00466}00466                 \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} Result = \mbox{\hyperlink{group__core__func__common_ga8e93f374aae27d1a88b921860351f8d4}{glm::mix}}(TestBVec3[i].x, TestBVec3[i].y, TestBVec3[i].a);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00467}00467                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.x, TestBVec3[i].Result.x, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00468}00468                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.y, TestBVec3[i].Result.y, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00469}00469                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.z, TestBVec3[i].Result.z, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00470}00470             \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00471}00471         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00472}00472 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00473}00473         \textcolor{comment}{// vec4 with bool}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00474}00474         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00475}00475             \textcolor{keywordflow}{for}(std::size\_t i = 0; i < \textcolor{keyword}{sizeof}(TestVec4Bool) / \textcolor{keyword}{sizeof}(entry<glm::vec4, bool>); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00476}00476             \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00477}00477                 \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} Result = \mbox{\hyperlink{group__core__func__common_ga8e93f374aae27d1a88b921860351f8d4}{glm::mix}}(TestVec4Bool[i].x, TestVec4Bool[i].y, TestVec4Bool[i].a);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00478}00478                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.x, TestVec4Bool[i].Result.x, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00479}00479                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.y, TestVec4Bool[i].Result.y, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00480}00480                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.z, TestVec4Bool[i].Result.z, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00481}00481                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.w, TestVec4Bool[i].Result.w, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00482}00482             \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00483}00483         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00484}00484 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00485}00485         \textcolor{comment}{// vec4 with bvec4}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00486}00486         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00487}00487             \textcolor{keywordflow}{for}(std::size\_t i = 0; i < \textcolor{keyword}{sizeof}(TestBVec4) / \textcolor{keyword}{sizeof}(entry<glm::vec4, glm::bvec4>); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00488}00488             \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00489}00489                 \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} Result = \mbox{\hyperlink{group__core__func__common_ga8e93f374aae27d1a88b921860351f8d4}{glm::mix}}(TestBVec4[i].x, TestBVec4[i].y, TestBVec4[i].a);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00490}00490                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.x, TestBVec4[i].Result.x, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00491}00491                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.y, TestBVec4[i].Result.y, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00492}00492                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.z, TestBVec4[i].Result.z, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00493}00493                 Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result.w, TestBVec4[i].Result.w, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00494}00494             \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00495}00495         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00496}00496 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00497}00497         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00498}00498     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00499}00499 \}\textcolor{comment}{//namespace mix\_}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00500}00500 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00501}00501 \textcolor{keyword}{namespace }step\_}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00502}00502 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00503}00503     \textcolor{keyword}{template}<\textcolor{keyword}{typename} EDGE, \textcolor{keyword}{typename} VEC>}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00504}\mbox{\hyperlink{structstep___1_1entry}{00504}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structstep___1_1entry}{entry}}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00505}00505     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00506}00506         EDGE edge;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00507}00507         VEC x;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00508}00508         VEC \mbox{\hyperlink{structresult}{result}};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00509}00509     \};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00510}00510 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00511}00511     \mbox{\hyperlink{structstep___1_1entry}{entry<float, glm::vec4>}} TestVec4Scalar [] =}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00512}00512     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00513}00513         \{ 1.0f, \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f, 2.0f, 3.0f, 4.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f) \},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00514}00514         \{ 0.0f, \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f, 2.0f, 3.0f, 4.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f) \},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00515}00515         \{ 0.0f, \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(-\/1.0f, -\/2.0f, -\/3.0f, -\/4.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(0.0f) \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00516}00516     \};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00517}00517 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00518}00518     entry<glm::vec4, glm::vec4> TestVec4Vector [] =}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00519}00519     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00520}00520         \{ \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(-\/1.0f, -\/2.0f, -\/3.0f, -\/4.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(-\/2.0f, -\/3.0f, -\/4.0f, -\/5.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(0.0f) \},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00521}00521         \{ \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}( 0.0f, 1.0f, 2.0f, 3.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}( 1.0f, 2.0f, 3.0f, 4.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(1.0f) \},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00522}00522         \{ \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}( 2.0f, 3.0f, 4.0f, 5.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}( 1.0f, 2.0f, 3.0f, 4.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(0.0f) \},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00523}00523         \{ \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}( 0.0f, 1.0f, 2.0f, 3.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(-\/1.0f,-\/2.0f,-\/3.0f,-\/4.0f), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(0.0f) \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00524}00524     \};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00525}00525 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00526}00526     \textcolor{keyword}{static} \textcolor{keywordtype}{int} test()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00527}00527     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00528}00528         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00529}00529 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00530}00530         \textcolor{comment}{// scalar}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00531}00531         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00532}00532             \textcolor{keywordtype}{float} \textcolor{keyword}{const} Edge = 2.0f;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00533}00533 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00534}00534             \textcolor{keywordtype}{float} \textcolor{keyword}{const} A = \mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{glm::step}}(Edge, 1.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00535}00535             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, 0.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00536}00536 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00537}00537             \textcolor{keywordtype}{float} \textcolor{keyword}{const} B = \mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{glm::step}}(Edge, 3.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00538}00538             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B, 1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00539}00539 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00540}00540             \textcolor{keywordtype}{float} \textcolor{keyword}{const} C = \mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{glm::step}}(Edge, 2.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00541}00541             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C, 1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00542}00542         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00543}00543 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00544}00544         \textcolor{comment}{// vec4 and float}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00545}00545         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00546}00546             \textcolor{keywordflow}{for} (std::size\_t i = 0; i < \textcolor{keyword}{sizeof}(TestVec4Scalar) / \textcolor{keyword}{sizeof}(entry<float, glm::vec4>); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00547}00547             \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00548}00548                 \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} Result = \mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{glm::step}}(TestVec4Scalar[i].edge, TestVec4Scalar[i].x);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00549}00549                 Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result, TestVec4Scalar[i].\mbox{\hyperlink{structresult}{result}}, glm::epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00550}00550             \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00551}00551         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00552}00552 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00553}00553         \textcolor{comment}{// vec4 and vec4}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00554}00554         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00555}00555             \textcolor{keywordflow}{for} (std::size\_t i = 0; i < \textcolor{keyword}{sizeof}(TestVec4Vector) / \textcolor{keyword}{sizeof}(entry<glm::vec4, glm::vec4>); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00556}00556             \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00557}00557                 \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} Result = \mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{glm::step}}(TestVec4Vector[i].edge, TestVec4Vector[i].x);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00558}00558                 Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Result, TestVec4Vector[i].\mbox{\hyperlink{structresult}{result}}, glm::epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00559}00559             \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00560}00560         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00561}00561 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00562}00562         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00563}00563     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00564}00564 \}\textcolor{comment}{//namespace step\_}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00565}00565 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00566}00566 \textcolor{keyword}{namespace }round\_}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00567}00567 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00568}00568     \textcolor{keyword}{static} \textcolor{keywordtype}{int} test()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00569}00569     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00570}00570         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00571}00571 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00572}00572         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00573}00573             \textcolor{keywordtype}{float} A = \mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{glm::round}}(0.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00574}00574             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, 0.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00575}00575             \textcolor{keywordtype}{float} B = \mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{glm::round}}(0.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00576}00576             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B, 1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00577}00577             \textcolor{keywordtype}{float} C = \mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{glm::round}}(1.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00578}00578             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C, 1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00579}00579             \textcolor{keywordtype}{float} D = \mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{glm::round}}(0.1f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00580}00580             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(D, 0.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00581}00581             \textcolor{keywordtype}{float} E = \mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{glm::round}}(0.9f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00582}00582             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(E, 1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00583}00583             \textcolor{keywordtype}{float} F = \mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{glm::round}}(1.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00584}00584             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(F, 2.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00585}00585             \textcolor{keywordtype}{float} G = \mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{glm::round}}(1.9f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00586}00586             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(G, 2.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00587}00587         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00588}00588     }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00589}00589         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00590}00590             \textcolor{keywordtype}{float} A = \mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{glm::round}}(-\/0.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00591}00591             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, 0.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00592}00592             \textcolor{keywordtype}{float} B = \mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{glm::round}}(-\/0.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00593}00593             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B, -\/1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00594}00594             \textcolor{keywordtype}{float} C = \mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{glm::round}}(-\/1.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00595}00595             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C, -\/1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00596}00596             \textcolor{keywordtype}{float} D = \mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{glm::round}}(-\/0.1f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00597}00597             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(D, 0.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00598}00598             \textcolor{keywordtype}{float} E = \mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{glm::round}}(-\/0.9f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00599}00599             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(E, -\/1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00600}00600             \textcolor{keywordtype}{float} F = \mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{glm::round}}(-\/1.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00601}00601             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(F, -\/2.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00602}00602             \textcolor{keywordtype}{float} G = \mbox{\hyperlink{group__core__func__common_gaa81940d45558cd2ae07fe135e653bcfa}{glm::round}}(-\/1.9f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00603}00603             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(G, -\/2.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00604}00604         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00605}00605     }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00606}00606         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00607}00607     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00608}00608 \}\textcolor{comment}{//namespace round\_}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00609}00609 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00610}00610 \textcolor{keyword}{namespace }\mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{roundEven}}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00611}00611 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00612}00612     \textcolor{keyword}{static} \textcolor{keywordtype}{int} test()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00613}00613     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00614}00614         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00615}00615 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00616}00616         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00617}00617             \textcolor{keywordtype}{float} A1 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/1.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00618}00618             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A1, -\/2.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00619}00619 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00620}00620             \textcolor{keywordtype}{float} A2 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(1.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00621}00621             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A2, 2.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00622}00622 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00623}00623             \textcolor{keywordtype}{float} A5 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/2.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00624}00624             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A5, -\/2.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00625}00625 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00626}00626             \textcolor{keywordtype}{float} A6 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(2.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00627}00627             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A6, 2.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00628}00628 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00629}00629             \textcolor{keywordtype}{float} A3 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/3.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00630}00630             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A3, -\/4.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00631}00631 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00632}00632             \textcolor{keywordtype}{float} A4 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(3.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00633}00633             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A4, 4.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00634}00634 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00635}00635             \textcolor{keywordtype}{float} C7 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/4.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00636}00636             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C7, -\/4.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00637}00637 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00638}00638             \textcolor{keywordtype}{float} C8 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(4.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00639}00639             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C8, 4.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00640}00640 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00641}00641             \textcolor{keywordtype}{float} C1 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/5.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00642}00642             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C1, -\/6.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00643}00643 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00644}00644             \textcolor{keywordtype}{float} C2 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(5.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00645}00645             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C2, 6.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00646}00646 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00647}00647             \textcolor{keywordtype}{float} C3 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/6.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00648}00648             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C3, -\/6.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00649}00649 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00650}00650             \textcolor{keywordtype}{float} C4 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(6.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00651}00651             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C4, 6.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00652}00652 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00653}00653             \textcolor{keywordtype}{float} C5 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/7.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00654}00654             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C5, -\/8.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00655}00655 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00656}00656             \textcolor{keywordtype}{float} C6 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(7.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00657}00657             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C6, 8.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00658}00658 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00659}00659             Error += 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00660}00660         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00661}00661 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00662}00662         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00663}00663             \textcolor{keywordtype}{float} A7 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/2.4f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00664}00664             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A7, -\/2.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00665}00665 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00666}00666             \textcolor{keywordtype}{float} A8 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(2.4f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00667}00667             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A8, 2.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00668}00668 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00669}00669             \textcolor{keywordtype}{float} B1 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/2.6f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00670}00670             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B1, -\/3.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00671}00671 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00672}00672             \textcolor{keywordtype}{float} B2 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(2.6f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00673}00673             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B2, 3.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00674}00674 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00675}00675             \textcolor{keywordtype}{float} B3 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/2.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00676}00676             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B3, -\/2.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00677}00677 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00678}00678             \textcolor{keywordtype}{float} B4 = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(2.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00679}00679             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B4, 2.0f, 0.0001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00680}00680 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00681}00681             Error += 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00682}00682         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00683}00683 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00684}00684         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00685}00685             \textcolor{keywordtype}{float} A = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(0.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00686}00686             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, 0.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00687}00687             \textcolor{keywordtype}{float} B = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(0.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00688}00688             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B, 0.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00689}00689             \textcolor{keywordtype}{float} C = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(1.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00690}00690             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C, 1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00691}00691             \textcolor{keywordtype}{float} D = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(0.1f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00692}00692             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(D, 0.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00693}00693             \textcolor{keywordtype}{float} E = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(0.9f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00694}00694             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(E, 1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00695}00695             \textcolor{keywordtype}{float} F = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(1.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00696}00696             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(F, 2.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00697}00697             \textcolor{keywordtype}{float} G = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(1.9f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00698}00698             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(G, 2.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00699}00699         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00700}00700 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00701}00701         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00702}00702             \textcolor{keywordtype}{float} A = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/0.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00703}00703             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A,  0.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00704}00704             \textcolor{keywordtype}{float} B = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/0.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00705}00705             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B, -\/0.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00706}00706             \textcolor{keywordtype}{float} C = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/1.0f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00707}00707             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C, -\/1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00708}00708             \textcolor{keywordtype}{float} D = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/0.1f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00709}00709             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(D,  0.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00710}00710             \textcolor{keywordtype}{float} E = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/0.9f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00711}00711             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(E, -\/1.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00712}00712             \textcolor{keywordtype}{float} F = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/1.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00713}00713             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(F, -\/2.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00714}00714             \textcolor{keywordtype}{float} G = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/1.9f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00715}00715             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(G, -\/2.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00716}00716         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00717}00717 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00718}00718         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00719}00719             \textcolor{keywordtype}{float} A = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(1.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00720}00720             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, 2.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00721}00721             \textcolor{keywordtype}{float} B = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(2.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00722}00722             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B, 2.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00723}00723             \textcolor{keywordtype}{float} C = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(3.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00724}00724             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C, 4.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00725}00725             \textcolor{keywordtype}{float} D = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(4.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00726}00726             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(D, 4.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00727}00727             \textcolor{keywordtype}{float} E = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(5.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00728}00728             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(E, 6.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00729}00729             \textcolor{keywordtype}{float} F = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(6.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00730}00730             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(F, 6.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00731}00731             \textcolor{keywordtype}{float} G = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(7.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00732}00732             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(G, 8.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00733}00733         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00734}00734     }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00735}00735         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00736}00736             \textcolor{keywordtype}{float} A = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/1.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00737}00737             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, -\/2.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00738}00738             \textcolor{keywordtype}{float} B = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/2.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00739}00739             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(B, -\/2.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00740}00740             \textcolor{keywordtype}{float} C = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/3.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00741}00741             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C, -\/4.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00742}00742             \textcolor{keywordtype}{float} D = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/4.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00743}00743             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(D, -\/4.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00744}00744             \textcolor{keywordtype}{float} E = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/5.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00745}00745             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(E, -\/6.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00746}00746             \textcolor{keywordtype}{float} F = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/6.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00747}00747             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(F, -\/6.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00748}00748             \textcolor{keywordtype}{float} G = \mbox{\hyperlink{group__core__func__common_ga5e8e73db4ae54bae5292dbd8bd14e75c}{glm::roundEven}}(-\/7.5f);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00749}00749             Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(G, -\/8.0f, glm::epsilon<float>()) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00750}00750         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00751}00751 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00752}00752         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00753}00753     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00754}00754 \}\textcolor{comment}{//namespace roundEven}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00755}00755 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00756}00756 \textcolor{keyword}{namespace }isnan\_}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00757}00757 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00758}00758     \textcolor{keyword}{static} \textcolor{keywordtype}{int} test()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00759}00759     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00760}00760         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00761}00761 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00762}00762         \textcolor{keywordtype}{float} Zero\_f = 0.0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00763}00763         \textcolor{keywordtype}{double} Zero\_d = 0.0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00764}00764 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00765}00765         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00766}00766             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__common_ga81f85e3c56f1f559034422b357c37e21}{glm::isnan}}(0.0/Zero\_d) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00767}00767             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga81f85e3c56f1f559034422b357c37e21}{glm::isnan}}(\mbox{\hyperlink{structglm_1_1vec}{glm::dvec2}}(0.0 / Zero\_d))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00768}00768             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga81f85e3c56f1f559034422b357c37e21}{glm::isnan}}(\mbox{\hyperlink{structglm_1_1vec}{glm::dvec3}}(0.0 / Zero\_d))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00769}00769             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga81f85e3c56f1f559034422b357c37e21}{glm::isnan}}(\mbox{\hyperlink{structglm_1_1vec}{glm::dvec4}}(0.0 / Zero\_d))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00770}00770         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00771}00771 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00772}00772         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00773}00773             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__common_ga81f85e3c56f1f559034422b357c37e21}{glm::isnan}}(0.0f/Zero\_f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00774}00774             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga81f85e3c56f1f559034422b357c37e21}{glm::isnan}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(0.0f/Zero\_f))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00775}00775             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga81f85e3c56f1f559034422b357c37e21}{glm::isnan}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0.0f/Zero\_f))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00776}00776             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga81f85e3c56f1f559034422b357c37e21}{glm::isnan}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(0.0f/Zero\_f))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00777}00777         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00778}00778 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00779}00779         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00780}00780     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00781}00781 \}\textcolor{comment}{//namespace isnan\_}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00782}00782 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00783}00783 \textcolor{keyword}{namespace }isinf\_}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00784}00784 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00785}00785     \textcolor{keyword}{static} \textcolor{keywordtype}{int} test()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00786}00786     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00787}00787         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00788}00788 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00789}00789         \textcolor{keywordtype}{float} Zero\_f = 0.0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00790}00790         \textcolor{keywordtype}{double} Zero\_d = 0.0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00791}00791 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00792}00792         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00793}00793             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}( 1.0/Zero\_d) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00794}00794             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}(-\/1.0/Zero\_d) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00795}00795             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}(\mbox{\hyperlink{structglm_1_1vec}{glm::dvec2}}( 1.0/Zero\_d))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00796}00796             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}(\mbox{\hyperlink{structglm_1_1vec}{glm::dvec2}}(-\/1.0/Zero\_d))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00797}00797             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}(\mbox{\hyperlink{structglm_1_1vec}{glm::dvec3}}( 1.0/Zero\_d))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00798}00798             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}(\mbox{\hyperlink{structglm_1_1vec}{glm::dvec3}}(-\/1.0/Zero\_d))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00799}00799             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}(\mbox{\hyperlink{structglm_1_1vec}{glm::dvec4}}( 1.0/Zero\_d))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00800}00800             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}(\mbox{\hyperlink{structglm_1_1vec}{glm::dvec4}}(-\/1.0/Zero\_d))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00801}00801         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00802}00802 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00803}00803         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00804}00804             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}( 1.0f/Zero\_f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00805}00805             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}(-\/1.0f/Zero\_f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00806}00806             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}( 1.0f/Zero\_f))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00807}00807             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(-\/1.0f/Zero\_f))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00808}00808             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}( 1.0f/Zero\_f))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00809}00809             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(-\/1.0f/Zero\_f))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00810}00810             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}( 1.0f/Zero\_f))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00811}00811             Error += \textcolor{keyword}{true} == \mbox{\hyperlink{group__core__func__vector__relational_gadcc289349a96ef7642b14bc151ee4ae8}{glm::any}}(\mbox{\hyperlink{group__core__func__common_ga6dfda49bcedffb43ffe5d85307d732fa}{glm::isinf}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(-\/1.0f/Zero\_f))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00812}00812         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00813}00813 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00814}00814         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00815}00815     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00816}00816 \}\textcolor{comment}{//namespace isinf\_}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00817}00817 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00818}00818 \textcolor{keyword}{namespace }\mbox{\hyperlink{group__core__func__common_gaf749e7f029eb88580a45493e41002629}{sign}}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00819}00819 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00820}00820     \textcolor{keyword}{template}<\textcolor{keyword}{typename} genFIType> }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00821}00821     GLM\_FUNC\_QUALIFIER genFIType sign\_if(genFIType x)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00822}00822     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00823}00823         GLM\_STATIC\_ASSERT(}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00824}00824             std::numeric\_limits<genFIType>::is\_iec559 ||}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00825}00825             (std::numeric\_limits<genFIType>::is\_signed \&\& std::numeric\_limits<genFIType>::is\_integer), \textcolor{stringliteral}{"{}'sign' only accept signed inputs"{}});}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00826}00826 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00827}00827         genFIType \mbox{\hyperlink{structresult}{result}};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00828}00828         \textcolor{keywordflow}{if}(x > genFIType(0))}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00829}00829             \mbox{\hyperlink{structresult}{result}} = genFIType(1);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00830}00830         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(x < genFIType(0))}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00831}00831             \mbox{\hyperlink{structresult}{result}} = genFIType(-\/1);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00832}00832         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00833}00833             \mbox{\hyperlink{structresult}{result}} = genFIType(0);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00834}00834         \textcolor{keywordflow}{return} \mbox{\hyperlink{structresult}{result}};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00835}00835     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00836}00836 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00837}00837     \textcolor{keyword}{template}<\textcolor{keyword}{typename} genFIType> }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00838}00838     GLM\_FUNC\_QUALIFIER genFIType sign\_alu1(genFIType x)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00839}00839     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00840}00840         GLM\_STATIC\_ASSERT(}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00841}00841             std::numeric\_limits<genFIType>::is\_signed \&\& std::numeric\_limits<genFIType>::is\_integer, }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00842}00842             \textcolor{stringliteral}{"{}'sign' only accept integer inputs"{}});}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00843}00843 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00844}00844         \textcolor{keywordflow}{return} (x >> 31) | (\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(-\/x) >> 31);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00845}00845     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00846}00846 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00847}00847     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{int} sign\_alu2(\textcolor{keywordtype}{int} x)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00848}00848     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00849}00849         GLM\_STATIC\_ASSERT(std::numeric\_limits<int>::is\_signed \&\& std::numeric\_limits<int>::is\_integer, \textcolor{stringliteral}{"{}'sign' only accept integer inputs"{}});}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00850}00850 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00851}00851 \textcolor{preprocessor}{\#       if GLM\_COMPILER \& GLM\_COMPILER\_VC}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00852}00852 \textcolor{preprocessor}{\#           pragma warning(push)}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00853}00853 \textcolor{preprocessor}{\#           pragma warning(disable : 4146) }\textcolor{comment}{//cast truncates constant value}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00854}00854 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00855}00855 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00856}00856         \textcolor{keywordflow}{return} -\/(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(x) >> 31) | (-\/\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(x) >> 31);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00857}00857 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00858}00858 \textcolor{preprocessor}{\#       if GLM\_COMPILER \& GLM\_COMPILER\_VC}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00859}00859 \textcolor{preprocessor}{\#           pragma warning(pop)}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00860}00860 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00861}00861     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00862}00862 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00863}00863     \textcolor{keyword}{template}<\textcolor{keyword}{typename} genFIType> }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00864}00864     GLM\_FUNC\_QUALIFIER genFIType sign\_sub(genFIType x)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00865}00865     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00866}00866         GLM\_STATIC\_ASSERT(}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00867}00867             std::numeric\_limits<genFIType>::is\_signed \&\& std::numeric\_limits<genFIType>::is\_integer, }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00868}00868             \textcolor{stringliteral}{"{}'sign' only accept integer inputs"{}});}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00869}00869 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00870}00870         \textcolor{keywordflow}{return} (\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(-\/x) >> 31) -\/ (\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(x) >> 31);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00871}00871     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00872}00872 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00873}00873     \textcolor{keyword}{template}<\textcolor{keyword}{typename} genFIType> }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00874}00874     GLM\_FUNC\_QUALIFIER genFIType sign\_cmp(genFIType x)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00875}00875     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00876}00876         GLM\_STATIC\_ASSERT(}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00877}00877             std::numeric\_limits<genFIType>::is\_signed \&\& std::numeric\_limits<genFIType>::is\_integer, }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00878}00878             \textcolor{stringliteral}{"{}'sign' only accept integer inputs"{}});}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00879}00879 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00880}00880         \textcolor{keywordflow}{return} (x > 0) -\/ (x < 0);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00881}00881     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00882}00882 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00883}00883     \textcolor{keyword}{template}<\textcolor{keyword}{typename} genType>}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00884}\mbox{\hyperlink{structsign_1_1type}{00884}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structsign_1_1type}{type}}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00885}00885     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00886}00886         genType     Value;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00887}00887         genType     Return;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00888}00888     \};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00889}00889 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00890}00890     \textcolor{keywordtype}{int} test\_int32()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00891}00891     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00892}00892         \mbox{\hyperlink{structsign_1_1type}{type<glm::int32>}} \textcolor{keyword}{const} Data[] =}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00893}00893         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00894}00894             \{ \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{std::numeric\_limits<glm::int32>::max}}(),  1\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00895}00895             \{ \mbox{\hyperlink{group__core__func__common_ga2c2bde1cec025b7ddff83c74a1113719}{std::numeric\_limits<glm::int32>::min}}(), -\/1\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00896}00896             \{ 0, 0\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00897}00897             \{ 1, 1\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00898}00898             \{ 2, 1\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00899}00899             \{ 3, 1\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00900}00900             \{-\/1,-\/1\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00901}00901             \{-\/2,-\/1\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00902}00902             \{-\/3,-\/1\}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00903}00903         \};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00904}00904 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00905}00905         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00906}00906 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00907}00907         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < \textcolor{keyword}{sizeof}(Data) / \textcolor{keyword}{sizeof}(type<glm::int32>); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00908}00908         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00909}00909             \mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{glm::int32}} Result = \mbox{\hyperlink{group__core__func__common_gaf749e7f029eb88580a45493e41002629}{glm::sign}}(Data[i].Value);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00910}00910             Error += Data[i].Return == Result ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00911}00911         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00912}00912 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00913}00913         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < \textcolor{keyword}{sizeof}(Data) / \textcolor{keyword}{sizeof}(type<glm::int32>); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00914}00914         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00915}00915             \mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{glm::int32}} Result = sign\_cmp(Data[i].Value);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00916}00916             Error += Data[i].Return == Result ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00917}00917         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00918}00918 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00919}00919         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < \textcolor{keyword}{sizeof}(Data) / \textcolor{keyword}{sizeof}(type<glm::int32>); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00920}00920         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00921}00921             \mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{glm::int32}} Result = sign\_if(Data[i].Value);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00922}00922             Error += Data[i].Return == Result ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00923}00923         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00924}00924 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00925}00925         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < \textcolor{keyword}{sizeof}(Data) / \textcolor{keyword}{sizeof}(type<glm::int32>); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00926}00926         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00927}00927             \mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{glm::int32}} Result = sign\_alu1(Data[i].Value);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00928}00928             Error += Data[i].Return == Result ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00929}00929         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00930}00930 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00931}00931         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < \textcolor{keyword}{sizeof}(Data) / \textcolor{keyword}{sizeof}(type<glm::int32>); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00932}00932         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00933}00933             \mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{glm::int32}} Result = sign\_alu2(Data[i].Value);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00934}00934             Error += Data[i].Return == Result ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00935}00935         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00936}00936 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00937}00937         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00938}00938     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00939}00939 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00940}00940     \textcolor{keywordtype}{int} test\_i32vec4()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00941}00941     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00942}00942         type<glm::i32vec4> \textcolor{keyword}{const} Data[] =}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00943}00943         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00944}00944             \{\mbox{\hyperlink{group__gtc__type__precision_ga78c16dde5527264e8085b375efba6f28}{glm::i32vec4}}( 1), \mbox{\hyperlink{group__gtc__type__precision_ga78c16dde5527264e8085b375efba6f28}{glm::i32vec4}}( 1)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00945}00945             \{\mbox{\hyperlink{group__gtc__type__precision_ga78c16dde5527264e8085b375efba6f28}{glm::i32vec4}}( 0), \mbox{\hyperlink{group__gtc__type__precision_ga78c16dde5527264e8085b375efba6f28}{glm::i32vec4}}( 0)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00946}00946             \{\mbox{\hyperlink{group__gtc__type__precision_ga78c16dde5527264e8085b375efba6f28}{glm::i32vec4}}( 2), \mbox{\hyperlink{group__gtc__type__precision_ga78c16dde5527264e8085b375efba6f28}{glm::i32vec4}}( 1)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00947}00947             \{\mbox{\hyperlink{group__gtc__type__precision_ga78c16dde5527264e8085b375efba6f28}{glm::i32vec4}}( 3), \mbox{\hyperlink{group__gtc__type__precision_ga78c16dde5527264e8085b375efba6f28}{glm::i32vec4}}( 1)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00948}00948             \{\mbox{\hyperlink{group__gtc__type__precision_ga78c16dde5527264e8085b375efba6f28}{glm::i32vec4}}(-\/1), \mbox{\hyperlink{group__gtc__type__precision_ga78c16dde5527264e8085b375efba6f28}{glm::i32vec4}}(-\/1)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00949}00949             \{\mbox{\hyperlink{group__gtc__type__precision_ga78c16dde5527264e8085b375efba6f28}{glm::i32vec4}}(-\/2), \mbox{\hyperlink{group__gtc__type__precision_ga78c16dde5527264e8085b375efba6f28}{glm::i32vec4}}(-\/1)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00950}00950             \{\mbox{\hyperlink{group__gtc__type__precision_ga78c16dde5527264e8085b375efba6f28}{glm::i32vec4}}(-\/3), \mbox{\hyperlink{group__gtc__type__precision_ga78c16dde5527264e8085b375efba6f28}{glm::i32vec4}}(-\/1)\}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00951}00951         \};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00952}00952 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00953}00953         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00954}00954 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00955}00955         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < \textcolor{keyword}{sizeof}(Data) / \textcolor{keyword}{sizeof}(type<glm::i32vec4>); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00956}00956         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00957}00957             \mbox{\hyperlink{structglm_1_1vec}{glm::i32vec4}} Result = \mbox{\hyperlink{group__core__func__common_gaf749e7f029eb88580a45493e41002629}{glm::sign}}(Data[i].Value);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00958}00958             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(Data[i].Return, Result)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00959}00959         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00960}00960 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00961}00961         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00962}00962     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00963}00963 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00964}00964     \textcolor{keywordtype}{int} test\_f32vec4()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00965}00965     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00966}00966         type<glm::vec4> \textcolor{keyword}{const} Data[] =}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00967}00967         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00968}00968             \{\mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}( 1), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}( 1)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00969}00969             \{\mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}( 0), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}( 0)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00970}00970             \{\mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}( 2), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}( 1)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00971}00971             \{\mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}( 3), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}( 1)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00972}00972             \{\mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(-\/1), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(-\/1)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00973}00973             \{\mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(-\/2), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(-\/1)\},}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00974}00974             \{\mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(-\/3), \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(-\/1)\}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00975}00975         \};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00976}00976 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00977}00977         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00978}00978 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00979}00979         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < \textcolor{keyword}{sizeof}(Data) / \textcolor{keyword}{sizeof}(type<glm::vec4>); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00980}00980         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00981}00981             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} Result = \mbox{\hyperlink{group__core__func__common_gaf749e7f029eb88580a45493e41002629}{glm::sign}}(Data[i].Value);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00982}00982             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(Data[i].Return, Result)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00983}00983         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00984}00984 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00985}00985         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00986}00986     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00987}00987 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00988}00988     \textcolor{keyword}{static} \textcolor{keywordtype}{int} test()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00989}00989     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00990}00990         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00991}00991 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00992}00992         Error += test\_int32();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00993}00993         Error += test\_i32vec4();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00994}00994         Error += test\_f32vec4();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00995}00995 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00996}00996         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00997}00997     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00998}00998 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l00999}00999     \textcolor{keywordtype}{int} perf\_rand(std::size\_t Samples)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01000}01000     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01001}01001         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01002}01002 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01003}01003         std::size\_t \textcolor{keyword}{const} Count = Samples;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01004}01004         std::vector<glm::int32> Input, Output;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01005}01005         Input.resize(Count);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01006}01006         Output.resize(Count);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01007}01007         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01008}01008             Input[i] = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{glm::int32}}\textcolor{keyword}{>}(\mbox{\hyperlink{group__gtc__random_ga04e241ab88374a477a2c2ceadd2fa03d}{glm::linearRand}}(-\/65536.f, 65536.f));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01009}01009 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01010}01010         std::clock\_t Timestamp0 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01011}01011 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01012}01012         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01013}01013             Output[i] = sign\_cmp(Input[i]);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01014}01014 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01015}01015         std::clock\_t Timestamp1 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01016}01016 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01017}01017         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01018}01018             Output[i] = sign\_if(Input[i]);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01019}01019 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01020}01020         std::clock\_t Timestamp2 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01021}01021 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01022}01022         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01023}01023             Output[i] = sign\_alu1(Input[i]);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01024}01024 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01025}01025         std::clock\_t Timestamp3 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01026}01026 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01027}01027         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01028}01028             Output[i] = sign\_alu2(Input[i]);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01029}01029 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01030}01030         std::clock\_t Timestamp4 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01031}01031 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01032}01032         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01033}01033             Output[i] = sign\_sub(Input[i]);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01034}01034 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01035}01035         std::clock\_t Timestamp5 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01036}01036 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01037}01037         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01038}01038             Output[i] = \mbox{\hyperlink{group__core__func__common_gaf749e7f029eb88580a45493e41002629}{glm::sign}}(Input[i]);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01039}01039 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01040}01040         std::clock\_t Timestamp6 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01041}01041 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01042}01042         std::printf(\textcolor{stringliteral}{"{}sign\_cmp(rand) Time \%d clocks\(\backslash\)n"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(Timestamp1 -\/ Timestamp0));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01043}01043         std::printf(\textcolor{stringliteral}{"{}sign\_if(rand) Time \%d clocks\(\backslash\)n"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(Timestamp2 -\/ Timestamp1));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01044}01044         std::printf(\textcolor{stringliteral}{"{}sign\_alu1(rand) Time \%d clocks\(\backslash\)n"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(Timestamp3 -\/ Timestamp2));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01045}01045         std::printf(\textcolor{stringliteral}{"{}sign\_alu2(rand) Time \%d clocks\(\backslash\)n"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(Timestamp4 -\/ Timestamp3));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01046}01046         std::printf(\textcolor{stringliteral}{"{}sign\_sub(rand) Time \%d clocks\(\backslash\)n"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(Timestamp5 -\/ Timestamp4));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01047}01047         std::printf(\textcolor{stringliteral}{"{}glm::sign(rand) Time \%d clocks\(\backslash\)n"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(Timestamp6 -\/ Timestamp5));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01048}01048 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01049}01049         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01050}01050     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01051}01051 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01052}01052     \textcolor{keywordtype}{int} perf\_linear(std::size\_t Samples)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01053}01053     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01054}01054         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01055}01055 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01056}01056         std::size\_t \textcolor{keyword}{const} Count = Samples;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01057}01057         std::vector<glm::int32> Input, Output;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01058}01058         Input.resize(Count);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01059}01059         Output.resize(Count);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01060}01060         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01061}01061             Input[i] = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{glm::int32}}\textcolor{keyword}{>}(i);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01062}01062 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01063}01063         std::clock\_t Timestamp0 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01064}01064 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01065}01065         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01066}01066             Output[i] = sign\_cmp(Input[i]);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01067}01067 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01068}01068         std::clock\_t Timestamp1 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01069}01069 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01070}01070         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01071}01071             Output[i] = sign\_if(Input[i]);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01072}01072 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01073}01073         std::clock\_t Timestamp2 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01074}01074 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01075}01075         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01076}01076             Output[i] = sign\_alu1(Input[i]);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01077}01077 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01078}01078         std::clock\_t Timestamp3 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01079}01079 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01080}01080         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01081}01081             Output[i] = sign\_alu2(Input[i]);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01082}01082 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01083}01083         std::clock\_t Timestamp4 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01084}01084 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01085}01085         \textcolor{keywordflow}{for}(std::size\_t i = 0; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01086}01086             Output[i] = sign\_sub(Input[i]);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01087}01087 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01088}01088         std::clock\_t Timestamp5 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01089}01089 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01090}01090         std::printf(\textcolor{stringliteral}{"{}sign\_cmp(linear) Time \%d clocks\(\backslash\)n"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(Timestamp1 -\/ Timestamp0));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01091}01091         std::printf(\textcolor{stringliteral}{"{}sign\_if(linear) Time \%d clocks\(\backslash\)n"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(Timestamp2 -\/ Timestamp1));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01092}01092         std::printf(\textcolor{stringliteral}{"{}sign\_alu1(linear) Time \%d clocks\(\backslash\)n"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(Timestamp3 -\/ Timestamp2));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01093}01093         std::printf(\textcolor{stringliteral}{"{}sign\_alu2(linear) Time \%d clocks\(\backslash\)n"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(Timestamp4 -\/ Timestamp3));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01094}01094         std::printf(\textcolor{stringliteral}{"{}sign\_sub(linear) Time \%d clocks\(\backslash\)n"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(Timestamp5 -\/ Timestamp4));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01095}01095 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01096}01096         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01097}01097     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01098}01098 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01099}01099     \textcolor{keywordtype}{int} perf\_linear\_cal(std::size\_t Samples)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01100}01100     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01101}01101         \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01102}01102 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01103}01103         \mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{glm::int32}} \textcolor{keyword}{const} Count = \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{glm::int32}}\textcolor{keyword}{>}(Samples);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01104}01104 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01105}01105         std::clock\_t Timestamp0 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01106}01106         \mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{glm::int32}} Sum = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01107}01107 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01108}01108         \textcolor{keywordflow}{for}(\mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{glm::int32}} i = 1; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01109}01109             Sum += sign\_cmp(i);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01110}01110 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01111}01111         std::clock\_t Timestamp1 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01112}01112 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01113}01113         \textcolor{keywordflow}{for}(\mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{glm::int32}} i = 1; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01114}01114             Sum += sign\_if(i);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01115}01115 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01116}01116         std::clock\_t Timestamp2 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01117}01117 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01118}01118         \textcolor{keywordflow}{for}(\mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{glm::int32}} i = 1; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01119}01119             Sum += sign\_alu1(i);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01120}01120 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01121}01121         std::clock\_t Timestamp3 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01122}01122 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01123}01123         \textcolor{keywordflow}{for}(\mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{glm::int32}} i = 1; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01124}01124             Sum += sign\_alu2(i);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01125}01125 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01126}01126         std::clock\_t Timestamp4 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01127}01127 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01128}01128         \textcolor{keywordflow}{for}(\mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{glm::int32}} i = 1; i < Count; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01129}01129             Sum += sign\_sub(i);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01130}01130 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01131}01131         std::clock\_t Timestamp5 = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01132}01132 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01133}01133         std::printf(\textcolor{stringliteral}{"{}Sum \%d\(\backslash\)n"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(Sum));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01134}01134 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01135}01135         std::printf(\textcolor{stringliteral}{"{}sign\_cmp(linear\_cal) Time \%d clocks\(\backslash\)n"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(Timestamp1 -\/ Timestamp0));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01136}01136         std::printf(\textcolor{stringliteral}{"{}sign\_if(linear\_cal) Time \%d clocks\(\backslash\)n"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(Timestamp2 -\/ Timestamp1));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01137}01137         std::printf(\textcolor{stringliteral}{"{}sign\_alu1(linear\_cal) Time \%d clocks\(\backslash\)n"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(Timestamp3 -\/ Timestamp2));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01138}01138         std::printf(\textcolor{stringliteral}{"{}sign\_alu2(linear\_cal) Time \%d clocks\(\backslash\)n"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(Timestamp4 -\/ Timestamp3));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01139}01139         std::printf(\textcolor{stringliteral}{"{}sign\_sub(linear\_cal) Time \%d clocks\(\backslash\)n"{}}, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(Timestamp5 -\/ Timestamp4));}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01140}01140 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01141}01141         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01142}01142     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01143}01143 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01144}01144     \textcolor{keyword}{static} \textcolor{keywordtype}{int} perf(std::size\_t Samples)}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01145}01145     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01146}01146         \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01147}01147 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01148}01148         Error += perf\_linear\_cal(Samples);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01149}01149         Error += perf\_linear(Samples);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01150}01150         Error += perf\_rand(Samples);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01151}01151 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01152}01152         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01153}01153     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01154}01154 \}\textcolor{comment}{//namespace sign}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01155}01155 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01156}01156 \textcolor{keyword}{namespace }frexp\_}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01157}01157 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01158}01158     \textcolor{keyword}{static} \textcolor{keywordtype}{int} test()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01159}01159     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01160}01160         \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01161}01161 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01162}01162         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01163}01163             \mbox{\hyperlink{structglm_1_1vec}{glm::vec1}} x(1024);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01164}01164             \mbox{\hyperlink{structglm_1_1vec}{glm::ivec1}} \mbox{\hyperlink{group__core__func__exponential_gaf6342f49d902286a599ceb86036236ce}{exp}};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01165}01165             \mbox{\hyperlink{structglm_1_1vec}{glm::vec1}} A = \mbox{\hyperlink{group__core__func__common_ga20620e83544d1a988857a3bc4ebe0e1d}{glm::frexp}}(x, exp);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01166}01166             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, \mbox{\hyperlink{structglm_1_1vec}{glm::vec1}}(0.5), 0.00001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01167}01167             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(exp, \mbox{\hyperlink{structglm_1_1vec}{glm::ivec1}}(11))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01168}01168         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01169}01169 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01170}01170         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01171}01171             \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} x(1024, 0.24);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01172}01172             \mbox{\hyperlink{structglm_1_1vec}{glm::ivec2}} \mbox{\hyperlink{group__core__func__exponential_gaf6342f49d902286a599ceb86036236ce}{exp}};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01173}01173             \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} A = \mbox{\hyperlink{group__core__func__common_ga20620e83544d1a988857a3bc4ebe0e1d}{glm::frexp}}(x, exp);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01174}01174             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(0.5, 0.96), 0.00001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01175}01175             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(exp, \mbox{\hyperlink{structglm_1_1vec}{glm::ivec2}}(11, -\/2))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01176}01176         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01177}01177 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01178}01178         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01179}01179             \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} x(1024, 0.24, 0);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01180}01180             \mbox{\hyperlink{structglm_1_1vec}{glm::ivec3}} \mbox{\hyperlink{group__core__func__exponential_gaf6342f49d902286a599ceb86036236ce}{exp}};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01181}01181             \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} A = \mbox{\hyperlink{group__core__func__common_ga20620e83544d1a988857a3bc4ebe0e1d}{glm::frexp}}(x, exp);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01182}01182             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0.5, 0.96, 0.0), 0.00001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01183}01183             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(exp, \mbox{\hyperlink{structglm_1_1vec}{glm::ivec3}}(11, -\/2, 0))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01184}01184         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01185}01185 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01186}01186         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01187}01187             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} x(1024, 0.24, 0, -\/1.33);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01188}01188             \mbox{\hyperlink{structglm_1_1vec}{glm::ivec4}} \mbox{\hyperlink{group__core__func__exponential_gaf6342f49d902286a599ceb86036236ce}{exp}};}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01189}01189             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} A = \mbox{\hyperlink{group__core__func__common_ga20620e83544d1a988857a3bc4ebe0e1d}{glm::frexp}}(x, exp);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01190}01190             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(0.5, 0.96, 0.0, -\/0.665), 0.00001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01191}01191             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__core__func__vector__relational_gab560b9b9d01040d082e40edae40edfd1}{glm::equal}}(exp, \mbox{\hyperlink{structglm_1_1vec}{glm::ivec4}}(11, -\/2, 0, 1))) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01192}01192         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01193}01193 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01194}01194         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01195}01195     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01196}01196 \}\textcolor{comment}{//namespace frexp\_}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01197}01197 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01198}01198 \textcolor{keyword}{namespace }ldexp\_}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01199}01199 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01200}01200     \textcolor{keyword}{static} \textcolor{keywordtype}{int} test()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01201}01201     \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01202}01202         \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01203}01203 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01204}01204         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01205}01205             \mbox{\hyperlink{structglm_1_1vec}{glm::vec1}} A = \mbox{\hyperlink{group__ext__vec1_ga16030dae9029ed1eab1553a2183bbb79}{glm::vec1}}(0.5);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01206}01206             \mbox{\hyperlink{structglm_1_1vec}{glm::ivec1}} \mbox{\hyperlink{group__core__func__exponential_gaf6342f49d902286a599ceb86036236ce}{exp}} = \mbox{\hyperlink{group__ext__vec1_ga946031cea0c22745848ebd873e6facb0}{glm::ivec1}}(11);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01207}01207             \mbox{\hyperlink{structglm_1_1vec}{glm::vec1}} x = \mbox{\hyperlink{group__core__func__common_ga52e319d7289b849ec92055abd4830533}{glm::ldexp}}(A, exp);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01208}01208             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(x, \mbox{\hyperlink{structglm_1_1vec}{glm::vec1}}(1024),0.00001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01209}01209         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01210}01210 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01211}01211         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01212}01212             \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} A = \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{glm::vec2}}(0.5, 0.96);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01213}01213             \mbox{\hyperlink{structglm_1_1vec}{glm::ivec2}} \mbox{\hyperlink{group__core__func__exponential_gaf6342f49d902286a599ceb86036236ce}{exp}} = \mbox{\hyperlink{group__core__types_ga9e6ce9cfc7919976b318197e18d8a065}{glm::ivec2}}(11, -\/2);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01214}01214             \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}} x = \mbox{\hyperlink{group__core__func__common_ga52e319d7289b849ec92055abd4830533}{glm::ldexp}}(A, exp);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01215}01215             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(x, \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1024, .24),0.00001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01216}01216         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01217}01217 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01218}01218         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01219}01219             \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} A = \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(0.5, 0.96, 0.0);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01220}01220             \mbox{\hyperlink{structglm_1_1vec}{glm::ivec3}} \mbox{\hyperlink{group__core__func__exponential_gaf6342f49d902286a599ceb86036236ce}{exp}} = \mbox{\hyperlink{group__core__types_ga6e12a4ca00d696f07da1df4eb73e0fe8}{glm::ivec3}}(11, -\/2, 0);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01221}01221             \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} x = \mbox{\hyperlink{group__core__func__common_ga52e319d7289b849ec92055abd4830533}{glm::ldexp}}(A, exp);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01222}01222             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(x, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1024, .24, 0),0.00001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01223}01223         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01224}01224 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01225}01225         \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01226}01226             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} A = \mbox{\hyperlink{group__core__types_ga5881b1b022d7fd1b7218f5916532dd02}{glm::vec4}}(0.5, 0.96, 0.0, -\/0.665);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01227}01227             \mbox{\hyperlink{structglm_1_1vec}{glm::ivec4}} \mbox{\hyperlink{group__core__func__exponential_gaf6342f49d902286a599ceb86036236ce}{exp}} = \mbox{\hyperlink{group__core__types_gaa4560ddc50320ea8f8a70d5c9c249fea}{glm::ivec4}}(11, -\/2, 0, 1);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01228}01228             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} x = \mbox{\hyperlink{group__core__func__common_ga52e319d7289b849ec92055abd4830533}{glm::ldexp}}(A, exp);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01229}01229             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(x, \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1024, .24, 0, -\/1.33),0.00001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01230}01230         \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01231}01231 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01232}01232         \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01233}01233     \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01234}01234 \}\textcolor{comment}{//namespace ldexp\_}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01235}01235 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01236}01236 \textcolor{keywordtype}{int} main()}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01237}01237 \{}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01238}01238     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01239}01239 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01240}01240     Error += sign::test();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01241}01241     Error += floor\_::test();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01242}01242     Error += mod\_::test();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01243}01243     Error += modf\_::test();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01244}01244     Error += floatBitsToInt::test();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01245}01245     Error += floatBitsToUint::test();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01246}01246     Error += mix\_::test();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01247}01247     Error += step\_::test();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01248}01248     Error += max\_::test();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01249}01249     Error += min\_::test();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01250}01250     Error += clamp\_::test();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01251}01251     Error += round\_::test();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01252}01252     Error += roundEven::test();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01253}01253     Error += isnan\_::test();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01254}01254     Error += isinf\_::test();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01255}01255     Error += frexp\_::test();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01256}01256     Error += ldexp\_::test();}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01257}01257 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01258}01258 \textcolor{preprocessor}{\#   ifdef NDEBUG}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01259}01259         std::size\_t Samples = 1000;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01260}01260 \textcolor{preprocessor}{\#   else}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01261}01261         std::size\_t Samples = 1;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01262}01262 \textcolor{preprocessor}{\#   endif}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01263}01263     Error += sign::perf(Samples);}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01264}01264 }
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01265}01265     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01266}01266 \}}
+\DoxyCodeLine{\Hypertarget{core__func__common_8cpp_source_l01267}01267 }
+
+\end{DoxyCode}

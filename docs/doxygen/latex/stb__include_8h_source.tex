@@ -1,0 +1,301 @@
+\hypertarget{stb__include_8h_source}{}\doxysection{stb\+\_\+include.\+h}
+\label{stb__include_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/stb\_include.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/stb\_include.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00001}00001 \textcolor{comment}{// stb\_include.h -\/ v0.02 -\/ parse and process \#include directives -\/ public domain}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00003}00003 \textcolor{comment}{// To build this, in one source file that includes this file do}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00004}00004 \textcolor{comment}{//      \#define STB\_INCLUDE\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00005}00005 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00006}00006 \textcolor{comment}{// This program parses a string and replaces lines of the form}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00007}00007 \textcolor{comment}{//         \#include "{}foo"{}}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00008}00008 \textcolor{comment}{// with the contents of a file named "{}foo"{}. It also embeds the}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00009}00009 \textcolor{comment}{// appropriate \#line directives. Note that all include files must}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00010}00010 \textcolor{comment}{// reside in the location specified in the path passed to the API;}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00011}00011 \textcolor{comment}{// it does not check multiple directories.}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00012}00012 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00013}00013 \textcolor{comment}{// If the string contains a line of the form}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00014}00014 \textcolor{comment}{//         \#inject}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00015}00015 \textcolor{comment}{// then it will be replaced with the contents of the string 'inject' passed to the API.}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00016}00016 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00017}00017 \textcolor{comment}{// Options:}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00018}00018 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00019}00019 \textcolor{comment}{//      Define STB\_INCLUDE\_LINE\_GLSL to get GLSL-\/style \#line directives}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00020}00020 \textcolor{comment}{//      which use numbers instead of filenames.}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00021}00021 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00022}00022 \textcolor{comment}{//      Define STB\_INCLUDE\_LINE\_NONE to disable output of \#line directives.}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00023}00023 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00024}00024 \textcolor{comment}{// Standard libraries:}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00025}00025 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00026}00026 \textcolor{comment}{//      stdio.h     FILE, fopen, fclose, fseek, ftell}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00027}00027 \textcolor{comment}{//      stdlib.h    malloc, realloc, free}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00028}00028 \textcolor{comment}{//      string.h    strcpy, strncmp, memcpy}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00029}00029 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00030}00030 \textcolor{comment}{// Credits:}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00031}00031 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00032}00032 \textcolor{comment}{// Written by Sean Barrett.}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00033}00033 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00034}00034 \textcolor{comment}{// Fixes:}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00035}00035 \textcolor{comment}{//  Michal Klos}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00037}00037 \textcolor{preprocessor}{\#ifndef STB\_INCLUDE\_STB\_INCLUDE\_H}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00038}00038 \textcolor{preprocessor}{\#define STB\_INCLUDE\_STB\_INCLUDE\_H}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00040}00040 \textcolor{comment}{// Do include-\/processing on the string 'str'. To free the return value, pass it to free()}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00041}00041 \textcolor{keywordtype}{char} *stb\_include\_string(\textcolor{keywordtype}{char} *str, \textcolor{keywordtype}{char} *inject, \textcolor{keywordtype}{char} *path\_to\_includes, \textcolor{keywordtype}{char} *filename\_for\_line\_directive, \textcolor{keywordtype}{char} error[256]);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00043}00043 \textcolor{comment}{// Concatenate the strings 'strs' and do include-\/processing on the result. To free the return value, pass it to free()}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00044}00044 \textcolor{keywordtype}{char} *stb\_include\_strings(\textcolor{keywordtype}{char} **strs, \textcolor{keywordtype}{int} count, \textcolor{keywordtype}{char} *inject, \textcolor{keywordtype}{char} *path\_to\_includes, \textcolor{keywordtype}{char} *filename\_for\_line\_directive, \textcolor{keywordtype}{char} error[256]);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00046}00046 \textcolor{comment}{// Load the file 'filename' and do include-\/processing on the string therein. note that}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00047}00047 \textcolor{comment}{// 'filename' is opened directly; 'path\_to\_includes' is not used. To free the return value, pass it to free()}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00048}00048 \textcolor{keywordtype}{char} *stb\_include\_file(\textcolor{keywordtype}{char} *filename, \textcolor{keywordtype}{char} *inject, \textcolor{keywordtype}{char} *path\_to\_includes, \textcolor{keywordtype}{char} error[256]);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00050}00050 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00053}00053 \textcolor{preprocessor}{\#ifdef STB\_INCLUDE\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00055}00055 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00056}00056 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00057}00057 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00059}00059 \textcolor{keyword}{static} \textcolor{keywordtype}{char} *stb\_include\_load\_file(\textcolor{keywordtype}{char} *filename, \textcolor{keywordtype}{size\_t} *plen)}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00060}00060 \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00061}00061    \textcolor{keywordtype}{char} *text;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00062}00062    \textcolor{keywordtype}{size\_t} len;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00063}00063    FILE *f = fopen(filename, \textcolor{stringliteral}{"{}rb"{}});}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00064}00064    \textcolor{keywordflow}{if} (f == 0) \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00065}00065    fseek(f, 0, SEEK\_END);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00066}00066    len = (size\_t) ftell(f);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00067}00067    \textcolor{keywordflow}{if} (plen) *plen = len;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00068}00068    text = (\textcolor{keywordtype}{char} *) malloc(len+1);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00069}00069    \textcolor{keywordflow}{if} (text == 0) \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00070}00070    fseek(f, 0, SEEK\_SET);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00071}00071    fread(text, 1, len, f);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00072}00072    fclose(f);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00073}00073    text[len] = 0;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00074}00074    \textcolor{keywordflow}{return} text;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00075}00075 \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00077}00077 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00078}00078 \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00079}00079    \textcolor{keywordtype}{int} offset;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00080}00080    \textcolor{keywordtype}{int} end;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00081}00081    \textcolor{keywordtype}{char} *filename;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00082}00082    \textcolor{keywordtype}{int} next\_line\_after;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00083}00083 \} include\_info;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00085}00085 \textcolor{keyword}{static} include\_info *stb\_include\_append\_include(include\_info *array, \textcolor{keywordtype}{int} len, \textcolor{keywordtype}{int} offset, \textcolor{keywordtype}{int} end, \textcolor{keywordtype}{char} *filename, \textcolor{keywordtype}{int} next\_line)}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00086}00086 \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00087}00087    include\_info *z = (include\_info *) realloc(array, \textcolor{keyword}{sizeof}(*z) * (len+1));}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00088}00088    z[len].offset   = offset;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00089}00089    z[len].end      = end;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00090}00090    z[len].filename = filename;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00091}00091    z[len].next\_line\_after = next\_line;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00092}00092    \textcolor{keywordflow}{return} z;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00093}00093 \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00095}00095 \textcolor{keyword}{static} \textcolor{keywordtype}{void} stb\_include\_free\_includes(include\_info *array, \textcolor{keywordtype}{int} len)}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00096}00096 \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00097}00097    \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00098}00098    \textcolor{keywordflow}{for} (i=0; i < len; ++i)}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00099}00099       free(array[i].filename);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00100}00100    free(array);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00101}00101 \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00103}00103 \textcolor{keyword}{static} \textcolor{keywordtype}{int} stb\_include\_isspace(\textcolor{keywordtype}{int} ch)}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00104}00104 \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00105}00105    \textcolor{keywordflow}{return} (ch == \textcolor{charliteral}{' '} || ch == \textcolor{charliteral}{'\(\backslash\)t'} || ch == \textcolor{charliteral}{'\(\backslash\)r'} || ch == \textcolor{charliteral}{'\(\backslash\)n'});}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00106}00106 \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00108}00108 \textcolor{comment}{// find location of all \#include and \#inject}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00109}00109 \textcolor{keyword}{static} \textcolor{keywordtype}{int} stb\_include\_find\_includes(\textcolor{keywordtype}{char} *text, include\_info **plist)}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00110}00110 \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00111}00111    \textcolor{keywordtype}{int} line\_count = 1;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00112}00112    \textcolor{keywordtype}{int} inc\_count = 0;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00113}00113    \textcolor{keywordtype}{char} *s = text, *start;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00114}00114    include\_info *list = NULL;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00115}00115    \textcolor{keywordflow}{while} (*s) \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00116}00116       \textcolor{comment}{// parse is always at start of line when we reach here}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00117}00117       start = s;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00118}00118       \textcolor{keywordflow}{while} (*s == \textcolor{charliteral}{' '} || *s == \textcolor{charliteral}{'\(\backslash\)t'})}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00119}00119          ++s;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00120}00120       \textcolor{keywordflow}{if} (*s == \textcolor{charliteral}{'\#'}) \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00121}00121          ++s;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00122}00122          \textcolor{keywordflow}{while} (*s == \textcolor{charliteral}{' '} || *s == \textcolor{charliteral}{'\(\backslash\)t'})}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00123}00123             ++s;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00124}00124          \textcolor{keywordflow}{if} (0==strncmp(s, \textcolor{stringliteral}{"{}include"{}}, 7) \&\& stb\_include\_isspace(s[7])) \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00125}00125             s += 7;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00126}00126             \textcolor{keywordflow}{while} (*s == \textcolor{charliteral}{' '} || *s == \textcolor{charliteral}{'\(\backslash\)t'})}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00127}00127                ++s;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00128}00128             \textcolor{keywordflow}{if} (*s == \textcolor{charliteral}{'"{}'}) \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00129}00129                \textcolor{keywordtype}{char} *t = ++s;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00130}00130                \textcolor{keywordflow}{while} (*t != \textcolor{charliteral}{'"{}'} \&\& *t != \textcolor{charliteral}{'\(\backslash\)n'} \&\& *t != \textcolor{charliteral}{'\(\backslash\)r'} \&\& *t != 0)}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00131}00131                   ++t;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00132}00132                \textcolor{keywordflow}{if} (*t == \textcolor{charliteral}{'"{}'}) \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00133}00133                   \textcolor{keywordtype}{char} *filename = (\textcolor{keywordtype}{char} *) malloc(t-\/s+1);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00134}00134                   memcpy(filename, s, t-\/s);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00135}00135                   filename[t-\/s] = 0;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00136}00136                   s=t;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00137}00137                   \textcolor{keywordflow}{while} (*s != \textcolor{charliteral}{'\(\backslash\)r'} \&\& *s != \textcolor{charliteral}{'\(\backslash\)n'} \&\& *s != 0)}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00138}00138                      ++s;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00139}00139                   \textcolor{comment}{// s points to the newline, so s-\/start is everything except the newline}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00140}00140                   list = stb\_include\_append\_include(list, inc\_count++, start-\/text, s-\/text, filename, line\_count+1);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00141}00141                \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00142}00142             \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00143}00143          \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (0==strncmp(s, \textcolor{stringliteral}{"{}inject"{}}, 6) \&\& (stb\_include\_isspace(s[6]) || s[6]==0)) \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00144}00144             \textcolor{keywordflow}{while} (*s != \textcolor{charliteral}{'\(\backslash\)r'} \&\& *s != \textcolor{charliteral}{'\(\backslash\)n'} \&\& *s != 0)}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00145}00145                ++s;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00146}00146             list = stb\_include\_append\_include(list, inc\_count++, start-\/text, s-\/text, NULL, line\_count+1);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00147}00147          \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00148}00148       \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00149}00149       \textcolor{keywordflow}{while} (*s != \textcolor{charliteral}{'\(\backslash\)r'} \&\& *s != \textcolor{charliteral}{'\(\backslash\)n'} \&\& *s != 0)}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00150}00150          ++s;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00151}00151       \textcolor{keywordflow}{if} (*s == \textcolor{charliteral}{'\(\backslash\)r'} || *s == \textcolor{charliteral}{'\(\backslash\)n'}) \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00152}00152          s = s + (s[0] + s[1] == \textcolor{charliteral}{'\(\backslash\)r'} + \textcolor{charliteral}{'\(\backslash\)n'} ? 2 : 1);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00153}00153       \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00154}00154       ++line\_count;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00155}00155    \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00156}00156    *plist = list;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00157}00157    \textcolor{keywordflow}{return} inc\_count;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00158}00158 \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00159}00159 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00160}00160 \textcolor{comment}{// avoid dependency on sprintf()}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00161}00161 \textcolor{keyword}{static} \textcolor{keywordtype}{void} stb\_include\_itoa(\textcolor{keywordtype}{char} str[9], \textcolor{keywordtype}{int} n)}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00162}00162 \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00163}00163    \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00164}00164    \textcolor{keywordflow}{for} (i=0; i < 8; ++i)}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00165}00165       str[i] = \textcolor{charliteral}{' '};}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00166}00166    str[i] = 0;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00167}00167 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00168}00168    \textcolor{keywordflow}{for} (i=1; i < 8; ++i) \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00169}00169       str[7-\/i] = \textcolor{charliteral}{'0'} + (n \% 10);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00170}00170       n /= 10;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00171}00171       \textcolor{keywordflow}{if} (n == 0)}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00172}00172          \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00173}00173    \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00174}00174 \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00175}00175 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00176}00176 \textcolor{keyword}{static} \textcolor{keywordtype}{char} *stb\_include\_append(\textcolor{keywordtype}{char} *str, \textcolor{keywordtype}{size\_t} *curlen, \textcolor{keywordtype}{char} *addstr, \textcolor{keywordtype}{size\_t} addlen)}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00177}00177 \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00178}00178    str = (\textcolor{keywordtype}{char} *) realloc(str, *curlen + addlen);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00179}00179    memcpy(str + *curlen, addstr, addlen);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00180}00180    *curlen += addlen;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00181}00181    \textcolor{keywordflow}{return} str;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00182}00182 \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00183}00183 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00184}00184 \textcolor{keywordtype}{char} *stb\_include\_string(\textcolor{keywordtype}{char} *str, \textcolor{keywordtype}{char} *inject, \textcolor{keywordtype}{char} *path\_to\_includes, \textcolor{keywordtype}{char} *filename, \textcolor{keywordtype}{char} error[256])}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00185}00185 \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00186}00186    \textcolor{keywordtype}{char} temp[4096];}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00187}00187    include\_info *inc\_list;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00188}00188    \textcolor{keywordtype}{int} i, num = stb\_include\_find\_includes(str, \&inc\_list);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00189}00189    \textcolor{keywordtype}{size\_t} source\_len = strlen(str);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00190}00190    \textcolor{keywordtype}{char} *text=0;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00191}00191    \textcolor{keywordtype}{size\_t} textlen=0, last=0;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00192}00192    \textcolor{keywordflow}{for} (i=0; i < num; ++i) \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00193}00193       text = stb\_include\_append(text, \&textlen, str+last, inc\_list[i].offset -\/ last);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00194}00194       \textcolor{comment}{// write out line directive for the include}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00195}00195 \textcolor{preprocessor}{      \#ifndef STB\_INCLUDE\_LINE\_NONE}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00196}00196 \textcolor{preprocessor}{      \#ifdef STB\_INCLUDE\_LINE\_GLSL}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00197}00197       \textcolor{keywordflow}{if} (textlen != 0)  \textcolor{comment}{// GLSL \#version must appear first, so don't put a \#line at the top}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00198}00198 \textcolor{preprocessor}{      \#endif}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00199}00199       \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00200}00200          strcpy(temp, \textcolor{stringliteral}{"{}\#line "{}});}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00201}00201          stb\_include\_itoa(temp+6, 1);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00202}00202          strcat(temp, \textcolor{stringliteral}{"{} "{}});}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00203}00203 \textcolor{preprocessor}{         \#ifdef STB\_INCLUDE\_LINE\_GLSL}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00204}00204          stb\_include\_itoa(temp+15, i+1);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00205}00205 \textcolor{preprocessor}{         \#else}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00206}00206          strcat(temp, \textcolor{stringliteral}{"{}\(\backslash\)"{}"{}});}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00207}00207          \textcolor{keywordflow}{if} (inc\_list[i].filename == 0)}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00208}00208             strcmp(temp, \textcolor{stringliteral}{"{}INJECT"{}});}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00209}00209          \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00210}00210             strcat(temp, inc\_list[i].filename);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00211}00211          strcat(temp, \textcolor{stringliteral}{"{}\(\backslash\)"{}"{}});}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00212}00212 \textcolor{preprocessor}{         \#endif}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00213}00213          strcat(temp, \textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00214}00214          text = stb\_include\_append(text, \&textlen, temp, strlen(temp));}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00215}00215       \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00216}00216 \textcolor{preprocessor}{      \#endif}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00217}00217       \textcolor{keywordflow}{if} (inc\_list[i].filename == 0) \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00218}00218          \textcolor{keywordflow}{if} (inject != 0)}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00219}00219             text = stb\_include\_append(text, \&textlen, inject, strlen(inject));}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00220}00220       \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00221}00221          \textcolor{keywordtype}{char} *inc;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00222}00222          strcpy(temp, path\_to\_includes);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00223}00223          strcat(temp, \textcolor{stringliteral}{"{}/"{}});}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00224}00224          strcat(temp, inc\_list[i].filename);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00225}00225          inc = stb\_include\_file(temp, inject, path\_to\_includes, error);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00226}00226          \textcolor{keywordflow}{if} (inc == NULL) \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00227}00227             stb\_include\_free\_includes(inc\_list, num);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00228}00228             \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00229}00229          \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00230}00230          text = stb\_include\_append(text, \&textlen, inc, strlen(inc));}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00231}00231          free(inc);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00232}00232       \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00233}00233       \textcolor{comment}{// write out line directive}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00234}00234 \textcolor{preprocessor}{      \#ifndef STB\_INCLUDE\_LINE\_NONE}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00235}00235       strcpy(temp, \textcolor{stringliteral}{"{}\(\backslash\)n\#line "{}});}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00236}00236       stb\_include\_itoa(temp+6, inc\_list[i].next\_line\_after);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00237}00237       strcat(temp, \textcolor{stringliteral}{"{} "{}});}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00238}00238 \textcolor{preprocessor}{      \#ifdef STB\_INCLUDE\_LINE\_GLSL}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00239}00239       stb\_include\_itoa(temp+15, 0);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00240}00240 \textcolor{preprocessor}{      \#else}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00241}00241       strcat(temp, filename != 0 ? filename : \textcolor{stringliteral}{"{}source-\/file"{}});}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00242}00242 \textcolor{preprocessor}{      \#endif}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00243}00243       text = stb\_include\_append(text, \&textlen, temp, strlen(temp));}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00244}00244       \textcolor{comment}{// no newlines, because we kept the \#include newlines, which will get appended next}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00245}00245 \textcolor{preprocessor}{      \#endif}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00246}00246       last = inc\_list[i].end;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00247}00247    \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00248}00248    text = stb\_include\_append(text, \&textlen, str+last, source\_len -\/ last + 1); \textcolor{comment}{// append '\(\backslash\)0'}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00249}00249    stb\_include\_free\_includes(inc\_list, num);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00250}00250    \textcolor{keywordflow}{return} text;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00251}00251 \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00252}00252 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00253}00253 \textcolor{keywordtype}{char} *stb\_include\_strings(\textcolor{keywordtype}{char} **strs, \textcolor{keywordtype}{int} count, \textcolor{keywordtype}{char} *inject, \textcolor{keywordtype}{char} *path\_to\_includes, \textcolor{keywordtype}{char} *filename, \textcolor{keywordtype}{char} error[256])}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00254}00254 \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00255}00255    \textcolor{keywordtype}{char} *text;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00256}00256    \textcolor{keywordtype}{char} *\mbox{\hyperlink{structresult}{result}};}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00257}00257    \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00258}00258    \textcolor{keywordtype}{size\_t} length=0;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00259}00259    \textcolor{keywordflow}{for} (i=0; i < count; ++i)}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00260}00260       length += strlen(strs[i]);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00261}00261    text = (\textcolor{keywordtype}{char} *) malloc(length+1);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00262}00262    length = 0;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00263}00263    \textcolor{keywordflow}{for} (i=0; i < count; ++i) \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00264}00264       strcpy(text + length, strs[i]);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00265}00265       length += strlen(strs[i]);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00266}00266    \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00267}00267    \mbox{\hyperlink{structresult}{result}} = stb\_include\_string(text, inject, path\_to\_includes, filename, error);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00268}00268    free(text);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00269}00269    \textcolor{keywordflow}{return} \mbox{\hyperlink{structresult}{result}};}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00270}00270 \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00271}00271 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00272}00272 \textcolor{keywordtype}{char} *stb\_include\_file(\textcolor{keywordtype}{char} *filename, \textcolor{keywordtype}{char} *inject, \textcolor{keywordtype}{char} *path\_to\_includes, \textcolor{keywordtype}{char} error[256])}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00273}00273 \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00274}00274    \textcolor{keywordtype}{size\_t} len;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00275}00275    \textcolor{keywordtype}{char} *\mbox{\hyperlink{structresult}{result}};}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00276}00276    \textcolor{keywordtype}{char} *text = stb\_include\_load\_file(filename, \&len);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00277}00277    \textcolor{keywordflow}{if} (text == NULL) \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00278}00278       strcpy(error, \textcolor{stringliteral}{"{}Error: couldn't load '"{}});}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00279}00279       strcat(error, filename);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00280}00280       strcat(error, \textcolor{stringliteral}{"{}'"{}});}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00281}00281       \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00282}00282    \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00283}00283    \mbox{\hyperlink{structresult}{result}} = stb\_include\_string(text, inject, path\_to\_includes, filename, error);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00284}00284    free(text);}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00285}00285    \textcolor{keywordflow}{return} \mbox{\hyperlink{structresult}{result}};}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00286}00286 \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00287}00287 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00288}00288 \textcolor{preprocessor}{\#if 0 }\textcolor{comment}{// @TODO, GL\_ARB\_shader\_language\_include-\/style system that doesn't touch filesystem}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00289}00289 \textcolor{keywordtype}{char} *stb\_include\_preloaded(\textcolor{keywordtype}{char} *str, \textcolor{keywordtype}{char} *inject, \textcolor{keywordtype}{char} *includes[][2], \textcolor{keywordtype}{char} error[256])}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00290}00290 \{}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00291}00291 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00292}00292 \}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00293}00293 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00294}00294 }
+\DoxyCodeLine{\Hypertarget{stb__include_8h_source_l00295}00295 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// STB\_INCLUDE\_IMPLEMENTATION}}
+
+\end{DoxyCode}

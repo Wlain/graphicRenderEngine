@@ -1,0 +1,277 @@
+\hypertarget{example__apple__opengl2_2main_8mm_source}{}\doxysection{main.\+mm}
+\label{example__apple__opengl2_2main_8mm_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/examples/example\_apple\_opengl2/main.mm@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/examples/example\_apple\_opengl2/main.mm}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00001}00001 \textcolor{comment}{// Dear ImGui: standalone example application for OSX + OpenGL2, using legacy fixed pipeline}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00002}00002 \textcolor{comment}{// If you are new to Dear ImGui, read documentation from the docs/ folder + read the top of imgui.cpp.}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00003}00003 \textcolor{comment}{// Read online: https://github.com/ocornut/imgui/tree/master/docs}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00005}00005 \textcolor{preprocessor}{\#import <Cocoa/Cocoa.h>}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00006}00006 \textcolor{preprocessor}{\#import <OpenGL/gl.h>}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00007}00007 \textcolor{preprocessor}{\#import <OpenGL/glu.h>}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00009}00009 \textcolor{preprocessor}{\#include "{}imgui.h"{}}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00010}00010 \textcolor{preprocessor}{\#include "{}imgui\_impl\_opengl2.h"{}}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00011}00011 \textcolor{preprocessor}{\#include "{}imgui\_impl\_osx.h"{}}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00013}00013 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00014}00014 \textcolor{comment}{// AppView}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00015}00015 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00017}\mbox{\hyperlink{interface_app_view}{00017}} \textcolor{keyword}{@interface }\mbox{\hyperlink{interface_app_view}{AppView}} : NSOpenGLView}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00018}00018 \{}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00019}00019     NSTimer*    animationTimer;}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00020}00020 \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00021}00021 \textcolor{keyword}{@end}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00023}00023 \textcolor{keyword}{@implementation }\mbox{\hyperlink{interface_app_view}{AppView}}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00025}00025 -\/(void)prepareOpenGL}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00026}00026 \{}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00027}00027     [\textcolor{keyword}{super} prepareOpenGL];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00028}00028 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00029}00029 \textcolor{preprocessor}{\#ifndef DEBUG}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00030}00030     GLint swapInterval = 1;}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00031}00031     [[\textcolor{keyword}{self} openGLContext] setValues:\&swapInterval forParameter:NSOpenGLCPSwapInterval];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00032}00032     \textcolor{keywordflow}{if} (swapInterval == 0)}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00033}00033         NSLog(\textcolor{stringliteral}{@"{}Error: Cannot set swap interval."{}});}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00034}00034 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00035}00035 \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00037}00037 -\/(void)initialize}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00038}00038 \{}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00039}00039     \textcolor{comment}{// Setup Dear ImGui context}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00040}00040     \textcolor{comment}{// FIXME: This example doesn't have proper cleanup...}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00041}00041     IMGUI\_CHECKVERSION();}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00042}00042     ImGui::CreateContext();}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00043}00043     \mbox{\hyperlink{struct_im_gui_i_o}{ImGuiIO}}\& io = ImGui::GetIO(); (void)io;}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00044}00044     \textcolor{comment}{//io.ConfigFlags |= ImGuiConfigFlags\_NavEnableKeyboard;     // Enable Keyboard Controls}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00045}00045     \textcolor{comment}{//io.ConfigFlags |= ImGuiConfigFlags\_NavEnableGamepad;      // Enable Gamepad Controls}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00046}00046     io.ConfigFlags |= ImGuiConfigFlags\_DockingEnable;           \textcolor{comment}{// Enable Docking}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00048}00048     \textcolor{comment}{// Setup Dear ImGui style}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00049}00049     ImGui::StyleColorsDark();}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00050}00050     \textcolor{comment}{//ImGui::StyleColorsClassic();}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00052}00052     \textcolor{comment}{// Setup Platform/Renderer backends}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00053}00053     ImGui\_ImplOSX\_Init(\textcolor{keyword}{self});}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00054}00054     ImGui\_ImplOpenGL2\_Init();}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00056}00056     \textcolor{comment}{// Load Fonts}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00057}00057     \textcolor{comment}{// -\/ If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00058}00058     \textcolor{comment}{// -\/ AddFontFromFileTTF() will return the ImFont* so you can store it if you need to select the font among multiple.}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00059}00059     \textcolor{comment}{// -\/ If the file cannot be loaded, the function will return NULL. Please handle those errors in your application (e.g. use an assertion, or display an error and quit).}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00060}00060     \textcolor{comment}{// -\/ The fonts will be rasterized at a given size (w/ oversampling) and stored into a texture when calling ImFontAtlas::Build()/GetTexDataAsXXXX(), which ImGui\_ImplXXXX\_NewFrame below will call.}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00061}00061     \textcolor{comment}{// -\/ Read 'docs/FONTS.txt' for more instructions and details.}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00062}00062     \textcolor{comment}{// -\/ Remember that in C/C++ if you want to include a backslash \(\backslash\) in a string literal you need to write a double backslash \(\backslash\)\(\backslash\) !}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00063}00063     \textcolor{comment}{//io.Fonts-\/>AddFontDefault();}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00064}00064     \textcolor{comment}{//io.Fonts-\/>AddFontFromFileTTF("{}../../misc/fonts/Roboto-\/Medium.ttf"{}, 16.0f);}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00065}00065     \textcolor{comment}{//io.Fonts-\/>AddFontFromFileTTF("{}../../misc/fonts/Cousine-\/Regular.ttf"{}, 15.0f);}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00066}00066     \textcolor{comment}{//io.Fonts-\/>AddFontFromFileTTF("{}../../misc/fonts/DroidSans.ttf"{}, 16.0f);}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00067}00067     \textcolor{comment}{//io.Fonts-\/>AddFontFromFileTTF("{}../../misc/fonts/ProggyTiny.ttf"{}, 10.0f);}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00068}00068     \textcolor{comment}{//ImFont* font = io.Fonts-\/>AddFontFromFileTTF("{}c:\(\backslash\)\(\backslash\)Windows\(\backslash\)\(\backslash\)Fonts\(\backslash\)\(\backslash\)ArialUni.ttf"{}, 18.0f, NULL, io.Fonts-\/>GetGlyphRangesJapanese());}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00069}00069     \textcolor{comment}{//IM\_ASSERT(font != NULL);}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00070}00070 \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00071}00071 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00072}00072 -\/(void)updateAndDrawDemoView}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00073}00073 \{}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00074}00074     \textcolor{comment}{// Start the Dear ImGui frame}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00075}00075     ImGui\_ImplOpenGL2\_NewFrame();}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00076}00076     ImGui\_ImplOSX\_NewFrame(\textcolor{keyword}{self});}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00077}00077     ImGui::NewFrame();}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00078}00078 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00079}00079     \textcolor{comment}{// Our state (make them static = more or less global) as a convenience to keep the example terse.}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00080}00080     \textcolor{keyword}{static} \textcolor{keywordtype}{bool} show\_demo\_window = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00081}00081     \textcolor{keyword}{static} \textcolor{keywordtype}{bool} show\_another\_window = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00082}00082     \textcolor{keyword}{static} \mbox{\hyperlink{struct_im_vec4}{ImVec4}} clear\_color = \mbox{\hyperlink{struct_im_vec4}{ImVec4}}(0.45f, 0.55f, 0.60f, 1.00f);}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00083}00083 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00084}00084     \textcolor{comment}{// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00085}00085     \textcolor{keywordflow}{if} (show\_demo\_window)}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00086}00086         ImGui::ShowDemoWindow(\&show\_demo\_window);}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00088}00088     \textcolor{comment}{// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00089}00089     \{}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00090}00090         \textcolor{keyword}{static} \textcolor{keywordtype}{float} f = 0.0f;}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00091}00091         \textcolor{keyword}{static} \textcolor{keywordtype}{int} counter = 0;}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00093}00093         ImGui::Begin(\textcolor{stringliteral}{"{}Hello, world!"{}});                          \textcolor{comment}{// Create a window called "{}Hello, world!"{} and append into it.}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00095}00095         ImGui::Text(\textcolor{stringliteral}{"{}This is some useful text."{}});               \textcolor{comment}{// Display some text (you can use a format strings too)}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00096}00096         ImGui::Checkbox(\textcolor{stringliteral}{"{}Demo Window"{}}, \&show\_demo\_window);      \textcolor{comment}{// Edit bools storing our window open/close state}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00097}00097         ImGui::Checkbox(\textcolor{stringliteral}{"{}Another Window"{}}, \&show\_another\_window);}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00098}00098 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00099}00099         ImGui::SliderFloat(\textcolor{stringliteral}{"{}float"{}}, \&f, 0.0f, 1.0f);            \textcolor{comment}{// Edit 1 float using a slider from 0.0f to 1.0f}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00100}00100         ImGui::ColorEdit3(\textcolor{stringliteral}{"{}clear color"{}}, (\textcolor{keywordtype}{float}*)\&clear\_color); \textcolor{comment}{// Edit 3 floats representing a color}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00101}00101 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00102}00102         \textcolor{keywordflow}{if} (ImGui::Button(\textcolor{stringliteral}{"{}Button"{}}))                            \textcolor{comment}{// Buttons return true when clicked (most widgets return true when edited/activated)}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00103}00103             counter++;}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00104}00104         ImGui::SameLine();}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00105}00105         ImGui::Text(\textcolor{stringliteral}{"{}counter = \%d"{}}, counter);}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00106}00106 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00107}00107         ImGui::Text(\textcolor{stringliteral}{"{}Application average \%.3f ms/frame (\%.1f FPS)"{}}, 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00108}00108         ImGui::End();}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00109}00109     \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00111}00111     \textcolor{comment}{// 3. Show another simple window.}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00112}00112     \textcolor{keywordflow}{if} (show\_another\_window)}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00113}00113     \{}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00114}00114         ImGui::Begin(\textcolor{stringliteral}{"{}Another Window"{}}, \&show\_another\_window);   \textcolor{comment}{// Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00115}00115         ImGui::Text(\textcolor{stringliteral}{"{}Hello from another window!"{}});}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00116}00116         \textcolor{keywordflow}{if} (ImGui::Button(\textcolor{stringliteral}{"{}Close Me"{}}))}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00117}00117             show\_another\_window = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00118}00118         ImGui::End();}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00119}00119     \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00121}00121     \textcolor{comment}{// Rendering}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00122}00122     ImGui::Render();}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00123}00123     \mbox{\hyperlink{struct_im_draw_data}{ImDrawData}}* draw\_data = ImGui::GetDrawData();}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00124}00124 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00125}00125     [[\textcolor{keyword}{self} openGLContext] makeCurrentContext];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00126}00126     GLsizei width  = (GLsizei)(draw\_data-\/>DisplaySize.x * draw\_data-\/>FramebufferScale.x);}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00127}00127     GLsizei height = (GLsizei)(draw\_data-\/>DisplaySize.y * draw\_data-\/>FramebufferScale.y);}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00128}00128     glViewport(0, 0, width, height);}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00129}00129     glClearColor(clear\_color.x * clear\_color.w, clear\_color.y * clear\_color.w, clear\_color.z * clear\_color.w, clear\_color.w);}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00130}00130     glClear(GL\_COLOR\_BUFFER\_BIT);}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00131}00131 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00132}00132     ImGui\_ImplOpenGL2\_RenderDrawData(draw\_data);}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00134}00134     \textcolor{comment}{// Present}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00135}00135     [[\textcolor{keyword}{self} openGLContext] flushBuffer];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00136}00136 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00137}00137     \textcolor{keywordflow}{if} (!animationTimer)}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00138}00138         animationTimer = [NSTimer scheduledTimerWithTimeInterval:0.017 target:self selector:@selector(animationTimerFired:) userInfo:nil repeats:YES];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00139}00139 \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00140}00140 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00141}00141 -\/(void)reshape                              \{ [\textcolor{keyword}{super} reshape]; [[\textcolor{keyword}{self} openGLContext] update]; [\textcolor{keyword}{self} updateAndDrawDemoView]; \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00142}00142 -\/(void)drawRect:(NSRect)bounds              \{ [\textcolor{keyword}{self} updateAndDrawDemoView]; \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00143}00143 -\/(void)animationTimerFired:(NSTimer*)timer  \{ [\textcolor{keyword}{self} setNeedsDisplay:YES]; \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00144}00144 -\/(void)dealloc                              \{ animationTimer = nil; \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00145}00145 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00146}00146 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00147}00147 \textcolor{comment}{// Input processing}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00148}00148 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00149}00149 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00150}00150 \textcolor{comment}{// Forward Mouse/Keyboard events to Dear ImGui OSX backend.}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00151}00151 \textcolor{comment}{// Other events are registered via addLocalMonitorForEventsMatchingMask()}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00152}00152 -\/(void)mouseDown:(NSEvent *)event           \{ ImGui\_ImplOSX\_HandleEvent(event, \textcolor{keyword}{self}); \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00153}00153 -\/(void)rightMouseDown:(NSEvent *)event      \{ ImGui\_ImplOSX\_HandleEvent(event, \textcolor{keyword}{self}); \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00154}00154 -\/(void)otherMouseDown:(NSEvent *)event      \{ ImGui\_ImplOSX\_HandleEvent(event, \textcolor{keyword}{self}); \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00155}00155 -\/(void)mouseUp:(NSEvent *)event             \{ ImGui\_ImplOSX\_HandleEvent(event, \textcolor{keyword}{self}); \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00156}00156 -\/(void)rightMouseUp:(NSEvent *)event        \{ ImGui\_ImplOSX\_HandleEvent(event, \textcolor{keyword}{self}); \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00157}00157 -\/(void)otherMouseUp:(NSEvent *)event        \{ ImGui\_ImplOSX\_HandleEvent(event, \textcolor{keyword}{self}); \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00158}00158 -\/(void)mouseMoved:(NSEvent *)event          \{ ImGui\_ImplOSX\_HandleEvent(event, \textcolor{keyword}{self}); \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00159}00159 -\/(void)mouseDragged:(NSEvent *)event        \{ ImGui\_ImplOSX\_HandleEvent(event, \textcolor{keyword}{self}); \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00160}00160 -\/(void)rightMouseMoved:(NSEvent *)event     \{ ImGui\_ImplOSX\_HandleEvent(event, \textcolor{keyword}{self}); \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00161}00161 -\/(void)rightMouseDragged:(NSEvent *)event   \{ ImGui\_ImplOSX\_HandleEvent(event, \textcolor{keyword}{self}); \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00162}00162 -\/(void)otherMouseMoved:(NSEvent *)event     \{ ImGui\_ImplOSX\_HandleEvent(event, \textcolor{keyword}{self}); \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00163}00163 -\/(void)otherMouseDragged:(NSEvent *)event   \{ ImGui\_ImplOSX\_HandleEvent(event, \textcolor{keyword}{self}); \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00164}00164 -\/(void)scrollWheel:(NSEvent *)event         \{ ImGui\_ImplOSX\_HandleEvent(event, \textcolor{keyword}{self}); \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00165}00165 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00166}00166 \textcolor{keyword}{@end}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00167}00167 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00168}00168 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00169}00169 \textcolor{comment}{// AppDelegate}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00170}00170 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00171}00171 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00172}00172 \textcolor{keyword}{@interface }\mbox{\hyperlink{interface_app_delegate}{AppDelegate}} : NSObject <NSApplicationDelegate>}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00173}00173 \textcolor{keyword}{@property} (nonatomic, readonly) NSWindow* window;}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00174}00174 \textcolor{keyword}{@end}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00175}00175 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00176}00176 \textcolor{keyword}{@implementation }\mbox{\hyperlink{interface_app_delegate}{AppDelegate}}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00177}00177 \textcolor{keyword}{@synthesize} window = \_window;}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00178}00178 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00179}00179 -\/(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00180}00180 \{}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00181}00181     \textcolor{keywordflow}{return} YES;}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00182}00182 \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00183}00183 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00184}00184 -\/(NSWindow*)window}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00185}00185 \{}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00186}00186     \textcolor{keywordflow}{if} (\_window != nil)}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00187}00187         \textcolor{keywordflow}{return} (\_window);}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00188}00188 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00189}00189     NSRect viewRect = NSMakeRect(100.0, 100.0, 100.0 + 1280.0, 100 + 720.0);}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00190}00190 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00191}00191     \_window = [[NSWindow alloc] initWithContentRect:viewRect styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable|NSWindowStyleMaskClosable backing:NSBackingStoreBuffered defer:YES];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00192}00192     [\_window setTitle:@"{}Dear ImGui OSX+OpenGL2 Example"{}];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00193}00193     [\_window setAcceptsMouseMovedEvents:YES];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00194}00194     [\_window setOpaque:YES];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00195}00195     [\_window makeKeyAndOrderFront:NSApp];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00196}00196 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00197}00197     \textcolor{keywordflow}{return} (\_window);}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00198}00198 \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00199}00199 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00200}00200 -\/(void)setupMenu}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00201}00201 \{}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00202}00202     NSMenu* mainMenuBar = [[NSMenu alloc] init];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00203}00203     NSMenu* appMenu;}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00204}00204     NSMenuItem* menuItem;}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00205}00205 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00206}00206     appMenu = [[NSMenu alloc] initWithTitle:@"{}Dear ImGui OSX+OpenGL2 Example"{}];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00207}00207     menuItem = [appMenu addItemWithTitle:@"{}Quit Dear ImGui OSX+OpenGL2 Example"{} action:@selector(terminate:) keyEquivalent:@"{}q"{}];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00208}00208     [menuItem setKeyEquivalentModifierMask:NSEventModifierFlagCommand];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00209}00209 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00210}00210     menuItem = [[NSMenuItem alloc] init];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00211}00211     [menuItem setSubmenu:appMenu];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00212}00212 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00213}00213     [mainMenuBar addItem:menuItem];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00214}00214 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00215}00215     appMenu = nil;}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00216}00216     [NSApp setMainMenu:mainMenuBar];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00217}00217 \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00218}00218 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00219}00219 -\/(void)dealloc}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00220}00220 \{}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00221}00221     \_window = nil;}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00222}00222 \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00223}00223 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00224}00224 -\/(void)applicationDidFinishLaunching:(NSNotification *)aNotification}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00225}00225 \{}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00226}00226     \textcolor{comment}{// Make the application a foreground application (else it won't receive keyboard events)}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00227}00227     ProcessSerialNumber psn = \{0, kCurrentProcess\};}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00228}00228     TransformProcessType(\&psn, kProcessTransformToForegroundApplication);}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00229}00229 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00230}00230     \textcolor{comment}{// Menu}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00231}00231     [\textcolor{keyword}{self} setupMenu];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00232}00232 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00233}00233     NSOpenGLPixelFormatAttribute attrs[] =}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00234}00234     \{}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00235}00235         NSOpenGLPFADoubleBuffer,}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00236}00236         NSOpenGLPFADepthSize, 32,}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00237}00237         0}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00238}00238     \};}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00239}00239 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00240}00240     NSOpenGLPixelFormat* format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00241}00241     \mbox{\hyperlink{interface_app_view}{AppView}}* \mbox{\hyperlink{structview}{view}} = [[\mbox{\hyperlink{interface_app_view}{AppView}} alloc] initWithFrame:self.window.frame pixelFormat:format];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00242}00242     format = nil;}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00243}00243 \textcolor{preprocessor}{\#if MAC\_OS\_X\_VERSION\_MAX\_ALLOWED >= 1070}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00244}00244     \textcolor{keywordflow}{if} (\mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{floor}}(NSAppKitVersionNumber) > NSAppKitVersionNumber10\_6)}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00245}00245         [\mbox{\hyperlink{structview}{view}} setWantsBestResolutionOpenGLSurface:YES];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00246}00246 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// MAC\_OS\_X\_VERSION\_MAX\_ALLOWED >= 1070}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00247}00247     [\textcolor{keyword}{self}.window setContentView:view];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00248}00248 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00249}00249     \textcolor{keywordflow}{if} ([\mbox{\hyperlink{structview}{view}} openGLContext] == nil)}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00250}00250         NSLog(\textcolor{stringliteral}{@"{}No OpenGL Context!"{}});}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00251}00251 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00252}00252     [\mbox{\hyperlink{structview}{view}} initialize];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00253}00253 \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00254}00254 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00255}00255 \textcolor{keyword}{@end}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00256}00256 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00257}00257 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00258}00258 \textcolor{comment}{// Application main() function}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00259}00259 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00260}00260 }
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00261}00261 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* argv[])}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00262}00262 \{}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00263}00263     @autoreleasepool}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00264}00264     \{}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00265}00265         NSApp = [NSApplication sharedApplication];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00266}00266         \mbox{\hyperlink{interface_app_delegate}{AppDelegate}}* delegate = [[\mbox{\hyperlink{interface_app_delegate}{AppDelegate}} alloc] init];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00267}00267         [[NSApplication sharedApplication] setDelegate:delegate];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00268}00268         [NSApp run];}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00269}00269     \}}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00270}00270     \textcolor{keywordflow}{return} NSApplicationMain(argc, argv);}
+\DoxyCodeLine{\Hypertarget{example__apple__opengl2_2main_8mm_source_l00271}00271 \}}
+
+\end{DoxyCode}

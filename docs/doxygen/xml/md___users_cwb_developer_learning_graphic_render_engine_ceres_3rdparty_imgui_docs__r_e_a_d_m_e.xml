@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__r_e_a_d_m_e" kind="page">
+    <compoundname>md__Users_cwb_developer_learning_graphicRenderEngine_ceres_3rdparty_imgui_docs_README</compoundname>
+    <title>Dear ImGui</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ulink url="https://github.com/ocornut/imgui/actions?workflow=build"><image type="html" name="https://github.com/ocornut/imgui/workflows/build/badge.svg" alt="Build Status" inline="yes"></image>
+</ulink> <ulink url="https://github.com/ocornut/imgui/actions?workflow=static-analysis"><image type="html" name="https://github.com/ocornut/imgui/workflows/static-analysis/badge.svg" alt="Static Analysis Status" inline="yes"></image>
+</ulink></para>
+<para><subscript>(This library is available under a free and permissive license, but needs financial support to sustain its continued improvements. In addition to maintenance and stability there are many desirable features yet to be added. If your company is using Dear ImGui, please consider reaching out.)</subscript></para>
+<para>Businesses: support continued development and maintenance via invoiced technical support, maintenance, sponsoring contracts: <linebreak/>
+<nonbreakablespace/><nonbreakablespace/><emphasis>E-mail: contact @ dearimgui dot com</emphasis></para>
+<para>Individuals: support continued development and maintenance <ulink url="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=WGHNC6MBFLZ2S">here</ulink>.</para>
+<para>Also see <ulink url="https://github.com/ocornut/imgui/wiki/Sponsors">Sponsors</ulink> page.</para>
+<para><hruler/>
+</para>
+<para>Dear ImGui is a <bold>bloat-free graphical user interface library for C++</bold>. It outputs optimized vertex buffers that you can render anytime in your 3D-pipeline enabled application. It is fast, portable, renderer agnostic and self-contained (no external dependencies).</para>
+<para>Dear ImGui is designed to <bold>enable fast iterations</bold> and to <bold>empower programmers</bold> to create <bold>content creation tools and visualization / debug tools</bold> (as opposed to UI for the average end-user). It favors simplicity and productivity toward this goal, and lacks certain features normally found in more high-level libraries.</para>
+<para>Dear ImGui is particularly suited to integration in games engine (for tooling), real-time 3D applications, fullscreen applications, embedded applications, or any applications on consoles platforms where operating system features are non-standard.</para>
+<para>| <ulink url="#usage">Usage</ulink> - <ulink url="#how-it-works">How it works</ulink> - <ulink url="#releases--changelogs">Releases &amp; Changelogs</ulink> - <ulink url="#demo">Demo</ulink> - <ulink url="#integration">Integration</ulink> | :-------------------------------------------------------<mdash/>: | | <ulink url="#upcoming-changes">Upcoming changes</ulink> - <ulink url="#gallery">Gallery</ulink> - <ulink url="#support-frequently-asked-questions-faq">Support, FAQ</ulink> - <ulink url="#how-to-help">How to help</ulink> - <ulink url="#sponsors">Sponsors</ulink> - <ulink url="#credits">Credits</ulink> - <ulink url="#license">License</ulink> | | <ulink url="https://github.com/ocornut/imgui/wiki">Wiki</ulink> - <ulink url="https://github.com/ocornut/imgui/wiki/Bindings">Languages &amp; frameworks backends/bindings</ulink> - <ulink url="https://github.com/ocornut/imgui/wiki/Software-using-dear-imgui">Software using Dear ImGui</ulink> - <ulink url="https://github.com/ocornut/imgui/wiki/Quotes">User quotes</ulink> |</para>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__r_e_a_d_m_e_1autotoc_md527">
+<title>Usage</title>
+<para><bold>The core of Dear ImGui is self-contained within a few platform-agnostic files</bold> which you can easily compile in your application/engine. They are all the files in the root folder of the repository (imgui*.cpp, imgui*.h).</para>
+<para><bold>No specific build process is required</bold>. You can add the .cpp files to your existing project.</para>
+<para>You will need a backend to integrate Dear ImGui in your app. The backend passes mouse/keyboard/gamepad inputs and variety of settings to Dear ImGui, and is in charge of rendering the resulting vertices.</para>
+<para><bold>Backends for a variety of graphics api and rendering platforms</bold> are provided in the <ulink url="https://github.com/ocornut/imgui/tree/master/backends">backends/</ulink> folder, along with example applications in the <ulink url="https://github.com/ocornut/imgui/tree/master/examples">examples/</ulink> folder. See the <ulink url="#integration">Integration</ulink> section of this document for details. You may also create your own backend. Anywhere where you can render textured triangles, you can render Dear ImGui.</para>
+<para>After Dear ImGui is setup in your application, you can use it from _anywhere_ in your program loop:</para>
+<para>Code: <programlisting filename=".cpp"><codeline><highlight class="normal">ImGui::Text(</highlight><highlight class="stringliteral">&quot;Hello,<sp/>world<sp/>%d&quot;</highlight><highlight class="normal">,<sp/>123);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ImGui::Button(</highlight><highlight class="stringliteral">&quot;Save&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>MySaveFunction();</highlight></codeline>
+<codeline><highlight class="normal">ImGui::InputText(</highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">,<sp/>buf,<sp/>IM_ARRAYSIZE(buf));</highlight></codeline>
+<codeline><highlight class="normal">ImGui::SliderFloat(</highlight><highlight class="stringliteral">&quot;float&quot;</highlight><highlight class="normal">,<sp/>&amp;f,<sp/>0.0f,<sp/>1.0f);</highlight></codeline>
+</programlisting> Result: <linebreak/>
+<image type="html" name="https://raw.githubusercontent.com/wiki/ocornut/imgui/web/v175/capture_readme_styles_0001.png" alt="sample code output (dark)" inline="yes"></image>
+ <image type="html" name="https://raw.githubusercontent.com/wiki/ocornut/imgui/web/v175/capture_readme_styles_0002.png" alt="sample code output (light)" inline="yes"></image>
+ <linebreak/>
+_(settings: Dark style (left), Light style (right) / Font: Roboto-Medium, 16px)_</para>
+<para>Code: <programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Create<sp/>a<sp/>window<sp/>called<sp/>&quot;My<sp/>First<sp/>Tool&quot;,<sp/>with<sp/>a<sp/>menu<sp/>bar.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ImGui::Begin(</highlight><highlight class="stringliteral">&quot;My<sp/>First<sp/>Tool&quot;</highlight><highlight class="normal">,<sp/>&amp;my_tool_active,<sp/>ImGuiWindowFlags_MenuBar);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ImGui::BeginMenuBar())</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ImGui::BeginMenu(</highlight><highlight class="stringliteral">&quot;File&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ImGui::MenuItem(</highlight><highlight class="stringliteral">&quot;Open..&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Ctrl+O&quot;</highlight><highlight class="normal">))<sp/>{<sp/></highlight><highlight class="comment">/*<sp/>Do<sp/>stuff<sp/>*/</highlight><highlight class="normal"><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ImGui::MenuItem(</highlight><highlight class="stringliteral">&quot;Save&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Ctrl+S&quot;</highlight><highlight class="normal">))<sp/><sp/><sp/>{<sp/></highlight><highlight class="comment">/*<sp/>Do<sp/>stuff<sp/>*/</highlight><highlight class="normal"><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ImGui::MenuItem(</highlight><highlight class="stringliteral">&quot;Close&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Ctrl+W&quot;</highlight><highlight class="normal">))<sp/><sp/>{<sp/>my_tool_active<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::EndMenu();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui::EndMenuBar();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Edit<sp/>a<sp/>color<sp/>(stored<sp/>as<sp/>~4<sp/>floats)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ImGui::ColorEdit4(</highlight><highlight class="stringliteral">&quot;Color&quot;</highlight><highlight class="normal">,<sp/>my_color);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Plot<sp/>some<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>my_values[]<sp/>=<sp/>{<sp/>0.2f,<sp/>0.1f,<sp/>1.0f,<sp/>0.5f,<sp/>0.9f,<sp/>2.2f<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">ImGui::PlotLines(</highlight><highlight class="stringliteral">&quot;Frame<sp/>Times&quot;</highlight><highlight class="normal">,<sp/>my_values,<sp/>IM_ARRAYSIZE(my_values));</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Display<sp/>contents<sp/>in<sp/>a<sp/>scrolling<sp/>region</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ImGui::TextColored(<ref refid="struct_im_vec4" kindref="compound">ImVec4</ref>(1,1,0,1),<sp/></highlight><highlight class="stringliteral">&quot;Important<sp/>Stuff&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">ImGui::BeginChild(</highlight><highlight class="stringliteral">&quot;Scrolling&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>0;<sp/>n<sp/>&lt;<sp/>50;<sp/>n++)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui::Text(</highlight><highlight class="stringliteral">&quot;%04d:<sp/>Some<sp/>text&quot;</highlight><highlight class="normal">,<sp/>n);</highlight></codeline>
+<codeline><highlight class="normal">ImGui::EndChild();</highlight></codeline>
+<codeline><highlight class="normal">ImGui::End();</highlight></codeline>
+</programlisting> Result: <linebreak/>
+<image type="html" name="https://raw.githubusercontent.com/wiki/ocornut/imgui/web/v180/code_sample_04_color.gif" alt="sample code output" inline="yes"></image>
+</para>
+<para>Dear ImGui allows you to <bold>create elaborate tools</bold> as well as very short-lived ones. On the extreme side of short-livedness: using the Edit&amp;Continue (hot code reload) feature of modern compilers you can add a few widgets to tweaks variables while your application is running, and remove the code a minute later! Dear ImGui is not just for tweaking values. You can use it to trace a running algorithm by just emitting text commands. You can use it along with your own reflection data to browse your dataset live. You can use it to expose the internals of a subsystem in your engine, to create a logger, an inspection tool, a profiler, a debugger, an entire game making editor/framework, etc.</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__r_e_a_d_m_e_1autotoc_md528">
+<title>How it works</title>
+<para>Check out the Wiki&apos;s <ulink url="https://github.com/ocornut/imgui/wiki#about-the-imgui-paradigm">About the IMGUI paradigm</ulink> section if you want to understand the core principles behind the IMGUI paradigm. An IMGUI tries to minimize superfluous state duplication, state synchronization and state retention from the user&apos;s point of view. It is less error prone (less code and less bugs) than traditional retained-mode interfaces, and lends itself to create dynamic user interfaces.</para>
+<para>Dear ImGui outputs vertex buffers and command lists that you can easily render in your application. The number of draw calls and state changes required to render them is fairly small. Because Dear ImGui doesn&apos;t know or touch graphics state directly, you can call its functions anywhere in your code (e.g. in the middle of a running algorithm, or in the middle of your own rendering process). Refer to the sample applications in the examples/ folder for instructions on how to integrate Dear ImGui with your existing codebase.</para>
+<para><emphasis>A common misunderstanding is to mistake immediate mode gui for immediate mode rendering, which usually implies hammering your driver/GPU with a bunch of inefficient draw calls and state changes as the gui functions are called. This is NOT what Dear ImGui does. Dear ImGui outputs vertex buffers and a small list of draw calls batches. It never touches your GPU directly. The draw call batches are decently optimal and you can render them later, in your app or even remotely.</emphasis></para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__r_e_a_d_m_e_1autotoc_md529">
+<title>Releases &amp; Changelogs</title>
+<para>See <ulink url="https://github.com/ocornut/imgui/releases">Releases</ulink> page. Reading the changelogs is a good way to keep up to date with the things Dear ImGui has to offer, and maybe will give you ideas of some features that you&apos;ve been ignoring until now!</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__r_e_a_d_m_e_1autotoc_md530">
+<title>Demo</title>
+<para>Calling the <computeroutput>ImGui::ShowDemoWindow()</computeroutput> function will create a demo window showcasing variety of features and examples. The code is always available for reference in <computeroutput><ref refid="imgui__demo_8cpp_source" kindref="compound">imgui_demo.cpp</ref></computeroutput>.</para>
+<para><image type="html" name="https://raw.githubusercontent.com/wiki/ocornut/imgui/web/v167/v167-misc.png" alt="screenshot demo" inline="yes"></image>
+</para>
+<para>You should be able to build the examples from sources (tested on Windows/Mac/Linux). If you don&apos;t, let us know! If you want to have a quick look at some Dear ImGui features, you can download Windows binaries of the demo app here:<itemizedlist>
+<listitem><para><ulink url="https://www.dearimgui.org/binaries/imgui-demo-binaries-20210331.zip">imgui-demo-binaries-20210331.zip</ulink> (Windows, 1.83 WIP, built 2021/03/31, master branch) or <ulink url="https://www.dearimgui.org/binaries">older demo binaries</ulink>.</para>
+</listitem></itemizedlist>
+</para>
+<para>The demo applications are not DPI aware so expect some blurriness on a 4K screen. For DPI awareness in your application, you can load/reload your font at different scale, and scale your style with <computeroutput>style.ScaleAllSizes()</computeroutput> (see <ulink url="https://www.dearimgui.org/faq">FAQ</ulink>).</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__r_e_a_d_m_e_1autotoc_md531">
+<title>Integration</title>
+<para>On most platforms and when using C++, <bold>you should be able to use a combination of the <ulink url="https://github.com/ocornut/imgui/tree/master/backends">imgui_impl_xxxx</ulink> backends without modification</bold> (e.g. <computeroutput><ref refid="imgui__impl__win32_8cpp_source" kindref="compound">imgui_impl_win32.cpp</ref></computeroutput> + <computeroutput><ref refid="imgui__impl__dx11_8cpp_source" kindref="compound">imgui_impl_dx11.cpp</ref></computeroutput>). If your engine supports multiple platforms, consider using more of the imgui_impl_xxxx files instead of rewriting them: this will be less work for you and you can get Dear ImGui running immediately. You can <emphasis>later</emphasis> decide to rewrite a custom backend using your custom engine functions if you wish so.</para>
+<para>Integrating Dear ImGui within your custom engine is a matter of 1) wiring mouse/keyboard/gamepad inputs 2) uploading one texture to your GPU/render engine 3) providing a render function that can bind textures and render textured triangles. The <ulink url="https://github.com/ocornut/imgui/tree/master/examples">examples/</ulink> folder is populated with applications doing just that. If you are an experienced programmer at ease with those concepts, it should take you less than two hours to integrate Dear ImGui in your custom engine. <bold>Make sure to spend time reading the <ulink url="https://www.dearimgui.org/faq">FAQ</ulink>, comments, and some of the examples/ application!</bold></para>
+<para>Officially maintained backends/bindings (in repository):<itemizedlist>
+<listitem><para>Renderers: DirectX9, DirectX10, DirectX11, DirectX12, Metal, OpenGL/ES/ES2, SDL_Renderer, Vulkan, WebGPU.</para>
+</listitem><listitem><para>Platforms: GLFW, SDL2, Win32, Glut, OSX, Android.</para>
+</listitem><listitem><para>Frameworks: Allegro5, Emscripten.</para>
+</listitem></itemizedlist>
+</para>
+<para><ulink url="https://github.com/ocornut/imgui/wiki/Bindings">Third-party backends/bindings</ulink> wiki page:<itemizedlist>
+<listitem><para>Languages: C, C# and: Beef, ChaiScript, Crystal, D, Go, Haskell, Haxe/hxcpp, Java, JavaScript, Julia, Kotlin, Lobster, Lua, Odin, Pascal, PureBasic, Python, Ruby, Rust, Swift...</para>
+</listitem><listitem><para>Frameworks: AGS/Adventure Game Studio, Amethyst, Blender, bsf, Cinder, Cocos2d-x, Diligent Engine, Flexium, GML/Game Maker Studio2, GLEQ, Godot, GTK3+OpenGL3, Irrlicht Engine, LÖVE+LUA, Magnum, Monogame, NanoRT, nCine, Nim Game Lib, Nintendo 3DS &amp; Switch (homebrew), Ogre, openFrameworks, OSG/OpenSceneGraph, Orx, Photoshop, px_render, Qt/QtDirect3D, SDL_Renderer, SFML, Sokol, Unity, Unreal Engine 4, vtk, VulkanHpp, VulkanSceneGraph, Win32 GDI, WxWidgets.</para>
+</listitem><listitem><para>Note that C bindings (<ulink url="https://github.com/cimgui/cimgui">cimgui</ulink>) are auto-generated, you can use its json/lua output to generate bindings for other languages.</para>
+</listitem></itemizedlist>
+</para>
+<para><ulink url="https://github.com/ocornut/imgui/wiki/Useful-Extensions">Useful Extensions/Widgets</ulink> wiki page:<itemizedlist>
+<listitem><para>Text editors, node editors, timeline editors, plotting, software renderers, remote network access, memory editors, gizmos etc.</para>
+</listitem></itemizedlist>
+</para>
+<para>Also see <ulink url="https://github.com/ocornut/imgui/wiki">Wiki</ulink> for more links and ideas.</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__r_e_a_d_m_e_1autotoc_md532">
+<title>Upcoming Changes</title>
+<para>Some of the goals for 2022 are:<itemizedlist>
+<listitem><para>Work on Docking (see <ulink url="https://github.com/ocornut/imgui/issues/2109">#2109</ulink>, in public <ulink url="https://github.com/ocornut/imgui/tree/docking">docking</ulink> branch)</para>
+</listitem><listitem><para>Work on Multi-Viewport / Multiple OS windows. (see <ulink url="https://github.com/ocornut/imgui/issues/1542">#1542</ulink>, in public <ulink url="https://github.com/ocornut/imgui/tree/docking">docking</ulink> branch looking for feedback)</para>
+</listitem><listitem><para>Work on gamepad/keyboard controls. (see <ulink url="https://github.com/ocornut/imgui/issues/787">#787</ulink>)</para>
+</listitem><listitem><para>Work on automation and testing system, both to test the library and end-user apps. (see <ulink url="https://github.com/ocornut/imgui/issues/435">#435</ulink>)</para>
+</listitem><listitem><para>Make the examples look better, improve styles, improve font support, make the examples hi-DPI and multi-DPI aware.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__r_e_a_d_m_e_1autotoc_md533">
+<title>Gallery</title>
+<para>For more user-submitted screenshots of projects using Dear ImGui, check out the <ulink url="https://github.com/ocornut/imgui/issues/4451">Gallery Threads</ulink>!</para>
+<para>For a list of third-party widgets and extensions, check out the <ulink url="https://github.com/ocornut/imgui/wiki/Useful-Extensions">Useful Extensions/Widgets</ulink> wiki page.</para>
+<para>Custom engine <ulink url="https://cloud.githubusercontent.com/assets/8225057/20628927/33e14cac-b329-11e6-80f6-9524e93b048a.png"><image type="html" name="https://raw.githubusercontent.com/wiki/ocornut/imgui/web/v149/gallery_TheDragonsTrap-01-thumb.jpg" alt="screenshot game" inline="yes"></image>
+</ulink></para>
+<para>Custom engine <ulink url="https://raw.githubusercontent.com/wiki/ocornut/imgui/web/v160/editor_white.png"><image type="html" name="https://raw.githubusercontent.com/wiki/ocornut/imgui/web/v160/editor_white_preview.jpg" alt="screenshot tool" inline="yes"></image>
+</ulink></para>
+<para><ulink url="https://github.com/wolfpld/tracy">Tracy Profiler</ulink> <image type="html" name="https://raw.githubusercontent.com/wiki/ocornut/imgui/web/v176/tracy_profiler.png" alt="tracy profiler" inline="yes"></image>
+</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__r_e_a_d_m_e_1autotoc_md534">
+<title>Support, Frequently Asked Questions (FAQ)</title>
+<para>See: <ulink url="https://github.com/ocornut/imgui/blob/master/docs/FAQ.md">Frequently Asked Questions (FAQ)</ulink> where common questions are answered.</para>
+<para>See: <ulink url="https://github.com/ocornut/imgui/wiki">Wiki</ulink> for many links, references, articles.</para>
+<para>See: <ulink url="https://github.com/ocornut/imgui/wiki#about-the-imgui-paradigm">Articles about the IMGUI paradigm</ulink> to read/learn about the Immediate <ref refid="struct_mode" kindref="compound">Mode</ref> GUI paradigm.</para>
+<para>Getting started? For first-time users having issues compiling/linking/running or issues loading fonts, please use <ulink url="https://github.com/ocornut/imgui/discussions">GitHub Discussions</ulink>.</para>
+<para>For other questions, bug reports, requests, feedback, you may post on <ulink url="https://github.com/ocornut/imgui/issues">GitHub Issues</ulink>. Please read and fill the New Issue template carefully.</para>
+<para>Private support is available for paying business customers (E-mail: <emphasis>contact @ dearimgui dot com</emphasis>).</para>
+<para><bold>Which version should I get?</bold></para>
+<para>We occasionally tag <ulink url="https://github.com/ocornut/imgui/releases">Releases</ulink> but it is generally safe and recommended to sync to master/latest. The library is fairly stable and regressions tend to be fixed fast when reported.</para>
+<para>Advanced users may want to use the <computeroutput>docking</computeroutput> branch with <ulink url="https://github.com/ocornut/imgui/issues/1542">Multi-Viewport</ulink> and <ulink url="https://github.com/ocornut/imgui/issues/2109">Docking</ulink> features. This branch is kept in sync with master regularly.</para>
+<para><bold>Who uses Dear ImGui?</bold></para>
+<para>See the <ulink url="https://github.com/ocornut/imgui/wiki/Quotes">Quotes</ulink>, <ulink url="https://github.com/ocornut/imgui/wiki/Sponsors">Sponsors</ulink>, <ulink url="https://github.com/ocornut/imgui/wiki/Software-using-dear-imgui">Software using dear imgui</ulink> Wiki pages for an idea of who is using Dear ImGui. Please add your game/software if you can! Also see the <ulink url="https://github.com/ocornut/imgui/issues/4451">Gallery Threads</ulink>!</para>
+</sect2>
+<sect1 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__r_e_a_d_m_e_1autotoc_md535">
+<title>How to help</title>
+<para><bold>How can I help?</bold></para>
+<para><itemizedlist>
+<listitem><para>See <ulink url="https://github.com/ocornut/imgui/issues">GitHub Forum/issues</ulink> and <ulink url="https://github.com/ocornut/imgui/discussions">Github Discussions</ulink>.</para>
+</listitem><listitem><para>You may help with development and submit pull requests! Please understand that by submitting a PR you are also submitting a request for the maintainer to review your code and then take over its maintenance forever. PR should be crafted both in the interest in the end-users and also to ease the maintainer into understanding and accepting it.</para>
+</listitem><listitem><para>See <ulink url="https://github.com/ocornut/imgui/wiki/Help-Wanted">Help wanted</ulink> on the <ulink url="https://github.com/ocornut/imgui/wiki/">Wiki</ulink> for some more ideas.</para>
+</listitem><listitem><para>Have your company financially support this project (please reach by e-mail)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>How can I help financing further development of Dear ImGui?</bold></para>
+<para>See <ulink url="https://github.com/ocornut/imgui/wiki/Sponsors">Sponsors</ulink> page.</para>
+</sect1>
+<sect1 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__r_e_a_d_m_e_1autotoc_md536">
+<title>Sponsors</title>
+<para>Ongoing Dear ImGui development is currently financially supported by users and private sponsors:</para>
+<para><emphasis>Platinum-chocolate sponsors</emphasis><itemizedlist>
+<listitem><para><ulink url="https://careers.blizzard.com/en-us/openings/engineering/all/all/all/1">Blizzard</ulink></para>
+</listitem></itemizedlist>
+</para>
+<para><emphasis>Double-chocolate sponsors</emphasis><itemizedlist>
+<listitem><para><ulink url="https://montreal.ubisoft.com/en/ubisoft-sponsors-user-interface-library-for-c-dear-imgui">Ubisoft</ulink>, <ulink url="https://supercell.com">Supercell</ulink></para>
+</listitem></itemizedlist>
+</para>
+<para><emphasis>Chocolate sponsors</emphasis><itemizedlist>
+<listitem><para><ulink url="https://careers.activision.com/c/programmingsoftware-engineering-jobs">Activision</ulink>, <ulink url="https://www.adobe.com/products/medium.html">Adobe</ulink>, <ulink url="https://aras-p.info">Aras Pranckevičius</ulink>, <ulink url="https://www.arkane-studios.com">Arkane Studios</ulink>, <ulink url="https://www.unrealengine.com/en-US/megagrants">Epic</ulink>, <ulink url="https://github.com/google/filament">Google</ulink>, <ulink url="https://developer.nvidia.com/nvidia-omniverse">Nvidia</ulink>, <ulink url="http://www.radgametools.com/">RAD Game Tools</ulink></para>
+</listitem></itemizedlist>
+</para>
+<para><emphasis>Salty-caramel sponsors</emphasis><itemizedlist>
+<listitem><para><ulink url="http://framefield.com">Framefield</ulink>, <ulink url="https://www.grindinggear.com">Grinding Gear Games</ulink>, <ulink url="https://www.kylotonn.com">Kylotonn</ulink>, <ulink url="https://www.nextlevelgames.com">Next Level Games</ulink>, <ulink url="http://en.o-netcom.com">O-Net Communications (USA)</ulink></para>
+</listitem></itemizedlist>
+</para>
+<para>Please see <ulink url="https://github.com/ocornut/imgui/wiki/Sponsors">detailed list of Dear ImGui supporters</ulink> for past sponsors. From November 2014 to December 2019, ongoing development has also been financially supported by its users on Patreon and through individual donations.</para>
+<para><bold>THANK YOU to all past and present supporters for helping to keep this project alive and thriving!</bold></para>
+<para>Dear ImGui is using software and services provided free of charge for open source projects:<itemizedlist>
+<listitem><para><ulink url="https://www.viva64.com/en/b/0570/">PVS-Studio</ulink> for static analysis.</para>
+</listitem><listitem><para><ulink url="https://github.com/features/actions">GitHub actions</ulink> for continuous integration systems.</para>
+</listitem><listitem><para><ulink url="https://github.com/OpenCppCoverage/OpenCppCoverage">OpenCppCoverage</ulink> for code coverage analysis.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__r_e_a_d_m_e_1autotoc_md537">
+<title>Credits</title>
+<para>Developed by <ulink url="https://www.miracleworld.net">Omar Cornut</ulink> and every direct or indirect <ulink url="https://github.com/ocornut/imgui/graphs/contributors">contributors</ulink> to the GitHub. The early version of this library was developed with the support of <ulink url="https://www.mediamolecule.com">Media Molecule</ulink> and first used internally on the game <ulink url="https://tearaway.mediamolecule.com">Tearaway</ulink> (PS Vita).</para>
+<para>Recurring contributors (2020): Omar Cornut <ulink url="https://github.com/ocornut">@ocornut</ulink>, Rokas Kupstys <ulink url="https://github.com/rokups">@rokups</ulink>, Ben Carter <ulink url="https://github.com/ShironekoBen">@ShironekoBen</ulink>. A large portion of work on automation systems, regression tests and other features are currently unpublished.</para>
+<para>Sponsoring, support contracts and other B2B transactions are hosted and handled by <ulink url="https://www.lizardcube.com">Lizardcube</ulink>.</para>
+<para>Omar: &quot;I first discovered the IMGUI paradigm at [Q-Games](https://www.q-games.com) where Atman Binstock had dropped his own simple implementation in the codebase, which I spent quite some time improving and thinking about. It turned out that Atman was exposed to the concept directly by working with Casey. When I moved to Media Molecule I rewrote a new library trying to overcome the flaws and limitations of the first one I&apos;ve worked with. It became this library and since then I have spent an unreasonable amount of time iterating and improving it.&quot;</para>
+<para>Embeds <ulink url="http://upperbounds.net">ProggyClean.ttf</ulink> font by Tristan Grimmer (MIT license).</para>
+<para>Embeds <ulink url="https://github.com/nothings/stb/">stb_textedit.h, stb_truetype.h, stb_rect_pack.h</ulink> by Sean Barrett (public domain).</para>
+<para>Inspiration, feedback, and testing for early versions: Casey Muratori, Atman Binstock, Mikko Mononen, Emmanuel Briney, Stefan Kamoda, Anton Mikhailov, Matt Willis. Also thank you to everyone posting feedback, questions and patches on GitHub.</para>
+</sect1>
+<sect1 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__r_e_a_d_m_e_1autotoc_md538">
+<title>License</title>
+<para>Dear ImGui is licensed under the MIT License, see <ulink url="https://github.com/ocornut/imgui/blob/master/LICENSE.txt">LICENSE.txt</ulink> for more information. </para>
+</sect1>
+    </detaileddescription>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/docs/README.md"/>
+  </compounddef>
+</doxygen>

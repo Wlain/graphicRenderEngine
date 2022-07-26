@@ -1,0 +1,785 @@
+\hypertarget{imgui__freetype_8cpp_source}{}\doxysection{imgui\+\_\+freetype.\+cpp}
+\label{imgui__freetype_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/misc/freetype/imgui\_freetype.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/misc/freetype/imgui\_freetype.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00001}00001 \textcolor{comment}{// dear imgui: FreeType font builder (used as a replacement for the stb\_truetype builder)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00002}00002 \textcolor{comment}{// (code)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00004}00004 \textcolor{comment}{// Get the latest version at https://github.com/ocornut/imgui/tree/master/misc/freetype}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00005}00005 \textcolor{comment}{// Original code by @vuhdo (Aleksei Skriabin). Improvements by @mikesart. Maintained since 2019 by @ocornut.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00006}00006 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00007}00007 \textcolor{comment}{// CHANGELOG}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00008}00008 \textcolor{comment}{// (minor and older changes stripped away, please see git history for details)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00009}00009 \textcolor{comment}{//  2021/08/23: fixed crash when FT\_Render\_Glyph() fails to render a glyph and returns NULL.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00010}00010 \textcolor{comment}{//  2021/03/05: added ImGuiFreeTypeBuilderFlags\_Bitmap to load bitmap glyphs.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00011}00011 \textcolor{comment}{//  2021/03/02: set 'atlas-\/>TexPixelsUseColors = true' to help some backends with deciding of a prefered texture format.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00012}00012 \textcolor{comment}{//  2021/01/28: added support for color-\/layered glyphs via ImGuiFreeTypeBuilderFlags\_LoadColor (require Freetype 2.10+).}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00013}00013 \textcolor{comment}{//  2021/01/26: simplified integration by using '\#define IMGUI\_ENABLE\_FREETYPE'.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00014}00014 \textcolor{comment}{//              renamed ImGuiFreeType::XXX flags to ImGuiFreeTypeBuilderFlags\_XXX for consistency with other API. removed ImGuiFreeType::BuildFontAtlas().}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00015}00015 \textcolor{comment}{//  2020/06/04: fix for rare case where FT\_Get\_Char\_Index() succeed but FT\_Load\_Glyph() fails.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00016}00016 \textcolor{comment}{//  2019/02/09: added RasterizerFlags::Monochrome flag to disable font anti-\/aliasing (combine with ::MonoHinting for best results!)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00017}00017 \textcolor{comment}{//  2019/01/15: added support for imgui allocators + added FreeType only override function SetAllocatorFunctions().}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00018}00018 \textcolor{comment}{//  2019/01/10: re-\/factored to match big update in STB builder. fixed texture height waste. fixed redundant glyphs when merging. support for glyph padding.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00019}00019 \textcolor{comment}{//  2018/06/08: added support for ImFontConfig::GlyphMinAdvanceX, GlyphMaxAdvanceX.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00020}00020 \textcolor{comment}{//  2018/02/04: moved to main imgui repository (away from http://www.github.com/ocornut/imgui\_club)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00021}00021 \textcolor{comment}{//  2018/01/22: fix for addition of ImFontAtlas::TexUvscale member.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00022}00022 \textcolor{comment}{//  2017/10/22: minor inconsequential change to match change in master (removed an unnecessary statement).}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00023}00023 \textcolor{comment}{//  2017/09/26: fixes for imgui internal changes.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00024}00024 \textcolor{comment}{//  2017/08/26: cleanup, optimizations, support for ImFontConfig::RasterizerFlags, ImFontConfig::RasterizerMultiply.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00025}00025 \textcolor{comment}{//  2017/08/16: imported from https://github.com/Vuhdo/imgui\_freetype into http://www.github.com/ocornut/imgui\_club, updated for latest changes in ImFontAtlas, minor tweaks.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00027}00027 \textcolor{comment}{// About Gamma Correct Blending:}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00028}00028 \textcolor{comment}{// -\/ FreeType assumes blending in linear space rather than gamma space.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00029}00029 \textcolor{comment}{// -\/ See https://www.freetype.org/freetype2/docs/reference/ft2-\/base\_interface.html\#FT\_Render\_Glyph}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00030}00030 \textcolor{comment}{// -\/ For correct results you need to be using sRGB and convert to linear space in the pixel shader output.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00031}00031 \textcolor{comment}{// -\/ The default dear imgui styles will be impacted by this change (alpha values will need tweaking).}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00033}00033 \textcolor{comment}{// FIXME: cfg.OversampleH, OversampleV are not supported (but perhaps not so necessary with this rasterizer).}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00035}00035 \textcolor{preprocessor}{\#include "{}imgui\_freetype.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00036}00036 \textcolor{preprocessor}{\#include "{}imgui\_internal.h"{}}     \textcolor{comment}{// ImMin,ImMax,ImFontAtlasBuild*,}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00037}00037 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00038}00038 \textcolor{preprocessor}{\#include <ft2build.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00039}00039 \textcolor{preprocessor}{\#include FT\_FREETYPE\_H          }\textcolor{comment}{// <freetype/freetype.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00040}00040 \textcolor{preprocessor}{\#include FT\_MODULE\_H            }\textcolor{comment}{// <freetype/ftmodapi.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00041}00041 \textcolor{preprocessor}{\#include FT\_GLYPH\_H             }\textcolor{comment}{// <freetype/ftglyph.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00042}00042 \textcolor{preprocessor}{\#include FT\_SYNTHESIS\_H         }\textcolor{comment}{// <freetype/ftsynth.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00044}00044 \textcolor{preprocessor}{\#ifdef \_MSC\_VER}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00045}00045 \textcolor{preprocessor}{\#pragma warning (disable: 4505)     }\textcolor{comment}{// unreferenced local function has been removed (stb stuff)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00046}00046 \textcolor{preprocessor}{\#pragma warning (disable: 26812)    }\textcolor{comment}{// [Static Analyzer] The enum type 'xxx' is unscoped. Prefer 'enum class' over 'enum' (Enum.3).}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00047}00047 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00049}00049 \textcolor{preprocessor}{\#if defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00050}00050 \textcolor{preprocessor}{\#pragma GCC diagnostic ignored "{}-\/Wpragmas"{}}                  \textcolor{comment}{// warning: unknown option after '\#pragma GCC diagnostic' kind}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00051}00051 \textcolor{preprocessor}{\#pragma GCC diagnostic ignored "{}-\/Wunused-\/function"{}}          \textcolor{comment}{// warning: 'xxxx' defined but not used}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00052}00052 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00054}00054 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00055}00055 \textcolor{comment}{// Data}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00056}00056 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00058}00058 \textcolor{comment}{// Default memory allocators}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00059}00059 \textcolor{keyword}{static} \textcolor{keywordtype}{void}* ImGuiFreeTypeDefaultAllocFunc(\textcolor{keywordtype}{size\_t} size, \textcolor{keywordtype}{void}* user\_data) \{ IM\_UNUSED(user\_data); \textcolor{keywordflow}{return} IM\_ALLOC(size); \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00060}00060 \textcolor{keyword}{static} \textcolor{keywordtype}{void}  ImGuiFreeTypeDefaultFreeFunc(\textcolor{keywordtype}{void}* ptr, \textcolor{keywordtype}{void}* user\_data) \{ IM\_UNUSED(user\_data); IM\_FREE(ptr); \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00062}00062 \textcolor{comment}{// Current memory allocators}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00063}00063 \textcolor{keyword}{static} \textcolor{keywordtype}{void}* (*GImGuiFreeTypeAllocFunc)(\textcolor{keywordtype}{size\_t} size, \textcolor{keywordtype}{void}* user\_data) = ImGuiFreeTypeDefaultAllocFunc;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00064}00064 \textcolor{keyword}{static} void  (*GImGuiFreeTypeFreeFunc)(\textcolor{keywordtype}{void}* ptr, \textcolor{keywordtype}{void}* user\_data) = ImGuiFreeTypeDefaultFreeFunc;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00065}00065 \textcolor{keyword}{static} \textcolor{keywordtype}{void}* GImGuiFreeTypeAllocatorUserData = NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00066}00066 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00067}00067 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00068}00068 \textcolor{comment}{// Code}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00069}00069 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00071}00071 \textcolor{keyword}{namespace}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00072}00072 \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00073}00073     \textcolor{comment}{// Glyph metrics:}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00074}00074     \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00075}00075     \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00076}00076     \textcolor{comment}{//                       xmin                     xmax}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00077}00077     \textcolor{comment}{//                        |                         |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00078}00078     \textcolor{comment}{//                        |<-\/-\/-\/-\/-\/-\/-\/-\/ width -\/-\/-\/-\/-\/-\/-\/-\/>|}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00079}00079     \textcolor{comment}{//                        |                         |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00080}00080     \textcolor{comment}{//              |         +-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ ymax}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00081}00081     \textcolor{comment}{//              |         |    ggggggggg   ggggg    |     \string^        \string^}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00082}00082     \textcolor{comment}{//              |         |   g:::::::::ggg::::g    |     |        |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00083}00083     \textcolor{comment}{//              |         |  g:::::::::::::::::g    |     |        |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00084}00084     \textcolor{comment}{//              |         | g::::::ggggg::::::gg    |     |        |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00085}00085     \textcolor{comment}{//              |         | g:::::g     g:::::g     |     |        |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00086}00086     \textcolor{comment}{//    offsetX  -\/|-\/-\/-\/-\/-\/-\/-\/-\/>| g:::::g     g:::::g     |  offsetY     |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00087}00087     \textcolor{comment}{//              |         | g:::::g     g:::::g     |     |        |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00088}00088     \textcolor{comment}{//              |         | g::::::g    g:::::g     |     |        |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00089}00089     \textcolor{comment}{//              |         | g:::::::ggggg:::::g     |     |        |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00090}00090     \textcolor{comment}{//              |         |  g::::::::::::::::g     |     |      height}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00091}00091     \textcolor{comment}{//              |         |   gg::::::::::::::g     |     |        |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00092}00092     \textcolor{comment}{//  baseline -\/-\/-\/*-\/-\/-\/-\/-\/-\/-\/-\/-\/|-\/-\/-\/-\/ gggggggg::::::g-\/-\/-\/-\/-\/*-\/-\/-\/-\/-\/-\/-\/-\/      |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00093}00093     \textcolor{comment}{//            / |         |             g:::::g     |              |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00094}00094     \textcolor{comment}{//     origin   |         | gggggg      g:::::g     |              |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00095}00095     \textcolor{comment}{//              |         | g:::::gg   gg:::::g     |              |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00096}00096     \textcolor{comment}{//              |         |  g::::::ggg:::::::g     |              |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00097}00097     \textcolor{comment}{//              |         |   gg:::::::::::::g      |              |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00098}00098     \textcolor{comment}{//              |         |     ggg::::::ggg        |              |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00099}00099     \textcolor{comment}{//              |         |         gggggg          |              v}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00100}00100     \textcolor{comment}{//              |         +-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ ymin}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00101}00101     \textcolor{comment}{//              |                                   |}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00102}00102     \textcolor{comment}{//              |-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ advanceX -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/>|}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00103}00103 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00104}00104     \textcolor{comment}{// A structure that describe a glyph.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00105}00105     \textcolor{keyword}{struct }GlyphInfo}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00106}00106     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00107}00107         \textcolor{keywordtype}{int}         Width;              \textcolor{comment}{// Glyph's width in pixels.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00108}00108         \textcolor{keywordtype}{int}         Height;             \textcolor{comment}{// Glyph's height in pixels.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00109}00109         FT\_Int      OffsetX;            \textcolor{comment}{// The distance from the origin ("{}pen position"{}) to the left of the glyph.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00110}00110         FT\_Int      OffsetY;            \textcolor{comment}{// The distance from the origin to the top of the glyph. This is usually a value < 0.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00111}00111         \textcolor{keywordtype}{float}       AdvanceX;           \textcolor{comment}{// The distance from the origin to the origin of the next glyph. This is usually a value > 0.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00112}00112         \textcolor{keywordtype}{bool}        IsColored;          \textcolor{comment}{// The glyph is colored}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00113}00113     \};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00115}00115     \textcolor{comment}{// Font parameters and metrics.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00116}00116     \textcolor{keyword}{struct }FontInfo}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00117}00117     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00118}00118         uint32\_t    PixelHeight;        \textcolor{comment}{// Size this font was generated with.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00119}00119         \textcolor{keywordtype}{float}       Ascender;           \textcolor{comment}{// The pixel extents above the baseline in pixels (typically positive).}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00120}00120         \textcolor{keywordtype}{float}       Descender;          \textcolor{comment}{// The extents below the baseline in pixels (typically negative).}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00121}00121         \textcolor{keywordtype}{float}       LineSpacing;        \textcolor{comment}{// The baseline-\/to-\/baseline distance. Note that it usually is larger than the sum of the ascender and descender taken as absolute values. There is also no guarantee that no glyphs extend above or below subsequent baselines when using this distance. Think of it as a value the designer of the font finds appropriate.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00122}00122         \textcolor{keywordtype}{float}       LineGap;            \textcolor{comment}{// The spacing in pixels between one row's descent and the next row's ascent.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00123}00123         \textcolor{keywordtype}{float}       MaxAdvanceWidth;    \textcolor{comment}{// This field gives the maximum horizontal cursor advance for all glyphs in the font.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00124}00124     \};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00126}00126     \textcolor{comment}{// FreeType glyph rasterizer.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00127}00127     \textcolor{comment}{// NB: No ctor/dtor, explicitly call Init()/Shutdown()}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00128}00128     \textcolor{keyword}{struct }FreeTypeFont}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00129}00129     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00130}00130         \textcolor{keywordtype}{bool}                    InitFont(FT\_Library ft\_library, \textcolor{keyword}{const} \mbox{\hyperlink{struct_im_font_config}{ImFontConfig}}\& cfg, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} extra\_user\_flags); \textcolor{comment}{// Initialize from an external data buffer. Doesn't copy data, and you must ensure it stays valid up to this object lifetime.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00131}00131         \textcolor{keywordtype}{void}                    CloseFont();}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00132}00132         \textcolor{keywordtype}{void}                    SetPixelHeight(\textcolor{keywordtype}{int} pixel\_height); \textcolor{comment}{// Change font pixel size. All following calls to RasterizeGlyph() will use this size}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00133}00133         \textcolor{keyword}{const} FT\_Glyph\_Metrics* LoadGlyph(uint32\_t in\_codepoint);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00134}00134         \textcolor{keyword}{const} FT\_Bitmap*        RenderGlyphAndGetInfo(GlyphInfo* out\_glyph\_info);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00135}00135         \textcolor{keywordtype}{void}                    BlitGlyph(\textcolor{keyword}{const} FT\_Bitmap* ft\_bitmap, uint32\_t* dst, uint32\_t dst\_pitch, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* multiply\_table = NULL);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00136}00136         \string~FreeTypeFont()         \{ CloseFont(); \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00137}00137 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00138}00138         \textcolor{comment}{// [Internals]}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00139}00139         FontInfo        Info;               \textcolor{comment}{// Font descriptor of the current font.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00140}00140         FT\_Face         Face;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00141}00141         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}    UserFlags;          \textcolor{comment}{// = ImFontConfig::RasterizerFlags}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00142}00142         FT\_Int32        LoadFlags;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00143}00143         FT\_Render\_Mode  RenderMode;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00144}00144     \};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00145}00145 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00146}00146     \textcolor{comment}{// From SDL\_ttf: Handy routines for converting from fixed point}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00147}00147 \textcolor{preprocessor}{    \#define FT\_CEIL(X)  (((X + 63) \& -\/64) / 64)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00148}00148 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00149}00149     \textcolor{keywordtype}{bool} FreeTypeFont::InitFont(FT\_Library ft\_library, \textcolor{keyword}{const} \mbox{\hyperlink{struct_im_font_config}{ImFontConfig}}\& cfg, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} extra\_font\_builder\_flags)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00150}00150     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00151}00151         FT\_Error error = FT\_New\_Memory\_Face(ft\_library, (uint8\_t*)cfg.FontData, (uint32\_t)cfg.FontDataSize, (uint32\_t)cfg.FontNo, \&Face);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00152}00152         \textcolor{keywordflow}{if} (error != 0)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00153}00153             \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00154}00154         error = FT\_Select\_Charmap(Face, FT\_ENCODING\_UNICODE);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00155}00155         \textcolor{keywordflow}{if} (error != 0)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00156}00156             \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00157}00157 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00158}00158         \textcolor{comment}{// Convert to FreeType flags (NB: Bold and Oblique are processed separately)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00159}00159         UserFlags = cfg.FontBuilderFlags | extra\_font\_builder\_flags;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00160}00160 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00161}00161         LoadFlags = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00162}00162         \textcolor{keywordflow}{if} ((UserFlags \& ImGuiFreeTypeBuilderFlags\_Bitmap) == 0)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00163}00163             LoadFlags |= FT\_LOAD\_NO\_BITMAP;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00164}00164 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00165}00165         \textcolor{keywordflow}{if} (UserFlags \& ImGuiFreeTypeBuilderFlags\_NoHinting)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00166}00166             LoadFlags |= FT\_LOAD\_NO\_HINTING;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00167}00167         \textcolor{keywordflow}{if} (UserFlags \& ImGuiFreeTypeBuilderFlags\_NoAutoHint)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00168}00168             LoadFlags |= FT\_LOAD\_NO\_AUTOHINT;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00169}00169         \textcolor{keywordflow}{if} (UserFlags \& ImGuiFreeTypeBuilderFlags\_ForceAutoHint)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00170}00170             LoadFlags |= FT\_LOAD\_FORCE\_AUTOHINT;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00171}00171         \textcolor{keywordflow}{if} (UserFlags \& ImGuiFreeTypeBuilderFlags\_LightHinting)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00172}00172             LoadFlags |= FT\_LOAD\_TARGET\_LIGHT;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00173}00173         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (UserFlags \& ImGuiFreeTypeBuilderFlags\_MonoHinting)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00174}00174             LoadFlags |= FT\_LOAD\_TARGET\_MONO;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00175}00175         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00176}00176             LoadFlags |= FT\_LOAD\_TARGET\_NORMAL;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00177}00177 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00178}00178         \textcolor{keywordflow}{if} (UserFlags \& ImGuiFreeTypeBuilderFlags\_Monochrome)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00179}00179             RenderMode = FT\_RENDER\_MODE\_MONO;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00180}00180         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00181}00181             RenderMode = FT\_RENDER\_MODE\_NORMAL;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00182}00182 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00183}00183         \textcolor{keywordflow}{if} (UserFlags \& ImGuiFreeTypeBuilderFlags\_LoadColor)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00184}00184             LoadFlags |= FT\_LOAD\_COLOR;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00185}00185 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00186}00186         memset(\&Info, 0, \textcolor{keyword}{sizeof}(Info));}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00187}00187         SetPixelHeight((uint32\_t)cfg.SizePixels);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00188}00188 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00189}00189         \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00190}00190     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00191}00191 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00192}00192     \textcolor{keywordtype}{void} FreeTypeFont::CloseFont()}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00193}00193     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00194}00194         \textcolor{keywordflow}{if} (Face)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00195}00195         \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00196}00196             FT\_Done\_Face(Face);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00197}00197             Face = NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00198}00198         \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00199}00199     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00200}00200 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00201}00201     \textcolor{keywordtype}{void} FreeTypeFont::SetPixelHeight(\textcolor{keywordtype}{int} pixel\_height)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00202}00202     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00203}00203         \textcolor{comment}{// Vuhdo: I'm not sure how to deal with font sizes properly. As far as I understand, currently ImGui assumes that the 'pixel\_height'}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00204}00204         \textcolor{comment}{// is a maximum height of an any given glyph, i.e. it's the sum of font's ascender and descender. Seems strange to me.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00205}00205         \textcolor{comment}{// NB: FT\_Set\_Pixel\_Sizes() doesn't seem to get us the same result.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00206}00206         FT\_Size\_RequestRec req;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00207}00207         req.type = (UserFlags \& ImGuiFreeTypeBuilderFlags\_Bitmap) ? FT\_SIZE\_REQUEST\_TYPE\_NOMINAL : FT\_SIZE\_REQUEST\_TYPE\_REAL\_DIM;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00208}00208         req.width = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00209}00209         req.height = (\mbox{\hyperlink{group__gtc__type__precision_ga822ca53a9ad412504532838906276a99}{uint32\_t}})pixel\_height * 64;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00210}00210         req.horiResolution = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00211}00211         req.vertResolution = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00212}00212         FT\_Request\_Size(Face, \&req);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00213}00213 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00214}00214         \textcolor{comment}{// Update font info}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00215}00215         FT\_Size\_Metrics metrics = Face-\/>size-\/>metrics;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00216}00216         Info.PixelHeight = (\mbox{\hyperlink{group__gtc__type__precision_ga822ca53a9ad412504532838906276a99}{uint32\_t}})pixel\_height;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00217}00217         Info.Ascender = (float)FT\_CEIL(metrics.ascender);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00218}00218         Info.Descender = (float)FT\_CEIL(metrics.descender);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00219}00219         Info.LineSpacing = (float)FT\_CEIL(metrics.height);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00220}00220         Info.LineGap = (float)FT\_CEIL(metrics.height -\/ metrics.ascender + metrics.descender);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00221}00221         Info.MaxAdvanceWidth = (float)FT\_CEIL(metrics.max\_advance);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00222}00222     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00223}00223 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00224}00224     \textcolor{keyword}{const} FT\_Glyph\_Metrics* FreeTypeFont::LoadGlyph(uint32\_t codepoint)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00225}00225     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00226}00226         uint32\_t glyph\_index = FT\_Get\_Char\_Index(Face, codepoint);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00227}00227         \textcolor{keywordflow}{if} (glyph\_index == 0)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00228}00228             \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00229}00229 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00230}00230         \textcolor{comment}{// If this crash for you: FreeType 2.11.0 has a crash bug on some bitmap/colored fonts.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00231}00231         \textcolor{comment}{// -\/ https://gitlab.freedesktop.org/freetype/freetype/-\//issues/1076}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00232}00232         \textcolor{comment}{// -\/ https://github.com/ocornut/imgui/issues/4567}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00233}00233         \textcolor{comment}{// -\/ https://github.com/ocornut/imgui/issues/4566}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00234}00234         \textcolor{comment}{// You can use FreeType 2.10, or the patched version of 2.11.0 in VcPkg, or probably any upcoming FreeType version.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00235}00235         FT\_Error error = FT\_Load\_Glyph(Face, glyph\_index, LoadFlags);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00236}00236         \textcolor{keywordflow}{if} (error)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00237}00237             \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00238}00238 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00239}00239         \textcolor{comment}{// Need an outline for this to work}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00240}00240         FT\_GlyphSlot slot = Face-\/>glyph;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00241}00241         IM\_ASSERT(slot-\/>format == FT\_GLYPH\_FORMAT\_OUTLINE || slot-\/>format == FT\_GLYPH\_FORMAT\_BITMAP);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00242}00242 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00243}00243         \textcolor{comment}{// Apply convenience transform (this is not picking from real "{}Bold"{}/"{}Italic"{} fonts! Merely applying FreeType helper transform. Oblique == Slanting)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00244}00244         \textcolor{keywordflow}{if} (UserFlags \& ImGuiFreeTypeBuilderFlags\_Bold)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00245}00245             FT\_GlyphSlot\_Embolden(slot);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00246}00246         \textcolor{keywordflow}{if} (UserFlags \& ImGuiFreeTypeBuilderFlags\_Oblique)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00247}00247         \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00248}00248             FT\_GlyphSlot\_Oblique(slot);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00249}00249             \textcolor{comment}{//FT\_BBox bbox;}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00250}00250             \textcolor{comment}{//FT\_Outline\_Get\_BBox(\&slot-\/>outline, \&bbox);}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00251}00251             \textcolor{comment}{//slot-\/>metrics.width = bbox.xMax -\/ bbox.xMin;}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00252}00252             \textcolor{comment}{//slot-\/>metrics.height = bbox.yMax -\/ bbox.yMin;}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00253}00253         \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00254}00254 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00255}00255         \textcolor{keywordflow}{return} \&slot-\/>metrics;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00256}00256     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00257}00257 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00258}00258     \textcolor{keyword}{const} FT\_Bitmap* FreeTypeFont::RenderGlyphAndGetInfo(GlyphInfo* out\_glyph\_info)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00259}00259     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00260}00260         FT\_GlyphSlot slot = Face-\/>glyph;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00261}00261         FT\_Error error = FT\_Render\_Glyph(slot, RenderMode);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00262}00262         \textcolor{keywordflow}{if} (error != 0)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00263}00263             \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00264}00264 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00265}00265         FT\_Bitmap* ft\_bitmap = \&Face-\/>glyph-\/>bitmap;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00266}00266         out\_glyph\_info-\/>Width = (int)ft\_bitmap-\/>width;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00267}00267         out\_glyph\_info-\/>Height = (\textcolor{keywordtype}{int})ft\_bitmap-\/>rows;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00268}00268         out\_glyph\_info-\/>OffsetX = Face-\/>glyph-\/>bitmap\_left;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00269}00269         out\_glyph\_info-\/>OffsetY = -\/Face-\/>glyph-\/>bitmap\_top;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00270}00270         out\_glyph\_info-\/>AdvanceX = (float)FT\_CEIL(slot-\/>advance.x);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00271}00271         out\_glyph\_info-\/>IsColored = (ft\_bitmap-\/>pixel\_mode == FT\_PIXEL\_MODE\_BGRA);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00272}00272 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00273}00273         \textcolor{keywordflow}{return} ft\_bitmap;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00274}00274     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00275}00275 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00276}00276     \textcolor{keywordtype}{void} FreeTypeFont::BlitGlyph(\textcolor{keyword}{const} FT\_Bitmap* ft\_bitmap, uint32\_t* dst, uint32\_t dst\_pitch, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* multiply\_table)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00277}00277     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00278}00278         IM\_ASSERT(ft\_bitmap != NULL);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00279}00279         \textcolor{keyword}{const} uint32\_t w = ft\_bitmap-\/>width;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00280}00280         \textcolor{keyword}{const} uint32\_t h = ft\_bitmap-\/>rows;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00281}00281         \textcolor{keyword}{const} uint8\_t* src = ft\_bitmap-\/>buffer;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00282}00282         \textcolor{keyword}{const} uint32\_t src\_pitch = ft\_bitmap-\/>pitch;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00283}00283 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00284}00284         \textcolor{keywordflow}{switch} (ft\_bitmap-\/>pixel\_mode)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00285}00285         \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00286}00286         \textcolor{keywordflow}{case} FT\_PIXEL\_MODE\_GRAY: \textcolor{comment}{// Grayscale image, 1 byte per pixel.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00287}00287             \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00288}00288                 \textcolor{keywordflow}{if} (multiply\_table == NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00289}00289                 \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00290}00290                     \textcolor{keywordflow}{for} (uint32\_t y = 0; y < h; y++, src += src\_pitch, dst += dst\_pitch)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00291}00291                         \textcolor{keywordflow}{for} (uint32\_t x = 0; x < w; x++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00292}00292                             dst[x] = IM\_COL32(255, 255, 255, src[x]);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00293}00293                 \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00294}00294                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00295}00295                 \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00296}00296                     \textcolor{keywordflow}{for} (uint32\_t y = 0; y < h; y++, src += src\_pitch, dst += dst\_pitch)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00297}00297                         \textcolor{keywordflow}{for} (uint32\_t x = 0; x < w; x++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00298}00298                             dst[x] = IM\_COL32(255, 255, 255, multiply\_table[src[x]]);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00299}00299                 \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00300}00300                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00301}00301             \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00302}00302         \textcolor{keywordflow}{case} FT\_PIXEL\_MODE\_MONO: \textcolor{comment}{// Monochrome image, 1 bit per pixel. The bits in each byte are ordered from MSB to LSB.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00303}00303             \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00304}00304                 uint8\_t color0 = multiply\_table ? multiply\_table[0] : 0;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00305}00305                 uint8\_t color1 = multiply\_table ? multiply\_table[255] : 255;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00306}00306                 \textcolor{keywordflow}{for} (uint32\_t y = 0; y < h; y++, src += src\_pitch, dst += dst\_pitch)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00307}00307                 \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00308}00308                     uint8\_t bits = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00309}00309                     \textcolor{keyword}{const} uint8\_t* bits\_ptr = src;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00310}00310                     \textcolor{keywordflow}{for} (uint32\_t x = 0; x < w; x++, bits <<= 1)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00311}00311                     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00312}00312                         \textcolor{keywordflow}{if} ((x \& 7) == 0)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00313}00313                             bits = *bits\_ptr++;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00314}00314                         dst[x] = IM\_COL32(255, 255, 255, (bits \& 0x80) ? color1 : color0);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00315}00315                     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00316}00316                 \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00317}00317                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00318}00318             \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00319}00319         \textcolor{keywordflow}{case} FT\_PIXEL\_MODE\_BGRA:}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00320}00320             \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00321}00321                 \textcolor{comment}{// FIXME: Converting pre-\/multiplied alpha to straight. Doesn't smell good.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00322}00322 \textcolor{preprocessor}{                \#define DE\_MULTIPLY(color, alpha) (ImU32)(255.0f * (float)color / (float)alpha + 0.5f)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00323}00323                 \textcolor{keywordflow}{if} (multiply\_table == NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00324}00324                 \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00325}00325                     \textcolor{keywordflow}{for} (uint32\_t y = 0; y < h; y++, src += src\_pitch, dst += dst\_pitch)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00326}00326                         \textcolor{keywordflow}{for} (uint32\_t x = 0; x < w; x++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00327}00327                         \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00328}00328                             uint8\_t r = src[x * 4 + 2], g = src[x * 4 + 1], b = src[x * 4], a = src[x * 4 + 3];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00329}00329                             dst[x] = IM\_COL32(DE\_MULTIPLY(r, a), DE\_MULTIPLY(g, a), DE\_MULTIPLY(b, a), a);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00330}00330                         \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00331}00331                 \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00332}00332                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00333}00333                 \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00334}00334                     \textcolor{keywordflow}{for} (uint32\_t y = 0; y < h; y++, src += src\_pitch, dst += dst\_pitch)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00335}00335                     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00336}00336                         \textcolor{keywordflow}{for} (uint32\_t x = 0; x < w; x++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00337}00337                         \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00338}00338                             uint8\_t r = src[x * 4 + 2], g = src[x * 4 + 1], b = src[x * 4], a = src[x * 4 + 3];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00339}00339                             dst[x] = IM\_COL32(multiply\_table[DE\_MULTIPLY(r, a)], multiply\_table[DE\_MULTIPLY(g, a)], multiply\_table[DE\_MULTIPLY(b, a)], multiply\_table[a]);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00340}00340                         \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00341}00341                     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00342}00342                 \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00343}00343 \textcolor{preprocessor}{                \#undef DE\_MULTIPLY}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00344}00344                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00345}00345             \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00346}00346         \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00347}00347             IM\_ASSERT(0 \&\& \textcolor{stringliteral}{"{}FreeTypeFont::BlitGlyph(): Unknown bitmap pixel mode!"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00348}00348         \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00349}00349     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00350}00350 \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00351}00351 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00352}00352 \textcolor{preprocessor}{\#ifndef STB\_RECT\_PACK\_IMPLEMENTATION                        }\textcolor{comment}{// in case the user already have an implementation in the \_same\_ compilation unit (e.g. unity builds)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00353}00353 \textcolor{preprocessor}{\#ifndef IMGUI\_DISABLE\_STB\_RECT\_PACK\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00354}00354 \textcolor{preprocessor}{\#define STBRP\_ASSERT(x)     do \{ IM\_ASSERT(x); \} while (0)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00355}00355 \textcolor{preprocessor}{\#define STBRP\_STATIC}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00356}00356 \textcolor{preprocessor}{\#define STB\_RECT\_PACK\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00357}00357 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00358}00358 \textcolor{preprocessor}{\#ifdef IMGUI\_STB\_RECT\_PACK\_FILENAME}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00359}00359 \textcolor{preprocessor}{\#include IMGUI\_STB\_RECT\_PACK\_FILENAME}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00360}00360 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00361}00361 \textcolor{preprocessor}{\#include "{}imstb\_rectpack.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00362}00362 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00363}00363 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00364}00364 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00365}\mbox{\hyperlink{struct_im_font_build_src_glyph_f_t}{00365}} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_im_font_build_src_glyph_f_t}{ImFontBuildSrcGlyphFT}}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00366}00366 \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00367}00367     GlyphInfo           Info;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00368}00368     uint32\_t            Codepoint;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00369}00369     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}*       BitmapData;         \textcolor{comment}{// Point within one of the dst\_tmp\_bitmap\_buffers[] array}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00370}00370 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00371}00371     \mbox{\hyperlink{struct_im_font_build_src_glyph_f_t}{ImFontBuildSrcGlyphFT}}() \{ memset(\textcolor{keyword}{this}, 0, \textcolor{keyword}{sizeof}(*\textcolor{keyword}{this})); \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00372}00372 \};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00373}00373 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00374}\mbox{\hyperlink{struct_im_font_build_src_data_f_t}{00374}} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_im_font_build_src_data_f_t}{ImFontBuildSrcDataFT}}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00375}00375 \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00376}00376     FreeTypeFont        Font;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00377}00377     \mbox{\hyperlink{structstbrp__rect}{stbrp\_rect}}*         Rects;              \textcolor{comment}{// Rectangle to pack. We first fill in their size and the packer will give us their position.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00378}00378     \textcolor{keyword}{const} ImWchar*      SrcRanges;          \textcolor{comment}{// Ranges as requested by user (user is allowed to request too much, e.g. 0x0020..0xFFFF)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00379}00379     \textcolor{keywordtype}{int}                 DstIndex;           \textcolor{comment}{// Index into atlas-\/>Fonts[] and dst\_tmp\_array[]}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00380}00380     \textcolor{keywordtype}{int}                 GlyphsHighest;      \textcolor{comment}{// Highest requested codepoint}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00381}00381     \textcolor{keywordtype}{int}                 GlyphsCount;        \textcolor{comment}{// Glyph count (excluding missing glyphs and glyphs already set by an earlier source font)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00382}00382     \mbox{\hyperlink{struct_im_bit_vector}{ImBitVector}}         GlyphsSet;          \textcolor{comment}{// Glyph bit map (random access, 1-\/bit per codepoint. This will be a maximum of 8KB)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00383}00383     \mbox{\hyperlink{struct_im_vector}{ImVector<ImFontBuildSrcGlyphFT>}}   GlyphsList;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00384}00384 \};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00385}00385 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00386}00386 \textcolor{comment}{// Temporary data for one destination ImFont* (multiple source fonts can be merged into one destination ImFont)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00387}\mbox{\hyperlink{struct_im_font_build_dst_data_f_t}{00387}} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_im_font_build_dst_data_f_t}{ImFontBuildDstDataFT}}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00388}00388 \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00389}00389     \textcolor{keywordtype}{int}                 SrcCount;           \textcolor{comment}{// Number of source fonts targeting this destination font.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00390}00390     \textcolor{keywordtype}{int}                 GlyphsHighest;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00391}00391     \textcolor{keywordtype}{int}                 GlyphsCount;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00392}00392     \mbox{\hyperlink{struct_im_bit_vector}{ImBitVector}}         GlyphsSet;          \textcolor{comment}{// This is used to resolve collision when multiple sources are merged into a same destination font.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00393}00393 \};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00394}00394 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00395}00395 \textcolor{keywordtype}{bool} ImFontAtlasBuildWithFreeTypeEx(FT\_Library ft\_library, \mbox{\hyperlink{struct_im_font_atlas}{ImFontAtlas}}* atlas, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} extra\_flags)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00396}00396 \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00397}00397     IM\_ASSERT(atlas-\/>ConfigData.Size > 0);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00398}00398 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00399}00399     ImFontAtlasBuildInit(atlas);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00400}00400 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00401}00401     \textcolor{comment}{// Clear atlas}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00402}00402     atlas-\/>TexID = (ImTextureID)NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00403}00403     atlas-\/>TexWidth = atlas-\/>TexHeight = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00404}00404     atlas-\/>TexUvScale = \mbox{\hyperlink{struct_im_vec2}{ImVec2}}(0.0f, 0.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00405}00405     atlas-\/>TexUvWhitePixel = \mbox{\hyperlink{struct_im_vec2}{ImVec2}}(0.0f, 0.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00406}00406     atlas-\/>ClearTexData();}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00407}00407 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00408}00408     \textcolor{comment}{// Temporary storage for building}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00409}00409     \textcolor{keywordtype}{bool} src\_load\_color = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00410}00410     \mbox{\hyperlink{struct_im_vector}{ImVector<ImFontBuildSrcDataFT>}} src\_tmp\_array;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00411}00411     \mbox{\hyperlink{struct_im_vector}{ImVector<ImFontBuildDstDataFT>}} dst\_tmp\_array;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00412}00412     src\_tmp\_array.resize(atlas-\/>ConfigData.Size);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00413}00413     dst\_tmp\_array.resize(atlas-\/>Fonts.Size);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00414}00414     memset((\textcolor{keywordtype}{void}*)src\_tmp\_array.Data, 0, (\textcolor{keywordtype}{size\_t})src\_tmp\_array.size\_in\_bytes());}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00415}00415     memset((\textcolor{keywordtype}{void}*)dst\_tmp\_array.Data, 0, (\textcolor{keywordtype}{size\_t})dst\_tmp\_array.size\_in\_bytes());}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00416}00416 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00417}00417     \textcolor{comment}{// 1. Initialize font loading structure, check font data validity}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00418}00418     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} src\_i = 0; src\_i < atlas-\/>ConfigData.Size; src\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00419}00419     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00420}00420         \mbox{\hyperlink{struct_im_font_build_src_data_f_t}{ImFontBuildSrcDataFT}}\& src\_tmp = src\_tmp\_array[src\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00421}00421         \mbox{\hyperlink{struct_im_font_config}{ImFontConfig}}\& cfg = atlas-\/>ConfigData[src\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00422}00422         FreeTypeFont\& font\_face = src\_tmp.Font;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00423}00423         IM\_ASSERT(cfg.DstFont \&\& (!cfg.DstFont-\/>IsLoaded() || cfg.DstFont-\/>ContainerAtlas == atlas));}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00424}00424 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00425}00425         \textcolor{comment}{// Find index from cfg.DstFont (we allow the user to set cfg.DstFont. Also it makes casual debugging nicer than when storing indices)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00426}00426         src\_tmp.DstIndex = -\/1;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00427}00427         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} output\_i = 0; output\_i < atlas-\/>Fonts.Size \&\& src\_tmp.DstIndex == -\/1; output\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00428}00428             \textcolor{keywordflow}{if} (cfg.DstFont == atlas-\/>Fonts[output\_i])}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00429}00429                 src\_tmp.DstIndex = output\_i;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00430}00430         IM\_ASSERT(src\_tmp.DstIndex != -\/1); \textcolor{comment}{// cfg.DstFont not pointing within atlas-\/>Fonts[] array?}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00431}00431         \textcolor{keywordflow}{if} (src\_tmp.DstIndex == -\/1)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00432}00432             \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00433}00433 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00434}00434         \textcolor{comment}{// Load font}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00435}00435         \textcolor{keywordflow}{if} (!font\_face.InitFont(ft\_library, cfg, extra\_flags))}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00436}00436             \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00437}00437 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00438}00438         \textcolor{comment}{// Measure highest codepoints}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00439}00439         src\_load\_color |= (cfg.FontBuilderFlags \& ImGuiFreeTypeBuilderFlags\_LoadColor) != 0;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00440}00440         \mbox{\hyperlink{struct_im_font_build_dst_data_f_t}{ImFontBuildDstDataFT}}\& dst\_tmp = dst\_tmp\_array[src\_tmp.DstIndex];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00441}00441         src\_tmp.SrcRanges = cfg.GlyphRanges ? cfg.GlyphRanges : atlas-\/>GetGlyphRangesDefault();}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00442}00442         \textcolor{keywordflow}{for} (\textcolor{keyword}{const} ImWchar* src\_range = src\_tmp.SrcRanges; src\_range[0] \&\& src\_range[1]; src\_range += 2)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00443}00443             src\_tmp.GlyphsHighest = ImMax(src\_tmp.GlyphsHighest, (\textcolor{keywordtype}{int})src\_range[1]);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00444}00444         dst\_tmp.SrcCount++;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00445}00445         dst\_tmp.GlyphsHighest = ImMax(dst\_tmp.GlyphsHighest, src\_tmp.GlyphsHighest);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00446}00446     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00447}00447 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00448}00448     \textcolor{comment}{// 2. For every requested codepoint, check for their presence in the font data, and handle redundancy or overlaps between source fonts to avoid unused glyphs.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00449}00449     \textcolor{keywordtype}{int} total\_glyphs\_count = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00450}00450     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} src\_i = 0; src\_i < src\_tmp\_array.Size; src\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00451}00451     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00452}00452         \mbox{\hyperlink{struct_im_font_build_src_data_f_t}{ImFontBuildSrcDataFT}}\& src\_tmp = src\_tmp\_array[src\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00453}00453         \mbox{\hyperlink{struct_im_font_build_dst_data_f_t}{ImFontBuildDstDataFT}}\& dst\_tmp = dst\_tmp\_array[src\_tmp.DstIndex];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00454}00454         src\_tmp.GlyphsSet.Create(src\_tmp.GlyphsHighest + 1);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00455}00455         \textcolor{keywordflow}{if} (dst\_tmp.GlyphsSet.Storage.empty())}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00456}00456             dst\_tmp.GlyphsSet.Create(dst\_tmp.GlyphsHighest + 1);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00457}00457 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00458}00458         \textcolor{keywordflow}{for} (\textcolor{keyword}{const} ImWchar* src\_range = src\_tmp.SrcRanges; src\_range[0] \&\& src\_range[1]; src\_range += 2)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00459}00459             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} codepoint = src\_range[0]; codepoint <= (int)src\_range[1]; codepoint++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00460}00460             \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00461}00461                 \textcolor{keywordflow}{if} (dst\_tmp.GlyphsSet.TestBit(codepoint))    \textcolor{comment}{// Don't overwrite existing glyphs. We could make this an option (e.g. MergeOverwrite)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00462}00462                     \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00463}00463                 uint32\_t glyph\_index = FT\_Get\_Char\_Index(src\_tmp.Font.Face, codepoint); \textcolor{comment}{// It is actually in the font? (FIXME-\/OPT: We are not storing the glyph\_index..)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00464}00464                 \textcolor{keywordflow}{if} (glyph\_index == 0)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00465}00465                     \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00466}00466 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00467}00467                 \textcolor{comment}{// Add to avail set/counters}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00468}00468                 src\_tmp.GlyphsCount++;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00469}00469                 dst\_tmp.GlyphsCount++;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00470}00470                 src\_tmp.GlyphsSet.SetBit(codepoint);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00471}00471                 dst\_tmp.GlyphsSet.SetBit(codepoint);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00472}00472                 total\_glyphs\_count++;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00473}00473             \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00474}00474     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00475}00475 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00476}00476     \textcolor{comment}{// 3. Unpack our bit map into a flat list (we now have all the Unicode points that we know are requested \_and\_ available \_and\_ not overlapping another)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00477}00477     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} src\_i = 0; src\_i < src\_tmp\_array.Size; src\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00478}00478     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00479}00479         \mbox{\hyperlink{struct_im_font_build_src_data_f_t}{ImFontBuildSrcDataFT}}\& src\_tmp = src\_tmp\_array[src\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00480}00480         src\_tmp.GlyphsList.reserve(src\_tmp.GlyphsCount);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00481}00481 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00482}00482         IM\_ASSERT(\textcolor{keyword}{sizeof}(src\_tmp.GlyphsSet.Storage.Data[0]) == \textcolor{keyword}{sizeof}(ImU32));}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00483}00483         \textcolor{keyword}{const} ImU32* it\_begin = src\_tmp.GlyphsSet.Storage.begin();}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00484}00484         \textcolor{keyword}{const} ImU32* it\_end = src\_tmp.GlyphsSet.Storage.end();}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00485}00485         \textcolor{keywordflow}{for} (\textcolor{keyword}{const} ImU32* it = it\_begin; it < it\_end; it++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00486}00486             \textcolor{keywordflow}{if} (ImU32 entries\_32 = *it)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00487}00487                 \textcolor{keywordflow}{for} (ImU32 bit\_n = 0; bit\_n < 32; bit\_n++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00488}00488                     \textcolor{keywordflow}{if} (entries\_32 \& ((ImU32)1 << bit\_n))}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00489}00489                     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00490}00490                         \mbox{\hyperlink{struct_im_font_build_src_glyph_f_t}{ImFontBuildSrcGlyphFT}} src\_glyph;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00491}00491                         src\_glyph.Codepoint = (ImWchar)(((it -\/ it\_begin) << 5) + bit\_n);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00492}00492                         \textcolor{comment}{//src\_glyph.GlyphIndex = 0; // FIXME-\/OPT: We had this info in the previous step and lost it..}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00493}00493                         src\_tmp.GlyphsList.push\_back(src\_glyph);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00494}00494                     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00495}00495         src\_tmp.GlyphsSet.Clear();}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00496}00496         IM\_ASSERT(src\_tmp.GlyphsList.Size == src\_tmp.GlyphsCount);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00497}00497     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00498}00498     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} dst\_i = 0; dst\_i < dst\_tmp\_array.Size; dst\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00499}00499         dst\_tmp\_array[dst\_i].GlyphsSet.Clear();}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00500}00500     dst\_tmp\_array.clear();}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00501}00501 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00502}00502     \textcolor{comment}{// Allocate packing character data and flag packed characters buffer as non-\/packed (x0=y0=x1=y1=0)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00503}00503     \textcolor{comment}{// (We technically don't need to zero-\/clear buf\_rects, but let's do it for the sake of sanity)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00504}00504     \mbox{\hyperlink{struct_im_vector}{ImVector<stbrp\_rect>}} buf\_rects;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00505}00505     buf\_rects.resize(total\_glyphs\_count);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00506}00506     memset(buf\_rects.Data, 0, (\textcolor{keywordtype}{size\_t})buf\_rects.size\_in\_bytes());}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00507}00507 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00508}00508     \textcolor{comment}{// Allocate temporary rasterization data buffers.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00509}00509     \textcolor{comment}{// We could not find a way to retrieve accurate glyph size without rendering them.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00510}00510     \textcolor{comment}{// (e.g. slot-\/>metrics-\/>width not always matching bitmap-\/>width, especially considering the Oblique transform)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00511}00511     \textcolor{comment}{// We allocate in chunks of 256 KB to not waste too much extra memory ahead. Hopefully users of FreeType won't find the temporary allocations.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00512}00512     \textcolor{keyword}{const} \textcolor{keywordtype}{int} BITMAP\_BUFFERS\_CHUNK\_SIZE = 256 * 1024;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00513}00513     \textcolor{keywordtype}{int} buf\_bitmap\_current\_used\_bytes = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00514}00514     \mbox{\hyperlink{struct_im_vector}{ImVector<unsigned char*>}} buf\_bitmap\_buffers;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00515}00515     buf\_bitmap\_buffers.push\_back((\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*)IM\_ALLOC(BITMAP\_BUFFERS\_CHUNK\_SIZE));}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00516}00516 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00517}00517     \textcolor{comment}{// 4. Gather glyphs sizes so we can pack them in our virtual canvas.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00518}00518     \textcolor{comment}{// 8. Render/rasterize font characters into the texture}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00519}00519     \textcolor{keywordtype}{int} total\_surface = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00520}00520     \textcolor{keywordtype}{int} buf\_rects\_out\_n = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00521}00521     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} src\_i = 0; src\_i < src\_tmp\_array.Size; src\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00522}00522     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00523}00523         \mbox{\hyperlink{struct_im_font_build_src_data_f_t}{ImFontBuildSrcDataFT}}\& src\_tmp = src\_tmp\_array[src\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00524}00524         \mbox{\hyperlink{struct_im_font_config}{ImFontConfig}}\& cfg = atlas-\/>ConfigData[src\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00525}00525         \textcolor{keywordflow}{if} (src\_tmp.GlyphsCount == 0)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00526}00526             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00527}00527 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00528}00528         src\_tmp.Rects = \&buf\_rects[buf\_rects\_out\_n];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00529}00529         buf\_rects\_out\_n += src\_tmp.GlyphsCount;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00530}00530 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00531}00531         \textcolor{comment}{// Compute multiply table if requested}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00532}00532         \textcolor{keyword}{const} \textcolor{keywordtype}{bool} multiply\_enabled = (cfg.RasterizerMultiply != 1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00533}00533         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} multiply\_table[256];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00534}00534         \textcolor{keywordflow}{if} (multiply\_enabled)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00535}00535             ImFontAtlasBuildMultiplyCalcLookupTable(multiply\_table, cfg.RasterizerMultiply);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00536}00536 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00537}00537         \textcolor{comment}{// Gather the sizes of all rectangles we will need to pack}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00538}00538         \textcolor{keyword}{const} \textcolor{keywordtype}{int} padding = atlas-\/>TexGlyphPadding;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00539}00539         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} glyph\_i = 0; glyph\_i < src\_tmp.GlyphsList.Size; glyph\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00540}00540         \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00541}00541             \mbox{\hyperlink{struct_im_font_build_src_glyph_f_t}{ImFontBuildSrcGlyphFT}}\& src\_glyph = src\_tmp.GlyphsList[glyph\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00542}00542 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00543}00543             \textcolor{keyword}{const} FT\_Glyph\_Metrics* metrics = src\_tmp.Font.LoadGlyph(src\_glyph.Codepoint);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00544}00544             \textcolor{keywordflow}{if} (metrics == NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00545}00545                 \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00546}00546 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00547}00547             \textcolor{comment}{// Render glyph into a bitmap (currently held by FreeType)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00548}00548             \textcolor{keyword}{const} FT\_Bitmap* ft\_bitmap = src\_tmp.Font.RenderGlyphAndGetInfo(\&src\_glyph.Info);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00549}00549             \textcolor{keywordflow}{if} (ft\_bitmap == NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00550}00550                 \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00551}00551 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00552}00552             \textcolor{comment}{// Allocate new temporary chunk if needed}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00553}00553             \textcolor{keyword}{const} \textcolor{keywordtype}{int} bitmap\_size\_in\_bytes = src\_glyph.Info.Width * src\_glyph.Info.Height * 4;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00554}00554             \textcolor{keywordflow}{if} (buf\_bitmap\_current\_used\_bytes + bitmap\_size\_in\_bytes > BITMAP\_BUFFERS\_CHUNK\_SIZE)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00555}00555             \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00556}00556                 buf\_bitmap\_current\_used\_bytes = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00557}00557                 buf\_bitmap\_buffers.push\_back((\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*)IM\_ALLOC(BITMAP\_BUFFERS\_CHUNK\_SIZE));}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00558}00558             \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00559}00559 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00560}00560             \textcolor{comment}{// Blit rasterized pixels to our temporary buffer and keep a pointer to it.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00561}00561             src\_glyph.BitmapData = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}*)(buf\_bitmap\_buffers.back() + buf\_bitmap\_current\_used\_bytes);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00562}00562             buf\_bitmap\_current\_used\_bytes += bitmap\_size\_in\_bytes;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00563}00563             src\_tmp.Font.BlitGlyph(ft\_bitmap, src\_glyph.BitmapData, src\_glyph.Info.Width, multiply\_enabled ? multiply\_table : NULL);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00564}00564 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00565}00565             src\_tmp.Rects[glyph\_i].w = (stbrp\_coord)(src\_glyph.Info.Width + padding);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00566}00566             src\_tmp.Rects[glyph\_i].h = (stbrp\_coord)(src\_glyph.Info.Height + padding);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00567}00567             total\_surface += src\_tmp.Rects[glyph\_i].w * src\_tmp.Rects[glyph\_i].h;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00568}00568         \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00569}00569     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00570}00570 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00571}00571     \textcolor{comment}{// We need a width for the skyline algorithm, any width!}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00572}00572     \textcolor{comment}{// The exact width doesn't really matter much, but some API/GPU have texture size limitations and increasing width can decrease height.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00573}00573     \textcolor{comment}{// User can override TexDesiredWidth and TexGlyphPadding if they wish, otherwise we use a simple heuristic to select the width based on expected surface.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00574}00574     \textcolor{keyword}{const} \textcolor{keywordtype}{int} surface\_sqrt = (int)ImSqrt((\textcolor{keywordtype}{float})total\_surface) + 1;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00575}00575     atlas-\/>TexHeight = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00576}00576     \textcolor{keywordflow}{if} (atlas-\/>TexDesiredWidth > 0)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00577}00577         atlas-\/>TexWidth = atlas-\/>TexDesiredWidth;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00578}00578     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00579}00579         atlas-\/>TexWidth = (surface\_sqrt >= 4096 * 0.7f) ? 4096 : (surface\_sqrt >= 2048 * 0.7f) ? 2048 : (surface\_sqrt >= 1024 * 0.7f) ? 1024 : 512;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00580}00580 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00581}00581     \textcolor{comment}{// 5. Start packing}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00582}00582     \textcolor{comment}{// Pack our extra data rectangles first, so it will be on the upper-\/left corner of our texture (UV will have small values).}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00583}00583     \textcolor{keyword}{const} \textcolor{keywordtype}{int} TEX\_HEIGHT\_MAX = 1024 * 32;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00584}00584     \textcolor{keyword}{const} \textcolor{keywordtype}{int} num\_nodes\_for\_packing\_algorithm = atlas-\/>TexWidth -\/ atlas-\/>TexGlyphPadding;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00585}00585     \mbox{\hyperlink{struct_im_vector}{ImVector<stbrp\_node>}} pack\_nodes;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00586}00586     pack\_nodes.resize(num\_nodes\_for\_packing\_algorithm);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00587}00587     \mbox{\hyperlink{structstbrp__context}{stbrp\_context}} pack\_context;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00588}00588     stbrp\_init\_target(\&pack\_context, atlas-\/>TexWidth, TEX\_HEIGHT\_MAX, pack\_nodes.Data, pack\_nodes.Size);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00589}00589     ImFontAtlasBuildPackCustomRects(atlas, \&pack\_context);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00590}00590 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00591}00591     \textcolor{comment}{// 6. Pack each source font. No rendering yet, we are working with rectangles in an infinitely tall texture at this point.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00592}00592     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} src\_i = 0; src\_i < src\_tmp\_array.Size; src\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00593}00593     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00594}00594         \mbox{\hyperlink{struct_im_font_build_src_data_f_t}{ImFontBuildSrcDataFT}}\& src\_tmp = src\_tmp\_array[src\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00595}00595         \textcolor{keywordflow}{if} (src\_tmp.GlyphsCount == 0)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00596}00596             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00597}00597 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00598}00598         stbrp\_pack\_rects(\&pack\_context, src\_tmp.Rects, src\_tmp.GlyphsCount);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00599}00599 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00600}00600         \textcolor{comment}{// Extend texture height and mark missing glyphs as non-\/packed so we won't render them.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00601}00601         \textcolor{comment}{// FIXME: We are not handling packing failure here (would happen if we got off TEX\_HEIGHT\_MAX or if a single if larger than TexWidth?)}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00602}00602         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} glyph\_i = 0; glyph\_i < src\_tmp.GlyphsCount; glyph\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00603}00603             \textcolor{keywordflow}{if} (src\_tmp.Rects[glyph\_i].was\_packed)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00604}00604                 atlas-\/>TexHeight = ImMax(atlas-\/>TexHeight, src\_tmp.Rects[glyph\_i].y + src\_tmp.Rects[glyph\_i].h);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00605}00605     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00606}00606 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00607}00607     \textcolor{comment}{// 7. Allocate texture}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00608}00608     atlas-\/>TexHeight = (atlas-\/>Flags \& ImFontAtlasFlags\_NoPowerOfTwoHeight) ? (atlas-\/>TexHeight + 1) : ImUpperPowerOfTwo(atlas-\/>TexHeight);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00609}00609     atlas-\/>TexUvScale = \mbox{\hyperlink{struct_im_vec2}{ImVec2}}(1.0f / atlas-\/>TexWidth, 1.0f / atlas-\/>TexHeight);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00610}00610     \textcolor{keywordflow}{if} (src\_load\_color)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00611}00611     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00612}00612         \textcolor{keywordtype}{size\_t} tex\_size = (size\_t)atlas-\/>TexWidth * atlas-\/>TexHeight * 4;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00613}00613         atlas-\/>TexPixelsRGBA32 = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}*)IM\_ALLOC(tex\_size);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00614}00614         memset(atlas-\/>TexPixelsRGBA32, 0, tex\_size);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00615}00615     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00616}00616     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00617}00617     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00618}00618         \textcolor{keywordtype}{size\_t} tex\_size = (size\_t)atlas-\/>TexWidth * atlas-\/>TexHeight * 1;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00619}00619         atlas-\/>TexPixelsAlpha8 = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*)IM\_ALLOC(tex\_size);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00620}00620         memset(atlas-\/>TexPixelsAlpha8, 0, tex\_size);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00621}00621     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00622}00622 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00623}00623     \textcolor{comment}{// 8. Copy rasterized font characters back into the main texture}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00624}00624     \textcolor{comment}{// 9. Setup ImFont and glyphs for runtime}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00625}00625     \textcolor{keywordtype}{bool} tex\_use\_colors = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00626}00626     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} src\_i = 0; src\_i < src\_tmp\_array.Size; src\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00627}00627     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00628}00628         \mbox{\hyperlink{struct_im_font_build_src_data_f_t}{ImFontBuildSrcDataFT}}\& src\_tmp = src\_tmp\_array[src\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00629}00629         \textcolor{keywordflow}{if} (src\_tmp.GlyphsCount == 0)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00630}00630             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00631}00631 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00632}00632         \textcolor{comment}{// When merging fonts with MergeMode=true:}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00633}00633         \textcolor{comment}{// -\/ We can have multiple input fonts writing into a same destination font.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00634}00634         \textcolor{comment}{// -\/ dst\_font-\/>ConfigData is != from cfg which is our source configuration.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00635}00635         \mbox{\hyperlink{struct_im_font_config}{ImFontConfig}}\& cfg = atlas-\/>ConfigData[src\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00636}00636         \mbox{\hyperlink{struct_im_font}{ImFont}}* dst\_font = cfg.DstFont;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00637}00637 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00638}00638         \textcolor{keyword}{const} \textcolor{keywordtype}{float} ascent = src\_tmp.Font.Info.Ascender;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00639}00639         \textcolor{keyword}{const} \textcolor{keywordtype}{float} descent = src\_tmp.Font.Info.Descender;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00640}00640         ImFontAtlasBuildSetupFont(atlas, dst\_font, \&cfg, ascent, descent);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00641}00641         \textcolor{keyword}{const} \textcolor{keywordtype}{float} font\_off\_x = cfg.GlyphOffset.x;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00642}00642         \textcolor{keyword}{const} \textcolor{keywordtype}{float} font\_off\_y = cfg.GlyphOffset.y + IM\_ROUND(dst\_font-\/>Ascent);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00643}00643 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00644}00644         \textcolor{keyword}{const} \textcolor{keywordtype}{int} padding = atlas-\/>TexGlyphPadding;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00645}00645         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} glyph\_i = 0; glyph\_i < src\_tmp.GlyphsCount; glyph\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00646}00646         \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00647}00647             \mbox{\hyperlink{struct_im_font_build_src_glyph_f_t}{ImFontBuildSrcGlyphFT}}\& src\_glyph = src\_tmp.GlyphsList[glyph\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00648}00648             \mbox{\hyperlink{structstbrp__rect}{stbrp\_rect}}\& pack\_rect = src\_tmp.Rects[glyph\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00649}00649             IM\_ASSERT(pack\_rect.was\_packed);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00650}00650             \textcolor{keywordflow}{if} (pack\_rect.w == 0 \&\& pack\_rect.h == 0)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00651}00651                 \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00652}00652 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00653}00653             GlyphInfo\& \mbox{\hyperlink{structinfo}{info}} = src\_glyph.Info;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00654}00654             IM\_ASSERT(\mbox{\hyperlink{structinfo}{info}}.Width + padding <= pack\_rect.w);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00655}00655             IM\_ASSERT(\mbox{\hyperlink{structinfo}{info}}.Height + padding <= pack\_rect.h);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00656}00656             \textcolor{keyword}{const} \textcolor{keywordtype}{int} tx = pack\_rect.x + padding;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00657}00657             \textcolor{keyword}{const} \textcolor{keywordtype}{int} ty = pack\_rect.y + padding;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00658}00658 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00659}00659             \textcolor{comment}{// Register glyph}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00660}00660             \textcolor{keywordtype}{float} x0 = \mbox{\hyperlink{structinfo}{info}}.OffsetX + font\_off\_x;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00661}00661             \textcolor{keywordtype}{float} y0 = \mbox{\hyperlink{structinfo}{info}}.OffsetY + font\_off\_y;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00662}00662             \textcolor{keywordtype}{float} x1 = x0 + \mbox{\hyperlink{structinfo}{info}}.Width;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00663}00663             \textcolor{keywordtype}{float} y1 = y0 + \mbox{\hyperlink{structinfo}{info}}.Height;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00664}00664             \textcolor{keywordtype}{float} u0 = (tx) / (\textcolor{keywordtype}{float})atlas-\/>TexWidth;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00665}00665             \textcolor{keywordtype}{float} v0 = (ty) / (\textcolor{keywordtype}{float})atlas-\/>TexHeight;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00666}00666             \textcolor{keywordtype}{float} u1 = (tx + \mbox{\hyperlink{structinfo}{info}}.Width) / (\textcolor{keywordtype}{float})atlas-\/>TexWidth;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00667}00667             \textcolor{keywordtype}{float} v1 = (ty + \mbox{\hyperlink{structinfo}{info}}.Height) / (\textcolor{keywordtype}{float})atlas-\/>TexHeight;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00668}00668             dst\_font-\/>AddGlyph(\&cfg, (ImWchar)src\_glyph.Codepoint, x0, y0, x1, y1, u0, v0, u1, v1, \mbox{\hyperlink{structinfo}{info}}.AdvanceX);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00669}00669 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00670}00670             \mbox{\hyperlink{struct_im_font_glyph}{ImFontGlyph}}* dst\_glyph = \&dst\_font-\/>Glyphs.back();}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00671}00671             IM\_ASSERT(dst\_glyph-\/>Codepoint == src\_glyph.Codepoint);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00672}00672             \textcolor{keywordflow}{if} (src\_glyph.Info.IsColored)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00673}00673                 dst\_glyph-\/>Colored = tex\_use\_colors = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00674}00674 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00675}00675             \textcolor{comment}{// Blit from temporary buffer to final texture}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00676}00676             \textcolor{keywordtype}{size\_t} blit\_src\_stride = (size\_t)src\_glyph.Info.Width;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00677}00677             \textcolor{keywordtype}{size\_t} blit\_dst\_stride = (\textcolor{keywordtype}{size\_t})atlas-\/>TexWidth;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00678}00678             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}* blit\_src = src\_glyph.BitmapData;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00679}00679             \textcolor{keywordflow}{if} (atlas-\/>TexPixelsAlpha8 != NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00680}00680             \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00681}00681                 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* blit\_dst = atlas-\/>TexPixelsAlpha8 + (ty * blit\_dst\_stride) + tx;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00682}00682                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y = 0; y < \mbox{\hyperlink{structinfo}{info}}.Height; y++, blit\_dst += blit\_dst\_stride, blit\_src += blit\_src\_stride)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00683}00683                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x = 0; x < \mbox{\hyperlink{structinfo}{info}}.Width; x++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00684}00684                         blit\_dst[x] = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char})((blit\_src[x] >> IM\_COL32\_A\_SHIFT) \& 0xFF);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00685}00685             \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00686}00686             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00687}00687             \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00688}00688                 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}* blit\_dst = atlas-\/>TexPixelsRGBA32 + (ty * blit\_dst\_stride) + tx;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00689}00689                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y = 0; y < \mbox{\hyperlink{structinfo}{info}}.Height; y++, blit\_dst += blit\_dst\_stride, blit\_src += blit\_src\_stride)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00690}00690                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x = 0; x < \mbox{\hyperlink{structinfo}{info}}.Width; x++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00691}00691                         blit\_dst[x] = blit\_src[x];}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00692}00692             \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00693}00693         \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00694}00694 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00695}00695         src\_tmp.Rects = NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00696}00696     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00697}00697     atlas-\/>TexPixelsUseColors = tex\_use\_colors;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00698}00698 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00699}00699     \textcolor{comment}{// Cleanup}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00700}00700     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} buf\_i = 0; buf\_i < buf\_bitmap\_buffers.Size; buf\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00701}00701         IM\_FREE(buf\_bitmap\_buffers[buf\_i]);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00702}00702     src\_tmp\_array.clear\_destruct();}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00703}00703 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00704}00704     ImFontAtlasBuildFinish(atlas);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00705}00705 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00706}00706     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00707}00707 \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00708}00708 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00709}00709 \textcolor{comment}{// FreeType memory allocation callbacks}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00710}00710 \textcolor{keyword}{static} \textcolor{keywordtype}{void}* FreeType\_Alloc(FT\_Memory \textcolor{comment}{/*memory*/}, \textcolor{keywordtype}{long} size)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00711}00711 \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00712}00712     \textcolor{keywordflow}{return} GImGuiFreeTypeAllocFunc((\textcolor{keywordtype}{size\_t})size, GImGuiFreeTypeAllocatorUserData);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00713}00713 \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00714}00714 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00715}00715 \textcolor{keyword}{static} \textcolor{keywordtype}{void} FreeType\_Free(FT\_Memory \textcolor{comment}{/*memory*/}, \textcolor{keywordtype}{void}* block)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00716}00716 \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00717}00717     GImGuiFreeTypeFreeFunc(block, GImGuiFreeTypeAllocatorUserData);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00718}00718 \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00719}00719 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00720}00720 \textcolor{keyword}{static} \textcolor{keywordtype}{void}* FreeType\_Realloc(FT\_Memory \textcolor{comment}{/*memory*/}, \textcolor{keywordtype}{long} cur\_size, \textcolor{keywordtype}{long} new\_size, \textcolor{keywordtype}{void}* block)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00721}00721 \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00722}00722     \textcolor{comment}{// Implement realloc() as we don't ask user to provide it.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00723}00723     \textcolor{keywordflow}{if} (block == NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00724}00724         \textcolor{keywordflow}{return} GImGuiFreeTypeAllocFunc((\textcolor{keywordtype}{size\_t})new\_size, GImGuiFreeTypeAllocatorUserData);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00725}00725 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00726}00726     \textcolor{keywordflow}{if} (new\_size == 0)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00727}00727     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00728}00728         GImGuiFreeTypeFreeFunc(block, GImGuiFreeTypeAllocatorUserData);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00729}00729         \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00730}00730     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00731}00731 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00732}00732     \textcolor{keywordflow}{if} (new\_size > cur\_size)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00733}00733     \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00734}00734         \textcolor{keywordtype}{void}* new\_block = GImGuiFreeTypeAllocFunc((\textcolor{keywordtype}{size\_t})new\_size, GImGuiFreeTypeAllocatorUserData);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00735}00735         memcpy(new\_block, block, (\textcolor{keywordtype}{size\_t})cur\_size);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00736}00736         GImGuiFreeTypeFreeFunc(block, GImGuiFreeTypeAllocatorUserData);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00737}00737         \textcolor{keywordflow}{return} new\_block;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00738}00738     \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00739}00739 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00740}00740     \textcolor{keywordflow}{return} block;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00741}00741 \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00742}00742 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00743}00743 \textcolor{keyword}{static} \textcolor{keywordtype}{bool} ImFontAtlasBuildWithFreeType(\mbox{\hyperlink{struct_im_font_atlas}{ImFontAtlas}}* atlas)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00744}00744 \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00745}00745     \textcolor{comment}{// FreeType memory management: https://www.freetype.org/freetype2/docs/design/design-\/4.html}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00746}00746     FT\_MemoryRec\_ memory\_rec = \{\};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00747}00747     memory\_rec.user = NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00748}00748     memory\_rec.alloc = \&FreeType\_Alloc;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00749}00749     memory\_rec.free = \&FreeType\_Free;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00750}00750     memory\_rec.realloc = \&FreeType\_Realloc;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00751}00751 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00752}00752     \textcolor{comment}{// https://www.freetype.org/freetype2/docs/reference/ft2-\/module\_management.html\#FT\_New\_Library}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00753}00753     FT\_Library ft\_library;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00754}00754     FT\_Error error = FT\_New\_Library(\&memory\_rec, \&ft\_library);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00755}00755     \textcolor{keywordflow}{if} (error != 0)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00756}00756         \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00757}00757 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00758}00758     \textcolor{comment}{// If you don't call FT\_Add\_Default\_Modules() the rest of code may work, but FreeType won't use our custom allocator.}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00759}00759     FT\_Add\_Default\_Modules(ft\_library);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00760}00760 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00761}00761     \textcolor{keywordtype}{bool} ret = ImFontAtlasBuildWithFreeTypeEx(ft\_library, atlas, atlas-\/>FontBuilderFlags);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00762}00762     FT\_Done\_Library(ft\_library);}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00763}00763 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00764}00764     \textcolor{keywordflow}{return} ret;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00765}00765 \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00766}00766 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00767}00767 \textcolor{keyword}{const} \mbox{\hyperlink{struct_im_font_builder_i_o}{ImFontBuilderIO}}* ImGuiFreeType::GetBuilderForFreeType()}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00768}00768 \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00769}00769     \textcolor{keyword}{static} \mbox{\hyperlink{struct_im_font_builder_i_o}{ImFontBuilderIO}} io;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00770}00770     io.FontBuilder\_Build = ImFontAtlasBuildWithFreeType;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00771}00771     \textcolor{keywordflow}{return} \&io;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00772}00772 \}}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00773}00773 }
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00774}00774 \textcolor{keywordtype}{void} ImGuiFreeType::SetAllocatorFunctions(\textcolor{keywordtype}{void}* (*alloc\_func)(\textcolor{keywordtype}{size\_t} sz, \textcolor{keywordtype}{void}* user\_data), \textcolor{keywordtype}{void} (*free\_func)(\textcolor{keywordtype}{void}* ptr, \textcolor{keywordtype}{void}* user\_data), \textcolor{keywordtype}{void}* user\_data)}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00775}00775 \{}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00776}00776     GImGuiFreeTypeAllocFunc = alloc\_func;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00777}00777     GImGuiFreeTypeFreeFunc = free\_func;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00778}00778     GImGuiFreeTypeAllocatorUserData = user\_data;}
+\DoxyCodeLine{\Hypertarget{imgui__freetype_8cpp_source_l00779}00779 \}}
+
+\end{DoxyCode}

@@ -1,0 +1,129 @@
+\hypertarget{geometric_8h_source}{}\doxysection{geometric.\+h}
+\label{geometric_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/simd/geometric.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/simd/geometric.h}}
+\mbox{\hyperlink{geometric_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00004}00004 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00006}00006 \textcolor{preprocessor}{\#include "{}common.h"{}}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00008}00008 \textcolor{preprocessor}{\#if GLM\_ARCH \& GLM\_ARCH\_SSE2\_BIT}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00009}00009 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00010}00010 GLM\_FUNC\_DECL glm\_vec4 glm\_vec4\_dot(glm\_vec4 v1, glm\_vec4 v2);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00011}00011 GLM\_FUNC\_DECL glm\_vec4 glm\_vec1\_dot(glm\_vec4 v1, glm\_vec4 v2);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00013}00013 GLM\_FUNC\_QUALIFIER glm\_vec4 glm\_vec4\_length(glm\_vec4 x)}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00014}00014 \{}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00015}00015     glm\_vec4 \textcolor{keyword}{const} dot0 = glm\_vec4\_dot(x, x);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00016}00016     glm\_vec4 \textcolor{keyword}{const} sqt0 = \_mm\_sqrt\_ps(dot0);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00017}00017     \textcolor{keywordflow}{return} sqt0;}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00018}00018 \}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00020}00020 GLM\_FUNC\_QUALIFIER glm\_vec4 glm\_vec4\_distance(glm\_vec4 p0, glm\_vec4 p1)}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00021}00021 \{}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00022}00022     glm\_vec4 \textcolor{keyword}{const} sub0 = \_mm\_sub\_ps(p0, p1);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00023}00023     glm\_vec4 \textcolor{keyword}{const} len0 = glm\_vec4\_length(sub0);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00024}00024     \textcolor{keywordflow}{return} len0;}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00025}00025 \}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00027}00027 GLM\_FUNC\_QUALIFIER glm\_vec4 glm\_vec4\_dot(glm\_vec4 v1, glm\_vec4 v2)}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00028}00028 \{}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00029}00029 \textcolor{preprocessor}{\#   if GLM\_ARCH \& GLM\_ARCH\_AVX\_BIT}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00030}00030         \textcolor{keywordflow}{return} \_mm\_dp\_ps(v1, v2, 0xff);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00031}00031 \textcolor{preprocessor}{\#   elif GLM\_ARCH \& GLM\_ARCH\_SSE3\_BIT}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00032}00032         glm\_vec4 \textcolor{keyword}{const} mul0 = \_mm\_mul\_ps(v1, v2);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00033}00033         glm\_vec4 \textcolor{keyword}{const} hadd0 = \_mm\_hadd\_ps(mul0, mul0);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00034}00034         glm\_vec4 \textcolor{keyword}{const} hadd1 = \_mm\_hadd\_ps(hadd0, hadd0);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00035}00035         \textcolor{keywordflow}{return} hadd1;}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00036}00036 \textcolor{preprocessor}{\#   else}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00037}00037         glm\_vec4 \textcolor{keyword}{const} mul0 = \_mm\_mul\_ps(v1, v2);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00038}00038         glm\_vec4 \textcolor{keyword}{const} swp0 = \_mm\_shuffle\_ps(mul0, mul0, \_MM\_SHUFFLE(2, 3, 0, 1));}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00039}00039         glm\_vec4 \textcolor{keyword}{const} add0 = \_mm\_add\_ps(mul0, swp0);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00040}00040         glm\_vec4 \textcolor{keyword}{const} swp1 = \_mm\_shuffle\_ps(add0, add0, \_MM\_SHUFFLE(0, 1, 2, 3));}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00041}00041         glm\_vec4 \textcolor{keyword}{const} add1 = \_mm\_add\_ps(add0, swp1);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00042}00042         \textcolor{keywordflow}{return} add1;}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00043}00043 \textcolor{preprocessor}{\#   endif}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00044}00044 \}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00046}00046 GLM\_FUNC\_QUALIFIER glm\_vec4 glm\_vec1\_dot(glm\_vec4 v1, glm\_vec4 v2)}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00047}00047 \{}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00048}00048 \textcolor{preprocessor}{\#   if GLM\_ARCH \& GLM\_ARCH\_AVX\_BIT}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00049}00049         \textcolor{keywordflow}{return} \_mm\_dp\_ps(v1, v2, 0xff);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00050}00050 \textcolor{preprocessor}{\#   elif GLM\_ARCH \& GLM\_ARCH\_SSE3\_BIT}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00051}00051         glm\_vec4 \textcolor{keyword}{const} mul0 = \_mm\_mul\_ps(v1, v2);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00052}00052         glm\_vec4 \textcolor{keyword}{const} had0 = \_mm\_hadd\_ps(mul0, mul0);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00053}00053         glm\_vec4 \textcolor{keyword}{const} had1 = \_mm\_hadd\_ps(had0, had0);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00054}00054         \textcolor{keywordflow}{return} had1;}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00055}00055 \textcolor{preprocessor}{\#   else}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00056}00056         glm\_vec4 \textcolor{keyword}{const} mul0 = \_mm\_mul\_ps(v1, v2);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00057}00057         glm\_vec4 \textcolor{keyword}{const} mov0 = \_mm\_movehl\_ps(mul0, mul0);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00058}00058         glm\_vec4 \textcolor{keyword}{const} add0 = \_mm\_add\_ps(mov0, mul0);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00059}00059         glm\_vec4 \textcolor{keyword}{const} swp1 = \_mm\_shuffle\_ps(add0, add0, 1);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00060}00060         glm\_vec4 \textcolor{keyword}{const} add1 = \_mm\_add\_ss(add0, swp1);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00061}00061         \textcolor{keywordflow}{return} add1;}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00062}00062 \textcolor{preprocessor}{\#   endif}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00063}00063 \}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00065}00065 GLM\_FUNC\_QUALIFIER glm\_vec4 glm\_vec4\_cross(glm\_vec4 v1, glm\_vec4 v2)}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00066}00066 \{}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00067}00067     glm\_vec4 \textcolor{keyword}{const} swp0 = \_mm\_shuffle\_ps(v1, v1, \_MM\_SHUFFLE(3, 0, 2, 1));}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00068}00068     glm\_vec4 \textcolor{keyword}{const} swp1 = \_mm\_shuffle\_ps(v1, v1, \_MM\_SHUFFLE(3, 1, 0, 2));}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00069}00069     glm\_vec4 \textcolor{keyword}{const} swp2 = \_mm\_shuffle\_ps(v2, v2, \_MM\_SHUFFLE(3, 0, 2, 1));}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00070}00070     glm\_vec4 \textcolor{keyword}{const} swp3 = \_mm\_shuffle\_ps(v2, v2, \_MM\_SHUFFLE(3, 1, 0, 2));}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00071}00071     glm\_vec4 \textcolor{keyword}{const} mul0 = \_mm\_mul\_ps(swp0, swp3);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00072}00072     glm\_vec4 \textcolor{keyword}{const} mul1 = \_mm\_mul\_ps(swp1, swp2);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00073}00073     glm\_vec4 \textcolor{keyword}{const} sub0 = \_mm\_sub\_ps(mul0, mul1);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00074}00074     \textcolor{keywordflow}{return} sub0;}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00075}00075 \}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00077}00077 GLM\_FUNC\_QUALIFIER glm\_vec4 glm\_vec4\_normalize(glm\_vec4 v)}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00078}00078 \{}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00079}00079     glm\_vec4 \textcolor{keyword}{const} dot0 = glm\_vec4\_dot(v, v);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00080}00080     glm\_vec4 \textcolor{keyword}{const} isr0 = \_mm\_rsqrt\_ps(dot0);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00081}00081     glm\_vec4 \textcolor{keyword}{const} mul0 = \_mm\_mul\_ps(v, isr0);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00082}00082     \textcolor{keywordflow}{return} mul0;}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00083}00083 \}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00085}00085 GLM\_FUNC\_QUALIFIER glm\_vec4 glm\_vec4\_faceforward(glm\_vec4 N, glm\_vec4 I, glm\_vec4 Nref)}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00086}00086 \{}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00087}00087     glm\_vec4 \textcolor{keyword}{const} dot0 = glm\_vec4\_dot(Nref, I);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00088}00088     glm\_vec4 \textcolor{keyword}{const} sgn0 = glm\_vec4\_sign(dot0);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00089}00089     glm\_vec4 \textcolor{keyword}{const} mul0 = \_mm\_mul\_ps(sgn0, \_mm\_set1\_ps(-\/1.0f));}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00090}00090     glm\_vec4 \textcolor{keyword}{const} mul1 = \_mm\_mul\_ps(N, mul0);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00091}00091     \textcolor{keywordflow}{return} mul1;}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00092}00092 \}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00093}00093 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00094}00094 GLM\_FUNC\_QUALIFIER glm\_vec4 glm\_vec4\_reflect(glm\_vec4 I, glm\_vec4 N)}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00095}00095 \{}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00096}00096     glm\_vec4 \textcolor{keyword}{const} dot0 = glm\_vec4\_dot(N, I);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00097}00097     glm\_vec4 \textcolor{keyword}{const} mul0 = \_mm\_mul\_ps(N, dot0);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00098}00098     glm\_vec4 \textcolor{keyword}{const} mul1 = \_mm\_mul\_ps(mul0, \_mm\_set1\_ps(2.0f));}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00099}00099     glm\_vec4 \textcolor{keyword}{const} sub0 = \_mm\_sub\_ps(I, mul1);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00100}00100     \textcolor{keywordflow}{return} sub0;}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00101}00101 \}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00103}00103 GLM\_FUNC\_QUALIFIER \_\_m128 glm\_vec4\_refract(glm\_vec4 I, glm\_vec4 N, glm\_vec4 eta)}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00104}00104 \{}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00105}00105     glm\_vec4 \textcolor{keyword}{const} dot0 = glm\_vec4\_dot(N, I);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00106}00106     glm\_vec4 \textcolor{keyword}{const} mul0 = \_mm\_mul\_ps(eta, eta);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00107}00107     glm\_vec4 \textcolor{keyword}{const} mul1 = \_mm\_mul\_ps(dot0, dot0);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00108}00108     glm\_vec4 \textcolor{keyword}{const} sub0 = \_mm\_sub\_ps(\_mm\_set1\_ps(1.0f), mul0);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00109}00109     glm\_vec4 \textcolor{keyword}{const} sub1 = \_mm\_sub\_ps(\_mm\_set1\_ps(1.0f), mul1);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00110}00110     glm\_vec4 \textcolor{keyword}{const} mul2 = \_mm\_mul\_ps(sub0, sub1);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00111}00111 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00112}00112     \textcolor{keywordflow}{if}(\_mm\_movemask\_ps(\_mm\_cmplt\_ss(mul2, \_mm\_set1\_ps(0.0f))) == 0)}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00113}00113         \textcolor{keywordflow}{return} \_mm\_set1\_ps(0.0f);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00115}00115     glm\_vec4 \textcolor{keyword}{const} sqt0 = \_mm\_sqrt\_ps(mul2);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00116}00116     glm\_vec4 \textcolor{keyword}{const} mad0 = glm\_vec4\_fma(eta, dot0, sqt0);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00117}00117     glm\_vec4 \textcolor{keyword}{const} mul4 = \_mm\_mul\_ps(mad0, N);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00118}00118     glm\_vec4 \textcolor{keyword}{const} mul5 = \_mm\_mul\_ps(eta, I);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00119}00119     glm\_vec4 \textcolor{keyword}{const} sub2 = \_mm\_sub\_ps(mul5, mul4);}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00121}00121     \textcolor{keywordflow}{return} sub2;}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00122}00122 \}}
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00123}00123 }
+\DoxyCodeLine{\Hypertarget{geometric_8h_source_l00124}00124 \textcolor{preprocessor}{\#endif}\textcolor{comment}{//GLM\_ARCH \& GLM\_ARCH\_SSE2\_BIT}}
+
+\end{DoxyCode}

@@ -1,0 +1,1266 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="wl__platform_8h" kind="file" language="C++">
+    <compoundname>wl_platform.h</compoundname>
+    <includes local="no">wayland-client.h</includes>
+    <includes local="no">xkbcommon/xkbcommon.h</includes>
+    <includes local="no">dlfcn.h</includes>
+    <includes refid="posix__thread_8h" local="yes">posix_thread.h</includes>
+    <includes refid="posix__time_8h" local="yes">posix_time.h</includes>
+    <includes refid="null__joystick_8h" local="yes">null_joystick.h</includes>
+    <includes refid="xkb__unicode_8h" local="yes">xkb_unicode.h</includes>
+    <includes local="yes">wayland-xdg-shell-client-protocol.h</includes>
+    <includes local="yes">wayland-xdg-decoration-client-protocol.h</includes>
+    <includes local="yes">wayland-viewporter-client-protocol.h</includes>
+    <includes local="yes">wayland-relative-pointer-unstable-v1-client-protocol.h</includes>
+    <includes local="yes">wayland-pointer-constraints-unstable-v1-client-protocol.h</includes>
+    <includes local="yes">wayland-idle-inhibit-unstable-v1-client-protocol.h</includes>
+    <incdepgraph>
+      <node id="8">
+        <label>stdint.h</label>
+        <link refid="stdint_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>null_joystick.h</label>
+        <link refid="null__joystick_8h_source"/>
+      </node>
+      <node id="5">
+        <label>posix_thread.h</label>
+        <link refid="posix__thread_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>posix_time.h</label>
+        <link refid="posix__time_8h_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h</label>
+        <link refid="wl__platform_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>xkb_unicode.h</label>
+        <link refid="xkb__unicode_8h_source"/>
+      </node>
+      <node id="4">
+        <label>dlfcn.h</label>
+      </node>
+      <node id="9">
+        <label>limits.h</label>
+      </node>
+      <node id="6">
+        <label>pthread.h</label>
+      </node>
+      <node id="2">
+        <label>wayland-client.h</label>
+      </node>
+      <node id="18">
+        <label>wayland-idle-inhibit-unstable-v1-client-protocol.h</label>
+      </node>
+      <node id="17">
+        <label>wayland-pointer-constraints-unstable-v1-client-protocol.h</label>
+      </node>
+      <node id="16">
+        <label>wayland-relative-pointer-unstable-v1-client-protocol.h</label>
+      </node>
+      <node id="15">
+        <label>wayland-viewporter-client-protocol.h</label>
+      </node>
+      <node id="14">
+        <label>wayland-xdg-decoration-client-protocol.h</label>
+      </node>
+      <node id="13">
+        <label>wayland-xdg-shell-client-protocol.h</label>
+      </node>
+      <node id="10">
+        <label>wchar.h</label>
+      </node>
+      <node id="3">
+        <label>xkbcommon/xkbcommon.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_vk_wayland_surface_create_info_k_h_r" prot="public">VkWaylandSurfaceCreateInfoKHR</innerclass>
+    <innerclass refid="structwl__cursor__image" prot="public">wl_cursor_image</innerclass>
+    <innerclass refid="structwl__cursor" prot="public">wl_cursor</innerclass>
+    <innerclass refid="struct___g_l_f_wdecoration_wayland" prot="public">_GLFWdecorationWayland</innerclass>
+    <innerclass refid="struct___g_l_f_wwindow_wayland" prot="public">_GLFWwindowWayland</innerclass>
+    <innerclass refid="struct___g_l_f_wlibrary_wayland" prot="public">_GLFWlibraryWayland</innerclass>
+    <innerclass refid="struct___g_l_f_wmonitor_wayland" prot="public">_GLFWmonitorWayland</innerclass>
+    <innerclass refid="struct___g_l_f_wcursor_wayland" prot="public">_GLFWcursorWayland</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="wl__platform_8h_1a5f5a84d37427a3f54af2e1b5667bc569" prot="public" static="no">
+        <name>_glfw_dlopen</name>
+        <param><defname>name</defname></param>
+        <initializer>dlopen(name, RTLD_LAZY | RTLD_LOCAL)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="64" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1ad1dc145aa72a5a4504d2015bb11f6559" prot="public" static="no">
+        <name>_glfw_dlclose</name>
+        <param><defname>handle</defname></param>
+        <initializer>dlclose(handle)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="65" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1ac0795db0183d348f2867cc5a6322bfbc" prot="public" static="no">
+        <name>_glfw_dlsym</name>
+        <param><defname>handle</defname></param>
+        <param><defname>name</defname></param>
+        <initializer>dlsym(handle, name)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="66" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1aa26f1423e34d4c3fb9533850ebf06e21" prot="public" static="no">
+        <name>_GLFW_PLATFORM_WINDOW_STATE</name>
+        <initializer><ref refid="struct___g_l_f_wwindow_wayland" kindref="compound">_GLFWwindowWayland</ref>  wl</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="68" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1ad666193a847340c128970216fc00f92c" prot="public" static="no">
+        <name>_GLFW_PLATFORM_LIBRARY_WINDOW_STATE</name>
+        <initializer><ref refid="struct___g_l_f_wlibrary_wayland" kindref="compound">_GLFWlibraryWayland</ref> wl</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="69" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1ac966d3fd4ae66b36e123c4cb3a6a215f" prot="public" static="no">
+        <name>_GLFW_PLATFORM_MONITOR_STATE</name>
+        <initializer><ref refid="struct___g_l_f_wmonitor_wayland" kindref="compound">_GLFWmonitorWayland</ref> wl</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="70" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1a4551a5d24dca0d3f0b1602b9406f14c7" prot="public" static="no">
+        <name>_GLFW_PLATFORM_CURSOR_STATE</name>
+        <initializer><ref refid="struct___g_l_f_wcursor_wayland" kindref="compound">_GLFWcursorWayland</ref>  wl</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="71" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1aaac762d1c5730e6bb09d4985b483f5bb" prot="public" static="no">
+        <name>_GLFW_PLATFORM_CONTEXT_STATE</name>
+        <initializer>struct { int dummyContext; }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="73" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1a7e5e60a7f6cf8303a918a7b11ab6aa2b" prot="public" static="no">
+        <name>_GLFW_PLATFORM_LIBRARY_CONTEXT_STATE</name>
+        <initializer>struct { int dummyLibraryContext; }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="74" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1af0849f9b39044874257dae01cf1ab056" prot="public" static="no">
+        <name>wl_cursor_theme_load</name>
+        <initializer>_glfw.wl.cursor.theme_load</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="92" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1af4ea3aeb622e33ebef78a5456e1f177f" prot="public" static="no">
+        <name>wl_cursor_theme_destroy</name>
+        <initializer>_glfw.wl.cursor.theme_destroy</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="93" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1a987f4277f2574417ab58ebdb8f5de58f" prot="public" static="no">
+        <name>wl_cursor_theme_get_cursor</name>
+        <initializer>_glfw.wl.cursor.theme_get_cursor</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="94" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1a3ea54f5b113ff9dccacb3d379b02ae76" prot="public" static="no">
+        <name>wl_cursor_image_get_buffer</name>
+        <initializer>_glfw.wl.cursor.image_get_buffer</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="95" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1ab794adced13a3bdc0757c2994e82f9ea" prot="public" static="no">
+        <name>wl_egl_window_create</name>
+        <initializer>_glfw.wl.egl.window_create</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="100" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1adf173779ebc5cf85253a4d34918fd2cb" prot="public" static="no">
+        <name>wl_egl_window_destroy</name>
+        <initializer>_glfw.wl.egl.window_destroy</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="101" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1a9c997ab2ede20b608025a74e6fb54129" prot="public" static="no">
+        <name>wl_egl_window_resize</name>
+        <initializer>_glfw.wl.egl.window_resize</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="102" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1ad3db83b8a04c02fad16d7f0eb9253651" prot="public" static="no">
+        <name>xkb_context_new</name>
+        <initializer>_glfw.wl.xkb.context_new</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="115" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1a7d4180d6a0192d57ed6bab2162b12444" prot="public" static="no">
+        <name>xkb_context_unref</name>
+        <initializer>_glfw.wl.xkb.context_unref</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="116" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1a46b7585bcf515582df56effb765548ff" prot="public" static="no">
+        <name>xkb_keymap_new_from_string</name>
+        <initializer>_glfw.wl.xkb.keymap_new_from_string</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="117" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1a9707d19b164550101c688f6a8ad4cb56" prot="public" static="no">
+        <name>xkb_keymap_unref</name>
+        <initializer>_glfw.wl.xkb.keymap_unref</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="118" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1ae00a697007ff6fb26df721434e95043a" prot="public" static="no">
+        <name>xkb_keymap_mod_get_index</name>
+        <initializer>_glfw.wl.xkb.keymap_mod_get_index</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="119" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1a454cb66a6161b4d9fbfde69bf1b1adb1" prot="public" static="no">
+        <name>xkb_keymap_key_repeats</name>
+        <initializer>_glfw.wl.xkb.keymap_key_repeats</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="120" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1a3d5fc2dfd183f89bba226cdbc168608c" prot="public" static="no">
+        <name>xkb_state_new</name>
+        <initializer>_glfw.wl.xkb.state_new</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="121" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1a924ddb1dc7e73e83e207b2a1dc911504" prot="public" static="no">
+        <name>xkb_state_unref</name>
+        <initializer>_glfw.wl.xkb.state_unref</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="122" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1aae3ce4ad2452936ecc298d83cec75af8" prot="public" static="no">
+        <name>xkb_state_key_get_syms</name>
+        <initializer>_glfw.wl.xkb.state_key_get_syms</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="123" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1af6ad24764ac986922fc1040d48fd568a" prot="public" static="no">
+        <name>xkb_state_update_mask</name>
+        <initializer>_glfw.wl.xkb.state_update_mask</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="124" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1aaff941989f1ba31063f6f81f9f34f595" prot="public" static="no">
+        <name>xkb_state_serialize_mods</name>
+        <initializer>_glfw.wl.xkb.state_serialize_mods</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="125" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1ab0aa0ee53d9e7cb2f315acc731a9a977" prot="public" static="no">
+        <name>_GLFW_DECORATION_WIDTH</name>
+        <initializer>4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="144" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1abbd514b1fca6f13fe14c45f91478e033" prot="public" static="no">
+        <name>_GLFW_DECORATION_TOP</name>
+        <initializer>24</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="145" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1aa626e680b43b163df2478262d214ee33" prot="public" static="no">
+        <name>_GLFW_DECORATION_VERTICAL</name>
+        <initializer>(_GLFW_DECORATION_TOP + _GLFW_DECORATION_WIDTH)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="146" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="wl__platform_8h_1a37b0c386c98843eeeb28e5723227d49f" prot="public" static="no">
+        <name>_GLFW_DECORATION_HORIZONTAL</name>
+        <initializer>(2 * _GLFW_DECORATION_WIDTH)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="147" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="wl__platform_8h_1ad60a0a27370d399e4f9fd58d1eeef1ac" prot="public" static="no" strong="no">
+        <type></type>
+        <name>_GLFWdecorationSideWayland</name>
+        <enumvalue id="wl__platform_8h_1ad60a0a27370d399e4f9fd58d1eeef1acab46a673d9ca7e2f82c3cdd4cc7118e6b" prot="public">
+          <name>mainWindow</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="wl__platform_8h_1ad60a0a27370d399e4f9fd58d1eeef1aca7d386fd3327b79f545efc42b71938684" prot="public">
+          <name>topDecoration</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="wl__platform_8h_1ad60a0a27370d399e4f9fd58d1eeef1aca9a7153928697fcf33642ce73e6d4c3e4" prot="public">
+          <name>leftDecoration</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="wl__platform_8h_1ad60a0a27370d399e4f9fd58d1eeef1acaa31414385e2e07a6c5b5e1bc3ae93dfc" prot="public">
+          <name>rightDecoration</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="wl__platform_8h_1ad60a0a27370d399e4f9fd58d1eeef1aca3393de96e9dcdda8d91fcfbbc616b550" prot="public">
+          <name>bottomDecoration</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="149" column="1" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="150" bodyend="157"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="wl__platform_8h_1a36e579e4f2092ce7a427191251c5cc33" prot="public" static="no">
+        <type>VkFlags</type>
+        <definition>typedef VkFlags VkWaylandSurfaceCreateFlagsKHR</definition>
+        <argsstring></argsstring>
+        <name>VkWaylandSurfaceCreateFlagsKHR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="34" column="17" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1a1806f7a43bfa7c3b5dccc83f9a110f9f" prot="public" static="no">
+        <type>struct <ref refid="struct_vk_wayland_surface_create_info_k_h_r" kindref="compound">VkWaylandSurfaceCreateInfoKHR</ref></type>
+        <definition>typedef struct VkWaylandSurfaceCreateInfoKHR VkWaylandSurfaceCreateInfoKHR</definition>
+        <argsstring></argsstring>
+        <name>VkWaylandSurfaceCreateInfoKHR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="43" column="31"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1a76222e93358f10e2b01bd5115dc01038" prot="public" static="no">
+        <type>VkResult(APIENTRY *</type>
+        <definition>typedef VkResult(APIENTRY * PFN_vkCreateWaylandSurfaceKHR) (VkInstance, const VkWaylandSurfaceCreateInfoKHR *, const VkAllocationCallbacks *, VkSurfaceKHR *)</definition>
+        <argsstring>)(VkInstance, const VkWaylandSurfaceCreateInfoKHR *, const VkAllocationCallbacks *, VkSurfaceKHR *)</argsstring>
+        <name>PFN_vkCreateWaylandSurfaceKHR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="45" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1ab2aa7548ffded3123627790f8bce8c95" prot="public" static="no">
+        <type>VkBool32(APIENTRY *</type>
+        <definition>typedef VkBool32(APIENTRY * PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR) (VkPhysicalDevice, uint32_t, struct wl_display *)</definition>
+        <argsstring>)(VkPhysicalDevice, uint32_t, struct wl_display *)</argsstring>
+        <name>PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="46" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1a97c17b89b36185eaf2c492ddc20644de" prot="public" static="no">
+        <type>struct wl_cursor_theme *(*</type>
+        <definition>typedef struct wl_cursor_theme *(* PFN_wl_cursor_theme_load) (const char *, int, struct wl_shm *)</definition>
+        <argsstring>)(const char *, int, struct wl_shm *)</argsstring>
+        <name>PFN_wl_cursor_theme_load</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="46" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1a028b3d9313486c63f918b370f4290b46" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* PFN_wl_cursor_theme_destroy) (struct wl_cursor_theme *)</definition>
+        <argsstring>)(struct wl_cursor_theme *)</argsstring>
+        <name>PFN_wl_cursor_theme_destroy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="89" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1acb234d6f651a7980af64e4ff4367eaf9" prot="public" static="no">
+        <type>struct <ref refid="structwl__cursor" kindref="compound">wl_cursor</ref> *(*</type>
+        <definition>typedef struct wl_cursor *(* PFN_wl_cursor_theme_get_cursor) (struct wl_cursor_theme *, const char *)</definition>
+        <argsstring>)(struct wl_cursor_theme *, const char *)</argsstring>
+        <name>PFN_wl_cursor_theme_get_cursor</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="89" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1a3e1d2df516e6a041fa3edf6d13a2c2d9" prot="public" static="no">
+        <type>struct wl_buffer *(*</type>
+        <definition>typedef struct wl_buffer *(* PFN_wl_cursor_image_get_buffer) (struct wl_cursor_image *)</definition>
+        <argsstring>)(struct wl_cursor_image *)</argsstring>
+        <name>PFN_wl_cursor_image_get_buffer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="89" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1adacdd6e2d2a0660619ede36efd042c99" prot="public" static="no">
+        <type>struct wl_egl_window *(*</type>
+        <definition>typedef struct wl_egl_window *(* PFN_wl_egl_window_create) (struct wl_surface *, int, int)</definition>
+        <argsstring>)(struct wl_surface *, int, int)</argsstring>
+        <name>PFN_wl_egl_window_create</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="89" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1a2727d08bef446572e6f9e26801506ae1" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* PFN_wl_egl_window_destroy) (struct wl_egl_window *)</definition>
+        <argsstring>)(struct wl_egl_window *)</argsstring>
+        <name>PFN_wl_egl_window_destroy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="98" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1adcf78e57b989ea0e561208099dada945" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* PFN_wl_egl_window_resize) (struct wl_egl_window *, int, int, int, int)</definition>
+        <argsstring>)(struct wl_egl_window *, int, int, int, int)</argsstring>
+        <name>PFN_wl_egl_window_resize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="99" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1aab405d705b491d12d417d43653efb8b9" prot="public" static="no">
+        <type>struct xkb_context *(*</type>
+        <definition>typedef struct xkb_context *(* PFN_xkb_context_new) (enum xkb_context_flags)</definition>
+        <argsstring>)(enum xkb_context_flags)</argsstring>
+        <name>PFN_xkb_context_new</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="99" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1aeb826e6dece848b0e71cf98fcf3b6a34" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* PFN_xkb_context_unref) (struct xkb_context *)</definition>
+        <argsstring>)(struct xkb_context *)</argsstring>
+        <name>PFN_xkb_context_unref</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="105" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1a1f100e9e4aa5cfcc5562924155012055" prot="public" static="no">
+        <type>struct xkb_keymap *(*</type>
+        <definition>typedef struct xkb_keymap *(* PFN_xkb_keymap_new_from_string) (struct xkb_context *, const char *, enum xkb_keymap_format, enum xkb_keymap_compile_flags)</definition>
+        <argsstring>)(struct xkb_context *, const char *, enum xkb_keymap_format, enum xkb_keymap_compile_flags)</argsstring>
+        <name>PFN_xkb_keymap_new_from_string</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="105" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1aa0778d7d934b96bf500f046368de1f45" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* PFN_xkb_keymap_unref) (struct xkb_keymap *)</definition>
+        <argsstring>)(struct xkb_keymap *)</argsstring>
+        <name>PFN_xkb_keymap_unref</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="107" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1a41d7cec916693645a46216cec1c0c6d7" prot="public" static="no">
+        <type>xkb_mod_index_t(*</type>
+        <definition>typedef xkb_mod_index_t(* PFN_xkb_keymap_mod_get_index) (struct xkb_keymap *, const char *)</definition>
+        <argsstring>)(struct xkb_keymap *, const char *)</argsstring>
+        <name>PFN_xkb_keymap_mod_get_index</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="108" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1a10dd25305b8984d748e0c35db025106e" prot="public" static="no">
+        <type>int(*</type>
+        <definition>typedef int(* PFN_xkb_keymap_key_repeats) (struct xkb_keymap *, xkb_keycode_t)</definition>
+        <argsstring>)(struct xkb_keymap *, xkb_keycode_t)</argsstring>
+        <name>PFN_xkb_keymap_key_repeats</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="109" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1a20d60af617a47b1dbebcacc4cffb369a" prot="public" static="no">
+        <type>struct xkb_state *(*</type>
+        <definition>typedef struct xkb_state *(* PFN_xkb_state_new) (struct xkb_keymap *)</definition>
+        <argsstring>)(struct xkb_keymap *)</argsstring>
+        <name>PFN_xkb_state_new</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="109" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1a04a57f9f8326bd39a1525e4e0edd4951" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* PFN_xkb_state_unref) (struct xkb_state *)</definition>
+        <argsstring>)(struct xkb_state *)</argsstring>
+        <name>PFN_xkb_state_unref</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="111" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1ac93bb3679df2634f72bb35e1587b0459" prot="public" static="no">
+        <type>int(*</type>
+        <definition>typedef int(* PFN_xkb_state_key_get_syms) (struct xkb_state *, xkb_keycode_t, const xkb_keysym_t **)</definition>
+        <argsstring>)(struct xkb_state *, xkb_keycode_t, const xkb_keysym_t **)</argsstring>
+        <name>PFN_xkb_state_key_get_syms</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="112" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1a872e4657e3e1127caeb678c0b253b4f0" prot="public" static="no">
+        <type>enum xkb_state_component(*</type>
+        <definition>typedef enum xkb_state_component(* PFN_xkb_state_update_mask) (struct xkb_state *, xkb_mod_mask_t, xkb_mod_mask_t, xkb_mod_mask_t, xkb_layout_index_t, xkb_layout_index_t, xkb_layout_index_t)</definition>
+        <argsstring>)(struct xkb_state *, xkb_mod_mask_t, xkb_mod_mask_t, xkb_mod_mask_t, xkb_layout_index_t, xkb_layout_index_t, xkb_layout_index_t)</argsstring>
+        <name>PFN_xkb_state_update_mask</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="112" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1a963602febce41dbde7c037aaba7b7c0d" prot="public" static="no">
+        <type>xkb_mod_mask_t(*</type>
+        <definition>typedef xkb_mod_mask_t(* PFN_xkb_state_serialize_mods) (struct xkb_state *, enum xkb_state_component)</definition>
+        <argsstring>)(struct xkb_state *, enum xkb_state_component)</argsstring>
+        <name>PFN_xkb_state_serialize_mods</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="114" column="9" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1a9f07c6758fc7aa2504854077676e7413" prot="public" static="no">
+        <type>enum _GLFWdecorationSideWayland</type>
+        <definition>typedef enum _GLFWdecorationSideWayland _GLFWdecorationSideWayland</definition>
+        <argsstring></argsstring>
+        <name>_GLFWdecorationSideWayland</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="157" column="28"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1a55173b590d4140e345ceeb03f906d101" prot="public" static="no">
+        <type>struct <ref refid="struct___g_l_f_wdecoration_wayland" kindref="compound">_GLFWdecorationWayland</ref></type>
+        <definition>typedef struct _GLFWdecorationWayland _GLFWdecorationWayland</definition>
+        <argsstring></argsstring>
+        <name>_GLFWdecorationWayland</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="165" column="24"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1a5deeeabe0fcb994f43b6c2364e02edc4" prot="public" static="no">
+        <type>struct <ref refid="struct___g_l_f_wwindow_wayland" kindref="compound">_GLFWwindowWayland</ref></type>
+        <definition>typedef struct _GLFWwindowWayland _GLFWwindowWayland</definition>
+        <argsstring></argsstring>
+        <name>_GLFWwindowWayland</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="214" column="20"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1aea3fbae5be24849acafc096b9f5eb755" prot="public" static="no">
+        <type>struct <ref refid="struct___g_l_f_wlibrary_wayland" kindref="compound">_GLFWlibraryWayland</ref></type>
+        <definition>typedef struct _GLFWlibraryWayland _GLFWlibraryWayland</definition>
+        <argsstring></argsstring>
+        <name>_GLFWlibraryWayland</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="322" column="21"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1ab91578847da8ca2e148753a63f84d9a0" prot="public" static="no">
+        <type>struct <ref refid="struct___g_l_f_wmonitor_wayland" kindref="compound">_GLFWmonitorWayland</ref></type>
+        <definition>typedef struct _GLFWmonitorWayland _GLFWmonitorWayland</definition>
+        <argsstring></argsstring>
+        <name>_GLFWmonitorWayland</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="336" column="21"/>
+      </memberdef>
+      <memberdef kind="typedef" id="wl__platform_8h_1ab9e42e1bf8aaa05d5b515907e683af86" prot="public" static="no">
+        <type>struct <ref refid="struct___g_l_f_wcursor_wayland" kindref="compound">_GLFWcursorWayland</ref></type>
+        <definition>typedef struct _GLFWcursorWayland _GLFWcursorWayland</definition>
+        <argsstring></argsstring>
+        <name>_GLFWcursorWayland</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="348" column="20"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="wl__platform_8h_1a4061b6ec759c796455591e25a0de8c4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void _glfwAddOutputWayland</definition>
+        <argsstring>(uint32_t name, uint32_t version)</argsstring>
+        <name>_glfwAddOutputWayland</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" line="351" column="6" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_monitor.c" bodystart="123" bodyend="153" declfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h" declline="351" declcolumn="6"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GLFW<sp/>3.4<sp/>Wayland<sp/>-<sp/>www.glfw.org</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2014<sp/>Jonas<sp/>Ådahl<sp/>&lt;jadahl@gmail.com&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>software<sp/>is<sp/>provided<sp/>&apos;as-is&apos;,<sp/>without<sp/>any<sp/>express<sp/>or<sp/>implied</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>warranty.<sp/>In<sp/>no<sp/>event<sp/>will<sp/>the<sp/>authors<sp/>be<sp/>held<sp/>liable<sp/>for<sp/>any<sp/>damages</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>arising<sp/>from<sp/>the<sp/>use<sp/>of<sp/>this<sp/>software.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Permission<sp/>is<sp/>granted<sp/>to<sp/>anyone<sp/>to<sp/>use<sp/>this<sp/>software<sp/>for<sp/>any<sp/>purpose,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>including<sp/>commercial<sp/>applications,<sp/>and<sp/>to<sp/>alter<sp/>it<sp/>and<sp/>redistribute<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>freely,<sp/>subject<sp/>to<sp/>the<sp/>following<sp/>restrictions:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1.<sp/>The<sp/>origin<sp/>of<sp/>this<sp/>software<sp/>must<sp/>not<sp/>be<sp/>misrepresented;<sp/>you<sp/>must<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>claim<sp/>that<sp/>you<sp/>wrote<sp/>the<sp/>original<sp/>software.<sp/>If<sp/>you<sp/>use<sp/>this<sp/>software</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>in<sp/>a<sp/>product,<sp/>an<sp/>acknowledgment<sp/>in<sp/>the<sp/>product<sp/>documentation<sp/>would</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>be<sp/>appreciated<sp/>but<sp/>is<sp/>not<sp/>required.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>Altered<sp/>source<sp/>versions<sp/>must<sp/>be<sp/>plainly<sp/>marked<sp/>as<sp/>such,<sp/>and<sp/>must<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>be<sp/>misrepresented<sp/>as<sp/>being<sp/>the<sp/>original<sp/>software.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>This<sp/>notice<sp/>may<sp/>not<sp/>be<sp/>removed<sp/>or<sp/>altered<sp/>from<sp/>any<sp/>source</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>distribution.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;wayland-client.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;xkbcommon/xkbcommon.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>HAVE_XKBCOMMON_COMPOSE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;xkbcommon/xkbcommon-compose.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;dlfcn.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>VkFlags<sp/>VkWaylandSurfaceCreateFlagsKHR;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="struct_vk_wayland_surface_create_info_k_h_r" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_vk_wayland_surface_create_info_k_h_r" kindref="compound">VkWaylandSurfaceCreateInfoKHR</ref></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>VkStructureType<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sType;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pNext;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>VkWaylandSurfaceCreateFlagsKHR<sp/><sp/>flags;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_display*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>display;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_surface*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>surface;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}<sp/><ref refid="struct_vk_wayland_surface_create_info_k_h_r" kindref="compound">VkWaylandSurfaceCreateInfoKHR</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>VkResult<sp/>(APIENTRY<sp/>*PFN_vkCreateWaylandSurfaceKHR)(VkInstance,</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_vk_wayland_surface_create_info_k_h_r" kindref="compound">VkWaylandSurfaceCreateInfoKHR</ref>*,</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_vk_allocation_callbacks" kindref="compound">VkAllocationCallbacks</ref>*,VkSurfaceKHR*);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>VkBool32<sp/>(APIENTRY<sp/>*PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR)(VkPhysicalDevice,<ref refid="group__gtc__type__precision_1ga822ca53a9ad412504532838906276a99" kindref="member">uint32_t</ref>,</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_display*);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;posix_thread.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;posix_time.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__linux__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;linux_joystick.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;null_joystick.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xkb_unicode.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;wayland-xdg-shell-client-protocol.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;wayland-xdg-decoration-client-protocol.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;wayland-viewporter-client-protocol.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;wayland-relative-pointer-unstable-v1-client-protocol.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;wayland-pointer-constraints-unstable-v1-client-protocol.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;wayland-idle-inhibit-unstable-v1-client-protocol.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_glfw_dlopen(name)<sp/>dlopen(name,<sp/>RTLD_LAZY<sp/>|<sp/>RTLD_LOCAL)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_glfw_dlclose(handle)<sp/>dlclose(handle)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_glfw_dlsym(handle,<sp/>name)<sp/>dlsym(handle,<sp/>name)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_GLFW_PLATFORM_WINDOW_STATE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_GLFWwindowWayland<sp/><sp/>wl</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_GLFW_PLATFORM_LIBRARY_WINDOW_STATE<sp/>_GLFWlibraryWayland<sp/>wl</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_GLFW_PLATFORM_MONITOR_STATE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_GLFWmonitorWayland<sp/>wl</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_GLFW_PLATFORM_CURSOR_STATE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_GLFWcursorWayland<sp/><sp/>wl</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_GLFW_PLATFORM_CONTEXT_STATE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>struct<sp/>{<sp/>int<sp/>dummyContext;<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_GLFW_PLATFORM_LIBRARY_CONTEXT_STATE<sp/>struct<sp/>{<sp/>int<sp/>dummyLibraryContext;<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structwl__cursor__image" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structwl__cursor__image" kindref="compound">wl_cursor_image</ref><sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>width;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>height;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>hotspot_x;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>hotspot_y;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>delay;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83" refid="structwl__cursor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structwl__cursor" kindref="compound">wl_cursor</ref><sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>image_count;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structwl__cursor__image" kindref="compound">wl_cursor_image</ref>**<sp/>images;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_cursor_theme*<sp/>(*<sp/>PFN_wl_cursor_theme_load)(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*,<sp/>int,<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_shm*);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(*<sp/>PFN_wl_cursor_theme_destroy)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_cursor_theme*);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structwl__cursor" kindref="compound">wl_cursor</ref>*<sp/>(*<sp/>PFN_wl_cursor_theme_get_cursor)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_cursor_theme*,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_buffer*<sp/>(*<sp/>PFN_wl_cursor_image_get_buffer)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structwl__cursor__image" kindref="compound">wl_cursor_image</ref>*);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>wl_cursor_theme_load<sp/>_glfw.wl.cursor.theme_load</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>wl_cursor_theme_destroy<sp/>_glfw.wl.cursor.theme_destroy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>wl_cursor_theme_get_cursor<sp/>_glfw.wl.cursor.theme_get_cursor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>wl_cursor_image_get_buffer<sp/>_glfw.wl.cursor.image_get_buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_egl_window*<sp/>(*<sp/>PFN_wl_egl_window_create)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_surface*,<sp/>int,<sp/>int);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(*<sp/>PFN_wl_egl_window_destroy)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_egl_window*);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(*<sp/>PFN_wl_egl_window_resize)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_egl_window*,<sp/>int,<sp/>int,<sp/>int,<sp/>int);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>wl_egl_window_create<sp/>_glfw.wl.egl.window_create</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>wl_egl_window_destroy<sp/>_glfw.wl.egl.window_destroy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>wl_egl_window_resize<sp/>_glfw.wl.egl.window_resize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_context*<sp/>(*<sp/>PFN_xkb_context_new)(</highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>xkb_context_flags);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(*<sp/>PFN_xkb_context_unref)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_context*);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_keymap*<sp/>(*<sp/>PFN_xkb_keymap_new_from_string)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_context*,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>xkb_keymap_format,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>xkb_keymap_compile_flags);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(*<sp/>PFN_xkb_keymap_unref)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_keymap*);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>xkb_mod_index_t<sp/>(*<sp/>PFN_xkb_keymap_mod_get_index)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_keymap*,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>int<sp/>(*<sp/>PFN_xkb_keymap_key_repeats)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_keymap*,<sp/>xkb_keycode_t);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_state*<sp/>(*<sp/>PFN_xkb_state_new)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_keymap*);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(*<sp/>PFN_xkb_state_unref)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_state*);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>int<sp/>(*<sp/>PFN_xkb_state_key_get_syms)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_state*,<sp/>xkb_keycode_t,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>xkb_keysym_t**);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>xkb_state_component<sp/>(*<sp/>PFN_xkb_state_update_mask)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_state*,<sp/>xkb_mod_mask_t,<sp/>xkb_mod_mask_t,<sp/>xkb_mod_mask_t,<sp/>xkb_layout_index_t,<sp/>xkb_layout_index_t,<sp/>xkb_layout_index_t);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>xkb_mod_mask_t<sp/>(*<sp/>PFN_xkb_state_serialize_mods)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_state*,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>xkb_state_component);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_context_new<sp/>_glfw.wl.xkb.context_new</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_context_unref<sp/>_glfw.wl.xkb.context_unref</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_keymap_new_from_string<sp/>_glfw.wl.xkb.keymap_new_from_string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_keymap_unref<sp/>_glfw.wl.xkb.keymap_unref</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_keymap_mod_get_index<sp/>_glfw.wl.xkb.keymap_mod_get_index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_keymap_key_repeats<sp/>_glfw.wl.xkb.keymap_key_repeats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_state_new<sp/>_glfw.wl.xkb.state_new</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_state_unref<sp/>_glfw.wl.xkb.state_unref</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_state_key_get_syms<sp/>_glfw.wl.xkb.state_key_get_syms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_state_update_mask<sp/>_glfw.wl.xkb.state_update_mask</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_state_serialize_mods<sp/>_glfw.wl.xkb.state_serialize_mods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>HAVE_XKBCOMMON_COMPOSE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_compose_table*<sp/>(*<sp/>PFN_xkb_compose_table_new_from_locale)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_context*,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>xkb_compose_compile_flags);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(*<sp/>PFN_xkb_compose_table_unref)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_compose_table*);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_compose_state*<sp/>(*<sp/>PFN_xkb_compose_state_new)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_compose_table*,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>xkb_compose_state_flags);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(*<sp/>PFN_xkb_compose_state_unref)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_compose_state*);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>xkb_compose_feed_result<sp/>(*<sp/>PFN_xkb_compose_state_feed)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_compose_state*,<sp/>xkb_keysym_t);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>xkb_compose_status<sp/>(*<sp/>PFN_xkb_compose_state_get_status)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_compose_state*);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>xkb_keysym_t<sp/>(*<sp/>PFN_xkb_compose_state_get_one_sym)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_compose_state*);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_compose_table_new_from_locale<sp/>_glfw.wl.xkb.compose_table_new_from_locale</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_compose_table_unref<sp/>_glfw.wl.xkb.compose_table_unref</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_compose_state_new<sp/>_glfw.wl.xkb.compose_state_new</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_compose_state_unref<sp/>_glfw.wl.xkb.compose_state_unref</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_compose_state_feed<sp/>_glfw.wl.xkb.compose_state_feed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_compose_state_get_status<sp/>_glfw.wl.xkb.compose_state_get_status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>xkb_compose_state_get_one_sym<sp/>_glfw.wl.xkb.compose_state_get_one_sym</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_GLFW_DECORATION_WIDTH<sp/>4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_GLFW_DECORATION_TOP<sp/>24</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_GLFW_DECORATION_VERTICAL<sp/>(_GLFW_DECORATION_TOP<sp/>+<sp/>_GLFW_DECORATION_WIDTH)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_GLFW_DECORATION_HORIZONTAL<sp/>(2<sp/>*<sp/>_GLFW_DECORATION_WIDTH)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>_GLFWdecorationSideWayland</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>mainWindow,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>topDecoration,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>leftDecoration,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>rightDecoration,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>bottomDecoration,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}<sp/>_GLFWdecorationSideWayland;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="struct___g_l_f_wdecoration_wayland" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct___g_l_f_wdecoration_wayland" kindref="compound">_GLFWdecorationWayland</ref></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_surface*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>surface;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_subsurface*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>subsurface;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wp_viewport*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>viewport;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}<sp/><ref refid="struct___g_l_f_wdecoration_wayland" kindref="compound">_GLFWdecorationWayland</ref>;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wayland-specific<sp/>per-window<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="struct___g_l_f_wwindow_wayland" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct___g_l_f_wwindow_wayland" kindref="compound">_GLFWwindowWayland</ref></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>width,<sp/>height;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>GLFWbool<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>visible;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>GLFWbool<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>maximized;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>GLFWbool<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hovered;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>GLFWbool<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transparent;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_surface*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>surface;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_egl_window*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>native;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_callback*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>callback;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xdg_surface*<sp/><sp/><sp/><sp/><sp/>surface;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xdg_toplevel*<sp/><sp/><sp/><sp/>toplevel;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">zxdg_toplevel_decoration_v1*<sp/>decoration;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/>xdg;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct___g_l_f_wcursor" kindref="compound">_GLFWcursor</ref>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>currentCursor;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cursorPosX,<sp/>cursorPosY;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>title;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>need<sp/>to<sp/>track<sp/>the<sp/>monitors<sp/>the<sp/>window<sp/>spans<sp/>on<sp/>to<sp/>calculate<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>optimal<sp/>scaling<sp/>factor.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__gtc__matrix__transform_1gaae2f8b2080622b24b85e1096748599b6" kindref="member">scale</ref>;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct___g_l_f_wmonitor" kindref="compound">_GLFWmonitor</ref>**<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>monitors;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>monitorsCount;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>monitorsSize;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">zwp_relative_pointer_v1*<sp/><sp/><sp/><sp/>relativePointer;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">zwp_locked_pointer_v1*<sp/><sp/><sp/><sp/><sp/><sp/>lockedPointer;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/>pointerLock;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">zwp_idle_inhibitor_v1*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>idleInhibitor;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>GLFWbool<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wasFullscreen;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GLFWbool<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>serverSide;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_buffer*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classbuffer" kindref="compound">buffer</ref>;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct___g_l_f_wdecoration_wayland" kindref="compound">_GLFWdecorationWayland</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>top,<sp/>left,<sp/>right,<sp/>bottom;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>focus;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/>decorations;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}<sp/><ref refid="struct___g_l_f_wwindow_wayland" kindref="compound">_GLFWwindowWayland</ref>;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wayland-specific<sp/>global<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="struct___g_l_f_wlibrary_wayland" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct___g_l_f_wlibrary_wayland" kindref="compound">_GLFWlibraryWayland</ref></highlight></codeline>
+<codeline lineno="219"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_display*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>display;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_registry*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>registry;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_compositor*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>compositor;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_subcompositor*<sp/><sp/><sp/><sp/>subcompositor;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_shm*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shm;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_seat*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seat;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_pointer*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pointer;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_keyboard*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keyboard;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_data_device_manager*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dataDeviceManager;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_data_device*<sp/><sp/><sp/><sp/><sp/><sp/>dataDevice;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_data_offer*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>dataOffer;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_data_source*<sp/><sp/><sp/><sp/><sp/><sp/>dataSource;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xdg_wm_base*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wmBase;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">zxdg_decoration_manager_v1*<sp/><sp/><sp/><sp/><sp/><sp/>decorationManager;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wp_viewporter*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>viewporter;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">zwp_relative_pointer_manager_v1*<sp/>relativePointerManager;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">zwp_pointer_constraints_v1*<sp/><sp/><sp/><sp/><sp/><sp/>pointerConstraints;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">zwp_idle_inhibit_manager_v1*<sp/><sp/><sp/><sp/><sp/>idleInhibitManager;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compositorVersion;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seatVersion;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_cursor_theme*<sp/><sp/><sp/><sp/><sp/>cursorTheme;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_cursor_theme*<sp/><sp/><sp/><sp/><sp/>cursorThemeHiDPI;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_surface*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cursorSurface;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cursorPreviousName;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cursorTimerfd;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>serial;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keyboardRepeatRate;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keyboardRepeatDelay;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keyboardLastKey;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keyboardLastScancode;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>clipboardString;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>clipboardSize;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>clipboardSendString;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>clipboardSendSize;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timerfd;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">short</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keycodes[256];</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">short</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scancodes[GLFW_KEY_LAST<sp/>+<sp/>1];</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_context*<sp/><sp/><sp/><sp/><sp/>context;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_keymap*<sp/><sp/><sp/><sp/><sp/><sp/>keymap;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_state*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>state;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>HAVE_XKBCOMMON_COMPOSE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">xkb_compose_state*<sp/>composeState;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>xkb_mod_mask_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>controlMask;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>xkb_mod_mask_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>altMask;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>xkb_mod_mask_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shiftMask;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>xkb_mod_mask_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>superMask;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>xkb_mod_mask_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capsLockMask;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>xkb_mod_mask_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>numLockMask;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>modifiers;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_context_new<sp/>context_new;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_context_unref<sp/>context_unref;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_keymap_new_from_string<sp/>keymap_new_from_string;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_keymap_unref<sp/>keymap_unref;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_keymap_mod_get_index<sp/>keymap_mod_get_index;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_keymap_key_repeats<sp/>keymap_key_repeats;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_state_new<sp/>state_new;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_state_unref<sp/>state_unref;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_state_key_get_syms<sp/>state_key_get_syms;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_state_update_mask<sp/>state_update_mask;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_state_serialize_mods<sp/>state_serialize_mods;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>HAVE_XKBCOMMON_COMPOSE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_compose_table_new_from_locale<sp/>compose_table_new_from_locale;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_compose_table_unref<sp/>compose_table_unref;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_compose_state_new<sp/>compose_state_new;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_compose_state_unref<sp/>compose_state_unref;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_compose_state_feed<sp/>compose_state_feed;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_compose_state_get_status<sp/>compose_state_get_status;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_xkb_compose_state_get_one_sym<sp/>compose_state_get_one_sym;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/>xkb;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct___g_l_f_wwindow" kindref="compound">_GLFWwindow</ref>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pointerFocus;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct___g_l_f_wwindow" kindref="compound">_GLFWwindow</ref>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keyboardFocus;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_wl_cursor_theme_load<sp/>theme_load;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_wl_cursor_theme_destroy<sp/>theme_destroy;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_wl_cursor_theme_get_cursor<sp/>theme_get_cursor;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_wl_cursor_image_get_buffer<sp/>image_get_buffer;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/>cursor;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_wl_egl_window_create<sp/>window_create;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_wl_egl_window_destroy<sp/>window_destroy;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PFN_wl_egl_window_resize<sp/>window_resize;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/>egl;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}<sp/><ref refid="struct___g_l_f_wlibrary_wayland" kindref="compound">_GLFWlibraryWayland</ref>;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wayland-specific<sp/>per-monitor<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326" refid="struct___g_l_f_wmonitor_wayland" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct___g_l_f_wmonitor_wayland" kindref="compound">_GLFWmonitorWayland</ref></highlight></codeline>
+<codeline lineno="327"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_output*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structoutput" kindref="compound">output</ref>;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>currentMode;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>y;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__gtc__matrix__transform_1gaae2f8b2080622b24b85e1096748599b6" kindref="member">scale</ref>;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal">}<sp/><ref refid="struct___g_l_f_wmonitor_wayland" kindref="compound">_GLFWmonitorWayland</ref>;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wayland-specific<sp/>per-cursor<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340" refid="struct___g_l_f_wcursor_wayland" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct___g_l_f_wcursor_wayland" kindref="compound">_GLFWcursorWayland</ref></highlight></codeline>
+<codeline lineno="341"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structwl__cursor" kindref="compound">wl_cursor</ref>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cursor;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structwl__cursor" kindref="compound">wl_cursor</ref>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cursorHiDPI;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">wl_buffer*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classbuffer" kindref="compound">buffer</ref>;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>width,<sp/>height;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>xhot,<sp/>yhot;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>currentImage;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal">}<sp/><ref refid="struct___g_l_f_wcursor_wayland" kindref="compound">_GLFWcursorWayland</ref>;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>_glfwAddOutputWayland(uint32_t<sp/>name,<sp/>uint32_t<sp/>version);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/wl_platform.h"/>
+  </compounddef>
+</doxygen>

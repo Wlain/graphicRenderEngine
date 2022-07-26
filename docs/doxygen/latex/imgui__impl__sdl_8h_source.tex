@@ -1,0 +1,43 @@
+\hypertarget{imgui__impl__sdl_8h_source}{}\doxysection{imgui\+\_\+impl\+\_\+sdl.\+h}
+\label{imgui__impl__sdl_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/backends/imgui\_impl\_sdl.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/backends/imgui\_impl\_sdl.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00001}00001 \textcolor{comment}{// dear imgui: Platform Backend for SDL2}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00002}00002 \textcolor{comment}{// This needs to be used along with a Renderer (e.g. DirectX11, OpenGL3, Vulkan..)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00003}00003 \textcolor{comment}{// (Info: SDL2 is a cross-\/platform general purpose library for handling windows, inputs, graphics context creation, etc.)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00005}00005 \textcolor{comment}{// Implemented features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00006}00006 \textcolor{comment}{//  [X] Platform: Clipboard support.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00007}00007 \textcolor{comment}{//  [X] Platform: Keyboard support. Since 1.87 we are using the io.AddKeyEvent() function. Pass ImGuiKey values to all key functions e.g. ImGui::IsKeyPressed(ImGuiKey\_Space). [Legacy SDL\_SCANCODE\_* values will also be supported unless IMGUI\_DISABLE\_OBSOLETE\_KEYIO is set]}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00008}00008 \textcolor{comment}{//  [X] Platform: Gamepad support. Enabled with 'io.ConfigFlags |= ImGuiConfigFlags\_NavEnableGamepad'.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00009}00009 \textcolor{comment}{//  [X] Platform: Mouse cursor shape and visibility. Disable with 'io.ConfigFlags |= ImGuiConfigFlags\_NoMouseCursorChange'.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00010}00010 \textcolor{comment}{//  [X] Platform: Multi-\/viewport support (multiple windows). Enable with 'io.ConfigFlags |= ImGuiConfigFlags\_ViewportsEnable'.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00011}00011 \textcolor{comment}{// Missing features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00012}00012 \textcolor{comment}{//  [ ] Platform: SDL2 handling of IME under Windows appears to be broken and it explicitly disable the regular Windows IME. You can restore Windows IME by compiling SDL with SDL\_DISABLE\_WINDOWS\_IME.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00013}00013 \textcolor{comment}{//  [ ] Platform: Multi-\/viewport + Minimized windows seems to break mouse wheel events (at least under Windows).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00015}00015 \textcolor{comment}{// You can use unmodified imgui\_impl\_* files in your project. See examples/ folder for examples of using this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00016}00016 \textcolor{comment}{// Prefer including the entire imgui/ repository into your project (either as a copy or as a submodule), and only build the backends you need.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00017}00017 \textcolor{comment}{// If you are new to Dear ImGui, read documentation from the docs/ folder + read the top of imgui.cpp.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00018}00018 \textcolor{comment}{// Read online: https://github.com/ocornut/imgui/tree/master/docs}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00020}00020 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00021}00021 \textcolor{preprocessor}{\#include "{}imgui.h"{}}      \textcolor{comment}{// IMGUI\_IMPL\_API}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00023}00023 \textcolor{keyword}{struct }SDL\_Window;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00024}00024 \textcolor{keyword}{typedef} \textcolor{keyword}{union }SDL\_Event SDL\_Event;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00026}00026 IMGUI\_IMPL\_API \textcolor{keywordtype}{bool}     ImGui\_ImplSDL2\_InitForOpenGL(SDL\_Window* window, \textcolor{keywordtype}{void}* sdl\_gl\_context);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00027}00027 IMGUI\_IMPL\_API \textcolor{keywordtype}{bool}     ImGui\_ImplSDL2\_InitForVulkan(SDL\_Window* window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00028}00028 IMGUI\_IMPL\_API \textcolor{keywordtype}{bool}     ImGui\_ImplSDL2\_InitForD3D(SDL\_Window* window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00029}00029 IMGUI\_IMPL\_API \textcolor{keywordtype}{bool}     ImGui\_ImplSDL2\_InitForMetal(SDL\_Window* window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00030}00030 IMGUI\_IMPL\_API \textcolor{keywordtype}{bool}     ImGui\_ImplSDL2\_InitForSDLRenderer(SDL\_Window* window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00031}00031 IMGUI\_IMPL\_API \textcolor{keywordtype}{void}     ImGui\_ImplSDL2\_Shutdown();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00032}00032 IMGUI\_IMPL\_API \textcolor{keywordtype}{void}     ImGui\_ImplSDL2\_NewFrame();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00033}00033 IMGUI\_IMPL\_API \textcolor{keywordtype}{bool}     ImGui\_ImplSDL2\_ProcessEvent(\textcolor{keyword}{const} SDL\_Event* event);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00035}00035 \textcolor{preprocessor}{\#ifndef IMGUI\_DISABLE\_OBSOLETE\_FUNCTIONS}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00036}00036 \textcolor{keyword}{static} \textcolor{keyword}{inline} \textcolor{keywordtype}{void} ImGui\_ImplSDL2\_NewFrame(SDL\_Window*) \{ ImGui\_ImplSDL2\_NewFrame(); \} \textcolor{comment}{// 1.84: removed unnecessary parameter}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl_8h_source_l00037}00037 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

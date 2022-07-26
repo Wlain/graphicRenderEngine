@@ -1,0 +1,116 @@
+\hypertarget{fmt_8cpp_source}{}\doxysection{fmt.\+cpp}
+\label{fmt_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/src/fmt.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/src/fmt.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00001}00001 \textcolor{comment}{// Slightly modified version of fmt lib's format.cc source file.}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00002}00002 \textcolor{comment}{// Copyright (c) 2012 -\/ 2016, Victor Zverovich}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00003}00003 \textcolor{comment}{// All rights reserved.}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00005}00005 \textcolor{preprocessor}{\#ifndef SPDLOG\_COMPILED\_LIB}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#    error Please define SPDLOG\_COMPILED\_LIB to compile this file.}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00007}00007 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00009}00009 \textcolor{preprocessor}{\#if !defined(SPDLOG\_FMT\_EXTERNAL) \&\& !defined(SPDLOG\_USE\_STD\_FORMAT)}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00010}00010 \textcolor{preprocessor}{\#    include <spdlog/fmt/bundled/format-\/inl.h>}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00011}00011 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00012}00012 FMT\_BEGIN\_NAMESPACE}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00013}00013 \textcolor{keyword}{namespace }detail \{}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00015}00015 \textcolor{comment}{// DEPRECATED!}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00016}00016 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T = \textcolor{keywordtype}{void}>}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00017}\mbox{\hyperlink{structdetail_1_1basic__data}{00017}} \textcolor{keyword}{struct }\mbox{\hyperlink{structdetail_1_1basic__data}{basic\_data}}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00018}00018 \{}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00019}00019     FMT\_API \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \textcolor{keywordtype}{char} digits[100][2] = \{\{\textcolor{charliteral}{'0'}, \textcolor{charliteral}{'0'}\}, \{\textcolor{charliteral}{'0'}, \textcolor{charliteral}{'1'}\}, \{\textcolor{charliteral}{'0'}, \textcolor{charliteral}{'2'}\}, \{\textcolor{charliteral}{'0'}, \textcolor{charliteral}{'3'}\}, \{\textcolor{charliteral}{'0'}, \textcolor{charliteral}{'4'}\}, \{\textcolor{charliteral}{'0'}, \textcolor{charliteral}{'5'}\},}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00020}00020         \{\textcolor{charliteral}{'0'}, \textcolor{charliteral}{'6'}\}, \{\textcolor{charliteral}{'0'}, \textcolor{charliteral}{'7'}\}, \{\textcolor{charliteral}{'0'}, \textcolor{charliteral}{'8'}\}, \{\textcolor{charliteral}{'0'}, \textcolor{charliteral}{'9'}\}, \{\textcolor{charliteral}{'1'}, \textcolor{charliteral}{'0'}\}, \{\textcolor{charliteral}{'1'}, \textcolor{charliteral}{'1'}\}, \{\textcolor{charliteral}{'1'}, \textcolor{charliteral}{'2'}\}, \{\textcolor{charliteral}{'1'}, \textcolor{charliteral}{'3'}\}, \{\textcolor{charliteral}{'1'}, \textcolor{charliteral}{'4'}\}, \{\textcolor{charliteral}{'1'}, \textcolor{charliteral}{'5'}\}, \{\textcolor{charliteral}{'1'}, \textcolor{charliteral}{'6'}\},}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00021}00021         \{\textcolor{charliteral}{'1'}, \textcolor{charliteral}{'7'}\}, \{\textcolor{charliteral}{'1'}, \textcolor{charliteral}{'8'}\}, \{\textcolor{charliteral}{'1'}, \textcolor{charliteral}{'9'}\}, \{\textcolor{charliteral}{'2'}, \textcolor{charliteral}{'0'}\}, \{\textcolor{charliteral}{'2'}, \textcolor{charliteral}{'1'}\}, \{\textcolor{charliteral}{'2'}, \textcolor{charliteral}{'2'}\}, \{\textcolor{charliteral}{'2'}, \textcolor{charliteral}{'3'}\}, \{\textcolor{charliteral}{'2'}, \textcolor{charliteral}{'4'}\}, \{\textcolor{charliteral}{'2'}, \textcolor{charliteral}{'5'}\}, \{\textcolor{charliteral}{'2'}, \textcolor{charliteral}{'6'}\}, \{\textcolor{charliteral}{'2'}, \textcolor{charliteral}{'7'}\},}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00022}00022         \{\textcolor{charliteral}{'2'}, \textcolor{charliteral}{'8'}\}, \{\textcolor{charliteral}{'2'}, \textcolor{charliteral}{'9'}\}, \{\textcolor{charliteral}{'3'}, \textcolor{charliteral}{'0'}\}, \{\textcolor{charliteral}{'3'}, \textcolor{charliteral}{'1'}\}, \{\textcolor{charliteral}{'3'}, \textcolor{charliteral}{'2'}\}, \{\textcolor{charliteral}{'3'}, \textcolor{charliteral}{'3'}\}, \{\textcolor{charliteral}{'3'}, \textcolor{charliteral}{'4'}\}, \{\textcolor{charliteral}{'3'}, \textcolor{charliteral}{'5'}\}, \{\textcolor{charliteral}{'3'}, \textcolor{charliteral}{'6'}\}, \{\textcolor{charliteral}{'3'}, \textcolor{charliteral}{'7'}\}, \{\textcolor{charliteral}{'3'}, \textcolor{charliteral}{'8'}\},}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00023}00023         \{\textcolor{charliteral}{'3'}, \textcolor{charliteral}{'9'}\}, \{\textcolor{charliteral}{'4'}, \textcolor{charliteral}{'0'}\}, \{\textcolor{charliteral}{'4'}, \textcolor{charliteral}{'1'}\}, \{\textcolor{charliteral}{'4'}, \textcolor{charliteral}{'2'}\}, \{\textcolor{charliteral}{'4'}, \textcolor{charliteral}{'3'}\}, \{\textcolor{charliteral}{'4'}, \textcolor{charliteral}{'4'}\}, \{\textcolor{charliteral}{'4'}, \textcolor{charliteral}{'5'}\}, \{\textcolor{charliteral}{'4'}, \textcolor{charliteral}{'6'}\}, \{\textcolor{charliteral}{'4'}, \textcolor{charliteral}{'7'}\}, \{\textcolor{charliteral}{'4'}, \textcolor{charliteral}{'8'}\}, \{\textcolor{charliteral}{'4'}, \textcolor{charliteral}{'9'}\},}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00024}00024         \{\textcolor{charliteral}{'5'}, \textcolor{charliteral}{'0'}\}, \{\textcolor{charliteral}{'5'}, \textcolor{charliteral}{'1'}\}, \{\textcolor{charliteral}{'5'}, \textcolor{charliteral}{'2'}\}, \{\textcolor{charliteral}{'5'}, \textcolor{charliteral}{'3'}\}, \{\textcolor{charliteral}{'5'}, \textcolor{charliteral}{'4'}\}, \{\textcolor{charliteral}{'5'}, \textcolor{charliteral}{'5'}\}, \{\textcolor{charliteral}{'5'}, \textcolor{charliteral}{'6'}\}, \{\textcolor{charliteral}{'5'}, \textcolor{charliteral}{'7'}\}, \{\textcolor{charliteral}{'5'}, \textcolor{charliteral}{'8'}\}, \{\textcolor{charliteral}{'5'}, \textcolor{charliteral}{'9'}\}, \{\textcolor{charliteral}{'6'}, \textcolor{charliteral}{'0'}\},}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00025}00025         \{\textcolor{charliteral}{'6'}, \textcolor{charliteral}{'1'}\}, \{\textcolor{charliteral}{'6'}, \textcolor{charliteral}{'2'}\}, \{\textcolor{charliteral}{'6'}, \textcolor{charliteral}{'3'}\}, \{\textcolor{charliteral}{'6'}, \textcolor{charliteral}{'4'}\}, \{\textcolor{charliteral}{'6'}, \textcolor{charliteral}{'5'}\}, \{\textcolor{charliteral}{'6'}, \textcolor{charliteral}{'6'}\}, \{\textcolor{charliteral}{'6'}, \textcolor{charliteral}{'7'}\}, \{\textcolor{charliteral}{'6'}, \textcolor{charliteral}{'8'}\}, \{\textcolor{charliteral}{'6'}, \textcolor{charliteral}{'9'}\}, \{\textcolor{charliteral}{'7'}, \textcolor{charliteral}{'0'}\}, \{\textcolor{charliteral}{'7'}, \textcolor{charliteral}{'1'}\},}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00026}00026         \{\textcolor{charliteral}{'7'}, \textcolor{charliteral}{'2'}\}, \{\textcolor{charliteral}{'7'}, \textcolor{charliteral}{'3'}\}, \{\textcolor{charliteral}{'7'}, \textcolor{charliteral}{'4'}\}, \{\textcolor{charliteral}{'7'}, \textcolor{charliteral}{'5'}\}, \{\textcolor{charliteral}{'7'}, \textcolor{charliteral}{'6'}\}, \{\textcolor{charliteral}{'7'}, \textcolor{charliteral}{'7'}\}, \{\textcolor{charliteral}{'7'}, \textcolor{charliteral}{'8'}\}, \{\textcolor{charliteral}{'7'}, \textcolor{charliteral}{'9'}\}, \{\textcolor{charliteral}{'8'}, \textcolor{charliteral}{'0'}\}, \{\textcolor{charliteral}{'8'}, \textcolor{charliteral}{'1'}\}, \{\textcolor{charliteral}{'8'}, \textcolor{charliteral}{'2'}\},}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00027}00027         \{\textcolor{charliteral}{'8'}, \textcolor{charliteral}{'3'}\}, \{\textcolor{charliteral}{'8'}, \textcolor{charliteral}{'4'}\}, \{\textcolor{charliteral}{'8'}, \textcolor{charliteral}{'5'}\}, \{\textcolor{charliteral}{'8'}, \textcolor{charliteral}{'6'}\}, \{\textcolor{charliteral}{'8'}, \textcolor{charliteral}{'7'}\}, \{\textcolor{charliteral}{'8'}, \textcolor{charliteral}{'8'}\}, \{\textcolor{charliteral}{'8'}, \textcolor{charliteral}{'9'}\}, \{\textcolor{charliteral}{'9'}, \textcolor{charliteral}{'0'}\}, \{\textcolor{charliteral}{'9'}, \textcolor{charliteral}{'1'}\}, \{\textcolor{charliteral}{'9'}, \textcolor{charliteral}{'2'}\}, \{\textcolor{charliteral}{'9'}, \textcolor{charliteral}{'3'}\},}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00028}00028         \{\textcolor{charliteral}{'9'}, \textcolor{charliteral}{'4'}\}, \{\textcolor{charliteral}{'9'}, \textcolor{charliteral}{'5'}\}, \{\textcolor{charliteral}{'9'}, \textcolor{charliteral}{'6'}\}, \{\textcolor{charliteral}{'9'}, \textcolor{charliteral}{'7'}\}, \{\textcolor{charliteral}{'9'}, \textcolor{charliteral}{'8'}\}, \{\textcolor{charliteral}{'9'}, \textcolor{charliteral}{'9'}\}\};}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00029}00029     FMT\_API \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \textcolor{keywordtype}{char} hex\_digits[] = \textcolor{stringliteral}{"{}0123456789abcdef"{}};}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00030}00030     FMT\_API \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \textcolor{keywordtype}{char} signs[4] = \{0, \textcolor{charliteral}{'-\/'}, \textcolor{charliteral}{'+'}, \textcolor{charliteral}{' '}\};}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00031}00031     FMT\_API \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \textcolor{keywordtype}{char} left\_padding\_shifts[5] = \{31, 31, 0, 1, 0\};}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00032}00032     FMT\_API \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \textcolor{keywordtype}{char} right\_padding\_shifts[5] = \{0, 31, 0, 1, 0\};}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00033}00033     FMT\_API \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} prefixes[4] = \{0, 0, 0x1000000u | \textcolor{charliteral}{'+'}, 0x1000000u | \textcolor{charliteral}{' '}\};}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00034}00034 \};}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00036}00036 \textcolor{preprocessor}{\#    ifdef FMT\_SHARED}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00037}00037 \textcolor{comment}{// Required for -\/flto, -\/fivisibility=hidden and -\/shared to work}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00038}00038 \textcolor{keyword}{extern} \textcolor{keyword}{template} \textcolor{keyword}{struct }\mbox{\hyperlink{structdetail_1_1basic__data}{basic\_data<void>}};}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00039}00039 \textcolor{preprocessor}{\#    endif}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00041}00041 \textcolor{preprocessor}{\#    if \_\_cplusplus < 201703L}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00042}00042 \textcolor{comment}{// DEPRECATED! These are here only for ABI compatiblity.}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00043}00043 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00044}00044 \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \textcolor{keywordtype}{char} \mbox{\hyperlink{structdetail_1_1basic__data}{basic\_data<T>::digits}}[][2];}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00045}00045 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00046}00046 \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \textcolor{keywordtype}{char} \mbox{\hyperlink{structdetail_1_1basic__data}{basic\_data<T>::hex\_digits}}[];}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00047}00047 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00048}00048 \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \textcolor{keywordtype}{char} \mbox{\hyperlink{structdetail_1_1basic__data}{basic\_data<T>::signs}}[];}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00049}00049 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00050}00050 \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \textcolor{keywordtype}{char} \mbox{\hyperlink{structdetail_1_1basic__data}{basic\_data<T>::left\_padding\_shifts}}[];}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00051}00051 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00052}00052 \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \textcolor{keywordtype}{char} \mbox{\hyperlink{structdetail_1_1basic__data}{basic\_data<T>::right\_padding\_shifts}}[];}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00053}00053 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00054}00054 \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \mbox{\hyperlink{structdetail_1_1basic__data}{basic\_data<T>::prefixes}}[];}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00055}00055 \textcolor{preprocessor}{\#    endif}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00057}00057 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00058}00058 \textcolor{keywordtype}{int} format\_float(\textcolor{keywordtype}{char} *buf, std::size\_t size, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *format, \textcolor{keywordtype}{int} precision, T \mbox{\hyperlink{classvalue}{value}})}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00059}00059 \{}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00060}00060 \textcolor{preprocessor}{\#    ifdef FMT\_FUZZ}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00061}00061     \textcolor{keywordflow}{if} (precision > 100000)}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00062}00062         \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"{}fuzz mode -\/ avoid large allocation inside snprintf"{}});}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00063}00063 \textcolor{preprocessor}{\#    endif}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00064}00064     \textcolor{comment}{// Suppress the warning about nonliteral format string.}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00065}00065     int (*snprintf\_ptr)(\textcolor{keywordtype}{char} *, size\_t, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *, ...) = FMT\_SNPRINTF;}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00066}00066     \textcolor{keywordflow}{return} precision < 0 ? snprintf\_ptr(buf, size, format, \mbox{\hyperlink{classvalue}{value}}) : snprintf\_ptr(buf, size, format, precision, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00067}00067 \}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00069}00069 \textcolor{keyword}{template} FMT\_API \mbox{\hyperlink{structdragonbox_1_1decimal__fp}{dragonbox::decimal\_fp<float>}} dragonbox::to\_decimal(\textcolor{keywordtype}{float} x) FMT\_NOEXCEPT;}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00070}00070 \textcolor{keyword}{template} FMT\_API \mbox{\hyperlink{structdragonbox_1_1decimal__fp}{dragonbox::decimal\_fp<double>}} dragonbox::to\_decimal(\textcolor{keywordtype}{double} x) FMT\_NOEXCEPT;}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00071}00071 \} \textcolor{comment}{// namespace detail}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00073}00073 \textcolor{comment}{// Workaround a bug in MSVC2013 that prevents instantiation of format\_float.}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00074}00074 int (*instantiate\_format\_float)(double, int, detail::float\_specs, detail::buffer<char> \&) = detail::format\_float;}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00075}00075 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00076}00076 \textcolor{preprocessor}{\#    ifndef FMT\_STATIC\_THOUSANDS\_SEPARATOR}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00077}00077 \textcolor{keyword}{template} FMT\_API detail::locale\_ref::locale\_ref(\textcolor{keyword}{const} std::locale \&loc);}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00078}00078 \textcolor{keyword}{template} FMT\_API std::locale detail::locale\_ref::get<std::locale>() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00079}00079 \textcolor{preprocessor}{\#    endif}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00081}00081 \textcolor{comment}{// Explicit instantiations for char.}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00083}00083 \textcolor{keyword}{template} FMT\_API \textcolor{keyword}{auto} detail::thousands\_sep\_impl(\mbox{\hyperlink{classlocale__ref}{locale\_ref}}) -\/> \mbox{\hyperlink{structthousands__sep__result}{thousands\_sep\_result<char>}};}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00084}00084 \textcolor{keyword}{template} FMT\_API \textcolor{keywordtype}{char} detail::decimal\_point\_impl(\mbox{\hyperlink{classlocale__ref}{locale\_ref}});}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00086}00086 \textcolor{keyword}{template} FMT\_API \textcolor{keywordtype}{void} detail::buffer<char>::append(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *);}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00088}00088 \textcolor{comment}{// DEPRECATED!}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00089}00089 \textcolor{comment}{// There is no correspondent extern template in format.h because of}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00090}00090 \textcolor{comment}{// incompatibility between clang and gcc (\#2377).}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00091}00091 \textcolor{keyword}{template} FMT\_API \textcolor{keywordtype}{void} detail::vformat\_to(}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00092}00092     detail::buffer<char> \&, \mbox{\hyperlink{classbasic__string__view}{string\_view}}, \mbox{\hyperlink{classbasic__format__args}{basic\_format\_args}}<FMT\_BUFFER\_CONTEXT(\textcolor{keywordtype}{char})>, detail::locale\_ref);}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00093}00093 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00094}00094 \textcolor{keyword}{template} FMT\_API \textcolor{keywordtype}{int} detail::snprintf\_float(\textcolor{keywordtype}{double}, \textcolor{keywordtype}{int}, detail::float\_specs, detail::buffer<char> \&);}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00095}00095 \textcolor{keyword}{template} FMT\_API \textcolor{keywordtype}{int} detail::snprintf\_float(\textcolor{keywordtype}{long} \textcolor{keywordtype}{double}, \textcolor{keywordtype}{int}, detail::float\_specs, detail::buffer<char> \&);}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00096}00096 \textcolor{keyword}{template} FMT\_API \textcolor{keywordtype}{int} detail::format\_float(\textcolor{keywordtype}{double}, \textcolor{keywordtype}{int}, detail::float\_specs, detail::buffer<char> \&);}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00097}00097 \textcolor{keyword}{template} FMT\_API \textcolor{keywordtype}{int} detail::format\_float(\textcolor{keywordtype}{long} \textcolor{keywordtype}{double}, \textcolor{keywordtype}{int}, detail::float\_specs, detail::buffer<char> \&);}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00098}00098 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00099}00099 \textcolor{comment}{// Explicit instantiations for wchar\_t.}}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00100}00100 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00101}00101 \textcolor{keyword}{template} FMT\_API \textcolor{keyword}{auto} detail::thousands\_sep\_impl(\mbox{\hyperlink{classlocale__ref}{locale\_ref}}) -\/> \mbox{\hyperlink{structthousands__sep__result}{thousands\_sep\_result<wchar\_t>}};}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00102}00102 \textcolor{keyword}{template} FMT\_API \textcolor{keywordtype}{wchar\_t} detail::decimal\_point\_impl(\mbox{\hyperlink{classlocale__ref}{locale\_ref}});}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00103}00103 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00104}00104 \textcolor{keyword}{template} FMT\_API \textcolor{keywordtype}{void} detail::buffer<wchar\_t>::append(\textcolor{keyword}{const} \textcolor{keywordtype}{wchar\_t} *, \textcolor{keyword}{const} \textcolor{keywordtype}{wchar\_t} *);}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00106}00106 \textcolor{keyword}{template} \textcolor{keyword}{struct }\mbox{\hyperlink{structdetail_1_1basic__data}{detail::basic\_data<void>}};}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00108}00108 FMT\_END\_NAMESPACE}
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00109}00109 }
+\DoxyCodeLine{\Hypertarget{fmt_8cpp_source_l00110}00110 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// !SPDLOG\_FMT\_EXTERNAL}}
+
+\end{DoxyCode}

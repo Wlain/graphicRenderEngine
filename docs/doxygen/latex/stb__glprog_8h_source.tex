@@ -1,0 +1,502 @@
+\hypertarget{stb__glprog_8h_source}{}\doxysection{stb\+\_\+glprog.\+h}
+\label{stb__glprog_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/caveview/stb\_glprog.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/caveview/stb\_glprog.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00001}00001 \textcolor{comment}{// stb\_glprog v0.02 public domain         functions to reduce GLSL boilerplate}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00002}00002 \textcolor{comment}{// http://nothings.org/stb/stb\_glprog.h   especially with GL1 + ARB extensions}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00004}00004 \textcolor{comment}{// Following defines *before* including have following effects:}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00005}00005 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00006}00006 \textcolor{comment}{//     STB\_GLPROG\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00007}00007 \textcolor{comment}{//           creates the implementation}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00009}00009 \textcolor{comment}{//     STB\_GLPROG\_STATIC}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00010}00010 \textcolor{comment}{//           forces the implementation to be static (private to file that creates it)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00011}00011 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00012}00012 \textcolor{comment}{//     STB\_GLPROG\_ARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00013}00013 \textcolor{comment}{//           uses ARB extension names for GLSL functions and enumerants instead of core names}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00014}00014 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00015}00015 \textcolor{comment}{//     STB\_GLPROG\_ARB\_DEFINE\_EXTENSIONS}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00016}00016 \textcolor{comment}{//           instantiates function pointers needed, static to implementing file}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00017}00017 \textcolor{comment}{//           to avoid collisions (but will collide if implementing file also}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00018}00018 \textcolor{comment}{//           defines any; best to isolate this to its own file in this case).}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00019}00019 \textcolor{comment}{//           This will try to automatically \#include glext.h, but if it's not}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00020}00020 \textcolor{comment}{//           in the default include directories you'll need to include it}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00021}00021 \textcolor{comment}{//           yourself and define the next macro.}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00022}00022 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00023}00023 \textcolor{comment}{//     STB\_GLPROG\_SUPPRESS\_GLEXT\_INCLUDE}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00024}00024 \textcolor{comment}{//           disables the automatic \#include of glext.h which is normally}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00025}00025 \textcolor{comment}{//           forced by STB\_GLPROG\_ARB\_DEFINE\_EXTENSIONS}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00026}00026 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00027}00027 \textcolor{comment}{// So, e.g., sample usage on an old Windows compiler:}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00028}00028 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00029}00029 \textcolor{comment}{//     \#define STB\_GLPROG\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00030}00030 \textcolor{comment}{//     \#define STB\_GLPROG\_ARB\_DEFINE\_EXTENSIONS}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00031}00031 \textcolor{comment}{//     \#include <windows.h>}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00032}00032 \textcolor{comment}{//     \#include "{}gl/gl.h"{}}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00033}00033 \textcolor{comment}{//     \#include "{}stb\_glprog.h"{}}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00034}00034 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00035}00035 \textcolor{comment}{// Note though that the header-\/file version of this (when you don't define}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00036}00036 \textcolor{comment}{// STB\_GLPROG\_IMPLEMENTATION) still uses GLint and such, so you basically}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00037}00037 \textcolor{comment}{// can only include it in places where you're already including GL, especially}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00038}00038 \textcolor{comment}{// on Windows where including "{}gl.h"{} requires (some of) "{}windows.h"{}.}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00039}00039 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00040}00040 \textcolor{comment}{// See following comment blocks for function documentation.}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00041}00041 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00042}00042 \textcolor{comment}{// Version history:}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00043}00043 \textcolor{comment}{//    2013-\/12-\/08   v0.02   slightly simplified API and reduced GL resource usage (@rygorous)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00044}00044 \textcolor{comment}{//    2013-\/12-\/08   v0.01   initial release}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00047}00047 \textcolor{comment}{// header file section starts here}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00048}00048 \textcolor{preprocessor}{\#if !defined(INCLUDE\_STB\_GLPROG\_H)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00049}00049 \textcolor{preprocessor}{\#define INCLUDE\_STB\_GLPROG\_H}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00051}00051 \textcolor{preprocessor}{\#ifndef STB\_GLPROG\_STATIC}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00052}00052 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00053}00053 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00054}00054 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00062}00062 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00063}00063 \textcolor{keyword}{extern} GLuint stbgl\_create\_program(\textcolor{keywordtype}{char} \textcolor{keyword}{const} **vertex\_source, \textcolor{keywordtype}{char} \textcolor{keyword}{const} **frag\_source, \textcolor{keywordtype}{char} \textcolor{keyword}{const} **binds, \textcolor{keywordtype}{char} *error, \textcolor{keywordtype}{int} error\_buflen);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00064}00064 \textcolor{comment}{// This function returns a compiled program or 0 if there's an error.}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00065}00065 \textcolor{comment}{// To free the created program, call stbgl\_delete\_program.}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00066}00066 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00067}00067 \textcolor{comment}{//     stbgl\_create\_program(}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00068}00068 \textcolor{comment}{//             char **vertex\_source,   // NULL or one or more strings with the vertex shader source, with a final NULL}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00069}00069 \textcolor{comment}{//             char **frag\_source,     // NULL or one or more strings with the fragment shader source, with a final NULL}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00070}00070 \textcolor{comment}{//             char **binds,           // NULL or zero or more strings with attribute bind names, with a final NULL}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00071}00071 \textcolor{comment}{//             char *error,            // output location where compile error message is placed}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00072}00072 \textcolor{comment}{//             int error\_buflen)       // length of error output buffer}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00073}00073 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00074}00074 \textcolor{comment}{// Returns a GLuint with the GL program object handle.}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00075}00075 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00076}00076 \textcolor{comment}{// If an individual bind string is "{}"{}, no name is bound to that slot (this}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00077}00077 \textcolor{comment}{// allows you to create binds that aren't continuous integers starting at 0).}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00078}00078 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00079}00079 \textcolor{comment}{// If the vertex shader is NULL, then fixed-\/function vertex pipeline}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00080}00080 \textcolor{comment}{// is used, if that's legal in your version of GL.}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00081}00081 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00082}00082 \textcolor{comment}{// If the fragment shader is NULL, then fixed-\/function fragment pipeline}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00083}00083 \textcolor{comment}{// is used, if that's legal in your version of GL.}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00085}00085 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stgbl\_delete\_program(GLuint program);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00086}00086 \textcolor{comment}{// deletes a program created by stbgl\_create\_program or stbgl\_link\_program}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00088}00088 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00091}00091 \textcolor{keyword}{extern} GLuint stbgl\_compile\_shader(GLenum type, \textcolor{keywordtype}{char} \textcolor{keyword}{const} **sources, \textcolor{keywordtype}{int} num\_sources, \textcolor{keywordtype}{char} *error, \textcolor{keywordtype}{int} error\_buflen);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00092}00092 \textcolor{comment}{// compiles a shader. returns the shader on success or 0 on failure.}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00093}00093 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00094}00094 \textcolor{comment}{//    type          either:  GL\_VERTEX\_SHADER or GL\_FRAGMENT\_SHADER}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00095}00095 \textcolor{comment}{//                     or    GL\_VERTEX\_SHADER\_ARB or GL\_FRAGMENT\_SHADER\_ARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00096}00096 \textcolor{comment}{//                     or    STBGL\_VERTEX\_SHADER or STBGL\_FRAGMENT\_SHADER}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00097}00097 \textcolor{comment}{//    sources       array of strings containing the shader source}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00098}00098 \textcolor{comment}{//    num\_sources   number of string in sources, or -\/1 meaning sources is NULL-\/terminated}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00099}00099 \textcolor{comment}{//    error         string to output compiler error to}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00100}00100 \textcolor{comment}{//    error\_buflen  length of error buffer in chars}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00101}00101 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00102}00102 \textcolor{keyword}{extern} GLuint stbgl\_link\_program(GLuint vertex\_shader, GLuint fragment\_shader, \textcolor{keywordtype}{char} \textcolor{keyword}{const} **binds, \textcolor{keywordtype}{int} num\_binds, \textcolor{keywordtype}{char} *error, \textcolor{keywordtype}{int} error\_buflen);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00103}00103 \textcolor{comment}{// links a shader. returns the linked program on success or 0 on failure.}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00104}00104 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00105}00105 \textcolor{comment}{//    vertex\_shader    a compiled vertex shader from stbgl\_compile\_shader, or 0 for fixed-\/function (if legal)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00106}00106 \textcolor{comment}{//    fragment\_shader  a compiled fragment shader from stbgl\_compile\_shader, or 0 for fixed-\/function (if legal)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00107}00107 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00108}00108 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00109}00109 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbgl\_delete\_shader(GLuint shader);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00110}00110 \textcolor{comment}{// deletes a shader created by stbgl\_compile\_shader}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00111}00111 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00112}00112 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00115}00115 \textcolor{keyword}{extern} GLint stbgl\_find\_uniform(GLuint prog, \textcolor{keywordtype}{char} *uniform);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00117}00117 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbgl\_find\_uniforms(GLuint prog, GLint *locations, \textcolor{keywordtype}{char} \textcolor{keyword}{const} **uniforms, \textcolor{keywordtype}{int} num\_uniforms);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00118}00118 \textcolor{comment}{// Given the locations array that is num\_uniforms long, fills out}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00119}00119 \textcolor{comment}{// the locations of each of those uniforms for the specified program.}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00120}00120 \textcolor{comment}{// If num\_uniforms is -\/1, then uniforms[] must be NULL-\/terminated}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00121}00121 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00122}00122 \textcolor{comment}{// the following functions just wrap the difference in naming between GL2+ and ARB,}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00123}00123 \textcolor{comment}{// so you don't need them unless you're using both ARB and GL2+ in the same codebase,}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00124}00124 \textcolor{comment}{// or you're relying on this lib to provide the extensions}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00125}00125 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglUseProgram(GLuint program);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00126}00126 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglVertexAttribPointer(GLuint index,  GLint size,  GLenum type,  GLboolean normalized,  GLsizei stride,  \textcolor{keyword}{const} GLvoid * pointer);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00127}00127 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglEnableVertexAttribArray(GLuint index);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00128}00128 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglDisableVertexAttribArray(GLuint index);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00129}00129 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglUniform1fv(GLint loc, GLsizei count, \textcolor{keyword}{const} GLfloat *v);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00130}00130 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglUniform2fv(GLint loc, GLsizei count, \textcolor{keyword}{const} GLfloat *v);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00131}00131 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglUniform3fv(GLint loc, GLsizei count, \textcolor{keyword}{const} GLfloat *v);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00132}00132 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglUniform4fv(GLint loc, GLsizei count, \textcolor{keyword}{const} GLfloat *v);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00133}00133 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglUniform1iv(GLint loc, GLsizei count, \textcolor{keyword}{const} GLint *v);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00134}00134 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglUniform2iv(GLint loc, GLsizei count, \textcolor{keyword}{const} GLint *v);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00135}00135 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglUniform3iv(GLint loc, GLsizei count, \textcolor{keyword}{const} GLint *v);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00136}00136 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglUniform4iv(GLint loc, GLsizei count, \textcolor{keyword}{const} GLint *v);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00137}00137 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglUniform1f(GLint loc, \textcolor{keywordtype}{float} v0);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00138}00138 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglUniform2f(GLint loc, \textcolor{keywordtype}{float} v0, \textcolor{keywordtype}{float} v1);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00139}00139 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglUniform3f(GLint loc, \textcolor{keywordtype}{float} v0, \textcolor{keywordtype}{float} v1, \textcolor{keywordtype}{float} v2);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00140}00140 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglUniform4f(GLint loc, \textcolor{keywordtype}{float} v0, \textcolor{keywordtype}{float} v1, \textcolor{keywordtype}{float} v2, \textcolor{keywordtype}{float} v3);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00141}00141 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglUniform1i(GLint loc, GLint v0);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00142}00142 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglUniform2i(GLint loc, GLint v0, GLint v1);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00143}00143 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglUniform3i(GLint loc, GLint v0, GLint v1, GLint v2);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00144}00144 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} stbglUniform4i(GLint loc, GLint v0, GLint v1, GLint v2, GLint v3);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00145}00145 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00146}00146 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00148}00148 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00150}00150 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00151}00151 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00152}00152 \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00153}00153 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00154}00154 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// STB\_GLPROG\_STATIC}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00155}00155 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00156}00156 \textcolor{preprocessor}{\#ifdef STB\_GLPROG\_ARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00157}00157 \textcolor{preprocessor}{\#define STBGL\_VERTEX\_SHADER    GL\_VERTEX\_SHADER\_ARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00158}00158 \textcolor{preprocessor}{\#define STBGL\_FRAGMENT\_SHADER  GL\_FRAGMENT\_SHADER\_ARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00159}00159 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00160}00160 \textcolor{preprocessor}{\#define STBGL\_VERTEX\_SHADER    GL\_VERTEX\_SHADER}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00161}00161 \textcolor{preprocessor}{\#define STBGL\_FRAGMENT\_SHADER  GL\_FRAGMENT\_SHADER}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00162}00162 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00163}00163 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00164}00164 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// INCLUDE\_STB\_GLPROG\_H}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00165}00165 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00166}00166 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00168}00168 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00169}00169 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00170}00170 \textcolor{preprocessor}{\#ifdef STB\_GLPROG\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00171}00171 \textcolor{preprocessor}{\#include <string.h>} \textcolor{comment}{// strncpy}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00172}00172 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00173}00173 \textcolor{preprocessor}{\#ifdef STB\_GLPROG\_STATIC}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00174}00174 \textcolor{preprocessor}{\#define STB\_GLPROG\_DECLARE static}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00175}00175 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00176}00176 \textcolor{preprocessor}{\#define STB\_GLPROG\_DECLARE extern}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00177}00177 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00178}00178 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00179}00179 \textcolor{comment}{// check if user wants this file to define the GL extensions itself}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00180}00180 \textcolor{preprocessor}{\#ifdef STB\_GLPROG\_ARB\_DEFINE\_EXTENSIONS}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00181}00181 \textcolor{preprocessor}{\#define STB\_GLPROG\_ARB  }\textcolor{comment}{// make sure later code uses the extensions}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00182}00182 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00183}00183 \textcolor{preprocessor}{\#ifndef STB\_GLPROG\_SUPPRESS\_GLEXT\_INCLUDE}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00184}00184 \textcolor{preprocessor}{\#include "{}glext.h"{}}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00185}00185 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00186}00186 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00187}00187 \textcolor{preprocessor}{\#define STB\_GLPROG\_EXTENSIONS                                 \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00188}00188 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(ATTACHOBJECT        , AttachObject        ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00189}00189 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(BINDATTRIBLOCATION  , BindAttribLocation  ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00190}00190 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(COMPILESHADER       , CompileShader       ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00191}00191 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(CREATEPROGRAMOBJECT , CreateProgramObject ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00192}00192 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(CREATESHADEROBJECT  , CreateShaderObject  ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00193}00193 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(DELETEOBJECT        , DeleteObject        ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00194}00194 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(DETACHOBJECT        , DetachObject        ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00195}00195 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(DISABLEVERTEXATTRIBARRAY, DisableVertexAttribArray) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00196}00196 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(ENABLEVERTEXATTRIBARRAY,  EnableVertexAttribArray ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00197}00197 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(GETATTACHEDOBJECTS  , GetAttachedObjects  ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00198}00198 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(GETOBJECTPARAMETERIV, GetObjectParameteriv) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00199}00199 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(GETINFOLOG          , GetInfoLog          ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00200}00200 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(GETUNIFORMLOCATION  , GetUniformLocation  ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00201}00201 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(LINKPROGRAM         , LinkProgram         ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00202}00202 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(SHADERSOURCE        , ShaderSource        ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00203}00203 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(UNIFORM1F           , Uniform1f           ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00204}00204 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(UNIFORM2F           , Uniform2f           ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00205}00205 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(UNIFORM3F           , Uniform3f           ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00206}00206 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(UNIFORM4F           , Uniform4f           ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00207}00207 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(UNIFORM1I           , Uniform1i           ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00208}00208 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(UNIFORM2I           , Uniform2i           ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00209}00209 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(UNIFORM3I           , Uniform3i           ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00210}00210 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(UNIFORM4I           , Uniform4i           ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00211}00211 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(UNIFORM1FV          , Uniform1fv          ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00212}00212 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(UNIFORM2FV          , Uniform2fv          ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00213}00213 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(UNIFORM3FV          , Uniform3fv          ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00214}00214 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(UNIFORM4FV          , Uniform4fv          ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00215}00215 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(UNIFORM1IV          , Uniform1iv          ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00216}00216 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(UNIFORM2IV          , Uniform2iv          ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00217}00217 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(UNIFORM3IV          , Uniform3iv          ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00218}00218 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(UNIFORM4IV          , Uniform4iv          ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00219}00219 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(USEPROGRAMOBJECT    , UseProgramObject    ) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00220}00220 \textcolor{preprocessor}{   STB\_GLPROG\_FUNC(VERTEXATTRIBPOINTER , VertexAttribPointer )}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00221}00221 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00222}00222 \textcolor{comment}{// define the static function pointers}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00223}00223 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00224}00224 \textcolor{preprocessor}{\#define STB\_GLPROG\_FUNC(x,y)  static PFNGL\#\#x\#\#ARBPROC gl\#\#y\#\#ARB;}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00225}00225 STB\_GLPROG\_EXTENSIONS}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00226}00226 \textcolor{preprocessor}{\#undef STB\_GLPROG\_FUNC}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00227}00227 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00228}00228 \textcolor{comment}{// define the GetProcAddress}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00229}00229 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00230}00230 \textcolor{preprocessor}{\#ifdef \_WIN32}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00231}00231 \textcolor{preprocessor}{\#ifndef WINGDIAPI}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00232}00232 \textcolor{preprocessor}{\#ifndef STB\_\_HAS\_WGLPROC}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00233}00233 \textcolor{keyword}{typedef} int (\_\_stdcall *stbgl\_\_voidfunc)(void);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00234}00234 \textcolor{keyword}{static} \_\_declspec(dllimport) stbgl\_\_voidfunc wglGetProcAddress(\textcolor{keywordtype}{char} *);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00235}00235 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00236}00236 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00237}00237 \textcolor{preprocessor}{\#define STBGL\_\_GET\_FUNC(x)   wglGetProcAddress(x)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00238}00238 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00239}00239 \textcolor{preprocessor}{\#error "{}need to define how this platform gets extensions"{}}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00240}00240 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00241}00241 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00242}00242 \textcolor{comment}{// create a function that fills out the function pointers}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00243}00243 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00244}00244 \textcolor{keyword}{static} \textcolor{keywordtype}{void} stb\_glprog\_init(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00245}00245 \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00246}00246    \textcolor{keyword}{static} \textcolor{keywordtype}{int} initialized = 0; \textcolor{comment}{// not thread safe!}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00247}00247    \textcolor{keywordflow}{if} (initialized) \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00248}00248 \textcolor{preprocessor}{   \#define STB\_GLPROG\_FUNC(x,y) gl\#\#y\#\#ARB = (PFNGL\#\#x\#\#ARBPROC) STBGL\_\_GET\_FUNC("{}gl"{}} \#y "{}ARB"{});}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00249}00249    STB\_GLPROG\_EXTENSIONS}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00250}00250 \textcolor{preprocessor}{   \#undef STB\_GLPROG\_FUNC}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00251}00251 \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00252}00252 \textcolor{preprocessor}{\#undef STB\_GLPROG\_EXTENSIONS}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00253}00253 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00254}00254 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00255}00255 \textcolor{keyword}{static} \textcolor{keywordtype}{void} stb\_glprog\_init(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00256}00256 \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00257}00257 \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00258}00258 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00259}00259 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00260}00260 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00261}00261 \textcolor{comment}{// define generic names for many of the gl functions or extensions for later use;}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00262}00262 \textcolor{comment}{// note that in some cases there are two functions in core and one function in ARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00263}00263 \textcolor{preprocessor}{\#ifdef STB\_GLPROG\_ARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00264}00264 \textcolor{preprocessor}{\#define stbglCreateShader          glCreateShaderObjectARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00265}00265 \textcolor{preprocessor}{\#define stbglDeleteShader          glDeleteObjectARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00266}00266 \textcolor{preprocessor}{\#define stbglAttachShader          glAttachObjectARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00267}00267 \textcolor{preprocessor}{\#define stbglDetachShader          glDetachObjectARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00268}00268 \textcolor{preprocessor}{\#define stbglShaderSource          glShaderSourceARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00269}00269 \textcolor{preprocessor}{\#define stbglCompileShader         glCompileShaderARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00270}00270 \textcolor{preprocessor}{\#define stbglGetShaderStatus(a,b)  glGetObjectParameterivARB(a, GL\_OBJECT\_COMPILE\_STATUS\_ARB, b)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00271}00271 \textcolor{preprocessor}{\#define stbglGetShaderInfoLog      glGetInfoLogARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00272}00272 \textcolor{preprocessor}{\#define stbglCreateProgram         glCreateProgramObjectARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00273}00273 \textcolor{preprocessor}{\#define stbglDeleteProgram         glDeleteObjectARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00274}00274 \textcolor{preprocessor}{\#define stbglLinkProgram           glLinkProgramARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00275}00275 \textcolor{preprocessor}{\#define stbglGetProgramStatus(a,b) glGetObjectParameterivARB(a, GL\_OBJECT\_LINK\_STATUS\_ARB, b)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00276}00276 \textcolor{preprocessor}{\#define stbglGetProgramInfoLog     glGetInfoLogARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00277}00277 \textcolor{preprocessor}{\#define stbglGetAttachedShaders    glGetAttachedObjectsARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00278}00278 \textcolor{preprocessor}{\#define stbglBindAttribLocation    glBindAttribLocationARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00279}00279 \textcolor{preprocessor}{\#define stbglGetUniformLocation    glGetUniformLocationARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00280}00280 \textcolor{preprocessor}{\#define stbgl\_UseProgram           glUseProgramObjectARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00281}00281 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00282}00282 \textcolor{preprocessor}{\#define stbglCreateShader          glCreateShader}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00283}00283 \textcolor{preprocessor}{\#define stbglDeleteShader          glDeleteShader}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00284}00284 \textcolor{preprocessor}{\#define stbglAttachShader          glAttachShader}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00285}00285 \textcolor{preprocessor}{\#define stbglDetachShader          glDetachShader}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00286}00286 \textcolor{preprocessor}{\#define stbglShaderSource          glShaderSource}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00287}00287 \textcolor{preprocessor}{\#define stbglCompileShader         glCompileShader}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00288}00288 \textcolor{preprocessor}{\#define stbglGetShaderStatus(a,b)  glGetShaderiv(a, GL\_COMPILE\_STATUS, b)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00289}00289 \textcolor{preprocessor}{\#define stbglGetShaderInfoLog      glGetShaderInfoLog}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00290}00290 \textcolor{preprocessor}{\#define stbglCreateProgram         glCreateProgram}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00291}00291 \textcolor{preprocessor}{\#define stbglDeleteProgram         glDeleteProgram}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00292}00292 \textcolor{preprocessor}{\#define stbglLinkProgram           glLinkProgram}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00293}00293 \textcolor{preprocessor}{\#define stbglGetProgramStatus(a,b) glGetProgramiv(a, GL\_LINK\_STATUS, b)}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00294}00294 \textcolor{preprocessor}{\#define stbglGetProgramInfoLog     glGetProgramInfoLog}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00295}00295 \textcolor{preprocessor}{\#define stbglGetAttachedShaders    glGetAttachedShaders}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00296}00296 \textcolor{preprocessor}{\#define stbglBindAttribLocation    glBindAttribLocation}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00297}00297 \textcolor{preprocessor}{\#define stbglGetUniformLocation    glGetUniformLocation}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00298}00298 \textcolor{preprocessor}{\#define stbgl\_UseProgram           glUseProgram}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00299}00299 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00300}00300 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00301}00301 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00302}00302 \textcolor{comment}{// perform a safe strcat of 3 strings, given that we can't rely on portable snprintf}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00303}00303 \textcolor{comment}{// if you need to break on error, this is the best place to place a breakpoint}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00304}00304 \textcolor{keyword}{static} \textcolor{keywordtype}{void} stb\_glprog\_error(\textcolor{keywordtype}{char} *error, \textcolor{keywordtype}{int} error\_buflen, \textcolor{keywordtype}{char} *str1, \textcolor{keywordtype}{char} *str2, \textcolor{keywordtype}{char} *str3)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00305}00305 \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00306}00306    \textcolor{keywordtype}{int} n = strlen(str1);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00307}00307    strncpy(error, str1, error\_buflen);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00308}00308    \textcolor{keywordflow}{if} (n < error\_buflen \&\& str2) \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00309}00309       strncpy(error+n, str2, error\_buflen -\/ n);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00310}00310       n += strlen(str2);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00311}00311       \textcolor{keywordflow}{if} (n < error\_buflen \&\& str3) \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00312}00312          strncpy(error+n, str3, error\_buflen -\/ n);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00313}00313       \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00314}00314    \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00315}00315    error[error\_buflen-\/1] = 0;}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00316}00316 \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00317}00317 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00318}00318 STB\_GLPROG\_DECLARE GLuint stbgl\_compile\_shader(GLenum type, \textcolor{keywordtype}{char} \textcolor{keyword}{const} **sources, \textcolor{keywordtype}{int} num\_sources, \textcolor{keywordtype}{char} *error, \textcolor{keywordtype}{int} error\_buflen)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00319}00319 \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00320}00320    \textcolor{keywordtype}{char} *\textcolor{keyword}{typename} = (type == STBGL\_VERTEX\_SHADER ? \textcolor{stringliteral}{"{}vertex"{}} : \textcolor{stringliteral}{"{}fragment"{}});}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00321}00321    \textcolor{keywordtype}{int} len;}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00322}00322    GLint \mbox{\hyperlink{structresult}{result}};}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00323}00323    GLuint shader;}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00324}00324 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00325}00325    \textcolor{comment}{// initialize the extensions if we haven't already}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00326}00326    stb\_glprog\_init();}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00327}00327 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00328}00328    \textcolor{comment}{// allocate}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00329}00329 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00330}00330    shader = stbglCreateShader(type);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00331}00331    \textcolor{keywordflow}{if} (!shader) \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00332}00332       stb\_glprog\_error(error, error\_buflen, \textcolor{stringliteral}{"{}Couldn't allocate shader object in stbgl\_compile\_shader for "{}}, \textcolor{keyword}{typename}, NULL);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00333}00333       \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00334}00334    \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00335}00335 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00336}00336    \textcolor{comment}{// compile}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00337}00337 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00338}00338    \textcolor{comment}{// if num\_sources is negative, assume source is NULL-\/terminated and count the non-\/NULL ones}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00339}00339    \textcolor{keywordflow}{if} (num\_sources < 0)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00340}00340       \textcolor{keywordflow}{for} (num\_sources = 0; sources[num\_sources] != NULL; ++num\_sources)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00341}00341          ;}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00342}00342    stbglShaderSource(shader, num\_sources, sources, NULL);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00343}00343    stbglCompileShader(shader);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00344}00344    stbglGetShaderStatus(shader, \&\mbox{\hyperlink{structresult}{result}});}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00345}00345    \textcolor{keywordflow}{if} (\mbox{\hyperlink{structresult}{result}})}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00346}00346       \textcolor{keywordflow}{return} shader;}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00347}00347 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00348}00348    \textcolor{comment}{// errors}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00349}00349 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00350}00350    stb\_glprog\_error(error, error\_buflen, \textcolor{stringliteral}{"{}Compile error for "{}}, \textcolor{keyword}{typename}, \textcolor{stringliteral}{"{} shader: "{}});}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00351}00351    len = strlen(error);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00352}00352    \textcolor{keywordflow}{if} (len < error\_buflen)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00353}00353       stbglGetShaderInfoLog(shader, error\_buflen-\/len, NULL, error+len);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00354}00354 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00355}00355    stbglDeleteShader(shader);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00356}00356    \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00357}00357 \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00358}00358 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00359}00359 STB\_GLPROG\_DECLARE GLuint stbgl\_link\_program(GLuint vertex\_shader, GLuint fragment\_shader, \textcolor{keywordtype}{char} \textcolor{keyword}{const} **binds, \textcolor{keywordtype}{int} num\_binds, \textcolor{keywordtype}{char} *error, \textcolor{keywordtype}{int} error\_buflen)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00360}00360 \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00361}00361    \textcolor{keywordtype}{int} len;}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00362}00362    GLint \mbox{\hyperlink{structresult}{result}};}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00363}00363 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00364}00364    \textcolor{comment}{// allocate}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00365}00365 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00366}00366    GLuint prog = stbglCreateProgram();}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00367}00367    \textcolor{keywordflow}{if} (!prog) \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00368}00368       stb\_glprog\_error(error, error\_buflen, \textcolor{stringliteral}{"{}Couldn't allocate program object in stbgl\_link\_program"{}}, NULL, NULL);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00369}00369       \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00370}00370    \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00371}00371 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00372}00372    \textcolor{comment}{// attach}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00373}00373 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00374}00374    \textcolor{keywordflow}{if} (vertex\_shader)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00375}00375       stbglAttachShader(prog, vertex\_shader);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00376}00376    \textcolor{keywordflow}{if} (fragment\_shader)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00377}00377       stbglAttachShader(prog, fragment\_shader);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00378}00378 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00379}00379    \textcolor{comment}{// attribute binds}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00380}00380 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00381}00381    \textcolor{keywordflow}{if} (binds) \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00382}00382       \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00383}00383       \textcolor{comment}{// if num\_binds is negative, then it is NULL terminated}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00384}00384       \textcolor{keywordflow}{if} (num\_binds < 0)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00385}00385          \textcolor{keywordflow}{for} (num\_binds=0; binds[num\_binds]; ++num\_binds)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00386}00386             ;}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00387}00387       \textcolor{keywordflow}{for} (i=0; i < num\_binds; ++i)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00388}00388          \textcolor{keywordflow}{if} (binds[i] \&\& binds[i][0]) \textcolor{comment}{// empty binds can be NULL or "{}"{}}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00389}00389             stbglBindAttribLocation(prog, i, binds[i]);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00390}00390    \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00391}00391 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00392}00392    \textcolor{comment}{// link}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00393}00393 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00394}00394    stbglLinkProgram(prog);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00395}00395 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00396}00396    \textcolor{comment}{// detach}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00397}00397 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00398}00398    \textcolor{keywordflow}{if} (vertex\_shader)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00399}00399       stbglDetachShader(prog, vertex\_shader);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00400}00400    \textcolor{keywordflow}{if} (fragment\_shader)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00401}00401       stbglDetachShader(prog, fragment\_shader);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00402}00402 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00403}00403    \textcolor{comment}{// errors}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00404}00404 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00405}00405    stbglGetProgramStatus(prog, \&\mbox{\hyperlink{structresult}{result}});}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00406}00406    \textcolor{keywordflow}{if} (\mbox{\hyperlink{structresult}{result}})}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00407}00407       \textcolor{keywordflow}{return} prog;}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00408}00408 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00409}00409    stb\_glprog\_error(error, error\_buflen, \textcolor{stringliteral}{"{}Link error: "{}}, NULL, NULL);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00410}00410    len = strlen(error);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00411}00411    \textcolor{keywordflow}{if} (len < error\_buflen)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00412}00412       stbglGetProgramInfoLog(prog, error\_buflen-\/len, NULL, error+len);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00413}00413 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00414}00414    stbglDeleteProgram(prog);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00415}00415    \textcolor{keywordflow}{return} 0;   }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00416}00416 \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00417}00417 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00418}00418 STB\_GLPROG\_DECLARE GLuint stbgl\_create\_program(\textcolor{keywordtype}{char} \textcolor{keyword}{const} **vertex\_source, \textcolor{keywordtype}{char} \textcolor{keyword}{const} **frag\_source, \textcolor{keywordtype}{char} \textcolor{keyword}{const} **binds, \textcolor{keywordtype}{char} *error, \textcolor{keywordtype}{int} error\_buflen)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00419}00419 \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00420}00420    GLuint vertex, fragment, prog=0;}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00421}00421    vertex = stbgl\_compile\_shader(STBGL\_VERTEX\_SHADER, vertex\_source, -\/1, error, error\_buflen);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00422}00422    \textcolor{keywordflow}{if} (vertex) \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00423}00423       fragment = stbgl\_compile\_shader(STBGL\_FRAGMENT\_SHADER, frag\_source, -\/1, error, error\_buflen);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00424}00424       \textcolor{keywordflow}{if} (fragment)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00425}00425          prog = stbgl\_link\_program(vertex, fragment, binds, -\/1, error, error\_buflen);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00426}00426       \textcolor{keywordflow}{if} (fragment)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00427}00427          stbglDeleteShader(fragment);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00428}00428       stbglDeleteShader(vertex);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00429}00429    \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00430}00430    \textcolor{keywordflow}{return} prog;}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00431}00431 \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00432}00432 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00433}00433 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbgl\_delete\_shader(GLuint shader)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00434}00434 \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00435}00435    stbglDeleteShader(shader);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00436}00436 \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00437}00437 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00438}00438 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stgbl\_delete\_program(GLuint program)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00439}00439 \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00440}00440    stbglDeleteProgram(program);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00441}00441 \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00442}00442 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00443}00443 GLint stbgl\_find\_uniform(GLuint prog, \textcolor{keywordtype}{char} *uniform)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00444}00444 \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00445}00445    \textcolor{keywordflow}{return} stbglGetUniformLocation(prog, uniform);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00446}00446 \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00447}00447 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00448}00448 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbgl\_find\_uniforms(GLuint prog, GLint *locations, \textcolor{keywordtype}{char} \textcolor{keyword}{const} **uniforms, \textcolor{keywordtype}{int} num\_uniforms)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00449}00449 \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00450}00450    \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00451}00451    \textcolor{keywordflow}{if} (num\_uniforms < 0)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00452}00452       num\_uniforms = 999999;}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00453}00453    \textcolor{keywordflow}{for} (i=0; i < num\_uniforms \&\& uniforms[i]; ++i)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00454}00454       locations[i] = stbglGetUniformLocation(prog, uniforms[i]);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00455}00455 \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00456}00456 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00457}00457 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglUseProgram(GLuint program)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00458}00458 \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00459}00459    stbgl\_UseProgram(program);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00460}00460 \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00461}00461 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00462}00462 \textcolor{preprocessor}{\#ifdef STB\_GLPROG\_ARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00463}00463 \textcolor{preprocessor}{\#define STBGL\_ARBIFY(name)   name\#\#ARB}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00464}00464 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00465}00465 \textcolor{preprocessor}{\#define STBGL\_ARBIFY(name)   name}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00466}00466 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00467}00467 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00468}00468 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglVertexAttribPointer(GLuint index,  GLint size,  GLenum type,  GLboolean normalized,  GLsizei stride,  \textcolor{keyword}{const} GLvoid * pointer)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00469}00469 \{}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00470}00470    STBGL\_ARBIFY(glVertexAttribPointer)(index, size, type, normalized, stride, pointer);}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00471}00471 \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00472}00472 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00473}00473 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglEnableVertexAttribArray (GLuint index) \{ STBGL\_ARBIFY(glEnableVertexAttribArray )(index); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00474}00474 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglDisableVertexAttribArray(GLuint index) \{ STBGL\_ARBIFY(glDisableVertexAttribArray)(index); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00475}00475 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00476}00476 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglUniform1fv(GLint loc, GLsizei count, \textcolor{keyword}{const} GLfloat *v) \{ STBGL\_ARBIFY(glUniform1fv)(loc,count,v); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00477}00477 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglUniform2fv(GLint loc, GLsizei count, \textcolor{keyword}{const} GLfloat *v) \{ STBGL\_ARBIFY(glUniform2fv)(loc,count,v); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00478}00478 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglUniform3fv(GLint loc, GLsizei count, \textcolor{keyword}{const} GLfloat *v) \{ STBGL\_ARBIFY(glUniform3fv)(loc,count,v); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00479}00479 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglUniform4fv(GLint loc, GLsizei count, \textcolor{keyword}{const} GLfloat *v) \{ STBGL\_ARBIFY(glUniform4fv)(loc,count,v); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00480}00480 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00481}00481 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglUniform1iv(GLint loc, GLsizei count, \textcolor{keyword}{const} GLint   *v) \{ STBGL\_ARBIFY(glUniform1iv)(loc,count,v); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00482}00482 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglUniform2iv(GLint loc, GLsizei count, \textcolor{keyword}{const} GLint   *v) \{ STBGL\_ARBIFY(glUniform2iv)(loc,count,v); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00483}00483 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglUniform3iv(GLint loc, GLsizei count, \textcolor{keyword}{const} GLint   *v) \{ STBGL\_ARBIFY(glUniform3iv)(loc,count,v); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00484}00484 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglUniform4iv(GLint loc, GLsizei count, \textcolor{keyword}{const} GLint   *v) \{ STBGL\_ARBIFY(glUniform4iv)(loc,count,v); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00485}00485 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00486}00486 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglUniform1f(GLint loc, \textcolor{keywordtype}{float} v0)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00487}00487     \{ STBGL\_ARBIFY(glUniform1f)(loc,v0); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00488}00488 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglUniform2f(GLint loc, \textcolor{keywordtype}{float} v0, \textcolor{keywordtype}{float} v1)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00489}00489     \{ STBGL\_ARBIFY(glUniform2f)(loc,v0,v1); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00490}00490 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglUniform3f(GLint loc, \textcolor{keywordtype}{float} v0, \textcolor{keywordtype}{float} v1, \textcolor{keywordtype}{float} v2)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00491}00491     \{ STBGL\_ARBIFY(glUniform3f)(loc,v0,v1,v2); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00492}00492 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglUniform4f(GLint loc, \textcolor{keywordtype}{float} v0, \textcolor{keywordtype}{float} v1, \textcolor{keywordtype}{float} v2, \textcolor{keywordtype}{float} v3)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00493}00493     \{ STBGL\_ARBIFY(glUniform4f)(loc,v0,v1,v2,v3); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00494}00494 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00495}00495 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglUniform1i(GLint loc, GLint v0)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00496}00496     \{ STBGL\_ARBIFY(glUniform1i)(loc,v0); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00497}00497 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglUniform2i(GLint loc, GLint v0, GLint v1)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00498}00498     \{ STBGL\_ARBIFY(glUniform2i)(loc,v0,v1); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00499}00499 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglUniform3i(GLint loc, GLint v0, GLint v1, GLint v2)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00500}00500     \{ STBGL\_ARBIFY(glUniform3i)(loc,v0,v1,v2); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00501}00501 STB\_GLPROG\_DECLARE \textcolor{keywordtype}{void} stbglUniform4i(GLint loc, GLint v0, GLint v1, GLint v2, GLint v3)}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00502}00502     \{ STBGL\_ARBIFY(glUniform4i)(loc,v0,v1,v2,v3); \}}
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00503}00503 }
+\DoxyCodeLine{\Hypertarget{stb__glprog_8h_source_l00504}00504 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

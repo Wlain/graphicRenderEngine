@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classspdlog_1_1details_1_1mpmc__blocking__queue" kind="class" language="C++" prot="public">
+    <compoundname>spdlog::details::mpmc_blocking_queue</compoundname>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classspdlog_1_1details_1_1mpmc__blocking__queue_1abb22a6f25c5fd96af5b163dc93eec397" prot="public" static="no">
+        <type>T</type>
+        <definition>using spdlog::details::mpmc_blocking_queue&lt; T &gt;::item_type =  T</definition>
+        <argsstring></argsstring>
+        <name>item_type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" line="25" column="5" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classspdlog_1_1details_1_1mpmc__blocking__queue_1a932812231b8edf2da2b9d427db8a7aee" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex spdlog::details::mpmc_blocking_queue&lt; T &gt;::queue_mutex_</definition>
+        <argsstring></argsstring>
+        <name>queue_mutex_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" line="120" column="16" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classspdlog_1_1details_1_1mpmc__blocking__queue_1a16a374426535012807418f78d786ecdd" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable spdlog::details::mpmc_blocking_queue&lt; T &gt;::push_cv_</definition>
+        <argsstring></argsstring>
+        <name>push_cv_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" line="121" column="29" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classspdlog_1_1details_1_1mpmc__blocking__queue_1a7c9e715bdcf14c6d0796a7db5c3b94c5" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable spdlog::details::mpmc_blocking_queue&lt; T &gt;::pop_cv_</definition>
+        <argsstring></argsstring>
+        <name>pop_cv_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" line="122" column="29" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classspdlog_1_1details_1_1mpmc__blocking__queue_1ae97d7b7206768c9011c1366ed3ab23c4" prot="private" static="no" mutable="no">
+        <type><ref refid="classspdlog_1_1details_1_1circular__q" kindref="compound">spdlog::details::circular_q</ref>&lt; T &gt;</type>
+        <definition>spdlog::details::circular_q&lt;T&gt; spdlog::details::mpmc_blocking_queue&lt; T &gt;::q_</definition>
+        <argsstring></argsstring>
+        <name>q_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" line="123" column="33" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classspdlog_1_1details_1_1mpmc__blocking__queue_1ace609561c8f631202988ec49f95422fa" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>spdlog::details::mpmc_blocking_queue&lt; T &gt;::mpmc_blocking_queue</definition>
+        <argsstring>(size_t max_items)</argsstring>
+        <name>mpmc_blocking_queue</name>
+        <param>
+          <type>size_t</type>
+          <declname>max_items</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" line="26" column="14" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" bodystart="26" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classspdlog_1_1details_1_1mpmc__blocking__queue_1a3795640b651fcb2de66a21ef2bc221f1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void spdlog::details::mpmc_blocking_queue&lt; T &gt;::enqueue</definition>
+        <argsstring>(T &amp;&amp;item)</argsstring>
+        <name>enqueue</name>
+        <param>
+          <type>T &amp;&amp;</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" line="32" column="10" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" bodystart="32" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classspdlog_1_1details_1_1mpmc__blocking__queue_1a1280489c9035a705f50f04905a5ed394" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void spdlog::details::mpmc_blocking_queue&lt; T &gt;::enqueue_nowait</definition>
+        <argsstring>(T &amp;&amp;item)</argsstring>
+        <name>enqueue_nowait</name>
+        <param>
+          <type>T &amp;&amp;</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" line="43" column="10" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" bodystart="43" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classspdlog_1_1details_1_1mpmc__blocking__queue_1af4015ea1657b393755f34d76c97a28d1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool spdlog::details::mpmc_blocking_queue&lt; T &gt;::dequeue_for</definition>
+        <argsstring>(T &amp;popped_item, std::chrono::milliseconds wait_duration)</argsstring>
+        <name>dequeue_for</name>
+        <param>
+          <type>T &amp;</type>
+          <declname>popped_item</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>wait_duration</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" line="54" column="10" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" bodystart="54" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classspdlog_1_1details_1_1mpmc__blocking__queue_1a15e3d12dff953034d5aad5590b8282cd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t spdlog::details::mpmc_blocking_queue&lt; T &gt;::overrun_counter</definition>
+        <argsstring>()</argsstring>
+        <name>overrun_counter</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" line="107" column="12" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" bodystart="107" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classspdlog_1_1details_1_1mpmc__blocking__queue_1a34e9a979e6371c651000addccb305bd7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t spdlog::details::mpmc_blocking_queue&lt; T &gt;::size</definition>
+        <argsstring>()</argsstring>
+        <name>size</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" line="113" column="12" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" bodystart="113" bodyend="117"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" line="22" column="1" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/mpmc_blocking_q.h" bodystart="23" bodyend="124"/>
+    <listofallmembers>
+      <member refid="classspdlog_1_1details_1_1mpmc__blocking__queue_1af4015ea1657b393755f34d76c97a28d1" prot="public" virt="non-virtual"><scope>spdlog::details::mpmc_blocking_queue</scope><name>dequeue_for</name></member>
+      <member refid="classspdlog_1_1details_1_1mpmc__blocking__queue_1a3795640b651fcb2de66a21ef2bc221f1" prot="public" virt="non-virtual"><scope>spdlog::details::mpmc_blocking_queue</scope><name>enqueue</name></member>
+      <member refid="classspdlog_1_1details_1_1mpmc__blocking__queue_1a1280489c9035a705f50f04905a5ed394" prot="public" virt="non-virtual"><scope>spdlog::details::mpmc_blocking_queue</scope><name>enqueue_nowait</name></member>
+      <member refid="classspdlog_1_1details_1_1mpmc__blocking__queue_1abb22a6f25c5fd96af5b163dc93eec397" prot="public" virt="non-virtual"><scope>spdlog::details::mpmc_blocking_queue</scope><name>item_type</name></member>
+      <member refid="classspdlog_1_1details_1_1mpmc__blocking__queue_1ace609561c8f631202988ec49f95422fa" prot="public" virt="non-virtual"><scope>spdlog::details::mpmc_blocking_queue</scope><name>mpmc_blocking_queue</name></member>
+      <member refid="classspdlog_1_1details_1_1mpmc__blocking__queue_1a15e3d12dff953034d5aad5590b8282cd" prot="public" virt="non-virtual"><scope>spdlog::details::mpmc_blocking_queue</scope><name>overrun_counter</name></member>
+      <member refid="classspdlog_1_1details_1_1mpmc__blocking__queue_1a7c9e715bdcf14c6d0796a7db5c3b94c5" prot="private" virt="non-virtual"><scope>spdlog::details::mpmc_blocking_queue</scope><name>pop_cv_</name></member>
+      <member refid="classspdlog_1_1details_1_1mpmc__blocking__queue_1a16a374426535012807418f78d786ecdd" prot="private" virt="non-virtual"><scope>spdlog::details::mpmc_blocking_queue</scope><name>push_cv_</name></member>
+      <member refid="classspdlog_1_1details_1_1mpmc__blocking__queue_1ae97d7b7206768c9011c1366ed3ab23c4" prot="private" virt="non-virtual"><scope>spdlog::details::mpmc_blocking_queue</scope><name>q_</name></member>
+      <member refid="classspdlog_1_1details_1_1mpmc__blocking__queue_1a932812231b8edf2da2b9d427db8a7aee" prot="private" virt="non-virtual"><scope>spdlog::details::mpmc_blocking_queue</scope><name>queue_mutex_</name></member>
+      <member refid="classspdlog_1_1details_1_1mpmc__blocking__queue_1a34e9a979e6371c651000addccb305bd7" prot="public" virt="non-virtual"><scope>spdlog::details::mpmc_blocking_queue</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

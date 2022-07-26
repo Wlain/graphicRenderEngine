@@ -1,5 +1,5 @@
 \hypertarget{utils_8h_source}{}\doxysection{utils.\+h}
-\label{utils_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/re/utils/utils.h@{/Users/cwb/developer/learning/graphicRenderEngine/re/utils/utils.h}}
+\label{utils_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/utils/utils.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/utils/utils.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{utils_8h_source_l00001}00001 \textcolor{comment}{//}}
@@ -46,6 +46,17 @@
 \DoxyCodeLine{\Hypertarget{utils_8h_source_l00042}00042 \textcolor{preprocessor}{\#endif}}
 \DoxyCodeLine{\Hypertarget{utils_8h_source_l00043}00043 \}}
 \DoxyCodeLine{\Hypertarget{utils_8h_source_l00044}00044 }
-\DoxyCodeLine{\Hypertarget{utils_8h_source_l00045}00045 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// GRAPHICRENDERENGINE\_UTILS\_H}}
+\DoxyCodeLine{\Hypertarget{utils_8h_source_l00045}00045 \textcolor{keyword}{static} std::vector<std::string> getCurrentDirFiles(std::string\_view fileDir)}
+\DoxyCodeLine{\Hypertarget{utils_8h_source_l00046}00046 \{}
+\DoxyCodeLine{\Hypertarget{utils_8h_source_l00047}00047     std::vector<std::string> files;}
+\DoxyCodeLine{\Hypertarget{utils_8h_source_l00048}00048     std::filesystem::directory\_iterator lists(fileDir);}
+\DoxyCodeLine{\Hypertarget{utils_8h_source_l00049}00049     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& file : lists)}
+\DoxyCodeLine{\Hypertarget{utils_8h_source_l00050}00050     \{}
+\DoxyCodeLine{\Hypertarget{utils_8h_source_l00051}00051         files.emplace\_back(file.path().filename().c\_str());}
+\DoxyCodeLine{\Hypertarget{utils_8h_source_l00052}00052     \}}
+\DoxyCodeLine{\Hypertarget{utils_8h_source_l00053}00053     \textcolor{keywordflow}{return} files;}
+\DoxyCodeLine{\Hypertarget{utils_8h_source_l00054}00054 \}}
+\DoxyCodeLine{\Hypertarget{utils_8h_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{utils_8h_source_l00056}00056 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// GRAPHICRENDERENGINE\_UTILS\_H}}
 
 \end{DoxyCode}

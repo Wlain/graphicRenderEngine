@@ -1,0 +1,936 @@
+\hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source}{}\doxysection{glfw3.\+h}
+\label{glfw_2include_2_g_l_f_w_2glfw3_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/include/GLFW/glfw3.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/include/GLFW/glfw3.h}}
+\mbox{\hyperlink{glfw_2include_2_g_l_f_w_2glfw3_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00001}00001 \textcolor{comment}{/*************************************************************************}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00002}00002 \textcolor{comment}{ * GLFW 3.4 -\/ www.glfw.org}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00003}00003 \textcolor{comment}{ * A library for OpenGL, window and input}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00004}00004 \textcolor{comment}{ *-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00005}00005 \textcolor{comment}{ * Copyright (c) 2002-\/2006 Marcus Geelnard}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00006}00006 \textcolor{comment}{ * Copyright (c) 2006-\/2019 Camilla Löwy <elmindreda@glfw.org>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00007}00007 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00008}00008 \textcolor{comment}{ * This software is provided 'as-\/is', without any express or implied}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00009}00009 \textcolor{comment}{ * warranty. In no event will the authors be held liable for any damages}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00010}00010 \textcolor{comment}{ * arising from the use of this software.}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00011}00011 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00012}00012 \textcolor{comment}{ * Permission is granted to anyone to use this software for any purpose,}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00013}00013 \textcolor{comment}{ * including commercial applications, and to alter it and redistribute it}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00014}00014 \textcolor{comment}{ * freely, subject to the following restrictions:}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00015}00015 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00016}00016 \textcolor{comment}{ * 1. The origin of this software must not be misrepresented; you must not}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00017}00017 \textcolor{comment}{ *    claim that you wrote the original software. If you use this software}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00018}00018 \textcolor{comment}{ *    in a product, an acknowledgment in the product documentation would}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00019}00019 \textcolor{comment}{ *    be appreciated but is not required.}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00020}00020 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00021}00021 \textcolor{comment}{ * 2. Altered source versions must be plainly marked as such, and must not}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00022}00022 \textcolor{comment}{ *    be misrepresented as being the original software.}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00023}00023 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00024}00024 \textcolor{comment}{ * 3. This notice may not be removed or altered from any source}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00025}00025 \textcolor{comment}{ *    distribution.}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00026}00026 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00027}00027 \textcolor{comment}{ *************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00028}00028 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00029}00029 \textcolor{preprocessor}{\#ifndef \_glfw3\_h\_}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00030}00030 \textcolor{preprocessor}{\#define \_glfw3\_h\_}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00032}00032 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00033}00033 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00034}00034 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00037}00037 \textcolor{comment}{/*************************************************************************}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00038}00038 \textcolor{comment}{ * Doxygen documentation}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00039}00039 \textcolor{comment}{ *************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00089}00089 \textcolor{comment}{/*************************************************************************}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00090}00090 \textcolor{comment}{ * Compiler-\/ and platform-\/specific preprocessor work}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00091}00091 \textcolor{comment}{ *************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00093}00093 \textcolor{comment}{/* If we are we on Windows, we want a single define for it.}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00094}00094 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00095}00095 \textcolor{preprocessor}{\#if !defined(\_WIN32) \&\& (defined(\_\_WIN32\_\_) || defined(WIN32) || defined(\_\_MINGW32\_\_))}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00096}00096 \textcolor{preprocessor}{ \#define \_WIN32}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00097}00097 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* \_WIN32 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00098}00098 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00099}00099 \textcolor{comment}{/* Include because most Windows GLU headers need wchar\_t and}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00100}00100 \textcolor{comment}{ * the macOS OpenGL header blocks the definition of ptrdiff\_t by glext.h.}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00101}00101 \textcolor{comment}{ * Include it unconditionally to avoid surprising side-\/effects.}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00102}00102 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00103}00103 \textcolor{preprocessor}{\#include <stddef.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00105}00105 \textcolor{comment}{/* Include because it is needed by Vulkan and related functions.}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00106}00106 \textcolor{comment}{ * Include it unconditionally to avoid surprising side-\/effects.}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00107}00107 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00108}00108 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00109}00109 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00110}00110 \textcolor{preprocessor}{\#if defined(GLFW\_INCLUDE\_VULKAN)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00111}00111 \textcolor{preprocessor}{  \#include <vulkan/vulkan.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00112}00112 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* Vulkan header */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00113}00113 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00114}00114 \textcolor{comment}{/* The Vulkan header may have indirectly included windows.h (because of}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00115}00115 \textcolor{comment}{ * VK\_USE\_PLATFORM\_WIN32\_KHR) so we offer our replacement symbols after it.}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00116}00116 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00117}00117 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00118}00118 \textcolor{comment}{/* It is customary to use APIENTRY for OpenGL function pointer declarations on}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00119}00119 \textcolor{comment}{ * all platforms.  Additionally, the Windows OpenGL header needs APIENTRY.}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00120}00120 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00121}00121 \textcolor{preprocessor}{\#if !defined(APIENTRY)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00122}00122 \textcolor{preprocessor}{ \#if defined(\_WIN32)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00123}00123 \textcolor{preprocessor}{  \#define APIENTRY \_\_stdcall}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00124}00124 \textcolor{preprocessor}{ \#else}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00125}00125 \textcolor{preprocessor}{  \#define APIENTRY}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00126}00126 \textcolor{preprocessor}{ \#endif}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00127}00127 \textcolor{preprocessor}{ \#define GLFW\_APIENTRY\_DEFINED}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00128}00128 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* APIENTRY */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00129}00129 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00130}00130 \textcolor{comment}{/* Some Windows OpenGL headers need this.}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00131}00131 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00132}00132 \textcolor{preprocessor}{\#if !defined(WINGDIAPI) \&\& defined(\_WIN32)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00133}00133 \textcolor{preprocessor}{ \#define WINGDIAPI \_\_declspec(dllimport)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00134}00134 \textcolor{preprocessor}{ \#define GLFW\_WINGDIAPI\_DEFINED}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00135}00135 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* WINGDIAPI */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00136}00136 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00137}00137 \textcolor{comment}{/* Some Windows GLU headers need this.}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00138}00138 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00139}00139 \textcolor{preprocessor}{\#if !defined(CALLBACK) \&\& defined(\_WIN32)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00140}00140 \textcolor{preprocessor}{ \#define CALLBACK \_\_stdcall}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00141}00141 \textcolor{preprocessor}{ \#define GLFW\_CALLBACK\_DEFINED}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00142}00142 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* CALLBACK */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00143}00143 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00144}00144 \textcolor{comment}{/* Include the chosen OpenGL or OpenGL ES headers.}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00145}00145 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00146}00146 \textcolor{preprocessor}{\#if defined(GLFW\_INCLUDE\_ES1)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00147}00147 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00148}00148 \textcolor{preprocessor}{ \#include <GLES/gl.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00149}00149 \textcolor{preprocessor}{ \#if defined(GLFW\_INCLUDE\_GLEXT)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00150}00150 \textcolor{preprocessor}{  \#include <GLES/glext.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00151}00151 \textcolor{preprocessor}{ \#endif}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00152}00152 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00153}00153 \textcolor{preprocessor}{\#elif defined(GLFW\_INCLUDE\_ES2)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00154}00154 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00155}00155 \textcolor{preprocessor}{ \#include <GLES2/gl2.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00156}00156 \textcolor{preprocessor}{ \#if defined(GLFW\_INCLUDE\_GLEXT)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00157}00157 \textcolor{preprocessor}{  \#include <GLES2/gl2ext.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00158}00158 \textcolor{preprocessor}{ \#endif}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00159}00159 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00160}00160 \textcolor{preprocessor}{\#elif defined(GLFW\_INCLUDE\_ES3)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00161}00161 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00162}00162 \textcolor{preprocessor}{ \#include <GLES3/gl3.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00163}00163 \textcolor{preprocessor}{ \#if defined(GLFW\_INCLUDE\_GLEXT)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00164}00164 \textcolor{preprocessor}{  \#include <GLES2/gl2ext.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00165}00165 \textcolor{preprocessor}{ \#endif}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00166}00166 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00167}00167 \textcolor{preprocessor}{\#elif defined(GLFW\_INCLUDE\_ES31)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00168}00168 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00169}00169 \textcolor{preprocessor}{ \#include <GLES3/gl31.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00170}00170 \textcolor{preprocessor}{ \#if defined(GLFW\_INCLUDE\_GLEXT)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00171}00171 \textcolor{preprocessor}{  \#include <GLES2/gl2ext.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00172}00172 \textcolor{preprocessor}{ \#endif}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00173}00173 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00174}00174 \textcolor{preprocessor}{\#elif defined(GLFW\_INCLUDE\_ES32)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00175}00175 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00176}00176 \textcolor{preprocessor}{ \#include <GLES3/gl32.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00177}00177 \textcolor{preprocessor}{ \#if defined(GLFW\_INCLUDE\_GLEXT)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00178}00178 \textcolor{preprocessor}{  \#include <GLES2/gl2ext.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00179}00179 \textcolor{preprocessor}{ \#endif}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00180}00180 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00181}00181 \textcolor{preprocessor}{\#elif defined(GLFW\_INCLUDE\_GLCOREARB)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00182}00182 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00183}00183 \textcolor{preprocessor}{ \#if defined(\_\_APPLE\_\_)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00184}00184 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00185}00185 \textcolor{preprocessor}{  \#include <OpenGL/gl3.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00186}00186 \textcolor{preprocessor}{  \#if defined(GLFW\_INCLUDE\_GLEXT)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00187}00187 \textcolor{preprocessor}{   \#include <OpenGL/gl3ext.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00188}00188 \textcolor{preprocessor}{  \#endif }\textcolor{comment}{/*GLFW\_INCLUDE\_GLEXT*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00189}00189 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00190}00190 \textcolor{preprocessor}{ \#else }\textcolor{comment}{/*\_\_APPLE\_\_*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00191}00191 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00192}00192 \textcolor{preprocessor}{  \#include <GL/glcorearb.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00193}00193 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00194}00194 \textcolor{preprocessor}{ \#endif }\textcolor{comment}{/*\_\_APPLE\_\_*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00195}00195 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00196}00196 \textcolor{preprocessor}{\#elif defined(GLFW\_INCLUDE\_GLU)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00197}00197 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00198}00198 \textcolor{preprocessor}{ \#if defined(\_\_APPLE\_\_)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00199}00199 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00200}00200 \textcolor{preprocessor}{  \#if defined(GLFW\_INCLUDE\_GLU)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00201}00201 \textcolor{preprocessor}{   \#include <OpenGL/glu.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00202}00202 \textcolor{preprocessor}{  \#endif}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00203}00203 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00204}00204 \textcolor{preprocessor}{ \#else }\textcolor{comment}{/*\_\_APPLE\_\_*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00205}00205 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00206}00206 \textcolor{preprocessor}{  \#if defined(GLFW\_INCLUDE\_GLU)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00207}00207 \textcolor{preprocessor}{   \#include <GL/glu.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00208}00208 \textcolor{preprocessor}{  \#endif}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00209}00209 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00210}00210 \textcolor{preprocessor}{ \#endif }\textcolor{comment}{/*\_\_APPLE\_\_*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00211}00211 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00212}00212 \textcolor{preprocessor}{\#elif !defined(GLFW\_INCLUDE\_NONE) \&\& \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00213}00213 \textcolor{preprocessor}{      !defined(\_\_gl\_h\_) \&\& \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00214}00214 \textcolor{preprocessor}{      !defined(\_\_gles1\_gl\_h\_) \&\& \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00215}00215 \textcolor{preprocessor}{      !defined(\_\_gles2\_gl2\_h\_) \&\& \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00216}00216 \textcolor{preprocessor}{      !defined(\_\_gles2\_gl3\_h\_) \&\& \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00217}00217 \textcolor{preprocessor}{      !defined(\_\_gles2\_gl31\_h\_) \&\& \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00218}00218 \textcolor{preprocessor}{      !defined(\_\_gles2\_gl32\_h\_) \&\& \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00219}00219 \textcolor{preprocessor}{      !defined(\_\_gl\_glcorearb\_h\_) \&\& \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00220}00220 \textcolor{preprocessor}{      !defined(\_\_gl2\_h\_) }\textcolor{comment}{/*legacy*/}\textcolor{preprocessor}{ \&\& \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00221}00221 \textcolor{preprocessor}{      !defined(\_\_gl3\_h\_) }\textcolor{comment}{/*legacy*/}\textcolor{preprocessor}{ \&\& \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00222}00222 \textcolor{preprocessor}{      !defined(\_\_gl31\_h\_) }\textcolor{comment}{/*legacy*/}\textcolor{preprocessor}{ \&\& \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00223}00223 \textcolor{preprocessor}{      !defined(\_\_gl32\_h\_) }\textcolor{comment}{/*legacy*/}\textcolor{preprocessor}{ \&\& \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00224}00224 \textcolor{preprocessor}{      !defined(\_\_glcorearb\_h\_) }\textcolor{comment}{/*legacy*/}\textcolor{preprocessor}{ \&\& \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00225}00225 \textcolor{preprocessor}{      !defined(\_\_GL\_H\_\_) }\textcolor{comment}{/*non-\/standard*/}\textcolor{preprocessor}{ \&\& \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00226}00226 \textcolor{preprocessor}{      !defined(\_\_gltypes\_h\_) }\textcolor{comment}{/*non-\/standard*/}\textcolor{preprocessor}{ \&\& \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00227}00227 \textcolor{preprocessor}{      !defined(\_\_glee\_h\_) }\textcolor{comment}{/*non-\/standard*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00228}00228 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00229}00229 \textcolor{preprocessor}{ \#if defined(\_\_APPLE\_\_)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00230}00230 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00231}00231 \textcolor{preprocessor}{  \#if !defined(GLFW\_INCLUDE\_GLEXT)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00232}00232 \textcolor{preprocessor}{   \#define GL\_GLEXT\_LEGACY}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00233}00233 \textcolor{preprocessor}{  \#endif}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00234}00234 \textcolor{preprocessor}{  \#include <OpenGL/gl.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00235}00235 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00236}00236 \textcolor{preprocessor}{ \#else }\textcolor{comment}{/*\_\_APPLE\_\_*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00237}00237 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00238}00238 \textcolor{preprocessor}{  \#include <GL/gl.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00239}00239 \textcolor{preprocessor}{  \#if defined(GLFW\_INCLUDE\_GLEXT)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00240}00240 \textcolor{preprocessor}{   \#include <GL/glext.h>}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00241}00241 \textcolor{preprocessor}{  \#endif}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00242}00242 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00243}00243 \textcolor{preprocessor}{ \#endif }\textcolor{comment}{/*\_\_APPLE\_\_*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00244}00244 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00245}00245 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* OpenGL and OpenGL ES headers */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00246}00246 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00247}00247 \textcolor{preprocessor}{\#if defined(GLFW\_DLL) \&\& defined(\_GLFW\_BUILD\_DLL)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00248}00248  \textcolor{comment}{/* GLFW\_DLL must be defined by applications that are linking against the DLL}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00249}00249 \textcolor{comment}{  * version of the GLFW library.  \_GLFW\_BUILD\_DLL is defined by the GLFW}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00250}00250 \textcolor{comment}{  * configuration header when compiling the DLL version of the library.}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00251}00251 \textcolor{comment}{  */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00252}00252 \textcolor{preprocessor}{ \#error "{}You must not have both GLFW\_DLL and \_GLFW\_BUILD\_DLL defined"{}}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00253}00253 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00254}00254 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00255}00255 \textcolor{comment}{/* GLFWAPI is used to declare public API functions for export}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00256}00256 \textcolor{comment}{ * from the DLL / shared library / dynamic library.}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00257}00257 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00258}00258 \textcolor{preprocessor}{\#if defined(\_WIN32) \&\& defined(\_GLFW\_BUILD\_DLL)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00259}00259  \textcolor{comment}{/* We are building GLFW as a Win32 DLL */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00260}00260 \textcolor{preprocessor}{ \#define GLFWAPI \_\_declspec(dllexport)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00261}00261 \textcolor{preprocessor}{\#elif defined(\_WIN32) \&\& defined(GLFW\_DLL)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00262}00262  \textcolor{comment}{/* We are calling GLFW as a Win32 DLL */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00263}00263 \textcolor{preprocessor}{ \#define GLFWAPI \_\_declspec(dllimport)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00264}00264 \textcolor{preprocessor}{\#elif defined(\_\_GNUC\_\_) \&\& defined(\_GLFW\_BUILD\_DLL)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00265}00265  \textcolor{comment}{/* We are building GLFW as a shared / dynamic library */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00266}00266 \textcolor{preprocessor}{ \#define GLFWAPI \_\_attribute\_\_((visibility("{}default"{}})))}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00267}00267 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00268}00268  \textcolor{comment}{/* We are building or calling GLFW as a static library */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00269}00269 \textcolor{preprocessor}{ \#define GLFWAPI}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00270}00270 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00271}00271 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00272}00272 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00273}00273 \textcolor{comment}{/*************************************************************************}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00274}00274 \textcolor{comment}{ * GLFW API tokens}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00275}00275 \textcolor{comment}{ *************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00276}00276 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00284}\mbox{\hyperlink{group__init_ga6337d9ea43b22fc529b2bba066b4a576}{00284}} \textcolor{preprocessor}{\#define GLFW\_VERSION\_MAJOR          3}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00291}\mbox{\hyperlink{group__init_gaf80d40f0aea7088ff337606e9c48f7a3}{00291}} \textcolor{preprocessor}{\#define GLFW\_VERSION\_MINOR          4}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00298}\mbox{\hyperlink{group__init_gab72ae2e2035d9ea461abc3495eac0502}{00298}} \textcolor{preprocessor}{\#define GLFW\_VERSION\_REVISION       0}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00309}\mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{00309}} \textcolor{preprocessor}{\#define GLFW\_TRUE                   1}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00318}\mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{00318}} \textcolor{preprocessor}{\#define GLFW\_FALSE                  0}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00319}00319 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00328}\mbox{\hyperlink{group__input_gada11d965c4da13090ad336e030e4d11f}{00328}} \textcolor{preprocessor}{\#define GLFW\_RELEASE                0}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00335}\mbox{\hyperlink{group__input_ga2485743d0b59df3791c45951c4195265}{00335}} \textcolor{preprocessor}{\#define GLFW\_PRESS                  1}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00342}\mbox{\hyperlink{group__input_gac96fd3b9fc66c6f0eebaf6532595338f}{00342}} \textcolor{preprocessor}{\#define GLFW\_REPEAT                 2}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00352}00352 \textcolor{preprocessor}{\#define GLFW\_HAT\_CENTERED           0}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00353}00353 \textcolor{preprocessor}{\#define GLFW\_HAT\_UP                 1}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00354}00354 \textcolor{preprocessor}{\#define GLFW\_HAT\_RIGHT              2}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00355}00355 \textcolor{preprocessor}{\#define GLFW\_HAT\_DOWN               4}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00356}00356 \textcolor{preprocessor}{\#define GLFW\_HAT\_LEFT               8}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00357}00357 \textcolor{preprocessor}{\#define GLFW\_HAT\_RIGHT\_UP           (GLFW\_HAT\_RIGHT | GLFW\_HAT\_UP)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00358}00358 \textcolor{preprocessor}{\#define GLFW\_HAT\_RIGHT\_DOWN         (GLFW\_HAT\_RIGHT | GLFW\_HAT\_DOWN)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00359}00359 \textcolor{preprocessor}{\#define GLFW\_HAT\_LEFT\_UP            (GLFW\_HAT\_LEFT  | GLFW\_HAT\_UP)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00360}00360 \textcolor{preprocessor}{\#define GLFW\_HAT\_LEFT\_DOWN          (GLFW\_HAT\_LEFT  | GLFW\_HAT\_DOWN)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00387}00387 \textcolor{comment}{/* The unknown key */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00388}00388 \textcolor{preprocessor}{\#define GLFW\_KEY\_UNKNOWN            -\/1}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00389}00389 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00390}00390 \textcolor{comment}{/* Printable keys */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00391}00391 \textcolor{preprocessor}{\#define GLFW\_KEY\_SPACE              32}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00392}00392 \textcolor{preprocessor}{\#define GLFW\_KEY\_APOSTROPHE         39  }\textcolor{comment}{/* ' */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00393}00393 \textcolor{preprocessor}{\#define GLFW\_KEY\_COMMA              44  }\textcolor{comment}{/* , */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00394}00394 \textcolor{preprocessor}{\#define GLFW\_KEY\_MINUS              45  }\textcolor{comment}{/* -\/ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00395}00395 \textcolor{preprocessor}{\#define GLFW\_KEY\_PERIOD             46  }\textcolor{comment}{/* . */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00396}00396 \textcolor{preprocessor}{\#define GLFW\_KEY\_SLASH              47  }\textcolor{comment}{/* / */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00397}00397 \textcolor{preprocessor}{\#define GLFW\_KEY\_0                  48}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00398}00398 \textcolor{preprocessor}{\#define GLFW\_KEY\_1                  49}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00399}00399 \textcolor{preprocessor}{\#define GLFW\_KEY\_2                  50}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00400}00400 \textcolor{preprocessor}{\#define GLFW\_KEY\_3                  51}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00401}00401 \textcolor{preprocessor}{\#define GLFW\_KEY\_4                  52}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00402}00402 \textcolor{preprocessor}{\#define GLFW\_KEY\_5                  53}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00403}00403 \textcolor{preprocessor}{\#define GLFW\_KEY\_6                  54}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00404}00404 \textcolor{preprocessor}{\#define GLFW\_KEY\_7                  55}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00405}00405 \textcolor{preprocessor}{\#define GLFW\_KEY\_8                  56}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00406}00406 \textcolor{preprocessor}{\#define GLFW\_KEY\_9                  57}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00407}00407 \textcolor{preprocessor}{\#define GLFW\_KEY\_SEMICOLON          59  }\textcolor{comment}{/* ; */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00408}00408 \textcolor{preprocessor}{\#define GLFW\_KEY\_EQUAL              61  }\textcolor{comment}{/* = */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00409}00409 \textcolor{preprocessor}{\#define GLFW\_KEY\_A                  65}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00410}00410 \textcolor{preprocessor}{\#define GLFW\_KEY\_B                  66}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00411}00411 \textcolor{preprocessor}{\#define GLFW\_KEY\_C                  67}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00412}00412 \textcolor{preprocessor}{\#define GLFW\_KEY\_D                  68}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00413}00413 \textcolor{preprocessor}{\#define GLFW\_KEY\_E                  69}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00414}00414 \textcolor{preprocessor}{\#define GLFW\_KEY\_F                  70}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00415}00415 \textcolor{preprocessor}{\#define GLFW\_KEY\_G                  71}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00416}00416 \textcolor{preprocessor}{\#define GLFW\_KEY\_H                  72}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00417}00417 \textcolor{preprocessor}{\#define GLFW\_KEY\_I                  73}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00418}00418 \textcolor{preprocessor}{\#define GLFW\_KEY\_J                  74}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00419}00419 \textcolor{preprocessor}{\#define GLFW\_KEY\_K                  75}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00420}00420 \textcolor{preprocessor}{\#define GLFW\_KEY\_L                  76}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00421}00421 \textcolor{preprocessor}{\#define GLFW\_KEY\_M                  77}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00422}00422 \textcolor{preprocessor}{\#define GLFW\_KEY\_N                  78}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00423}00423 \textcolor{preprocessor}{\#define GLFW\_KEY\_O                  79}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00424}00424 \textcolor{preprocessor}{\#define GLFW\_KEY\_P                  80}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00425}00425 \textcolor{preprocessor}{\#define GLFW\_KEY\_Q                  81}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00426}00426 \textcolor{preprocessor}{\#define GLFW\_KEY\_R                  82}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00427}00427 \textcolor{preprocessor}{\#define GLFW\_KEY\_S                  83}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00428}00428 \textcolor{preprocessor}{\#define GLFW\_KEY\_T                  84}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00429}00429 \textcolor{preprocessor}{\#define GLFW\_KEY\_U                  85}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00430}00430 \textcolor{preprocessor}{\#define GLFW\_KEY\_V                  86}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00431}00431 \textcolor{preprocessor}{\#define GLFW\_KEY\_W                  87}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00432}00432 \textcolor{preprocessor}{\#define GLFW\_KEY\_X                  88}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00433}00433 \textcolor{preprocessor}{\#define GLFW\_KEY\_Y                  89}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00434}00434 \textcolor{preprocessor}{\#define GLFW\_KEY\_Z                  90}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00435}00435 \textcolor{preprocessor}{\#define GLFW\_KEY\_LEFT\_BRACKET       91  }\textcolor{comment}{/* [ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00436}00436 \textcolor{preprocessor}{\#define GLFW\_KEY\_BACKSLASH          92  }\textcolor{comment}{/* \(\backslash\) */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00437}00437 \textcolor{preprocessor}{\#define GLFW\_KEY\_RIGHT\_BRACKET      93  }\textcolor{comment}{/* ] */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00438}00438 \textcolor{preprocessor}{\#define GLFW\_KEY\_GRAVE\_ACCENT       96  }\textcolor{comment}{/* ` */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00439}00439 \textcolor{preprocessor}{\#define GLFW\_KEY\_WORLD\_1            161 }\textcolor{comment}{/* non-\/US \#1 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00440}00440 \textcolor{preprocessor}{\#define GLFW\_KEY\_WORLD\_2            162 }\textcolor{comment}{/* non-\/US \#2 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00441}00441 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00442}00442 \textcolor{comment}{/* Function keys */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00443}00443 \textcolor{preprocessor}{\#define GLFW\_KEY\_ESCAPE             256}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00444}00444 \textcolor{preprocessor}{\#define GLFW\_KEY\_ENTER              257}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00445}00445 \textcolor{preprocessor}{\#define GLFW\_KEY\_TAB                258}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00446}00446 \textcolor{preprocessor}{\#define GLFW\_KEY\_BACKSPACE          259}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00447}00447 \textcolor{preprocessor}{\#define GLFW\_KEY\_INSERT             260}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00448}00448 \textcolor{preprocessor}{\#define GLFW\_KEY\_DELETE             261}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00449}00449 \textcolor{preprocessor}{\#define GLFW\_KEY\_RIGHT              262}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00450}00450 \textcolor{preprocessor}{\#define GLFW\_KEY\_LEFT               263}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00451}00451 \textcolor{preprocessor}{\#define GLFW\_KEY\_DOWN               264}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00452}00452 \textcolor{preprocessor}{\#define GLFW\_KEY\_UP                 265}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00453}00453 \textcolor{preprocessor}{\#define GLFW\_KEY\_PAGE\_UP            266}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00454}00454 \textcolor{preprocessor}{\#define GLFW\_KEY\_PAGE\_DOWN          267}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00455}00455 \textcolor{preprocessor}{\#define GLFW\_KEY\_HOME               268}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00456}00456 \textcolor{preprocessor}{\#define GLFW\_KEY\_END                269}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00457}00457 \textcolor{preprocessor}{\#define GLFW\_KEY\_CAPS\_LOCK          280}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00458}00458 \textcolor{preprocessor}{\#define GLFW\_KEY\_SCROLL\_LOCK        281}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00459}00459 \textcolor{preprocessor}{\#define GLFW\_KEY\_NUM\_LOCK           282}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00460}00460 \textcolor{preprocessor}{\#define GLFW\_KEY\_PRINT\_SCREEN       283}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00461}00461 \textcolor{preprocessor}{\#define GLFW\_KEY\_PAUSE              284}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00462}00462 \textcolor{preprocessor}{\#define GLFW\_KEY\_F1                 290}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00463}00463 \textcolor{preprocessor}{\#define GLFW\_KEY\_F2                 291}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00464}00464 \textcolor{preprocessor}{\#define GLFW\_KEY\_F3                 292}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00465}00465 \textcolor{preprocessor}{\#define GLFW\_KEY\_F4                 293}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00466}00466 \textcolor{preprocessor}{\#define GLFW\_KEY\_F5                 294}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00467}00467 \textcolor{preprocessor}{\#define GLFW\_KEY\_F6                 295}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00468}00468 \textcolor{preprocessor}{\#define GLFW\_KEY\_F7                 296}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00469}00469 \textcolor{preprocessor}{\#define GLFW\_KEY\_F8                 297}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00470}00470 \textcolor{preprocessor}{\#define GLFW\_KEY\_F9                 298}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00471}00471 \textcolor{preprocessor}{\#define GLFW\_KEY\_F10                299}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00472}00472 \textcolor{preprocessor}{\#define GLFW\_KEY\_F11                300}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00473}00473 \textcolor{preprocessor}{\#define GLFW\_KEY\_F12                301}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00474}00474 \textcolor{preprocessor}{\#define GLFW\_KEY\_F13                302}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00475}00475 \textcolor{preprocessor}{\#define GLFW\_KEY\_F14                303}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00476}00476 \textcolor{preprocessor}{\#define GLFW\_KEY\_F15                304}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00477}00477 \textcolor{preprocessor}{\#define GLFW\_KEY\_F16                305}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00478}00478 \textcolor{preprocessor}{\#define GLFW\_KEY\_F17                306}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00479}00479 \textcolor{preprocessor}{\#define GLFW\_KEY\_F18                307}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00480}00480 \textcolor{preprocessor}{\#define GLFW\_KEY\_F19                308}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00481}00481 \textcolor{preprocessor}{\#define GLFW\_KEY\_F20                309}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00482}00482 \textcolor{preprocessor}{\#define GLFW\_KEY\_F21                310}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00483}00483 \textcolor{preprocessor}{\#define GLFW\_KEY\_F22                311}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00484}00484 \textcolor{preprocessor}{\#define GLFW\_KEY\_F23                312}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00485}00485 \textcolor{preprocessor}{\#define GLFW\_KEY\_F24                313}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00486}00486 \textcolor{preprocessor}{\#define GLFW\_KEY\_F25                314}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00487}00487 \textcolor{preprocessor}{\#define GLFW\_KEY\_KP\_0               320}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00488}00488 \textcolor{preprocessor}{\#define GLFW\_KEY\_KP\_1               321}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00489}00489 \textcolor{preprocessor}{\#define GLFW\_KEY\_KP\_2               322}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00490}00490 \textcolor{preprocessor}{\#define GLFW\_KEY\_KP\_3               323}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00491}00491 \textcolor{preprocessor}{\#define GLFW\_KEY\_KP\_4               324}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00492}00492 \textcolor{preprocessor}{\#define GLFW\_KEY\_KP\_5               325}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00493}00493 \textcolor{preprocessor}{\#define GLFW\_KEY\_KP\_6               326}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00494}00494 \textcolor{preprocessor}{\#define GLFW\_KEY\_KP\_7               327}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00495}00495 \textcolor{preprocessor}{\#define GLFW\_KEY\_KP\_8               328}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00496}00496 \textcolor{preprocessor}{\#define GLFW\_KEY\_KP\_9               329}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00497}00497 \textcolor{preprocessor}{\#define GLFW\_KEY\_KP\_DECIMAL         330}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00498}00498 \textcolor{preprocessor}{\#define GLFW\_KEY\_KP\_DIVIDE          331}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00499}00499 \textcolor{preprocessor}{\#define GLFW\_KEY\_KP\_MULTIPLY        332}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00500}00500 \textcolor{preprocessor}{\#define GLFW\_KEY\_KP\_SUBTRACT        333}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00501}00501 \textcolor{preprocessor}{\#define GLFW\_KEY\_KP\_ADD             334}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00502}00502 \textcolor{preprocessor}{\#define GLFW\_KEY\_KP\_ENTER           335}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00503}00503 \textcolor{preprocessor}{\#define GLFW\_KEY\_KP\_EQUAL           336}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00504}00504 \textcolor{preprocessor}{\#define GLFW\_KEY\_LEFT\_SHIFT         340}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00505}00505 \textcolor{preprocessor}{\#define GLFW\_KEY\_LEFT\_CONTROL       341}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00506}00506 \textcolor{preprocessor}{\#define GLFW\_KEY\_LEFT\_ALT           342}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00507}00507 \textcolor{preprocessor}{\#define GLFW\_KEY\_LEFT\_SUPER         343}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00508}00508 \textcolor{preprocessor}{\#define GLFW\_KEY\_RIGHT\_SHIFT        344}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00509}00509 \textcolor{preprocessor}{\#define GLFW\_KEY\_RIGHT\_CONTROL      345}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00510}00510 \textcolor{preprocessor}{\#define GLFW\_KEY\_RIGHT\_ALT          346}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00511}00511 \textcolor{preprocessor}{\#define GLFW\_KEY\_RIGHT\_SUPER        347}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00512}00512 \textcolor{preprocessor}{\#define GLFW\_KEY\_MENU               348}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00513}00513 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00514}00514 \textcolor{preprocessor}{\#define GLFW\_KEY\_LAST               GLFW\_KEY\_MENU}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00515}00515 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00530}\mbox{\hyperlink{group__mods_ga14994d3196c290aaa347248e51740274}{00530}} \textcolor{preprocessor}{\#define GLFW\_MOD\_SHIFT           0x0001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00535}\mbox{\hyperlink{group__mods_ga6ed94871c3208eefd85713fa929d45aa}{00535}} \textcolor{preprocessor}{\#define GLFW\_MOD\_CONTROL         0x0002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00540}\mbox{\hyperlink{group__mods_gad2acd5633463c29e07008687ea73c0f4}{00540}} \textcolor{preprocessor}{\#define GLFW\_MOD\_ALT             0x0004}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00545}\mbox{\hyperlink{group__mods_ga6b64ba10ea0227cf6f42efd0a220aba1}{00545}} \textcolor{preprocessor}{\#define GLFW\_MOD\_SUPER           0x0008}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00551}\mbox{\hyperlink{group__mods_gaefeef8fcf825a6e43e241b337897200f}{00551}} \textcolor{preprocessor}{\#define GLFW\_MOD\_CAPS\_LOCK       0x0010}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00557}\mbox{\hyperlink{group__mods_ga64e020b8a42af8376e944baf61feecbe}{00557}} \textcolor{preprocessor}{\#define GLFW\_MOD\_NUM\_LOCK        0x0020}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00558}00558 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00568}00568 \textcolor{preprocessor}{\#define GLFW\_MOUSE\_BUTTON\_1         0}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00569}00569 \textcolor{preprocessor}{\#define GLFW\_MOUSE\_BUTTON\_2         1}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00570}00570 \textcolor{preprocessor}{\#define GLFW\_MOUSE\_BUTTON\_3         2}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00571}00571 \textcolor{preprocessor}{\#define GLFW\_MOUSE\_BUTTON\_4         3}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00572}00572 \textcolor{preprocessor}{\#define GLFW\_MOUSE\_BUTTON\_5         4}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00573}00573 \textcolor{preprocessor}{\#define GLFW\_MOUSE\_BUTTON\_6         5}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00574}00574 \textcolor{preprocessor}{\#define GLFW\_MOUSE\_BUTTON\_7         6}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00575}00575 \textcolor{preprocessor}{\#define GLFW\_MOUSE\_BUTTON\_8         7}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00576}00576 \textcolor{preprocessor}{\#define GLFW\_MOUSE\_BUTTON\_LAST      GLFW\_MOUSE\_BUTTON\_8}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00577}00577 \textcolor{preprocessor}{\#define GLFW\_MOUSE\_BUTTON\_LEFT      GLFW\_MOUSE\_BUTTON\_1}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00578}00578 \textcolor{preprocessor}{\#define GLFW\_MOUSE\_BUTTON\_RIGHT     GLFW\_MOUSE\_BUTTON\_2}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00579}00579 \textcolor{preprocessor}{\#define GLFW\_MOUSE\_BUTTON\_MIDDLE    GLFW\_MOUSE\_BUTTON\_3}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00589}00589 \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_1             0}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00590}00590 \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_2             1}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00591}00591 \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_3             2}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00592}00592 \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_4             3}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00593}00593 \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_5             4}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00594}00594 \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_6             5}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00595}00595 \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_7             6}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00596}00596 \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_8             7}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00597}00597 \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_9             8}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00598}00598 \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_10            9}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00599}00599 \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_11            10}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00600}00600 \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_12            11}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00601}00601 \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_13            12}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00602}00602 \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_14            13}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00603}00603 \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_15            14}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00604}00604 \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_16            15}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00605}00605 \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_LAST          GLFW\_JOYSTICK\_16}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00615}00615 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_A               0}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00616}00616 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_B               1}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00617}00617 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_X               2}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00618}00618 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_Y               3}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00619}00619 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_LEFT\_BUMPER     4}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00620}00620 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_RIGHT\_BUMPER    5}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00621}00621 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_BACK            6}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00622}00622 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_START           7}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00623}00623 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_GUIDE           8}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00624}00624 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_LEFT\_THUMB      9}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00625}00625 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_RIGHT\_THUMB     10}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00626}00626 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_DPAD\_UP         11}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00627}00627 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_DPAD\_RIGHT      12}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00628}00628 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_DPAD\_DOWN       13}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00629}00629 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_DPAD\_LEFT       14}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00630}00630 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_LAST            GLFW\_GAMEPAD\_BUTTON\_DPAD\_LEFT}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00631}00631 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00632}00632 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_CROSS       GLFW\_GAMEPAD\_BUTTON\_A}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00633}00633 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_CIRCLE      GLFW\_GAMEPAD\_BUTTON\_B}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00634}00634 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_SQUARE      GLFW\_GAMEPAD\_BUTTON\_X}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00635}00635 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_BUTTON\_TRIANGLE    GLFW\_GAMEPAD\_BUTTON\_Y}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00645}00645 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_AXIS\_LEFT\_X        0}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00646}00646 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_AXIS\_LEFT\_Y        1}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00647}00647 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_AXIS\_RIGHT\_X       2}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00648}00648 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_AXIS\_RIGHT\_Y       3}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00649}00649 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_AXIS\_LEFT\_TRIGGER  4}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00650}00650 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_AXIS\_RIGHT\_TRIGGER 5}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00651}00651 \textcolor{preprocessor}{\#define GLFW\_GAMEPAD\_AXIS\_LAST          GLFW\_GAMEPAD\_AXIS\_RIGHT\_TRIGGER}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00667}\mbox{\hyperlink{group__errors_gafa30deee5db4d69c4c93d116ed87dbf4}{00667}} \textcolor{preprocessor}{\#define GLFW\_NO\_ERROR               0}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00676}\mbox{\hyperlink{group__errors_ga2374ee02c177f12e1fa76ff3ed15e14a}{00676}} \textcolor{preprocessor}{\#define GLFW\_NOT\_INITIALIZED        0x00010001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00686}\mbox{\hyperlink{group__errors_gaa8290386e9528ccb9e42a3a4e16fc0d0}{00686}} \textcolor{preprocessor}{\#define GLFW\_NO\_CURRENT\_CONTEXT     0x00010002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00694}\mbox{\hyperlink{group__errors_ga76f6bb9c4eea73db675f096b404593ce}{00694}} \textcolor{preprocessor}{\#define GLFW\_INVALID\_ENUM           0x00010003}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00705}\mbox{\hyperlink{group__errors_gaaf2ef9aa8202c2b82ac2d921e554c687}{00705}} \textcolor{preprocessor}{\#define GLFW\_INVALID\_VALUE          0x00010004}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00713}\mbox{\hyperlink{group__errors_ga9023953a2bcb98c2906afd071d21ee7f}{00713}} \textcolor{preprocessor}{\#define GLFW\_OUT\_OF\_MEMORY          0x00010005}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00729}\mbox{\hyperlink{group__errors_ga56882b290db23261cc6c053c40c2d08e}{00729}} \textcolor{preprocessor}{\#define GLFW\_API\_UNAVAILABLE        0x00010006}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00746}\mbox{\hyperlink{group__errors_gad16c5565b4a69f9c2a9ac2c0dbc89462}{00746}} \textcolor{preprocessor}{\#define GLFW\_VERSION\_UNAVAILABLE    0x00010007}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00757}\mbox{\hyperlink{group__errors_gad44162d78100ea5e87cdd38426b8c7a1}{00757}} \textcolor{preprocessor}{\#define GLFW\_PLATFORM\_ERROR         0x00010008}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00776}\mbox{\hyperlink{group__errors_ga196e125ef261d94184e2b55c05762f14}{00776}} \textcolor{preprocessor}{\#define GLFW\_FORMAT\_UNAVAILABLE     0x00010009}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00784}\mbox{\hyperlink{group__errors_gacff24d2757da752ae4c80bf452356487}{00784}} \textcolor{preprocessor}{\#define GLFW\_NO\_WINDOW\_CONTEXT      0x0001000A}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00795}\mbox{\hyperlink{group__errors_ga09d6943923a70ddef3a085f5baee786c}{00795}} \textcolor{preprocessor}{\#define GLFW\_CURSOR\_UNAVAILABLE     0x0001000B}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00809}\mbox{\hyperlink{group__errors_ga526fba20a01504a8086c763b6ca53ce5}{00809}} \textcolor{preprocessor}{\#define GLFW\_FEATURE\_UNAVAILABLE    0x0001000C}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00822}\mbox{\hyperlink{group__errors_ga5dda77e023e83151e8bd55a6758f946a}{00822}} \textcolor{preprocessor}{\#define GLFW\_FEATURE\_UNIMPLEMENTED  0x0001000D}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00832}\mbox{\hyperlink{group__window_ga54ddb14825a1541a56e22afb5f832a9e}{00832}} \textcolor{preprocessor}{\#define GLFW\_FOCUSED                0x00020001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00837}\mbox{\hyperlink{group__window_ga39d44b7c056e55e581355a92d240b58a}{00837}} \textcolor{preprocessor}{\#define GLFW\_ICONIFIED              0x00020002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00843}\mbox{\hyperlink{group__window_gadba13c7a1b3aa40831eb2beedbd5bd1d}{00843}} \textcolor{preprocessor}{\#define GLFW\_RESIZABLE              0x00020003}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00849}\mbox{\hyperlink{group__window_gafb3cdc45297e06d8f1eb13adc69ca6c4}{00849}} \textcolor{preprocessor}{\#define GLFW\_VISIBLE                0x00020004}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00855}\mbox{\hyperlink{group__window_ga21b854d36314c94d65aed84405b2f25e}{00855}} \textcolor{preprocessor}{\#define GLFW\_DECORATED              0x00020005}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00861}\mbox{\hyperlink{group__window_ga9d9874fc928200136a6dcdad726aa252}{00861}} \textcolor{preprocessor}{\#define GLFW\_AUTO\_ICONIFY           0x00020006}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00867}\mbox{\hyperlink{group__window_ga7fb0be51407783b41adbf5bec0b09d80}{00867}} \textcolor{preprocessor}{\#define GLFW\_FLOATING               0x00020007}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00873}\mbox{\hyperlink{group__window_gad8ccb396253ad0b72c6d4c917eb38a03}{00873}} \textcolor{preprocessor}{\#define GLFW\_MAXIMIZED              0x00020008}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00878}\mbox{\hyperlink{group__window_ga5ac0847c0aa0b3619f2855707b8a7a77}{00878}} \textcolor{preprocessor}{\#define GLFW\_CENTER\_CURSOR          0x00020009}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00885}\mbox{\hyperlink{group__window_ga60a0578c3b9449027d683a9c6abb9f14}{00885}} \textcolor{preprocessor}{\#define GLFW\_TRANSPARENT\_FRAMEBUFFER 0x0002000A}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00890}\mbox{\hyperlink{group__window_ga8665c71c6fa3d22425c6a0e8a3f89d8a}{00890}} \textcolor{preprocessor}{\#define GLFW\_HOVERED                0x0002000B}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00896}\mbox{\hyperlink{group__window_gafa94b1da34bfd6488c0d709761504dfc}{00896}} \textcolor{preprocessor}{\#define GLFW\_FOCUS\_ON\_SHOW          0x0002000C}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00897}00897 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00903}\mbox{\hyperlink{group__window_ga88981797d29800808ec242274ab5c03a}{00903}} \textcolor{preprocessor}{\#define GLFW\_MOUSE\_PASSTHROUGH      0x0002000D}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00904}00904 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00909}\mbox{\hyperlink{group__window_gaf78ed8e417dbcc1e354906cc2708c982}{00909}} \textcolor{preprocessor}{\#define GLFW\_RED\_BITS               0x00021001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00914}\mbox{\hyperlink{group__window_gafba3b72638c914e5fb8a237dd4c50d4d}{00914}} \textcolor{preprocessor}{\#define GLFW\_GREEN\_BITS             0x00021002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00919}\mbox{\hyperlink{group__window_gab292ea403db6d514537b515311bf9ae3}{00919}} \textcolor{preprocessor}{\#define GLFW\_BLUE\_BITS              0x00021003}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00924}\mbox{\hyperlink{group__window_gafed79a3f468997877da86c449bd43e8c}{00924}} \textcolor{preprocessor}{\#define GLFW\_ALPHA\_BITS             0x00021004}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00929}\mbox{\hyperlink{group__window_ga318a55eac1fee57dfe593b6d38149d07}{00929}} \textcolor{preprocessor}{\#define GLFW\_DEPTH\_BITS             0x00021005}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00934}\mbox{\hyperlink{group__window_ga5339890a45a1fb38e93cb9fcc5fd069d}{00934}} \textcolor{preprocessor}{\#define GLFW\_STENCIL\_BITS           0x00021006}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00939}\mbox{\hyperlink{group__window_gaead34a9a683b2bc20eecf30ba738bfc6}{00939}} \textcolor{preprocessor}{\#define GLFW\_ACCUM\_RED\_BITS         0x00021007}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00944}\mbox{\hyperlink{group__window_ga65713cee1326f8e9d806fdf93187b471}{00944}} \textcolor{preprocessor}{\#define GLFW\_ACCUM\_GREEN\_BITS       0x00021008}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00949}\mbox{\hyperlink{group__window_ga22bbe9104a8ce1f8b88fb4f186aa36ce}{00949}} \textcolor{preprocessor}{\#define GLFW\_ACCUM\_BLUE\_BITS        0x00021009}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00954}\mbox{\hyperlink{group__window_gae829b55591c18169a40ab4067a041b1f}{00954}} \textcolor{preprocessor}{\#define GLFW\_ACCUM\_ALPHA\_BITS       0x0002100A}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00959}\mbox{\hyperlink{group__window_gab05108c5029443b371112b031d1fa174}{00959}} \textcolor{preprocessor}{\#define GLFW\_AUX\_BUFFERS            0x0002100B}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00964}\mbox{\hyperlink{group__window_ga83d991efca02537e2d69969135b77b03}{00964}} \textcolor{preprocessor}{\#define GLFW\_STEREO                 0x0002100C}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00969}\mbox{\hyperlink{group__window_ga2cdf86fdcb7722fb8829c4e201607535}{00969}} \textcolor{preprocessor}{\#define GLFW\_SAMPLES                0x0002100D}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00974}\mbox{\hyperlink{group__window_ga444a8f00414a63220591f9fdb7b5642b}{00974}} \textcolor{preprocessor}{\#define GLFW\_SRGB\_CAPABLE           0x0002100E}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00979}\mbox{\hyperlink{group__window_ga0f20825e6e47ee8ba389024519682212}{00979}} \textcolor{preprocessor}{\#define GLFW\_REFRESH\_RATE           0x0002100F}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00984}\mbox{\hyperlink{group__window_ga714a5d569e8a274ea58fdfa020955339}{00984}} \textcolor{preprocessor}{\#define GLFW\_DOUBLEBUFFER           0x00021010}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00985}00985 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00991}\mbox{\hyperlink{group__window_ga649309cf72a3d3de5b1348ca7936c95b}{00991}} \textcolor{preprocessor}{\#define GLFW\_CLIENT\_API             0x00022001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l00997}\mbox{\hyperlink{group__window_gafe5e4922de1f9932d7e9849bb053b0c0}{00997}} \textcolor{preprocessor}{\#define GLFW\_CONTEXT\_VERSION\_MAJOR  0x00022002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01003}\mbox{\hyperlink{group__window_ga31aca791e4b538c4e4a771eb95cc2d07}{01003}} \textcolor{preprocessor}{\#define GLFW\_CONTEXT\_VERSION\_MINOR  0x00022003}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01009}\mbox{\hyperlink{group__window_gafb9475071aa77c6fb05ca5a5c8678a08}{01009}} \textcolor{preprocessor}{\#define GLFW\_CONTEXT\_REVISION       0x00022004}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01015}\mbox{\hyperlink{group__window_gade3593916b4c507900aa2d6844810e00}{01015}} \textcolor{preprocessor}{\#define GLFW\_CONTEXT\_ROBUSTNESS     0x00022005}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01021}\mbox{\hyperlink{group__window_ga13d24b12465da8b28985f46c8557925b}{01021}} \textcolor{preprocessor}{\#define GLFW\_OPENGL\_FORWARD\_COMPAT  0x00022006}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01027}\mbox{\hyperlink{group__window_ga8d55e3afec73c7de0509c3b7ad1d9e3f}{01027}} \textcolor{preprocessor}{\#define GLFW\_CONTEXT\_DEBUG          0x00022007}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01032}\mbox{\hyperlink{group__window_ga87ec2df0b915201e950ca42d5d0831e1}{01032}} \textcolor{preprocessor}{\#define GLFW\_OPENGL\_DEBUG\_CONTEXT   GLFW\_CONTEXT\_DEBUG}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01038}\mbox{\hyperlink{group__window_ga44f3a6b4261fbe351e0b950b0f372e12}{01038}} \textcolor{preprocessor}{\#define GLFW\_OPENGL\_PROFILE         0x00022008}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01044}\mbox{\hyperlink{group__window_ga72b648a8378fe3310c7c7bbecc0f7be6}{01044}} \textcolor{preprocessor}{\#define GLFW\_CONTEXT\_RELEASE\_BEHAVIOR 0x00022009}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01050}\mbox{\hyperlink{group__window_ga5a52fdfd46d8249c211f923675728082}{01050}} \textcolor{preprocessor}{\#define GLFW\_CONTEXT\_NO\_ERROR       0x0002200A}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01056}\mbox{\hyperlink{group__window_ga5154cebfcd831c1cc63a4d5ac9bb4486}{01056}} \textcolor{preprocessor}{\#define GLFW\_CONTEXT\_CREATION\_API   0x0002200B}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01060}\mbox{\hyperlink{group__window_ga620bc4280c7eab81ac9f02204500ed47}{01060}} \textcolor{preprocessor}{\#define GLFW\_SCALE\_TO\_MONITOR       0x0002200C}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01064}\mbox{\hyperlink{group__window_gab6ef2d02eb55800d249ccf1af253c35e}{01064}} \textcolor{preprocessor}{\#define GLFW\_COCOA\_RETINA\_FRAMEBUFFER 0x00023001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01068}\mbox{\hyperlink{group__window_ga70fa0fbc745de6aa824df79a580e84b5}{01068}} \textcolor{preprocessor}{\#define GLFW\_COCOA\_FRAME\_NAME         0x00023002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01072}\mbox{\hyperlink{group__window_ga53c84ed2ddd94e15bbd44b1f6f7feafc}{01072}} \textcolor{preprocessor}{\#define GLFW\_COCOA\_GRAPHICS\_SWITCHING 0x00023003}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01076}\mbox{\hyperlink{group__window_gae5a9ea2fccccd92edbd343fc56461114}{01076}} \textcolor{preprocessor}{\#define GLFW\_X11\_CLASS\_NAME         0x00024001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01080}\mbox{\hyperlink{group__window_ga494c3c0d911e4b860b946530a3e389e8}{01080}} \textcolor{preprocessor}{\#define GLFW\_X11\_INSTANCE\_NAME      0x00024002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01081}01081 \textcolor{preprocessor}{\#define GLFW\_WIN32\_KEYBOARD\_MENU    0x00025001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01084}01084 \textcolor{preprocessor}{\#define GLFW\_NO\_API                          0}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01085}01085 \textcolor{preprocessor}{\#define GLFW\_OPENGL\_API             0x00030001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01086}01086 \textcolor{preprocessor}{\#define GLFW\_OPENGL\_ES\_API          0x00030002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01087}01087 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01088}01088 \textcolor{preprocessor}{\#define GLFW\_NO\_ROBUSTNESS                   0}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01089}01089 \textcolor{preprocessor}{\#define GLFW\_NO\_RESET\_NOTIFICATION  0x00031001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01090}01090 \textcolor{preprocessor}{\#define GLFW\_LOSE\_CONTEXT\_ON\_RESET  0x00031002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01091}01091 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01092}01092 \textcolor{preprocessor}{\#define GLFW\_OPENGL\_ANY\_PROFILE              0}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01093}01093 \textcolor{preprocessor}{\#define GLFW\_OPENGL\_CORE\_PROFILE    0x00032001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01094}01094 \textcolor{preprocessor}{\#define GLFW\_OPENGL\_COMPAT\_PROFILE  0x00032002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01095}01095 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01096}01096 \textcolor{preprocessor}{\#define GLFW\_CURSOR                 0x00033001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01097}01097 \textcolor{preprocessor}{\#define GLFW\_STICKY\_KEYS            0x00033002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01098}01098 \textcolor{preprocessor}{\#define GLFW\_STICKY\_MOUSE\_BUTTONS   0x00033003}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01099}01099 \textcolor{preprocessor}{\#define GLFW\_LOCK\_KEY\_MODS          0x00033004}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01100}01100 \textcolor{preprocessor}{\#define GLFW\_RAW\_MOUSE\_MOTION       0x00033005}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01101}01101 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01102}01102 \textcolor{preprocessor}{\#define GLFW\_CURSOR\_NORMAL          0x00034001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01103}01103 \textcolor{preprocessor}{\#define GLFW\_CURSOR\_HIDDEN          0x00034002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01104}01104 \textcolor{preprocessor}{\#define GLFW\_CURSOR\_DISABLED        0x00034003}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01105}01105 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01106}01106 \textcolor{preprocessor}{\#define GLFW\_ANY\_RELEASE\_BEHAVIOR            0}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01107}01107 \textcolor{preprocessor}{\#define GLFW\_RELEASE\_BEHAVIOR\_FLUSH 0x00035001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01108}01108 \textcolor{preprocessor}{\#define GLFW\_RELEASE\_BEHAVIOR\_NONE  0x00035002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01109}01109 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01110}01110 \textcolor{preprocessor}{\#define GLFW\_NATIVE\_CONTEXT\_API     0x00036001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01111}01111 \textcolor{preprocessor}{\#define GLFW\_EGL\_CONTEXT\_API        0x00036002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01112}01112 \textcolor{preprocessor}{\#define GLFW\_OSMESA\_CONTEXT\_API     0x00036003}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01113}01113 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01114}01114 \textcolor{preprocessor}{\#define GLFW\_ANGLE\_PLATFORM\_TYPE\_NONE    0x00037001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01115}01115 \textcolor{preprocessor}{\#define GLFW\_ANGLE\_PLATFORM\_TYPE\_OPENGL  0x00037002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01116}01116 \textcolor{preprocessor}{\#define GLFW\_ANGLE\_PLATFORM\_TYPE\_OPENGLES 0x00037003}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01117}01117 \textcolor{preprocessor}{\#define GLFW\_ANGLE\_PLATFORM\_TYPE\_D3D9    0x00037004}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01118}01118 \textcolor{preprocessor}{\#define GLFW\_ANGLE\_PLATFORM\_TYPE\_D3D11   0x00037005}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01119}01119 \textcolor{preprocessor}{\#define GLFW\_ANGLE\_PLATFORM\_TYPE\_VULKAN  0x00037007}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01120}01120 \textcolor{preprocessor}{\#define GLFW\_ANGLE\_PLATFORM\_TYPE\_METAL   0x00037008}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01121}01121 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01135}\mbox{\hyperlink{group__shapes_ga8ab0e717245b85506cb0eaefdea39d0a}{01135}} \textcolor{preprocessor}{\#define GLFW\_ARROW\_CURSOR           0x00036001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01140}\mbox{\hyperlink{group__shapes_ga36185f4375eaada1b04e431244774c86}{01140}} \textcolor{preprocessor}{\#define GLFW\_IBEAM\_CURSOR           0x00036002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01145}\mbox{\hyperlink{group__shapes_ga8af88c0ea05ab9e8f9ac1530e8873c22}{01145}} \textcolor{preprocessor}{\#define GLFW\_CROSSHAIR\_CURSOR       0x00036003}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01150}\mbox{\hyperlink{group__shapes_gaad01a50929fb515bf27e4462c51f6ed0}{01150}} \textcolor{preprocessor}{\#define GLFW\_POINTING\_HAND\_CURSOR   0x00036004}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01156}\mbox{\hyperlink{group__shapes_ga2010a43dc1050a7c9154148a63cf01ad}{01156}} \textcolor{preprocessor}{\#define GLFW\_RESIZE\_EW\_CURSOR       0x00036005}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01162}\mbox{\hyperlink{group__shapes_gaa59214e8cdc8c8adf08fdf125ed68388}{01162}} \textcolor{preprocessor}{\#define GLFW\_RESIZE\_NS\_CURSOR       0x00036006}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01177}\mbox{\hyperlink{group__shapes_gadf2c0a495ec9cef4e1a364cc99aa78da}{01177}} \textcolor{preprocessor}{\#define GLFW\_RESIZE\_NWSE\_CURSOR     0x00036007}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01192}\mbox{\hyperlink{group__shapes_gab06bba3b407f92807ba9b48de667a323}{01192}} \textcolor{preprocessor}{\#define GLFW\_RESIZE\_NESW\_CURSOR     0x00036008}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01198}\mbox{\hyperlink{group__shapes_ga3a5f4811155f95ccafbbb4c9a899fc1d}{01198}} \textcolor{preprocessor}{\#define GLFW\_RESIZE\_ALL\_CURSOR      0x00036009}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01210}\mbox{\hyperlink{group__shapes_ga297c503095b034bc8891393b637844b1}{01210}} \textcolor{preprocessor}{\#define GLFW\_NOT\_ALLOWED\_CURSOR     0x0003600A}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01215}\mbox{\hyperlink{group__shapes_gabb3eb0109f11bb808fc34659177ca962}{01215}} \textcolor{preprocessor}{\#define GLFW\_HRESIZE\_CURSOR         GLFW\_RESIZE\_EW\_CURSOR}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01220}\mbox{\hyperlink{group__shapes_gaf024f0e1ff8366fb2b5c260509a1fce5}{01220}} \textcolor{preprocessor}{\#define GLFW\_VRESIZE\_CURSOR         GLFW\_RESIZE\_NS\_CURSOR}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01225}\mbox{\hyperlink{group__shapes_ga1db35e20849e0837c82e3dc1fd797263}{01225}} \textcolor{preprocessor}{\#define GLFW\_HAND\_CURSOR            GLFW\_POINTING\_HAND\_CURSOR}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01228}01228 \textcolor{preprocessor}{\#define GLFW\_CONNECTED              0x00040001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01229}01229 \textcolor{preprocessor}{\#define GLFW\_DISCONNECTED           0x00040002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01230}01230 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01237}\mbox{\hyperlink{group__init_gab9c0534709fda03ec8959201da3a9a18}{01237}} \textcolor{preprocessor}{\#define GLFW\_JOYSTICK\_HAT\_BUTTONS   0x00050001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01242}\mbox{\hyperlink{group__init_gaec269b24cf549ab46292c0125d8bbdce}{01242}} \textcolor{preprocessor}{\#define GLFW\_ANGLE\_PLATFORM\_TYPE    0x00050002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01247}\mbox{\hyperlink{group__init_gab937983147a3158d45f88fad7129d9f2}{01247}} \textcolor{preprocessor}{\#define GLFW\_COCOA\_CHDIR\_RESOURCES  0x00051001}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01252}\mbox{\hyperlink{group__init_ga71e0b4ce2f2696a84a9b8c5e12dc70cf}{01252}} \textcolor{preprocessor}{\#define GLFW\_COCOA\_MENUBAR          0x00051002}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01255}01255 \textcolor{preprocessor}{\#define GLFW\_DONT\_CARE              -\/1}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01256}01256 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01257}01257 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01258}01258 \textcolor{comment}{/*************************************************************************}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01259}01259 \textcolor{comment}{ * GLFW API types}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01260}01260 \textcolor{comment}{ *************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01261}01261 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01274}\mbox{\hyperlink{group__context_ga3d47c2d2fbe0be9c505d0e04e91a133c}{01274}} \textcolor{keyword}{typedef} void (*\mbox{\hyperlink{group__context_ga3d47c2d2fbe0be9c505d0e04e91a133c}{GLFWglproc}})(void);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01275}01275 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01288}\mbox{\hyperlink{group__vulkan_ga70c01918dc9d233a4fbe0681a43018af}{01288}} \textcolor{keyword}{typedef} void (*\mbox{\hyperlink{group__vulkan_ga70c01918dc9d233a4fbe0681a43018af}{GLFWvkproc}})(void);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01289}01289 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01300}\mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{01300}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}} \mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01301}01301 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01312}\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{01312}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}} \mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01313}01313 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01324}\mbox{\hyperlink{group__input_ga89261ae18c75e863aaf2656ecdd238f4}{01324}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{group__input_ga89261ae18c75e863aaf2656ecdd238f4}{GLFWcursor}} \mbox{\hyperlink{group__input_ga89261ae18c75e863aaf2656ecdd238f4}{GLFWcursor}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01325}01325 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01348}\mbox{\hyperlink{group__init_gaa684e3f8b44b6a35000119d524d49e6d}{01348}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__init_gaa684e3f8b44b6a35000119d524d49e6d}{GLFWerrorfun}})(int,\textcolor{keyword}{const} \textcolor{keywordtype}{char}*);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01349}01349 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01371}\mbox{\hyperlink{group__window_gaffb62b9d3f7dc2d6e7c89d3d76142f13}{01371}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__window_gaffb62b9d3f7dc2d6e7c89d3d76142f13}{GLFWwindowposfun}})(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*,int,int);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01372}01372 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01393}\mbox{\hyperlink{group__window_gaac00a2d1d82875c2bac1af223e9d3c58}{01393}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__window_gaac00a2d1d82875c2bac1af223e9d3c58}{GLFWwindowsizefun}})(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*,int,int);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01394}01394 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01413}\mbox{\hyperlink{group__window_ga5c46f9d2435a22b531382ea642216a61}{01413}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__window_ga5c46f9d2435a22b531382ea642216a61}{GLFWwindowclosefun}})(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01414}01414 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01433}\mbox{\hyperlink{group__window_ga7747bf66194241cff4f12d3500d8f9cd}{01433}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__window_ga7747bf66194241cff4f12d3500d8f9cd}{GLFWwindowrefreshfun}})(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01434}01434 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01454}\mbox{\hyperlink{group__window_ga6b15f80f61ff396d89720be2a183ca8a}{01454}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__window_ga6b15f80f61ff396d89720be2a183ca8a}{GLFWwindowfocusfun}})(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*,int);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01455}01455 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01475}\mbox{\hyperlink{group__window_gaaa80beaa1d108e6bc09f666e186e735c}{01475}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__window_gaaa80beaa1d108e6bc09f666e186e735c}{GLFWwindowiconifyfun}})(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*,int);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01476}01476 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01496}\mbox{\hyperlink{group__window_ga82868db51248e7bc2deb2082336e6c70}{01496}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__window_ga82868db51248e7bc2deb2082336e6c70}{GLFWwindowmaximizefun}})(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*,int);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01497}01497 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01517}\mbox{\hyperlink{group__window_ga54302eebe2f81518a544723a1d805388}{01517}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__window_ga54302eebe2f81518a544723a1d805388}{GLFWframebuffersizefun}})(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*,int,int);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01518}01518 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01538}\mbox{\hyperlink{group__window_gaca2e04ad85e70a646f07a870c2cad4ee}{01538}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__window_gaca2e04ad85e70a646f07a870c2cad4ee}{GLFWwindowcontentscalefun}})(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*,float,float);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01539}01539 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01564}\mbox{\hyperlink{group__input_gac4312f2199caa15988cebb59ec530373}{01564}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__input_gac4312f2199caa15988cebb59ec530373}{GLFWmousebuttonfun}})(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*,int,int,int);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01565}01565 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01587}\mbox{\hyperlink{group__input_ga081a67dfb879e14707a5abd7de242b8a}{01587}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__input_ga081a67dfb879e14707a5abd7de242b8a}{GLFWcursorposfun}})(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*,double,double);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01588}01588 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01608}\mbox{\hyperlink{group__input_ga945bb284410b64c49ecc50195692720a}{01608}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__input_ga945bb284410b64c49ecc50195692720a}{GLFWcursorenterfun}})(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*,int);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01609}01609 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01629}\mbox{\hyperlink{group__input_ga077345c3a10d906b2b3f2d550ae02971}{01629}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__input_ga077345c3a10d906b2b3f2d550ae02971}{GLFWscrollfun}})(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*,double,double);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01630}01630 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01655}\mbox{\hyperlink{group__input_ga9c6c9d019ac11d888e45b11b14772659}{01655}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__input_ga9c6c9d019ac11d888e45b11b14772659}{GLFWkeyfun}})(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*,int,int,int,int);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01656}01656 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01676}\mbox{\hyperlink{group__input_ga2c4c70bfb3fb990182a4591cd21a374d}{01676}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__input_ga2c4c70bfb3fb990182a4591cd21a374d}{GLFWcharfun}})(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*,\textcolor{keywordtype}{unsigned} int);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01677}01677 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01703}\mbox{\hyperlink{group__input_ga78c3d45fdf9aaef0b8d670bf2a9519e2}{01703}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__input_ga78c3d45fdf9aaef0b8d670bf2a9519e2}{GLFWcharmodsfun}})(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*,\textcolor{keywordtype}{unsigned} int,int);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01704}01704 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01727}\mbox{\hyperlink{group__input_ga76a7371bc7edc035212b86ce85390fd2}{01727}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__input_ga76a7371bc7edc035212b86ce85390fd2}{GLFWdropfun}})(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*,int,\textcolor{keyword}{const} \textcolor{keywordtype}{char}*[]);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01728}01728 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01748}\mbox{\hyperlink{group__monitor_gacc7165513fd258601c4cb763c1369693}{01748}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__monitor_gacc7165513fd258601c4cb763c1369693}{GLFWmonitorfun}})(\mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}*,int);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01749}01749 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01769}\mbox{\hyperlink{group__input_gafc05b099b23b3b23a992bdf6d77c191a}{01769}} \textcolor{keyword}{typedef} void (* \mbox{\hyperlink{group__input_gafc05b099b23b3b23a992bdf6d77c191a}{GLFWjoystickfun}})(int,int);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01770}01770 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01784}\mbox{\hyperlink{struct_g_l_f_wvidmode}{01784}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_g_l_f_wvidmode}{GLFWvidmode}}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01785}01785 \{}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01788}\mbox{\hyperlink{struct_g_l_f_wvidmode_a698dcb200562051a7249cb6ae154c71d}{01788}}     \textcolor{keywordtype}{int} \mbox{\hyperlink{struct_g_l_f_wvidmode_a698dcb200562051a7249cb6ae154c71d}{width}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01791}\mbox{\hyperlink{struct_g_l_f_wvidmode_ac65942a5f6981695517437a9d571d03c}{01791}}     \textcolor{keywordtype}{int} \mbox{\hyperlink{struct_g_l_f_wvidmode_ac65942a5f6981695517437a9d571d03c}{height}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01794}\mbox{\hyperlink{struct_g_l_f_wvidmode_a6066c4ecd251098700062d3b735dba1b}{01794}}     \textcolor{keywordtype}{int} \mbox{\hyperlink{struct_g_l_f_wvidmode_a6066c4ecd251098700062d3b735dba1b}{redBits}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01797}\mbox{\hyperlink{struct_g_l_f_wvidmode_a292fdd281f3485fb3ff102a5bda43faa}{01797}}     \textcolor{keywordtype}{int} \mbox{\hyperlink{struct_g_l_f_wvidmode_a292fdd281f3485fb3ff102a5bda43faa}{greenBits}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01800}\mbox{\hyperlink{struct_g_l_f_wvidmode_af310977f58d2e3b188175b6e3d314047}{01800}}     \textcolor{keywordtype}{int} \mbox{\hyperlink{struct_g_l_f_wvidmode_af310977f58d2e3b188175b6e3d314047}{blueBits}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01803}\mbox{\hyperlink{struct_g_l_f_wvidmode_a791bdd6c7697b09f7e9c97054bf05649}{01803}}     \textcolor{keywordtype}{int} \mbox{\hyperlink{struct_g_l_f_wvidmode_a791bdd6c7697b09f7e9c97054bf05649}{refreshRate}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01804}\mbox{\hyperlink{group__monitor_ga902c2816ac9b34b757282daab59b2565}{01804}} \} \mbox{\hyperlink{group__monitor_ga902c2816ac9b34b757282daab59b2565}{GLFWvidmode}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01805}01805 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01818}\mbox{\hyperlink{struct_g_l_f_wgammaramp}{01818}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_g_l_f_wgammaramp}{GLFWgammaramp}}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01819}01819 \{}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01822}\mbox{\hyperlink{struct_g_l_f_wgammaramp_a87eabbc644cdb77145caf4a0a1b5d9bd}{01822}}     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short}* \mbox{\hyperlink{struct_g_l_f_wgammaramp_a87eabbc644cdb77145caf4a0a1b5d9bd}{red}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01825}\mbox{\hyperlink{struct_g_l_f_wgammaramp_acea1bf88573f37cb0583a0fc005bbd0c}{01825}}     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short}* \mbox{\hyperlink{struct_g_l_f_wgammaramp_acea1bf88573f37cb0583a0fc005bbd0c}{green}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01828}\mbox{\hyperlink{struct_g_l_f_wgammaramp_abd4ac5a186d9c000b9313099898df32a}{01828}}     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short}* \mbox{\hyperlink{struct_g_l_f_wgammaramp_abd4ac5a186d9c000b9313099898df32a}{blue}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01831}\mbox{\hyperlink{struct_g_l_f_wgammaramp_ad620e1cffbff9a32c51bca46301b59a5}{01831}}     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \mbox{\hyperlink{struct_g_l_f_wgammaramp_ad620e1cffbff9a32c51bca46301b59a5}{size}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01832}\mbox{\hyperlink{group__monitor_ga939cf093cb0af0498b7b54dc2e181404}{01832}} \} \mbox{\hyperlink{group__monitor_ga939cf093cb0af0498b7b54dc2e181404}{GLFWgammaramp}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01833}01833 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01847}\mbox{\hyperlink{struct_g_l_f_wimage}{01847}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_g_l_f_wimage}{GLFWimage}}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01848}01848 \{}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01851}\mbox{\hyperlink{struct_g_l_f_wimage_af6a71cc999fe6d3aea31dd7e9687d835}{01851}}     \textcolor{keywordtype}{int} \mbox{\hyperlink{struct_g_l_f_wimage_af6a71cc999fe6d3aea31dd7e9687d835}{width}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01854}\mbox{\hyperlink{struct_g_l_f_wimage_a0b7d95368f0c80d5e5c9875057c7dbec}{01854}}     \textcolor{keywordtype}{int} \mbox{\hyperlink{struct_g_l_f_wimage_a0b7d95368f0c80d5e5c9875057c7dbec}{height}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01857}\mbox{\hyperlink{struct_g_l_f_wimage_a65a8d70274a35e7342f87703e233a70c}{01857}}     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* \mbox{\hyperlink{struct_g_l_f_wimage_a65a8d70274a35e7342f87703e233a70c}{pixels}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01858}\mbox{\hyperlink{group__window_ga7cc0a09de172fa7250872046f8c4d2ca}{01858}} \} \mbox{\hyperlink{group__window_ga7cc0a09de172fa7250872046f8c4d2ca}{GLFWimage}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01859}01859 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01871}\mbox{\hyperlink{struct_g_l_f_wgamepadstate}{01871}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_g_l_f_wgamepadstate}{GLFWgamepadstate}}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01872}01872 \{}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01876}\mbox{\hyperlink{struct_g_l_f_wgamepadstate_a27e9896b51c65df15fba2c7139bfdb9a}{01876}}     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} \mbox{\hyperlink{struct_g_l_f_wgamepadstate_a27e9896b51c65df15fba2c7139bfdb9a}{buttons}}[15];}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01880}\mbox{\hyperlink{struct_g_l_f_wgamepadstate_a8b2c8939b1d31458de5359998375c189}{01880}}     \textcolor{keywordtype}{float} \mbox{\hyperlink{struct_g_l_f_wgamepadstate_a8b2c8939b1d31458de5359998375c189}{axes}}[6];}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01881}\mbox{\hyperlink{group__input_ga61acfb1f28f751438dd221225c5e725d}{01881}} \} \mbox{\hyperlink{group__input_ga61acfb1f28f751438dd221225c5e725d}{GLFWgamepadstate}};}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01882}01882 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01883}01883 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01884}01884 \textcolor{comment}{/*************************************************************************}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01885}01885 \textcolor{comment}{ * GLFW API functions}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01886}01886 \textcolor{comment}{ *************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01887}01887 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01932}01932 GLFWAPI \textcolor{keywordtype}{int} \mbox{\hyperlink{group__init_gab41771f0215a2e0afb4cf1cf98082d40}{glfwInit}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01933}01933 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01966}01966 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__init_gafd90e6fd4819ea9e22e5e739519a6504}{glfwTerminate}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01967}01967 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01998}01998 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__init_gac85e41aab1c2bd6fc740f4377d9e7e9f}{glfwInitHint}}(\textcolor{keywordtype}{int} hint, \textcolor{keywordtype}{int} \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l01999}01999 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02025}02025 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__init_ga2402c7824ac0194c13722790ff9559ff}{glfwGetVersion}}(\textcolor{keywordtype}{int}* major, \textcolor{keywordtype}{int}* minor, \textcolor{keywordtype}{int}* rev);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02026}02026 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02056}02056 GLFWAPI \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{group__init_gae5952184a0db36e24d1de7805b8b0945}{glfwGetVersionString}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02057}02057 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02087}02087 GLFWAPI \textcolor{keywordtype}{int} \mbox{\hyperlink{group__init_gaee7bac4c7e1b2769207747c1b5ae2f9e}{glfwGetError}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}** description);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02088}02088 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02133}02133 GLFWAPI \mbox{\hyperlink{group__init_gaa684e3f8b44b6a35000119d524d49e6d}{GLFWerrorfun}} \mbox{\hyperlink{group__init_ga746e2757d069eaea423349aca6ae097a}{glfwSetErrorCallback}}(\mbox{\hyperlink{group__init_gaa684e3f8b44b6a35000119d524d49e6d}{GLFWerrorfun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02134}02134 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02162}02162 GLFWAPI \mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}** \mbox{\hyperlink{group__monitor_ga8c78e5db186ee10d00c053faf81998af}{glfwGetMonitors}}(\textcolor{keywordtype}{int}* count);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02163}02163 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02186}02186 GLFWAPI \mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* \mbox{\hyperlink{group__monitor_ga34befff4f9f0fae09dd8de6fb0eb4f3e}{glfwGetPrimaryMonitor}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02187}02187 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02211}02211 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__monitor_ga45b5481a614ad7beb2aade9746d07563}{glfwGetMonitorPos}}(\mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* monitor, \textcolor{keywordtype}{int}* xpos, \textcolor{keywordtype}{int}* ypos);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02212}02212 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02242}02242 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__monitor_ga5a3ac0f6e3786df47aabccfb5760b31d}{glfwGetMonitorWorkarea}}(\mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* monitor, \textcolor{keywordtype}{int}* xpos, \textcolor{keywordtype}{int}* ypos, \textcolor{keywordtype}{int}* width, \textcolor{keywordtype}{int}* height);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02243}02243 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02276}02276 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__monitor_gad0e93a9e42b32394369cabbbdc1ab702}{glfwGetMonitorPhysicalSize}}(\mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* monitor, \textcolor{keywordtype}{int}* widthMM, \textcolor{keywordtype}{int}* heightMM);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02277}02277 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02308}02308 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__monitor_ga28d856d94bea2ce8f09a67bb0346aaff}{glfwGetMonitorContentScale}}(\mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* monitor, \textcolor{keywordtype}{float}* xscale, \textcolor{keywordtype}{float}* yscale);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02309}02309 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02334}02334 GLFWAPI \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{group__monitor_ga6d0ee079c807cd123b56dc3fc01e8fd9}{glfwGetMonitorName}}(\mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* monitor);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02335}02335 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02360}02360 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__monitor_ga6d89c74c1c293f0ab78a00c3c6d1ae44}{glfwSetMonitorUserPointer}}(\mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* monitor, \textcolor{keywordtype}{void}* pointer);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02361}02361 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02384}02384 GLFWAPI \textcolor{keywordtype}{void}* \mbox{\hyperlink{group__monitor_ga13cb11e8f507dbc477e10a040f0fad7f}{glfwGetMonitorUserPointer}}(\mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* monitor);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02385}02385 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02414}02414 GLFWAPI \mbox{\hyperlink{group__monitor_gacc7165513fd258601c4cb763c1369693}{GLFWmonitorfun}} \mbox{\hyperlink{group__monitor_ga9fa7cc37cd79216a7fc0b77af54109a1}{glfwSetMonitorCallback}}(\mbox{\hyperlink{group__monitor_gacc7165513fd258601c4cb763c1369693}{GLFWmonitorfun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02415}02415 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02447}02447 GLFWAPI \textcolor{keyword}{const} \mbox{\hyperlink{struct_g_l_f_wvidmode}{GLFWvidmode}}* \mbox{\hyperlink{group__monitor_ga7eaea6132f15e9b5d47eb94f88547f79}{glfwGetVideoModes}}(\mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* monitor, \textcolor{keywordtype}{int}* count);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02448}02448 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02475}02475 GLFWAPI \textcolor{keyword}{const} \mbox{\hyperlink{struct_g_l_f_wvidmode}{GLFWvidmode}}* \mbox{\hyperlink{group__monitor_ga21f7f60de4f4d0fa360c7ad159b75c9e}{glfwGetVideoMode}}(\mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* monitor);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02476}02476 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02508}02508 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__monitor_ga3e4ab484476c935b4cd0bf49a5c429d6}{glfwSetGamma}}(\mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* monitor, \textcolor{keywordtype}{float} gamma);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02509}02509 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02538}02538 GLFWAPI \textcolor{keyword}{const} \mbox{\hyperlink{struct_g_l_f_wgammaramp}{GLFWgammaramp}}* \mbox{\hyperlink{group__monitor_gafe7b41852c1a14fe978f0e5381969885}{glfwGetGammaRamp}}(\mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* monitor);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02539}02539 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02579}02579 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__monitor_gac9f36a1cfa10eab191d3029ea8bc9558}{glfwSetGammaRamp}}(\mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* monitor, \textcolor{keyword}{const} \mbox{\hyperlink{struct_g_l_f_wgammaramp}{GLFWgammaramp}}* ramp);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02580}02580 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02598}02598 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga8050ddceed9dc6bd9d3aa35666195cd4}{glfwDefaultWindowHints}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02599}02599 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02633}02633 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga69c40728499720bef8a49aa925ea0efa}{glfwWindowHint}}(\textcolor{keywordtype}{int} hint, \textcolor{keywordtype}{int} \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02634}02634 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02671}02671 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga3c2270562d7ba13d92680ba1090adafe}{glfwWindowHintString}}(\textcolor{keywordtype}{int} hint, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02672}02672 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02817}02817 GLFWAPI \mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* \mbox{\hyperlink{group__window_gaaccd00fafe81e2db94e8cdf55721e055}{glfwCreateWindow}}(\textcolor{keywordtype}{int} width, \textcolor{keywordtype}{int} height, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* title, \mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* monitor, \mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* share);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02818}02818 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02846}02846 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga806747476b7247d292be3711c323ea10}{glfwDestroyWindow}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02847}02847 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02866}02866 GLFWAPI \textcolor{keywordtype}{int} \mbox{\hyperlink{group__window_gaa6162f67dfa38b8beda2fea623649332}{glfwWindowShouldClose}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02867}02867 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02888}02888 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga1cadeda7a1e2f224e06a8415d30741aa}{glfwSetWindowShouldClose}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int} \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02889}02889 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02913}02913 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga861ed3414ab8120e2f74151a666ed1dc}{glfwSetWindowTitle}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* title);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02914}02914 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02960}02960 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga182987a1a62a41a924842b9473d560df}{glfwSetWindowIcon}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int} count, \textcolor{keyword}{const} \mbox{\hyperlink{struct_g_l_f_wimage}{GLFWimage}}* images);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02961}02961 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02992}02992 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga0076a8591ef7494d359730cf2250b45b}{glfwGetWindowPos}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int}* xpos, \textcolor{keywordtype}{int}* ypos);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l02993}02993 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03027}03027 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga0dc8d880a0d87be16d3ea8114561f6f0}{glfwSetWindowPos}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int} xpos, \textcolor{keywordtype}{int} ypos);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03028}03028 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03057}03057 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga7feb769ebb3f3d21579b5a3fb07be76e}{glfwGetWindowSize}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int}* width, \textcolor{keywordtype}{int}* height);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03058}03058 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03100}03100 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga8af814fc98d786d1de2505b40b707de8}{glfwSetWindowSizeLimits}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int} minwidth, \textcolor{keywordtype}{int} minheight, \textcolor{keywordtype}{int} maxwidth, \textcolor{keywordtype}{int} maxheight);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03101}03101 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03143}03143 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_gad2ae94a2c5ee1c46a36e13a8f4ac68ac}{glfwSetWindowAspectRatio}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int} numer, \textcolor{keywordtype}{int} denom);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03144}03144 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03184}03184 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_gae54d1f4915ded15e267ddd3f41496cd2}{glfwSetWindowSize}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int} width, \textcolor{keywordtype}{int} height);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03185}03185 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03213}03213 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_gaf7d17f3534b4b6dc9a6f905e3a240b7e}{glfwGetFramebufferSize}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int}* width, \textcolor{keywordtype}{int}* height);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03214}03214 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03250}03250 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_gaad46cdaae2eb732f68d3a1499a7c5409}{glfwGetWindowFrameSize}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int}* left, \textcolor{keywordtype}{int}* top, \textcolor{keywordtype}{int}* right, \textcolor{keywordtype}{int}* bottom);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03251}03251 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03283}03283 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga72718c983a9fffaa27f786bfe7d1c9ee}{glfwGetWindowContentScale}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{float}* xscale, \textcolor{keywordtype}{float}* yscale);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03284}03284 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03310}03310 GLFWAPI \textcolor{keywordtype}{float} \mbox{\hyperlink{group__window_gad124d57a1c1c519f60c9765cd0c2a89c}{glfwGetWindowOpacity}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03311}03311 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03342}03342 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga62a784fe328f227727cbcd0d07480ff3}{glfwSetWindowOpacity}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{float} opacity);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03343}03343 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03373}03373 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga24274e3c6ecd44e11fec5e6b66e4d7f3}{glfwIconifyWindow}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03374}03374 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03400}03400 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga1e29caf0b819f578b04db52fff17256c}{glfwRestoreWindow}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03401}03401 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03425}03425 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga4f825a55367d3fabde3d06e7f30128e8}{glfwMaximizeWindow}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03426}03426 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03452}03452 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga7945bcdff9e5e058cf36505d6873ed8c}{glfwShowWindow}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03453}03453 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03474}03474 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_gaa17e287d521544bdeceafa09ac036e20}{glfwHideWindow}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03475}03475 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03513}03513 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga0da0e3daaa2d100f44a115c09077b510}{glfwFocusWindow}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03514}03514 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03540}03540 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_gad0c9629abb49447bedd28080642b8538}{glfwRequestWindowAttention}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03541}03541 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03562}03562 GLFWAPI \mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* \mbox{\hyperlink{group__window_gad441645a53bc9274a0ee163d40f0c637}{glfwGetWindowMonitor}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03563}03563 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03621}03621 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga12fabf78575e59c00f822f323ae0b6ae}{glfwSetWindowMonitor}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* monitor, \textcolor{keywordtype}{int} xpos, \textcolor{keywordtype}{int} ypos, \textcolor{keywordtype}{int} width, \textcolor{keywordtype}{int} height, \textcolor{keywordtype}{int} refreshRate);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03622}03622 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03655}03655 GLFWAPI \textcolor{keywordtype}{int} \mbox{\hyperlink{group__window_ga1bb0c7e100418e284dbb800789c63d40}{glfwGetWindowAttrib}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int} attrib);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03656}03656 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03693}03693 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_gad39f43f07856efcf3d656426a9284c75}{glfwSetWindowAttrib}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int} attrib, \textcolor{keywordtype}{int} \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03694}03694 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03716}03716 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_gacc9e68faee3c1763b54cd9bc405cf43e}{glfwSetWindowUserPointer}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{void}* pointer);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03717}03717 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03737}03737 GLFWAPI \textcolor{keywordtype}{void}* \mbox{\hyperlink{group__window_gad07c1ae8809c4f47e55ad8cc3f60e794}{glfwGetWindowUserPointer}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03738}03738 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03772}03772 GLFWAPI \mbox{\hyperlink{group__window_gaffb62b9d3f7dc2d6e7c89d3d76142f13}{GLFWwindowposfun}} \mbox{\hyperlink{group__window_ga517b6e80b982efa06e9b8ca89d4a75a6}{glfwSetWindowPosCallback}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__window_gaffb62b9d3f7dc2d6e7c89d3d76142f13}{GLFWwindowposfun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03773}03773 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03804}03804 GLFWAPI \mbox{\hyperlink{group__window_gaac00a2d1d82875c2bac1af223e9d3c58}{GLFWwindowsizefun}} \mbox{\hyperlink{group__window_gab0754f8d5c7c4d5cae2a9937a0e00bc5}{glfwSetWindowSizeCallback}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__window_gaac00a2d1d82875c2bac1af223e9d3c58}{GLFWwindowsizefun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03805}03805 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03844}03844 GLFWAPI \mbox{\hyperlink{group__window_ga5c46f9d2435a22b531382ea642216a61}{GLFWwindowclosefun}} \mbox{\hyperlink{group__window_ga693d778815971a06e1a5a7bcdeff3d36}{glfwSetWindowCloseCallback}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__window_ga5c46f9d2435a22b531382ea642216a61}{GLFWwindowclosefun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03845}03845 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03880}03880 GLFWAPI \mbox{\hyperlink{group__window_ga7747bf66194241cff4f12d3500d8f9cd}{GLFWwindowrefreshfun}} \mbox{\hyperlink{group__window_ga62bfa902c07a03b8ad9be37da31a4be7}{glfwSetWindowRefreshCallback}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__window_ga7747bf66194241cff4f12d3500d8f9cd}{GLFWwindowrefreshfun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03881}03881 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03915}03915 GLFWAPI \mbox{\hyperlink{group__window_ga6b15f80f61ff396d89720be2a183ca8a}{GLFWwindowfocusfun}} \mbox{\hyperlink{group__window_gacce1c4dd273b5c4c60b05599f8725b4e}{glfwSetWindowFocusCallback}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__window_ga6b15f80f61ff396d89720be2a183ca8a}{GLFWwindowfocusfun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03916}03916 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03945}03945 GLFWAPI \mbox{\hyperlink{group__window_gaaa80beaa1d108e6bc09f666e186e735c}{GLFWwindowiconifyfun}} \mbox{\hyperlink{group__window_ga3e9f355edb6b9247149ddea2335eda69}{glfwSetWindowIconifyCallback}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__window_gaaa80beaa1d108e6bc09f666e186e735c}{GLFWwindowiconifyfun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03946}03946 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03975}03975 GLFWAPI \mbox{\hyperlink{group__window_ga82868db51248e7bc2deb2082336e6c70}{GLFWwindowmaximizefun}} \mbox{\hyperlink{group__window_gae77b3960dcd40514fb7b2b8a6eb98137}{glfwSetWindowMaximizeCallback}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__window_ga82868db51248e7bc2deb2082336e6c70}{GLFWwindowmaximizefun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l03976}03976 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04005}04005 GLFWAPI \mbox{\hyperlink{group__window_ga54302eebe2f81518a544723a1d805388}{GLFWframebuffersizefun}} \mbox{\hyperlink{group__window_ga41d69f9f263d7b33ea03cf58772b4ea0}{glfwSetFramebufferSizeCallback}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__window_ga54302eebe2f81518a544723a1d805388}{GLFWframebuffersizefun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04006}04006 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04036}04036 GLFWAPI \mbox{\hyperlink{group__window_gaca2e04ad85e70a646f07a870c2cad4ee}{GLFWwindowcontentscalefun}} \mbox{\hyperlink{group__window_gac6edcddbe785445d0d2b7b7be500836e}{glfwSetWindowContentScaleCallback}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__window_gaca2e04ad85e70a646f07a870c2cad4ee}{GLFWwindowcontentscalefun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04037}04037 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04074}04074 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga872d16e4c77f58c0436f356255920cfc}{glfwPollEvents}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04075}04075 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04119}04119 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga6e042d05823c11e11c7339b81a237738}{glfwWaitEvents}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04120}04120 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04168}04168 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_ga05223a0a4c5e50f10f289e60398153aa}{glfwWaitEventsTimeout}}(\textcolor{keywordtype}{double} timeout);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04169}04169 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04188}04188 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_gad6f6b997278c91c43b35970eb9713d7e}{glfwPostEmptyEvent}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04189}04189 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04213}04213 GLFWAPI \textcolor{keywordtype}{int} \mbox{\hyperlink{group__input_ga1248dd5b1e566b2817e71547564d6af9}{glfwGetInputMode}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int} mode);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04214}04214 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04276}04276 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__input_gae1eb729d2dd91dc33fd60e150a6e1684}{glfwSetInputMode}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int} mode, \textcolor{keywordtype}{int} \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04277}04277 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04305}04305 GLFWAPI \textcolor{keywordtype}{int} \mbox{\hyperlink{group__input_ga9b83d8957a566b22b3b768c7d1d4be03}{glfwRawMouseMotionSupported}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04306}04306 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04373}04373 GLFWAPI \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{group__input_ga98293ec4493cfe8e7df8ff22ee402b46}{glfwGetKeyName}}(\textcolor{keywordtype}{int} key, \textcolor{keywordtype}{int} scancode);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04374}04374 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04397}04397 GLFWAPI \textcolor{keywordtype}{int} \mbox{\hyperlink{group__input_ga3ea3b9d74f8352506068620980e01fe5}{glfwGetKeyScancode}}(\textcolor{keywordtype}{int} key);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04398}04398 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04437}04437 GLFWAPI \textcolor{keywordtype}{int} \mbox{\hyperlink{group__input_ga7d8ad8ffaf272808f04e1d5d33ec8859}{glfwGetKey}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int} key);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04438}04438 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04466}04466 GLFWAPI \textcolor{keywordtype}{int} \mbox{\hyperlink{group__input_ga6da5efb04f700c312a57a169fa9393a0}{glfwGetMouseButton}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int} button);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04467}04467 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04504}04504 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__input_gad289438eb7cf53d11eca685373f44105}{glfwGetCursorPos}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{double}* xpos, \textcolor{keywordtype}{double}* ypos);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04505}04505 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04544}04544 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__input_gaaf152cc93418acb0ba342e3f4af922bc}{glfwSetCursorPos}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{double} xpos, \textcolor{keywordtype}{double} ypos);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04545}04545 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04582}04582 GLFWAPI \mbox{\hyperlink{group__input_ga89261ae18c75e863aaf2656ecdd238f4}{GLFWcursor}}* \mbox{\hyperlink{group__input_ga21fc9f020f062db88813aa722c30ba2c}{glfwCreateCursor}}(\textcolor{keyword}{const} \mbox{\hyperlink{struct_g_l_f_wimage}{GLFWimage}}* image, \textcolor{keywordtype}{int} xhot, \textcolor{keywordtype}{int} yhot);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04583}04583 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04630}04630 GLFWAPI \mbox{\hyperlink{group__input_ga89261ae18c75e863aaf2656ecdd238f4}{GLFWcursor}}* \mbox{\hyperlink{group__input_gab7c5b6023b39a0021b1fcdabd1d15f09}{glfwCreateStandardCursor}}(\textcolor{keywordtype}{int} shape);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04631}04631 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04657}04657 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__input_ga27556b7122117bc1bbb4bb3cc003ea43}{glfwDestroyCursor}}(\mbox{\hyperlink{group__input_ga89261ae18c75e863aaf2656ecdd238f4}{GLFWcursor}}* cursor);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04658}04658 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04684}04684 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__input_gafaf103cea2f43530cff7de4e01126a4f}{glfwSetCursor}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__input_ga89261ae18c75e863aaf2656ecdd238f4}{GLFWcursor}}* cursor);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04685}04685 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04734}04734 GLFWAPI \mbox{\hyperlink{group__input_ga9c6c9d019ac11d888e45b11b14772659}{GLFWkeyfun}} \mbox{\hyperlink{group__input_gaa4cbcb81b939b8800e44cea971ddae47}{glfwSetKeyCallback}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__input_ga9c6c9d019ac11d888e45b11b14772659}{GLFWkeyfun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04735}04735 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04777}04777 GLFWAPI \mbox{\hyperlink{group__input_ga2c4c70bfb3fb990182a4591cd21a374d}{GLFWcharfun}} \mbox{\hyperlink{group__input_gad3d7e6e3134fa034cc1604162579585e}{glfwSetCharCallback}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__input_ga2c4c70bfb3fb990182a4591cd21a374d}{GLFWcharfun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04778}04778 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04819}04819 GLFWAPI \mbox{\hyperlink{group__input_ga78c3d45fdf9aaef0b8d670bf2a9519e2}{GLFWcharmodsfun}} \mbox{\hyperlink{group__input_ga359a8529c2eb06e6e2173168f30ac99c}{glfwSetCharModsCallback}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__input_ga78c3d45fdf9aaef0b8d670bf2a9519e2}{GLFWcharmodsfun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04820}04820 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04856}04856 GLFWAPI \mbox{\hyperlink{group__input_gac4312f2199caa15988cebb59ec530373}{GLFWmousebuttonfun}} \mbox{\hyperlink{group__input_gab8f17646f43cdca14e5095512618fdf6}{glfwSetMouseButtonCallback}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__input_gac4312f2199caa15988cebb59ec530373}{GLFWmousebuttonfun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04857}04857 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04888}04888 GLFWAPI \mbox{\hyperlink{group__input_ga081a67dfb879e14707a5abd7de242b8a}{GLFWcursorposfun}} \mbox{\hyperlink{group__input_ga74124d0eff27040fd10e4df9e17d129c}{glfwSetCursorPosCallback}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__input_ga081a67dfb879e14707a5abd7de242b8a}{GLFWcursorposfun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04889}04889 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04919}04919 GLFWAPI \mbox{\hyperlink{group__input_ga945bb284410b64c49ecc50195692720a}{GLFWcursorenterfun}} \mbox{\hyperlink{group__input_gacdb3490e374c8bc08549c6f173ffa7c2}{glfwSetCursorEnterCallback}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__input_ga945bb284410b64c49ecc50195692720a}{GLFWcursorenterfun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04920}04920 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04953}04953 GLFWAPI \mbox{\hyperlink{group__input_ga077345c3a10d906b2b3f2d550ae02971}{GLFWscrollfun}} \mbox{\hyperlink{group__input_gaa786b59f19ad8525d251cda8e0d7d29b}{glfwSetScrollCallback}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__input_ga077345c3a10d906b2b3f2d550ae02971}{GLFWscrollfun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04954}04954 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04990}04990 GLFWAPI \mbox{\hyperlink{group__input_ga76a7371bc7edc035212b86ce85390fd2}{GLFWdropfun}} \mbox{\hyperlink{group__input_ga8bab819b7b0ef9bc1a38e58c577c1d13}{glfwSetDropCallback}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \mbox{\hyperlink{group__input_ga76a7371bc7edc035212b86ce85390fd2}{GLFWdropfun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l04991}04991 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05014}05014 GLFWAPI \textcolor{keywordtype}{int} \mbox{\hyperlink{group__input_gacb1b7dfd79df673d48814c06fc436eff}{glfwJoystickPresent}}(\textcolor{keywordtype}{int} jid);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05015}05015 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05047}05047 GLFWAPI \textcolor{keyword}{const} \textcolor{keywordtype}{float}* \mbox{\hyperlink{group__input_gacd46b9f8d9d12dc50e45d7fe0ad32b23}{glfwGetJoystickAxes}}(\textcolor{keywordtype}{int} jid, \textcolor{keywordtype}{int}* count);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05048}05048 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05088}05088 GLFWAPI \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* \mbox{\hyperlink{group__input_ga91cdcb462a3e17c647a55496eff7d0ee}{glfwGetJoystickButtons}}(\textcolor{keywordtype}{int} jid, \textcolor{keywordtype}{int}* count);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05089}05089 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05145}05145 GLFWAPI \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* \mbox{\hyperlink{group__input_gaf0f00897c4d010af7bd1aea1f6193e6f}{glfwGetJoystickHats}}(\textcolor{keywordtype}{int} jid, \textcolor{keywordtype}{int}* count);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05146}05146 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05176}05176 GLFWAPI \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{group__input_ga4b46e05195db3c2fc336cf69fc6c7128}{glfwGetJoystickName}}(\textcolor{keywordtype}{int} jid);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05177}05177 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05217}05217 GLFWAPI \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{group__input_ga2c6a8b6e27cb8a8be7a0d020d9fd051c}{glfwGetJoystickGUID}}(\textcolor{keywordtype}{int} jid);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05218}05218 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05243}05243 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__input_ga3a8999c2d2634c7bcf4a04f1ec64895c}{glfwSetJoystickUserPointer}}(\textcolor{keywordtype}{int} jid, \textcolor{keywordtype}{void}* pointer);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05244}05244 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05267}05267 GLFWAPI \textcolor{keywordtype}{void}* \mbox{\hyperlink{group__input_ga95c348e4b4308c44c59825def0d1367e}{glfwGetJoystickUserPointer}}(\textcolor{keywordtype}{int} jid);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05268}05268 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05295}05295 GLFWAPI \textcolor{keywordtype}{int} \mbox{\hyperlink{group__input_gac9720b6e5062a5fc5fc0bb4be6dc04a0}{glfwJoystickIsGamepad}}(\textcolor{keywordtype}{int} jid);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05296}05296 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05331}05331 GLFWAPI \mbox{\hyperlink{group__input_gafc05b099b23b3b23a992bdf6d77c191a}{GLFWjoystickfun}} \mbox{\hyperlink{group__input_gad90f60a4c0e04629928305b53e96154a}{glfwSetJoystickCallback}}(\mbox{\hyperlink{group__input_gafc05b099b23b3b23a992bdf6d77c191a}{GLFWjoystickfun}} callback);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05332}05332 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05365}05365 GLFWAPI \textcolor{keywordtype}{int} \mbox{\hyperlink{group__input_ga276a2aec236a671a99f6f0a9be7fa3fc}{glfwUpdateGamepadMappings}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* \textcolor{keywordtype}{string});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05366}05366 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05395}05395 GLFWAPI \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{group__input_gab7a03c6ca8aa55a52b750d862d106ffe}{glfwGetGamepadName}}(\textcolor{keywordtype}{int} jid);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05396}05396 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05433}05433 GLFWAPI \textcolor{keywordtype}{int} \mbox{\hyperlink{group__input_ga6e138d3b0761546f5a12546f367501d6}{glfwGetGamepadState}}(\textcolor{keywordtype}{int} jid, \mbox{\hyperlink{struct_g_l_f_wgamepadstate}{GLFWgamepadstate}}* state);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05434}05434 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05458}05458 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__input_ga7a580309bbc185a0459c3559021d2fd7}{glfwSetClipboardString}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \textcolor{keywordtype}{string});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05459}05459 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05488}05488 GLFWAPI \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{group__input_ga315b28b05797d00fe7cdf1ecfdc638dc}{glfwGetClipboardString}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05489}05489 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05518}05518 GLFWAPI \textcolor{keywordtype}{double} \mbox{\hyperlink{group__input_ga03d4a1039b8662c71eeb40beea8cb622}{glfwGetTime}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05519}05519 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05548}05548 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__input_ga94360a3628a09f32708f83cc3fa48590}{glfwSetTime}}(\textcolor{keywordtype}{double} time);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05549}05549 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05570}05570 GLFWAPI uint64\_t \mbox{\hyperlink{group__input_gaa00c3e32227eb70b3968fca0bfe4ae26}{glfwGetTimerValue}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05571}05571 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05590}05590 GLFWAPI uint64\_t \mbox{\hyperlink{group__input_gaa92d10b10013372778efbf6367714371}{glfwGetTimerFrequency}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05591}05591 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05628}05628 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__context_gafd76c93e15ec8b0b90506a9936a46185}{glfwMakeContextCurrent}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05629}05629 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05649}05649 GLFWAPI \mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* \mbox{\hyperlink{group__context_gab5fde1ef6238bfb82c7a2293f86172de}{glfwGetCurrentContext}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05650}05650 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05683}05683 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__window_gafb827800eedbfcbc97b1e5408df668d7}{glfwSwapBuffers}}(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05684}05684 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05729}05729 GLFWAPI \textcolor{keywordtype}{void} \mbox{\hyperlink{group__context_ga12a595c06947cec4967c6e1f14210a8a}{glfwSwapInterval}}(\textcolor{keywordtype}{int} interval);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05730}05730 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05767}05767 GLFWAPI \textcolor{keywordtype}{int} \mbox{\hyperlink{group__context_ga9a28c712d35f9e43534e1d03b051c04c}{glfwExtensionSupported}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* extension);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05768}05768 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05809}05809 GLFWAPI \mbox{\hyperlink{group__context_ga3d47c2d2fbe0be9c505d0e04e91a133c}{GLFWglproc}} \mbox{\hyperlink{group__context_ga0e8af175218929615c16e74938c10f2a}{glfwGetProcAddress}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* procname);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05810}05810 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05837}05837 GLFWAPI \textcolor{keywordtype}{int} \mbox{\hyperlink{group__vulkan_ga72e7c3757d9ff2333181a5569bb7c403}{glfwVulkanSupported}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05838}05838 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05885}05885 GLFWAPI \textcolor{keyword}{const} \textcolor{keywordtype}{char}** \mbox{\hyperlink{group__vulkan_gada152edc5bbbd0c2138728878632fd9c}{glfwGetRequiredInstanceExtensions}}(uint32\_t* count);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05886}05886 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05887}05887 \textcolor{preprocessor}{\#if defined(VK\_VERSION\_1\_0)}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05888}05888 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05928}05928 GLFWAPI \mbox{\hyperlink{group__vulkan_ga70c01918dc9d233a4fbe0681a43018af}{GLFWvkproc}} glfwGetInstanceProcAddress(VkInstance instance, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* procname);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05929}05929 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05965}05965 GLFWAPI \textcolor{keywordtype}{int} glfwGetPhysicalDevicePresentationSupport(VkInstance instance, VkPhysicalDevice device, uint32\_t queuefamily);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l05966}05966 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06026}06026 GLFWAPI VkResult glfwCreateWindowSurface(VkInstance instance, \mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keyword}{const} \mbox{\hyperlink{struct_vk_allocation_callbacks}{VkAllocationCallbacks}}* allocator, VkSurfaceKHR* surface);}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06027}06027 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06028}06028 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/*VK\_VERSION\_1\_0*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06029}06029 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06030}06030 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06031}06031 \textcolor{comment}{/*************************************************************************}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06032}06032 \textcolor{comment}{ * Global definition cleanup}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06033}06033 \textcolor{comment}{ *************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06034}06034 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06035}06035 \textcolor{comment}{/* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ BEGIN SYSTEM/COMPILER SPECIFIC -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06036}06036 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06037}06037 \textcolor{preprocessor}{\#ifdef GLFW\_WINGDIAPI\_DEFINED}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06038}06038 \textcolor{preprocessor}{ \#undef WINGDIAPI}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06039}06039 \textcolor{preprocessor}{ \#undef GLFW\_WINGDIAPI\_DEFINED}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06040}06040 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06041}06041 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06042}06042 \textcolor{preprocessor}{\#ifdef GLFW\_CALLBACK\_DEFINED}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06043}06043 \textcolor{preprocessor}{ \#undef CALLBACK}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06044}06044 \textcolor{preprocessor}{ \#undef GLFW\_CALLBACK\_DEFINED}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06045}06045 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06046}06046 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06047}06047 \textcolor{comment}{/* Some OpenGL related headers need GLAPIENTRY, but it is unconditionally}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06048}06048 \textcolor{comment}{ * defined by some gl.h variants (OpenBSD) so define it after if needed.}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06049}06049 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06050}06050 \textcolor{preprocessor}{\#ifndef GLAPIENTRY}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06051}06051 \textcolor{preprocessor}{ \#define GLAPIENTRY APIENTRY}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06052}06052 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06053}06053 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06054}06054 \textcolor{comment}{/* -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ END SYSTEM/COMPILER SPECIFIC -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ */}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06055}06055 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06056}06056 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06057}06057 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06058}06058 \}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06059}06059 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06060}06060 }
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06061}06061 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* \_glfw3\_h\_ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{glfw_2include_2_g_l_f_w_2glfw3_8h_source_l06062}06062 }
+
+\end{DoxyCode}

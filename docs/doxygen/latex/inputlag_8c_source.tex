@@ -1,0 +1,315 @@
+\hypertarget{inputlag_8c_source}{}\doxysection{inputlag.\+c}
+\label{inputlag_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/tests/inputlag.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/tests/inputlag.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00001}00001 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00002}00002 \textcolor{comment}{// Input lag test}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00003}00003 \textcolor{comment}{// Copyright (c) Camilla Löwy <elmindreda@glfw.org>}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00005}00005 \textcolor{comment}{// This software is provided 'as-\/is', without any express or implied}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00006}00006 \textcolor{comment}{// warranty. In no event will the authors be held liable for any damages}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00007}00007 \textcolor{comment}{// arising from the use of this software.}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00009}00009 \textcolor{comment}{// Permission is granted to anyone to use this software for any purpose,}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00010}00010 \textcolor{comment}{// including commercial applications, and to alter it and redistribute it}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00011}00011 \textcolor{comment}{// freely, subject to the following restrictions:}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00012}00012 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00013}00013 \textcolor{comment}{// 1. The origin of this software must not be misrepresented; you must not}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00014}00014 \textcolor{comment}{//    claim that you wrote the original software. If you use this software}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00015}00015 \textcolor{comment}{//    in a product, an acknowledgment in the product documentation would}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00016}00016 \textcolor{comment}{//    be appreciated but is not required.}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00017}00017 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00018}00018 \textcolor{comment}{// 2. Altered source versions must be plainly marked as such, and must not}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00019}00019 \textcolor{comment}{//    be misrepresented as being the original software.}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00020}00020 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00021}00021 \textcolor{comment}{// 3. This notice may not be removed or altered from any source}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00022}00022 \textcolor{comment}{//    distribution.}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00023}00023 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00024}00024 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00025}00025 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00026}00026 \textcolor{comment}{// This test renders a marker at the cursor position reported by GLFW to}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00027}00027 \textcolor{comment}{// check how much it lags behind the hardware mouse cursor}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00028}00028 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00029}00029 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00031}00031 \textcolor{preprocessor}{\#include <glad/gl.h>}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00032}00032 \textcolor{preprocessor}{\#define GLFW\_INCLUDE\_NONE}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00033}00033 \textcolor{preprocessor}{\#include <GLFW/glfw3.h>}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00035}00035 \textcolor{preprocessor}{\#define NK\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00036}00036 \textcolor{preprocessor}{\#define NK\_INCLUDE\_FIXED\_TYPES}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00037}00037 \textcolor{preprocessor}{\#define NK\_INCLUDE\_FONT\_BAKING}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00038}00038 \textcolor{preprocessor}{\#define NK\_INCLUDE\_DEFAULT\_FONT}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00039}00039 \textcolor{preprocessor}{\#define NK\_INCLUDE\_DEFAULT\_ALLOCATOR}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00040}00040 \textcolor{preprocessor}{\#define NK\_INCLUDE\_VERTEX\_BUFFER\_OUTPUT}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00041}00041 \textcolor{preprocessor}{\#define NK\_INCLUDE\_STANDARD\_VARARGS}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00042}00042 \textcolor{preprocessor}{\#include <nuklear.h>}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00044}00044 \textcolor{preprocessor}{\#define NK\_GLFW\_GL2\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00045}00045 \textcolor{preprocessor}{\#include <nuklear\_glfw\_gl2.h>}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00047}00047 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00048}00048 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00049}00049 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00051}00051 \textcolor{preprocessor}{\#include "{}getopt.h"{}}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00053}00053 \textcolor{keywordtype}{void} usage(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00054}00054 \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00055}00055     printf(\textcolor{stringliteral}{"{}Usage: inputlag [-\/h] [-\/f]\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00056}00056     printf(\textcolor{stringliteral}{"{}Options:\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00057}00057     printf(\textcolor{stringliteral}{"{}  -\/f create full screen window\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00058}00058     printf(\textcolor{stringliteral}{"{}  -\/h show this help\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00059}00059 \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00061}00061 \textcolor{keyword}{struct }\mbox{\hyperlink{structnk__vec2}{nk\_vec2}} cursor\_new, cursor\_pos, cursor\_vel;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00062}00062 \textcolor{keyword}{enum} \{ cursor\_sync\_query, cursor\_input\_message \} cursor\_method = cursor\_sync\_query;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00064}00064 \textcolor{keywordtype}{void} sample\_input(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00065}00065 \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00066}00066     \textcolor{keywordtype}{float} a = .25; \textcolor{comment}{// exponential smoothing factor}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00068}00068     \textcolor{keywordflow}{if} (cursor\_method == cursor\_sync\_query) \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00069}00069         \textcolor{keywordtype}{double} x, y;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00070}00070         \mbox{\hyperlink{group__input_gad289438eb7cf53d11eca685373f44105}{glfwGetCursorPos}}(window, \&x, \&y);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00071}00071         cursor\_new.x = (float) x;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00072}00072         cursor\_new.y = (float) y;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00073}00073     \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00074}00074 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00075}00075     cursor\_vel.x = (cursor\_new.x -\/ cursor\_pos.x) * a + cursor\_vel.x * (1 -\/ a);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00076}00076     cursor\_vel.y = (cursor\_new.y -\/ cursor\_pos.y) * a + cursor\_vel.y * (1 -\/ a);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00077}00077     cursor\_pos = cursor\_new;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00078}00078 \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00080}00080 \textcolor{keywordtype}{void} cursor\_pos\_callback(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{double} xpos, \textcolor{keywordtype}{double} ypos)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00081}00081 \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00082}00082     cursor\_new.x = (float) xpos;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00083}00083     cursor\_new.y = (float) ypos;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00084}00084 \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00086}00086 \textcolor{keywordtype}{int} enable\_vsync = nk\_true;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00088}00088 \textcolor{keywordtype}{void} update\_vsync()}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00089}00089 \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00090}00090     \mbox{\hyperlink{group__context_ga12a595c06947cec4967c6e1f14210a8a}{glfwSwapInterval}}(enable\_vsync == nk\_true ? 1 : 0);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00091}00091 \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00093}00093 \textcolor{keywordtype}{int} swap\_clear = nk\_false;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00094}00094 \textcolor{keywordtype}{int} swap\_finish = nk\_true;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00095}00095 \textcolor{keywordtype}{int} swap\_occlusion\_query = nk\_false;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00096}00096 \textcolor{keywordtype}{int} swap\_read\_pixels = nk\_false;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00097}00097 GLuint occlusion\_query;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00098}00098 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00099}00099 \textcolor{keywordtype}{void} swap\_buffers(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00100}00100 \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00101}00101     \mbox{\hyperlink{group__window_gafb827800eedbfcbc97b1e5408df668d7}{glfwSwapBuffers}}(window);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00103}00103     \textcolor{keywordflow}{if} (swap\_clear)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00104}00104         glClear(GL\_COLOR\_BUFFER\_BIT);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00106}00106     \textcolor{keywordflow}{if} (swap\_finish)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00107}00107         glFinish();}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00108}00108 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00109}00109     \textcolor{keywordflow}{if} (swap\_occlusion\_query) \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00110}00110         GLint occlusion\_result;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00111}00111         \textcolor{keywordflow}{if} (!occlusion\_query)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00112}00112             glGenQueries(1, \&occlusion\_query);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00113}00113         glBeginQuery(GL\_SAMPLES\_PASSED, occlusion\_query);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00114}00114         glBegin(GL\_POINTS);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00115}00115         glVertex2f(0, 0);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00116}00116         glEnd();}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00117}00117         glEndQuery(GL\_SAMPLES\_PASSED);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00118}00118         glGetQueryObjectiv(occlusion\_query, GL\_QUERY\_RESULT, \&occlusion\_result);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00119}00119     \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00121}00121     \textcolor{keywordflow}{if} (swap\_read\_pixels) \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00122}00122         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} rgba[4];}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00123}00123         glReadPixels(0, 0, 1, 1, GL\_RGBA, GL\_UNSIGNED\_BYTE, rgba);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00124}00124     \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00125}00125 \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00126}00126 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00127}00127 \textcolor{keywordtype}{void} error\_callback(\textcolor{keywordtype}{int} error, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* description)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00128}00128 \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00129}00129     fprintf(stderr, \textcolor{stringliteral}{"{}Error: \%s\(\backslash\)n"{}}, description);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00130}00130 \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00131}00131 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00132}00132 \textcolor{keywordtype}{void} key\_callback(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int} key, \textcolor{keywordtype}{int} scancode, \textcolor{keywordtype}{int} action, \textcolor{keywordtype}{int} mods)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00133}00133 \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00134}00134     \textcolor{keywordflow}{if} (action != \mbox{\hyperlink{group__input_ga2485743d0b59df3791c45951c4195265}{GLFW\_PRESS}})}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00135}00135         \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00136}00136 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00137}00137     \textcolor{keywordflow}{switch} (key)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00138}00138     \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00139}00139         \textcolor{keywordflow}{case} GLFW\_KEY\_ESCAPE:}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00140}00140             \mbox{\hyperlink{group__window_ga1cadeda7a1e2f224e06a8415d30741aa}{glfwSetWindowShouldClose}}(window, 1);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00141}00141             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00142}00142     \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00143}00143 \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00144}00144 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00145}00145 \textcolor{keywordtype}{void} draw\_marker(\textcolor{keyword}{struct} \mbox{\hyperlink{structnk__command__buffer}{nk\_command\_buffer}}* canvas, \textcolor{keywordtype}{int} lead, \textcolor{keyword}{struct} \mbox{\hyperlink{structnk__vec2}{nk\_vec2}} pos)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00146}00146 \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00147}00147     \textcolor{keyword}{struct }\mbox{\hyperlink{structnk__color}{nk\_color}} colors[4] = \{ nk\_rgb(255,0,0), nk\_rgb(255,255,0), nk\_rgb(0,255,0), nk\_rgb(0,96,255) \};}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00148}00148     \textcolor{keyword}{struct }\mbox{\hyperlink{structnk__rect}{nk\_rect}} rect = \{ -\/5 + pos.x, -\/5 + pos.y, 10, 10 \};}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00149}00149     nk\_fill\_circle(canvas, rect, colors[lead]);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00150}00150 \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00151}00151 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00152}00152 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char}** argv)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00153}00153 \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00154}00154     \textcolor{keywordtype}{int} ch, width, height;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00155}00155     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} frame\_count = 0;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00156}00156     \textcolor{keywordtype}{double} last\_time, current\_time;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00157}00157     \textcolor{keywordtype}{double} frame\_rate = 0;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00158}00158     \textcolor{keywordtype}{int} fullscreen = \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00159}00159     \mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* monitor = NULL;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00160}00160     \mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00161}00161     \textcolor{keyword}{struct }\mbox{\hyperlink{structnk__context}{nk\_context}}* nk;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00162}00162     \textcolor{keyword}{struct }nk\_font\_atlas* atlas;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00163}00163 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00164}00164     \textcolor{keywordtype}{int} show\_forecasts = nk\_true;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00165}00165 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00166}00166     \textcolor{keywordflow}{while} ((ch = getopt(argc, argv, \textcolor{stringliteral}{"{}fh"{}})) != -\/1)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00167}00167     \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00168}00168         \textcolor{keywordflow}{switch} (ch)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00169}00169         \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00170}00170             \textcolor{keywordflow}{case} \textcolor{charliteral}{'h'}:}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00171}00171                 usage();}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00172}00172                 exit(EXIT\_SUCCESS);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00173}00173 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00174}00174             \textcolor{keywordflow}{case} \textcolor{charliteral}{'f'}:}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00175}00175                 fullscreen = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00176}00176                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00177}00177         \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00178}00178     \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00179}00179 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00180}00180     \mbox{\hyperlink{group__init_ga746e2757d069eaea423349aca6ae097a}{glfwSetErrorCallback}}(error\_callback);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00181}00181 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00182}00182     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{group__init_gab41771f0215a2e0afb4cf1cf98082d40}{glfwInit}}())}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00183}00183         exit(EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00184}00184 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00185}00185     \textcolor{keywordflow}{if} (fullscreen)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00186}00186     \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00187}00187         \textcolor{keyword}{const} \mbox{\hyperlink{struct_g_l_f_wvidmode}{GLFWvidmode}}* mode;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00188}00188 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00189}00189         monitor = \mbox{\hyperlink{group__monitor_ga34befff4f9f0fae09dd8de6fb0eb4f3e}{glfwGetPrimaryMonitor}}();}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00190}00190         mode = \mbox{\hyperlink{group__monitor_ga21f7f60de4f4d0fa360c7ad159b75c9e}{glfwGetVideoMode}}(monitor);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00191}00191 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00192}00192         width = mode-\/>width;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00193}00193         height = mode-\/>height;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00194}00194     \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00195}00195     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00196}00196     \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00197}00197         width = 640;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00198}00198         height = 480;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00199}00199     \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00200}00200 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00201}00201     \mbox{\hyperlink{group__window_ga69c40728499720bef8a49aa925ea0efa}{glfwWindowHint}}(\mbox{\hyperlink{group__window_gafe5e4922de1f9932d7e9849bb053b0c0}{GLFW\_CONTEXT\_VERSION\_MAJOR}}, 2);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00202}00202     \mbox{\hyperlink{group__window_ga69c40728499720bef8a49aa925ea0efa}{glfwWindowHint}}(\mbox{\hyperlink{group__window_ga31aca791e4b538c4e4a771eb95cc2d07}{GLFW\_CONTEXT\_VERSION\_MINOR}}, 0);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00203}00203 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00204}00204     \mbox{\hyperlink{group__window_ga69c40728499720bef8a49aa925ea0efa}{glfwWindowHint}}(\mbox{\hyperlink{group__window_ga620bc4280c7eab81ac9f02204500ed47}{GLFW\_SCALE\_TO\_MONITOR}}, \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}});}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00205}00205     \mbox{\hyperlink{group__window_ga69c40728499720bef8a49aa925ea0efa}{glfwWindowHint}}(GLFW\_WIN32\_KEYBOARD\_MENU, \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}});}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00206}00206 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00207}00207     window = \mbox{\hyperlink{group__window_gaaccd00fafe81e2db94e8cdf55721e055}{glfwCreateWindow}}(width, height, \textcolor{stringliteral}{"{}Input lag test"{}}, monitor, NULL);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00208}00208     \textcolor{keywordflow}{if} (!window)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00209}00209     \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00210}00210         \mbox{\hyperlink{group__init_gafd90e6fd4819ea9e22e5e739519a6504}{glfwTerminate}}();}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00211}00211         exit(EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00212}00212     \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00213}00213 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00214}00214     \mbox{\hyperlink{group__context_gafd76c93e15ec8b0b90506a9936a46185}{glfwMakeContextCurrent}}(window);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00215}00215     gladLoadGL(\mbox{\hyperlink{group__context_ga0e8af175218929615c16e74938c10f2a}{glfwGetProcAddress}});}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00216}00216     update\_vsync();}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00217}00217 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00218}00218     last\_time = \mbox{\hyperlink{group__input_ga03d4a1039b8662c71eeb40beea8cb622}{glfwGetTime}}();}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00219}00219 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00220}00220     nk = nk\_glfw3\_init(window, NK\_GLFW3\_INSTALL\_CALLBACKS);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00221}00221     nk\_glfw3\_font\_stash\_begin(\&atlas);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00222}00222     nk\_glfw3\_font\_stash\_end();}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00223}00223 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00224}00224     \mbox{\hyperlink{group__input_gaa4cbcb81b939b8800e44cea971ddae47}{glfwSetKeyCallback}}(window, key\_callback);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00225}00225     \mbox{\hyperlink{group__input_ga74124d0eff27040fd10e4df9e17d129c}{glfwSetCursorPosCallback}}(window, cursor\_pos\_callback);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00226}00226 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00227}00227     \textcolor{keywordflow}{while} (!\mbox{\hyperlink{group__window_gaa6162f67dfa38b8beda2fea623649332}{glfwWindowShouldClose}}(window))}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00228}00228     \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00229}00229         \textcolor{keywordtype}{int} width, height;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00230}00230         \textcolor{keyword}{struct }\mbox{\hyperlink{structnk__rect}{nk\_rect}} area;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00231}00231 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00232}00232         \mbox{\hyperlink{group__window_ga872d16e4c77f58c0436f356255920cfc}{glfwPollEvents}}();}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00233}00233         sample\_input(window);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00234}00234 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00235}00235         \mbox{\hyperlink{group__window_ga7feb769ebb3f3d21579b5a3fb07be76e}{glfwGetWindowSize}}(window, \&width, \&height);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00236}00236         area = \mbox{\hyperlink{structnk__rect}{nk\_rect}}(0.f, 0.f, (\textcolor{keywordtype}{float}) width, (\textcolor{keywordtype}{float}) height);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00237}00237 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00238}00238         glClear(GL\_COLOR\_BUFFER\_BIT);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00239}00239         nk\_glfw3\_new\_frame();}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00240}00240         \textcolor{keywordflow}{if} (nk\_begin(nk, \textcolor{stringliteral}{"{}"{}}, area, 0))}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00241}00241         \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00242}00242             nk\_flags align\_left = NK\_TEXT\_ALIGN\_LEFT | NK\_TEXT\_ALIGN\_MIDDLE;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00243}00243             \textcolor{keyword}{struct }\mbox{\hyperlink{structnk__command__buffer}{nk\_command\_buffer}} *canvas = nk\_window\_get\_canvas(nk);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00244}00244             \textcolor{keywordtype}{int} lead;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00245}00245 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00246}00246             \textcolor{keywordflow}{for} (lead = show\_forecasts ? 3 : 0; lead >= 0; lead-\/-\/)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00247}00247                 draw\_marker(canvas, lead, \mbox{\hyperlink{structnk__vec2}{nk\_vec2}}(cursor\_pos.x + cursor\_vel.x * lead,}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00248}00248                                                   cursor\_pos.y + cursor\_vel.y * lead));}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00249}00249 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00250}00250             \textcolor{comment}{// print instructions}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00251}00251             nk\_layout\_row\_dynamic(nk, 20, 1);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00252}00252             nk\_label(nk, \textcolor{stringliteral}{"{}Move mouse uniformly and check marker under cursor:"{}}, align\_left);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00253}00253             \textcolor{keywordflow}{for} (lead = 0; lead <= 3; lead++) \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00254}00254                 nk\_layout\_row\_begin(nk, NK\_STATIC, 12, 2);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00255}00255                 nk\_layout\_row\_push(nk, 25);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00256}00256                 draw\_marker(canvas, lead, nk\_layout\_space\_to\_screen(nk, \mbox{\hyperlink{structnk__vec2}{nk\_vec2}}(20, 5)));}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00257}00257                 nk\_label(nk, \textcolor{stringliteral}{"{}"{}}, 0);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00258}00258                 nk\_layout\_row\_push(nk, 500);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00259}00259                 \textcolor{keywordflow}{if} (lead == 0)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00260}00260                     nk\_label(nk, \textcolor{stringliteral}{"{}-\/ current cursor position (no input lag)"{}}, align\_left);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00261}00261                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00262}00262                     nk\_labelf(nk, align\_left, \textcolor{stringliteral}{"{}-\/ \%d-\/frame forecast (input lag is \%d frame)"{}}, lead, lead);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00263}00263                 nk\_layout\_row\_end(nk);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00264}00264             \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00265}00265 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00266}00266             nk\_layout\_row\_dynamic(nk, 20, 1);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00267}00267 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00268}00268             nk\_checkbox\_label(nk, \textcolor{stringliteral}{"{}Show forecasts"{}}, \&show\_forecasts);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00269}00269             nk\_label(nk, \textcolor{stringliteral}{"{}Input method:"{}}, align\_left);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00270}00270             \textcolor{keywordflow}{if} (nk\_option\_label(nk, \textcolor{stringliteral}{"{}glfwGetCursorPos (sync query)"{}}, cursor\_method == cursor\_sync\_query))}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00271}00271                 cursor\_method = cursor\_sync\_query;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00272}00272             \textcolor{keywordflow}{if} (nk\_option\_label(nk, \textcolor{stringliteral}{"{}glfwSetCursorPosCallback (latest input message)"{}}, cursor\_method == cursor\_input\_message))}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00273}00273                 cursor\_method = cursor\_input\_message;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00274}00274 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00275}00275             nk\_label(nk, \textcolor{stringliteral}{"{}"{}}, 0); \textcolor{comment}{// separator}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00276}00276 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00277}00277             nk\_value\_float(nk, \textcolor{stringliteral}{"{}FPS"{}}, (\textcolor{keywordtype}{float}) frame\_rate);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00278}00278             \textcolor{keywordflow}{if} (nk\_checkbox\_label(nk, \textcolor{stringliteral}{"{}Enable vsync"{}}, \&enable\_vsync))}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00279}00279                 update\_vsync();}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00280}00280 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00281}00281             nk\_label(nk, \textcolor{stringliteral}{"{}"{}}, 0); \textcolor{comment}{// separator}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00282}00282 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00283}00283             nk\_label(nk, \textcolor{stringliteral}{"{}After swap:"{}}, align\_left);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00284}00284             nk\_checkbox\_label(nk, \textcolor{stringliteral}{"{}glClear"{}}, \&swap\_clear);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00285}00285             nk\_checkbox\_label(nk, \textcolor{stringliteral}{"{}glFinish"{}}, \&swap\_finish);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00286}00286             nk\_checkbox\_label(nk, \textcolor{stringliteral}{"{}draw with occlusion query"{}}, \&swap\_occlusion\_query);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00287}00287             nk\_checkbox\_label(nk, \textcolor{stringliteral}{"{}glReadPixels"{}}, \&swap\_read\_pixels);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00288}00288         \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00289}00289 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00290}00290         nk\_end(nk);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00291}00291         nk\_glfw3\_render(NK\_ANTI\_ALIASING\_ON);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00292}00292 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00293}00293         swap\_buffers(window);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00294}00294 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00295}00295         frame\_count++;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00296}00296 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00297}00297         current\_time = \mbox{\hyperlink{group__input_ga03d4a1039b8662c71eeb40beea8cb622}{glfwGetTime}}();}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00298}00298         \textcolor{keywordflow}{if} (current\_time -\/ last\_time > 1.0)}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00299}00299         \{}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00300}00300             frame\_rate = frame\_count / (current\_time -\/ last\_time);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00301}00301             frame\_count = 0;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00302}00302             last\_time = current\_time;}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00303}00303         \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00304}00304     \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00305}00305 }
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00306}00306     \mbox{\hyperlink{group__init_gafd90e6fd4819ea9e22e5e739519a6504}{glfwTerminate}}();}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00307}00307     exit(EXIT\_SUCCESS);}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00308}00308 \}}
+\DoxyCodeLine{\Hypertarget{inputlag_8c_source_l00309}00309 }
+
+\end{DoxyCode}

@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="imgui_2examples_2example__emscripten__opengl3_2_r_e_a_d_m_e_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">##<sp/>How<sp/>to<sp/>Build</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>You<sp/>need<sp/>to<sp/>install<sp/>Emscripten<sp/>from<sp/>https://emscripten.org/docs/getting_started/downloads.html,<sp/>and<sp/>have<sp/>the<sp/>environment<sp/>variables<sp/>set,<sp/>as<sp/>described<sp/>in<sp/>https://emscripten.org/docs/getting_started/downloads.html#installation-instructions</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>Depending<sp/>on<sp/>your<sp/>configuration,<sp/>in<sp/>Windows<sp/>you<sp/>may<sp/>need<sp/>to<sp/>run<sp/>`emsdk/emsdk_env.bat`<sp/>in<sp/>your<sp/>console<sp/>to<sp/>access<sp/>the<sp/>Emscripten<sp/>command-line<sp/>tools.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>You<sp/>may<sp/>also<sp/>refer<sp/>to<sp/>our<sp/>[Continuous<sp/>Integration<sp/>setup](https://github.com/ocornut/imgui/tree/master/.github/workflows)<sp/>for<sp/>Emscripten<sp/>setup.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>Then<sp/>build<sp/>using<sp/>`make`<sp/>while<sp/>in<sp/>the<sp/>`example_emscripten_opengl3/`<sp/>directory.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>How<sp/>to<sp/>Run</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>run<sp/>on<sp/>a<sp/>local<sp/>machine:</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>`make<sp/>serve`<sp/>will<sp/>use<sp/>Python3<sp/>to<sp/>spawn<sp/>a<sp/>local<sp/>webserver,<sp/>you<sp/>can<sp/>then<sp/>browse<sp/>http://localhost:8000<sp/>to<sp/>access<sp/>your<sp/>build.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Otherwise,<sp/>generally<sp/>you<sp/>will<sp/>need<sp/>a<sp/>local<sp/>webserver:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>-<sp/>Quoting<sp/>[https://emscripten.org/docs/getting_started](https://emscripten.org/docs/getting_started/Tutorial.html#generating-html):&lt;br&gt;</highlight></codeline>
+<codeline><highlight class="normal">_&quot;Unfortunately<sp/>several<sp/>browsers<sp/>(including<sp/>Chrome,<sp/>Safari,<sp/>and<sp/>Internet<sp/>Explorer)<sp/>do<sp/>not<sp/>support<sp/>file://<sp/>[XHR](https://emscripten.org/docs/site/glossary.html#term-xhr)<sp/>requests,<sp/>and<sp/>can’t<sp/>load<sp/>extra<sp/>files<sp/>needed<sp/>by<sp/>the<sp/>HTML<sp/>(like<sp/>a<sp/>.wasm<sp/>file,<sp/>or<sp/>packaged<sp/>file<sp/>data<sp/>as<sp/>mentioned<sp/>lower<sp/>down).<sp/>For<sp/>these<sp/>browsers<sp/>you’ll<sp/>need<sp/>to<sp/>serve<sp/>the<sp/>files<sp/>using<sp/>a<sp/>[local<sp/>webserver](https://emscripten.org/docs/getting_started/FAQ.html#faq-local-webserver)<sp/>and<sp/>then<sp/>open<sp/>http://localhost:8000/hello.html.&quot;_</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>-<sp/>Emscripten<sp/>SDK<sp/>has<sp/>a<sp/>handy<sp/>`emrun`<sp/>command:<sp/>`emrun<sp/>web/example_emscripten_opengl3.html<sp/>--browser<sp/>firefox`<sp/>which<sp/>will<sp/>spawn<sp/>a<sp/>temporary<sp/>local<sp/>webserver<sp/>(in<sp/>Firefox).<sp/>See<sp/>https://emscripten.org/docs/compiling/Running-html-files-with-emrun.html<sp/>for<sp/>details.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>-<sp/>You<sp/>may<sp/>use<sp/>Python<sp/>3<sp/>builtin<sp/>webserver:<sp/>`python<sp/>-m<sp/>http.server<sp/>-d<sp/>web`<sp/>(this<sp/>is<sp/>what<sp/>`make<sp/>serve`<sp/>uses).</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>-<sp/>You<sp/>may<sp/>use<sp/>Python<sp/>2<sp/>builtin<sp/>webserver:<sp/>`cd<sp/>web<sp/>&amp;&amp;<sp/>python<sp/>-m<sp/>SimpleHTTPServer`.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>-<sp/>If<sp/>you<sp/>are<sp/>accessing<sp/>the<sp/>files<sp/>over<sp/>a<sp/>network,<sp/>certain<sp/>browsers,<sp/>such<sp/>as<sp/>Firefox,<sp/>will<sp/>restrict<sp/>Gamepad<sp/>API<sp/>access<sp/>to<sp/>secure<sp/>contexts<sp/>only<sp/>(e.g.<sp/>https<sp/>only).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Obsolete<sp/>features:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>Emscripten<sp/>2.0<sp/>(August<sp/>2020)<sp/>obsoleted<sp/>the<sp/>fastcomp<sp/>backend,<sp/>only<sp/>llvm<sp/>is<sp/>supported.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Emscripten<sp/>1.39.0<sp/>(October<sp/>2019)<sp/>obsoleted<sp/>the<sp/>`BINARYEN_TRAP_MODE=clamp`<sp/>compilation<sp/>flag<sp/>which<sp/>was<sp/>required<sp/>with<sp/>version<sp/>older<sp/>than<sp/>1.39.0<sp/>to<sp/>avoid<sp/>rendering<sp/>artefacts.<sp/>See<sp/>[#2877](https://github.com/ocornut/imgui/issues/2877)<sp/>for<sp/>details.<sp/>If<sp/>you<sp/>use<sp/>an<sp/>older<sp/>version,<sp/>uncomment<sp/>this<sp/>line<sp/>in<sp/>the<sp/>Makefile:<sp/>`#EMS<sp/>+=<sp/>-s<sp/>BINARYEN_TRAP_MODE=clamp`</highlight></codeline>
+    </programlisting>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/examples/example_emscripten_opengl3/README.md"/>
+  </compounddef>
+</doxygen>

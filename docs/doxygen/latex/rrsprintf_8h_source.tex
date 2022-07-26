@@ -1,0 +1,1061 @@
+\hypertarget{rrsprintf_8h_source}{}\doxysection{rrsprintf.\+h}
+\label{rrsprintf_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/deprecated/rrsprintf.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/deprecated/rrsprintf.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00001}00001 \textcolor{preprocessor}{\#ifndef RR\_SPRINTF\_H\_INCLUDE}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00002}00002 \textcolor{preprocessor}{\#define RR\_SPRINTF\_H\_INCLUDE}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00004}00004 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00005}00005 \textcolor{comment}{Single file sprintf replacement.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00006}00006 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00007}00007 \textcolor{comment}{Originally written by Jeff Roberts at RAD Game Tools -\/ 2015/10/20. }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00008}00008 \textcolor{comment}{Hereby placed in public domain.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00009}00009 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00010}00010 \textcolor{comment}{This is a full sprintf replacement that supports everything that}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00011}00011 \textcolor{comment}{the C runtime sprintfs support, including float/double, 64-\/bit integers,}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00012}00012 \textcolor{comment}{hex floats, field parameters (\%*.*d stuff), length reads backs, etc.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00013}00013 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00014}00014 \textcolor{comment}{Why would you need this if sprintf already exists?  Well, first off,}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00015}00015 \textcolor{comment}{it's *much* faster (see below). It's also much smaller than the CRT}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00016}00016 \textcolor{comment}{versions code-\/space-\/wise. We've also added some simple improvements }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00017}00017 \textcolor{comment}{that are super handy (commas in thousands, callbacks at buffer full,}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00018}00018 \textcolor{comment}{for example). Finally, the format strings for MSVC and GCC differ }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00019}00019 \textcolor{comment}{for 64-\/bit integers (among other small things), so this lets you use }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00020}00020 \textcolor{comment}{the same format strings in cross platform code.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00021}00021 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00022}00022 \textcolor{comment}{It uses the standard single file trick of being both the header file}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00023}00023 \textcolor{comment}{and the source itself. If you just include it normally, you just get }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00024}00024 \textcolor{comment}{the header file function definitions. To get the code, you include}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00025}00025 \textcolor{comment}{it from a C or C++ file and define RR\_SPRINTF\_IMPLEMENTATION first.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00026}00026 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00027}00027 \textcolor{comment}{It only uses va\_args macros from the C runtime to do it's work. It}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00028}00028 \textcolor{comment}{does cast doubles to S64s and shifts and divides U64s, which does }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00029}00029 \textcolor{comment}{drag in CRT code on most platforms.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00030}00030 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00031}00031 \textcolor{comment}{It compiles to roughly 8K with float support, and 4K without.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00032}00032 \textcolor{comment}{As a comparison, when using MSVC static libs, calling sprintf drags}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00033}00033 \textcolor{comment}{in 16K.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00034}00034 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00035}00035 \textcolor{comment}{API:}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00036}00036 \textcolor{comment}{====}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00037}00037 \textcolor{comment}{int rrsprintf( char * buf, char const * fmt, ... )}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00038}00038 \textcolor{comment}{int rrsnprintf( char * buf, int count, char const * fmt, ... )}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00039}00039 \textcolor{comment}{  Convert an arg list into a buffer.  rrsnprintf always returns}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00040}00040 \textcolor{comment}{  a zero-\/terminated string (unlike regular snprintf).}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00041}00041 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00042}00042 \textcolor{comment}{int rrvsprintf( char * buf, char const * fmt, va\_list va )}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00043}00043 \textcolor{comment}{int rrvsnprintf( char * buf, int count, char const * fmt, va\_list va )}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00044}00044 \textcolor{comment}{  Convert a va\_list arg list into a buffer.  rrvsnprintf always returns}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00045}00045 \textcolor{comment}{  a zero-\/terminated string (unlike regular snprintf).}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00046}00046 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00047}00047 \textcolor{comment}{int rrvsprintfcb( RRSPRINTFCB * callback, void * user, char * buf, char const * fmt, va\_list va )}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00048}00048 \textcolor{comment}{    typedef char * RRSPRINTFCB( char const * buf, void * user, int len );}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00049}00049 \textcolor{comment}{  Convert into a buffer, calling back every RR\_SPRINTF\_MIN chars.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00050}00050 \textcolor{comment}{  Your callback can then copy the chars out, print them or whatever.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00051}00051 \textcolor{comment}{  This function is actually the workhorse for everything else.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00052}00052 \textcolor{comment}{  The buffer you pass in must hold at least RR\_SPRINTF\_MIN characters.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00053}00053 \textcolor{comment}{    // you return the next buffer to use or 0 to stop converting}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00054}00054 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00055}00055 \textcolor{comment}{void rrsetseparators( char comma, char period )}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00056}00056 \textcolor{comment}{  Set the comma and period characters to use.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00057}00057 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00058}00058 \textcolor{comment}{FLOATS/DOUBLES:}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00059}00059 \textcolor{comment}{===============}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00060}00060 \textcolor{comment}{This code uses a internal float-\/>ascii conversion method that uses}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00061}00061 \textcolor{comment}{doubles with error correction (double-\/doubles, for \string~105 bits of}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00062}00062 \textcolor{comment}{precision).  This conversion is round-\/trip perfect -\/ that is, an atof}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00063}00063 \textcolor{comment}{of the values output here will give you the bit-\/exact double back.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00064}00064 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00065}00065 \textcolor{comment}{One difference is that our insignificant digits will be different than }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00066}00066 \textcolor{comment}{with MSVC or GCC (but they don't match each other either).  We also }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00067}00067 \textcolor{comment}{don't attempt to find the minimum length matching float (pre-\/MSVC15 }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00068}00068 \textcolor{comment}{doesn't either).}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00069}00069 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00070}00070 \textcolor{comment}{If you don't need float or doubles at all, define RR\_SPRINTF\_NOFLOAT}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00071}00071 \textcolor{comment}{and you'll save 4K of code space.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00072}00072 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00073}00073 \textcolor{comment}{64-\/BIT INTS:}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00074}00074 \textcolor{comment}{============}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00075}00075 \textcolor{comment}{This library also supports 64-\/bit integers and you can use MSVC style or}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00076}00076 \textcolor{comment}{GCC style indicators (\%I64d or \%lld).  It supports the C99 specifiers}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00077}00077 \textcolor{comment}{for size\_t and ptr\_diff\_t (\%jd \%zd) as well.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00078}00078 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00079}00079 \textcolor{comment}{EXTRAS:}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00080}00080 \textcolor{comment}{=======}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00081}00081 \textcolor{comment}{Like some GCCs, for integers and floats, you can use a ' (single quote)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00082}00082 \textcolor{comment}{specifier and commas will be inserted on the thousands: "{}\%'d"{} on 12345 }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00083}00083 \textcolor{comment}{would print 12,345.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00084}00084 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00085}00085 \textcolor{comment}{For integers and floats, you can use a "{}\$"{} specifier and the number }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00086}00086 \textcolor{comment}{will be converted to float and then divided to get kilo, mega, giga or}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00087}00087 \textcolor{comment}{tera and then printed, so "{}\%\$d"{} 1024 is "{}1.0 k"{}, "{}\%\$.2d"{} 2536000 is }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00088}00088 \textcolor{comment}{"{}2.42 m"{}, etc.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00089}00089 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00090}00090 \textcolor{comment}{In addition to octal and hexadecimal conversions, you can print }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00091}00091 \textcolor{comment}{integers in binary: "{}\%b"{} for 256 would print 100.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00092}00092 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00093}00093 \textcolor{comment}{PERFORMANCE vs MSVC 2008 32-\//64-\/bit (GCC is even slower than MSVC):}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00094}00094 \textcolor{comment}{===================================================================}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00095}00095 \textcolor{comment}{"{}\%d"{} across all 32-\/bit ints (4.8x/4.0x faster than 32-\//64-\/bit MSVC)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00096}00096 \textcolor{comment}{"{}\%24d"{} across all 32-\/bit ints (4.5x/4.2x faster)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00097}00097 \textcolor{comment}{"{}\%x"{} across all 32-\/bit ints (4.5x/3.8x faster)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00098}00098 \textcolor{comment}{"{}\%08x"{} across all 32-\/bit ints (4.3x/3.8x faster)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00099}00099 \textcolor{comment}{"{}\%f"{} across e-\/10 to e+10 floats (7.3x/6.0x faster)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00100}00100 \textcolor{comment}{"{}\%e"{} across e-\/10 to e+10 floats (8.1x/6.0x faster)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00101}00101 \textcolor{comment}{"{}\%g"{} across e-\/10 to e+10 floats (10.0x/7.1x faster)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00102}00102 \textcolor{comment}{"{}\%f"{} for values near e-\/300 (7.9x/6.5x faster)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00103}00103 \textcolor{comment}{"{}\%f"{} for values near e+300 (10.0x/9.1x faster)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00104}00104 \textcolor{comment}{"{}\%e"{} for values near e-\/300 (10.1x/7.0x faster)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00105}00105 \textcolor{comment}{"{}\%e"{} for values near e+300 (9.2x/6.0x faster)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00106}00106 \textcolor{comment}{"{}\%.320f"{} for values near e-\/300 (12.6x/11.2x faster)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00107}00107 \textcolor{comment}{"{}\%a"{} for random values (8.6x/4.3x faster)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00108}00108 \textcolor{comment}{"{}\%I64d"{} for 64-\/bits with 32-\/bit values (4.8x/3.4x faster)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00109}00109 \textcolor{comment}{"{}\%I64d"{} for 64-\/bits > 32-\/bit values (4.9x/5.5x faster)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00110}00110 \textcolor{comment}{"{}\%s\%s\%s"{} for 64 char strings (7.1x/7.3x faster)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00111}00111 \textcolor{comment}{"{}...512 char string..."{} ( 35.0x/32.5x faster!)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00112}00112 \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00113}00113 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00114}00114 \textcolor{preprocessor}{\#ifdef RR\_SPRINTF\_STATIC}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00115}00115 \textcolor{preprocessor}{\#define RRPUBLIC\_DEC static}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00116}00116 \textcolor{preprocessor}{\#define RRPUBLIC\_DEF static}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00117}00117 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00118}00118 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00119}00119 \textcolor{preprocessor}{\#define RRPUBLIC\_DEC extern "{}C"{}}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00120}00120 \textcolor{preprocessor}{\#define RRPUBLIC\_DEF extern "{}C"{}}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00121}00121 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00122}00122 \textcolor{preprocessor}{\#define RRPUBLIC\_DEC extern }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00123}00123 \textcolor{preprocessor}{\#define RRPUBLIC\_DEF}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00124}00124 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00125}00125 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00126}00126 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00127}00127 \textcolor{preprocessor}{\#include <stdarg.h>}  \textcolor{comment}{// for va\_list()}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00128}00128 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00129}00129 \textcolor{preprocessor}{\#ifndef RR\_SPRINTF\_MIN}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00130}00130 \textcolor{preprocessor}{\#define RR\_SPRINTF\_MIN 512 }\textcolor{comment}{// how many characters per callback}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00131}00131 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00132}00132 \textcolor{keyword}{typedef} \textcolor{keywordtype}{char} * RRSPRINTFCB( \textcolor{keywordtype}{char} * buf, \textcolor{keywordtype}{void} * user, \textcolor{keywordtype}{int} len );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00134}00134 \textcolor{preprocessor}{\#ifndef RR\_SPRINTF\_DECORATE}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00135}00135 \textcolor{preprocessor}{\#define RR\_SPRINTF\_DECORATE(name) rr\#\#name  }\textcolor{comment}{// define this before including if you want to change the names}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00136}00136 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00137}00137 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00138}00138 \textcolor{preprocessor}{\#ifndef RR\_SPRINTF\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00139}00139 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00140}00140 RRPUBLIC\_DEF \textcolor{keywordtype}{int} RR\_SPRINTF\_DECORATE( vsprintf )( \textcolor{keywordtype}{char} * buf, \textcolor{keywordtype}{char} \textcolor{keyword}{const} * fmt, va\_list va );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00141}00141 RRPUBLIC\_DEF \textcolor{keywordtype}{int} RR\_SPRINTF\_DECORATE( vsnprintf )( \textcolor{keywordtype}{char} * buf, \textcolor{keywordtype}{int} count, \textcolor{keywordtype}{char} \textcolor{keyword}{const} * fmt, va\_list va );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00142}00142 RRPUBLIC\_DEF \textcolor{keywordtype}{int} RR\_SPRINTF\_DECORATE( sprintf ) ( \textcolor{keywordtype}{char} * buf, \textcolor{keywordtype}{char} \textcolor{keyword}{const} * fmt, ... );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00143}00143 RRPUBLIC\_DEF \textcolor{keywordtype}{int} RR\_SPRINTF\_DECORATE( snprintf )( \textcolor{keywordtype}{char} * buf, \textcolor{keywordtype}{int} count, \textcolor{keywordtype}{char} \textcolor{keyword}{const} * fmt, ... );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00144}00144 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00145}00145 RRPUBLIC\_DEF \textcolor{keywordtype}{int} RR\_SPRINTF\_DECORATE( vsprintfcb )( RRSPRINTFCB * callback, \textcolor{keywordtype}{void} * user, \textcolor{keywordtype}{char} * buf, \textcolor{keywordtype}{char} \textcolor{keyword}{const} * fmt, va\_list va );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00146}00146 RRPUBLIC\_DEF \textcolor{keywordtype}{void} RR\_SPRINTF\_DECORATE( setseparators )( \textcolor{keywordtype}{char} comma, \textcolor{keywordtype}{char} period );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00147}00147 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00148}00148 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00149}00149 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00150}00150 \textcolor{preprocessor}{\#include <stdlib.h>}  \textcolor{comment}{// for va\_arg()}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00151}00151 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00152}00152 \textcolor{preprocessor}{\#define rU32 unsigned int}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00153}00153 \textcolor{preprocessor}{\#define rS32 signed int}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00154}00154 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00155}00155 \textcolor{preprocessor}{\#ifdef \_MSC\_VER}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00156}00156 \textcolor{preprocessor}{\#define rU64 unsigned \_\_int64}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00157}00157 \textcolor{preprocessor}{\#define rS64 signed \_\_int64}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00158}00158 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00159}00159 \textcolor{preprocessor}{\#define rU64 unsigned long long}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00160}00160 \textcolor{preprocessor}{\#define rS64 signed long long}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00161}00161 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00162}00162 \textcolor{preprocessor}{\#define rU16 unsigned short}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00163}00163 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00164}00164 \textcolor{preprocessor}{\#ifndef rUINTa }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00165}00165 \textcolor{preprocessor}{\#if defined(\_\_ppc64\_\_) || defined(\_\_aarch64\_\_) || defined(\_M\_X64) || defined(\_\_x86\_64\_\_) || defined(\_\_x86\_64)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00166}00166 \textcolor{preprocessor}{\#define rUINTa rU64}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00167}00167 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00168}00168 \textcolor{preprocessor}{\#define rUINTa rU32}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00169}00169 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00170}00170 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00171}00171 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00172}00172 \textcolor{preprocessor}{\#ifndef RR\_SPRINTF\_MSVC\_MODE  }\textcolor{comment}{// used for MSVC2013 and earlier (MSVC2015 matches GCC)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00173}00173 \textcolor{preprocessor}{\#if defined(\_MSC\_VER) \&\& (\_MSC\_VER<1900)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00174}00174 \textcolor{preprocessor}{\#define RR\_SPRINTF\_MSVC\_MODE}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00175}00175 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00176}00176 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00177}00177 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00178}00178 \textcolor{preprocessor}{\#ifdef RR\_SPRINTF\_NOUNALIGNED  }\textcolor{comment}{// define this before inclusion to force rrsprint to always use aligned accesses}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00179}00179 \textcolor{preprocessor}{\#define RR\_UNALIGNED(code)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00180}00180 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00181}00181 \textcolor{preprocessor}{\#define RR\_UNALIGNED(code) code}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00182}00182 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00183}00183 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00184}00184 \textcolor{preprocessor}{\#ifndef RR\_SPRINTF\_NOFLOAT}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00185}00185 \textcolor{comment}{// internal float utility functions}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00186}00186 \textcolor{keyword}{static} rS32 rrreal\_to\_str( \textcolor{keywordtype}{char} \textcolor{keyword}{const} * * start, rU32 * len, \textcolor{keywordtype}{char} *out, rS32 * decimal\_pos, \textcolor{keywordtype}{double} \mbox{\hyperlink{classvalue}{value}}, rU32 frac\_digits );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00187}00187 \textcolor{keyword}{static} rS32 rrreal\_to\_parts( rS64 * bits, rS32 * expo, \textcolor{keywordtype}{double} \mbox{\hyperlink{classvalue}{value}} );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00188}00188 \textcolor{preprocessor}{\#define RRSPECIAL 0x7000}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00189}00189 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00190}00190 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00191}00191 \textcolor{keyword}{static} \textcolor{keywordtype}{char} RRperiod=\textcolor{charliteral}{'.'};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00192}00192 \textcolor{keyword}{static} \textcolor{keywordtype}{char} RRcomma=\textcolor{charliteral}{','};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00193}00193 \textcolor{keyword}{static} \textcolor{keywordtype}{char} rrdiglookup[201]=\textcolor{stringliteral}{"{}00010203040506070809101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899"{}};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00194}00194 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00195}00195 RRPUBLIC\_DEF \textcolor{keywordtype}{void} RR\_SPRINTF\_DECORATE( setseparators )( \textcolor{keywordtype}{char} pcomma, \textcolor{keywordtype}{char} pperiod )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00196}00196 \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00197}00197   RRperiod=pperiod;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00198}00198   RRcomma=pcomma;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00199}00199 \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00200}00200 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00201}00201 RRPUBLIC\_DEF \textcolor{keywordtype}{int} RR\_SPRINTF\_DECORATE( vsprintfcb )( RRSPRINTFCB * callback, \textcolor{keywordtype}{void} * user, \textcolor{keywordtype}{char} * buf, \textcolor{keywordtype}{char} \textcolor{keyword}{const} * fmt, va\_list va )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00202}00202 \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00203}00203   \textcolor{keyword}{static} \textcolor{keywordtype}{char} hex[]=\textcolor{stringliteral}{"{}0123456789abcdefxp"{}};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00204}00204   \textcolor{keyword}{static} \textcolor{keywordtype}{char} hexu[]=\textcolor{stringliteral}{"{}0123456789ABCDEFXP"{}};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00205}00205   \textcolor{keywordtype}{char} * bf;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00206}00206   \textcolor{keywordtype}{char} \textcolor{keyword}{const} * f;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00207}00207   \textcolor{keywordtype}{int} tlen = 0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00208}00208 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00209}00209   bf = buf;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00210}00210   f = fmt;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00211}00211   \textcolor{keywordflow}{for}(;;)}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00212}00212   \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00213}00213     rS32 fw,pr,tz; rU32 fl;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00214}00214 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00215}00215 \textcolor{preprocessor}{    \#define LJ 1}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00216}00216 \textcolor{preprocessor}{    \#define LP 2}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00217}00217 \textcolor{preprocessor}{    \#define LS 4}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00218}00218 \textcolor{preprocessor}{    \#define LX 8}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00219}00219 \textcolor{preprocessor}{    \#define LZ 16}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00220}00220 \textcolor{preprocessor}{    \#define BI 32}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00221}00221 \textcolor{preprocessor}{    \#define CS 64}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00222}00222 \textcolor{preprocessor}{    \#define NG 128}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00223}00223 \textcolor{preprocessor}{    \#define KI 256}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00224}00224 \textcolor{preprocessor}{    \#define HW 512}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00225}00225  }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00226}00226     \textcolor{comment}{// macros for the callback buffer stuff}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00227}00227 \textcolor{preprocessor}{    \#define chk\_cb\_bufL(bytes) \{ int len = (int)(bf-\/buf); if ((len+(bytes))>=RR\_SPRINTF\_MIN) \{ tlen+=len; if (0==(bf=buf=callback(buf,user,len))) goto done; \} \}}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00228}00228 \textcolor{preprocessor}{    \#define chk\_cb\_buf(bytes) \{ if ( callback ) \{ chk\_cb\_bufL(bytes); \} \}}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00229}00229 \textcolor{preprocessor}{    \#define flush\_cb() \{ chk\_cb\_bufL(RR\_SPRINTF\_MIN-\/1); \} }\textcolor{comment}{//flush if there is even one byte in the buffer}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00230}00230 \textcolor{preprocessor}{    \#define cb\_buf\_clamp(cl,v) cl = v; if ( callback ) \{ int lg = RR\_SPRINTF\_MIN-\/(int)(bf-\/buf); if (cl>lg) cl=lg; \}}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00231}00231 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00232}00232     \textcolor{comment}{// fast copy everything up to the next \% (or end of string)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00233}00233     \textcolor{keywordflow}{for}(;;)}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00234}00234     \{ }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00235}00235       \textcolor{keywordflow}{while} (((rUINTa)f)\&3)}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00236}00236       \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00237}00237        schk1: \textcolor{keywordflow}{if} (f[0]==\textcolor{charliteral}{'\%'}) \textcolor{keywordflow}{goto} scandd;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00238}00238        schk2: \textcolor{keywordflow}{if} (f[0]==0) \textcolor{keywordflow}{goto} endfmt;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00239}00239         chk\_cb\_buf(1); *bf++=f[0]; ++f;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00240}00240       \} }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00241}00241       \textcolor{keywordflow}{for}(;;)}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00242}00242       \{ }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00243}00243         rU32 v,c;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00244}00244         v=*(rU32*)f; c=(\string~v)\&0x80808080;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00245}00245         \textcolor{keywordflow}{if} ((v-\/0x26262626)\&c) \textcolor{keywordflow}{goto} schk1; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00246}00246         \textcolor{keywordflow}{if} ((v-\/0x01010101)\&c) \textcolor{keywordflow}{goto} schk2; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00247}00247         \textcolor{keywordflow}{if} (callback) \textcolor{keywordflow}{if} ((RR\_SPRINTF\_MIN-\/(\textcolor{keywordtype}{int})(bf-\/buf))<4) \textcolor{keywordflow}{goto} schk1;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00248}00248         *(rU32*)bf=v; bf+=4; f+=4;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00249}00249       \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00250}00250     \} scandd:}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00251}00251 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00252}00252     ++f;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00253}00253 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00254}00254     \textcolor{comment}{// ok, we have a percent, read the modifiers first}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00255}00255     fw = 0; pr = -\/1; fl = 0; tz = 0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00256}00256     }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00257}00257     \textcolor{comment}{// flags}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00258}00258     \textcolor{keywordflow}{for}(;;)}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00259}00259     \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00260}00260       \textcolor{keywordflow}{switch}(f[0])}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00261}00261       \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00262}00262         \textcolor{comment}{// if we have left just}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00263}00263         \textcolor{keywordflow}{case} \textcolor{charliteral}{'-\/'}: fl|=LJ; ++f; \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00264}00264         \textcolor{comment}{// if we have leading plus}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00265}00265         \textcolor{keywordflow}{case} \textcolor{charliteral}{'+'}: fl|=LP; ++f; \textcolor{keywordflow}{continue}; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00266}00266         \textcolor{comment}{// if we have leading space}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00267}00267         \textcolor{keywordflow}{case} \textcolor{charliteral}{' '}: fl|=LS; ++f; \textcolor{keywordflow}{continue}; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00268}00268         \textcolor{comment}{// if we have leading 0x}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00269}00269         \textcolor{keywordflow}{case} \textcolor{charliteral}{'\#'}: fl|=LX; ++f; \textcolor{keywordflow}{continue}; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00270}00270         \textcolor{comment}{// if we have thousand commas}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00271}00271         \textcolor{keywordflow}{case} \textcolor{charliteral}{'\(\backslash\)''}: fl|=CS; ++f; \textcolor{keywordflow}{continue}; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00272}00272         \textcolor{comment}{// if we have kilo marker}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00273}00273         \textcolor{keywordflow}{case} \textcolor{charliteral}{'\$'}: fl|=KI; ++f; \textcolor{keywordflow}{continue}; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00274}00274         \textcolor{comment}{// if we have leading zero}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00275}00275         \textcolor{keywordflow}{case} \textcolor{charliteral}{'0'}: fl|=LZ; ++f; \textcolor{keywordflow}{goto} flags\_done; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00276}00276         \textcolor{keywordflow}{default}: \textcolor{keywordflow}{goto} flags\_done;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00277}00277       \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00278}00278     \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00279}00279     flags\_done:}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00280}00280    }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00281}00281     \textcolor{comment}{// get the field width}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00282}00282     \textcolor{keywordflow}{if} ( f[0] == \textcolor{charliteral}{'*'} ) \{fw = va\_arg(va,rU32); ++f;\} \textcolor{keywordflow}{else} \{ \textcolor{keywordflow}{while} (( f[0] >= \textcolor{charliteral}{'0'} ) \&\& ( f[0] <= \textcolor{charliteral}{'9'} )) \{ fw = fw * 10 + f[0] -\/ \textcolor{charliteral}{'0'}; f++; \} \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00283}00283     \textcolor{comment}{// get the precision}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00284}00284     \textcolor{keywordflow}{if} ( f[0]==\textcolor{charliteral}{'.'} ) \{ ++f; \textcolor{keywordflow}{if} ( f[0] == \textcolor{charliteral}{'*'} ) \{pr = va\_arg(va,rU32); ++f;\} \textcolor{keywordflow}{else} \{ pr = 0; \textcolor{keywordflow}{while} (( f[0] >= \textcolor{charliteral}{'0'} ) \&\& ( f[0] <= \textcolor{charliteral}{'9'} )) \{ pr = pr * 10 + f[0] -\/ \textcolor{charliteral}{'0'}; f++; \} \} \} }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00285}00285     }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00286}00286     \textcolor{comment}{// handle integer size overrides}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00287}00287     \textcolor{keywordflow}{switch}(f[0])}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00288}00288     \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00289}00289       \textcolor{comment}{// are we halfwidth?}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00290}00290       \textcolor{keywordflow}{case} \textcolor{charliteral}{'h'}: fl|=HW; ++f; \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00291}00291       \textcolor{comment}{// are we 64-\/bit (unix style)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00292}00292       \textcolor{keywordflow}{case} \textcolor{charliteral}{'l'}: ++f; \textcolor{keywordflow}{if} ( f[0]==\textcolor{charliteral}{'l'}) \{ fl|=BI; ++f; \} \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00293}00293       \textcolor{comment}{// are we 64-\/bit on intmax? (c99)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00294}00294       \textcolor{keywordflow}{case} \textcolor{charliteral}{'j'}: fl|=BI; ++f; \textcolor{keywordflow}{break}; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00295}00295       \textcolor{comment}{// are we 64-\/bit on size\_t or ptrdiff\_t? (c99)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00296}00296       \textcolor{keywordflow}{case} \textcolor{charliteral}{'z'}: \textcolor{keywordflow}{case} \textcolor{charliteral}{'t'}: fl|=((\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{char}*)==8)?BI:0); ++f; \textcolor{keywordflow}{break}; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00297}00297       \textcolor{comment}{// are we 64-\/bit (msft style)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00298}00298       \textcolor{keywordflow}{case} \textcolor{charliteral}{'I'}: \textcolor{keywordflow}{if} ( ( f[1]==\textcolor{charliteral}{'6'}) \&\& ( f[2]==\textcolor{charliteral}{'4'}) ) \{ fl|=BI; f+=3; \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ( ( f[1]==\textcolor{charliteral}{'3'}) \&\& ( f[2]==\textcolor{charliteral}{'2'}) ) \{ f+=3; \} \textcolor{keywordflow}{else} \{ fl|=((\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{void}*)==8)?BI:0); ++f; \} \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00299}00299       \textcolor{keywordflow}{default}: \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00300}00300     \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00301}00301 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00302}00302     \textcolor{comment}{// handle each replacement}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00303}00303     \textcolor{keywordflow}{switch}( f[0] )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00304}00304     \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00305}00305 \textcolor{preprocessor}{      \#define NUMSZ 512 }\textcolor{comment}{// big enough for e308 (with commas) or e-\/307 }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00306}00306       \textcolor{keywordtype}{char} num[NUMSZ]; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00307}00307       \textcolor{keywordtype}{char} lead[8]; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00308}00308       \textcolor{keywordtype}{char} tail[8]; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00309}00309       \textcolor{keywordtype}{char} *s;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00310}00310       \textcolor{keywordtype}{char} \textcolor{keyword}{const} *h;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00311}00311       rU32 l,n,cs;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00312}00312       rU64 n64;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00313}00313 \textcolor{preprocessor}{      \#ifndef RR\_SPRINTF\_NOFLOAT      }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00314}00314       \textcolor{keywordtype}{double} fv; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00315}00315 \textcolor{preprocessor}{      \#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00316}00316       rS32 dp; \textcolor{keywordtype}{char} \textcolor{keyword}{const} * sn;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00317}00317 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00318}00318       \textcolor{keywordflow}{case} \textcolor{charliteral}{'s'}:}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00319}00319         \textcolor{comment}{// get the string}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00320}00320         s = va\_arg(va,\textcolor{keywordtype}{char}*); \textcolor{keywordflow}{if} (s==0) s = (\textcolor{keywordtype}{char}*)\textcolor{stringliteral}{"{}null"{}};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00321}00321         \textcolor{comment}{// get the length}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00322}00322         sn = s;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00323}00323         \textcolor{keywordflow}{for}(;;)}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00324}00324         \{ }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00325}00325           \textcolor{keywordflow}{if} ((((rUINTa)sn)\&3)==0) \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00326}00326          lchk:}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00327}00327           \textcolor{keywordflow}{if} (sn[0]==0) \textcolor{keywordflow}{goto} ld;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00328}00328           ++sn;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00329}00329         \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00330}00330         n = 0xffffffff;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00331}00331         \textcolor{keywordflow}{if} (pr>=0) \{ n=(rU32)(sn-\/s); \textcolor{keywordflow}{if} (n>=(rU32)pr) \textcolor{keywordflow}{goto} ld; n=((rU32)(pr-\/n))>>2; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00332}00332         \textcolor{keywordflow}{while}(n) }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00333}00333         \{ }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00334}00334           rU32 v=*(rU32*)sn;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00335}00335           \textcolor{keywordflow}{if} ((v-\/0x01010101)\&(\string~v)\&0x80808080UL) \textcolor{keywordflow}{goto} lchk; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00336}00336           sn+=4; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00337}00337           -\/-\/n;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00338}00338         \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00339}00339         \textcolor{keywordflow}{goto} lchk;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00340}00340        ld:}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00341}00341 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00342}00342         l = (rU32) ( sn -\/ s );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00343}00343         \textcolor{comment}{// clamp to precision}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00344}00344         \textcolor{keywordflow}{if} ( l > (rU32)pr ) l = pr;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00345}00345         lead[0]=0; tail[0]=0; pr = 0; dp = 0; cs = 0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00346}00346         \textcolor{comment}{// copy the string in}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00347}00347         \textcolor{keywordflow}{goto} scopy;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00348}00348 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00349}00349       \textcolor{keywordflow}{case} \textcolor{charliteral}{'c'}: \textcolor{comment}{// char}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00350}00350         \textcolor{comment}{// get the character}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00351}00351         s = num + NUMSZ -\/1; *s = (char)va\_arg(va,\textcolor{keywordtype}{int});}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00352}00352         l = 1;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00353}00353         lead[0]=0; tail[0]=0; pr = 0; dp = 0; cs = 0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00354}00354         \textcolor{keywordflow}{goto} scopy;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00355}00355 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00356}00356       \textcolor{keywordflow}{case} \textcolor{charliteral}{'n'}: \textcolor{comment}{// weird write-\/bytes specifier}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00357}00357         \{ \textcolor{keywordtype}{int} * d = va\_arg(va,\textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00358}00358         *d = tlen + (int)( bf -\/ buf ); \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00359}00359         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00360}00360 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00361}00361 \textcolor{preprocessor}{\#ifdef RR\_SPRINTF\_NOFLOAT}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00362}00362       \textcolor{keywordflow}{case} \textcolor{charliteral}{'A'}: \textcolor{comment}{// float}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00363}00363       \textcolor{keywordflow}{case} \textcolor{charliteral}{'a'}: \textcolor{comment}{// hex float}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00364}00364       \textcolor{keywordflow}{case} \textcolor{charliteral}{'G'}: \textcolor{comment}{// float}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00365}00365       \textcolor{keywordflow}{case} \textcolor{charliteral}{'g'}: \textcolor{comment}{// float}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00366}00366       \textcolor{keywordflow}{case} \textcolor{charliteral}{'E'}: \textcolor{comment}{// float}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00367}00367       \textcolor{keywordflow}{case} \textcolor{charliteral}{'e'}: \textcolor{comment}{// float}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00368}00368       \textcolor{keywordflow}{case} \textcolor{charliteral}{'f'}: \textcolor{comment}{// float}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00369}00369         va\_arg(va,\textcolor{keywordtype}{double}); \textcolor{comment}{// eat it}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00370}00370         s = (\textcolor{keywordtype}{char}*)\textcolor{stringliteral}{"{}No float"{}};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00371}00371         l = 8;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00372}00372         lead[0]=0; tail[0]=0; pr = 0; dp = 0; cs = 0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00373}00373         \textcolor{keywordflow}{goto} scopy;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00374}00374 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00375}00375       \textcolor{keywordflow}{case} \textcolor{charliteral}{'A'}: \textcolor{comment}{// float}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00376}00376         h=hexu;  }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00377}00377         \textcolor{keywordflow}{goto} hexfloat;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00378}00378 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00379}00379       \textcolor{keywordflow}{case} \textcolor{charliteral}{'a'}: \textcolor{comment}{// hex float}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00380}00380         h=hex;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00381}00381        hexfloat: }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00382}00382         fv = va\_arg(va,\textcolor{keywordtype}{double});}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00383}00383         \textcolor{keywordflow}{if} (pr==-\/1) pr=6; \textcolor{comment}{// default is 6}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00384}00384         \textcolor{comment}{// read the double into a string}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00385}00385         \textcolor{keywordflow}{if} ( rrreal\_to\_parts( (rS64*)\&n64, \&dp, fv ) )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00386}00386           fl |= NG;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00387}00387   }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00388}00388         s = num+64;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00389}00389 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00390}00390         \textcolor{comment}{// sign}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00391}00391         lead[0]=0; \textcolor{keywordflow}{if} (fl\&NG) \{ lead[0]=1; lead[1]=\textcolor{charliteral}{'-\/'}; \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (fl\&LS) \{ lead[0]=1; lead[1]=\textcolor{charliteral}{' '}; \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (fl\&LP) \{ lead[0]=1; lead[1]=\textcolor{charliteral}{'+'}; \};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00392}00392 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00393}00393         \textcolor{keywordflow}{if} (dp==-\/1023) dp=(n64)?-\/1022:0; \textcolor{keywordflow}{else} n64|=(((rU64)1)<<52);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00394}00394         n64<<=(64-\/56);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00395}00395         \textcolor{keywordflow}{if} (pr<15) n64+=((((rU64)8)<<56)>>(pr*4));}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00396}00396         \textcolor{comment}{// add leading chars}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00397}00397         }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00398}00398 \textcolor{preprocessor}{        \#ifdef RR\_SPRINTF\_MSVC\_MODE}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00399}00399         *s++=\textcolor{charliteral}{'0'};*s++=\textcolor{charliteral}{'x'};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00400}00400 \textcolor{preprocessor}{        \#else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00401}00401         lead[1+lead[0]]=\textcolor{charliteral}{'0'}; lead[2+lead[0]]=\textcolor{charliteral}{'x'}; lead[0]+=2;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00402}00402 \textcolor{preprocessor}{        \#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00403}00403         *s++=h[(n64>>60)\&15]; n64<<=4;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00404}00404         \textcolor{keywordflow}{if} ( pr ) *s++=RRperiod;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00405}00405         sn = s;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00406}00406 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00407}00407         \textcolor{comment}{// print the bits}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00408}00408         n = pr; \textcolor{keywordflow}{if} (n>13) n = 13; \textcolor{keywordflow}{if} (pr>(rS32)n) tz=pr-\/n; pr = 0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00409}00409         \textcolor{keywordflow}{while}(n-\/-\/) \{ *s++=h[(n64>>60)\&15]; n64<<=4; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00410}00410 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00411}00411         \textcolor{comment}{// print the expo}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00412}00412         tail[1]=h[17];}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00413}00413         \textcolor{keywordflow}{if} (dp<0) \{ tail[2]=\textcolor{charliteral}{'-\/'}; dp=-\/dp;\} \textcolor{keywordflow}{else} tail[2]=\textcolor{charliteral}{'+'};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00414}00414         n = (dp>=1000)?6:((dp>=100)?5:((dp>=10)?4:3));}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00415}00415         tail[0]=(char)n;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00416}00416         \textcolor{keywordflow}{for}(;;) \{ tail[n]=\textcolor{charliteral}{'0'}+dp\%10; \textcolor{keywordflow}{if} (n<=3) \textcolor{keywordflow}{break}; -\/-\/n; dp/=10; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00417}00417 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00418}00418         dp = (int)(s-\/sn);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00419}00419         l = (int)(s-\/(num+64));}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00420}00420         s = num+64;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00421}00421         cs = 1 + (3<<24);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00422}00422         \textcolor{keywordflow}{goto} scopy;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00423}00423 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00424}00424       \textcolor{keywordflow}{case} \textcolor{charliteral}{'G'}: \textcolor{comment}{// float}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00425}00425         h=hexu;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00426}00426         \textcolor{keywordflow}{goto} dosmallfloat;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00427}00427 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00428}00428       \textcolor{keywordflow}{case} \textcolor{charliteral}{'g'}: \textcolor{comment}{// float}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00429}00429         h=hex;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00430}00430        dosmallfloat:   }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00431}00431         fv = va\_arg(va,\textcolor{keywordtype}{double});}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00432}00432         \textcolor{keywordflow}{if} (pr==-\/1) pr=6; \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (pr==0) pr = 1; \textcolor{comment}{// default is 6}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00433}00433         \textcolor{comment}{// read the double into a string}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00434}00434         \textcolor{keywordflow}{if} ( rrreal\_to\_str( \&sn, \&l, num, \&dp, fv, (pr-\/1)|0x80000000 ) )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00435}00435           fl |= NG;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00436}00436 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00437}00437         \textcolor{comment}{// clamp the precision and delete extra zeros after clamp}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00438}00438         n = pr;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00439}00439         \textcolor{keywordflow}{if} ( l > (rU32)pr ) l = pr; \textcolor{keywordflow}{while} ((l>1)\&\&(pr)\&\&(sn[l-\/1]==\textcolor{charliteral}{'0'})) \{ -\/-\/pr; -\/-\/l; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00440}00440 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00441}00441         \textcolor{comment}{// should we use \%e}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00442}00442         \textcolor{keywordflow}{if} ((dp<=-\/4)||(dp>(rS32)n))}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00443}00443         \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00444}00444           \textcolor{keywordflow}{if} ( pr > (rS32)l ) pr = l-\/1; \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ( pr ) -\/-\/pr; \textcolor{comment}{// when using \%e, there is one digit before the decimal}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00445}00445           \textcolor{keywordflow}{goto} doexpfromg;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00446}00446         \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00447}00447         \textcolor{comment}{// this is the insane action to get the pr to match \%g sematics for \%f}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00448}00448         \textcolor{keywordflow}{if}(dp>0) \{ pr=(dp<(rS32)l)?l-\/dp:0; \} \textcolor{keywordflow}{else} \{ pr = -\/dp+((pr>(rS32)l)?l:pr); \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00449}00449         \textcolor{keywordflow}{goto} dofloatfromg;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00450}00450 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00451}00451       \textcolor{keywordflow}{case} \textcolor{charliteral}{'E'}: \textcolor{comment}{// float}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00452}00452         h=hexu;  }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00453}00453         \textcolor{keywordflow}{goto} doexp;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00454}00454 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00455}00455       \textcolor{keywordflow}{case} \textcolor{charliteral}{'e'}: \textcolor{comment}{// float}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00456}00456         h=hex;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00457}00457        doexp:   }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00458}00458         fv = va\_arg(va,\textcolor{keywordtype}{double});}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00459}00459         \textcolor{keywordflow}{if} (pr==-\/1) pr=6; \textcolor{comment}{// default is 6}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00460}00460         \textcolor{comment}{// read the double into a string}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00461}00461         \textcolor{keywordflow}{if} ( rrreal\_to\_str( \&sn, \&l, num, \&dp, fv, pr|0x80000000 ) )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00462}00462           fl |= NG;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00463}00463        doexpfromg: }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00464}00464         tail[0]=0; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00465}00465         lead[0]=0; \textcolor{keywordflow}{if} (fl\&NG) \{ lead[0]=1; lead[1]=\textcolor{charliteral}{'-\/'}; \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (fl\&LS) \{ lead[0]=1; lead[1]=\textcolor{charliteral}{' '}; \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (fl\&LP) \{ lead[0]=1; lead[1]=\textcolor{charliteral}{'+'}; \};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00466}00466         \textcolor{keywordflow}{if} ( dp == RRSPECIAL ) \{ s=(\textcolor{keywordtype}{char}*)sn; cs=0; pr=0; \textcolor{keywordflow}{goto} scopy; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00467}00467         s=num+64; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00468}00468         \textcolor{comment}{// handle leading chars}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00469}00469         *s++=sn[0];}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00470}00470 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00471}00471         \textcolor{keywordflow}{if} (pr) *s++=RRperiod;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00472}00472 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00473}00473         \textcolor{comment}{// handle after decimal}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00474}00474         \textcolor{keywordflow}{if} ((l-\/1)>(rU32)pr) l=pr+1;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00475}00475         \textcolor{keywordflow}{for}(n=1;n<l;n++) *s++=sn[n];}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00476}00476         \textcolor{comment}{// trailing zeros}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00477}00477         tz = pr-\/(l-\/1); pr=0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00478}00478         \textcolor{comment}{// dump expo}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00479}00479         tail[1]=h[0xe];}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00480}00480         dp -\/= 1;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00481}00481         \textcolor{keywordflow}{if} (dp<0) \{ tail[2]=\textcolor{charliteral}{'-\/'}; dp=-\/dp;\} \textcolor{keywordflow}{else} tail[2]=\textcolor{charliteral}{'+'};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00482}00482 \textcolor{preprocessor}{        \#ifdef RR\_SPRINTF\_MSVC\_MODE}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00483}00483         n = 5;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00484}00484 \textcolor{preprocessor}{        \#else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00485}00485         n = (dp>=100)?5:4;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00486}00486 \textcolor{preprocessor}{        \#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00487}00487         tail[0]=(char)n;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00488}00488         \textcolor{keywordflow}{for}(;;) \{ tail[n]=\textcolor{charliteral}{'0'}+dp\%10; \textcolor{keywordflow}{if} (n<=3) \textcolor{keywordflow}{break}; -\/-\/n; dp/=10; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00489}00489         cs = 1 + (3<<24); \textcolor{comment}{// how many tens}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00490}00490         \textcolor{keywordflow}{goto} flt\_lead;   }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00491}00491 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00492}00492       \textcolor{keywordflow}{case} \textcolor{charliteral}{'f'}: \textcolor{comment}{// float}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00493}00493         fv = va\_arg(va,\textcolor{keywordtype}{double});}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00494}00494        doafloat: }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00495}00495         \textcolor{comment}{// do kilos}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00496}00496         \textcolor{keywordflow}{if} (fl\&KI) \{\textcolor{keywordflow}{while}(fl<0x4000000) \{ \textcolor{keywordflow}{if} ((fv<1024.0) \&\& (fv>-\/1024.0)) \textcolor{keywordflow}{break}; fv/=1024.0; fl+=0x1000000; \}\} }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00497}00497         \textcolor{keywordflow}{if} (pr==-\/1) pr=6; \textcolor{comment}{// default is 6}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00498}00498         \textcolor{comment}{// read the double into a string}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00499}00499         \textcolor{keywordflow}{if} ( rrreal\_to\_str( \&sn, \&l, num, \&dp, fv, pr ) )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00500}00500           fl |= NG;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00501}00501         dofloatfromg:}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00502}00502         tail[0]=0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00503}00503         \textcolor{comment}{// sign}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00504}00504         lead[0]=0; \textcolor{keywordflow}{if} (fl\&NG) \{ lead[0]=1; lead[1]=\textcolor{charliteral}{'-\/'}; \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (fl\&LS) \{ lead[0]=1; lead[1]=\textcolor{charliteral}{' '}; \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (fl\&LP) \{ lead[0]=1; lead[1]=\textcolor{charliteral}{'+'}; \};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00505}00505         \textcolor{keywordflow}{if} ( dp == RRSPECIAL ) \{ s=(\textcolor{keywordtype}{char}*)sn; cs=0; pr=0; \textcolor{keywordflow}{goto} scopy; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00506}00506         s=num+64; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00507}00507 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00508}00508         \textcolor{comment}{// handle the three decimal varieties}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00509}00509         \textcolor{keywordflow}{if} (dp<=0) }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00510}00510         \{ }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00511}00511           rS32 i;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00512}00512           \textcolor{comment}{// handle 0.000*000xxxx}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00513}00513           *s++=\textcolor{charliteral}{'0'}; \textcolor{keywordflow}{if} (pr) *s++=RRperiod; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00514}00514           n=-\/dp; \textcolor{keywordflow}{if}((rS32)n>pr) n=pr; i=n; \textcolor{keywordflow}{while}(i) \{ \textcolor{keywordflow}{if} ((((rUINTa)s)\&3)==0) \textcolor{keywordflow}{break}; *s++=\textcolor{charliteral}{'0'}; -\/-\/i; \} \textcolor{keywordflow}{while}(i>=4) \{ *(rU32*)s=0x30303030; s+=4; i-\/=4; \} \textcolor{keywordflow}{while}(i) \{ *s++=\textcolor{charliteral}{'0'}; -\/-\/i; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00515}00515           \textcolor{keywordflow}{if} ((rS32)(l+n)>pr) l=pr-\/n; i=l; \textcolor{keywordflow}{while}(i) \{ *s++=*sn++; -\/-\/i; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00516}00516           tz = pr-\/(n+l);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00517}00517           cs = 1 + (3<<24); \textcolor{comment}{// how many tens did we write (for commas below)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00518}00518         \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00519}00519         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00520}00520         \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00521}00521           cs = (fl\&CS)?((600-\/(rU32)dp)\%3):0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00522}00522           \textcolor{keywordflow}{if} ((rU32)dp>=l)}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00523}00523           \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00524}00524             \textcolor{comment}{// handle xxxx000*000.0}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00525}00525             n=0; \textcolor{keywordflow}{for}(;;) \{ \textcolor{keywordflow}{if} ((fl\&CS) \&\& (++cs==4)) \{ cs = 0; *s++=RRcomma; \} \textcolor{keywordflow}{else} \{ *s++=sn[n]; ++n; \textcolor{keywordflow}{if} (n>=l) \textcolor{keywordflow}{break}; \} \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00526}00526             \textcolor{keywordflow}{if} (n<(rU32)dp)}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00527}00527             \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00528}00528               n = dp -\/ n;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00529}00529               \textcolor{keywordflow}{if} ((fl\&CS)==0) \{ \textcolor{keywordflow}{while}(n) \{ \textcolor{keywordflow}{if} ((((rUINTa)s)\&3)==0) \textcolor{keywordflow}{break}; *s++=\textcolor{charliteral}{'0'}; -\/-\/n; \}  \textcolor{keywordflow}{while}(n>=4) \{ *(rU32*)s=0x30303030; s+=4; n-\/=4; \} \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00530}00530               \textcolor{keywordflow}{while}(n) \{ \textcolor{keywordflow}{if} ((fl\&CS) \&\& (++cs==4)) \{ cs = 0; *s++=RRcomma; \} \textcolor{keywordflow}{else} \{ *s++=\textcolor{charliteral}{'0'}; -\/-\/n; \} \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00531}00531             \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00532}00532             cs = (int)(s-\/(num+64)) + (3<<24); \textcolor{comment}{// cs is how many tens}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00533}00533             \textcolor{keywordflow}{if} (pr) \{ *s++=RRperiod; tz=pr;\}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00534}00534           \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00535}00535           \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00536}00536           \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00537}00537             \textcolor{comment}{// handle xxxxx.xxxx000*000}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00538}00538             n=0; \textcolor{keywordflow}{for}(;;) \{ \textcolor{keywordflow}{if} ((fl\&CS) \&\& (++cs==4)) \{ cs = 0; *s++=RRcomma; \} \textcolor{keywordflow}{else} \{ *s++=sn[n]; ++n; \textcolor{keywordflow}{if} (n>=(rU32)dp) \textcolor{keywordflow}{break}; \} \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00539}00539             cs = (int)(s-\/(num+64)) + (3<<24); \textcolor{comment}{// cs is how many tens}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00540}00540             \textcolor{keywordflow}{if} (pr) *s++=RRperiod;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00541}00541             \textcolor{keywordflow}{if} ((l-\/dp)>(rU32)pr) l=pr+dp;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00542}00542             \textcolor{keywordflow}{while}(n<l) \{ *s++=sn[n]; ++n; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00543}00543             tz = pr-\/(l-\/dp);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00544}00544           \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00545}00545         \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00546}00546         pr = 0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00547}00547         }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00548}00548         \textcolor{comment}{// handle k,m,g,t}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00549}00549         \textcolor{keywordflow}{if} (fl\&KI) \{ tail[0]=1; tail[1]=\textcolor{charliteral}{' '}; \{ \textcolor{keywordflow}{if} (fl>>24) \{ tail[2]=\textcolor{stringliteral}{"{}\_kmgt"{}}[fl>>24]; tail[0]=2; \} \} \};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00550}00550 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00551}00551         flt\_lead:}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00552}00552         \textcolor{comment}{// get the length that we copied}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00553}00553         l = (rU32) ( s-\/(num+64) );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00554}00554         s=num+64; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00555}00555         \textcolor{keywordflow}{goto} scopy;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00556}00556 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00557}00557 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00558}00558       \textcolor{keywordflow}{case} \textcolor{charliteral}{'B'}: \textcolor{comment}{// upper binary}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00559}00559         h = hexu;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00560}00560         \textcolor{keywordflow}{goto} binary;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00561}00561 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00562}00562       \textcolor{keywordflow}{case} \textcolor{charliteral}{'b'}: \textcolor{comment}{// lower binary}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00563}00563         h = hex;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00564}00564         binary:}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00565}00565         lead[0]=0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00566}00566         \textcolor{keywordflow}{if} (fl\&LX) \{ lead[0]=2;lead[1]=\textcolor{charliteral}{'0'};lead[2]=h[0xb]; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00567}00567         l=(8<<4)|(1<<8);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00568}00568         \textcolor{keywordflow}{goto} radixnum;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00569}00569 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00570}00570       \textcolor{keywordflow}{case} \textcolor{charliteral}{'o'}: \textcolor{comment}{// octal}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00571}00571         h = hexu;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00572}00572         lead[0]=0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00573}00573         \textcolor{keywordflow}{if} (fl\&LX) \{ lead[0]=1;lead[1]=\textcolor{charliteral}{'0'}; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00574}00574         l=(3<<4)|(3<<8);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00575}00575         \textcolor{keywordflow}{goto} radixnum;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00576}00576 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00577}00577       \textcolor{keywordflow}{case} \textcolor{charliteral}{'p'}: \textcolor{comment}{// pointer}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00578}00578         fl |= (\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{void}*)==8)?BI:0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00579}00579         pr = \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{void}*)*2;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00580}00580         fl \&= \string~LZ; \textcolor{comment}{// 'p' only prints the pointer with zeros}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00581}00581         \textcolor{comment}{// drop through to X}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00582}00582       }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00583}00583       \textcolor{keywordflow}{case} \textcolor{charliteral}{'X'}: \textcolor{comment}{// upper binary}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00584}00584         h = hexu;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00585}00585         \textcolor{keywordflow}{goto} dohexb;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00586}00586 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00587}00587       \textcolor{keywordflow}{case} \textcolor{charliteral}{'x'}: \textcolor{comment}{// lower binary}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00588}00588         h = hex; dohexb:}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00589}00589         l=(4<<4)|(4<<8);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00590}00590         lead[0]=0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00591}00591         \textcolor{keywordflow}{if} (fl\&LX) \{ lead[0]=2;lead[1]=\textcolor{charliteral}{'0'};lead[2]=h[16]; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00592}00592        radixnum: }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00593}00593         \textcolor{comment}{// get the number}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00594}00594         \textcolor{keywordflow}{if} ( fl\&BI )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00595}00595           n64 = va\_arg(va,rU64);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00596}00596         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00597}00597           n64 = va\_arg(va,rU32);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00598}00598 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00599}00599         s = num + NUMSZ; dp = 0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00600}00600         \textcolor{comment}{// clear tail, and clear leading if value is zero}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00601}00601         tail[0]=0; \textcolor{keywordflow}{if} (n64==0) \{ lead[0]=0; \textcolor{keywordflow}{if} (pr==0) \{ l=0; cs = ( ((l>>4)\&15)) << 24; \textcolor{keywordflow}{goto} scopy; \} \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00602}00602         \textcolor{comment}{// convert to string}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00603}00603         \textcolor{keywordflow}{for}(;;) \{ *-\/-\/s = h[n64\&((1<<(l>>8))-\/1)]; n64>>=(l>>8); \textcolor{keywordflow}{if} ( ! ( (n64) || ((rS32) ( (num+NUMSZ) -\/ s ) < pr ) ) ) \textcolor{keywordflow}{break}; \textcolor{keywordflow}{if} ( fl\&CS) \{ ++l; \textcolor{keywordflow}{if} ((l\&15)==((l>>4)\&15)) \{ l\&=\string~15; *-\/-\/s=RRcomma; \} \} \};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00604}00604         \textcolor{comment}{// get the tens and the comma pos}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00605}00605         cs = (rU32) ( (num+NUMSZ) -\/ s ) + ( ( ((l>>4)\&15)) << 24 );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00606}00606         \textcolor{comment}{// get the length that we copied}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00607}00607         l = (rU32) ( (num+NUMSZ) -\/ s );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00608}00608         \textcolor{comment}{// copy it}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00609}00609         \textcolor{keywordflow}{goto} scopy;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00610}00610 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00611}00611       \textcolor{keywordflow}{case} \textcolor{charliteral}{'u'}: \textcolor{comment}{// unsigned}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00612}00612       \textcolor{keywordflow}{case} \textcolor{charliteral}{'i'}:}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00613}00613       \textcolor{keywordflow}{case} \textcolor{charliteral}{'d'}: \textcolor{comment}{// integer}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00614}00614         \textcolor{comment}{// get the integer and abs it}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00615}00615         \textcolor{keywordflow}{if} ( fl\&BI )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00616}00616         \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00617}00617           rS64 \mbox{\hyperlink{group__gtc__type__precision_gac7a7eaad46064fc952b06df33689da23}{i64}} = va\_arg(va,rS64); n64 = (rU64)\mbox{\hyperlink{group__gtc__type__precision_gac7a7eaad46064fc952b06df33689da23}{i64}}; \textcolor{keywordflow}{if} ((f[0]!=\textcolor{charliteral}{'u'}) \&\& (\mbox{\hyperlink{group__gtc__type__precision_gac7a7eaad46064fc952b06df33689da23}{i64}}<0)) \{ n64=(rU64)-\/\mbox{\hyperlink{group__gtc__type__precision_gac7a7eaad46064fc952b06df33689da23}{i64}}; fl|=NG; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00618}00618         \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00619}00619         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00620}00620         \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00621}00621           rS32 i = va\_arg(va,rS32); n64 = (rU32)i; \textcolor{keywordflow}{if} ((f[0]!=\textcolor{charliteral}{'u'}) \&\& (i<0)) \{ n64=(rU32)-\/i; fl|=NG; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00622}00622         \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00623}00623 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00624}00624 \textcolor{preprocessor}{        \#ifndef RR\_SPRINTF\_NOFLOAT}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00625}00625         \textcolor{keywordflow}{if} (fl\&KI) \{ \textcolor{keywordflow}{if} (n64<1024) pr=0; \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (pr==-\/1) pr=1; fv=(double)(rS64)n64; \textcolor{keywordflow}{goto} doafloat; \} }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00626}00626 \textcolor{preprocessor}{        \#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00627}00627 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00628}00628         \textcolor{comment}{// convert to string}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00629}00629         s = num+NUMSZ; l=0; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00630}00630         }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00631}00631         \textcolor{keywordflow}{for}(;;)}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00632}00632         \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00633}00633           \textcolor{comment}{// do in 32-\/bit chunks (avoid lots of 64-\/bit divides even with constant denominators)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00634}00634           \textcolor{keywordtype}{char} * o=s-\/8;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00635}00635           \textcolor{keywordflow}{if} (n64>=100000000) \{ n = (rU32)( n64 \% 100000000);  n64 /= 100000000; \} \textcolor{keywordflow}{else} \{n = (rU32)n64; n64 = 0; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00636}00636           \textcolor{keywordflow}{if}((fl\&CS)==0) \{ \textcolor{keywordflow}{while}(n) \{ s-\/=2; *(rU16*)s=*(rU16*)\&rrdiglookup[(n\%100)*2]; n/=100; \} \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00637}00637           \textcolor{keywordflow}{while} (n) \{ \textcolor{keywordflow}{if} ( ( fl\&CS) \&\& (l++==3) ) \{ l=0; *-\/-\/s=RRcomma; -\/-\/o; \} \textcolor{keywordflow}{else} \{ *-\/-\/s=(char)(n\%10)+\textcolor{charliteral}{'0'}; n/=10; \} \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00638}00638           \textcolor{keywordflow}{if} (n64==0) \{ \textcolor{keywordflow}{if} ((s[0]==\textcolor{charliteral}{'0'}) \&\& (s!=(num+NUMSZ))) ++s; \textcolor{keywordflow}{break}; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00639}00639           \textcolor{keywordflow}{while} (s!=o) \textcolor{keywordflow}{if} ( ( fl\&CS) \&\& (l++==3) ) \{ l=0; *-\/-\/s=RRcomma; -\/-\/o; \} \textcolor{keywordflow}{else} \{ *-\/-\/s=\textcolor{charliteral}{'0'}; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00640}00640         \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00641}00641 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00642}00642         tail[0]=0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00643}00643         \textcolor{comment}{// sign}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00644}00644         lead[0]=0; \textcolor{keywordflow}{if} (fl\&NG) \{ lead[0]=1; lead[1]=\textcolor{charliteral}{'-\/'}; \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (fl\&LS) \{ lead[0]=1; lead[1]=\textcolor{charliteral}{' '}; \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (fl\&LP) \{ lead[0]=1; lead[1]=\textcolor{charliteral}{'+'}; \};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00645}00645 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00646}00646         \textcolor{comment}{// get the length that we copied}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00647}00647         l = (rU32) ( (num+NUMSZ) -\/ s ); \textcolor{keywordflow}{if} ( l == 0 ) \{ *-\/-\/s=\textcolor{charliteral}{'0'}; l = 1; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00648}00648         cs = l + (3<<24);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00649}00649         \textcolor{keywordflow}{if} (pr<0) pr = 0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00650}00650 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00651}00651        scopy: }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00652}00652         \textcolor{comment}{// get fw=leading/trailing space, pr=leading zeros}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00653}00653         \textcolor{keywordflow}{if} (pr<(rS32)l) pr = l;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00654}00654         n = pr + lead[0] + tail[0] + tz;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00655}00655         \textcolor{keywordflow}{if} (fw<(rS32)n) fw = n;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00656}00656         fw -\/= n;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00657}00657         pr -\/= l;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00658}00658 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00659}00659         \textcolor{comment}{// handle right justify and leading zeros}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00660}00660         \textcolor{keywordflow}{if} ( (fl\&LJ)==0 )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00661}00661         \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00662}00662           \textcolor{keywordflow}{if} (fl\&LZ) \textcolor{comment}{// if leading zeros, everything is in pr}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00663}00663           \{ }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00664}00664             pr = (fw>pr)?fw:pr;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00665}00665             fw = 0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00666}00666           \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00667}00667           \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00668}00668           \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00669}00669             fl \&= \string~CS; \textcolor{comment}{// if no leading zeros, then no commas}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00670}00670           \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00671}00671         \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00672}00672 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00673}00673         \textcolor{comment}{// copy the spaces and/or zeros}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00674}00674         \textcolor{keywordflow}{if} (fw+pr)}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00675}00675         \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00676}00676           rS32 i; rU32 c; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00677}00677 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00678}00678           \textcolor{comment}{// copy leading spaces (or when doing \%8.4d stuff)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00679}00679           \textcolor{keywordflow}{if} ( (fl\&LJ)==0 ) \textcolor{keywordflow}{while}(fw>0) \{ cb\_buf\_clamp(i,fw); fw -\/= i; \textcolor{keywordflow}{while}(i) \{ \textcolor{keywordflow}{if} ((((rUINTa)bf)\&3)==0) \textcolor{keywordflow}{break}; *bf++=\textcolor{charliteral}{' '}; -\/-\/i; \} \textcolor{keywordflow}{while}(i>=4) \{ *(rU32*)bf=0x20202020; bf+=4; i-\/=4; \} \textcolor{keywordflow}{while} (i) \{*bf++=\textcolor{charliteral}{' '}; -\/-\/i;\} chk\_cb\_buf(1); \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00680}00680         }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00681}00681           \textcolor{comment}{// copy leader}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00682}00682           sn=lead+1; \textcolor{keywordflow}{while}(lead[0]) \{ cb\_buf\_clamp(i,lead[0]); lead[0] -\/= (char)i; \textcolor{keywordflow}{while} (i) \{*bf++=*sn++; -\/-\/i;\} chk\_cb\_buf(1); \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00683}00683           }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00684}00684           \textcolor{comment}{// copy leading zeros}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00685}00685           c = cs >> 24; cs \&= 0xffffff;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00686}00686           cs = (fl\&CS)?((rU32)(c-\/((pr+cs)\%(c+1)))):0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00687}00687           \textcolor{keywordflow}{while}(pr>0) \{ cb\_buf\_clamp(i,pr); pr -\/= i; \textcolor{keywordflow}{if}((fl\&CS)==0) \{ \textcolor{keywordflow}{while}(i) \{ \textcolor{keywordflow}{if} ((((rUINTa)bf)\&3)==0) \textcolor{keywordflow}{break}; *bf++=\textcolor{charliteral}{'0'}; -\/-\/i; \} \textcolor{keywordflow}{while}(i>=4) \{ *(rU32*)bf=0x30303030; bf+=4; i-\/=4; \} \} \textcolor{keywordflow}{while} (i) \{ \textcolor{keywordflow}{if}((fl\&CS) \&\& (cs++==c)) \{ cs = 0; *bf++=RRcomma; \} \textcolor{keywordflow}{else} *bf++=\textcolor{charliteral}{'0'}; -\/-\/i; \} chk\_cb\_buf(1); \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00688}00688         \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00689}00689 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00690}00690         \textcolor{comment}{// copy leader if there is still one}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00691}00691         sn=lead+1; \textcolor{keywordflow}{while}(lead[0]) \{ rS32 i; cb\_buf\_clamp(i,lead[0]); lead[0] -\/= (char)i; \textcolor{keywordflow}{while} (i) \{*bf++=*sn++; -\/-\/i;\} chk\_cb\_buf(1); \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00692}00692 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00693}00693         \textcolor{comment}{// copy the string}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00694}00694         n = l; \textcolor{keywordflow}{while} (n) \{ rS32 i; cb\_buf\_clamp(i,n); n-\/=i; RR\_UNALIGNED( \textcolor{keywordflow}{while}(i>=4) \{ *(rU32*)bf=*(rU32*)s; bf+=4; s+=4; i-\/=4; \} ) \textcolor{keywordflow}{while} (i) \{*bf++=*s++; -\/-\/i;\} chk\_cb\_buf(1); \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00695}00695 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00696}00696         \textcolor{comment}{// copy trailing zeros}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00697}00697         \textcolor{keywordflow}{while}(tz) \{ rS32 i; cb\_buf\_clamp(i,tz); tz -\/= i; \textcolor{keywordflow}{while}(i) \{ \textcolor{keywordflow}{if} ((((rUINTa)bf)\&3)==0) \textcolor{keywordflow}{break}; *bf++=\textcolor{charliteral}{'0'}; -\/-\/i; \} \textcolor{keywordflow}{while}(i>=4) \{ *(rU32*)bf=0x30303030; bf+=4; i-\/=4; \} \textcolor{keywordflow}{while} (i) \{*bf++=\textcolor{charliteral}{'0'}; -\/-\/i;\} chk\_cb\_buf(1); \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00698}00698 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00699}00699         \textcolor{comment}{// copy tail if there is one}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00700}00700         sn=tail+1; \textcolor{keywordflow}{while}(tail[0]) \{ rS32 i; cb\_buf\_clamp(i,tail[0]); tail[0] -\/= (char)i; \textcolor{keywordflow}{while} (i) \{*bf++=*sn++; -\/-\/i;\} chk\_cb\_buf(1); \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00701}00701 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00702}00702         \textcolor{comment}{// handle the left justify}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00703}00703         \textcolor{keywordflow}{if} (fl\&LJ) \textcolor{keywordflow}{if} (fw>0) \{ \textcolor{keywordflow}{while} (fw) \{ rS32 i; cb\_buf\_clamp(i,fw); fw-\/=i; \textcolor{keywordflow}{while}(i) \{ \textcolor{keywordflow}{if} ((((rUINTa)bf)\&3)==0) \textcolor{keywordflow}{break}; *bf++=\textcolor{charliteral}{' '}; -\/-\/i; \} \textcolor{keywordflow}{while}(i>=4) \{ *(rU32*)bf=0x20202020; bf+=4; i-\/=4; \} \textcolor{keywordflow}{while} (i-\/-\/) *bf++=\textcolor{charliteral}{' '}; chk\_cb\_buf(1); \} \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00704}00704         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00705}00705 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00706}00706       \textcolor{keywordflow}{default}: \textcolor{comment}{// unknown, just copy code}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00707}00707         s = num + NUMSZ -\/1; *s = f[0];}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00708}00708         l = 1;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00709}00709         fw=pr=fl=0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00710}00710         lead[0]=0; tail[0]=0; pr = 0; dp = 0; cs = 0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00711}00711         \textcolor{keywordflow}{goto} scopy;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00712}00712     \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00713}00713     ++f;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00714}00714   \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00715}00715  endfmt:}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00716}00716 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00717}00717   \textcolor{keywordflow}{if} (!callback) }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00718}00718     *bf = 0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00719}00719   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00720}00720     flush\_cb();}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00721}00721  }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00722}00722  done:}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00723}00723   \textcolor{keywordflow}{return} tlen + (int)(bf-\/buf);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00724}00724 \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00725}00725 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00726}00726 \textcolor{comment}{// cleanup}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00727}00727 \textcolor{preprocessor}{\#undef LJ}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00728}00728 \textcolor{preprocessor}{\#undef LP}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00729}00729 \textcolor{preprocessor}{\#undef LS}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00730}00730 \textcolor{preprocessor}{\#undef LX}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00731}00731 \textcolor{preprocessor}{\#undef LZ}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00732}00732 \textcolor{preprocessor}{\#undef BI}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00733}00733 \textcolor{preprocessor}{\#undef CS}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00734}00734 \textcolor{preprocessor}{\#undef NG}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00735}00735 \textcolor{preprocessor}{\#undef KI}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00736}00736 \textcolor{preprocessor}{\#undef NUMSZ}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00737}00737 \textcolor{preprocessor}{\#undef chk\_cb\_bufL}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00738}00738 \textcolor{preprocessor}{\#undef chk\_cb\_buf}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00739}00739 \textcolor{preprocessor}{\#undef flush\_cb}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00740}00740 \textcolor{preprocessor}{\#undef cb\_buf\_clamp}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00741}00741 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00742}00742 \textcolor{comment}{// ============================================================================}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00743}00743 \textcolor{comment}{//   wrapper functions}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00744}00744 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00745}00745 RRPUBLIC\_DEF \textcolor{keywordtype}{int} RR\_SPRINTF\_DECORATE( sprintf )( \textcolor{keywordtype}{char} * buf, \textcolor{keywordtype}{char} \textcolor{keyword}{const} * fmt, ... )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00746}00746 \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00747}00747   va\_list va;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00748}00748   va\_start( va, fmt );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00749}00749   \textcolor{keywordflow}{return} RR\_SPRINTF\_DECORATE( vsprintfcb )( 0, 0, buf, fmt, va );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00750}00750 \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00751}00751 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00752}00752 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }RRCCS}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00753}00753 \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00754}00754   \textcolor{keywordtype}{char} * buf;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00755}00755   \textcolor{keywordtype}{int} count;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00756}00756   \textcolor{keywordtype}{char} tmp[ RR\_SPRINTF\_MIN ];}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00757}00757 \} RRCCS;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00758}00758 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00759}00759 \textcolor{keyword}{static} \textcolor{keywordtype}{char} * rrclampcallback( \textcolor{keywordtype}{char} * buf, \textcolor{keywordtype}{void} * user, \textcolor{keywordtype}{int} len )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00760}00760 \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00761}00761   RRCCS * c = (RRCCS*)user;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00762}00762 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00763}00763   \textcolor{keywordflow}{if} ( len > c-\/>count ) len = c-\/>count;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00764}00764 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00765}00765   \textcolor{keywordflow}{if} (len)}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00766}00766   \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00767}00767     \textcolor{keywordflow}{if} ( buf != c-\/>buf )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00768}00768     \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00769}00769       \textcolor{keywordtype}{char} * s, * d, * se;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00770}00770       d = c-\/>buf; s = buf; se = buf+len;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00771}00771       \textcolor{keywordflow}{do}\{ *d++ = *s++; \} \textcolor{keywordflow}{while} (s<se);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00772}00772     \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00773}00773     c-\/>buf += len;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00774}00774     c-\/>count -\/= len;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00775}00775   \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00776}00776   }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00777}00777   \textcolor{keywordflow}{if} ( c-\/>count <= 0 ) \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00778}00778   \textcolor{keywordflow}{return} ( c-\/>count >= RR\_SPRINTF\_MIN ) ? c-\/>buf : c-\/>tmp; \textcolor{comment}{// go direct into buffer if you can}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00779}00779 \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00780}00780 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00781}00781 RRPUBLIC\_DEF \textcolor{keywordtype}{int} RR\_SPRINTF\_DECORATE( vsnprintf )( \textcolor{keywordtype}{char} * buf, \textcolor{keywordtype}{int} count, \textcolor{keywordtype}{char} \textcolor{keyword}{const} * fmt, va\_list va )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00782}00782 \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00783}00783   RRCCS c;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00784}00784   \textcolor{keywordtype}{int} l;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00785}00785 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00786}00786   \textcolor{keywordflow}{if} ( count == 0 )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00787}00787     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00788}00788 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00789}00789   c.buf = buf;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00790}00790   c.count = count;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00791}00791 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00792}00792   RR\_SPRINTF\_DECORATE( vsprintfcb )( rrclampcallback, \&c, rrclampcallback(0,\&c,0), fmt, va );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00793}00793   }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00794}00794   \textcolor{comment}{// zero-\/terminate}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00795}00795   l = (int)( c.buf -\/ buf );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00796}00796   \textcolor{keywordflow}{if} ( l >= count ) \textcolor{comment}{// should never be greater, only equal (or less) than count}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00797}00797     l = count -\/ 1;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00798}00798   buf[l] = 0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00799}00799 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00800}00800   \textcolor{keywordflow}{return} l;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00801}00801 \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00802}00802 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00803}00803 RRPUBLIC\_DEF \textcolor{keywordtype}{int} RR\_SPRINTF\_DECORATE( snprintf )( \textcolor{keywordtype}{char} * buf, \textcolor{keywordtype}{int} count, \textcolor{keywordtype}{char} \textcolor{keyword}{const} * fmt, ... )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00804}00804 \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00805}00805   va\_list va;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00806}00806   va\_start( va, fmt );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00807}00807 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00808}00808   \textcolor{keywordflow}{return} RR\_SPRINTF\_DECORATE( vsnprintf )( buf, count, fmt, va );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00809}00809 \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00810}00810 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00811}00811 RRPUBLIC\_DEF \textcolor{keywordtype}{int} RR\_SPRINTF\_DECORATE( vsprintf )( \textcolor{keywordtype}{char} * buf, \textcolor{keywordtype}{char} \textcolor{keyword}{const} * fmt, va\_list va )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00812}00812 \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00813}00813   \textcolor{keywordflow}{return} RR\_SPRINTF\_DECORATE( vsprintfcb )( 0, 0, buf, fmt, va );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00814}00814 \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00815}00815 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00816}00816 \textcolor{comment}{// =======================================================================}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00817}00817 \textcolor{comment}{//   low level float utility functions}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00818}00818 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00819}00819 \textcolor{preprocessor}{\#ifndef RR\_SPRINTF\_NOFLOAT}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00820}00820 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00821}00821  \textcolor{comment}{// copies d to bits w/ strict aliasing (this compiles to nothing on /Ox)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00822}00822 \textcolor{preprocessor}{ \#define RRCOPYFP(dest,src) \{ int cn; for(cn=0;cn<8;cn++) ((char*)\&dest)[cn]=((char*)\&src)[cn]; \}}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00823}00823  }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00824}00824 \textcolor{comment}{// get float info}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00825}00825 \textcolor{keyword}{static} rS32 rrreal\_to\_parts( rS64 * bits, rS32 * expo, \textcolor{keywordtype}{double} \mbox{\hyperlink{classvalue}{value}} )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00826}00826 \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00827}00827   \textcolor{keywordtype}{double} d;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00828}00828   rS64 b = 0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00829}00829 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00830}00830   \textcolor{comment}{// load value and round at the frac\_digits}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00831}00831   d = \mbox{\hyperlink{classvalue}{value}};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00832}00832 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00833}00833   RRCOPYFP( b, d );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00834}00834 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00835}00835   *bits = b \& ((((rU64)1)<<52)-\/1);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00836}00836   *expo = ((b >> 52) \& 2047)-\/1023;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00837}00837     }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00838}00838   \textcolor{keywordflow}{return} (rS32)(b >> 63);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00839}00839 \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00840}00840 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00841}00841 \textcolor{keyword}{static} \textcolor{keywordtype}{double} \textcolor{keyword}{const} rrbot[23]=\{1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+000,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+001,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+002,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+003,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+004,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+005,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+006,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+007,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+008,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+009,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+010,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+011,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+012,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+013,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+014,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+015,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+016,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+017,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+018,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+019,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+020,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+021,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+022\};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00842}00842 \textcolor{keyword}{static} \textcolor{keywordtype}{double} \textcolor{keyword}{const} rrnegbot[22]=\{1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/001,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/002,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/003,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/004,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/005,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/006,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/007,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/008,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/009,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/010,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/011,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/012,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/013,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/014,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/015,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/016,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/017,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/018,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/019,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/020,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/021,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/022\};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00843}00843 \textcolor{keyword}{static} \textcolor{keywordtype}{double} \textcolor{keyword}{const} rrnegboterr[22]=\{-\/5.551115123125783e-\/018,-\/2.0816681711721684e-\/019,-\/2.0816681711721686e-\/020,-\/4.7921736023859299e-\/021,-\/8.1803053914031305e-\/022,4.5251888174113741e-\/023,4.5251888174113739e-\/024,-\/2.0922560830128471e-\/025,-\/6.2281591457779853e-\/026,-\/3.6432197315497743e-\/027,6.0503030718060191e-\/028,2.0113352370744385e-\/029,-\/3.0373745563400371e-\/030,1.1806906454401013e-\/032,-\/7.7705399876661076e-\/032,2.0902213275965398e-\/033,-\/7.1542424054621921e-\/034,-\/7.1542424054621926e-\/035,2.4754073164739869e-\/036,5.4846728545790429e-\/037,9.2462547772103625e-\/038,-\/4.8596774326570872e-\/039\};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00844}00844 \textcolor{keyword}{static} \textcolor{keywordtype}{double} \textcolor{keyword}{const} rrtop[13]=\{1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+023,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+046,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+069,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+092,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+115,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+138,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+161,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+184,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+207,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+230,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+253,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+276,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+299\};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00845}00845 \textcolor{keyword}{static} \textcolor{keywordtype}{double} \textcolor{keyword}{const} rrnegtop[13]=\{1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/023,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/046,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/069,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/092,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/115,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/138,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/161,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/184,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/207,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/230,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/253,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/276,1\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/299\};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00846}00846 \textcolor{keyword}{static} \textcolor{keywordtype}{double} \textcolor{keyword}{const} rrtoperr[13]=\{8388608,6.8601809640529717e+028,-\/7.253143638152921e+052,-\/4.3377296974619174e+075,-\/1.5559416129466825e+098,-\/3.2841562489204913e+121,-\/3.7745893248228135e+144,-\/1.7356668416969134e+167,-\/3.8893577551088374e+190,-\/9.9566444326005119e+213,6.3641293062232429e+236,-\/5.2069140800249813e+259,-\/5.2504760255204387e+282\};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00847}00847 \textcolor{keyword}{static} \textcolor{keywordtype}{double} \textcolor{keyword}{const} rrnegtoperr[13]=\{3.9565301985100693e-\/040,-\/2.299904345391321e-\/063,3.6506201437945798e-\/086,1.1875228833981544e-\/109,-\/5.0644902316928607e-\/132,-\/6.7156837247865426e-\/155,-\/2.812077463003139e-\/178,-\/5.7778912386589953e-\/201,7.4997100559334532e-\/224,-\/4.6439668915134491e-\/247,-\/6.3691100762962136e-\/270,-\/9.436808465446358e-\/293,8.0970921678014997e-\/317\};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00848}00848 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00849}00849 \textcolor{preprocessor}{\#if defined(\_MSC\_VER) \&\& (\_MSC\_VER<=1200)                                                                                                                                                                                       }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00850}00850 \textcolor{keyword}{static} rU64 \textcolor{keyword}{const} rrpot[20]=\{1,10,100,1000, 10000,100000,1000000,10000000, 100000000,1000000000,10000000000,100000000000,  1000000000000,10000000000000,100000000000000,1000000000000000,  10000000000000000,100000000000000000,1000000000000000000,10000000000000000000U \};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00851}00851 \textcolor{preprocessor}{\#define rrtento19th ((rU64)1000000000000000000)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00852}00852 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00853}00853 \textcolor{keyword}{static} rU64 \textcolor{keyword}{const} rrpot[20]=\{1,10,100,1000, 10000,100000,1000000,10000000, 100000000,1000000000,10000000000ULL,100000000000ULL,  1000000000000ULL,10000000000000ULL,100000000000000ULL,1000000000000000ULL,  10000000000000000ULL,100000000000000000ULL,1000000000000000000ULL,10000000000000000000ULL \};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00854}00854 \textcolor{preprocessor}{\#define rrtento19th (1000000000000000000ULL)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00855}00855 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00856}00856 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00857}00857 \textcolor{preprocessor}{\#define rrddmulthi(oh,ol,xh,yh) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00858}00858 \textcolor{preprocessor}{\{ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00859}00859 \textcolor{preprocessor}{  double ahi=0,alo,bhi=0,blo; \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00860}00860 \textcolor{preprocessor}{  rS64 bt; \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00861}00861 \textcolor{preprocessor}{  oh = xh * yh; \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00862}00862 \textcolor{preprocessor}{  RRCOPYFP(bt,xh); bt\&=((\string~(rU64)0)<<27); RRCOPYFP(ahi,bt); alo = xh-\/ahi; \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00863}00863 \textcolor{preprocessor}{  RRCOPYFP(bt,yh); bt\&=((\string~(rU64)0)<<27); RRCOPYFP(bhi,bt); blo = yh-\/bhi; \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00864}00864 \textcolor{preprocessor}{  ol = ((ahi*bhi-\/oh)+ahi*blo+alo*bhi)+alo*blo; \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00865}00865 \textcolor{preprocessor}{\}}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00866}00866 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00867}00867 \textcolor{preprocessor}{\#define rrddtoS64(ob,xh,xl) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00868}00868 \textcolor{preprocessor}{\{ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00869}00869 \textcolor{preprocessor}{  double ahi=0,alo,vh,t;\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00870}00870 \textcolor{preprocessor}{  ob = (rS64)ph;\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00871}00871 \textcolor{preprocessor}{  vh=(double)ob;\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00872}00872 \textcolor{preprocessor}{  ahi = ( xh -\/ vh );\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00873}00873 \textcolor{preprocessor}{  t = ( ahi -\/ xh );\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00874}00874 \textcolor{preprocessor}{  alo = (xh-\/(ahi-\/t))-\/(vh+t);\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00875}00875 \textcolor{preprocessor}{  ob += (rS64)(ahi+alo+xl);\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00876}00876 \textcolor{preprocessor}{\}}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00877}00877 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00878}00878 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00879}00879 \textcolor{preprocessor}{\#define rrddrenorm(oh,ol) \{ double s; s=oh+ol; ol=ol-\/(s-\/oh); oh=s; \}}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00880}00880 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00881}00881 \textcolor{preprocessor}{\#define rrddmultlo(oh,ol,xh,xl,yh,yl) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00882}00882 \textcolor{preprocessor}{  ol = ol + ( xh*yl + xl*yh ); \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00883}00883 \textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00884}00884 \textcolor{preprocessor}{\#define rrddmultlos(oh,ol,xh,yl) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00885}00885 \textcolor{preprocessor}{  ol = ol + ( xh*yl ); \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00886}00886 \textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00887}00887 \textcolor{keyword}{static} \textcolor{keywordtype}{void} rrraise\_to\_power10( \textcolor{keywordtype}{double} *ohi, \textcolor{keywordtype}{double} *olo, \textcolor{keywordtype}{double} d, rS32 power )  \textcolor{comment}{// power can be -\/323 to +350}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00888}00888 \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00889}00889   \textcolor{keywordtype}{double} ph, pl;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00890}00890   \textcolor{keywordflow}{if} ((power>=0) \&\& (power<=22))}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00891}00891   \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00892}00892     rrddmulthi(ph,pl,d,rrbot[power]);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00893}00893   \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00894}00894   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00895}00895   \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00896}00896     rS32 \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}},et,eb;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00897}00897     \textcolor{keywordtype}{double} p2h,p2l;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00898}00898 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00899}00899     \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}=power; \textcolor{keywordflow}{if} (power<0) \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}=-\/\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00900}00900     et = (\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}*0x2c9)>>14;\textcolor{comment}{/* \%23 */} \textcolor{keywordflow}{if} (et>13) et=13; eb = \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}-\/(et*23);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00901}00901 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00902}00902     ph = d; pl = 0.0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00903}00903     \textcolor{keywordflow}{if} (power<0)}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00904}00904     \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00905}00905       \textcolor{keywordflow}{if} (eb) \{ -\/-\/eb; rrddmulthi(ph,pl,d,rrnegbot[eb]); rrddmultlos(ph,pl,d,rrnegboterr[eb]); \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00906}00906       \textcolor{keywordflow}{if} (et)}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00907}00907       \{ }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00908}00908         rrddrenorm(ph,pl);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00909}00909         -\/-\/et; rrddmulthi(p2h,p2l,ph,rrnegtop[et]); rrddmultlo(p2h,p2l,ph,pl,rrnegtop[et],rrnegtoperr[et]); ph=p2h;pl=p2l;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00910}00910       \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00911}00911     \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00912}00912     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00913}00913     \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00914}00914       \textcolor{keywordflow}{if} (eb) }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00915}00915       \{ }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00916}00916         \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}} = eb; \textcolor{keywordflow}{if} (eb>22) eb=22; \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}} -\/= eb;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00917}00917         rrddmulthi(ph,pl,d,rrbot[eb]); }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00918}00918         \textcolor{keywordflow}{if} ( \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}} ) \{ rrddrenorm(ph,pl); rrddmulthi(p2h,p2l,ph,rrbot[\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}]); rrddmultlos(p2h,p2l,rrbot[\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}],pl); ph=p2h;pl=p2l; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00919}00919       \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00920}00920       \textcolor{keywordflow}{if} (et)}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00921}00921       \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00922}00922         rrddrenorm(ph,pl);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00923}00923         -\/-\/et; rrddmulthi(p2h,p2l,ph,rrtop[et]); rrddmultlo(p2h,p2l,ph,pl,rrtop[et],rrtoperr[et]); ph=p2h;pl=p2l;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00924}00924       \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00925}00925     \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00926}00926   \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00927}00927   rrddrenorm(ph,pl);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00928}00928   *ohi = ph; *olo = pl;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00929}00929 \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00930}00930 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00931}00931 \textcolor{comment}{// given a float value, returns the significant bits in bits, and the position of the}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00932}00932 \textcolor{comment}{//   decimal point in decimal\_pos.  +/-\/INF and NAN are specified by special values}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00933}00933 \textcolor{comment}{//   returned in the decimal\_pos parameter.}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00934}00934 \textcolor{comment}{// frac\_digits is absolute normally, but if you want from first significant digits (got \%g and \%e), or in 0x80000000}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00935}00935 \textcolor{keyword}{static} rS32 rrreal\_to\_str( \textcolor{keywordtype}{char} \textcolor{keyword}{const} * * start, rU32 * len, \textcolor{keywordtype}{char} *out, rS32 * decimal\_pos, \textcolor{keywordtype}{double} \mbox{\hyperlink{classvalue}{value}}, rU32 frac\_digits )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00936}00936 \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00937}00937   \textcolor{keywordtype}{double} d;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00938}00938   rS64 bits = 0;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00939}00939   rS32 expo, \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}, ng, tens;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00940}00940 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00941}00941   d = \mbox{\hyperlink{classvalue}{value}};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00942}00942   RRCOPYFP(bits,d);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00943}00943   expo = (bits >> 52) \& 2047;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00944}00944   ng = (rS32)(bits >> 63);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00945}00945   \textcolor{keywordflow}{if} (ng) d=-\/d;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00946}00946 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00947}00947   \textcolor{keywordflow}{if} ( expo == 2047 ) \textcolor{comment}{// is nan or inf?}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00948}00948   \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00949}00949     *start = (bits\&((((rU64)1)<<52)-\/1)) ? \textcolor{stringliteral}{"{}NaN"{}} : \textcolor{stringliteral}{"{}Inf"{}};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00950}00950     *decimal\_pos =  RRSPECIAL;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00951}00951     *len = 3;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00952}00952     \textcolor{keywordflow}{return} ng;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00953}00953   \} }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00954}00954 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00955}00955   \textcolor{keywordflow}{if} ( expo == 0 ) \textcolor{comment}{// is zero or denormal}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00956}00956   \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00957}00957     \textcolor{keywordflow}{if} ((bits<<1)==0) \textcolor{comment}{// do zero}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00958}00958     \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00959}00959       *decimal\_pos = 1; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00960}00960       *start = out;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00961}00961       out[0] = \textcolor{charliteral}{'0'}; *len = 1;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00962}00962       \textcolor{keywordflow}{return} ng;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00963}00963     \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00964}00964     \textcolor{comment}{// find the right expo for denormals}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00965}00965     \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00966}00966       rS64 v = ((rU64)1)<<51;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00967}00967       \textcolor{keywordflow}{while} ((bits\&v)==0) \{ -\/-\/expo; v >>= 1; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00968}00968     \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00969}00969   \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00970}00970 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00971}00971   \textcolor{comment}{// find the decimal exponent as well as the decimal bits of the value}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00972}00972   \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00973}00973     \textcolor{keywordtype}{double} ph,pl;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00974}00974 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00975}00975     \textcolor{comment}{// log10 estimate -\/ very specifically tweaked to hit or undershoot by no more than 1 of log10 of all expos 1..2046}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00976}00976     tens=expo-\/1023; tens = (tens<0)?((tens*617)/2048):(((tens*1233)/4096)+1);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00977}00977 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00978}00978     \textcolor{comment}{// move the significant bits into position and stick them into an int }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00979}00979     rrraise\_to\_power10( \&ph, \&pl, d, 18-\/tens );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00980}00980 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00981}00981     \textcolor{comment}{// get full as much precision from double-\/double as possible}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00982}00982     rrddtoS64( bits, ph,pl );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00983}00983 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00984}00984     \textcolor{comment}{// check if we undershot}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00985}00985     \textcolor{keywordflow}{if} ( ((rU64)bits) >= rrtento19th ) ++tens; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00986}00986   \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00987}00987 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00988}00988   \textcolor{comment}{// now do the rounding in integer land}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00989}00989   frac\_digits = ( frac\_digits \& 0x80000000 ) ? ( (frac\_digits\&0x7ffffff) + 1 ) : ( tens + frac\_digits );}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00990}00990   \textcolor{keywordflow}{if} ( ( frac\_digits < 24 ) )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00991}00991   \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00992}00992     rU32 dg = 1; \textcolor{keywordflow}{if} ((rU64)bits >= rrpot[9] ) dg=10; \textcolor{keywordflow}{while}( (rU64)bits >= rrpot[dg] ) \{ ++dg; \textcolor{keywordflow}{if} (dg==20) \textcolor{keywordflow}{goto} noround; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00993}00993     \textcolor{keywordflow}{if} ( frac\_digits < dg )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00994}00994     \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00995}00995       rU64 r;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00996}00996       \textcolor{comment}{// add 0.5 at the right position and round}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00997}00997       \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}} = dg -\/ frac\_digits;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00998}00998       \textcolor{keywordflow}{if} ( (rU32)\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}} >= 24 ) \textcolor{keywordflow}{goto} noround;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l00999}00999       r = rrpot[\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}];}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01000}01000       bits = bits + (r/2);}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01001}01001       \textcolor{keywordflow}{if} ( (rU64)bits >= rrpot[dg] ) ++tens;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01002}01002       bits /= r;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01003}01003     \} }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01004}01004     noround:;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01005}01005   \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01006}01006 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01007}01007   \textcolor{comment}{// kill long trailing runs of zeros}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01008}01008   \textcolor{keywordflow}{if} ( bits )}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01009}01009   \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01010}01010     rU32 n; \textcolor{keywordflow}{for}(;;) \{ \textcolor{keywordflow}{if} ( bits<=0xffffffff ) \textcolor{keywordflow}{break}; \textcolor{keywordflow}{if} (bits\%1000) \textcolor{keywordflow}{goto} donez; bits/=1000; \} n = (rU32)bits; \textcolor{keywordflow}{while} ((n\%1000)==0) n/=1000; bits=n; donez:;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01011}01011   \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01012}01012 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01013}01013   \textcolor{comment}{// convert to string}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01014}01014   out += 64;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01015}01015   \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}} = 0; }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01016}01016   \textcolor{keywordflow}{for}(;;)}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01017}01017   \{}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01018}01018     rU32 n;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01019}01019     \textcolor{keywordtype}{char} * o = out-\/8;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01020}01020     \textcolor{comment}{// do the conversion in chunks of U32s (avoid most 64-\/bit divides, worth it, constant denomiators be damned)}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01021}01021     \textcolor{keywordflow}{if} (bits>=100000000) \{ n = (rU32)( bits \% 100000000);  bits /= 100000000; \} \textcolor{keywordflow}{else} \{n = (rU32)bits; bits = 0; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01022}01022     \textcolor{keywordflow}{while}(n) \{ out-\/=2; *(rU16*)out=*(rU16*)\&rrdiglookup[(n\%100)*2]; n/=100; \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}+=2; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01023}01023     \textcolor{keywordflow}{if} (bits==0) \{ \textcolor{keywordflow}{if} ((\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}) \&\& (out[0]==\textcolor{charliteral}{'0'})) \{ ++out; -\/-\/\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}; \} \textcolor{keywordflow}{break}; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01024}01024     \textcolor{keywordflow}{while}( out!=o ) \{ *-\/-\/out =\textcolor{charliteral}{'0'}; ++\mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}}; \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01025}01025   \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01026}01026   }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01027}01027   *decimal\_pos = tens;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01028}01028   *start = out;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01029}01029   *len = \mbox{\hyperlink{group__gtc__constants_ga4b7956eb6e2fbedfc7cf2e46e85c5139}{e}};}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01030}01030   \textcolor{keywordflow}{return} ng;}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01031}01031 \}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01032}01032 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01033}01033 \textcolor{preprocessor}{\#undef rrddmulthi}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01034}01034 \textcolor{preprocessor}{\#undef rrddrenorm}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01035}01035 \textcolor{preprocessor}{\#undef rrddmultlo}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01036}01036 \textcolor{preprocessor}{\#undef rrddmultlos}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01037}01037 \textcolor{preprocessor}{\#undef RRSPECIAL }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01038}01038 \textcolor{preprocessor}{\#undef RRCOPYFP}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01039}01039  }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01040}01040 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01041}01041 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01042}01042 \textcolor{comment}{// clean up}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01043}01043 \textcolor{preprocessor}{\#undef rU16}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01044}01044 \textcolor{preprocessor}{\#undef rU32 }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01045}01045 \textcolor{preprocessor}{\#undef rS32 }}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01046}01046 \textcolor{preprocessor}{\#undef rU64}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01047}01047 \textcolor{preprocessor}{\#undef rS64}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01048}01048 \textcolor{preprocessor}{\#undef RRPUBLIC\_DEC}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01049}01049 \textcolor{preprocessor}{\#undef RRPUBLIC\_DEF}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01050}01050 \textcolor{preprocessor}{\#undef RR\_SPRINTF\_DECORATE}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01051}01051 \textcolor{preprocessor}{\#undef RR\_UNALIGNED}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01052}01052 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01053}01053 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01054}01054 }
+\DoxyCodeLine{\Hypertarget{rrsprintf_8h_source_l01055}01055 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

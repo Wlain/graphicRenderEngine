@@ -11,6 +11,7 @@ Welcome to graphicRenderEngine's documentation!
    :caption: Contents:
 
 
+.. doxygenfile:: mesh.h
 .. doxygenfile:: camera.h
 
 Indices and tables

@@ -1,0 +1,698 @@
+\hypertarget{glx__context_8c_source}{}\doxysection{glx\+\_\+context.\+c}
+\label{glx__context_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/glx\_context.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/glx\_context.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00001}00001 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00002}00002 \textcolor{comment}{// GLFW 3.4 GLX -\/ www.glfw.org}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00003}00003 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00004}00004 \textcolor{comment}{// Copyright (c) 2002-\/2006 Marcus Geelnard}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00005}00005 \textcolor{comment}{// Copyright (c) 2006-\/2019 Camilla Löwy <elmindreda@glfw.org>}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00006}00006 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00007}00007 \textcolor{comment}{// This software is provided 'as-\/is', without any express or implied}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00008}00008 \textcolor{comment}{// warranty. In no event will the authors be held liable for any damages}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00009}00009 \textcolor{comment}{// arising from the use of this software.}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00011}00011 \textcolor{comment}{// Permission is granted to anyone to use this software for any purpose,}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00012}00012 \textcolor{comment}{// including commercial applications, and to alter it and redistribute it}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00013}00013 \textcolor{comment}{// freely, subject to the following restrictions:}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00014}00014 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00015}00015 \textcolor{comment}{// 1. The origin of this software must not be misrepresented; you must not}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00016}00016 \textcolor{comment}{//    claim that you wrote the original software. If you use this software}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00017}00017 \textcolor{comment}{//    in a product, an acknowledgment in the product documentation would}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00018}00018 \textcolor{comment}{//    be appreciated but is not required.}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00019}00019 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00020}00020 \textcolor{comment}{// 2. Altered source versions must be plainly marked as such, and must not}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00021}00021 \textcolor{comment}{//    be misrepresented as being the original software.}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00022}00022 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00023}00023 \textcolor{comment}{// 3. This notice may not be removed or altered from any source}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00024}00024 \textcolor{comment}{//    distribution.}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00025}00025 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00026}00026 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00027}00027 \textcolor{comment}{// It is fine to use C99 in this file because it will not be built with VS}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00028}00028 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00030}00030 \textcolor{preprocessor}{\#include "{}internal.h"{}}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00032}00032 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00033}00033 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00034}00034 \textcolor{preprocessor}{\#include <assert.h>}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00036}00036 \textcolor{preprocessor}{\#ifndef GLXBadProfileARB}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00037}00037 \textcolor{preprocessor}{ \#define GLXBadProfileARB 13}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00038}00038 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00041}00041 \textcolor{comment}{// Returns the specified attribute of the specified GLXFBConfig}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00042}00042 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00043}00043 \textcolor{keyword}{static} \textcolor{keywordtype}{int} getGLXFBConfigAttrib(GLXFBConfig fbconfig, \textcolor{keywordtype}{int} attrib)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00044}00044 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00045}00045     \textcolor{keywordtype}{int} \mbox{\hyperlink{classvalue}{value}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00046}00046     glXGetFBConfigAttrib(\_glfw.x11.display, fbconfig, attrib, \&\mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00047}00047     \textcolor{keywordflow}{return} \mbox{\hyperlink{classvalue}{value}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00048}00048 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00050}00050 \textcolor{comment}{// Return the GLXFBConfig most closely matching the specified hints}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00051}00051 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00052}00052 \textcolor{keyword}{static} GLFWbool chooseGLXFBConfig(\textcolor{keyword}{const} \mbox{\hyperlink{struct___g_l_f_wfbconfig}{\_GLFWfbconfig}}* desired,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00053}00053                                   GLXFBConfig* \mbox{\hyperlink{structresult}{result}})}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00054}00054 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00055}00055     GLXFBConfig* nativeConfigs;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00056}00056     \mbox{\hyperlink{struct___g_l_f_wfbconfig}{\_GLFWfbconfig}}* usableConfigs;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00057}00057     \textcolor{keyword}{const} \mbox{\hyperlink{struct___g_l_f_wfbconfig}{\_GLFWfbconfig}}* closest;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00058}00058     \textcolor{keywordtype}{int} i, nativeCount, usableCount;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00059}00059     \textcolor{keyword}{const} \textcolor{keywordtype}{char}* vendor;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00060}00060     GLFWbool trustWindowBit = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00062}00062     \textcolor{comment}{// HACK: This is a (hopefully temporary) workaround for Chromium}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00063}00063     \textcolor{comment}{//       (VirtualBox GL) not setting the window bit on any GLXFBConfigs}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00064}00064     vendor = glXGetClientString(\_glfw.x11.display, GLX\_VENDOR);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00065}00065     \textcolor{keywordflow}{if} (vendor \&\& strcmp(vendor, \textcolor{stringliteral}{"{}Chromium"{}}) == 0)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00066}00066         trustWindowBit = \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00068}00068     nativeConfigs =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00069}00069         glXGetFBConfigs(\_glfw.x11.display, \_glfw.x11.screen, \&nativeCount);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00070}00070     \textcolor{keywordflow}{if} (!nativeConfigs || !nativeCount)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00071}00071     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00072}00072         \_glfwInputError(\mbox{\hyperlink{group__errors_ga56882b290db23261cc6c053c40c2d08e}{GLFW\_API\_UNAVAILABLE}}, \textcolor{stringliteral}{"{}GLX: No GLXFBConfigs returned"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00073}00073         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00074}00074     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00075}00075 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00076}00076     usableConfigs = calloc(nativeCount, \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct___g_l_f_wfbconfig}{\_GLFWfbconfig}}));}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00077}00077     usableCount = 0;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00078}00078 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00079}00079     \textcolor{keywordflow}{for} (i = 0;  i < nativeCount;  i++)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00080}00080     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00081}00081         \textcolor{keyword}{const} GLXFBConfig n = nativeConfigs[i];}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00082}00082         \mbox{\hyperlink{struct___g_l_f_wfbconfig}{\_GLFWfbconfig}}* u = usableConfigs + usableCount;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00083}00083 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00084}00084         \textcolor{comment}{// Only consider RGBA GLXFBConfigs}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00085}00085         \textcolor{keywordflow}{if} (!(getGLXFBConfigAttrib(n, GLX\_RENDER\_TYPE) \& GLX\_RGBA\_BIT))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00086}00086             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00088}00088         \textcolor{comment}{// Only consider window GLXFBConfigs}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00089}00089         \textcolor{keywordflow}{if} (!(getGLXFBConfigAttrib(n, GLX\_DRAWABLE\_TYPE) \& GLX\_WINDOW\_BIT))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00090}00090         \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00091}00091             \textcolor{keywordflow}{if} (trustWindowBit)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00092}00092                 \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00093}00093         \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00095}00095         \textcolor{keywordflow}{if} (desired-\/>transparent)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00096}00096         \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00097}00097             XVisualInfo* vi = glXGetVisualFromFBConfig(\_glfw.x11.display, n);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00098}00098             \textcolor{keywordflow}{if} (vi)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00099}00099             \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00100}00100                 u-\/>transparent = \_glfwIsVisualTransparentX11(vi-\/>visual);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00101}00101                 XFree(vi);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00102}00102             \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00103}00103         \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00105}00105         u-\/>redBits = getGLXFBConfigAttrib(n, GLX\_RED\_SIZE);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00106}00106         u-\/>greenBits = getGLXFBConfigAttrib(n, GLX\_GREEN\_SIZE);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00107}00107         u-\/>blueBits = getGLXFBConfigAttrib(n, GLX\_BLUE\_SIZE);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00108}00108 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00109}00109         u-\/>alphaBits = getGLXFBConfigAttrib(n, GLX\_ALPHA\_SIZE);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00110}00110         u-\/>depthBits = getGLXFBConfigAttrib(n, GLX\_DEPTH\_SIZE);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00111}00111         u-\/>stencilBits = getGLXFBConfigAttrib(n, GLX\_STENCIL\_SIZE);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00112}00112 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00113}00113         u-\/>accumRedBits = getGLXFBConfigAttrib(n, GLX\_ACCUM\_RED\_SIZE);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00114}00114         u-\/>accumGreenBits = getGLXFBConfigAttrib(n, GLX\_ACCUM\_GREEN\_SIZE);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00115}00115         u-\/>accumBlueBits = getGLXFBConfigAttrib(n, GLX\_ACCUM\_BLUE\_SIZE);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00116}00116         u-\/>accumAlphaBits = getGLXFBConfigAttrib(n, GLX\_ACCUM\_ALPHA\_SIZE);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00117}00117 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00118}00118         u-\/>auxBuffers = getGLXFBConfigAttrib(n, GLX\_AUX\_BUFFERS);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00120}00120         \textcolor{keywordflow}{if} (getGLXFBConfigAttrib(n, GLX\_STEREO))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00121}00121             u-\/>stereo = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00122}00122         \textcolor{keywordflow}{if} (getGLXFBConfigAttrib(n, GLX\_DOUBLEBUFFER))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00123}00123             u-\/>doublebuffer = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00124}00124 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00125}00125         \textcolor{keywordflow}{if} (\_glfw.glx.ARB\_multisample)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00126}00126             u-\/>samples = getGLXFBConfigAttrib(n, GLX\_SAMPLES);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00127}00127 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00128}00128         \textcolor{keywordflow}{if} (\_glfw.glx.ARB\_framebuffer\_sRGB || \_glfw.glx.EXT\_framebuffer\_sRGB)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00129}00129             u-\/>sRGB = getGLXFBConfigAttrib(n, GLX\_FRAMEBUFFER\_SRGB\_CAPABLE\_ARB);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00130}00130 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00131}00131         u-\/>handle = (uintptr\_t) n;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00132}00132         usableCount++;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00133}00133     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00134}00134 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00135}00135     closest = \_glfwChooseFBConfig(desired, usableConfigs, usableCount);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00136}00136     \textcolor{keywordflow}{if} (closest)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00137}00137         *\mbox{\hyperlink{structresult}{result}} = (GLXFBConfig) closest-\/>handle;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00138}00138 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00139}00139     XFree(nativeConfigs);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00140}00140     free(usableConfigs);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00141}00141 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00142}00142     \textcolor{keywordflow}{return} closest != NULL;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00143}00143 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00144}00144 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00145}00145 \textcolor{comment}{// Create the OpenGL context using legacy API}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00146}00146 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00147}00147 \textcolor{keyword}{static} GLXContext createLegacyContextGLX(\mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}* window,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00148}00148                                          GLXFBConfig fbconfig,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00149}00149                                          GLXContext share)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00150}00150 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00151}00151     \textcolor{keywordflow}{return} glXCreateNewContext(\_glfw.x11.display,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00152}00152                                fbconfig,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00153}00153                                GLX\_RGBA\_TYPE,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00154}00154                                share,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00155}00155                                True);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00156}00156 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00157}00157 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00158}00158 \textcolor{keyword}{static} \textcolor{keywordtype}{void} makeContextCurrentGLX(\mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}* window)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00159}00159 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00160}00160     \textcolor{keywordflow}{if} (window)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00161}00161     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00162}00162         \textcolor{keywordflow}{if} (!glXMakeCurrent(\_glfw.x11.display,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00163}00163                             window-\/>context.glx.window,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00164}00164                             window-\/>context.glx.handle))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00165}00165         \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00166}00166             \_glfwInputError(\mbox{\hyperlink{group__errors_gad44162d78100ea5e87cdd38426b8c7a1}{GLFW\_PLATFORM\_ERROR}},}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00167}00167                             \textcolor{stringliteral}{"{}GLX: Failed to make context current"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00168}00168             \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00169}00169         \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00170}00170     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00171}00171     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00172}00172     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00173}00173         \textcolor{keywordflow}{if} (!glXMakeCurrent(\_glfw.x11.display, None, NULL))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00174}00174         \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00175}00175             \_glfwInputError(\mbox{\hyperlink{group__errors_gad44162d78100ea5e87cdd38426b8c7a1}{GLFW\_PLATFORM\_ERROR}},}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00176}00176                             \textcolor{stringliteral}{"{}GLX: Failed to clear current context"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00177}00177             \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00178}00178         \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00179}00179     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00180}00180 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00181}00181     \_glfwPlatformSetTls(\&\_glfw.contextSlot, window);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00182}00182 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00183}00183 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00184}00184 \textcolor{keyword}{static} \textcolor{keywordtype}{void} swapBuffersGLX(\mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}* window)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00185}00185 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00186}00186     glXSwapBuffers(\_glfw.x11.display, window-\/>context.glx.window);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00187}00187 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00188}00188 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00189}00189 \textcolor{keyword}{static} \textcolor{keywordtype}{void} swapIntervalGLX(\textcolor{keywordtype}{int} interval)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00190}00190 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00191}00191     \mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}* window = \_glfwPlatformGetTls(\&\_glfw.contextSlot);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00192}00192 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00193}00193     \textcolor{keywordflow}{if} (\_glfw.glx.EXT\_swap\_control)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00194}00194     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00195}00195         \_glfw.glx.SwapIntervalEXT(\_glfw.x11.display,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00196}00196                                   window-\/>context.glx.window,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00197}00197                                   interval);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00198}00198     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00199}00199     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (\_glfw.glx.MESA\_swap\_control)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00200}00200         \_glfw.glx.SwapIntervalMESA(interval);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00201}00201     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (\_glfw.glx.SGI\_swap\_control)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00202}00202     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00203}00203         \textcolor{keywordflow}{if} (interval > 0)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00204}00204             \_glfw.glx.SwapIntervalSGI(interval);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00205}00205     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00206}00206 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00207}00207 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00208}00208 \textcolor{keyword}{static} \textcolor{keywordtype}{int} extensionSupportedGLX(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* extension)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00209}00209 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00210}00210     \textcolor{keyword}{const} \textcolor{keywordtype}{char}* extensions =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00211}00211         glXQueryExtensionsString(\_glfw.x11.display, \_glfw.x11.screen);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00212}00212     \textcolor{keywordflow}{if} (extensions)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00213}00213     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00214}00214         \textcolor{keywordflow}{if} (\_glfwStringInExtensionString(extension, extensions))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00215}00215             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00216}00216     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00217}00217 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00218}00218     \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00219}00219 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00220}00220 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00221}00221 \textcolor{keyword}{static} \mbox{\hyperlink{group__context_ga3d47c2d2fbe0be9c505d0e04e91a133c}{GLFWglproc}} getProcAddressGLX(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* procname)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00222}00222 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00223}00223     \textcolor{keywordflow}{if} (\_glfw.glx.GetProcAddress)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00224}00224         \textcolor{keywordflow}{return} \_glfw.glx.GetProcAddress((\textcolor{keyword}{const} GLubyte*) procname);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00225}00225     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (\_glfw.glx.GetProcAddressARB)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00226}00226         \textcolor{keywordflow}{return} \_glfw.glx.GetProcAddressARB((\textcolor{keyword}{const} GLubyte*) procname);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00227}00227     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00228}00228         \textcolor{keywordflow}{return} \_glfw\_dlsym(\_glfw.glx.handle, procname);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00229}00229 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00230}00230 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00231}00231 \textcolor{keyword}{static} \textcolor{keywordtype}{void} destroyContextGLX(\mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}* window)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00232}00232 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00233}00233     \textcolor{keywordflow}{if} (window-\/>context.glx.window)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00234}00234     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00235}00235         glXDestroyWindow(\_glfw.x11.display, window-\/>context.glx.window);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00236}00236         window-\/>context.glx.window = None;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00237}00237     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00238}00238 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00239}00239     \textcolor{keywordflow}{if} (window-\/>context.glx.handle)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00240}00240     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00241}00241         glXDestroyContext(\_glfw.x11.display, window-\/>context.glx.handle);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00242}00242         window-\/>context.glx.handle = NULL;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00243}00243     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00244}00244 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00245}00245 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00246}00246 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00250}00250 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00251}00251 \textcolor{comment}{// Initialize GLX}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00252}00252 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00253}00253 GLFWbool \_glfwInitGLX(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00254}00254 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00255}00255     \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00256}00256     \textcolor{keyword}{const} \textcolor{keywordtype}{char}* sonames[] =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00257}00257     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00258}00258 \textcolor{preprocessor}{\#if defined(\_GLFW\_GLX\_LIBRARY)}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00259}00259         \_GLFW\_GLX\_LIBRARY,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00260}00260 \textcolor{preprocessor}{\#elif defined(\_\_CYGWIN\_\_)}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00261}00261         \textcolor{stringliteral}{"{}libGL-\/1.so"{}},}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00262}00262 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00263}00263         \textcolor{stringliteral}{"{}libGL.so.1"{}},}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00264}00264         \textcolor{stringliteral}{"{}libGL.so"{}},}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00265}00265 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00266}00266         NULL}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00267}00267     \};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00268}00268 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00269}00269     \textcolor{keywordflow}{if} (\_glfw.glx.handle)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00270}00270         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00271}00271 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00272}00272     \textcolor{keywordflow}{for} (i = 0;  sonames[i];  i++)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00273}00273     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00274}00274         \_glfw.glx.handle = \_glfw\_dlopen(sonames[i]);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00275}00275         \textcolor{keywordflow}{if} (\_glfw.glx.handle)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00276}00276             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00277}00277     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00278}00278 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00279}00279     \textcolor{keywordflow}{if} (!\_glfw.glx.handle)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00280}00280     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00281}00281         \_glfwInputError(\mbox{\hyperlink{group__errors_ga56882b290db23261cc6c053c40c2d08e}{GLFW\_API\_UNAVAILABLE}}, \textcolor{stringliteral}{"{}GLX: Failed to load GLX"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00282}00282         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00283}00283     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00284}00284 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00285}00285     \_glfw.glx.GetFBConfigs =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00286}00286         \_glfw\_dlsym(\_glfw.glx.handle, \textcolor{stringliteral}{"{}glXGetFBConfigs"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00287}00287     \_glfw.glx.GetFBConfigAttrib =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00288}00288         \_glfw\_dlsym(\_glfw.glx.handle, \textcolor{stringliteral}{"{}glXGetFBConfigAttrib"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00289}00289     \_glfw.glx.GetClientString =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00290}00290         \_glfw\_dlsym(\_glfw.glx.handle, \textcolor{stringliteral}{"{}glXGetClientString"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00291}00291     \_glfw.glx.QueryExtension =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00292}00292         \_glfw\_dlsym(\_glfw.glx.handle, \textcolor{stringliteral}{"{}glXQueryExtension"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00293}00293     \_glfw.glx.QueryVersion =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00294}00294         \_glfw\_dlsym(\_glfw.glx.handle, \textcolor{stringliteral}{"{}glXQueryVersion"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00295}00295     \_glfw.glx.DestroyContext =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00296}00296         \_glfw\_dlsym(\_glfw.glx.handle, \textcolor{stringliteral}{"{}glXDestroyContext"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00297}00297     \_glfw.glx.MakeCurrent =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00298}00298         \_glfw\_dlsym(\_glfw.glx.handle, \textcolor{stringliteral}{"{}glXMakeCurrent"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00299}00299     \_glfw.glx.SwapBuffers =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00300}00300         \_glfw\_dlsym(\_glfw.glx.handle, \textcolor{stringliteral}{"{}glXSwapBuffers"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00301}00301     \_glfw.glx.QueryExtensionsString =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00302}00302         \_glfw\_dlsym(\_glfw.glx.handle, \textcolor{stringliteral}{"{}glXQueryExtensionsString"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00303}00303     \_glfw.glx.CreateNewContext =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00304}00304         \_glfw\_dlsym(\_glfw.glx.handle, \textcolor{stringliteral}{"{}glXCreateNewContext"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00305}00305     \_glfw.glx.CreateWindow =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00306}00306         \_glfw\_dlsym(\_glfw.glx.handle, \textcolor{stringliteral}{"{}glXCreateWindow"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00307}00307     \_glfw.glx.DestroyWindow =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00308}00308         \_glfw\_dlsym(\_glfw.glx.handle, \textcolor{stringliteral}{"{}glXDestroyWindow"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00309}00309     \_glfw.glx.GetProcAddress =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00310}00310         \_glfw\_dlsym(\_glfw.glx.handle, \textcolor{stringliteral}{"{}glXGetProcAddress"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00311}00311     \_glfw.glx.GetProcAddressARB =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00312}00312         \_glfw\_dlsym(\_glfw.glx.handle, \textcolor{stringliteral}{"{}glXGetProcAddressARB"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00313}00313     \_glfw.glx.GetVisualFromFBConfig =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00314}00314         \_glfw\_dlsym(\_glfw.glx.handle, \textcolor{stringliteral}{"{}glXGetVisualFromFBConfig"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00315}00315 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00316}00316     \textcolor{keywordflow}{if} (!\_glfw.glx.GetFBConfigs ||}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00317}00317         !\_glfw.glx.GetFBConfigAttrib ||}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00318}00318         !\_glfw.glx.GetClientString ||}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00319}00319         !\_glfw.glx.QueryExtension ||}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00320}00320         !\_glfw.glx.QueryVersion ||}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00321}00321         !\_glfw.glx.DestroyContext ||}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00322}00322         !\_glfw.glx.MakeCurrent ||}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00323}00323         !\_glfw.glx.SwapBuffers ||}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00324}00324         !\_glfw.glx.QueryExtensionsString ||}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00325}00325         !\_glfw.glx.CreateNewContext ||}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00326}00326         !\_glfw.glx.CreateWindow ||}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00327}00327         !\_glfw.glx.DestroyWindow ||}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00328}00328         !\_glfw.glx.GetProcAddress ||}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00329}00329         !\_glfw.glx.GetProcAddressARB ||}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00330}00330         !\_glfw.glx.GetVisualFromFBConfig)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00331}00331     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00332}00332         \_glfwInputError(\mbox{\hyperlink{group__errors_gad44162d78100ea5e87cdd38426b8c7a1}{GLFW\_PLATFORM\_ERROR}},}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00333}00333                         \textcolor{stringliteral}{"{}GLX: Failed to load required entry points"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00334}00334         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00335}00335     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00336}00336 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00337}00337     \textcolor{keywordflow}{if} (!glXQueryExtension(\_glfw.x11.display,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00338}00338                            \&\_glfw.glx.errorBase,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00339}00339                            \&\_glfw.glx.eventBase))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00340}00340     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00341}00341         \_glfwInputError(\mbox{\hyperlink{group__errors_ga56882b290db23261cc6c053c40c2d08e}{GLFW\_API\_UNAVAILABLE}}, \textcolor{stringliteral}{"{}GLX: GLX extension not found"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00342}00342         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00343}00343     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00344}00344 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00345}00345     \textcolor{keywordflow}{if} (!glXQueryVersion(\_glfw.x11.display, \&\_glfw.glx.major, \&\_glfw.glx.minor))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00346}00346     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00347}00347         \_glfwInputError(\mbox{\hyperlink{group__errors_ga56882b290db23261cc6c053c40c2d08e}{GLFW\_API\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00348}00348                         \textcolor{stringliteral}{"{}GLX: Failed to query GLX version"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00349}00349         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00350}00350     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00351}00351 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00352}00352     \textcolor{keywordflow}{if} (\_glfw.glx.major == 1 \&\& \_glfw.glx.minor < 3)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00353}00353     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00354}00354         \_glfwInputError(\mbox{\hyperlink{group__errors_ga56882b290db23261cc6c053c40c2d08e}{GLFW\_API\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00355}00355                         \textcolor{stringliteral}{"{}GLX: GLX version 1.3 is required"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00356}00356         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00357}00357     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00358}00358 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00359}00359     \textcolor{keywordflow}{if} (extensionSupportedGLX(\textcolor{stringliteral}{"{}GLX\_EXT\_swap\_control"{}}))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00360}00360     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00361}00361         \_glfw.glx.SwapIntervalEXT = (PFNGLXSWAPINTERVALEXTPROC)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00362}00362             getProcAddressGLX(\textcolor{stringliteral}{"{}glXSwapIntervalEXT"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00363}00363 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00364}00364         \textcolor{keywordflow}{if} (\_glfw.glx.SwapIntervalEXT)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00365}00365             \_glfw.glx.EXT\_swap\_control = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00366}00366     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00367}00367 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00368}00368     \textcolor{keywordflow}{if} (extensionSupportedGLX(\textcolor{stringliteral}{"{}GLX\_SGI\_swap\_control"{}}))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00369}00369     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00370}00370         \_glfw.glx.SwapIntervalSGI = (PFNGLXSWAPINTERVALSGIPROC)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00371}00371             getProcAddressGLX(\textcolor{stringliteral}{"{}glXSwapIntervalSGI"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00372}00372 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00373}00373         \textcolor{keywordflow}{if} (\_glfw.glx.SwapIntervalSGI)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00374}00374             \_glfw.glx.SGI\_swap\_control = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00375}00375     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00376}00376 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00377}00377     \textcolor{keywordflow}{if} (extensionSupportedGLX(\textcolor{stringliteral}{"{}GLX\_MESA\_swap\_control"{}}))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00378}00378     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00379}00379         \_glfw.glx.SwapIntervalMESA = (PFNGLXSWAPINTERVALMESAPROC)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00380}00380             getProcAddressGLX(\textcolor{stringliteral}{"{}glXSwapIntervalMESA"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00381}00381 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00382}00382         \textcolor{keywordflow}{if} (\_glfw.glx.SwapIntervalMESA)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00383}00383             \_glfw.glx.MESA\_swap\_control = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00384}00384     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00385}00385 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00386}00386     \textcolor{keywordflow}{if} (extensionSupportedGLX(\textcolor{stringliteral}{"{}GLX\_ARB\_multisample"{}}))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00387}00387         \_glfw.glx.ARB\_multisample = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00388}00388 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00389}00389     if (extensionSupportedGLX(\textcolor{stringliteral}{"{}GLX\_ARB\_framebuffer\_sRGB"{}}))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00390}00390         \_glfw.glx.ARB\_framebuffer\_sRGB = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00391}00391 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00392}00392     if (extensionSupportedGLX(\textcolor{stringliteral}{"{}GLX\_EXT\_framebuffer\_sRGB"{}}))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00393}00393         \_glfw.glx.EXT\_framebuffer\_sRGB = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00394}00394 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00395}00395     if (extensionSupportedGLX(\textcolor{stringliteral}{"{}GLX\_ARB\_create\_context"{}}))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00396}00396     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00397}00397         \_glfw.glx.CreateContextAttribsARB = (PFNGLXCREATECONTEXTATTRIBSARBPROC)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00398}00398             getProcAddressGLX(\textcolor{stringliteral}{"{}glXCreateContextAttribsARB"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00399}00399 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00400}00400         \textcolor{keywordflow}{if} (\_glfw.glx.CreateContextAttribsARB)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00401}00401             \_glfw.glx.ARB\_create\_context = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00402}00402     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00403}00403 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00404}00404     \textcolor{keywordflow}{if} (extensionSupportedGLX(\textcolor{stringliteral}{"{}GLX\_ARB\_create\_context\_robustness"{}}))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00405}00405         \_glfw.glx.ARB\_create\_context\_robustness = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00406}00406 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00407}00407     if (extensionSupportedGLX(\textcolor{stringliteral}{"{}GLX\_ARB\_create\_context\_profile"{}}))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00408}00408         \_glfw.glx.ARB\_create\_context\_profile = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00409}00409 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00410}00410     if (extensionSupportedGLX(\textcolor{stringliteral}{"{}GLX\_EXT\_create\_context\_es2\_profile"{}}))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00411}00411         \_glfw.glx.EXT\_create\_context\_es2\_profile = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00412}00412 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00413}00413     if (extensionSupportedGLX(\textcolor{stringliteral}{"{}GLX\_ARB\_create\_context\_no\_error"{}}))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00414}00414         \_glfw.glx.ARB\_create\_context\_no\_error = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00415}00415 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00416}00416     if (extensionSupportedGLX(\textcolor{stringliteral}{"{}GLX\_ARB\_context\_flush\_control"{}}))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00417}00417         \_glfw.glx.ARB\_context\_flush\_control = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00418}00418 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00419}00419     \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00420}00420 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00421}00421 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00422}00422 \textcolor{comment}{// Terminate GLX}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00423}00423 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00424}00424 \textcolor{keywordtype}{void} \_glfwTerminateGLX(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00425}00425 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00426}00426     \textcolor{comment}{// NOTE: This function must not call any X11 functions, as it is called}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00427}00427     \textcolor{comment}{//       after XCloseDisplay (see \_glfwPlatformTerminate for details)}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00428}00428 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00429}00429     \textcolor{keywordflow}{if} (\_glfw.glx.handle)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00430}00430     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00431}00431         \_glfw\_dlclose(\_glfw.glx.handle);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00432}00432         \_glfw.glx.handle = NULL;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00433}00433     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00434}00434 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00435}00435 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00436}00436 \textcolor{preprocessor}{\#define setAttrib(a, v) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00437}00437 \textcolor{preprocessor}{\{ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00438}00438 \textcolor{preprocessor}{    assert(((size\_t) index + 1) < sizeof(attribs) / sizeof(attribs[0])); \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00439}00439 \textcolor{preprocessor}{    attribs[index++] = a; \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00440}00440 \textcolor{preprocessor}{    attribs[index++] = v; \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00441}00441 \textcolor{preprocessor}{\}}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00442}00442 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00443}00443 \textcolor{comment}{// Create the OpenGL or OpenGL ES context}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00444}00444 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00445}00445 GLFWbool \_glfwCreateContextGLX(\mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}* window,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00446}00446                                \textcolor{keyword}{const} \mbox{\hyperlink{struct___g_l_f_wctxconfig}{\_GLFWctxconfig}}* ctxconfig,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00447}00447                                \textcolor{keyword}{const} \mbox{\hyperlink{struct___g_l_f_wfbconfig}{\_GLFWfbconfig}}* fbconfig)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00448}00448 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00449}00449     \textcolor{keywordtype}{int} attribs[40];}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00450}00450     GLXFBConfig native = NULL;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00451}00451     GLXContext share = NULL;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00452}00452 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00453}00453     \textcolor{keywordflow}{if} (ctxconfig-\/>share)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00454}00454         share = ctxconfig-\/>share-\/>context.glx.handle;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00455}00455 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00456}00456     \textcolor{keywordflow}{if} (!chooseGLXFBConfig(fbconfig, \&native))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00457}00457     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00458}00458         \_glfwInputError(\mbox{\hyperlink{group__errors_ga196e125ef261d94184e2b55c05762f14}{GLFW\_FORMAT\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00459}00459                         \textcolor{stringliteral}{"{}GLX: Failed to find a suitable GLXFBConfig"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00460}00460         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00461}00461     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00462}00462 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00463}00463     \textcolor{keywordflow}{if} (ctxconfig-\/>client == GLFW\_OPENGL\_ES\_API)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00464}00464     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00465}00465         \textcolor{keywordflow}{if} (!\_glfw.glx.ARB\_create\_context ||}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00466}00466             !\_glfw.glx.ARB\_create\_context\_profile ||}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00467}00467             !\_glfw.glx.EXT\_create\_context\_es2\_profile)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00468}00468         \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00469}00469             \_glfwInputError(\mbox{\hyperlink{group__errors_ga56882b290db23261cc6c053c40c2d08e}{GLFW\_API\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00470}00470                             \textcolor{stringliteral}{"{}GLX: OpenGL ES requested but GLX\_EXT\_create\_context\_es2\_profile is unavailable"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00471}00471             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00472}00472         \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00473}00473     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00474}00474 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00475}00475     \textcolor{keywordflow}{if} (ctxconfig-\/>forward)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00476}00476     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00477}00477         \textcolor{keywordflow}{if} (!\_glfw.glx.ARB\_create\_context)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00478}00478         \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00479}00479             \_glfwInputError(\mbox{\hyperlink{group__errors_gad16c5565b4a69f9c2a9ac2c0dbc89462}{GLFW\_VERSION\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00480}00480                             \textcolor{stringliteral}{"{}GLX: Forward compatibility requested but GLX\_ARB\_create\_context\_profile is unavailable"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00481}00481             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00482}00482         \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00483}00483     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00484}00484 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00485}00485     \textcolor{keywordflow}{if} (ctxconfig-\/>profile)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00486}00486     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00487}00487         \textcolor{keywordflow}{if} (!\_glfw.glx.ARB\_create\_context ||}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00488}00488             !\_glfw.glx.ARB\_create\_context\_profile)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00489}00489         \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00490}00490             \_glfwInputError(\mbox{\hyperlink{group__errors_gad16c5565b4a69f9c2a9ac2c0dbc89462}{GLFW\_VERSION\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00491}00491                             \textcolor{stringliteral}{"{}GLX: An OpenGL profile requested but GLX\_ARB\_create\_context\_profile is unavailable"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00492}00492             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00493}00493         \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00494}00494     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00495}00495 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00496}00496     \_glfwGrabErrorHandlerX11();}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00497}00497 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00498}00498     \textcolor{keywordflow}{if} (\_glfw.glx.ARB\_create\_context)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00499}00499     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00500}00500         \textcolor{keywordtype}{int} index = 0, \mbox{\hyperlink{structmask}{mask}} = 0, flags = 0;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00501}00501 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00502}00502         \textcolor{keywordflow}{if} (ctxconfig-\/>client == GLFW\_OPENGL\_API)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00503}00503         \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00504}00504             \textcolor{keywordflow}{if} (ctxconfig-\/>forward)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00505}00505                 flags |= GLX\_CONTEXT\_FORWARD\_COMPATIBLE\_BIT\_ARB;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00506}00506 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00507}00507             \textcolor{keywordflow}{if} (ctxconfig-\/>profile == GLFW\_OPENGL\_CORE\_PROFILE)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00508}00508                 \mbox{\hyperlink{structmask}{mask}} |= GLX\_CONTEXT\_CORE\_PROFILE\_BIT\_ARB;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00509}00509             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (ctxconfig-\/>profile == GLFW\_OPENGL\_COMPAT\_PROFILE)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00510}00510                 \mbox{\hyperlink{structmask}{mask}} |= GLX\_CONTEXT\_COMPATIBILITY\_PROFILE\_BIT\_ARB;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00511}00511         \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00512}00512         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00513}00513             \mbox{\hyperlink{structmask}{mask}} |= GLX\_CONTEXT\_ES2\_PROFILE\_BIT\_EXT;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00514}00514 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00515}00515         \textcolor{keywordflow}{if} (ctxconfig-\/>debug)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00516}00516             flags |= GLX\_CONTEXT\_DEBUG\_BIT\_ARB;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00517}00517 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00518}00518         \textcolor{keywordflow}{if} (ctxconfig-\/>robustness)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00519}00519         \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00520}00520             \textcolor{keywordflow}{if} (\_glfw.glx.ARB\_create\_context\_robustness)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00521}00521             \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00522}00522                 \textcolor{keywordflow}{if} (ctxconfig-\/>robustness == GLFW\_NO\_RESET\_NOTIFICATION)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00523}00523                 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00524}00524                     setAttrib(GLX\_CONTEXT\_RESET\_NOTIFICATION\_STRATEGY\_ARB,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00525}00525                               GLX\_NO\_RESET\_NOTIFICATION\_ARB);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00526}00526                 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00527}00527                 \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (ctxconfig-\/>robustness == GLFW\_LOSE\_CONTEXT\_ON\_RESET)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00528}00528                 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00529}00529                     setAttrib(GLX\_CONTEXT\_RESET\_NOTIFICATION\_STRATEGY\_ARB,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00530}00530                               GLX\_LOSE\_CONTEXT\_ON\_RESET\_ARB);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00531}00531                 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00532}00532 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00533}00533                 flags |= GLX\_CONTEXT\_ROBUST\_ACCESS\_BIT\_ARB;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00534}00534             \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00535}00535         \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00536}00536 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00537}00537         \textcolor{keywordflow}{if} (ctxconfig-\/>release)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00538}00538         \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00539}00539             \textcolor{keywordflow}{if} (\_glfw.glx.ARB\_context\_flush\_control)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00540}00540             \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00541}00541                 \textcolor{keywordflow}{if} (ctxconfig-\/>release == GLFW\_RELEASE\_BEHAVIOR\_NONE)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00542}00542                 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00543}00543                     setAttrib(GLX\_CONTEXT\_RELEASE\_BEHAVIOR\_ARB,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00544}00544                               GLX\_CONTEXT\_RELEASE\_BEHAVIOR\_NONE\_ARB);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00545}00545                 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00546}00546                 \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (ctxconfig-\/>release == GLFW\_RELEASE\_BEHAVIOR\_FLUSH)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00547}00547                 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00548}00548                     setAttrib(GLX\_CONTEXT\_RELEASE\_BEHAVIOR\_ARB,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00549}00549                               GLX\_CONTEXT\_RELEASE\_BEHAVIOR\_FLUSH\_ARB);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00550}00550                 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00551}00551             \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00552}00552         \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00553}00553 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00554}00554         \textcolor{keywordflow}{if} (ctxconfig-\/>noerror)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00555}00555         \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00556}00556             \textcolor{keywordflow}{if} (\_glfw.glx.ARB\_create\_context\_no\_error)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00557}00557                 setAttrib(GLX\_CONTEXT\_OPENGL\_NO\_ERROR\_ARB, \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00558}00558         \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00559}00559 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00560}00560         \textcolor{comment}{// NOTE: Only request an explicitly versioned context when necessary, as}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00561}00561         \textcolor{comment}{//       explicitly requesting version 1.0 does not always return the}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00562}00562         \textcolor{comment}{//       highest version supported by the driver}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00563}00563         \textcolor{keywordflow}{if} (ctxconfig-\/>major != 1 || ctxconfig-\/>minor != 0)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00564}00564         \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00565}00565             setAttrib(GLX\_CONTEXT\_MAJOR\_VERSION\_ARB, ctxconfig-\/>major);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00566}00566             setAttrib(GLX\_CONTEXT\_MINOR\_VERSION\_ARB, ctxconfig-\/>minor);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00567}00567         \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00568}00568 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00569}00569         \textcolor{keywordflow}{if} (\mbox{\hyperlink{structmask}{mask}})}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00570}00570             setAttrib(GLX\_CONTEXT\_PROFILE\_MASK\_ARB, \mbox{\hyperlink{structmask}{mask}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00571}00571 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00572}00572         \textcolor{keywordflow}{if} (flags)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00573}00573             setAttrib(GLX\_CONTEXT\_FLAGS\_ARB, flags);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00574}00574 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00575}00575         setAttrib(None, None);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00576}00576 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00577}00577         window-\/>context.glx.handle =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00578}00578             \_glfw.glx.CreateContextAttribsARB(\_glfw.x11.display,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00579}00579                                               native,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00580}00580                                               share,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00581}00581                                               True,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00582}00582                                               attribs);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00583}00583 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00584}00584         \textcolor{comment}{// HACK: This is a fallback for broken versions of the Mesa}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00585}00585         \textcolor{comment}{//       implementation of GLX\_ARB\_create\_context\_profile that fail}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00586}00586         \textcolor{comment}{//       default 1.0 context creation with a GLXBadProfileARB error in}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00587}00587         \textcolor{comment}{//       violation of the extension spec}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00588}00588         \textcolor{keywordflow}{if} (!window-\/>context.glx.handle)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00589}00589         \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00590}00590             \textcolor{keywordflow}{if} (\_glfw.x11.errorCode == \_glfw.glx.errorBase + GLXBadProfileARB \&\&}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00591}00591                 ctxconfig-\/>client == GLFW\_OPENGL\_API \&\&}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00592}00592                 ctxconfig-\/>profile == GLFW\_OPENGL\_ANY\_PROFILE \&\&}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00593}00593                 ctxconfig-\/>forward == \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}})}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00594}00594             \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00595}00595                 window-\/>context.glx.handle =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00596}00596                     createLegacyContextGLX(window, native, share);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00597}00597             \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00598}00598         \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00599}00599     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00600}00600     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00601}00601     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00602}00602         window-\/>context.glx.handle =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00603}00603             createLegacyContextGLX(window, native, share);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00604}00604     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00605}00605 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00606}00606     \_glfwReleaseErrorHandlerX11();}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00607}00607 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00608}00608     \textcolor{keywordflow}{if} (!window-\/>context.glx.handle)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00609}00609     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00610}00610         \_glfwInputErrorX11(\mbox{\hyperlink{group__errors_gad16c5565b4a69f9c2a9ac2c0dbc89462}{GLFW\_VERSION\_UNAVAILABLE}}, \textcolor{stringliteral}{"{}GLX: Failed to create context"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00611}00611         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00612}00612     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00613}00613 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00614}00614     window-\/>context.glx.window =}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00615}00615         glXCreateWindow(\_glfw.x11.display, native, window-\/>x11.handle, NULL);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00616}00616     \textcolor{keywordflow}{if} (!window-\/>context.glx.window)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00617}00617     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00618}00618         \_glfwInputError(\mbox{\hyperlink{group__errors_gad44162d78100ea5e87cdd38426b8c7a1}{GLFW\_PLATFORM\_ERROR}}, \textcolor{stringliteral}{"{}GLX: Failed to create window"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00619}00619         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00620}00620     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00621}00621 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00622}00622     window-\/>context.makeCurrent = makeContextCurrentGLX;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00623}00623     window-\/>context.swapBuffers = swapBuffersGLX;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00624}00624     window-\/>context.swapInterval = swapIntervalGLX;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00625}00625     window-\/>context.extensionSupported = extensionSupportedGLX;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00626}00626     window-\/>context.getProcAddress = getProcAddressGLX;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00627}00627     window-\/>context.destroy = destroyContextGLX;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00628}00628 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00629}00629     \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00630}00630 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00631}00631 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00632}00632 \textcolor{preprocessor}{\#undef setAttrib}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00633}00633 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00634}00634 \textcolor{comment}{// Returns the Visual and depth of the chosen GLXFBConfig}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00635}00635 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00636}00636 GLFWbool \_glfwChooseVisualGLX(\textcolor{keyword}{const} \mbox{\hyperlink{struct___g_l_f_wwndconfig}{\_GLFWwndconfig}}* wndconfig,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00637}00637                               \textcolor{keyword}{const} \mbox{\hyperlink{struct___g_l_f_wctxconfig}{\_GLFWctxconfig}}* ctxconfig,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00638}00638                               \textcolor{keyword}{const} \mbox{\hyperlink{struct___g_l_f_wfbconfig}{\_GLFWfbconfig}}* fbconfig,}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00639}00639                               Visual** visual, \textcolor{keywordtype}{int}* depth)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00640}00640 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00641}00641     GLXFBConfig native;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00642}00642     XVisualInfo* \mbox{\hyperlink{structresult}{result}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00643}00643 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00644}00644     \textcolor{keywordflow}{if} (!chooseGLXFBConfig(fbconfig, \&native))}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00645}00645     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00646}00646         \_glfwInputError(\mbox{\hyperlink{group__errors_ga196e125ef261d94184e2b55c05762f14}{GLFW\_FORMAT\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00647}00647                         \textcolor{stringliteral}{"{}GLX: Failed to find a suitable GLXFBConfig"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00648}00648         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00649}00649     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00650}00650 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00651}00651     \mbox{\hyperlink{structresult}{result}} = glXGetVisualFromFBConfig(\_glfw.x11.display, native);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00652}00652     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{structresult}{result}})}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00653}00653     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00654}00654         \_glfwInputError(\mbox{\hyperlink{group__errors_gad44162d78100ea5e87cdd38426b8c7a1}{GLFW\_PLATFORM\_ERROR}},}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00655}00655                         \textcolor{stringliteral}{"{}GLX: Failed to retrieve Visual for GLXFBConfig"{}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00656}00656         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00657}00657     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00658}00658 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00659}00659     *visual = \mbox{\hyperlink{structresult}{result}}-\/>visual;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00660}00660     *depth  = \mbox{\hyperlink{structresult}{result}}-\/>depth;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00661}00661 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00662}00662     XFree(\mbox{\hyperlink{structresult}{result}});}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00663}00663     \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00664}00664 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00665}00665 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00666}00666 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00670}00670 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00671}00671 GLFWAPI GLXContext glfwGetGLXContext(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* handle)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00672}00672 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00673}00673     \mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}* window = (\mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}*) handle;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00674}00674     \_GLFW\_REQUIRE\_INIT\_OR\_RETURN(NULL);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00675}00675 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00676}00676     \textcolor{keywordflow}{if} (window-\/>context.client == GLFW\_NO\_API)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00677}00677     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00678}00678         \_glfwInputError(\mbox{\hyperlink{group__errors_gacff24d2757da752ae4c80bf452356487}{GLFW\_NO\_WINDOW\_CONTEXT}}, NULL);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00679}00679         \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00680}00680     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00681}00681 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00682}00682     \textcolor{keywordflow}{return} window-\/>context.glx.handle;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00683}00683 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00684}00684 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00685}00685 GLFWAPI GLXWindow glfwGetGLXWindow(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* handle)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00686}00686 \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00687}00687     \mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}* window = (\mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}*) handle;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00688}00688     \_GLFW\_REQUIRE\_INIT\_OR\_RETURN(None);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00689}00689 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00690}00690     \textcolor{keywordflow}{if} (window-\/>context.client == GLFW\_NO\_API)}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00691}00691     \{}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00692}00692         \_glfwInputError(\mbox{\hyperlink{group__errors_gacff24d2757da752ae4c80bf452356487}{GLFW\_NO\_WINDOW\_CONTEXT}}, NULL);}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00693}00693         \textcolor{keywordflow}{return} None;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00694}00694     \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00695}00695 }
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00696}00696     \textcolor{keywordflow}{return} window-\/>context.glx.window;}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00697}00697 \}}
+\DoxyCodeLine{\Hypertarget{glx__context_8c_source_l00698}00698 }
+
+\end{DoxyCode}

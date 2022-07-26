@@ -1,0 +1,638 @@
+\hypertarget{cave__parse_8c_source}{}\doxysection{cave\+\_\+parse.\+c}
+\label{cave__parse_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/caveview/cave\_parse.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/caveview/cave\_parse.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00001}00001 \textcolor{preprocessor}{\#include <assert.h>}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00002}00002 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00003}00003 \textcolor{preprocessor}{\#include <limits.h>}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00004}00004 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00006}00006 \textcolor{preprocessor}{\#define FAST\_CHUNK   }\textcolor{comment}{// disabling this enables the old, slower path that deblocks into a regular form}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00008}00008 \textcolor{preprocessor}{\#include "{}cave\_parse.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00009}00009 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00010}00010 \textcolor{preprocessor}{\#include "{}stb\_image.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00011}00011 \textcolor{preprocessor}{\#include "{}stb.h"{}}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00013}00013 \textcolor{preprocessor}{\#define NUM\_CHUNKS\_PER\_REGION       32  }\textcolor{comment}{// only on one axis}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00014}00014 \textcolor{preprocessor}{\#define NUM\_CHUNKS\_PER\_REGION\_LOG2   5}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00016}00016 \textcolor{preprocessor}{\#define NUM\_COLUMNS\_PER\_CHUNK       16}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00017}00017 \textcolor{preprocessor}{\#define NUM\_COLUMNS\_PER\_CHUNK\_LOG2   4}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00018}00018 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00019}00019 uint32 read\_uint32\_be(FILE *f)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00020}00020 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00021}00021    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} data[4];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00022}00022    fread(data, 1, 4, f);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00023}00023    \textcolor{keywordflow}{return} (data[0]<<24) + (data[1]<<16) + (data[2]<<8) + data[3];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00024}00024 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00026}\mbox{\hyperlink{structcompressed__chunk}{00026}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00027}00027 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00028}00028    uint8 *data;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00029}00029    \textcolor{keywordtype}{size\_t} len;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00030}00030    \textcolor{keywordtype}{int} x,z; \textcolor{comment}{// chunk index}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00031}00031    \textcolor{keywordtype}{int} refcount; \textcolor{comment}{// for multi-\/threading}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00032}00032 \} \mbox{\hyperlink{structcompressed__chunk}{compressed\_chunk}};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00034}\mbox{\hyperlink{structregion}{00034}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00035}00035 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00036}00036    \textcolor{keywordtype}{int} x,z;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00037}00037    uint32 sector\_data[NUM\_CHUNKS\_PER\_REGION][NUM\_CHUNKS\_PER\_REGION];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00038}00038 \} \mbox{\hyperlink{structregion}{region}};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00040}00040 \textcolor{keywordtype}{size\_t} cached\_compressed=0;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00042}00042 FILE *last\_region;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00043}00043 \textcolor{keywordtype}{int} last\_region\_x;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00044}00044 \textcolor{keywordtype}{int} last\_region\_z;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00045}00045 \textcolor{keywordtype}{int} opened=0;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00047}00047 \textcolor{keyword}{static} \textcolor{keywordtype}{void} open\_file(\textcolor{keywordtype}{int} reg\_x, \textcolor{keywordtype}{int} reg\_z)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00048}00048 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00049}00049    \textcolor{keywordflow}{if} (!opened || last\_region\_x != reg\_x || last\_region\_z != reg\_z) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00050}00050       \textcolor{keywordtype}{char} filename[256];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00051}00051       \textcolor{keywordflow}{if} (last\_region != NULL)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00052}00052          fclose(last\_region);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00053}00053       sprintf(filename, \textcolor{stringliteral}{"{}r.\%d.\%d.mca"{}}, reg\_x, reg\_z);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00054}00054       last\_region = fopen(filename, \textcolor{stringliteral}{"{}rb"{}});}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00055}00055       last\_region\_x = reg\_x;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00056}00056       last\_region\_z = reg\_z;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00057}00057       opened = 1;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00058}00058    \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00059}00059 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00061}00061 \textcolor{keyword}{static} \mbox{\hyperlink{structregion}{region}} *load\_region(\textcolor{keywordtype}{int} reg\_x, \textcolor{keywordtype}{int} reg\_z)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00062}00062 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00063}00063    \mbox{\hyperlink{structregion}{region}} *r;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00064}00064    \textcolor{keywordtype}{int} x,z;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00065}00065 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00066}00066    open\_file(reg\_x, reg\_z);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00068}00068    r = malloc(\textcolor{keyword}{sizeof}(*r));}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00070}00070    \textcolor{keywordflow}{if} (last\_region == NULL) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00071}00071       memset(r, 0, \textcolor{keyword}{sizeof}(*r));}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00072}00072    \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00073}00073       fseek(last\_region, 0, SEEK\_SET);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00074}00074       \textcolor{keywordflow}{for} (z=0; z < NUM\_CHUNKS\_PER\_REGION; ++z)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00075}00075          \textcolor{keywordflow}{for} (x=0; x < NUM\_CHUNKS\_PER\_REGION; ++x)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00076}00076             r-\/>sector\_data[z][x] = read\_uint32\_be(last\_region);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00077}00077    \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00078}00078    r-\/>x = reg\_x;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00079}00079    r-\/>z = reg\_z;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00081}00081    \textcolor{keywordflow}{return} r;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00082}00082 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00083}00083 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00084}00084 \textcolor{keywordtype}{void} free\_region(\mbox{\hyperlink{structregion}{region}} *r)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00085}00085 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00086}00086    free(r);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00087}00087 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00088}00088 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00089}00089 \textcolor{preprocessor}{\#define MAX\_MAP\_REGIONS   64  }\textcolor{comment}{// in one axis: 64 regions * 32 chunk/region * 16 columns/chunk = 16384 columns}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00090}00090 \mbox{\hyperlink{structregion}{region}} *regions[MAX\_MAP\_REGIONS][MAX\_MAP\_REGIONS];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00091}00091 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00092}00092 \textcolor{keyword}{static} \mbox{\hyperlink{structregion}{region}} *get\_region(\textcolor{keywordtype}{int} reg\_x, \textcolor{keywordtype}{int} reg\_z)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00093}00093 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00094}00094    \textcolor{keywordtype}{int} slot\_x = reg\_x \& (MAX\_MAP\_REGIONS-\/1);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00095}00095    \textcolor{keywordtype}{int} slot\_z = reg\_z \& (MAX\_MAP\_REGIONS-\/1);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00096}00096    \mbox{\hyperlink{structregion}{region}} *r;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00098}00098    r = regions[slot\_z][slot\_x];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00099}00099 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00100}00100    \textcolor{keywordflow}{if} (r) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00101}00101       \textcolor{keywordflow}{if} (r-\/>x == reg\_x \&\& r-\/>z == reg\_z)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00102}00102          \textcolor{keywordflow}{return} r;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00103}00103       free\_region(r);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00104}00104    \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00106}00106    r = load\_region(reg\_x, reg\_z);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00107}00107    regions[slot\_z][slot\_x] = r;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00108}00108 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00109}00109    \textcolor{keywordflow}{return} r;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00110}00110 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00111}00111 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00112}00112 \textcolor{comment}{// about one region, so size should be ok}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00113}00113 \textcolor{preprocessor}{\#define NUM\_CACHED\_X 64}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00114}00114 \textcolor{preprocessor}{\#define NUM\_CACHED\_Z 64}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00115}00115 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00116}00116 \textcolor{comment}{// @TODO: is it really worth caching these? we probably can just}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00117}00117 \textcolor{comment}{// pull them from the disk cache nearly as efficiently.}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00118}00118 \textcolor{comment}{// Can test that by setting to 1x1?}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00119}00119 \mbox{\hyperlink{structcompressed__chunk}{compressed\_chunk}} *cached\_chunk[NUM\_CACHED\_Z][NUM\_CACHED\_X];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00121}00121 \textcolor{keyword}{static} \textcolor{keywordtype}{void} deref\_compressed\_chunk(\mbox{\hyperlink{structcompressed__chunk}{compressed\_chunk}} *cc)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00122}00122 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00123}00123    assert(cc-\/>refcount > 0);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00124}00124    -\/-\/cc-\/>refcount;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00125}00125    \textcolor{keywordflow}{if} (cc-\/>refcount == 0) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00126}00126       \textcolor{keywordflow}{if} (cc-\/>data)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00127}00127          free(cc-\/>data);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00128}00128       free(cc);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00129}00129    \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00130}00130 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00131}00131 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00132}00132 \textcolor{keyword}{static} \mbox{\hyperlink{structcompressed__chunk}{compressed\_chunk}} *get\_compressed\_chunk(\textcolor{keywordtype}{int} chunk\_x, \textcolor{keywordtype}{int} chunk\_z)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00133}00133 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00134}00134    \textcolor{keywordtype}{int} slot\_x = chunk\_x \& (NUM\_CACHED\_X-\/1);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00135}00135    \textcolor{keywordtype}{int} slot\_z = chunk\_z \& (NUM\_CACHED\_Z-\/1);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00136}00136    \mbox{\hyperlink{structcompressed__chunk}{compressed\_chunk}} *cc = cached\_chunk[slot\_z][slot\_x];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00137}00137 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00138}00138    \textcolor{keywordflow}{if} (cc \&\& cc-\/>x == chunk\_x \&\& cc-\/>z == chunk\_z)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00139}00139       \textcolor{keywordflow}{return} cc;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00140}00140    \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00141}00141       \textcolor{keywordtype}{int} reg\_x = chunk\_x >> NUM\_CHUNKS\_PER\_REGION\_LOG2;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00142}00142       \textcolor{keywordtype}{int} reg\_z = chunk\_z >> NUM\_CHUNKS\_PER\_REGION\_LOG2;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00143}00143       \mbox{\hyperlink{structregion}{region}} *r = get\_region(reg\_x, reg\_z);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00144}00144       \textcolor{keywordflow}{if} (cc) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00145}00145          deref\_compressed\_chunk(cc);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00146}00146          cached\_chunk[slot\_z][slot\_x] = NULL;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00147}00147       \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00148}00148       cc = malloc(\textcolor{keyword}{sizeof}(*cc));}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00149}00149       cc-\/>x = chunk\_x;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00150}00150       cc-\/>z = chunk\_z;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00151}00151       \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00152}00152          \textcolor{keywordtype}{int} subchunk\_x = chunk\_x \& (NUM\_CHUNKS\_PER\_REGION-\/1);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00153}00153          \textcolor{keywordtype}{int} subchunk\_z = chunk\_z \& (NUM\_CHUNKS\_PER\_REGION-\/1);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00154}00154          uint32 code = r-\/>sector\_data[subchunk\_z][subchunk\_x];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00155}00155 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00156}00156          \textcolor{keywordflow}{if} (code \& 255) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00157}00157             open\_file(reg\_x, reg\_z);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00158}00158             fseek(last\_region, (code>>8)*4096, SEEK\_SET);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00159}00159             cc-\/>len = (code\&255)*4096;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00160}00160             cc-\/>data = malloc(cc-\/>len);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00161}00161             fread(cc-\/>data, 1, cc-\/>len, last\_region);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00162}00162          \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00163}00163             cc-\/>len = 0;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00164}00164             cc-\/>data = 0;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00165}00165          \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00166}00166       \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00167}00167       cc-\/>refcount = 1;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00168}00168       cached\_chunk[slot\_z][slot\_x] = cc;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00169}00169       \textcolor{keywordflow}{return} cc;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00170}00170    \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00171}00171 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00172}00172 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00173}00173 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00174}00174 \textcolor{comment}{// NBT parser -\/-\/ can automatically parse stuff we don't}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00175}00175 \textcolor{comment}{// have definitions for, but want to explicitly parse}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00176}00176 \textcolor{comment}{// stuff we do have definitions for.}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00177}00177 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00178}00178 \textcolor{comment}{// option 1: auto-\/parse everything into data structures,}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00179}00179 \textcolor{comment}{// then read those}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00180}00180 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00181}00181 \textcolor{comment}{// option 2: have a "{}parse next object"{} which}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00182}00182 \textcolor{comment}{// doesn't resolve whether it expands its children}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00183}00183 \textcolor{comment}{// yet, and then the user either says "{}expand"{} or}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00184}00184 \textcolor{comment}{// "{}skip"{} after looking at the name. Anything with}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00185}00185 \textcolor{comment}{// "{}children"{} without names can't go through this}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00186}00186 \textcolor{comment}{// interface.}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00187}00187 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00188}00188 \textcolor{comment}{// Let's try option 2.}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00189}00189 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00190}00190 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00191}\mbox{\hyperlink{structnbt}{00191}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00192}00192 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00193}00193    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *buffer\_start;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00194}00194    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *buffer\_end;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00195}00195    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *cur;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00196}00196    \textcolor{keywordtype}{int} nesting;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00197}00197    \textcolor{keywordtype}{char} temp\_buffer[256];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00198}00198 \} \mbox{\hyperlink{structnbt}{nbt}};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00199}00199 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00200}00200 \textcolor{keyword}{enum} \{ TAG\_End=0, TAG\_Byte=1, TAG\_Short=2, TAG\_Int=3, TAG\_Long=4,}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00201}00201        TAG\_Float=5, TAG\_Double=6, TAG\_Byte\_Array=7, TAG\_String=8,}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00202}00202        TAG\_List=9, TAG\_Compound=10, TAG\_Int\_Array=11 \};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00203}00203 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00204}00204 \textcolor{keyword}{static} \textcolor{keywordtype}{void} nbt\_get\_string\_data(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *data, \textcolor{keywordtype}{char} *\mbox{\hyperlink{classbuffer}{buffer}}, \textcolor{keywordtype}{size\_t} bufsize)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00205}00205 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00206}00206    \textcolor{keywordtype}{int} len = data[0]*256 + data[1];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00207}00207    \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00208}00208    \textcolor{keywordflow}{for} (i=0; i < len \&\& i+1 < (int) bufsize; ++i)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00209}00209       \mbox{\hyperlink{classbuffer}{buffer}}[i] = (\textcolor{keywordtype}{char}) data[i+2];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00210}00210    \mbox{\hyperlink{classbuffer}{buffer}}[i] = 0;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00211}00211 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00212}00212 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00213}00213 \textcolor{keyword}{static} \textcolor{keywordtype}{char} *nbt\_peek(\mbox{\hyperlink{structnbt}{nbt}} *n)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00214}00214 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00215}00215    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} type = *n-\/>cur;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00216}00216    \textcolor{keywordflow}{if} (type == TAG\_End)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00217}00217       \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00218}00218    nbt\_get\_string\_data(n-\/>cur+1, n-\/>temp\_buffer, \textcolor{keyword}{sizeof}(n-\/>temp\_buffer));}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00219}00219    \textcolor{keywordflow}{return} n-\/>temp\_buffer;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00220}00220 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00221}00221 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00222}00222 \textcolor{keyword}{static} uint32 nbt\_parse\_uint32(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *\mbox{\hyperlink{classbuffer}{buffer}})}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00223}00223 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00224}00224    \textcolor{keywordflow}{return} (\mbox{\hyperlink{classbuffer}{buffer}}[0] << 24) + (\mbox{\hyperlink{classbuffer}{buffer}}[1]<<16) + (\mbox{\hyperlink{classbuffer}{buffer}}[2]<<8) + \mbox{\hyperlink{classbuffer}{buffer}}[3];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00225}00225 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00226}00226 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00227}00227 \textcolor{keyword}{static} \textcolor{keywordtype}{void} nbt\_skip(\mbox{\hyperlink{structnbt}{nbt}} *n);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00228}00228 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00229}00229 \textcolor{comment}{// skip an item that doesn't have an id or name prefix (usable in lists)}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00230}00230 \textcolor{keyword}{static} \textcolor{keywordtype}{void} nbt\_skip\_raw(\mbox{\hyperlink{structnbt}{nbt}} *n, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} type)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00231}00231 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00232}00232    \textcolor{keywordflow}{switch} (type) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00233}00233       \textcolor{keywordflow}{case} TAG\_Byte  : n-\/>cur += 1; \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00234}00234       \textcolor{keywordflow}{case} TAG\_Short : n-\/>cur += 2; \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00235}00235       \textcolor{keywordflow}{case} TAG\_Int   : n-\/>cur += 4; \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00236}00236       \textcolor{keywordflow}{case} TAG\_Long  : n-\/>cur += 8; \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00237}00237       \textcolor{keywordflow}{case} TAG\_Float : n-\/>cur += 4; \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00238}00238       \textcolor{keywordflow}{case} TAG\_Double: n-\/>cur += 8; \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00239}00239       \textcolor{keywordflow}{case} TAG\_Byte\_Array: n-\/>cur += 4 + 1*nbt\_parse\_uint32(n-\/>cur); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00240}00240       \textcolor{keywordflow}{case} TAG\_Int\_Array : n-\/>cur += 4 + 4*nbt\_parse\_uint32(n-\/>cur); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00241}00241       \textcolor{keywordflow}{case} TAG\_String    : n-\/>cur += 2 + (n-\/>cur[0]*256 + n-\/>cur[1]); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00242}00242       \textcolor{keywordflow}{case} TAG\_List      : \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00243}00243          \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} list\_type = *n-\/>cur++;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00244}00244          \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} list\_len = nbt\_parse\_uint32(n-\/>cur);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00245}00245          \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00246}00246          n-\/>cur += 4; \textcolor{comment}{// list\_len}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00247}00247          \textcolor{keywordflow}{for} (i=0; i < list\_len; ++i)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00248}00248             nbt\_skip\_raw(n, list\_type);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00249}00249          \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00250}00250       \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00251}00251       \textcolor{keywordflow}{case} TAG\_Compound : \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00252}00252          \textcolor{keywordflow}{while} (*n-\/>cur != TAG\_End)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00253}00253             nbt\_skip(n);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00254}00254          nbt\_skip(n); \textcolor{comment}{// skip the TAG\_end}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00255}00255          \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00256}00256       \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00257}00257    \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00258}00258    assert(n-\/>cur <= n-\/>buffer\_end);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00259}00259 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00260}00260 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00261}00261 \textcolor{keyword}{static} \textcolor{keywordtype}{void} nbt\_skip(\mbox{\hyperlink{structnbt}{nbt}} *n)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00262}00262 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00263}00263    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} type = *n-\/>cur++;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00264}00264    \textcolor{keywordflow}{if} (type == TAG\_End)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00265}00265       \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00266}00266    \textcolor{comment}{// skip name}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00267}00267    n-\/>cur += (n-\/>cur[0]*256 + n-\/>cur[1]) + 2;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00268}00268    nbt\_skip\_raw(n, type);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00269}00269 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00270}00270 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00271}00271 \textcolor{comment}{// byteswap}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00272}00272 \textcolor{keyword}{static} \textcolor{keywordtype}{void} nbt\_swap(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *ptr, \textcolor{keywordtype}{int} len)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00273}00273 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00274}00274    \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00275}00275    \textcolor{keywordflow}{for} (i=0; i < (len>>1); ++i) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00276}00276       \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} t = ptr[i];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00277}00277       ptr[i] = ptr[len-\/1-\/i];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00278}00278       ptr[len-\/1-\/i] = t;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00279}00279    \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00280}00280 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00281}00281 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00282}00282 \textcolor{comment}{// pass in the expected type, fail if doesn't match}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00283}00283 \textcolor{comment}{// returns a pointer to the data, byteswapped if appropriate}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00284}00284 \textcolor{keyword}{static} \textcolor{keywordtype}{void} *nbt\_get\_fromlist(\mbox{\hyperlink{structnbt}{nbt}} *n, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} type, \textcolor{keywordtype}{int} *len)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00285}00285 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00286}00286    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *ptr;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00287}00287    assert(type != TAG\_Compound);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00288}00288    assert(type != TAG\_List); \textcolor{comment}{// we could support getting lists of primitives as if they were arrays, but eh}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00289}00289    \textcolor{keywordflow}{if} (len) *len = 1;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00290}00290    ptr = n-\/>cur;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00291}00291    \textcolor{keywordflow}{switch} (type) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00292}00292       \textcolor{keywordflow}{case} TAG\_Byte  : \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00293}00293 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00294}00294       \textcolor{keywordflow}{case} TAG\_Short : nbt\_swap(ptr, 2); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00295}00295       \textcolor{keywordflow}{case} TAG\_Int   : nbt\_swap(ptr, 4); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00296}00296       \textcolor{keywordflow}{case} TAG\_Long  : nbt\_swap(ptr, 8); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00297}00297       \textcolor{keywordflow}{case} TAG\_Float : nbt\_swap(ptr, 4); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00298}00298       \textcolor{keywordflow}{case} TAG\_Double: nbt\_swap(ptr, 8); \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00299}00299 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00300}00300       \textcolor{keywordflow}{case} TAG\_Byte\_Array:}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00301}00301          *len = nbt\_parse\_uint32(ptr);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00302}00302          ptr += 4;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00303}00303          \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00304}00304       \textcolor{keywordflow}{case} TAG\_Int\_Array: \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00305}00305          \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00306}00306          *len = nbt\_parse\_uint32(ptr);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00307}00307          ptr += 4;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00308}00308          \textcolor{keywordflow}{for} (i=0; i < *len; ++i)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00309}00309             nbt\_swap(ptr + 4*i, 4);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00310}00310          \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00311}00311       \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00312}00312 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00313}00313       \textcolor{keywordflow}{default}: assert(0); \textcolor{comment}{// unhandled case}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00314}00314    \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00315}00315    nbt\_skip\_raw(n, type);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00316}00316    \textcolor{keywordflow}{return} ptr;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00317}00317 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00318}00318 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00319}00319 \textcolor{keyword}{static} \textcolor{keywordtype}{void} *nbt\_get(\mbox{\hyperlink{structnbt}{nbt}} *n, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} type, \textcolor{keywordtype}{int} *len)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00320}00320 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00321}00321    assert(n-\/>cur[0] == type);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00322}00322    n-\/>cur += 3 + (n-\/>cur[1]*256+n-\/>cur[2]);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00323}00323    \textcolor{keywordflow}{return} nbt\_get\_fromlist(n, type, len);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00324}00324 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00325}00325 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00326}00326 \textcolor{keyword}{static} \textcolor{keywordtype}{void} nbt\_begin\_compound(\mbox{\hyperlink{structnbt}{nbt}} *n) \textcolor{comment}{// start a compound}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00327}00327 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00328}00328    assert(*n-\/>cur == TAG\_Compound);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00329}00329    \textcolor{comment}{// skip header}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00330}00330    n-\/>cur += 3 + (n-\/>cur[1]*256 + n-\/>cur[2]);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00331}00331    ++n-\/>nesting;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00332}00332 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00333}00333 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00334}00334 \textcolor{keyword}{static} \textcolor{keywordtype}{void} nbt\_begin\_compound\_in\_list(\mbox{\hyperlink{structnbt}{nbt}} *n) \textcolor{comment}{// start a compound}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00335}00335 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00336}00336    ++n-\/>nesting;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00337}00337 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00338}00338 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00339}00339 \textcolor{keyword}{static} \textcolor{keywordtype}{void} nbt\_end\_compound(\mbox{\hyperlink{structnbt}{nbt}} *n) \textcolor{comment}{// end a compound}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00340}00340 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00341}00341    assert(*n-\/>cur == TAG\_End);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00342}00342    assert(n-\/>nesting != 0);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00343}00343    ++n-\/>cur;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00344}00344    -\/-\/n-\/>nesting;   }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00345}00345 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00346}00346 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00347}00347 \textcolor{comment}{// @TODO no interface to get lists from lists}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00348}00348 \textcolor{keyword}{static} \textcolor{keywordtype}{int} nbt\_begin\_list(\mbox{\hyperlink{structnbt}{nbt}} *n, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} type)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00349}00349 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00350}00350    uint32 len;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00351}00351    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *ptr;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00352}00352 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00353}00353    ptr = n-\/>cur + 3 + (n-\/>cur[1]*256 + n-\/>cur[2]);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00354}00354    \textcolor{keywordflow}{if} (ptr[0] != type)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00355}00355       \textcolor{keywordflow}{return} -\/1;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00356}00356    n-\/>cur = ptr;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00357}00357    len = nbt\_parse\_uint32(n-\/>cur+1);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00358}00358    assert(n-\/>cur[0] == type);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00359}00359    \textcolor{comment}{// @TODO keep a stack with the count to make sure they do it right}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00360}00360    ++n-\/>nesting;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00361}00361    n-\/>cur += 5;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00362}00362    \textcolor{keywordflow}{return} (\textcolor{keywordtype}{int}) len;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00363}00363 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00364}00364 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00365}00365 \textcolor{keyword}{static} \textcolor{keywordtype}{void} nbt\_end\_list(\mbox{\hyperlink{structnbt}{nbt}} *n)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00366}00366 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00367}00367    -\/-\/n-\/>nesting;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00368}00368 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00369}00369 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00370}00370 \textcolor{comment}{// raw\_block chunk is 16x256x16x4 = 2\string^(4+8+4+2) = 256KB}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00371}00371 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00372}00372 \textcolor{comment}{// if we want to process 64x64x256 at a time, that will be:}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00373}00373 \textcolor{comment}{//    4*4*256KB => 4MB per area in raw\_block}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00374}00374 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00375}00375 \textcolor{comment}{// (plus we maybe need to decode adjacent regions)}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00376}00376 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00377}00377 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00378}00378 \textcolor{preprocessor}{\#ifdef FAST\_CHUNK}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00379}00379 \textcolor{keyword}{typedef} \mbox{\hyperlink{structfast__chunk}{fast\_chunk}} \mbox{\hyperlink{structfast__chunk}{parse\_chunk}};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00380}00380 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00381}00381 \textcolor{keyword}{typedef} \mbox{\hyperlink{structchunk}{chunk}} \mbox{\hyperlink{structfast__chunk}{parse\_chunk}};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00382}00382 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00383}00383 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00384}00384 \textcolor{keyword}{static} \mbox{\hyperlink{structfast__chunk}{parse\_chunk}} *minecraft\_chunk\_parse(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *data, \textcolor{keywordtype}{size\_t} len)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00385}00385 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00386}00386    \textcolor{keywordtype}{char} *s;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00387}00387    \mbox{\hyperlink{structfast__chunk}{parse\_chunk}} *c = NULL;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00388}00388 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00389}00389    \mbox{\hyperlink{structnbt}{nbt}} n\_store, *n = \&n\_store;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00390}00390    n-\/>buffer\_start = data;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00391}00391    n-\/>buffer\_end   = data + len;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00392}00392    n-\/>cur = n-\/>buffer\_start;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00393}00393    n-\/>nesting = 0;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00394}00394 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00395}00395    nbt\_begin\_compound(n);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00396}00396    \textcolor{keywordflow}{while} ((s = nbt\_peek(n)) != NULL) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00397}00397       \textcolor{keywordflow}{if} (!strcmp(s, \textcolor{stringliteral}{"{}Level"{}})) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00398}00398          \textcolor{keywordtype}{int} *height;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00399}00399          c = malloc(\textcolor{keyword}{sizeof}(*c));}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00400}00400 \textcolor{preprocessor}{         \#ifdef FAST\_CHUNK}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00401}00401          memset(c, 0, \textcolor{keyword}{sizeof}(*c));}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00402}00402          c-\/>pointer\_to\_free = data;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00403}00403 \textcolor{preprocessor}{         \#else}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00404}00404          c-\/>rb[15][15][255].block = 0;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00405}00405 \textcolor{preprocessor}{         \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00406}00406          c-\/>max\_y = 0;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00407}00407 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00408}00408          nbt\_begin\_compound(n);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00409}00409          \textcolor{keywordflow}{while} ((s = nbt\_peek(n)) != NULL) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00410}00410             \textcolor{keywordflow}{if} (!strcmp(s, \textcolor{stringliteral}{"{}xPos"{}}))}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00411}00411                c-\/>xpos = *(\textcolor{keywordtype}{int} *) nbt\_get(n, TAG\_Int, 0);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00412}00412             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (!strcmp(s, \textcolor{stringliteral}{"{}zPos"{}}))}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00413}00413                c-\/>zpos = *(\textcolor{keywordtype}{int} *) nbt\_get(n, TAG\_Int, 0);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00414}00414             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (!strcmp(s, \textcolor{stringliteral}{"{}Sections"{}})) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00415}00415                \textcolor{keywordtype}{int} count = nbt\_begin\_list(n, TAG\_Compound), i;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00416}00416                \textcolor{keywordflow}{if} (count == -\/1) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00417}00417                   \textcolor{comment}{// this not-\/a-\/list case happens in The End and I'm not sure}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00418}00418                   \textcolor{comment}{// what it means... possibly one of those silly encodings}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00419}00419                   \textcolor{comment}{// where it's not encoded as a list if there's only one?}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00420}00420                   \textcolor{comment}{// not worth figuring out}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00421}00421                   nbt\_skip(n);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00422}00422                   count = -\/1;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00423}00423                \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00424}00424                \textcolor{keywordflow}{for} (i=0; i < count; ++i) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00425}00425                   \textcolor{keywordtype}{int} yi, len;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00426}00426                   uint8 *light = NULL, *blocks = NULL, *data = NULL, *skylight = NULL;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00427}00427                   nbt\_begin\_compound\_in\_list(n);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00428}00428                   \textcolor{keywordflow}{while} ((s = nbt\_peek(n)) != NULL) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00429}00429                      \textcolor{keywordflow}{if} (!strcmp(s, \textcolor{stringliteral}{"{}Y"{}}))}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00430}00430                         yi = * (uint8 *) nbt\_get(n, TAG\_Byte, 0);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00431}00431                      \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (!strcmp(s, \textcolor{stringliteral}{"{}BlockLight"{}})) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00432}00432                         light = nbt\_get(n, TAG\_Byte\_Array, \&len);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00433}00433                         assert(len == 2048);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00434}00434                      \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (!strcmp(s, \textcolor{stringliteral}{"{}Blocks"{}})) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00435}00435                         blocks = nbt\_get(n, TAG\_Byte\_Array, \&len);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00436}00436                         assert(len == 4096);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00437}00437                      \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (!strcmp(s, \textcolor{stringliteral}{"{}Data"{}})) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00438}00438                         data = nbt\_get(n, TAG\_Byte\_Array, \&len);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00439}00439                         assert(len == 2048);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00440}00440                      \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (!strcmp(s, \textcolor{stringliteral}{"{}SkyLight"{}})) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00441}00441                         skylight = nbt\_get(n, TAG\_Byte\_Array, \&len);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00442}00442                         assert(len == 2048);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00443}00443                      \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00444}00444                   \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00445}00445                   nbt\_end\_compound(n);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00446}00446 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00447}00447                   assert(yi < 16);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00448}00448 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00449}00449 \textcolor{preprocessor}{                  \#ifndef FAST\_CHUNK}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00450}00450 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00451}00451                   \textcolor{comment}{// clear data below current max\_y}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00452}00452                   \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00453}00453                      \textcolor{keywordtype}{int} x,z;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00454}00454                      \textcolor{keywordflow}{while} (c-\/>max\_y < yi*16) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00455}00455                         \textcolor{keywordflow}{for} (x=0; x < 16; ++x)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00456}00456                            \textcolor{keywordflow}{for} (z=0; z < 16; ++z)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00457}00457                               c-\/>rb[z][x][c-\/>max\_y].block = 0;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00458}00458                         ++c-\/>max\_y;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00459}00459                      \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00460}00460                   \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00461}00461 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00462}00462                   \textcolor{comment}{// now assemble the data}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00463}00463                   \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00464}00464                      \textcolor{keywordtype}{int} x,y,z, o2=0,o4=0;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00465}00465                      \textcolor{keywordflow}{for} (y=0; y < 16; ++y) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00466}00466                         \textcolor{keywordflow}{for} (z=0; z < 16; ++z) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00467}00467                            \textcolor{keywordflow}{for} (x=0; x < 16; x += 2) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00468}00468                               \mbox{\hyperlink{structraw__block}{raw\_block}} *rb = \&c-\/>rb[15-\/z][x][y + yi*16]; \textcolor{comment}{// 15-\/z because switching to z-\/up will require flipping an axis}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00469}00469                               rb[0].block = blocks[o4];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00470}00470                               rb[0].light = light[o2] \& 15;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00471}00471                               rb[0].data  = data[o2] \& 15;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00472}00472                               rb[0].skylight = skylight[o2] \& 15;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00473}00473 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00474}00474                               rb[256].block = blocks[o4+1];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00475}00475                               rb[256].light = light[o2] >> 4;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00476}00476                               rb[256].data  = data[o2] >> 4;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00477}00477                               rb[256].skylight = skylight[o2] >> 4;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00478}00478 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00479}00479                               o2 += 1;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00480}00480                               o4 += 2;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00481}00481                            \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00482}00482                         \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00483}00483                      \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00484}00484                      c-\/>max\_y += 16;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00485}00485                   \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00486}00486 \textcolor{preprocessor}{                  \#else}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00487}00487                   c-\/>blockdata[yi] = blocks;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00488}00488                   c-\/>data     [yi] = data;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00489}00489                   c-\/>light    [yi] = light;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00490}00490                   c-\/>skylight [yi] = skylight;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00491}00491 \textcolor{preprocessor}{                  \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00492}00492                \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00493}00493                \textcolor{comment}{//nbt\_end\_list(n);}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00494}00494             \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (!strcmp(s, \textcolor{stringliteral}{"{}HeightMap"{}})) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00495}00495                height = nbt\_get(n, TAG\_Int\_Array, \&len);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00496}00496                assert(len == 256);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00497}00497             \} \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00498}00498                nbt\_skip(n);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00499}00499          \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00500}00500          nbt\_end\_compound(n);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00501}00501 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00502}00502       \} \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00503}00503          nbt\_skip(n);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00504}00504    \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00505}00505    nbt\_end\_compound(n);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00506}00506    assert(n-\/>cur == n-\/>buffer\_end);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00507}00507    \textcolor{keywordflow}{return} c;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00508}00508 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00509}00509 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00510}00510 \textcolor{preprocessor}{\#define MAX\_DECODED\_CHUNK\_X  64}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00511}00511 \textcolor{preprocessor}{\#define MAX\_DECODED\_CHUNK\_Z  64}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00512}00512 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00513}\mbox{\hyperlink{structdecoded__buffer}{00513}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00514}00514 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00515}00515    \textcolor{keywordtype}{int} cx,cz;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00516}00516    \mbox{\hyperlink{structfast__chunk}{fast\_chunk}} *fc;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00517}00517    \textcolor{keywordtype}{int} valid;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00518}00518 \} \mbox{\hyperlink{structdecoded__buffer}{decoded\_buffer}};}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00519}00519 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00520}00520 \textcolor{keyword}{static} \mbox{\hyperlink{structdecoded__buffer}{decoded\_buffer}} decoded\_buffers[MAX\_DECODED\_CHUNK\_Z][MAX\_DECODED\_CHUNK\_X];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00521}00521 \textcolor{keywordtype}{void} lock\_chunk\_get\_mutex(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00522}00522 \textcolor{keywordtype}{void} unlock\_chunk\_get\_mutex(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00523}00523 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00524}00524 \textcolor{preprocessor}{\#ifdef FAST\_CHUNK}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00525}00525 \mbox{\hyperlink{structfast__chunk}{fast\_chunk}} *get\_decoded\_fastchunk\_uncached(\textcolor{keywordtype}{int} chunk\_x, \textcolor{keywordtype}{int} chunk\_z)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00526}00526 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00527}00527    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *decoded;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00528}00528    \mbox{\hyperlink{structcompressed__chunk}{compressed\_chunk}} *cc;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00529}00529    \textcolor{keywordtype}{int} inlen;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00530}00530    \textcolor{keywordtype}{int} len;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00531}00531    \mbox{\hyperlink{structfast__chunk}{fast\_chunk}} *fc;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00532}00532 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00533}00533    lock\_chunk\_get\_mutex();}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00534}00534    cc = get\_compressed\_chunk(chunk\_x, chunk\_z);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00535}00535    \textcolor{keywordflow}{if} (cc-\/>len != 0)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00536}00536       ++cc-\/>refcount;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00537}00537    unlock\_chunk\_get\_mutex();}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00538}00538 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00539}00539    \textcolor{keywordflow}{if} (cc-\/>len == 0)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00540}00540       \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00541}00541 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00542}00542    assert(cc != NULL);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00543}00543 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00544}00544    assert(cc-\/>data[4] == 2);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00545}00545 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00546}00546    inlen = nbt\_parse\_uint32(cc-\/>data);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00547}00547    decoded = stbi\_zlib\_decode\_malloc\_guesssize(cc-\/>data+5, inlen, inlen*3, \&len);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00548}00548    assert(decoded != NULL);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00549}00549    assert(len != 0);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00550}00550 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00551}00551    lock\_chunk\_get\_mutex();}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00552}00552    deref\_compressed\_chunk(cc);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00553}00553    unlock\_chunk\_get\_mutex();}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00554}00554 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00555}00555 \textcolor{preprocessor}{   \#ifdef FAST\_CHUNK}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00556}00556    fc = minecraft\_chunk\_parse(decoded, len);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00557}00557 \textcolor{preprocessor}{   \#else}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00558}00558    fc = NULL;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00559}00559 \textcolor{preprocessor}{   \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00560}00560    \textcolor{keywordflow}{if} (fc == NULL)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00561}00561       free(decoded);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00562}00562    \textcolor{keywordflow}{return} fc;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00563}00563 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00564}00564 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00565}00565 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00566}00566 \mbox{\hyperlink{structdecoded__buffer}{decoded\_buffer}} *get\_decoded\_buffer(\textcolor{keywordtype}{int} chunk\_x, \textcolor{keywordtype}{int} chunk\_z)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00567}00567 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00568}00568    \mbox{\hyperlink{structdecoded__buffer}{decoded\_buffer}} *db = \&decoded\_buffers[chunk\_z\&(MAX\_DECODED\_CHUNK\_Z-\/1)][chunk\_x\&(MAX\_DECODED\_CHUNK\_X-\/1)];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00569}00569    \textcolor{keywordflow}{if} (db-\/>valid) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00570}00570       \textcolor{keywordflow}{if} (db-\/>cx == chunk\_x \&\& db-\/>cz == chunk\_z)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00571}00571          \textcolor{keywordflow}{return} db;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00572}00572       \textcolor{keywordflow}{if} (db-\/>fc) \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00573}00573          free(db-\/>fc-\/>pointer\_to\_free);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00574}00574          free(db-\/>fc);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00575}00575       \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00576}00576    \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00577}00577 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00578}00578    db-\/>cx = chunk\_x;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00579}00579    db-\/>cz = chunk\_z;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00580}00580    db-\/>valid = 1;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00581}00581    db-\/>fc = 0;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00582}00582 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00583}00583    \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00584}00584       db-\/>fc = get\_decoded\_fastchunk\_uncached(chunk\_x, chunk\_z);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00585}00585       \textcolor{keywordflow}{return} db;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00586}00586    \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00587}00587 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00588}00588 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00589}00589 \mbox{\hyperlink{structfast__chunk}{fast\_chunk}} *get\_decoded\_fastchunk(\textcolor{keywordtype}{int} chunk\_x, \textcolor{keywordtype}{int} chunk\_z)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00590}00590 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00591}00591    \mbox{\hyperlink{structdecoded__buffer}{decoded\_buffer}} *db = get\_decoded\_buffer(chunk\_x, chunk\_z);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00592}00592    \textcolor{keywordflow}{return} db-\/>fc;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00593}00593 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00594}00594 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00595}00595 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00596}00596 \textcolor{preprocessor}{\#ifndef FAST\_CHUNK}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00597}00597 \mbox{\hyperlink{structchunk}{chunk}} *get\_decoded\_chunk\_raw(\textcolor{keywordtype}{int} chunk\_x, \textcolor{keywordtype}{int} chunk\_z)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00598}00598 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00599}00599    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *decoded;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00600}00600    \mbox{\hyperlink{structcompressed__chunk}{compressed\_chunk}} *cc = get\_compressed\_chunk(chunk\_x, chunk\_z);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00601}00601    assert(cc != NULL);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00602}00602    \textcolor{keywordflow}{if} (cc-\/>len == 0)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00603}00603       \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00604}00604    \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00605}00605       \mbox{\hyperlink{structchunk}{chunk}} *ch;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00606}00606       \textcolor{keywordtype}{int} inlen = nbt\_parse\_uint32(cc-\/>data);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00607}00607       \textcolor{keywordtype}{int} len;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00608}00608       assert(cc-\/>data[4] == 2);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00609}00609       decoded = stbi\_zlib\_decode\_malloc\_guesssize(cc-\/>data+5, inlen, inlen*3, \&len);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00610}00610       assert(decoded != NULL);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00611}00611 \textcolor{preprocessor}{      \#ifdef FAST\_CHUNK}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00612}00612       ch = NULL;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00613}00613 \textcolor{preprocessor}{      \#else}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00614}00614       ch = minecraft\_chunk\_parse(decoded, len);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00615}00615 \textcolor{preprocessor}{      \#endif}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00616}00616       free(decoded);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00617}00617       \textcolor{keywordflow}{return} ch;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00618}00618    \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00619}00619 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00620}00620 }
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00621}00621 \textcolor{keyword}{static} \mbox{\hyperlink{structchunk}{chunk}} *decoded\_chunks[MAX\_DECODED\_CHUNK\_Z][MAX\_DECODED\_CHUNK\_X];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00622}00622 \mbox{\hyperlink{structchunk}{chunk}} *get\_decoded\_chunk(\textcolor{keywordtype}{int} chunk\_x, \textcolor{keywordtype}{int} chunk\_z)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00623}00623 \{}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00624}00624    \mbox{\hyperlink{structchunk}{chunk}} *c = decoded\_chunks[chunk\_z\&(MAX\_DECODED\_CHUNK\_Z-\/1)][chunk\_x\&(MAX\_DECODED\_CHUNK\_X-\/1)];}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00625}00625    \textcolor{keywordflow}{if} (c \&\& c-\/>xpos == chunk\_x \&\& c-\/>zpos == chunk\_z)}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00626}00626       \textcolor{keywordflow}{return} c;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00627}00627    \textcolor{keywordflow}{if} (c) free(c);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00628}00628    c = get\_decoded\_chunk\_raw(chunk\_x, chunk\_z);}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00629}00629    decoded\_chunks[chunk\_z\&(MAX\_DECODED\_CHUNK\_Z-\/1)][chunk\_x\&(MAX\_DECODED\_CHUNK\_X-\/1)] = c;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00630}00630    \textcolor{keywordflow}{return} c;}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00631}00631 \}}
+\DoxyCodeLine{\Hypertarget{cave__parse_8c_source_l00632}00632 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

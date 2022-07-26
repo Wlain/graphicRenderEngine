@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_examples_example_allegro5__r_e_a_d_m_e" kind="page">
+    <compoundname>md__Users_cwb_developer_learning_graphicRenderEngine_ceres_3rdparty_imgui_examples_example_allegro5_README</compoundname>
+    <title>Configuration</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Dear ImGui outputs 16-bit vertex indices by default. Allegro doesn&apos;t support them natively, so we have two solutions: convert the indices manually in <ref refid="imgui__impl__allegro5_8cpp_source" kindref="compound">imgui_impl_allegro5.cpp</ref>, or compile dear imgui with 32-bit indices. You can either modify <ref refid="imconfig_8h_source" kindref="compound">imconfig.h</ref> that comes with Dear ImGui (easier), or set a C++ preprocessor option IMGUI_USER_CONFIG to find to a filename. We are providing <computeroutput><ref refid="imconfig__allegro5_8h_source" kindref="compound">imconfig_allegro5.h</ref></computeroutput> that enables 32-bit indices. Note that the backend supports <emphasis>BOTH</emphasis> 16-bit and 32-bit indices, but 32-bit indices will be slightly faster as they won&apos;t require a manual conversion.</para>
+<sect1 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_examples_example_allegro5__r_e_a_d_m_e_1autotoc_md540">
+<title>How to Build</title>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_examples_example_allegro5__r_e_a_d_m_e_1autotoc_md541">
+<title>On Ubuntu 14.04+ and macOS</title>
+<para><programlisting filename=".bash"><codeline><highlight class="normal">g++<sp/>-DIMGUI_USER_CONFIG=\&quot;examples/example_allegro5/imconfig_allegro5.h\&quot;<sp/>-I<sp/>..<sp/>-I<sp/>../..<sp/>main.cpp<sp/>../../backends/imgui_impl_allegro5.cpp<sp/>../../imgui*.cpp<sp/>-lallegro<sp/>-lallegro_main<sp/>-lallegro_primitives<sp/>-o<sp/>allegro5_example</highlight></codeline>
+</programlisting></para>
+<para>On macOS, install Allegro with homebrew: <computeroutput>brew install allegro</computeroutput>.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_examples_example_allegro5__r_e_a_d_m_e_1autotoc_md542">
+<title>On Windows with Visual Studio&apos;s CLI</title>
+<para>You may install Allegro using vcpkg: <programlisting><codeline><highlight class="normal">git<sp/>clone<sp/>https://github.com/Microsoft/vcpkg</highlight></codeline>
+<codeline><highlight class="normal">cd<sp/>vcpkg</highlight></codeline>
+<codeline><highlight class="normal">bootstrap-vcpkg.bat</highlight></codeline>
+<codeline><highlight class="normal">vcpkg<sp/>install<sp/>allegro5<sp/>--triplet=x86-windows<sp/><sp/><sp/><sp/>;<sp/>for<sp/>win32</highlight></codeline>
+<codeline><highlight class="normal">vcpkg<sp/>install<sp/>allegro5<sp/>--triplet=x64-windows<sp/><sp/><sp/><sp/>;<sp/>for<sp/>win64</highlight></codeline>
+<codeline><highlight class="normal">vcpkg<sp/>integrate<sp/>install<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>;<sp/>register<sp/>include<sp/>/<sp/>libs<sp/>in<sp/>Visual<sp/>Studio</highlight></codeline>
+</programlisting></para>
+<para>Build: <programlisting><codeline><highlight class="normal">set<sp/>ALLEGRODIR=path_to_your_allegro5_folder</highlight></codeline>
+<codeline><highlight class="normal">cl<sp/>/Zi<sp/>/MD<sp/>/I<sp/>%ALLEGRODIR%\include<sp/>/DIMGUI_USER_CONFIG=\&quot;examples/example_allegro5/imconfig_allegro5.h\&quot;<sp/>/I<sp/>..<sp/>/I<sp/>..\..<sp/>main.cpp<sp/>..\..\backends\imgui_impl_allegro5.cpp<sp/>..\..\imgui*.cpp<sp/>/link<sp/>/LIBPATH:%ALLEGRODIR%\lib<sp/>allegro-5.0.10-monolith-md.lib<sp/>user32.lib</highlight></codeline>
+</programlisting> </para>
+</sect3>
+</sect1>
+    </detaileddescription>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/examples/example_allegro5/README.md"/>
+  </compounddef>
+</doxygen>

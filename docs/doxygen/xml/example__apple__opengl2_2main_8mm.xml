@@ -1,0 +1,390 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="example__apple__opengl2_2main_8mm" kind="file" language="C++">
+    <compoundname>main.mm</compoundname>
+    <includes local="no">Cocoa/Cocoa.h</includes>
+    <includes local="no">OpenGL/gl.h</includes>
+    <includes local="no">OpenGL/glu.h</includes>
+    <includes refid="imgui_8h" local="yes">imgui.h</includes>
+    <includes refid="imgui__impl__opengl2_8h" local="yes">imgui_impl_opengl2.h</includes>
+    <includes refid="imgui__impl__osx_8h" local="yes">imgui_impl_osx.h</includes>
+    <incdepgraph>
+      <node id="12">
+        <label>imgui_impl_opengl2.h</label>
+        <link refid="imgui__impl__opengl2_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>imgui_impl_osx.h</label>
+        <link refid="imgui__impl__osx_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/examples/example_apple_opengl2/main.mm</label>
+        <link refid="example__apple__opengl2_2main_8mm"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>imconfig.h</label>
+        <link refid="imconfig_8h_source"/>
+      </node>
+      <node id="5">
+        <label>imgui.h</label>
+        <link refid="imgui_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Cocoa/Cocoa.h</label>
+      </node>
+      <node id="3">
+        <label>OpenGL/gl.h</label>
+      </node>
+      <node id="4">
+        <label>OpenGL/glu.h</label>
+      </node>
+      <node id="11">
+        <label>assert.h</label>
+      </node>
+      <node id="7">
+        <label>float.h</label>
+      </node>
+      <node id="8">
+        <label>stdarg.h</label>
+      </node>
+      <node id="9">
+        <label>stddef.h</label>
+      </node>
+      <node id="10">
+        <label>string.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="interface_app_view" prot="public">AppView</innerclass>
+    <innerclass refid="interface_app_delegate" prot="public">AppDelegate</innerclass>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="example__apple__opengl2_2main_8mm_1ac0f2228420376f4db7e1274f2b41667c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int main</definition>
+        <argsstring>(int argc, const char *argv[])</argsstring>
+        <name>main</name>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>argv</declname>
+          <array>[]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/examples/example_apple_opengl2/main.mm" line="261" column="5" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/examples/example_apple_opengl2/main.mm" bodystart="261" bodyend="271"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Dear<sp/>ImGui:<sp/>standalone<sp/>example<sp/>application<sp/>for<sp/>OSX<sp/>+<sp/>OpenGL2,<sp/>using<sp/>legacy<sp/>fixed<sp/>pipeline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>If<sp/>you<sp/>are<sp/>new<sp/>to<sp/>Dear<sp/>ImGui,<sp/>read<sp/>documentation<sp/>from<sp/>the<sp/>docs/<sp/>folder<sp/>+<sp/>read<sp/>the<sp/>top<sp/>of<sp/>imgui.cpp.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Read<sp/>online:<sp/>https://github.com/ocornut/imgui/tree/master/docs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#import<sp/>&lt;Cocoa/Cocoa.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#import<sp/>&lt;OpenGL/gl.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#import<sp/>&lt;OpenGL/glu.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;imgui.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;imgui_impl_opengl2.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;imgui_impl_osx.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//-----------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AppView</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//-----------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="interface_app_view" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">@interface<sp/></highlight><highlight class="normal"><ref refid="interface_app_view" kindref="compound">AppView</ref><sp/>:<sp/>NSOpenGLView</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>NSTimer*<sp/><sp/><sp/><sp/>animationTimer;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">@end</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">@implementation<sp/></highlight><highlight class="normal"><ref refid="interface_app_view" kindref="compound">AppView</ref></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal">-(void)prepareOpenGL</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>[</highlight><highlight class="keyword">super</highlight><highlight class="normal"><sp/>prepareOpenGL];</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>DEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>GLint<sp/>swapInterval<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>[[</highlight><highlight class="keyword">self</highlight><highlight class="normal"><sp/>openGLContext]<sp/>setValues:&amp;swapInterval<sp/>forParameter:NSOpenGLCPSwapInterval];</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(swapInterval<sp/>==<sp/>0)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NSLog(</highlight><highlight class="stringliteral">@&quot;Error:<sp/>Cannot<sp/>set<sp/>swap<sp/>interval.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">-(void)initialize</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup<sp/>Dear<sp/>ImGui<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>FIXME:<sp/>This<sp/>example<sp/>doesn&apos;t<sp/>have<sp/>proper<sp/>cleanup...</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>IMGUI_CHECKVERSION();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui::CreateContext();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_im_gui_i_o" kindref="compound">ImGuiIO</ref>&amp;<sp/>io<sp/>=<sp/>ImGui::GetIO();<sp/>(void)io;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//io.ConfigFlags<sp/>|=<sp/>ImGuiConfigFlags_NavEnableKeyboard;<sp/><sp/><sp/><sp/><sp/>//<sp/>Enable<sp/>Keyboard<sp/>Controls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//io.ConfigFlags<sp/>|=<sp/>ImGuiConfigFlags_NavEnableGamepad;<sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Enable<sp/>Gamepad<sp/>Controls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>io.ConfigFlags<sp/>|=<sp/>ImGuiConfigFlags_DockingEnable;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>Docking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup<sp/>Dear<sp/>ImGui<sp/>style</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui::StyleColorsDark();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//ImGui::StyleColorsClassic();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup<sp/>Platform/Renderer<sp/>backends</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui_ImplOSX_Init(</highlight><highlight class="keyword">self</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui_ImplOpenGL2_Init();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>Fonts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>If<sp/>no<sp/>fonts<sp/>are<sp/>loaded,<sp/>dear<sp/>imgui<sp/>will<sp/>use<sp/>the<sp/>default<sp/>font.<sp/>You<sp/>can<sp/>also<sp/>load<sp/>multiple<sp/>fonts<sp/>and<sp/>use<sp/>ImGui::PushFont()/PopFont()<sp/>to<sp/>select<sp/>them.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>AddFontFromFileTTF()<sp/>will<sp/>return<sp/>the<sp/>ImFont*<sp/>so<sp/>you<sp/>can<sp/>store<sp/>it<sp/>if<sp/>you<sp/>need<sp/>to<sp/>select<sp/>the<sp/>font<sp/>among<sp/>multiple.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>If<sp/>the<sp/>file<sp/>cannot<sp/>be<sp/>loaded,<sp/>the<sp/>function<sp/>will<sp/>return<sp/>NULL.<sp/>Please<sp/>handle<sp/>those<sp/>errors<sp/>in<sp/>your<sp/>application<sp/>(e.g.<sp/>use<sp/>an<sp/>assertion,<sp/>or<sp/>display<sp/>an<sp/>error<sp/>and<sp/>quit).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>The<sp/>fonts<sp/>will<sp/>be<sp/>rasterized<sp/>at<sp/>a<sp/>given<sp/>size<sp/>(w/<sp/>oversampling)<sp/>and<sp/>stored<sp/>into<sp/>a<sp/>texture<sp/>when<sp/>calling<sp/>ImFontAtlas::Build()/GetTexDataAsXXXX(),<sp/>which<sp/>ImGui_ImplXXXX_NewFrame<sp/>below<sp/>will<sp/>call.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Read<sp/>&apos;docs/FONTS.txt&apos;<sp/>for<sp/>more<sp/>instructions<sp/>and<sp/>details.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Remember<sp/>that<sp/>in<sp/>C/C++<sp/>if<sp/>you<sp/>want<sp/>to<sp/>include<sp/>a<sp/>backslash<sp/>\<sp/>in<sp/>a<sp/>string<sp/>literal<sp/>you<sp/>need<sp/>to<sp/>write<sp/>a<sp/>double<sp/>backslash<sp/>\\<sp/>!</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//io.Fonts-&gt;AddFontDefault();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//io.Fonts-&gt;AddFontFromFileTTF(&quot;../../misc/fonts/Roboto-Medium.ttf&quot;,<sp/>16.0f);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//io.Fonts-&gt;AddFontFromFileTTF(&quot;../../misc/fonts/Cousine-Regular.ttf&quot;,<sp/>15.0f);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//io.Fonts-&gt;AddFontFromFileTTF(&quot;../../misc/fonts/DroidSans.ttf&quot;,<sp/>16.0f);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//io.Fonts-&gt;AddFontFromFileTTF(&quot;../../misc/fonts/ProggyTiny.ttf&quot;,<sp/>10.0f);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//ImFont*<sp/>font<sp/>=<sp/>io.Fonts-&gt;AddFontFromFileTTF(&quot;c:\\Windows\\Fonts\\ArialUni.ttf&quot;,<sp/>18.0f,<sp/>NULL,<sp/>io.Fonts-&gt;GetGlyphRangesJapanese());</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//IM_ASSERT(font<sp/>!=<sp/>NULL);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal">-(void)updateAndDrawDemoView</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>the<sp/>Dear<sp/>ImGui<sp/>frame</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui_ImplOpenGL2_NewFrame();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui_ImplOSX_NewFrame(</highlight><highlight class="keyword">self</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui::NewFrame();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Our<sp/>state<sp/>(make<sp/>them<sp/>static<sp/>=<sp/>more<sp/>or<sp/>less<sp/>global)<sp/>as<sp/>a<sp/>convenience<sp/>to<sp/>keep<sp/>the<sp/>example<sp/>terse.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>show_demo_window<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>show_another_window<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="struct_im_vec4" kindref="compound">ImVec4</ref><sp/>clear_color<sp/>=<sp/><ref refid="struct_im_vec4" kindref="compound">ImVec4</ref>(0.45f,<sp/>0.55f,<sp/>0.60f,<sp/>1.00f);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Show<sp/>the<sp/>big<sp/>demo<sp/>window<sp/>(Most<sp/>of<sp/>the<sp/>sample<sp/>code<sp/>is<sp/>in<sp/>ImGui::ShowDemoWindow()!<sp/>You<sp/>can<sp/>browse<sp/>its<sp/>code<sp/>to<sp/>learn<sp/>more<sp/>about<sp/>Dear<sp/>ImGui!).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(show_demo_window)</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::ShowDemoWindow(&amp;show_demo_window);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Show<sp/>a<sp/>simple<sp/>window<sp/>that<sp/>we<sp/>create<sp/>ourselves.<sp/>We<sp/>use<sp/>a<sp/>Begin/End<sp/>pair<sp/>to<sp/>created<sp/>a<sp/>named<sp/>window.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>f<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>counter<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::Begin(</highlight><highlight class="stringliteral">&quot;Hello,<sp/>world!&quot;</highlight><highlight class="normal">);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>window<sp/>called<sp/>&quot;Hello,<sp/>world!&quot;<sp/>and<sp/>append<sp/>into<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::Text(</highlight><highlight class="stringliteral">&quot;This<sp/>is<sp/>some<sp/>useful<sp/>text.&quot;</highlight><highlight class="normal">);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Display<sp/>some<sp/>text<sp/>(you<sp/>can<sp/>use<sp/>a<sp/>format<sp/>strings<sp/>too)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::Checkbox(</highlight><highlight class="stringliteral">&quot;Demo<sp/>Window&quot;</highlight><highlight class="normal">,<sp/>&amp;show_demo_window);<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edit<sp/>bools<sp/>storing<sp/>our<sp/>window<sp/>open/close<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::Checkbox(</highlight><highlight class="stringliteral">&quot;Another<sp/>Window&quot;</highlight><highlight class="normal">,<sp/>&amp;show_another_window);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::SliderFloat(</highlight><highlight class="stringliteral">&quot;float&quot;</highlight><highlight class="normal">,<sp/>&amp;f,<sp/>0.0f,<sp/>1.0f);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edit<sp/>1<sp/>float<sp/>using<sp/>a<sp/>slider<sp/>from<sp/>0.0f<sp/>to<sp/>1.0f</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::ColorEdit3(</highlight><highlight class="stringliteral">&quot;clear<sp/>color&quot;</highlight><highlight class="normal">,<sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*)&amp;clear_color);<sp/></highlight><highlight class="comment">//<sp/>Edit<sp/>3<sp/>floats<sp/>representing<sp/>a<sp/>color</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ImGui::Button(</highlight><highlight class="stringliteral">&quot;Button&quot;</highlight><highlight class="normal">))<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Buttons<sp/>return<sp/>true<sp/>when<sp/>clicked<sp/>(most<sp/>widgets<sp/>return<sp/>true<sp/>when<sp/>edited/activated)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>counter++;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::SameLine();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::Text(</highlight><highlight class="stringliteral">&quot;counter<sp/>=<sp/>%d&quot;</highlight><highlight class="normal">,<sp/>counter);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::Text(</highlight><highlight class="stringliteral">&quot;Application<sp/>average<sp/>%.3f<sp/>ms/frame<sp/>(%.1f<sp/>FPS)&quot;</highlight><highlight class="normal">,<sp/>1000.0f<sp/>/<sp/>ImGui::GetIO().Framerate,<sp/>ImGui::GetIO().Framerate);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::End();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Show<sp/>another<sp/>simple<sp/>window.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(show_another_window)</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::Begin(</highlight><highlight class="stringliteral">&quot;Another<sp/>Window&quot;</highlight><highlight class="normal">,<sp/>&amp;show_another_window);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pass<sp/>a<sp/>pointer<sp/>to<sp/>our<sp/>bool<sp/>variable<sp/>(the<sp/>window<sp/>will<sp/>have<sp/>a<sp/>closing<sp/>button<sp/>that<sp/>will<sp/>clear<sp/>the<sp/>bool<sp/>when<sp/>clicked)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::Text(</highlight><highlight class="stringliteral">&quot;Hello<sp/>from<sp/>another<sp/>window!&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ImGui::Button(</highlight><highlight class="stringliteral">&quot;Close<sp/>Me&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>show_another_window<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImGui::End();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rendering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui::Render();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_im_draw_data" kindref="compound">ImDrawData</ref>*<sp/>draw_data<sp/>=<sp/>ImGui::GetDrawData();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>[[</highlight><highlight class="keyword">self</highlight><highlight class="normal"><sp/>openGLContext]<sp/>makeCurrentContext];</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>GLsizei<sp/>width<sp/><sp/>=<sp/>(GLsizei)(draw_data-&gt;DisplaySize.x<sp/>*<sp/>draw_data-&gt;FramebufferScale.x);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>GLsizei<sp/>height<sp/>=<sp/>(GLsizei)(draw_data-&gt;DisplaySize.y<sp/>*<sp/>draw_data-&gt;FramebufferScale.y);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>glViewport(0,<sp/>0,<sp/>width,<sp/>height);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>glClearColor(clear_color.x<sp/>*<sp/>clear_color.w,<sp/>clear_color.y<sp/>*<sp/>clear_color.w,<sp/>clear_color.z<sp/>*<sp/>clear_color.w,<sp/>clear_color.w);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>glClear(GL_COLOR_BUFFER_BIT);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui_ImplOpenGL2_RenderDrawData(draw_data);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>[[</highlight><highlight class="keyword">self</highlight><highlight class="normal"><sp/>openGLContext]<sp/>flushBuffer];</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!animationTimer)</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>animationTimer<sp/>=<sp/>[NSTimer<sp/>scheduledTimerWithTimeInterval:0.017<sp/>target:self<sp/>selector:@selector(animationTimerFired:)<sp/>userInfo:nil<sp/>repeats:YES];</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal">-(void)reshape<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>[</highlight><highlight class="keyword">super</highlight><highlight class="normal"><sp/>reshape];<sp/>[[</highlight><highlight class="keyword">self</highlight><highlight class="normal"><sp/>openGLContext]<sp/>update];<sp/>[</highlight><highlight class="keyword">self</highlight><highlight class="normal"><sp/>updateAndDrawDemoView];<sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">-(void)drawRect:(NSRect)bounds<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>[</highlight><highlight class="keyword">self</highlight><highlight class="normal"><sp/>updateAndDrawDemoView];<sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">-(void)animationTimerFired:(NSTimer*)timer<sp/><sp/>{<sp/>[</highlight><highlight class="keyword">self</highlight><highlight class="normal"><sp/>setNeedsDisplay:YES];<sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">-(void)dealloc<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>animationTimer<sp/>=<sp/>nil;<sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//-----------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Input<sp/>processing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//-----------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>Mouse/Keyboard<sp/>events<sp/>to<sp/>Dear<sp/>ImGui<sp/>OSX<sp/>backend.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Other<sp/>events<sp/>are<sp/>registered<sp/>via<sp/>addLocalMonitorForEventsMatchingMask()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal">-(void)mouseDown:(NSEvent<sp/>*)event<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>ImGui_ImplOSX_HandleEvent(event,<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">-(void)rightMouseDown:(NSEvent<sp/>*)event<sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>ImGui_ImplOSX_HandleEvent(event,<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">-(void)otherMouseDown:(NSEvent<sp/>*)event<sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>ImGui_ImplOSX_HandleEvent(event,<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">-(void)mouseUp:(NSEvent<sp/>*)event<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>ImGui_ImplOSX_HandleEvent(event,<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">-(void)rightMouseUp:(NSEvent<sp/>*)event<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>ImGui_ImplOSX_HandleEvent(event,<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">-(void)otherMouseUp:(NSEvent<sp/>*)event<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>ImGui_ImplOSX_HandleEvent(event,<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">-(void)mouseMoved:(NSEvent<sp/>*)event<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>ImGui_ImplOSX_HandleEvent(event,<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">-(void)mouseDragged:(NSEvent<sp/>*)event<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>ImGui_ImplOSX_HandleEvent(event,<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">-(void)rightMouseMoved:(NSEvent<sp/>*)event<sp/><sp/><sp/><sp/><sp/>{<sp/>ImGui_ImplOSX_HandleEvent(event,<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">-(void)rightMouseDragged:(NSEvent<sp/>*)event<sp/><sp/><sp/>{<sp/>ImGui_ImplOSX_HandleEvent(event,<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">-(void)otherMouseMoved:(NSEvent<sp/>*)event<sp/><sp/><sp/><sp/><sp/>{<sp/>ImGui_ImplOSX_HandleEvent(event,<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">-(void)otherMouseDragged:(NSEvent<sp/>*)event<sp/><sp/><sp/>{<sp/>ImGui_ImplOSX_HandleEvent(event,<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">-(void)scrollWheel:(NSEvent<sp/>*)event<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>ImGui_ImplOSX_HandleEvent(event,<sp/></highlight><highlight class="keyword">self</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="keyword">@end</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//-----------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AppDelegate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//-----------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keyword">@interface<sp/></highlight><highlight class="normal"><ref refid="interface_app_delegate" kindref="compound">AppDelegate</ref><sp/>:<sp/>NSObject<sp/>&lt;NSApplicationDelegate&gt;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="keyword">@property</highlight><highlight class="normal"><sp/>(nonatomic,<sp/>readonly)<sp/>NSWindow*<sp/>window;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="keyword">@end</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="keyword">@implementation<sp/></highlight><highlight class="normal"><ref refid="interface_app_delegate" kindref="compound">AppDelegate</ref></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="keyword">@synthesize</highlight><highlight class="normal"><sp/>window<sp/>=<sp/>_window;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal">-(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication<sp/>*)theApplication</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>YES;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal">-(NSWindow*)window</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(_window<sp/>!=<sp/>nil)</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(_window);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>NSRect<sp/>viewRect<sp/>=<sp/>NSMakeRect(100.0,<sp/>100.0,<sp/>100.0<sp/>+<sp/>1280.0,<sp/>100<sp/>+<sp/>720.0);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>_window<sp/>=<sp/>[[NSWindow<sp/>alloc]<sp/>initWithContentRect:viewRect<sp/>styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable|NSWindowStyleMaskClosable<sp/>backing:NSBackingStoreBuffered<sp/>defer:YES];</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>[_window<sp/>setTitle:@&quot;Dear<sp/>ImGui<sp/>OSX+OpenGL2<sp/>Example&quot;];</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>[_window<sp/>setAcceptsMouseMovedEvents:YES];</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>[_window<sp/>setOpaque:YES];</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>[_window<sp/>makeKeyAndOrderFront:NSApp];</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(_window);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal">-(void)setupMenu</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>NSMenu*<sp/>mainMenuBar<sp/>=<sp/>[[NSMenu<sp/>alloc]<sp/>init];</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>NSMenu*<sp/>appMenu;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>NSMenuItem*<sp/>menuItem;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>appMenu<sp/>=<sp/>[[NSMenu<sp/>alloc]<sp/>initWithTitle:@&quot;Dear<sp/>ImGui<sp/>OSX+OpenGL2<sp/>Example&quot;];</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>menuItem<sp/>=<sp/>[appMenu<sp/>addItemWithTitle:@&quot;Quit<sp/>Dear<sp/>ImGui<sp/>OSX+OpenGL2<sp/>Example&quot;<sp/>action:@selector(terminate:)<sp/>keyEquivalent:@&quot;q&quot;];</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>[menuItem<sp/>setKeyEquivalentModifierMask:NSEventModifierFlagCommand];</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>menuItem<sp/>=<sp/>[[NSMenuItem<sp/>alloc]<sp/>init];</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>[menuItem<sp/>setSubmenu:appMenu];</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>[mainMenuBar<sp/>addItem:menuItem];</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>appMenu<sp/>=<sp/>nil;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>[NSApp<sp/>setMainMenu:mainMenuBar];</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal">-(void)dealloc</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>_window<sp/>=<sp/>nil;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal">-(void)applicationDidFinishLaunching:(NSNotification<sp/>*)aNotification</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Make<sp/>the<sp/>application<sp/>a<sp/>foreground<sp/>application<sp/>(else<sp/>it<sp/>won&apos;t<sp/>receive<sp/>keyboard<sp/>events)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>ProcessSerialNumber<sp/>psn<sp/>=<sp/>{0,<sp/>kCurrentProcess};</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>TransformProcessType(&amp;psn,<sp/>kProcessTransformToForegroundApplication);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Menu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>[</highlight><highlight class="keyword">self</highlight><highlight class="normal"><sp/>setupMenu];</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>NSOpenGLPixelFormatAttribute<sp/>attrs[]<sp/>=</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NSOpenGLPFADoubleBuffer,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NSOpenGLPFADepthSize,<sp/>32,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>NSOpenGLPixelFormat*<sp/>format<sp/>=<sp/>[[NSOpenGLPixelFormat<sp/>alloc]<sp/>initWithAttributes:attrs];</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="interface_app_view" kindref="compound">AppView</ref>*<sp/><ref refid="structview" kindref="compound">view</ref><sp/>=<sp/>[[<ref refid="interface_app_view" kindref="compound">AppView</ref><sp/>alloc]<sp/>initWithFrame:self.window.frame<sp/>pixelFormat:format];</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>format<sp/>=<sp/>nil;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>MAC_OS_X_VERSION_MAX_ALLOWED<sp/>&gt;=<sp/>1070</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="group__core__func__common_1gac433646923ab80af6d9964f1570855d5" kindref="member">floor</ref>(NSAppKitVersionNumber)<sp/>&gt;<sp/>NSAppKitVersionNumber10_6)</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[<ref refid="structview" kindref="compound">view</ref><sp/>setWantsBestResolutionOpenGLSurface:YES];</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>MAC_OS_X_VERSION_MAX_ALLOWED<sp/>&gt;=<sp/>1070</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>[</highlight><highlight class="keyword">self</highlight><highlight class="normal">.window<sp/>setContentView:view];</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>([<ref refid="structview" kindref="compound">view</ref><sp/>openGLContext]<sp/>==<sp/>nil)</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NSLog(</highlight><highlight class="stringliteral">@&quot;No<sp/>OpenGL<sp/>Context!&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>[<ref refid="structview" kindref="compound">view</ref><sp/>initialize];</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="keyword">@end</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//-----------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Application<sp/>main()<sp/>function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//-----------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>main(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[])</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>@autoreleasepool</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NSApp<sp/>=<sp/>[NSApplication<sp/>sharedApplication];</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="interface_app_delegate" kindref="compound">AppDelegate</ref>*<sp/>delegate<sp/>=<sp/>[[<ref refid="interface_app_delegate" kindref="compound">AppDelegate</ref><sp/>alloc]<sp/>init];</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[NSApplication<sp/>sharedApplication]<sp/>setDelegate:delegate];</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[NSApp<sp/>run];</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NSApplicationMain(argc,<sp/>argv);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/examples/example_apple_opengl2/main.mm"/>
+  </compounddef>
+</doxygen>

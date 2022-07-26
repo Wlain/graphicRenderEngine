@@ -1,0 +1,334 @@
+\hypertarget{gtc__quaternion_8cpp_source}{}\doxysection{gtc\+\_\+quaternion.\+cpp}
+\label{gtc__quaternion_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/gtc/gtc\_quaternion.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/gtc/gtc\_quaternion.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00001}00001 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{gtc_2quaternion_8hpp}{glm/gtc/quaternion.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00002}00002 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{epsilon_8hpp}{glm/gtc/epsilon.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00003}00003 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{vector__relational_8hpp}{glm/vector\_relational.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00004}00004 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00006}00006 \textcolor{keywordtype}{int} test\_quat\_angle()}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00007}00007 \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00008}00008     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00009}00009 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00010}00010     \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00011}00011         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} Q = \mbox{\hyperlink{group__gtc__quaternion_gadc9f8684315727e11549e9aa3a4ed209}{glm::angleAxis}}(glm::pi<float>() * 0.25f, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 0, 1));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00012}00012         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} N = glm::normalize(Q);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00013}00013         \textcolor{keywordtype}{float} L = glm::length(N);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00014}00014         Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(L, 1.0f, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00015}00015         \textcolor{keywordtype}{float} A = \mbox{\hyperlink{group__gtc__quaternion_gaaee6c856cae3217d274a240238cb6373}{glm::angle}}(N);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00016}00016         Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, glm::pi<float>() * 0.25f, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00017}00017     \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00018}00018     \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00019}00019         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} Q = \mbox{\hyperlink{group__gtc__quaternion_gadc9f8684315727e11549e9aa3a4ed209}{glm::angleAxis}}(glm::pi<float>() * 0.25f, glm::normalize(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 1, 1)));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00020}00020         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} N = glm::normalize(Q);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00021}00021         \textcolor{keywordtype}{float} L = glm::length(N);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00022}00022         Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(L, 1.0f, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00023}00023         \textcolor{keywordtype}{float} A = \mbox{\hyperlink{group__gtc__quaternion_gaaee6c856cae3217d274a240238cb6373}{glm::angle}}(N);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00024}00024         Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, glm::pi<float>() * 0.25f, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00025}00025     \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00026}00026     \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00027}00027         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} Q = \mbox{\hyperlink{group__gtc__quaternion_gadc9f8684315727e11549e9aa3a4ed209}{glm::angleAxis}}(glm::pi<float>() * 0.25f, glm::normalize(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1, 2, 3)));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00028}00028         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} N = glm::normalize(Q);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00029}00029         \textcolor{keywordtype}{float} L = glm::length(N);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00030}00030         Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(L, 1.0f, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00031}00031         \textcolor{keywordtype}{float} A = \mbox{\hyperlink{group__gtc__quaternion_gaaee6c856cae3217d274a240238cb6373}{glm::angle}}(N);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00032}00032         Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(A, glm::pi<float>() * 0.25f, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00033}00033     \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00035}00035     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00036}00036 \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00038}00038 \textcolor{keywordtype}{int} test\_quat\_angleAxis()}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00039}00039 \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00040}00040     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00042}00042     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} A = \mbox{\hyperlink{group__gtc__quaternion_gadc9f8684315727e11549e9aa3a4ed209}{glm::angleAxis}}(0.f, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0.f, 0.f, 1.f));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00043}00043     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} B = \mbox{\hyperlink{group__gtc__quaternion_gadc9f8684315727e11549e9aa3a4ed209}{glm::angleAxis}}(glm::pi<float>() * 0.5f, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 0, 1));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00044}00044     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} C = \mbox{\hyperlink{group__core__func__common_ga8e93f374aae27d1a88b921860351f8d4}{glm::mix}}(A, B, 0.5f);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00045}00045     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} D = \mbox{\hyperlink{group__gtc__quaternion_gadc9f8684315727e11549e9aa3a4ed209}{glm::angleAxis}}(glm::pi<float>() * 0.25f, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 0, 1));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00047}00047     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C.x, D.x, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00048}00048     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C.y, D.y, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00049}00049     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C.z, D.z, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00050}00050     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C.w, D.w, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00052}00052     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00053}00053 \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00055}00055 \textcolor{keywordtype}{int} test\_quat\_mix()}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00056}00056 \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00057}00057     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00059}00059     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} A = \mbox{\hyperlink{group__gtc__quaternion_gadc9f8684315727e11549e9aa3a4ed209}{glm::angleAxis}}(0.f, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0.f, 0.f, 1.f));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00060}00060     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} B = \mbox{\hyperlink{group__gtc__quaternion_gadc9f8684315727e11549e9aa3a4ed209}{glm::angleAxis}}(glm::pi<float>() * 0.5f, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 0, 1));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00061}00061     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} C = \mbox{\hyperlink{group__core__func__common_ga8e93f374aae27d1a88b921860351f8d4}{glm::mix}}(A, B, 0.5f);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00062}00062     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} D = \mbox{\hyperlink{group__gtc__quaternion_gadc9f8684315727e11549e9aa3a4ed209}{glm::angleAxis}}(glm::pi<float>() * 0.25f, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 0, 1));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00064}00064     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C.x, D.x, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00065}00065     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C.y, D.y, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00066}00066     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C.z, D.z, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00067}00067     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(C.w, D.w, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00069}00069     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00070}00070 \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00071}00071 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00072}00072 \textcolor{keywordtype}{int} test\_quat\_precision()}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00073}00073 \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00074}00074     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00075}00075 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00076}00076     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1tquat}{glm::lowp\_quat}}) <= \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1tquat}{glm::mediump\_quat}}) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00077}00077     Error += \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1tquat}{glm::mediump\_quat}}) <= \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1tquat}{glm::highp\_quat}}) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00078}00078 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00079}00079     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00080}00080 \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00082}00082 \textcolor{keywordtype}{int} test\_quat\_normalize()}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00083}00083 \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00084}00084     \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00086}00086     \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00087}00087         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} Q = \mbox{\hyperlink{group__gtc__quaternion_gadc9f8684315727e11549e9aa3a4ed209}{glm::angleAxis}}(glm::pi<float>() * 0.25f, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 0, 1));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00088}00088         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} N = glm::normalize(Q);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00089}00089         \textcolor{keywordtype}{float} L = glm::length(N);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00090}00090         Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(L, 1.0f, 0.000001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00091}00091     \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00092}00092     \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00093}00093         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} Q = \mbox{\hyperlink{group__gtc__quaternion_gadc9f8684315727e11549e9aa3a4ed209}{glm::angleAxis}}(glm::pi<float>() * 0.25f, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 0, 2));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00094}00094         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} N = glm::normalize(Q);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00095}00095         \textcolor{keywordtype}{float} L = glm::length(N);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00096}00096         Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(L, 1.0f, 0.000001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00097}00097     \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00098}00098     \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00099}00099         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} Q = \mbox{\hyperlink{group__gtc__quaternion_gadc9f8684315727e11549e9aa3a4ed209}{glm::angleAxis}}(glm::pi<float>() * 0.25f, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1, 2, 3));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00100}00100         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} N = glm::normalize(Q);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00101}00101         \textcolor{keywordtype}{float} L = glm::length(N);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00102}00102         Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(L, 1.0f, 0.000001f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00103}00103     \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00105}00105     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00106}00106 \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00108}00108 \textcolor{keywordtype}{int} test\_quat\_euler()}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00109}00109 \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00110}00110     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00111}00111 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00112}00112     \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00113}00113         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} q(1.0f, 0.0f, 0.0f, 1.0f);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00114}00114         \textcolor{keywordtype}{float} Roll = \mbox{\hyperlink{group__gtc__quaternion_ga3ff93afbd9cc29f2ad217f2228e8a95b}{glm::roll}}(q);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00115}00115         \textcolor{keywordtype}{float} Pitch = \mbox{\hyperlink{group__gtc__quaternion_ga9bd78e5fe153d07e39fb4c83e73dba73}{glm::pitch}}(q);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00116}00116         \textcolor{keywordtype}{float} Yaw = \mbox{\hyperlink{group__gtc__quaternion_ga53feffeb4001b99e36e216522e465e9e}{glm::yaw}}(q);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00117}00117         \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} Angles = \mbox{\hyperlink{group__gtc__quaternion_gaa68b373264082359ec61675acadef710}{glm::eulerAngles}}(q);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00118}00118         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Angles, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(Pitch, Yaw, Roll), 0.000001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00119}00119     \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00121}00121     \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00122}00122         \mbox{\hyperlink{structglm_1_1tquat}{glm::dquat}} q(1.0, 0.0, 0.0, 1.0);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00123}00123         \textcolor{keywordtype}{double} Roll = \mbox{\hyperlink{group__gtc__quaternion_ga3ff93afbd9cc29f2ad217f2228e8a95b}{glm::roll}}(q);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00124}00124         \textcolor{keywordtype}{double} Pitch = \mbox{\hyperlink{group__gtc__quaternion_ga9bd78e5fe153d07e39fb4c83e73dba73}{glm::pitch}}(q);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00125}00125         \textcolor{keywordtype}{double} Yaw = \mbox{\hyperlink{group__gtc__quaternion_ga53feffeb4001b99e36e216522e465e9e}{glm::yaw}}(q);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00126}00126         \mbox{\hyperlink{structglm_1_1vec}{glm::dvec3}} Angles = \mbox{\hyperlink{group__gtc__quaternion_gaa68b373264082359ec61675acadef710}{glm::eulerAngles}}(q);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00127}00127         Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Angles, \mbox{\hyperlink{structglm_1_1vec}{glm::dvec3}}(Pitch, Yaw, Roll), 0.000001)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00128}00128     \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00129}00129 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00130}00130     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00131}00131 \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00132}00132 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00133}00133 \textcolor{keywordtype}{int} test\_quat\_slerp()}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00134}00134 \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00135}00135     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00136}00136 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00137}00137     \textcolor{keywordtype}{float} \textcolor{keyword}{const} Epsilon = 0.0001f;\textcolor{comment}{//glm::epsilon<float>();}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00138}00138 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00139}00139     \textcolor{keywordtype}{float} sqrt2 = \mbox{\hyperlink{group__core__func__exponential_ga1f904e09827e939a56e4158f45ca8ede}{std::sqrt}}(2.0f)/2.0f;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00140}00140     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} id(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(1), \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(0), \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(0), \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00141}00141     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} Y90rot(sqrt2, 0.0f, sqrt2, 0.0f);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00142}00142     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} Y180rot(0.0f, 0.0f, 1.0f, 0.0f);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00143}00143 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00144}00144     \textcolor{comment}{// Testing a == 0}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00145}00145     \textcolor{comment}{// Must be id}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00146}00146     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} id2 = \mbox{\hyperlink{group__gtc__quaternion_ga816f0e1d91b624b3a0d57ed53dd902d2}{glm::slerp}}(\textcolor{keywordtype}{id}, Y90rot, 0.0f);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00147}00147     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(\textcolor{keywordtype}{id}, id2, Epsilon)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00148}00148 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00149}00149     \textcolor{comment}{// Testing a == 1}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00150}00150     \textcolor{comment}{// Must be 90° rotation on Y : 0 0.7 0 0.7}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00151}00151     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} Y90rot2 = \mbox{\hyperlink{group__gtc__quaternion_ga816f0e1d91b624b3a0d57ed53dd902d2}{glm::slerp}}(\textcolor{keywordtype}{id}, Y90rot, 1.0f);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00152}00152     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Y90rot, Y90rot2, Epsilon)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00153}00153 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00154}00154     \textcolor{comment}{// Testing standard, easy case}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00155}00155     \textcolor{comment}{// Must be 45° rotation on Y : 0 0.38 0 0.92}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00156}00156     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} Y45rot1 = \mbox{\hyperlink{group__gtc__quaternion_ga816f0e1d91b624b3a0d57ed53dd902d2}{glm::slerp}}(\textcolor{keywordtype}{id}, Y90rot, 0.5f);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00157}00157 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00158}00158     \textcolor{comment}{// Testing reverse case}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00159}00159     \textcolor{comment}{// Must be 45° rotation on Y : 0 0.38 0 0.92}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00160}00160     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} Ym45rot2 = \mbox{\hyperlink{group__gtc__quaternion_ga816f0e1d91b624b3a0d57ed53dd902d2}{glm::slerp}}(Y90rot, \textcolor{keywordtype}{id}, 0.5f);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00161}00161 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00162}00162     \textcolor{comment}{// Testing against full circle around the sphere instead of shortest path}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00163}00163     \textcolor{comment}{// Must be 45° rotation on Y}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00164}00164     \textcolor{comment}{// certainly not a 135° rotation}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00165}00165     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} Y45rot3 = \mbox{\hyperlink{group__gtc__quaternion_ga816f0e1d91b624b3a0d57ed53dd902d2}{glm::slerp}}(\textcolor{keywordtype}{id} , -\/Y90rot, 0.5f);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00166}00166     \textcolor{keywordtype}{float} Y45angle3 = \mbox{\hyperlink{group__gtc__quaternion_gaaee6c856cae3217d274a240238cb6373}{glm::angle}}(Y45rot3);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00167}00167     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Y45angle3, glm::pi<float>() * 0.25f, Epsilon) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00168}00168     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Ym45rot2, Y45rot3, Epsilon)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00169}00169 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00170}00170     \textcolor{comment}{// Same, but inverted}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00171}00171     \textcolor{comment}{// Must also be 45° rotation on Y :  0 0.38 0 0.92}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00172}00172     \textcolor{comment}{// -\/0 -\/0.38 -\/0 -\/0.92 is ok too}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00173}00173     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} Y45rot4 = \mbox{\hyperlink{group__gtc__quaternion_ga816f0e1d91b624b3a0d57ed53dd902d2}{glm::slerp}}(-\/Y90rot, \textcolor{keywordtype}{id}, 0.5f);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00174}00174     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Ym45rot2, -\/Y45rot4, Epsilon)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00175}00175 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00176}00176     \textcolor{comment}{// Testing q1 = q2}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00177}00177     \textcolor{comment}{// Must be 90° rotation on Y : 0 0.7 0 0.7}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00178}00178     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} Y90rot3 = \mbox{\hyperlink{group__gtc__quaternion_ga816f0e1d91b624b3a0d57ed53dd902d2}{glm::slerp}}(Y90rot, Y90rot, 0.5f);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00179}00179     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(Y90rot, Y90rot3, Epsilon)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00180}00180 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00181}00181     \textcolor{comment}{// Testing 180° rotation}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00182}00182     \textcolor{comment}{// Must be 90° rotation on almost any axis that is on the XZ plane}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00183}00183     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} XZ90rot = \mbox{\hyperlink{group__gtc__quaternion_ga816f0e1d91b624b3a0d57ed53dd902d2}{glm::slerp}}(\textcolor{keywordtype}{id}, -\/Y90rot, 0.5f);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00184}00184     \textcolor{keywordtype}{float} XZ90angle = \mbox{\hyperlink{group__gtc__quaternion_gaaee6c856cae3217d274a240238cb6373}{glm::angle}}(XZ90rot); \textcolor{comment}{// Must be PI/4 = 0.78;}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00185}00185     Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(XZ90angle, glm::pi<float>() * 0.25f, Epsilon) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00186}00186 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00187}00187     \textcolor{comment}{// Testing almost equal quaternions (this test should pass through the linear interpolation)}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00188}00188     \textcolor{comment}{// Must be 0 0.00X 0 0.99999}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00189}00189     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} almostid = \mbox{\hyperlink{group__gtc__quaternion_ga816f0e1d91b624b3a0d57ed53dd902d2}{glm::slerp}}(\textcolor{keywordtype}{id}, \mbox{\hyperlink{group__gtc__quaternion_gadc9f8684315727e11549e9aa3a4ed209}{glm::angleAxis}}(0.1f, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0.0f, 1.0f, 0.0f)), 0.5f);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00190}00190 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00191}00191     \textcolor{comment}{// Testing quaternions with opposite sign}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00192}00192     \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00193}00193         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} a(-\/1, 0, 0, 0);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00194}00194 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00195}00195         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} \mbox{\hyperlink{structresult}{result}} = \mbox{\hyperlink{group__gtc__quaternion_ga816f0e1d91b624b3a0d57ed53dd902d2}{glm::slerp}}(a, \textcolor{keywordtype}{id}, 0.5f);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00196}00196 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00197}00197         Error += \mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(\mbox{\hyperlink{group__core__func__exponential_ga717a43207fffc8b5e8e66cf56ded5ace}{glm::pow}}(glm::dot(\textcolor{keywordtype}{id}, \mbox{\hyperlink{structresult}{result}}), 2.f), 1.f, 0.01f) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00198}00198     \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00199}00199 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00200}00200     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00201}00201 \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00202}00202 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00203}00203 \textcolor{keywordtype}{int} test\_quat\_mul()}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00204}00204 \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00205}00205     \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00206}00206 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00207}00207     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} temp1 = glm::normalize(\mbox{\hyperlink{structglm_1_1tquat}{glm::quat}}(1.0f, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0.0, 1.0, 0.0)));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00208}00208     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} temp2 = glm::normalize(\mbox{\hyperlink{structglm_1_1tquat}{glm::quat}}(0.5f, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1.0, 0.0, 0.0)));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00209}00209 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00210}00210     \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} transformed0 = (temp1 * \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(0.0, 1.0, 0.0) * \mbox{\hyperlink{group__core__func__matrix_gace61e11fc177491beeca0c6971e2f3fc}{glm::inverse}}(temp1));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00211}00211     \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} temp4 = temp2 * transformed0 * \mbox{\hyperlink{group__core__func__matrix_gace61e11fc177491beeca0c6971e2f3fc}{glm::inverse}}(temp2);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00212}00212 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00213}00213     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} temp5 = glm::normalize(temp1 * temp2);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00214}00214     \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} temp6 = temp5 * \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(0.0, 1.0, 0.0) * \mbox{\hyperlink{group__core__func__matrix_gace61e11fc177491beeca0c6971e2f3fc}{glm::inverse}}(temp5);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00215}00215 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00216}00216     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} temp7(1.0f, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0.0, 1.0, 0.0));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00217}00217 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00218}00218     temp7 *= temp5;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00219}00219     temp7 *= \mbox{\hyperlink{group__core__func__matrix_gace61e11fc177491beeca0c6971e2f3fc}{glm::inverse}}(temp5);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00220}00220 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00221}00221     Error += temp7 != \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}}(1.0f, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0.0, 1.0, 0.0));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00222}00222 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00223}00223     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00224}00224 \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00225}00225 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00226}00226 \textcolor{keywordtype}{int} test\_quat\_two\_axis\_ctr()}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00227}00227 \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00228}00228     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00229}00229 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00230}00230     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} \textcolor{keyword}{const} q1(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1, 0, 0), \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 1, 0));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00231}00231     \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} \textcolor{keyword}{const} v1 = q1 * \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(1, 0, 0);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00232}00232     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(v1, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 1, 0), 0.0001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00233}00233 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00234}00234     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} \textcolor{keyword}{const} q2 = q1 * q1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00235}00235     \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} \textcolor{keyword}{const} v2 = q2 * \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(1, 0, 0);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00236}00236     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(v2, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(-\/1, 0, 0), 0.0001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00237}00237 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00238}00238     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} \textcolor{keyword}{const} q3(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1, 0, 0), \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(-\/1, 0, 0));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00239}00239     \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} \textcolor{keyword}{const} v3 = q3 * \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(1, 0, 0);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00240}00240     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(v3, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(-\/1, 0, 0), 0.0001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00241}00241 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00242}00242     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} \textcolor{keyword}{const} q4(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 1, 0), \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, -\/1, 0));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00243}00243     \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} \textcolor{keyword}{const} v4 = q4 * \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(0, 1, 0);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00244}00244     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(v4, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, -\/1, 0), 0.0001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00245}00245 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00246}00246     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} \textcolor{keyword}{const} q5(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 0, 1), \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 0, -\/1));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00247}00247     \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} \textcolor{keyword}{const} v5 = q5 * \mbox{\hyperlink{group__core__types_ga1c47e8b3386109bc992b6c48e91b0be7}{glm::vec3}}(0, 0, 1);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00248}00248     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(v5, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 0, -\/1), 0.0001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00249}00249 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00250}00250     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00251}00251 \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00252}00252 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00253}00253 \textcolor{keywordtype}{int} test\_quat\_mul\_vec()}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00254}00254 \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00255}00255     \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00256}00256 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00257}00257     \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} q = \mbox{\hyperlink{group__gtc__quaternion_gadc9f8684315727e11549e9aa3a4ed209}{glm::angleAxis}}(glm::pi<float>() * 0.5f, \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 0, 1));}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00258}00258     \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} v(1, 0, 0);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00259}00259     \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} u(q * v);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00260}00260     \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}} w(u * q);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00261}00261 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00262}00262     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(v, w, 0.01f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00263}00263 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00264}00264     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00265}00265 \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00266}00266 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00267}00267 \textcolor{keywordtype}{int} test\_quat\_ctr()}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00268}00268 \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00269}00269     \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00270}00270 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00271}00271 \textcolor{preprocessor}{\#   if GLM\_HAS\_TRIVIAL\_QUERIES}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00272}00272     \textcolor{comment}{//  Error += std::is\_trivially\_default\_constructible<glm::quat>::value ? 0 : 1;}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00273}00273     \textcolor{comment}{//  Error += std::is\_trivially\_default\_constructible<glm::dquat>::value ? 0 : 1;}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00274}00274     \textcolor{comment}{//  Error += std::is\_trivially\_copy\_assignable<glm::quat>::value ? 0 : 1;}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00275}00275     \textcolor{comment}{//  Error += std::is\_trivially\_copy\_assignable<glm::dquat>::value ? 0 : 1;}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00276}00276         Error += std::is\_trivially\_copyable<glm::quat>::value ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00277}00277         Error += std::is\_trivially\_copyable<glm::dquat>::value ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00278}00278 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00279}00279         Error += std::is\_copy\_constructible<glm::quat>::value ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00280}00280         Error += std::is\_copy\_constructible<glm::dquat>::value ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00281}00281 \textcolor{preprocessor}{\#   endif}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00282}00282 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00283}00283 \textcolor{preprocessor}{\#   if GLM\_HAS\_INITIALIZER\_LISTS}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00284}00284     \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00285}00285         \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}} A\{0, 1, 2, 3\};}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00286}00286 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00287}00287         std::vector<glm::quat> B\{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00288}00288             \{0, 1, 2, 3\},}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00289}00289             \{0, 1, 2, 3\}\};}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00290}00290     \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00291}00291 \textcolor{preprocessor}{\#   endif}\textcolor{comment}{//GLM\_HAS\_INITIALIZER\_LISTS}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00292}00292 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00293}00293     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00294}00294 \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00295}00295 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00296}00296 \textcolor{keywordtype}{int} test\_size()}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00297}00297 \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00298}00298     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00299}00299 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00300}00300     Error += 16 == \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1tquat}{glm::quat}}) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00301}00301     Error += 32 == \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structglm_1_1tquat}{glm::dquat}}) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00302}00302     Error += \mbox{\hyperlink{structglm_1_1tquat}{glm::quat}}().\mbox{\hyperlink{structglm_1_1tquat_a7cf19acd1bf11bdf0f52dbc16b3dee53}{length}}() == 4 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00303}00303     Error += \mbox{\hyperlink{structglm_1_1tquat}{glm::dquat}}().\mbox{\hyperlink{structglm_1_1tquat_a7cf19acd1bf11bdf0f52dbc16b3dee53}{length}}() == 4 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00304}00304     Error += \mbox{\hyperlink{structglm_1_1tquat_a7cf19acd1bf11bdf0f52dbc16b3dee53}{glm::quat::length}}() == 4 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00305}00305     Error += \mbox{\hyperlink{structglm_1_1tquat_a7cf19acd1bf11bdf0f52dbc16b3dee53}{glm::dquat::length}}() == 4 ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00306}00306 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00307}00307     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00308}00308 \}}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00309}00309 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00310}00310 \textcolor{keywordtype}{int} main()}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00311}00311 \{}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00312}00312     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00313}00313 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00314}00314     Error += test\_quat\_ctr();}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00315}00315     Error += test\_quat\_mul\_vec();}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00316}00316     Error += test\_quat\_two\_axis\_ctr();}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00317}00317     Error += test\_quat\_mul();}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00318}00318     Error += test\_quat\_precision();}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00319}00319     Error += test\_quat\_angle();}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00320}00320     Error += test\_quat\_angleAxis();}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00321}00321     Error += test\_quat\_mix();}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00322}00322     Error += test\_quat\_normalize();}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00323}00323     Error += test\_quat\_euler();}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00324}00324     Error += test\_quat\_slerp();}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00325}00325     Error += test\_size();}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00326}00326 }
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00327}00327     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtc__quaternion_8cpp_source_l00328}00328 \}}
+
+\end{DoxyCode}

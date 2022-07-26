@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>singleRenderEngine: /Users/cwb/developer/learning/graphicRenderEngine/re/core/mesh.cpp Source File</title>
+<title>graphicRenderEngine: /Users/cwb/developer/learning/graphicRenderEngine/ceres/core/mesh.cpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">singleRenderEngine<span id="projectnumber">&#160;3.2.0</span>
+   <div id="projectname">graphicRenderEngine<span id="projectnumber">&#160;3.2.0</span>
    </div>
    <div id="projectbrief">This is a simple render engine based on OpenGL in MAC-OS, which use C++17</div>
   </td>
@@ -64,7 +64,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_76a7533ac23590ba5cb2e8d12d10bda4.html">re</a></li><li class="navelem"><a class="el" href="dir_637fc5a1a5ce451fb120578a24e36682.html">core</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_9ad08ef3953ad59a7fa19911cb987f8b.html">ceres</a></li><li class="navelem"><a class="el" href="dir_c6009e5772129e975c878d5c450144d5.html">core</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -85,7 +85,7 @@ $(function() {
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;glm/gtc/constants.hpp&gt;</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;iomanip&gt;</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacere.html">re</a></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span>ceres</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>{</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>Mesh::Mesh(std::map&lt;std::string, std::vector&lt;float&gt;&gt;&amp;&amp; attributesFloat, std::map&lt;std::string, std::vector&lt;glm::vec2&gt;&gt;&amp;&amp; attributesVec2, std::map&lt;std::string, std::vector&lt;glm::vec3&gt;&gt;&amp;&amp; attributesVec3,</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>           std::map&lt;std::string, std::vector&lt;glm::vec4&gt;&gt;&amp;&amp; attributesVec4, std::map&lt;std::string, std::vector&lt;glm::i32vec4&gt;&gt;&amp;&amp; attributesIVec4, std::vector&lt;std::vector&lt;uint16_t&gt;&gt;&amp;&amp; indices,</div>
@@ -94,7 +94,7 @@ $(function() {
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    m_meshId = m_meshIdCount++;</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordflow">if</span> (Renderer::s_instance == <span class="keyword">nullptr</span>)</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    {</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Cannot instantiate re::Mesh before re::Renderer is created.&quot;</span>);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Cannot instantiate re::Mesh before ceres::Renderer is created.&quot;</span>);</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    }</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    glGenBuffers(1, &amp;m_vbo);</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    update(std::move(attributesFloat), std::move(attributesVec2), std::move(attributesVec3), std::move(attributesVec4), std::move(attributesIVec4), std::move(indices), meshTopology, bufferUsage, name, renderStats);</div>
@@ -266,7 +266,7 @@ $(function() {
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>Mesh::MeshBuilder Mesh::update()</div>
 <div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>{</div>
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    Mesh::MeshBuilder builder;</div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    builder.m_updateMesh = <span class="keyword">this</span>;</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    builder.m_mesh = <span class="keyword">this</span>;</div>
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    builder.m_attributesFloat = m_attributesFloat;</div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    builder.m_attributesVec2 = m_attributesVec2;</div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    builder.m_attributesVec3 = m_attributesVec3;</div>
@@ -842,11 +842,11 @@ $(function() {
 <div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span>            withTangents(newTangents);</div>
 <div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span>        }</div>
 <div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span>    }</div>
-<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span>    <span class="keywordflow">if</span> (m_updateMesh != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span>    <span class="keywordflow">if</span> (m_mesh != <span class="keyword">nullptr</span>)</div>
 <div class="line"><a id="l00773" name="l00773"></a><span class="lineno">  773</span>    {</div>
-<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span>        renderStats.meshBytes -= m_updateMesh-&gt;getDataSize();</div>
-<div class="line"><a id="l00775" name="l00775"></a><span class="lineno">  775</span>        m_updateMesh-&gt;update(std::move(m_attributesFloat), std::move(m_attributesVec2), std::move(m_attributesVec3), std::move(m_attributesVec4), std::move(m_attributesIVec4), std::move(m_indices), m_topologies, m_bufferUsage, m_name, renderStats);</div>
-<div class="line"><a id="l00776" name="l00776"></a><span class="lineno">  776</span>        <span class="keywordflow">return</span> m_updateMesh-&gt;shared_from_this();</div>
+<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span>        renderStats.meshBytes -= m_mesh-&gt;getDataSize();</div>
+<div class="line"><a id="l00775" name="l00775"></a><span class="lineno">  775</span>        m_mesh-&gt;update(std::move(m_attributesFloat), std::move(m_attributesVec2), std::move(m_attributesVec3), std::move(m_attributesVec4), std::move(m_attributesIVec4), std::move(m_indices), m_topologies, m_bufferUsage, m_name, renderStats);</div>
+<div class="line"><a id="l00776" name="l00776"></a><span class="lineno">  776</span>        <span class="keywordflow">return</span> m_mesh-&gt;shared_from_this();</div>
 <div class="line"><a id="l00777" name="l00777"></a><span class="lineno">  777</span>    }</div>
 <div class="line"><a id="l00778" name="l00778"></a><span class="lineno">  778</span>    <span class="keyword">auto</span>* mesh = <span class="keyword">new</span> Mesh(std::move(m_attributesFloat), std::move(m_attributesVec2), std::move(m_attributesVec3), std::move(m_attributesVec4), std::move(m_attributesIVec4), std::move(m_indices), m_topologies, m_bufferUsage, m_name, renderStats);</div>
 <div class="line"><a id="l00779" name="l00779"></a><span class="lineno">  779</span>    renderStats.meshCount++;</div>
@@ -855,7 +855,7 @@ $(function() {
 <div class="line"><a id="l00782" name="l00782"></a><span class="lineno">  782</span> </div>
 <div class="line"><a id="l00783" name="l00783"></a><span class="lineno">  783</span>Mesh::MeshBuilder&amp; Mesh::MeshBuilder::withAttribute(std::string_view name, <span class="keyword">const</span> std::vector&lt;float&gt;&amp; values)</div>
 <div class="line"><a id="l00784" name="l00784"></a><span class="lineno">  784</span>{</div>
-<div class="line"><a id="l00785" name="l00785"></a><span class="lineno">  785</span>    <span class="keywordflow">if</span> (m_updateMesh != <span class="keyword">nullptr</span> &amp;&amp; m_attributesFloat.find(name.data()) == m_attributesFloat.end())</div>
+<div class="line"><a id="l00785" name="l00785"></a><span class="lineno">  785</span>    <span class="keywordflow">if</span> (m_mesh != <span class="keyword">nullptr</span> &amp;&amp; m_attributesFloat.find(name.data()) == m_attributesFloat.end())</div>
 <div class="line"><a id="l00786" name="l00786"></a><span class="lineno">  786</span>    {</div>
 <div class="line"><a id="l00787" name="l00787"></a><span class="lineno">  787</span>        LOG_ERROR(<span class="stringliteral">&quot;Cannot change mesh structure. {} did not exist in original mesh.&quot;</span>, name.data());</div>
 <div class="line"><a id="l00788" name="l00788"></a><span class="lineno">  788</span>    }</div>
@@ -868,7 +868,7 @@ $(function() {
 <div class="line"><a id="l00795" name="l00795"></a><span class="lineno">  795</span> </div>
 <div class="line"><a id="l00796" name="l00796"></a><span class="lineno">  796</span>Mesh::MeshBuilder&amp; Mesh::MeshBuilder::withAttribute(std::string_view name, <span class="keyword">const</span> std::vector&lt;glm::vec2&gt;&amp; values)</div>
 <div class="line"><a id="l00797" name="l00797"></a><span class="lineno">  797</span>{</div>
-<div class="line"><a id="l00798" name="l00798"></a><span class="lineno">  798</span>    <span class="keywordflow">if</span> (m_updateMesh != <span class="keyword">nullptr</span> &amp;&amp; m_attributesVec2.find(name.data()) == m_attributesVec2.end())</div>
+<div class="line"><a id="l00798" name="l00798"></a><span class="lineno">  798</span>    <span class="keywordflow">if</span> (m_mesh != <span class="keyword">nullptr</span> &amp;&amp; m_attributesVec2.find(name.data()) == m_attributesVec2.end())</div>
 <div class="line"><a id="l00799" name="l00799"></a><span class="lineno">  799</span>    {</div>
 <div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span>        LOG_ERROR(<span class="stringliteral">&quot;Cannot change mesh structure. {} did not exist in original mesh.&quot;</span>, name.data());</div>
 <div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span>    }</div>
@@ -881,7 +881,7 @@ $(function() {
 <div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span> </div>
 <div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>Mesh::MeshBuilder&amp; Mesh::MeshBuilder::withAttribute(std::string_view name, <span class="keyword">const</span> std::vector&lt;glm::vec3&gt;&amp; values)</div>
 <div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span>{</div>
-<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span>    <span class="keywordflow">if</span> (m_updateMesh != <span class="keyword">nullptr</span> &amp;&amp; m_attributesVec3.find(name.data()) == m_attributesVec3.end())</div>
+<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span>    <span class="keywordflow">if</span> (m_mesh != <span class="keyword">nullptr</span> &amp;&amp; m_attributesVec3.find(name.data()) == m_attributesVec3.end())</div>
 <div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span>    {</div>
 <div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span>        LOG_ERROR(<span class="stringliteral">&quot;Cannot change mesh structure. {} did not exist in original mesh.&quot;</span>, name.data());</div>
 <div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span>    }</div>
@@ -894,7 +894,7 @@ $(function() {
 <div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span> </div>
 <div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span>Mesh::MeshBuilder&amp; Mesh::MeshBuilder::withAttribute(std::string_view name, <span class="keyword">const</span> std::vector&lt;glm::vec4&gt;&amp; values)</div>
 <div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span>{</div>
-<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span>    <span class="keywordflow">if</span> (m_updateMesh != <span class="keyword">nullptr</span> &amp;&amp; m_attributesVec4.find(name.data()) == m_attributesVec4.end())</div>
+<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span>    <span class="keywordflow">if</span> (m_mesh != <span class="keyword">nullptr</span> &amp;&amp; m_attributesVec4.find(name.data()) == m_attributesVec4.end())</div>
 <div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span>    {</div>
 <div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span>        LOG_ERROR(<span class="stringliteral">&quot;Cannot change mesh structure. {} did not exist in original mesh.&quot;</span>, name.data());</div>
 <div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span>    }</div>
@@ -1190,7 +1190,7 @@ $(function() {
 <div class="line"><a id="l01117" name="l01117"></a><span class="lineno"> 1117</span> </div>
 <div class="line"><a id="l01118" name="l01118"></a><span class="lineno"> 1118</span>Mesh::MeshBuilder&amp; Mesh::MeshBuilder::withAttribute(std::string_view name, <span class="keyword">const</span> std::vector&lt;glm::i32vec4&gt;&amp; values)</div>
 <div class="line"><a id="l01119" name="l01119"></a><span class="lineno"> 1119</span>{</div>
-<div class="line"><a id="l01120" name="l01120"></a><span class="lineno"> 1120</span>    <span class="keywordflow">if</span> (m_updateMesh != <span class="keyword">nullptr</span> &amp;&amp; m_attributesIVec4.find(name.data()) == m_attributesIVec4.end())</div>
+<div class="line"><a id="l01120" name="l01120"></a><span class="lineno"> 1120</span>    <span class="keywordflow">if</span> (m_mesh != <span class="keyword">nullptr</span> &amp;&amp; m_attributesIVec4.find(name.data()) == m_attributesIVec4.end())</div>
 <div class="line"><a id="l01121" name="l01121"></a><span class="lineno"> 1121</span>    {</div>
 <div class="line"><a id="l01122" name="l01122"></a><span class="lineno"> 1122</span>        LOG_ERROR(<span class="stringliteral">&quot;Cannot change mesh structure. {} did not exist in original mesh.&quot;</span>, name.data());</div>
 <div class="line"><a id="l01123" name="l01123"></a><span class="lineno"> 1123</span>    }</div>
@@ -1257,8 +1257,7 @@ $(function() {
 <div class="line"><a id="l01184" name="l01184"></a><span class="lineno"> 1184</span>    }</div>
 <div class="line"><a id="l01185" name="l01185"></a><span class="lineno"> 1185</span>}</div>
 <div class="line"><a id="l01186" name="l01186"></a><span class="lineno"> 1186</span> </div>
-<div class="line"><a id="l01187" name="l01187"></a><span class="lineno"> 1187</span>} <span class="comment">// namespace re</span></div>
-<div class="ttc" id="anamespacere_html"><div class="ttname"><a href="namespacere.html">re</a></div><div class="ttdoc">精灵图集</div><div class="ttdef"><b>Definition:</b> <a href="camera_8cpp_source.html#l00017">camera.cpp:18</a></div></div>
+<div class="line"><a id="l01187" name="l01187"></a><span class="lineno"> 1187</span>} <span class="comment">// namespace ceres</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

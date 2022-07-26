@@ -1,0 +1,200 @@
+\hypertarget{classbasic__memory__buffer}{}\doxysection{basic\+\_\+memory\+\_\+buffer\texorpdfstring{$<$}{<} T, SIZE, Allocator \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbasic__memory__buffer}\index{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}}
+
+
+{\ttfamily \#include $<$format.\+h$>$}
+
+Inheritance diagram for basic\+\_\+memory\+\_\+buffer\texorpdfstring{$<$}{<} T, SIZE, Allocator \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classbasic__memory__buffer}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classbasic__memory__buffer_aecbaa41beff571b3ff5d79a91a787524}{value\+\_\+type}} = T
+\item 
+using \mbox{\hyperlink{classbasic__memory__buffer_a13f688782e6165086485913789b1396f}{const\+\_\+reference}} = const T \&
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+FMT\+\_\+\+CONSTEXPR20 \mbox{\hyperlink{classbasic__memory__buffer_a8d5800ead9bc50aa8f014fa861b33216}{basic\+\_\+memory\+\_\+buffer}} (const Allocator \&alloc=Allocator())
+\item 
+FMT\+\_\+\+CONSTEXPR20 \mbox{\hyperlink{classbasic__memory__buffer_aea944ee36a14712581def89064a14592}{basic\+\_\+memory\+\_\+buffer}} (\mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}} \&\&other) FMT\+\_\+\+NOEXCEPT
+\item 
+auto \mbox{\hyperlink{classbasic__memory__buffer_aa43d5ed58c2fb20f45feefc287fc2864}{operator=}} (\mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}} \&\&other) FMT\+\_\+\+NOEXCEPT -\/$>$ \mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}} \&
+\item 
+auto \mbox{\hyperlink{classbasic__memory__buffer_a53ee4a2efbf408c0c6f813d50ea8151a}{get\+\_\+allocator}} () const -\/$>$ Allocator
+\item 
+FMT\+\_\+\+CONSTEXPR20 void \mbox{\hyperlink{classbasic__memory__buffer_a153c47788d6d1a76ec97780748755ea1}{resize}} (size\+\_\+t count)
+\item 
+void \mbox{\hyperlink{classbasic__memory__buffer_a27f096451ed4e6738d3a33161fda3e90}{reserve}} (size\+\_\+t new\+\_\+capacity)
+\item 
+{\footnotesize template$<$typename Contiguous\+Range $>$ }\\void \mbox{\hyperlink{classbasic__memory__buffer_aad970f5ca7eda29893fc352b3d3486fc}{append}} (const Contiguous\+Range \&range)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+FMT\+\_\+\+CONSTEXPR20 void \mbox{\hyperlink{classbasic__memory__buffer_aabb68acfbb17a538c83ebdf1b916334c}{grow}} (size\+\_\+t size) override
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T, size\+\_\+t SIZE = inline\+\_\+buffer\+\_\+size, typename Allocator = std\+::allocator$<$\+T$>$$>$\newline
+class basic\+\_\+memory\+\_\+buffer$<$ T, SIZE, Allocator $>$}
+\textbackslash{}rst A dynamically growing memory buffer for trivially copyable/constructible types with the first {\ttfamily SIZE} elements stored in the object itself.
+
+You can use the {\ttfamily memory\+\_\+buffer} type alias for {\ttfamily char} instead.
+
+Example$\ast$$\ast$\+::
+
+auto out = fmt\+::memory\+\_\+buffer(); format\+\_\+to(std\+::back\+\_\+inserter(out), \char`\"{}\+The answer is \{\}.\char`\"{}, 42);
+
+This will append the following output to the {\ttfamily out} object\+:
+
+.. code-\/block\+:: none
+
+The answer is 42.
+
+The output can be converted to an {\ttfamily std\+::string} with {\ttfamily to\+\_\+string(out)}. \textbackslash{}endrst 
+
+Definition at line \mbox{\hyperlink{format_8h_source_l00677}{677}} of file \mbox{\hyperlink{format_8h_source}{format.\+h}}.
+
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classbasic__memory__buffer_a13f688782e6165086485913789b1396f}\label{classbasic__memory__buffer_a13f688782e6165086485913789b1396f}} 
+\index{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}!const\_reference@{const\_reference}}
+\index{const\_reference@{const\_reference}!basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{const\_reference}{const\_reference}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t SIZE = inline\+\_\+buffer\+\_\+size, typename Allocator  = std\+::allocator$<$\+T$>$$>$ \\
+using \mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}}$<$ T, SIZE, Allocator $>$\+::const\+\_\+reference =  const T\&}
+
+
+
+Definition at line \mbox{\hyperlink{format_8h_source_l00695}{695}} of file \mbox{\hyperlink{format_8h_source}{format.\+h}}.
+
+\mbox{\Hypertarget{classbasic__memory__buffer_aecbaa41beff571b3ff5d79a91a787524}\label{classbasic__memory__buffer_aecbaa41beff571b3ff5d79a91a787524}} 
+\index{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}!value\_type@{value\_type}}
+\index{value\_type@{value\_type}!basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t SIZE = inline\+\_\+buffer\+\_\+size, typename Allocator  = std\+::allocator$<$\+T$>$$>$ \\
+using \mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}}$<$ T, SIZE, Allocator $>$\+::value\+\_\+type =  T}
+
+
+
+Definition at line \mbox{\hyperlink{format_8h_source_l00694}{694}} of file \mbox{\hyperlink{format_8h_source}{format.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classbasic__memory__buffer_a8d5800ead9bc50aa8f014fa861b33216}\label{classbasic__memory__buffer_a8d5800ead9bc50aa8f014fa861b33216}} 
+\index{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}!basic\_memory\_buffer@{basic\_memory\_buffer}}
+\index{basic\_memory\_buffer@{basic\_memory\_buffer}!basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{basic\_memory\_buffer()}{basic\_memory\_buffer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t SIZE = inline\+\_\+buffer\+\_\+size, typename Allocator  = std\+::allocator$<$\+T$>$$>$ \\
+FMT\+\_\+\+CONSTEXPR20 \mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}}$<$ T, SIZE, Allocator $>$\+::\mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}} (\begin{DoxyParamCaption}\item[{const Allocator \&}]{alloc = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+Definition at line \mbox{\hyperlink{format_8h_source_l00697}{697}} of file \mbox{\hyperlink{format_8h_source}{format.\+h}}.
+
+\mbox{\Hypertarget{classbasic__memory__buffer_a15711905ce5efeb8e0c7b6c82acfbb8e}\label{classbasic__memory__buffer_a15711905ce5efeb8e0c7b6c82acfbb8e}} 
+\index{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}!````~basic\_memory\_buffer@{$\sim$basic\_memory\_buffer}}
+\index{````~basic\_memory\_buffer@{$\sim$basic\_memory\_buffer}!basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{$\sim$basic\_memory\_buffer()}{~basic\_memory\_buffer()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t SIZE = inline\+\_\+buffer\+\_\+size, typename Allocator  = std\+::allocator$<$\+T$>$$>$ \\
+FMT\+\_\+\+CONSTEXPR20 \mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}}$<$ T, SIZE, Allocator $>$\+::$\sim$\mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{format_8h_source_l00705}{705}} of file \mbox{\hyperlink{format_8h_source}{format.\+h}}.
+
+\mbox{\Hypertarget{classbasic__memory__buffer_aea944ee36a14712581def89064a14592}\label{classbasic__memory__buffer_aea944ee36a14712581def89064a14592}} 
+\index{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}!basic\_memory\_buffer@{basic\_memory\_buffer}}
+\index{basic\_memory\_buffer@{basic\_memory\_buffer}!basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{basic\_memory\_buffer()}{basic\_memory\_buffer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t SIZE = inline\+\_\+buffer\+\_\+size, typename Allocator  = std\+::allocator$<$\+T$>$$>$ \\
+FMT\+\_\+\+CONSTEXPR20 \mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}}$<$ T, SIZE, Allocator $>$\+::\mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}}$<$ T, SIZE, Allocator $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\textbackslash{}rst Constructs a \+:class\+:{\ttfamily fmt\+::basic\+\_\+memory\+\_\+buffer} object moving the content of the other object to it. \textbackslash{}endrst 
+
+Definition at line \mbox{\hyperlink{format_8h_source_l00738}{738}} of file \mbox{\hyperlink{format_8h_source}{format.\+h}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classbasic__memory__buffer_aad970f5ca7eda29893fc352b3d3486fc}\label{classbasic__memory__buffer_aad970f5ca7eda29893fc352b3d3486fc}} 
+\index{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}!append@{append}}
+\index{append@{append}!basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{append()}{append()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t SIZE = inline\+\_\+buffer\+\_\+size, typename Allocator  = std\+::allocator$<$\+T$>$$>$ \\
+template$<$typename Contiguous\+Range $>$ \\
+void \mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}}$<$ T, SIZE, Allocator $>$\+::append (\begin{DoxyParamCaption}\item[{const Contiguous\+Range \&}]{range }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{format_8h_source_l00771}{771}} of file \mbox{\hyperlink{format_8h_source}{format.\+h}}.
+
+\mbox{\Hypertarget{classbasic__memory__buffer_a53ee4a2efbf408c0c6f813d50ea8151a}\label{classbasic__memory__buffer_a53ee4a2efbf408c0c6f813d50ea8151a}} 
+\index{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}!get\_allocator@{get\_allocator}}
+\index{get\_allocator@{get\_allocator}!basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t SIZE = inline\+\_\+buffer\+\_\+size, typename Allocator  = std\+::allocator$<$\+T$>$$>$ \\
+auto \mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}}$<$ T, SIZE, Allocator $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ Allocator \hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{format_8h_source_l00757}{757}} of file \mbox{\hyperlink{format_8h_source}{format.\+h}}.
+
+\mbox{\Hypertarget{classbasic__memory__buffer_aabb68acfbb17a538c83ebdf1b916334c}\label{classbasic__memory__buffer_aabb68acfbb17a538c83ebdf1b916334c}} 
+\index{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}!grow@{grow}}
+\index{grow@{grow}!basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{grow()}{grow()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t SIZE, typename Allocator $>$ \\
+FMT\+\_\+\+CONSTEXPR20 void \mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}}$<$ T, SIZE, Allocator $>$\+::grow (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{format_8h_source_l00777}{777}} of file \mbox{\hyperlink{format_8h_source}{format.\+h}}.
+
+\mbox{\Hypertarget{classbasic__memory__buffer_aa43d5ed58c2fb20f45feefc287fc2864}\label{classbasic__memory__buffer_aa43d5ed58c2fb20f45feefc287fc2864}} 
+\index{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t SIZE = inline\+\_\+buffer\+\_\+size, typename Allocator  = std\+::allocator$<$\+T$>$$>$ \\
+auto \mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}}$<$ T, SIZE, Allocator $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}}$<$ T, SIZE, Allocator $>$ \&\&}]{other }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}}\& \hspace{0.3cm}{\ttfamily [inline]}}
+
+\textbackslash{}rst Moves the content of the other {\ttfamily \mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}}} object to this one. \textbackslash{}endrst 
+
+Definition at line \mbox{\hyperlink{format_8h_source_l00748}{748}} of file \mbox{\hyperlink{format_8h_source}{format.\+h}}.
+
+\mbox{\Hypertarget{classbasic__memory__buffer_a27f096451ed4e6738d3a33161fda3e90}\label{classbasic__memory__buffer_a27f096451ed4e6738d3a33161fda3e90}} 
+\index{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}!reserve@{reserve}}
+\index{reserve@{reserve}!basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{reserve()}{reserve()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t SIZE = inline\+\_\+buffer\+\_\+size, typename Allocator  = std\+::allocator$<$\+T$>$$>$ \\
+void \mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}}$<$ T, SIZE, Allocator $>$\+::reserve (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{new\+\_\+capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Increases the buffer capacity to {\itshape new\+\_\+capacity}. 
+
+Definition at line \mbox{\hyperlink{format_8h_source_l00766}{766}} of file \mbox{\hyperlink{format_8h_source}{format.\+h}}.
+
+\mbox{\Hypertarget{classbasic__memory__buffer_a153c47788d6d1a76ec97780748755ea1}\label{classbasic__memory__buffer_a153c47788d6d1a76ec97780748755ea1}} 
+\index{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}!resize@{resize}}
+\index{resize@{resize}!basic\_memory\_buffer$<$ T, SIZE, Allocator $>$@{basic\_memory\_buffer$<$ T, SIZE, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{resize()}{resize()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t SIZE = inline\+\_\+buffer\+\_\+size, typename Allocator  = std\+::allocator$<$\+T$>$$>$ \\
+FMT\+\_\+\+CONSTEXPR20 void \mbox{\hyperlink{classbasic__memory__buffer}{basic\+\_\+memory\+\_\+buffer}}$<$ T, SIZE, Allocator $>$\+::resize (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Resizes the buffer to contain {\itshape count} elements. If T is a POD type new elements may not be initialized. 
+
+Definition at line \mbox{\hyperlink{format_8h_source_l00763}{763}} of file \mbox{\hyperlink{format_8h_source}{format.\+h}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/cwb/developer/learning/graphic\+Render\+Engine/ceres/3rdparty/spdlog/include/spdlog/fmt/bundled/format.\+h\end{DoxyCompactItemize}

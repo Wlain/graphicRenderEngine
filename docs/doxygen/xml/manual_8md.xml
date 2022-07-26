@@ -1,0 +1,1382 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="manual_8md" kind="file" language="Markdown">
+    <compoundname>manual.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">![Alt](/doc/manual/logo-mini.png<sp/>&quot;GLM<sp/>Logo&quot;)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>GLM<sp/>0.9.9<sp/>Manual</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![Alt](/doc/manual/g-truc.png<sp/>&quot;G-Truc<sp/>Logo&quot;)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline><highlight class="normal">##<sp/>Table<sp/>of<sp/>Contents</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[0.<sp/>Licenses](#section0)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[1.<sp/>Getting<sp/>started](#section1)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[1.1.<sp/>Setup](#section1_1)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[1.2.<sp/>Faster<sp/>compilation](#section1_2)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[1.3.<sp/>Example<sp/>usage](#section1_3)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[1.4.<sp/>Dependencies](#section1_4)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[2.<sp/>Swizzling](#section2)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[2.1.<sp/>Default<sp/>C++98<sp/>implementation](#section2_1)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[2.2.<sp/>Anonynous<sp/>union<sp/>member<sp/>implementation](#section2_2)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[3.<sp/>Preprocessor<sp/>options](#section3)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[3.1.<sp/>GLM\_PRECISION\_**:<sp/>Default<sp/>precision](#section3_1)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[3.2.<sp/>GLM\_FORCE\_MESSAGES:<sp/>Compile-time<sp/>message<sp/>system](#section3_2)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[3.3.<sp/>GLM\_FORCE\_CXX**:<sp/>C++<sp/>language<sp/>detection](#section3_3)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[3.4.<sp/>SIMD<sp/>support](#section3_4)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[3.5.<sp/>GLM\_FORCE\_INLINE:<sp/>Force<sp/>inline](#section3_5)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[3.6.<sp/>GLM\_FORCE\_SIZE\_T\_LENGTH:<sp/>Vector<sp/>and<sp/>matrix<sp/>static<sp/>size](#section3_6)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[3.7.<sp/>GLM\_FORCE\_EXPLICIT\_CTOR:<sp/>Requiring<sp/>explicit<sp/>conversions](#section3_7)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[3.8.<sp/>GLM\_FORCE\_UNRESTRICTED\_GENTYPE:<sp/>Removing<sp/>genType<sp/>restriction](#section3_8)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[3.9.<sp/>GLM\_FORCE\_SINGLE\_ONLY:<sp/>Removed<sp/>explicit<sp/>64-bits<sp/>floating<sp/>point<sp/>types](#section3_9)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.<sp/>Stable<sp/>extensions](#section4)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.1.<sp/>GLM_GTC_bitfield](#section4_1)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.2.<sp/>GLM_GTC_color_space](#section4_2)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.3.<sp/>GLM_GTC_constants](#section4_3)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.4.<sp/>GLM_GTC_epsilon](#section4_4)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.5.<sp/>GLM_GTC_integer](#section4_5)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.6.<sp/>GLM_GTC_matrix_access](#section4_6)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.7.<sp/>GLM_GTC_matrix_integer](#section4_7)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.8.<sp/>GLM_GTC_matrix_inverse](#section4_8)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.9.<sp/>GLM_GTC_matrix_transform](#section4_9)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.10.<sp/>GLM_GTC_noise](#section4_10)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.11.<sp/>GLM_GTC_packing](#section4_11)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.12.<sp/>GLM_GTC_quaternion](#section4_12)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.13.<sp/>GLM_GTC_random](#section4_13)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.14.<sp/>GLM_GTC_reciprocal](#section4_14)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.15.<sp/>GLM_GTC_round](#section4_15)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.16.<sp/>GLM_GTC_type_alignment](#section4_16)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.17.<sp/>GLM_GTC_type_precision](#section4_17)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.18.<sp/>GLM_GTC_type_ptr](#section4_18)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.19.<sp/>GLM_GTC_ulp](#section4_19)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[4.20.<sp/>GLM_GTC_vec1](#section4_20)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[5.<sp/>OpenGL<sp/>interoperability](#section5)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[5.1.<sp/>GLM<sp/>Replacements<sp/>for<sp/>deprecated<sp/>OpenGL<sp/>functions](#section5_1)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[5.2.<sp/>GLM<sp/>Replacements<sp/>for<sp/>GPU<sp/>functions](#section5_2)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[6.<sp/>Known<sp/>issues](#section6)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[6.1.<sp/>Not<sp/>function](#section6_1)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[6.2.<sp/>Precision<sp/>qualifiers<sp/>support](#section6_2)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[7.<sp/>FAQ](#section7)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[7.1<sp/>Why<sp/>GLM<sp/>follows<sp/>GLSL<sp/>specification<sp/>and<sp/>conventions?](#section7_1)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[7.2.<sp/>Does<sp/>GLM<sp/>run<sp/>GLSL<sp/>programs?](#section7_2)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[7.3.<sp/>Does<sp/>a<sp/>GLSL<sp/>compiler<sp/>build<sp/>GLM<sp/>codes?](#section7_3)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[7.4.<sp/>Should<sp/>I<sp/>use<sp/>‘GTX’<sp/>extensions?](#section7_4)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[7.5.<sp/>Where<sp/>can<sp/>I<sp/>ask<sp/>my<sp/>questions?](#section7_5)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[7.6.<sp/>Where<sp/>can<sp/>I<sp/>find<sp/>the<sp/>documentation<sp/>of<sp/>extensions?](#section7_6)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[7.7.<sp/>Should<sp/>I<sp/>use<sp/>&apos;using<sp/>namespace<sp/>glm;&apos;?](#section7_7)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[7.8.<sp/>Is<sp/>GLM<sp/>fast?](#section7_8)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[7.9.<sp/>When<sp/>I<sp/>build<sp/>with<sp/>Visual<sp/>C++<sp/>with<sp/>/w4<sp/>warning<sp/>level,<sp/>I<sp/>have<sp/>warnings...](#section7_9)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[7.10.<sp/>Why<sp/>some<sp/>GLM<sp/>functions<sp/>can<sp/>crash<sp/>because<sp/>of<sp/>division<sp/>by<sp/>zero?](#section7_10)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[7.11.<sp/>What<sp/>unit<sp/>for<sp/>angles<sp/>us<sp/>used<sp/>in<sp/>GLM?](#section7_11)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[7.12.<sp/>Windows<sp/>headers<sp/>cause<sp/>build<sp/>errors...](#section7_12)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[7.13.<sp/>Constant<sp/>expressions<sp/>support](#section7_13)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[8.<sp/>Code<sp/>samples](#section8)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[8.1.<sp/>Compute<sp/>a<sp/>triangle<sp/>normal](#section8_1)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[8.2.<sp/>Matrix<sp/>transform](#section8_2)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[8.3.<sp/>Vector<sp/>types](#section8_3)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[8.4.<sp/>Lighting](#section8_4)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[9.<sp/>References](#section9)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[9.1.<sp/>OpenGL<sp/>specifications](#section9_1)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[9.2.<sp/>External<sp/>links](#section9_2)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[9.3.<sp/>Projects<sp/>using<sp/>GLM](#section9_3)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[9.4.<sp/>Tutorials<sp/>using<sp/>GLM](#section9_4)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[9.5.<sp/>Equivalent<sp/>for<sp/>other<sp/>languages](#section9_5)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[9.6.<sp/>Alternatives<sp/>to<sp/>GLM](#section9_6)</highlight></codeline>
+<codeline><highlight class="normal">+<sp/>[9.8.<sp/>Acknowledgements](#section9_8)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline><highlight class="normal">##<sp/>&lt;a<sp/>name=&quot;section0&quot;&gt;&lt;/a&gt;<sp/>Licenses</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>The<sp/>Happy<sp/>Bunny<sp/>License<sp/>(Modified<sp/>MIT<sp/>License)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Copyright<sp/>(c)<sp/>2005<sp/>-<sp/>2017<sp/>G-Truc<sp/>Creation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Permission<sp/>is<sp/>hereby<sp/>granted,<sp/>free<sp/>of<sp/>charge,<sp/>to<sp/>any<sp/>person<sp/>obtaining<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">copy<sp/>of<sp/>this<sp/>software<sp/>and<sp/>associated<sp/>documentation<sp/>files<sp/>(the</highlight></codeline>
+<codeline><highlight class="normal">&quot;Software&quot;),<sp/>to<sp/>deal<sp/>in<sp/>the<sp/>Software<sp/>without<sp/>restriction,<sp/>including</highlight></codeline>
+<codeline><highlight class="normal">without<sp/>limitation<sp/>the<sp/>rights<sp/>to<sp/>use,<sp/>copy,<sp/>modify,<sp/>merge,<sp/>publish,</highlight></codeline>
+<codeline><highlight class="normal">distribute,<sp/>sublicense,<sp/>and/or<sp/>sell<sp/>copies<sp/>of<sp/>the<sp/>Software,<sp/>and<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">permit<sp/>persons<sp/>to<sp/>whom<sp/>the<sp/>Software<sp/>is<sp/>furnished<sp/>to<sp/>do<sp/>so,<sp/>subject<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>following<sp/>conditions:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>above<sp/>copyright<sp/>notice<sp/>and<sp/>this<sp/>permission<sp/>notice<sp/>shall<sp/>be<sp/>included</highlight></codeline>
+<codeline><highlight class="normal">in<sp/>all<sp/>copies<sp/>or<sp/>substantial<sp/>portions<sp/>of<sp/>the<sp/>Software.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Restrictions:<sp/>By<sp/>making<sp/>use<sp/>of<sp/>the<sp/>Software<sp/>for<sp/>military<sp/>purposes,<sp/>you</highlight></codeline>
+<codeline><highlight class="normal">choose<sp/>to<sp/>make<sp/>a<sp/>Bunny<sp/>unhappy.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">THE<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>&quot;AS<sp/>IS&quot;,<sp/>WITHOUT<sp/>WARRANTY<sp/>OF<sp/>ANY<sp/>KIND,<sp/>EXPRESS</highlight></codeline>
+<codeline><highlight class="normal">OR<sp/>IMPLIED,<sp/>INCLUDING<sp/>BUT<sp/>NOT<sp/>LIMITED<sp/>TO<sp/>THE<sp/>WARRANTIES<sp/>OF</highlight></codeline>
+<codeline><highlight class="normal">MERCHANTABILITY,<sp/>FITNESS<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>AND<sp/>NONINFRINGEMENT.</highlight></codeline>
+<codeline><highlight class="normal">IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>AUTHORS<sp/>OR<sp/>COPYRIGHT<sp/>HOLDERS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY</highlight></codeline>
+<codeline><highlight class="normal">CLAIM,<sp/>DAMAGES<sp/>OR<sp/>OTHER<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>AN<sp/>ACTION<sp/>OF<sp/>CONTRACT,</highlight></codeline>
+<codeline><highlight class="normal">TORT<sp/>OR<sp/>OTHERWISE,<sp/>ARISING<sp/>FROM,<sp/>OUT<sp/>OF<sp/>OR<sp/>IN<sp/>CONNECTION<sp/>WITH<sp/>THE</highlight></codeline>
+<codeline><highlight class="normal">SOFTWARE<sp/>OR<sp/>THE<sp/>USE<sp/>OR<sp/>OTHER<sp/>DEALINGS<sp/>IN<sp/>THE<sp/>SOFTWARE.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](https://github.com/g-truc/glm/blob/manual/doc/manual/frontpage1.png)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>The<sp/>MIT<sp/>License</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Copyright<sp/>(c)<sp/>2005<sp/>-<sp/>2017<sp/>G-Truc<sp/>Creation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Permission<sp/>is<sp/>hereby<sp/>granted,<sp/>free<sp/>of<sp/>charge,<sp/>to<sp/>any<sp/>person<sp/>obtaining<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">copy<sp/>of<sp/>this<sp/>software<sp/>and<sp/>associated<sp/>documentation<sp/>files<sp/>(the</highlight></codeline>
+<codeline><highlight class="normal">&quot;Software&quot;),<sp/>to<sp/>deal<sp/>in<sp/>the<sp/>Software<sp/>without<sp/>restriction,<sp/>including</highlight></codeline>
+<codeline><highlight class="normal">without<sp/>limitation<sp/>the<sp/>rights<sp/>to<sp/>use,<sp/>copy,<sp/>modify,<sp/>merge,<sp/>publish,</highlight></codeline>
+<codeline><highlight class="normal">distribute,<sp/>sublicense,<sp/>and/or<sp/>sell<sp/>copies<sp/>of<sp/>the<sp/>Software,<sp/>and<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">permit<sp/>persons<sp/>to<sp/>whom<sp/>the<sp/>Software<sp/>is<sp/>furnished<sp/>to<sp/>do<sp/>so,<sp/>subject<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>following<sp/>conditions:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>above<sp/>copyright<sp/>notice<sp/>and<sp/>this<sp/>permission<sp/>notice<sp/>shall<sp/>be<sp/>included</highlight></codeline>
+<codeline><highlight class="normal">in<sp/>all<sp/>copies<sp/>or<sp/>substantial<sp/>portions<sp/>of<sp/>the<sp/>Software.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">THE<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>&quot;AS<sp/>IS&quot;,<sp/>WITHOUT<sp/>WARRANTY<sp/>OF<sp/>ANY<sp/>KIND,<sp/>EXPRESS</highlight></codeline>
+<codeline><highlight class="normal">OR<sp/>IMPLIED,<sp/>INCLUDING<sp/>BUT<sp/>NOT<sp/>LIMITED<sp/>TO<sp/>THE<sp/>WARRANTIES<sp/>OF</highlight></codeline>
+<codeline><highlight class="normal">MERCHANTABILITY,<sp/>FITNESS<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>AND<sp/>NONINFRINGEMENT.</highlight></codeline>
+<codeline><highlight class="normal">IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>AUTHORS<sp/>OR<sp/>COPYRIGHT<sp/>HOLDERS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY</highlight></codeline>
+<codeline><highlight class="normal">CLAIM,<sp/>DAMAGES<sp/>OR<sp/>OTHER<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>AN<sp/>ACTION<sp/>OF<sp/>CONTRACT,</highlight></codeline>
+<codeline><highlight class="normal">TORT<sp/>OR<sp/>OTHERWISE,<sp/>ARISING<sp/>FROM,<sp/>OUT<sp/>OF<sp/>OR<sp/>IN<sp/>CONNECTION<sp/>WITH<sp/>THE</highlight></codeline>
+<codeline><highlight class="normal">SOFTWARE<sp/>OR<sp/>THE<sp/>USE<sp/>OR<sp/>OTHER<sp/>DEALINGS<sp/>IN<sp/>THE<sp/>SOFTWARE.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](https://github.com/g-truc/glm/blob/manual/doc/manual/frontpage2.png)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>&lt;a<sp/>name=&quot;section1&quot;&gt;&lt;/a&gt;<sp/>1.<sp/>Getting<sp/>started</highlight></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section1_1&quot;&gt;&lt;/a&gt;<sp/>1.1.<sp/>Setup</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLM<sp/>is<sp/>a<sp/>header-only<sp/>library,<sp/>and<sp/>thus<sp/>does<sp/>not<sp/>need<sp/>to<sp/>be<sp/>compiled.<sp/><sp/>We<sp/>can<sp/>use<sp/>GLM&apos;s<sp/>implementation<sp/>of<sp/>GLSL&apos;s<sp/>mathematics<sp/>functionality<sp/>by<sp/>including<sp/>the<sp/>`&lt;glm/glm.hpp&gt;`<sp/>header.<sp/><sp/>The<sp/>library<sp/>can<sp/>also<sp/>be<sp/>installed<sp/>with<sp/>CMake,<sp/>though<sp/>the<sp/>details<sp/>of<sp/>doing<sp/>so<sp/>will<sp/>differ<sp/>depending<sp/>on<sp/>the<sp/>target<sp/>build<sp/>system.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Features<sp/>can<sp/>also<sp/>be<sp/>included<sp/>individually<sp/>to<sp/>shorten<sp/>compilation<sp/>times.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/vec2.hpp&gt;<sp/>//<sp/>vec2,<sp/>bvec2,<sp/>dvec2,<sp/>ivec2<sp/>and<sp/>uvec2</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/vec3.hpp&gt;<sp/>//<sp/>vec3,<sp/>bvec3,<sp/>dvec3,<sp/>ivec3<sp/>and<sp/>uvec3</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/vec4.hpp&gt;<sp/>//<sp/>vec4,<sp/>bvec4,<sp/>dvec4,<sp/>ivec4<sp/>and<sp/>uvec4</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/mat2x2.hpp&gt;<sp/>//<sp/>mat2,<sp/>dmat2</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/mat2x3.hpp&gt;<sp/>//<sp/>mat2x3,<sp/>dmat2x3</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/mat2x4.hpp&gt;<sp/>//<sp/>mat2x4,<sp/>dmat2x4</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/mat3x2.hpp&gt;<sp/>//<sp/>mat3x2,<sp/>dmat3x2</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/mat3x3.hpp&gt;<sp/>//<sp/>mat3,<sp/>dmat3</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/mat3x4.hpp&gt;<sp/>//<sp/>mat3x4,<sp/>dmat2</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/mat4x2.hpp&gt;<sp/>//<sp/>mat4x2,<sp/>dmat4x2</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/mat4x3.hpp&gt;<sp/>//<sp/>mat4x3,<sp/>dmat4x3</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/mat4x4.hpp&gt;<sp/>//<sp/>mat4,<sp/>dmat4</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/common.hpp&gt;<sp/>//<sp/>all<sp/>the<sp/>GLSL<sp/>common<sp/>functions</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/exponential.hpp&gt;<sp/>//<sp/>all<sp/>the<sp/>GLSL<sp/>exponential<sp/>functions</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/geometry.hpp&gt;<sp/>//<sp/>all<sp/>the<sp/>GLSL<sp/>geometry<sp/>functions</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/integer.hpp&gt;<sp/>//<sp/>all<sp/>the<sp/>GLSL<sp/>integer<sp/>functions</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/matrix.hpp&gt;<sp/>//<sp/>all<sp/>the<sp/>GLSL<sp/>matrix<sp/>functions</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/packing.hpp&gt;<sp/>//<sp/>all<sp/>the<sp/>GLSL<sp/>packing<sp/>functions</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/trigonometric.hpp&gt;<sp/>//<sp/>all<sp/>the<sp/>GLSL<sp/>trigonometric<sp/>functions</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/vector_relational.hpp&gt;<sp/>//<sp/>all<sp/>the<sp/>GLSL<sp/>vector<sp/>relational<sp/>functions</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section1_2&quot;&gt;&lt;/a&gt;<sp/>1.2.<sp/>Faster<sp/>compilation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLM<sp/>uses<sp/>C++<sp/>templates<sp/>heavily,<sp/>and<sp/>may<sp/>significantly<sp/>increase<sp/>compilation<sp/>times<sp/>for<sp/>projects<sp/>that<sp/>use<sp/>it.<sp/><sp/>Hence,<sp/>source<sp/>files<sp/>should<sp/>only<sp/>include<sp/>the<sp/>headers<sp/>they<sp/>actually<sp/>use.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>reduce<sp/>compilation<sp/>time,<sp/>we<sp/>can<sp/>include<sp/>`&lt;glm/fwd.hpp&gt;`,<sp/>which<sp/>forward-declares<sp/>all<sp/>types<sp/>should<sp/>their<sp/>definitions<sp/>not<sp/>be<sp/>needed.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Header<sp/>file<sp/>(forward<sp/>declarations<sp/>only)</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/fwd.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>At<sp/>this<sp/>point,<sp/>we<sp/>don&apos;t<sp/>care<sp/>what<sp/>exactly<sp/>makes<sp/>up<sp/>a<sp/>vec2;<sp/>that<sp/>won&apos;t<sp/>matter</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>until<sp/>we<sp/>write<sp/>this<sp/>function&apos;s<sp/>implementation.</highlight></codeline>
+<codeline><highlight class="normal">glm::vec2<sp/>functionDeclaration(const<sp/>glm::vec2&amp;<sp/>input);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Precompiled<sp/>headers<sp/>will<sp/>also<sp/>be<sp/>helpful,<sp/>though<sp/>are<sp/>not<sp/>covered<sp/>by<sp/>this<sp/>manual.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section1_3&quot;&gt;&lt;/a&gt;<sp/>1.3.<sp/>Example<sp/>usage</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Include<sp/>GLM<sp/>core<sp/>features</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/vec3.hpp&gt;</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/vec4.hpp&gt;</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/mat4x4.hpp&gt;</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/trigonometric.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Include<sp/>GLM<sp/>extensions</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/gtc/matrix_transform.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">glm::mat4<sp/>transform(glm::vec2<sp/>const&amp;<sp/>Orientation,<sp/>glm::vec3<sp/>const&amp;<sp/>Translate,<sp/>glm::vec3<sp/>const&amp;<sp/>Up)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::mat4<sp/>Proj<sp/>=<sp/>glm::perspective(glm::radians(45.f),<sp/>1.33f,<sp/>0.1f,<sp/>10.f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::mat4<sp/>ViewTranslate<sp/>=<sp/>glm::translate(glm::mat4(1.f),<sp/>Translate);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::mat4<sp/>ViewRotateX<sp/>=<sp/>glm::rotate(ViewTranslate,<sp/>Orientation.y,<sp/>Up);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::mat4<sp/>View<sp/>=<sp/>glm::rotate(ViewRotateX,<sp/>Orientation.x,<sp/>Up);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::mat4<sp/>Model<sp/>=<sp/>glm::mat4(1.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>Proj<sp/>*<sp/>View<sp/>*<sp/>Model;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section1_4&quot;&gt;&lt;/a&gt;<sp/>1.4.<sp/>Dependencies</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLM<sp/>does<sp/>not<sp/>depend<sp/>on<sp/>external<sp/>libraries<sp/>or<sp/>headers<sp/>such<sp/>as<sp/>`&lt;GL/gl.h&gt;`,<sp/>[`&lt;GL/glcorearb.h&gt;`](http://www.opengl.org/registry/api/GL/glcorearb.h),<sp/>`&lt;GLES3/gl3.h&gt;`,<sp/>`&lt;GL/glu.h&gt;`,<sp/>or<sp/>`&lt;windows.h&gt;`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline><highlight class="normal">##<sp/>&lt;a<sp/>name=&quot;section2&quot;&gt;&lt;/a&gt;<sp/>2.<sp/>Swizzling</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Shader<sp/>languages<sp/>like<sp/>GLSL<sp/>often<sp/>feature<sp/>so-called<sp/>swizzle<sp/>expressions,<sp/>which<sp/>may<sp/>be<sp/>used<sp/>to<sp/>freely<sp/>select<sp/>and<sp/>arrange<sp/>a<sp/>vector&apos;s<sp/>components.<sp/>For<sp/>example,<sp/>`variable.x`,<sp/>`variable.xzy`<sp/>and<sp/>`variable.zxyy`<sp/>respectively<sp/>form<sp/>a<sp/>scalar,<sp/>a<sp/>3D<sp/>vector<sp/>and<sp/>a<sp/>4D<sp/>vector.<sp/><sp/>The<sp/>result<sp/>of<sp/>a<sp/>swizzle<sp/>expression<sp/>in<sp/>GLSL<sp/>can<sp/>be<sp/>either<sp/>an<sp/>R-value<sp/>or<sp/>an<sp/>L-value.<sp/>Swizzle<sp/>expressions<sp/>can<sp/>be<sp/>written<sp/>with<sp/>characters<sp/>from<sp/>exactly<sp/>one<sp/>of<sp/>`xyzw`<sp/>(usually<sp/>for<sp/>positions),<sp/>`rgba`<sp/>(usually<sp/>for<sp/>colors),<sp/>and<sp/>`stpq`<sp/>(usually<sp/>for<sp/>texture<sp/>coordinates).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">vec4<sp/>A;</highlight></codeline>
+<codeline><highlight class="normal">vec2<sp/>B;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">B.yx<sp/>=<sp/>A.wy;</highlight></codeline>
+<codeline><highlight class="normal">B<sp/>=<sp/>A.xx;</highlight></codeline>
+<codeline><highlight class="normal">vec3<sp/>C<sp/>=<sp/>A.bgr;</highlight></codeline>
+<codeline><highlight class="normal">vec3<sp/>D<sp/>=<sp/>B.rsz;<sp/>//<sp/>Invalid,<sp/>won&apos;t<sp/>compile</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLM<sp/>optionally<sp/>supports<sp/>some<sp/>of<sp/>this<sp/>functionality<sp/>via<sp/>the<sp/>methods<sp/>described<sp/>in<sp/>the<sp/>following<sp/>sections.<sp/>Swizzling<sp/>can<sp/>be<sp/>enabled<sp/>by<sp/>defining<sp/>`GLM_FORCE_SWIZZLE`<sp/>before<sp/>including<sp/>any<sp/>GLM<sp/>header<sp/>files,<sp/>or<sp/>as<sp/>part<sp/>of<sp/>a<sp/>project&apos;s<sp/>build<sp/>process.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*Note<sp/>that<sp/>enabling<sp/>swizzle<sp/>expressions<sp/>will<sp/>massively<sp/>increase<sp/>the<sp/>size<sp/>of<sp/>your<sp/>binaries<sp/>and<sp/>the<sp/>time<sp/>it<sp/>takes<sp/>to<sp/>compile<sp/>them!*</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section2_1&quot;&gt;&lt;/a&gt;<sp/>2.1.<sp/>Default<sp/>C++98<sp/>implementation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">When<sp/>compiling<sp/>GLM<sp/>as<sp/>C++98,<sp/>R-value<sp/>swizzle<sp/>expressions<sp/>are<sp/>simulated<sp/>through<sp/>member<sp/>functions<sp/>of<sp/>each<sp/>vector<sp/>type.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#define<sp/>GLM_FORCE_SWIZZLE<sp/>//<sp/>Or<sp/>defined<sp/>when<sp/>building<sp/>(e.g.<sp/>-DGLM_FORCE_SWIZZLE)</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec4<sp/>ColorRGBA(1.0f,<sp/>0.5f,<sp/>0.0f,<sp/>1.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec3<sp/>ColorBGR<sp/>=<sp/>ColorRGBA.bgr();</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec3<sp/>PositionA(1.0f,<sp/>0.5f,<sp/>0.0f,<sp/>1.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec3<sp/>PositionB<sp/>=<sp/>PositionXYZ.xyz()<sp/>*<sp/>2.0f;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec2<sp/>TexcoordST(1.0f,<sp/>0.5f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec4<sp/>TexcoordSTPQ<sp/>=<sp/>TexcoordST.stst();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Swizzle<sp/>operators<sp/>return<sp/>a<sp/>**copy**<sp/>of<sp/>the<sp/>component<sp/>values,<sp/>and<sp/>thus<sp/>*can&apos;t*<sp/>be<sp/>used<sp/>as<sp/>L-values<sp/>to<sp/>change<sp/>a<sp/>vector&apos;s<sp/>values.</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#define<sp/>GLM_FORCE_SWIZZLE</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>glm::vec3<sp/>A(1.0f,<sp/>0.5f,<sp/>0.0f);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>No<sp/>compiler<sp/>error,<sp/>but<sp/>A<sp/>is<sp/>not<sp/>modified.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>An<sp/>anonymous<sp/>copy<sp/>is<sp/>being<sp/>modified<sp/>(and<sp/>then<sp/>discarded).</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>A.bgr()<sp/>=<sp/>glm::vec3(2.0f,<sp/>1.5f,<sp/>1.0f);<sp/>//<sp/>A<sp/>is<sp/>not<sp/>modified!</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section2_2&quot;&gt;&lt;/a&gt;<sp/>2.2.<sp/>Anonymous<sp/>union<sp/>member<sp/>implementation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Visual<sp/>C++<sp/>supports,<sp/>as<sp/>a<sp/>_non-standard<sp/>language<sp/>extension_,<sp/>anonymous<sp/>`struct`s<sp/>as<sp/>`union`<sp/>members.<sp/>This<sp/>permits<sp/>a<sp/>powerful<sp/>swizzling<sp/>implementation<sp/>that<sp/>both<sp/>allows<sp/>L-value<sp/>swizzle<sp/>expressions<sp/>and<sp/>GLSL-like<sp/>syntax.<sp/><sp/>To<sp/>use<sp/>this<sp/>feature,<sp/>the<sp/>language<sp/>extension<sp/>must<sp/>be<sp/>enabled<sp/>by<sp/>a<sp/>supporting<sp/>compiler<sp/>and<sp/>`GLM_FORCE_SWIZZLE`<sp/>must<sp/>be<sp/>`#define`d.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#define<sp/>GLM_FORCE_SWIZZLE</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Only<sp/>guaranteed<sp/>to<sp/>work<sp/>with<sp/>Visual<sp/>C++!</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Some<sp/>compilers<sp/>that<sp/>support<sp/>Microsoft<sp/>extensions<sp/>may<sp/>compile<sp/>this.</highlight></codeline>
+<codeline><highlight class="normal">void<sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>glm::vec4<sp/>ColorRGBA(1.0f,<sp/>0.5f,<sp/>0.0f,<sp/>1.0f);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>l-value:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>glm::vec4<sp/>ColorBGRA<sp/>=<sp/>ColorRGBA.bgra;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>r-value:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>ColorRGBA.bgra<sp/>=<sp/>ColorRGBA;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>Both<sp/>l-value<sp/>and<sp/>r-value</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>ColorRGBA.bgra<sp/>=<sp/>ColorRGBA.rgba;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>version<sp/>returns<sp/>implementation-specific<sp/>objects<sp/>that<sp/>_implicitly<sp/>convert_<sp/>to<sp/>their<sp/>respective<sp/>vector<sp/>types.<sp/><sp/>As<sp/>a<sp/>consequence<sp/>of<sp/>this<sp/>design,<sp/>these<sp/>extra<sp/>types<sp/>**can&apos;t<sp/>be<sp/>directly<sp/>used**<sp/>by<sp/>GLM<sp/>functions;<sp/>they<sp/>must<sp/>be<sp/>converted<sp/>through<sp/>constructors<sp/>or<sp/>`operator()`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#define<sp/>GLM_FORCE_SWIZZLE</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">using<sp/>glm::vec4;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>vec4<sp/>Color(1.0f,<sp/>0.5f,<sp/>0.0f,<sp/>1.0f);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>Generates<sp/>compiler<sp/>errors.<sp/>Color.rgba<sp/>is<sp/>not<sp/>a<sp/>vector<sp/>type.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>vec4<sp/>ClampedA<sp/>=<sp/>glm::clamp(Color.rgba,<sp/>0.f,<sp/>1.f);<sp/>//<sp/>ERROR</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>Explicit<sp/>conversion<sp/>through<sp/>a<sp/>constructor</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>vec4<sp/>ClampedB<sp/>=<sp/>glm::clamp(vec4(Color.rgba),<sp/>0.f,<sp/>1.f);<sp/>//<sp/>OK</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>Explicit<sp/>conversion<sp/>through<sp/>operator()</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>vec4<sp/>ClampedC<sp/>=<sp/>glm::clamp(Color.rgba(),<sp/>0.f,<sp/>1.f);<sp/>//<sp/>OK</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline><highlight class="normal">##<sp/>&lt;a<sp/>name=&quot;section3&quot;&gt;&lt;/a&gt;<sp/>3.<sp/>Preprocessor<sp/>options</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section3_1&quot;&gt;&lt;/a&gt;<sp/>3.1.<sp/>GLM\_PRECISION\_**:<sp/>Default<sp/>precision</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">C++<sp/>does<sp/>not<sp/>provide<sp/>a<sp/>way<sp/>to<sp/>implement<sp/>GLSL<sp/>default<sp/>precision<sp/>selection<sp/>(as<sp/>defined<sp/>in<sp/>GLSL<sp/>4.10<sp/>specification<sp/>section<sp/>4.5.3)<sp/>with<sp/>GLSL-like<sp/>syntax.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">precision<sp/>mediump<sp/>int;</highlight></codeline>
+<codeline><highlight class="normal">precision<sp/>highp<sp/>float;</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>use<sp/>the<sp/>default<sp/>precision<sp/>functionality,<sp/>GLM<sp/>provides<sp/>some<sp/>defines<sp/>that<sp/>need<sp/>to<sp/>added<sp/>before<sp/>any<sp/>include<sp/>of<sp/>`glm.hpp`:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#define<sp/>GLM_PRECISION_MEDIUMP_INT</highlight></codeline>
+<codeline><highlight class="normal">#define<sp/>GLM_PRECISION_HIGHP_FLOAT</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Available<sp/>defines<sp/>for<sp/>floating<sp/>point<sp/>types<sp/>(glm::vec\*,<sp/>glm::mat\*):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_LOWP\_FLOAT:<sp/>Low<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_MEDIUMP\_FLOAT:<sp/>Medium<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_HIGHP\_FLOAT:<sp/>High<sp/>precision<sp/>(default)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Available<sp/>defines<sp/>for<sp/>floating<sp/>point<sp/>types<sp/>(glm::dvec\*,<sp/>glm::dmat\*):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_LOWP\_DOUBLE:<sp/>Low<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_MEDIUMP\_DOUBLE:<sp/>Medium<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_HIGHP\_DOUBLE:<sp/>High<sp/>precision<sp/>(default)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Available<sp/>defines<sp/>for<sp/>signed<sp/>integer<sp/>types<sp/>(glm::ivec\*):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_LOWP\_INT:<sp/>Low<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_MEDIUMP\_INT:<sp/>Medium<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_HIGHP\_INT:<sp/>High<sp/>precision<sp/>(default)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Available<sp/>defines<sp/>for<sp/>unsigned<sp/>integer<sp/>types<sp/>(glm::uvec\*):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_LOWP\_UINT:<sp/>Low<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_MEDIUMP\_UINT:<sp/>Medium<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_HIGHP\_UINT:<sp/>High<sp/>precision<sp/>(default)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section3_2&quot;&gt;&lt;/a&gt;<sp/>3.2.<sp/>GLM\_FORCE\_MESSAGES:<sp/>Compile-time<sp/>message<sp/>system</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLM<sp/>includes<sp/>a<sp/>notification<sp/>system<sp/>which<sp/>can<sp/>display<sp/>some<sp/>information<sp/>at<sp/>build<sp/>time:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>Platform:<sp/>Windows,<sp/>Linux,<sp/>Native<sp/>Client,<sp/>QNX,<sp/>etc.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Compiler:<sp/>Visual<sp/>C++,<sp/>Clang,<sp/>GCC,<sp/>ICC,<sp/>etc.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Build<sp/>model:<sp/>32bits<sp/>or<sp/>64<sp/>bits</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>C++<sp/>version :<sp/>C++98,<sp/>C++11,<sp/>MS<sp/>extensions,<sp/>etc.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Architecture:<sp/>x86,<sp/>SSE,<sp/>AVX,<sp/>etc.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Included<sp/>extensions</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>etc.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>system<sp/>is<sp/>disabled<sp/>by<sp/>default.<sp/>To<sp/>enable<sp/>this<sp/>system,<sp/>define<sp/>GLM\_FORCE\_MESSAGES<sp/>before<sp/>any<sp/>inclusion<sp/>of<sp/>&amp;lt;glm/glm.hpp&amp;gt;.<sp/>The<sp/>messages<sp/>are<sp/>generated<sp/>only<sp/>by<sp/>compiler<sp/>supporting<sp/>\#program<sp/>message<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">only<sp/>once<sp/>per<sp/>project<sp/>build.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#define<sp/>GLM_FORCE_MESSAGES</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section3_3&quot;&gt;&lt;/a&gt;<sp/>3.3.<sp/>GLM\_FORCE\_CXX**:<sp/>C++<sp/>language<sp/>detection</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLM<sp/>will<sp/>automatically<sp/>take<sp/>advantage<sp/>of<sp/>compilers’<sp/>language<sp/>extensions<sp/>when<sp/>enabled.<sp/>To<sp/>increase<sp/>cross<sp/>platform<sp/>compatibility<sp/>and<sp/>to<sp/>avoid<sp/>compiler<sp/>extensions,<sp/>a<sp/>programmer<sp/>can<sp/>define<sp/>GLM\_FORCE\_CXX98<sp/>before</highlight></codeline>
+<codeline><highlight class="normal">any<sp/>inclusion<sp/>of<sp/>&amp;lt;glm/glm.hpp&amp;gt;<sp/>to<sp/>restrict<sp/>the<sp/>language<sp/>feature<sp/>set<sp/>C++98:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#define<sp/>GLM_FORCE_CXX98</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>C++11<sp/>and<sp/>C++14,<sp/>equivalent<sp/>defines<sp/>are<sp/>available:</highlight></codeline>
+<codeline><highlight class="normal">GLM\_FORCE\_CXX11,<sp/>GLM\_FORCE\_CXX14.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#define<sp/>GLM_FORCE_CXX11</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>If<sp/>the<sp/>compiler<sp/>doesn’t<sp/>support<sp/>C++11,<sp/>compiler<sp/>errors<sp/>will<sp/>happen.</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLM\_FORCE\_CXX14<sp/>overrides<sp/>GLM\_FORCE\_CXX11<sp/>and<sp/>GLM\_FORCE\_CXX11</highlight></codeline>
+<codeline><highlight class="normal">overrides<sp/>GLM\_FORCE\_CXX98<sp/>defines.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section3_4&quot;&gt;&lt;/a&gt;<sp/>3.4.<sp/>SIMD<sp/>support</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLM<sp/>provides<sp/>some<sp/>SIMD<sp/>optimizations<sp/>based<sp/>on<sp/>[compiler<sp/>intrinsics](https://msdn.microsoft.com/en-us/library/26td21ds.aspx).</highlight></codeline>
+<codeline><highlight class="normal">These<sp/>optimizations<sp/>will<sp/>be<sp/>automatically<sp/>thanks<sp/>to<sp/>compiler<sp/>arguments.</highlight></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>if<sp/>a<sp/>program<sp/>is<sp/>compiled<sp/>with<sp/>Visual<sp/>Studio<sp/>using<sp/>/arch:AVX,<sp/>GLM<sp/>will<sp/>detect<sp/>this<sp/>argument<sp/>and<sp/>generate<sp/>code<sp/>using<sp/>AVX<sp/>instructions<sp/>automatically<sp/>when<sp/>available.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">It’s<sp/>possible<sp/>to<sp/>avoid<sp/>the<sp/>instruction<sp/>set<sp/>detection<sp/>by<sp/>forcing<sp/>the<sp/>use<sp/>of<sp/>a<sp/>specific<sp/>instruction<sp/>set<sp/>with<sp/>one<sp/>of<sp/>the<sp/>fallowing<sp/>define:</highlight></codeline>
+<codeline><highlight class="normal">GLM\_FORCE\_SSE2,<sp/>GLM\_FORCE\_SSE3,<sp/>GLM\_FORCE\_SSSE3,<sp/>GLM\_FORCE\_SSE41,<sp/>GLM\_FORCE\_SSE42,<sp/>GLM\_FORCE\_AVX,<sp/>GLM\_FORCE\_AVX2<sp/>or<sp/>GLM\_FORCE\_AVX512.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>use<sp/>of<sp/>intrinsic<sp/>functions<sp/>by<sp/>GLM<sp/>implementation<sp/>can<sp/>be<sp/>avoided<sp/>using<sp/>the<sp/>define<sp/>GLM\_FORCE\_PURE<sp/>before<sp/>any<sp/>inclusion<sp/>of<sp/>GLM<sp/>headers.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#define<sp/>GLM_FORCE_PURE</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>GLM<sp/>code<sp/>will<sp/>be<sp/>compiled<sp/>using<sp/>pure<sp/>C++<sp/>code<sp/>without<sp/>any<sp/>intrinsics</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#define<sp/>GLM_FORCE_AVX2</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>If<sp/>the<sp/>compiler<sp/>doesn’t<sp/>support<sp/>AVX2<sp/>instrinsics,<sp/>compiler<sp/>errors<sp/>will<sp/>happen.</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Additionally,<sp/>GLM<sp/>provides<sp/>a<sp/>low<sp/>level<sp/>SIMD<sp/>API<sp/>in<sp/>glm/simd<sp/>directory<sp/>for<sp/>users<sp/>who<sp/>are<sp/>really<sp/>interested<sp/>in<sp/>writing<sp/>fast<sp/>algorithms.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section3_5&quot;&gt;&lt;/a&gt;<sp/>3.5.<sp/>GLM\_FORCE\_INLINE:<sp/>Force<sp/>inline</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>push<sp/>further<sp/>the<sp/>software<sp/>performance,<sp/>a<sp/>programmer<sp/>can<sp/>define<sp/>GLM\_FORCE\_INLINE<sp/>before<sp/>any<sp/>inclusion<sp/>of<sp/>&amp;lt;glm/glm.hpp&amp;gt;<sp/>to<sp/>force<sp/>the<sp/>compiler<sp/>to<sp/>inline<sp/>GLM<sp/>code.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#define<sp/>GLM_FORCE_INLINE</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section3_6&quot;&gt;&lt;/a&gt;<sp/>3.6.<sp/>GLM\_FORCE\_SIZE\_T\_LENGTH:<sp/>Vector<sp/>and<sp/>matrix<sp/>static<sp/>size</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLSL<sp/>supports<sp/>the<sp/>member<sp/>function<sp/>.length()<sp/>for<sp/>all<sp/>vector<sp/>and<sp/>matrix<sp/>types.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>foo(vec4<sp/>const&amp;<sp/>v)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>int<sp/>Length<sp/>=<sp/>v.length();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>function<sp/>returns<sp/>a<sp/>int<sp/>however<sp/>this<sp/>function<sp/>typically<sp/>interacts<sp/>with<sp/>STL<sp/>size\_t<sp/>based<sp/>code.<sp/>GLM<sp/>provides<sp/>GLM\_FORCE\_SIZE\_T\_LENGTH<sp/>pre-processor<sp/>option<sp/>so<sp/>that<sp/>member<sp/>functions<sp/>length()<sp/>return<sp/>a<sp/>size\_t.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Additionally,<sp/>GLM<sp/>defines<sp/>the<sp/>type<sp/>glm::length\_t<sp/>to<sp/>identify<sp/>length()<sp/>returned<sp/>type,<sp/>independently<sp/>from<sp/>GLM\_FORCE\_SIZE\_T\_LENGTH.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#define<sp/>GLM_FORCE_SIZE_T_LENGTH</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>foo(vec4<sp/>const&amp;<sp/>v)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::length_t<sp/>Length<sp/>=<sp/>v.length();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section3_7&quot;&gt;&lt;/a&gt;<sp/>3.7.<sp/>GLM\_FORCE\_EXPLICIT\_CTOR:<sp/>Requiring<sp/>explicit<sp/>conversions</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLSL<sp/>supports<sp/>implicit<sp/>conversions<sp/>of<sp/>vector<sp/>and<sp/>matrix<sp/>types.<sp/>For<sp/>example,<sp/>an<sp/>ivec4<sp/>can<sp/>be<sp/>implicitly<sp/>converted<sp/>into<sp/>vec4.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Often,<sp/>this<sp/>behaviour<sp/>is<sp/>not<sp/>desirable<sp/>but<sp/>following<sp/>the<sp/>spirit<sp/>of<sp/>the<sp/>library,<sp/>this<sp/>behavior<sp/>is<sp/>supported<sp/>in<sp/>GLM.<sp/>However,<sp/>GLM<sp/>0.9.6<sp/>introduced<sp/>the<sp/>define<sp/>GLM\_FORCE\_EXPLICIT\_CTOR<sp/>to<sp/>require<sp/>explicit</highlight></codeline>
+<codeline><highlight class="normal">conversion<sp/>for<sp/>GLM<sp/>types.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::ivec4<sp/>a;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec4<sp/>b(a);<sp/>//<sp/>Explicit<sp/>conversion,<sp/>OK</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec4<sp/>c<sp/>=<sp/>a;<sp/>//<sp/>Implicit<sp/>conversion,<sp/>OK</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">With<sp/>GLM\_FORCE\_EXPLICIT\_CTOR<sp/>define,<sp/>implicit<sp/>conversions<sp/>are<sp/>not<sp/>allowed:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#define<sp/>GLM_FORCE_EXPLICIT_CTOR</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::ivec4<sp/>a;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm::vec4<sp/>b(a);<sp/>//<sp/>Explicit<sp/>conversion,<sp/>OK</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm::vec4<sp/>c<sp/>=<sp/>a;<sp/>//<sp/>Implicit<sp/>conversion,<sp/>ERROR</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section3_8&quot;&gt;&lt;/a&gt;<sp/>3.8.<sp/>GLM\_FORCE\_UNRESTRICTED\_GENTYPE:<sp/>Removing<sp/>genType<sp/>restriction</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">By<sp/>default<sp/>GLM<sp/>only<sp/>supports<sp/>basic<sp/>types<sp/>as<sp/>genType<sp/>for<sp/>vector,<sp/>matrix<sp/>and<sp/>quaternion<sp/>types:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">typedef<sp/>glm::vec&lt;4,<sp/>float&gt;<sp/>my_fvec4;</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLM<sp/>0.9.8<sp/>introduced<sp/>GLM\_FORCE\_UNRESTRICTED\_GENTYPE<sp/>define<sp/>to<sp/>relax<sp/>this<sp/>restriction:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#define<sp/>GLM_FORCE_UNRESTRICTED_GENTYPE</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#include<sp/>&quot;half.hpp&quot;<sp/>//<sp/>Define<sp/>“half”<sp/>class<sp/>with<sp/>behavior<sp/>equivalent<sp/>to<sp/>“float”</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">typedef<sp/>glm::vec&lt;4,<sp/>half&gt;<sp/>my_hvec4;</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">However,<sp/>defining<sp/>GLM\_FORCE\_UNRESTRICTED\_GENTYPE<sp/>is<sp/>not<sp/>compatible<sp/>with<sp/>GLM\_FORCE\_SWIZZLE<sp/>and<sp/>will<sp/>generate<sp/>a<sp/>compilation<sp/>error<sp/>if<sp/>both<sp/>are<sp/>defined<sp/>at<sp/>the<sp/>same<sp/>time.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section3_9&quot;&gt;&lt;/a&gt;<sp/>3.9.<sp/>GLM\_FORCE\_SINGLE\_ONLY:<sp/>Removed<sp/>explicit<sp/>64-bits<sp/>floating<sp/>point<sp/>types</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Some<sp/>platforms<sp/>(Dreamcast)<sp/>doesn&apos;t<sp/>support<sp/>double<sp/>precision<sp/>floating<sp/>point<sp/>values.<sp/>To<sp/>compile<sp/>on<sp/>such<sp/>platforms,<sp/>GCC<sp/>has<sp/>the<sp/>--m4-single-only<sp/>build<sp/>argument.<sp/>When<sp/>defining<sp/>GLM\_FORCE\_SINGLE\_ONLY<sp/>before<sp/>including<sp/>GLM<sp/>headers,<sp/>GLM<sp/>releases<sp/>the<sp/>requirement<sp/>of<sp/>double<sp/>precision<sp/>floating<sp/>point<sp/>values<sp/>support.<sp/>Effectivement,<sp/>all<sp/>the<sp/>float64<sp/>types<sp/>are<sp/>no<sp/>longer<sp/>defined<sp/>and<sp/>double<sp/>behaves<sp/>like<sp/>float.<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline><highlight class="normal">##<sp/>&lt;a<sp/>name=&quot;section4&quot;&gt;&lt;/a&gt;<sp/>4.<sp/>Stable<sp/>extensions</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLM<sp/>extends<sp/>the<sp/>core<sp/>GLSL<sp/>feature<sp/>set<sp/>with<sp/>extensions.<sp/>These<sp/>extensions<sp/>include:<sp/>quaternion,<sp/>transformation,<sp/>spline,<sp/>matrix<sp/>inverse,<sp/>color<sp/>spaces,<sp/>etc.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>include<sp/>an<sp/>extension,<sp/>we<sp/>only<sp/>need<sp/>to<sp/>include<sp/>the<sp/>dedicated<sp/>header<sp/>file.<sp/>Once<sp/>included,<sp/>the<sp/>features<sp/>are<sp/>added<sp/>to<sp/>the<sp/>GLM<sp/>namespace.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/gtc/matrix_transform.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">int<sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec4<sp/>Position<sp/>=<sp/>glm::vec4(glm::<sp/>vec3(0.0f),<sp/>1.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::mat4<sp/>Model<sp/>=<sp/>glm::translate(glm::mat4(1.0f),<sp/>glm::vec3(1.0f));</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec4<sp/>Transformed<sp/>=<sp/>Model<sp/>*<sp/>Position;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">When<sp/>an<sp/>extension<sp/>is<sp/>included,<sp/>all<sp/>the<sp/>dependent<sp/>core<sp/>functionalities<sp/>and<sp/>extensions<sp/>will<sp/>be<sp/>included<sp/>as<sp/>well.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_1&quot;&gt;&lt;/a&gt;<sp/>4.1.<sp/>GLM_GTC_bitfield</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Fast<sp/>bitfield<sp/>operations<sp/>on<sp/>scalar<sp/>and<sp/>vector<sp/>variables.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/bitfield.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>these<sp/>features.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_2&quot;&gt;&lt;/a&gt;<sp/>4.2.<sp/>GLM_GTC_color_space</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Conversion<sp/>between<sp/>linear<sp/>RGB<sp/>and<sp/>sRGB<sp/>color<sp/>spaces.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/color\_space.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>these<sp/>features.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_3&quot;&gt;&lt;/a&gt;<sp/>4.3.<sp/>GLM\_GTC\_constants</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Provide<sp/>a<sp/>list<sp/>of<sp/>built-in<sp/>constants.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/constants.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>these<sp/>features.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_4&quot;&gt;&lt;/a&gt;<sp/>4.4.<sp/>GLM\_GTC\_epsilon</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Approximate<sp/>equality<sp/>comparisons<sp/>for<sp/>floating-point<sp/>numbers,<sp/>possibly<sp/>with<sp/>a<sp/>user-defined<sp/>epsilon.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/epsilon.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>these<sp/>features.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_5&quot;&gt;&lt;/a&gt;<sp/>4.5.<sp/>GLM\_GTC\_integer</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Integer<sp/>variants<sp/>of<sp/>core<sp/>GLM<sp/>functions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/integer.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>these<sp/>features.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_6&quot;&gt;&lt;/a&gt;<sp/>4.6.<sp/>GLM\_GTC\_matrix\_access</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Functions<sp/>to<sp/>conveniently<sp/>access<sp/>the<sp/>individual<sp/>rows<sp/>or<sp/>columns<sp/>of<sp/>a<sp/>matrix.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/matrix\_access.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>these<sp/>features.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_7&quot;&gt;&lt;/a&gt;<sp/>4.7.<sp/>GLM\_GTC\_matrix\_integer</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Integer<sp/>matrix<sp/>types<sp/>similar<sp/>to<sp/>the<sp/>core<sp/>floating-point<sp/>matrices.<sp/><sp/>Some<sp/>operations<sp/>(such<sp/>as<sp/>inverse<sp/>and<sp/>determinant)<sp/>are<sp/>not<sp/>supported.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/matrix\_integer.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>these<sp/>features.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_8&quot;&gt;&lt;/a&gt;<sp/>4.8.<sp/>GLM\_GTC\_matrix\_inverse</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Additional<sp/>matrix<sp/>inverse<sp/>functions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/matrix\_inverse.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>these<sp/>features.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_9&quot;&gt;&lt;/a&gt;<sp/>4.9.<sp/>GLM\_GTC\_matrix\_transform</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Matrix<sp/>transformation<sp/>functions<sp/>that<sp/>follow<sp/>the<sp/>OpenGL<sp/>fixed-function<sp/>conventions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>the<sp/>***setLookAt***<sp/>function<sp/>generates<sp/>a<sp/>transformation<sp/>matrix<sp/>that<sp/>projects<sp/>world<sp/>coordinates<sp/>into<sp/>eye<sp/>coordinates<sp/>suitable<sp/>for<sp/>projection<sp/>matrices<sp/>(e.g.<sp/>***perspective***,<sp/>***ortho***).<sp/>See<sp/>the<sp/>OpenGL<sp/>compatibility<sp/>specifications<sp/>for<sp/>more<sp/>information<sp/>about<sp/>the<sp/>layout<sp/>of<sp/>these<sp/>generated<sp/>matrices.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>matrices<sp/>generated<sp/>by<sp/>this<sp/>extension<sp/>use<sp/>standard<sp/>OpenGL<sp/>fixed-function<sp/>conventions.<sp/>For<sp/>example,<sp/>the<sp/>***setLookAt***<sp/>function<sp/>generates<sp/>a<sp/>transform<sp/>from<sp/>world<sp/>space<sp/>into<sp/>the<sp/>specific<sp/>eye<sp/>space<sp/>that<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">projective<sp/>matrix<sp/>functions<sp/>(***perspective***,<sp/>***ortho***,<sp/>etc)<sp/>are<sp/>designed<sp/>to<sp/>expect.<sp/>The<sp/>OpenGL<sp/>compatibility<sp/>specifications<sp/>define<sp/>the<sp/>particular<sp/>layout<sp/>of<sp/>this<sp/>eye<sp/>space.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/matrix\_transform.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>these<sp/>features.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_10&quot;&gt;&lt;/a&gt;<sp/>4.10.<sp/>GLM\_GTC\_noise</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Define<sp/>2D,<sp/>3D<sp/>and<sp/>4D<sp/>procedural<sp/>noise<sp/>functions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/noise.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>these<sp/>features.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/noise-simplex1.jpg)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Figure<sp/>4.10.1:<sp/>glm::simplex(glm::vec2(x<sp/>/<sp/>16.f,<sp/>y<sp/>/<sp/>16.f));</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/noise-simplex2.jpg)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Figure<sp/>4.10.2:<sp/>glm::simplex(glm::vec3(x<sp/>/<sp/>16.f,<sp/>y<sp/>/<sp/>16.f,<sp/>0.5f));</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/noise-simplex3.jpg)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Figure<sp/>4.10.3:<sp/>glm::simplex(glm::vec4(x<sp/>/<sp/>16.f,<sp/>y<sp/>/<sp/>16.f,<sp/>0.5f,<sp/>0.5f));</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/noise-perlin1.jpg)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Figure<sp/>4.10.4:<sp/>glm::perlin(glm::vec2(x<sp/>/<sp/>16.f,<sp/>y<sp/>/<sp/>16.f));</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/noise-perlin2.jpg)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Figure<sp/>4.10.5:<sp/>glm::perlin(glm::vec3(x<sp/>/<sp/>16.f,<sp/>y<sp/>/<sp/>16.f,<sp/>0.5f));</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/noise-perlin3.jpg)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Figure<sp/>4.10.6:<sp/>glm::perlin(glm::vec4(x<sp/>/<sp/>16.f,<sp/>y<sp/>/<sp/>16.f,<sp/>0.5f,<sp/>0.5f)));</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/noise-perlin4.png)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Figure<sp/>4.10.7:<sp/>glm::perlin(glm::vec2(x<sp/>/<sp/>16.f,<sp/>y<sp/>/<sp/>16.f),<sp/>glm::vec2(2.0f));</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/noise-perlin5.png)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Figure<sp/>4.10.8:<sp/>glm::perlin(glm::vec3(x<sp/>/<sp/>16.f,<sp/>y<sp/>/<sp/>16.f,<sp/>0.5f),<sp/>glm::vec3(2.0f));</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/noise-perlin6.png)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Figure<sp/>4.10.9:<sp/>glm::perlin(glm::vec4(x<sp/>/<sp/>16.f,<sp/>y<sp/>/<sp/>16.f,<sp/>glm::vec2(0.5f)),<sp/>glm::vec4(2.0f));</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_11&quot;&gt;&lt;/a&gt;<sp/>4.11.<sp/>GLM\_GTC\_packing</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Convert<sp/>scalar<sp/>and<sp/>vector<sp/>types<sp/>to<sp/>and<sp/>from<sp/>packed<sp/>formats,<sp/>saving<sp/>space<sp/>at<sp/>the<sp/>cost<sp/>of<sp/>precision.<sp/>However,<sp/>packing<sp/>a<sp/>value<sp/>into<sp/>a<sp/>format<sp/>that<sp/>it<sp/>was<sp/>previously<sp/>unpacked<sp/>from<sp/>is<sp/>guaranteed<sp/>to<sp/>be<sp/>lossless.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/packing.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>these<sp/>features.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_12&quot;&gt;&lt;/a&gt;<sp/>4.12.<sp/>GLM\_GTC\_quaternion</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Quaternions<sp/>and<sp/>operations<sp/>upon<sp/>thereof.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/quaternion.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>these<sp/>features.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_13&quot;&gt;&lt;/a&gt;<sp/>4.13.<sp/>GLM\_GTC\_random</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Probability<sp/>distributions<sp/>in<sp/>up<sp/>to<sp/>four<sp/>dimensions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/random.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>these<sp/>features.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/random-linearrand.png)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Figure<sp/>4.13.1:<sp/>glm::vec4(glm::linearRand(glm::vec2(-1),<sp/>glm::vec2(1)),<sp/>0,<sp/>1);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/random-circularrand.png)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Figure<sp/>4.13.2:<sp/>glm::vec4(glm::circularRand(1.0f),<sp/>0,<sp/>1);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/random-sphericalrand.png)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Figure<sp/>4.13.3:<sp/>glm::vec4(glm::sphericalRand(1.0f),<sp/>1);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/random-diskrand.png)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Figure<sp/>4.13.4:<sp/>glm::vec4(glm::diskRand(1.0f),<sp/>0,<sp/>1);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/random-ballrand.png)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Figure<sp/>4.13.5:<sp/>glm::vec4(glm::ballRand(1.0f),<sp/>1);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/random-gaussrand.png)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Figure<sp/>4.13.6:<sp/>glm::vec4(glm::gaussRand(glm::vec3(0),<sp/>glm::vec3(1)),<sp/>1);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_14&quot;&gt;&lt;/a&gt;<sp/>4.14.<sp/>GLM\_GTC\_reciprocal</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Reciprocal<sp/>trigonometric<sp/>functions<sp/>(e.g.<sp/>secant,<sp/>cosecant,<sp/>tangent).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/reciprocal.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>the<sp/>features<sp/>of<sp/>this<sp/>extension.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_15&quot;&gt;&lt;/a&gt;<sp/>4.15.<sp/>GLM\_GTC\_round</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Various<sp/>rounding<sp/>operations<sp/>and<sp/>common<sp/>special<sp/>cases<sp/>thereof.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/round.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>the<sp/>features<sp/>of<sp/>this<sp/>extension.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_16&quot;&gt;&lt;/a&gt;<sp/>4.16.<sp/>GLM\_GTC\_type\_aligned</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Aligned<sp/>vector<sp/>types.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/type\_aligned.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>the<sp/>features<sp/>of<sp/>this<sp/>extension.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_17&quot;&gt;&lt;/a&gt;<sp/>4.17.<sp/>GLM\_GTC\_type\_precision</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Vector<sp/>and<sp/>matrix<sp/>types<sp/>with<sp/>defined<sp/>precisions,<sp/>e.g.<sp/>i8vec4,<sp/>which<sp/>is<sp/>a<sp/>4D<sp/>vector<sp/>of<sp/>signed<sp/>8-bit<sp/>integers.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>extension<sp/>adds<sp/>defines<sp/>to<sp/>set<sp/>the<sp/>default<sp/>precision<sp/>of<sp/>each<sp/>class<sp/>of<sp/>types<sp/>added,<sp/>in<sp/>a<sp/>manner<sp/>identical<sp/>to<sp/>that<sp/>described<sp/>in<sp/>section<sp/>[Default<sp/>precision](#section3_1).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Available<sp/>defines<sp/>for<sp/>signed<sp/>8-bit<sp/>integer<sp/>types<sp/>(glm::i8vec\*):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_LOWP\_INT8:<sp/>Low<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_MEDIUMP\_INT8:<sp/>Medium<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_HIGHP\_INT8:<sp/>High<sp/>precision<sp/>(default)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Available<sp/>defines<sp/>for<sp/>unsigned<sp/>8-bit<sp/>integer<sp/>types<sp/>(glm::u8vec\*):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_LOWP\_UINT8:<sp/>Low<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_MEDIUMP\_UINT8:<sp/>Medium<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_HIGHP\_UINT8:<sp/>High<sp/>precision<sp/>(default)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Available<sp/>defines<sp/>for<sp/>signed<sp/>16-bit<sp/>integer<sp/>types<sp/>(glm::i16vec\*):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_LOWP\_INT16:<sp/>Low<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_MEDIUMP\_INT16:<sp/>Medium<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_HIGHP\_INT16:<sp/>High<sp/>precision<sp/>(default)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Available<sp/>defines<sp/>for<sp/>unsigned<sp/>16-bit<sp/>integer<sp/>types<sp/>(glm::u16vec\*):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_LOWP\_UINT16:<sp/>Low<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_MEDIUMP\_UINT16:<sp/>Medium<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_HIGHP\_UINT16:<sp/>High<sp/>precision<sp/>(default)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Available<sp/>defines<sp/>for<sp/>signed<sp/>32-bit<sp/>integer<sp/>types<sp/>(glm::i32vec\*):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_LOWP\_INT32:<sp/>Low<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_MEDIUMP\_INT32:<sp/>Medium<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_HIGHP\_INT32:<sp/>High<sp/>precision<sp/>(default)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Available<sp/>defines<sp/>for<sp/>unsigned<sp/>32-bit<sp/>integer<sp/>types<sp/>(glm::u32vec\*):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_LOWP\_UINT32:<sp/>Low<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_MEDIUMP\_UINT32:<sp/>Medium<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_HIGHP\_UINT32:<sp/>High<sp/>precision<sp/>(default)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Available<sp/>defines<sp/>for<sp/>signed<sp/>64-bit<sp/>integer<sp/>types<sp/>(glm::i64vec\*):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_LOWP\_INT64:<sp/>Low<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_MEDIUMP\_INT64:<sp/>Medium<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_HIGHP\_INT64:<sp/>High<sp/>precision<sp/>(default)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Available<sp/>defines<sp/>for<sp/>unsigned<sp/>64-bit<sp/>integer<sp/>types<sp/>(glm::u64vec\*):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_LOWP\_UINT64:<sp/>Low<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_MEDIUMP\_UINT64:<sp/>Medium<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_HIGHP\_UINT64:<sp/>High<sp/>precision<sp/>(default)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Available<sp/>defines<sp/>for<sp/>32-bit<sp/>floating-point<sp/>types<sp/>(glm::f32vec\*,<sp/>glm::f32mat\*,<sp/>glm::f32quat):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_LOWP\_FLOAT32:<sp/>Low<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_MEDIUMP\_FLOAT32:<sp/>Medium<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_HIGHP\_FLOAT32:<sp/>High<sp/>precision<sp/>(default)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Available<sp/>defines<sp/>for<sp/>64-bit<sp/>floating-point<sp/>types<sp/>(glm::f64vec\*,<sp/>glm::f64mat\*,<sp/>glm::f64quat):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_LOWP\_FLOAT64:<sp/>Low<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_MEDIUMP\_FLOAT64:<sp/>Medium<sp/>precision</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>GLM\_PRECISION\_HIGHP\_FLOAT64:<sp/>High<sp/>precision<sp/>(default)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/type\_precision.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>the<sp/>features<sp/>of<sp/>this<sp/>extension.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_18&quot;&gt;&lt;/a&gt;<sp/>4.18.<sp/>GLM\_GTC\_type\_ptr</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Facilitate<sp/>interactions<sp/>between<sp/>pointers<sp/>to<sp/>basic<sp/>types<sp/>(e.g.<sp/>float*)<sp/>and<sp/>GLM<sp/>types<sp/>(e.g.<sp/>mat4).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>extension<sp/>defines<sp/>an<sp/>overloaded<sp/>function,<sp/>glm::value_ptr,<sp/>which<sp/>returns<sp/>a<sp/>pointer<sp/>to<sp/>the<sp/>memory<sp/>layout<sp/>of<sp/>any<sp/>GLM<sp/>vector<sp/>or<sp/>matrix<sp/>(vec3,<sp/>mat4,<sp/>etc.).<sp/>Matrix<sp/>types<sp/>store<sp/>their<sp/>values<sp/>in<sp/>column-major<sp/>order.<sp/>This<sp/>is<sp/>useful<sp/>for<sp/>uploading<sp/>data<sp/>to<sp/>matrices<sp/>or<sp/>for<sp/>copying<sp/>data<sp/>to<sp/>buffer<sp/>objects.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>GLM_GTC_type_ptr<sp/>provides<sp/>a<sp/>safe<sp/>solution:</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/gtc/type_ptr.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec4<sp/>v(0.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::mat4<sp/>m(1.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glVertex3fv(glm::value_ptr(v))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glLoadMatrixfv(glm::value_ptr(m));</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Another<sp/>solution,<sp/>this<sp/>one<sp/>inspired<sp/>by<sp/>the<sp/>STL:</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec4<sp/>v(0.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::mat4<sp/>m(1.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glVertex3fv(&amp;v[0]);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glLoadMatrixfv(&amp;m[0][0]);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*Note:<sp/>It<sp/>would<sp/>be<sp/>possible<sp/>to<sp/>implement<sp/>[*glVertex3fv*](http://www.opengl.org/sdk/docs/man2/xhtml/glVertex.xml)(glm::vec3(0))<sp/>in<sp/>C++<sp/>with<sp/>the<sp/>appropriate<sp/>cast<sp/>operator<sp/>that<sp/>would<sp/>result<sp/>as<sp/>an</highlight></codeline>
+<codeline><highlight class="normal">implicit<sp/>cast<sp/>in<sp/>this<sp/>example.<sp/>However<sp/>cast<sp/>operators<sp/>may<sp/>produce<sp/>programs<sp/>running<sp/>with<sp/>unexpected<sp/>behaviours<sp/>without<sp/>build<sp/>error<sp/>or<sp/>any<sp/>form<sp/>of<sp/>notification.<sp/>*</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/type\_ptr.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>these<sp/>features.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_19&quot;&gt;&lt;/a&gt;<sp/>4.19.<sp/>GLM\_GTC\_ulp</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Measure<sp/>a<sp/>function&apos;s<sp/>accuracy<sp/>given<sp/>a<sp/>reference<sp/>implementation<sp/>of<sp/>it.<sp/>This<sp/>extension<sp/>works<sp/>on<sp/>floating-point<sp/>data<sp/>and<sp/>provides<sp/>results<sp/>in<sp/>[ULP](http://ljk.imag.fr/membres/Carine.Lucas/TPScilab/JMMuller/ulp-toms.pdf).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/ulp.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>these<sp/>features.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section4_20&quot;&gt;&lt;/a&gt;<sp/>4.20.<sp/>GLM\_GTC\_vec1</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Add<sp/>\*vec1<sp/>types.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&amp;lt;glm/gtc/vec1.hpp&amp;gt;<sp/>need<sp/>to<sp/>be<sp/>included<sp/>to<sp/>use<sp/>these<sp/>features.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline><highlight class="normal">##<sp/>&lt;a<sp/>name=&quot;section5&quot;&gt;&lt;/a&gt;<sp/>5.<sp/>OpenGL<sp/>interoperability</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section5_1&quot;&gt;&lt;/a&gt;<sp/>5.1.<sp/>GLM<sp/>replacements<sp/>for<sp/>deprecated<sp/>OpenGL<sp/>functions</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">OpenGL<sp/>3.1<sp/>specification<sp/>has<sp/>deprecated<sp/>some<sp/>features<sp/>that<sp/>have<sp/>been<sp/>removed<sp/>from<sp/>OpenGL<sp/>3.2<sp/>core<sp/>profile<sp/>specification.<sp/>GLM<sp/>provides<sp/>some<sp/>replacement<sp/>functions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***glRotate{f,<sp/>d}:***](https://www.opengl.org/sdk/docs/man2/xhtml/glRotate.xml)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">glm::mat4<sp/>glm::rotate(glm::mat4<sp/>const&amp;<sp/>m,<sp/>float<sp/>angle,<sp/>glm::vec3<sp/>const&amp;<sp/>axis);</highlight></codeline>
+<codeline><highlight class="normal">glm::dmat4<sp/>glm::rotate(glm::dmat4<sp/>const&amp;<sp/>m,<sp/>double<sp/>angle,<sp/>glm::dvec3<sp/>const&amp;<sp/>axis);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">From<sp/>GLM\_GTC\_matrix\_transform<sp/>extension:<sp/>&amp;lt;glm/gtc/matrix\_transform.hpp&amp;gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***glScale{f,<sp/>d}:***](http://www.opengl.org/sdk/docs/man2/xhtml/glScale.xml)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">glm::mat4<sp/>glm::scale(glm::mat4<sp/>const&amp;<sp/>m,<sp/>glm::vec3<sp/>const&amp;<sp/>factors);</highlight></codeline>
+<codeline><highlight class="normal">glm::dmat4<sp/>glm::scale(glm::dmat4<sp/>const&amp;<sp/>m,<sp/>glm::dvec3<sp/>const&amp;<sp/>factors);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">From<sp/>GLM\_GTC\_matrix\_transform<sp/>extension:<sp/>&amp;lt;glm/gtc/matrix\_transform.hpp&amp;gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***glTranslate{f,<sp/>d}:***](https://www.opengl.org/sdk/docs/man2/xhtml/glTranslate.xml)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">glm::mat4<sp/>glm::translate(glm::mat4<sp/>const&amp;<sp/>m,<sp/>glm::vec3<sp/>const&amp;<sp/>translation);</highlight></codeline>
+<codeline><highlight class="normal">glm::dmat4<sp/>glm::translate(glm::dmat4<sp/>const&amp;<sp/>m,<sp/>glm::dvec3<sp/>const&amp;<sp/>translation);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">From<sp/>GLM\_GTC\_matrix\_transform<sp/>extension:<sp/>&amp;lt;glm/gtc/matrix\_transform.hpp&amp;gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***glLoadIdentity:***](https://www.opengl.org/sdk/docs/man2/xhtml/glLoadIdentity.xml)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">glm::mat4(1.0)<sp/>or<sp/>glm::mat4();</highlight></codeline>
+<codeline><highlight class="normal">glm::dmat4(1.0)<sp/>or<sp/>glm::dmat4();</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">From<sp/>GLM<sp/>core<sp/>library:<sp/>&amp;lt;glm/glm.hpp&amp;gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***glMultMatrix{f,<sp/>d}:***](https://www.opengl.org/sdk/docs/man2/xhtml/glMultMatrix.xml)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">glm::mat4()<sp/>*<sp/>glm::mat4();</highlight></codeline>
+<codeline><highlight class="normal">glm::dmat4()<sp/>*<sp/>glm::dmat4();</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">From<sp/>GLM<sp/>core<sp/>library:<sp/>&amp;lt;glm/glm.hpp&amp;gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***glLoadTransposeMatrix{f,<sp/>d}:***](https://www.opengl.org/sdk/docs/man2/xhtml/glLoadTransposeMatrix.xml)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">glm::transpose(glm::mat4());</highlight></codeline>
+<codeline><highlight class="normal">glm::transpose(glm::dmat4());</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">From<sp/>GLM<sp/>core<sp/>library:<sp/>&amp;lt;glm/glm.hpp&amp;gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***glMultTransposeMatrix{f,<sp/>d}:***](https://www.opengl.org/sdk/docs/man2/xhtml/glMultTransposeMatrix.xml)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">glm::mat4()<sp/>*<sp/>glm::transpose(glm::mat4());</highlight></codeline>
+<codeline><highlight class="normal">glm::dmat4()<sp/>*<sp/>glm::transpose(glm::dmat4());</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">From<sp/>GLM<sp/>core<sp/>library:<sp/>&amp;lt;glm/glm.hpp&amp;gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***glFrustum:***](http://www.opengl.org/sdk/docs/man2/xhtml/glFrustum.xml)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">glm::mat4<sp/>glm::frustum(float<sp/>left,<sp/>float<sp/>right,<sp/>float<sp/>bottom,<sp/>float<sp/>top,<sp/>float<sp/>zNear,<sp/>float<sp/>zFar);</highlight></codeline>
+<codeline><highlight class="normal">glm::dmat4<sp/>glm::frustum(double<sp/>left,<sp/>double<sp/>right,<sp/>double<sp/>bottom,<sp/>double<sp/>top,<sp/>double<sp/>zNear,<sp/>double<sp/>zFar);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">From<sp/>GLM\_GTC\_matrix\_transform<sp/>extension:<sp/>&amp;lt;glm/gtc/matrix\_transform.hpp&amp;gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***glOrtho:***](https://www.opengl.org/sdk/docs/man2/xhtml/glOrtho.xml)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">glm::mat4<sp/>glm::ortho(float<sp/>left,<sp/>float<sp/>right,<sp/>float<sp/>bottom,<sp/>float<sp/>top,<sp/>float<sp/>zNear,<sp/>float<sp/>zFar);</highlight></codeline>
+<codeline><highlight class="normal">glm::dmat4<sp/>glm::ortho(double<sp/>left,<sp/>double<sp/>right,<sp/>double<sp/>bottom,<sp/>double<sp/>top,<sp/>double<sp/>zNear,<sp/>double<sp/>zFar);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">From<sp/>GLM\_GTC\_matrix\_transform<sp/>extension:<sp/>&amp;lt;glm/gtc/matrix\_transform.hpp&amp;gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section5_2&quot;&gt;&lt;/a&gt;<sp/>5.2.<sp/>GLM<sp/>replacements<sp/>for<sp/>GLU<sp/>functions</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***gluLookAt:***](https://www.opengl.org/sdk/docs/man2/xhtml/gluLookAt.xml)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">glm::mat4<sp/>glm::setLookAt(glm::vec3<sp/>const&amp;<sp/>eye,<sp/>glm::vec3<sp/>const&amp;<sp/>center,<sp/>glm::vec3<sp/>const&amp;<sp/>up);</highlight></codeline>
+<codeline><highlight class="normal">glm::dmat4<sp/>glm::setLookAt(glm::dvec3<sp/>const&amp;<sp/>eye,<sp/>glm::dvec3<sp/>const&amp;<sp/>center,<sp/>glm::dvec3<sp/>const&amp;<sp/>up);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">From<sp/>GLM\_GTC\_matrix\_transform<sp/>extension:<sp/>&amp;lt;glm/gtc/matrix\_transform.hpp&amp;gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***gluOrtho2D:***](https://www.opengl.org/sdk/docs/man2/xhtml/gluOrtho2D.xml)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">glm::mat4<sp/>glm::ortho(float<sp/>left,<sp/>float<sp/>right,<sp/>float<sp/>bottom,<sp/>float<sp/>top);</highlight></codeline>
+<codeline><highlight class="normal">glm::dmat4<sp/>glm::ortho(double<sp/>left,<sp/>double<sp/>right,<sp/>double<sp/>bottom,<sp/>double<sp/>top);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">From<sp/>GLM\_GTC\_matrix\_transform<sp/>extension:<sp/>&amp;lt;glm/gtc/matrix\_transform.hpp&amp;gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***gluPerspective:***](https://www.opengl.org/sdk/docs/man2/xhtml/gluPerspective.xml)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">glm::mat4<sp/>perspective(float<sp/>fovy,<sp/>float<sp/>aspect,<sp/>float<sp/>zNear,<sp/>float<sp/>zFar);</highlight></codeline>
+<codeline><highlight class="normal">glm::dmat4<sp/>perspective(double<sp/>fovy,<sp/>double<sp/>aspect,<sp/>double<sp/>zNear,<sp/>double<sp/>zFar);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Note<sp/>that<sp/>in<sp/>GLM,<sp/>fovy<sp/>is<sp/>expressed<sp/>in<sp/>radians,<sp/>not<sp/>degrees.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">From<sp/>GLM\_GTC\_matrix\_transform<sp/>extension:<sp/>&amp;lt;glm/gtc/matrix\_transform.hpp&amp;gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***gluPickMatrix:***](https://www.opengl.org/sdk/docs/man2/xhtml/gluPickMatrix.xml)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">glm::mat4<sp/>pickMatrix(glm::vec2<sp/>const&amp;<sp/>center,<sp/>glm::vec2<sp/>const&amp;<sp/>delta,<sp/>glm::ivec4<sp/>const&amp;<sp/>viewport);</highlight></codeline>
+<codeline><highlight class="normal">glm::dmat4<sp/>pickMatrix(glm::dvec2<sp/>const&amp;<sp/>center,<sp/>glm::dvec2<sp/>const&amp;<sp/>delta,<sp/>glm::ivec4<sp/>const&amp;<sp/>viewport);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">From<sp/>GLM\_GTC\_matrix\_transform<sp/>extension:<sp/>&amp;lt;glm/gtc/matrix\_transform.hpp&amp;gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***gluProject:***](http://www.opengl.org/sdk/docs/man2/xhtml/gluProject.xml)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">glm::vec3<sp/>project(glm::vec3<sp/>const&amp;<sp/>obj,<sp/>glm::mat4<sp/>const&amp;<sp/>model,<sp/>glm::mat4<sp/>const&amp;<sp/>proj,<sp/>glm::ivec4<sp/>const&amp;<sp/>viewport);</highlight></codeline>
+<codeline><highlight class="normal">glm::dvec3<sp/>project(glm::dvec3<sp/>const&amp;<sp/>obj,<sp/>glm::dmat4<sp/>const&amp;<sp/>model,<sp/>glm::dmat4<sp/>const&amp;<sp/>proj,<sp/>glm::ivec4<sp/>const&amp;<sp/>viewport);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">From<sp/>GLM\_GTC\_matrix\_transform<sp/>extension:<sp/>&amp;lt;glm/gtc/matrix\_transform.hpp&amp;gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***gluUnProject:***](https://www.opengl.org/sdk/docs/man2/xhtml/gluUnProject.xml)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">glm::vec3<sp/>unProject(glm::vec3<sp/>const&amp;<sp/>win,<sp/>glm::mat4<sp/>const&amp;<sp/>model,<sp/>glm::mat4<sp/>const&amp;<sp/>proj,<sp/>glm::ivec4<sp/>const&amp;<sp/>viewport);</highlight></codeline>
+<codeline><highlight class="normal">glm::dvec3<sp/>unProject(glm::dvec3<sp/>const&amp;<sp/>win,<sp/>glm::dmat4<sp/>const&amp;<sp/>model,<sp/>glm::dmat4<sp/>const&amp;<sp/>proj,<sp/>glm::ivec4<sp/>const&amp;<sp/>viewport);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">From<sp/>GLM\_GTC\_matrix\_transform<sp/>extension:<sp/>&amp;lt;glm/gtc/matrix\_transform.hpp&amp;gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline><highlight class="normal">##<sp/>&lt;a<sp/>name=&quot;section6&quot;&gt;&lt;/a&gt;<sp/>6.<sp/>Known<sp/>issues</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>section<sp/>reports<sp/>GLSL<sp/>features<sp/>that<sp/>GLM<sp/>can&apos;t<sp/>accurately<sp/>emulate<sp/>due<sp/>to<sp/>language<sp/>restrictions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section6_1&quot;&gt;&lt;/a&gt;<sp/>6.1.<sp/>not<sp/>function</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>GLSL<sp/>function<sp/>&apos;not&apos;<sp/>is<sp/>a<sp/>keyword<sp/>in<sp/>C++.<sp/>To<sp/>prevent<sp/>name<sp/>collisions<sp/>and<sp/>ensure<sp/>a<sp/>consistent<sp/>API,<sp/>the<sp/>name<sp/>not\_<sp/>(note<sp/>the<sp/>underscore)<sp/>is<sp/>used<sp/>instead.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section6_2&quot;&gt;&lt;/a&gt;<sp/>6.2.<sp/>Precision<sp/>qualifiers<sp/>support</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLM<sp/>supports<sp/>GLSL<sp/>precision<sp/>qualifiers<sp/>through<sp/>prefixes<sp/>instead<sp/>of<sp/>qualifiers.<sp/>For<sp/>example,<sp/>GLM<sp/>exposes<sp/>\verb|lowp_vec4|,<sp/>\verb|mediump_vec4|<sp/>and<sp/>\verb|highp_vec4|<sp/>as<sp/>variations<sp/>of<sp/>\verb|vec4|.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Similarly<sp/>to<sp/>GLSL,<sp/>GLM<sp/>precision<sp/>qualifiers<sp/>are<sp/>used<sp/>to<sp/>trade<sp/>precision<sp/>of<sp/>operations<sp/>in<sp/>term<sp/>of<sp/>[ULPs](http://en.wikipedia.org/wiki/Unit_in_the_last_place)<sp/>for<sp/>better<sp/>performance.<sp/>By<sp/>default,<sp/>all<sp/>the<sp/>types<sp/>use<sp/>high<sp/>precision.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Using<sp/>precision<sp/>qualifier<sp/>in<sp/>GLSL:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">ivec3<sp/>foo(in<sp/>vec4<sp/>v)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>highp<sp/>vec4<sp/>a<sp/>=<sp/>v;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>mediump<sp/>vec4<sp/>b<sp/>=<sp/>a;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>lowp<sp/>ivec3<sp/>c<sp/>=<sp/>ivec3(b);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return c;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Using<sp/>precision<sp/>qualifier<sp/>in<sp/>GLM:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">ivec3<sp/>foo(const<sp/>vec4<sp/>&amp;<sp/>v)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>highp_vec4<sp/>a<sp/>=<sp/>v;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>medium_vec4<sp/>b<sp/>=<sp/>a;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>lowp_ivec3<sp/>c<sp/>=<sp/>glm::ivec3(b);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return c;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>syntax<sp/>for<sp/>default<sp/>precision<sp/>specifications<sp/>in<sp/>GLM<sp/>differs<sp/>from<sp/>that<sp/>in<sp/>GLSL;<sp/>for<sp/>more<sp/>information,<sp/>see<sp/>section<sp/>Default<sp/>Precision<sp/>&lt;a<sp/>name=&quot;section3_1&quot;&gt;&lt;/a&gt;.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline><highlight class="normal">##<sp/>&lt;a<sp/>name=&quot;section7&quot;&gt;&lt;/a&gt;<sp/>7.<sp/>FAQ</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section7_1&quot;&gt;&lt;/a&gt;<sp/>7.1<sp/>Why<sp/>GLM<sp/>follows<sp/>GLSL<sp/>specification<sp/>and<sp/>conventions?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Following<sp/>GLSL<sp/>conventions<sp/>is<sp/>a<sp/>really<sp/>strict<sp/>policy<sp/>of<sp/>GLM.<sp/>It<sp/>has<sp/>been<sp/>designed<sp/>following<sp/>the<sp/>idea<sp/>that<sp/>everyone<sp/>does<sp/>its<sp/>own<sp/>math<sp/>library<sp/>with<sp/>his<sp/>own<sp/>conventions.<sp/>The<sp/>idea<sp/>is<sp/>that<sp/>brilliant<sp/>developers<sp/>(the<sp/>OpenGL<sp/>ARB)<sp/>worked<sp/>together<sp/>and<sp/>agreed<sp/>to<sp/>make<sp/>GLSL.<sp/>Following<sp/>GLSL<sp/>conventions</highlight></codeline>
+<codeline><highlight class="normal">is<sp/>a<sp/>way<sp/>to<sp/>find<sp/>consensus.<sp/>Moreover,<sp/>basically<sp/>when<sp/>a<sp/>developer<sp/>knows<sp/>GLSL,<sp/>he<sp/>knows<sp/>GLM.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section7_2&quot;&gt;&lt;/a&gt;<sp/>7.2.<sp/>Does<sp/>GLM<sp/>run<sp/>GLSL<sp/>program?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">No,<sp/>GLM<sp/>is<sp/>a<sp/>C++<sp/>implementation<sp/>of<sp/>a<sp/>subset<sp/>of<sp/>GLSL.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section7_3&quot;&gt;&lt;/a&gt;<sp/>7.3.<sp/>Does<sp/>a<sp/>GLSL<sp/>compiler<sp/>build<sp/>GLM<sp/>codes?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">No,<sp/>this<sp/>is<sp/>not<sp/>what<sp/>GLM<sp/>attends<sp/>to<sp/>do.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section7_4&quot;&gt;&lt;/a&gt;<sp/>7.4.<sp/>Should<sp/>I<sp/>use<sp/>‘GTX’<sp/>extensions?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GTX<sp/>extensions<sp/>are<sp/>qualified<sp/>to<sp/>be<sp/>experimental<sp/>extensions.<sp/>In<sp/>GLM<sp/>this<sp/>means<sp/>that<sp/>these<sp/>extensions<sp/>might<sp/>change<sp/>from<sp/>version<sp/>to<sp/>version<sp/>without<sp/>any<sp/>restriction.<sp/>In<sp/>practice,<sp/>it<sp/>doesn’t<sp/>really<sp/>change<sp/>except<sp/>time<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">time.<sp/>GTC<sp/>extensions<sp/>are<sp/>stabled,<sp/>tested<sp/>and<sp/>perfectly<sp/>reliable<sp/>in<sp/>time.<sp/>Many<sp/>GTX<sp/>extensions<sp/>extend<sp/>GTC<sp/>extensions<sp/>and<sp/>provide<sp/>a<sp/>way<sp/>to<sp/>explore<sp/>features<sp/>and<sp/>implementations<sp/>and<sp/>APIs<sp/>and<sp/>then<sp/>are<sp/>promoted<sp/>to<sp/>GTC</highlight></codeline>
+<codeline><highlight class="normal">extensions.<sp/>This<sp/>is<sp/>fairly<sp/>the<sp/>way<sp/>OpenGL<sp/>features<sp/>are<sp/>developed;<sp/>through<sp/>extensions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Stating<sp/>with<sp/>GLM<sp/>0.9.9,<sp/>to<sp/>use<sp/>experimental<sp/>extensions,<sp/>an<sp/>application<sp/>must<sp/>define<sp/>GLM_ENABLE_EXPERIMENTAL.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section7_5&quot;&gt;&lt;/a&gt;<sp/>7.5.<sp/>Where<sp/>can<sp/>I<sp/>ask<sp/>my<sp/>questions?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">A<sp/>good<sp/>place<sp/>is<sp/>[stackoverflow](http://stackoverflow.com/search?q=GLM)<sp/>using<sp/>the<sp/>GLM<sp/>tag.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section7_6&quot;&gt;&lt;/a&gt;<sp/>7.6.<sp/>Where<sp/>can<sp/>I<sp/>find<sp/>the<sp/>documentation<sp/>of<sp/>extensions?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>Doxygen<sp/>generated<sp/>documentation<sp/>includes<sp/>a<sp/>complete<sp/>list<sp/>of<sp/>all<sp/>extensions<sp/>available.<sp/>Explore<sp/>this<sp/>[*API<sp/>documentation*](http://glm.g-truc.net/html/index.html)<sp/>to<sp/>get<sp/>a<sp/>complete</highlight></codeline>
+<codeline><highlight class="normal">view<sp/>of<sp/>all<sp/>GLM<sp/>capabilities!</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section7_7&quot;&gt;&lt;/a&gt;<sp/>7.7.<sp/>Should<sp/>I<sp/>use<sp/>‘using<sp/>namespace<sp/>glm;’?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">NO!<sp/>Chances<sp/>are<sp/>that<sp/>if<sp/>using<sp/>namespace<sp/>glm;<sp/>is<sp/>called,<sp/>especially<sp/>in<sp/>a<sp/>header<sp/>file,<sp/>name<sp/>collisions<sp/>will<sp/>happen<sp/>as<sp/>GLM<sp/>is<sp/>based<sp/>on<sp/>GLSL<sp/>which<sp/>uses<sp/>common<sp/>tokens<sp/>for<sp/>types<sp/>and<sp/>functions.<sp/>Avoiding<sp/>using<sp/>namespace</highlight></codeline>
+<codeline><highlight class="normal">glm;<sp/>will<sp/>a<sp/>higher<sp/>compatibility<sp/>with<sp/>third<sp/>party<sp/>library<sp/>and<sp/>SDKs.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section7_8&quot;&gt;&lt;/a&gt;<sp/>7.8.<sp/>Is<sp/>GLM<sp/>fast?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLM<sp/>is<sp/>mainly<sp/>designed<sp/>to<sp/>be<sp/>convenient<sp/>and<sp/>that&apos;s<sp/>why<sp/>it<sp/>is<sp/>written<sp/>against<sp/>the<sp/>GLSL<sp/>specification.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Following<sp/>the<sp/>Pareto<sp/>principle<sp/>where<sp/>20%<sp/>of<sp/>the<sp/>code<sp/>consumes<sp/>80%<sp/>of<sp/>the<sp/>execution<sp/>time,<sp/>GLM<sp/>operates<sp/>perfectly<sp/>on<sp/>the<sp/>80%<sp/>of<sp/>the<sp/>code<sp/>that<sp/>consumes<sp/>20%<sp/>of<sp/>the<sp/>performances.<sp/>Furthermore,<sp/>thanks<sp/>to<sp/>the<sp/>lowp,</highlight></codeline>
+<codeline><highlight class="normal">mediump<sp/>and<sp/>highp<sp/>qualifiers,<sp/>GLM<sp/>provides<sp/>approximations<sp/>which<sp/>trade<sp/>precision<sp/>for<sp/>performance.<sp/>Finally,<sp/>GLM<sp/>can<sp/>automatically<sp/>produce<sp/>SIMD<sp/>optimized<sp/>code<sp/>for<sp/>functions<sp/>of<sp/>its<sp/>implementation.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">However,<sp/>on<sp/>performance<sp/>critical<sp/>code<sp/>paths,<sp/>we<sp/>should<sp/>expect<sp/>that<sp/>dedicated<sp/>algorithms<sp/>should<sp/>be<sp/>written<sp/>to<sp/>reach<sp/>peak<sp/>performance.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section7_9&quot;&gt;&lt;/a&gt;<sp/>7.9.<sp/>When<sp/>I<sp/>build<sp/>with<sp/>Visual<sp/>C++<sp/>with<sp/>/W4<sp/>warning<sp/>level,<sp/>I<sp/>have<sp/>warnings...</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>should<sp/>not<sp/>have<sp/>any<sp/>warnings<sp/>even<sp/>in<sp/>/W4<sp/>mode.<sp/>However,<sp/>if<sp/>you<sp/>expect<sp/>such<sp/>level<sp/>for<sp/>your<sp/>code,<sp/>then<sp/>you<sp/>should<sp/>ask<sp/>for<sp/>the<sp/>same<sp/>level<sp/>to<sp/>the<sp/>compiler<sp/>by<sp/>at<sp/>least<sp/>disabling<sp/>the<sp/>Visual<sp/>C++<sp/>language<sp/>extensions</highlight></codeline>
+<codeline><highlight class="normal">(/Za)<sp/>which<sp/>generates<sp/>warnings<sp/>when<sp/>used.<sp/>If<sp/>these<sp/>extensions<sp/>are<sp/>enabled,<sp/>then<sp/>GLM<sp/>will<sp/>take<sp/>advantage<sp/>of<sp/>them<sp/>and<sp/>the<sp/>compiler<sp/>will<sp/>generate<sp/>warnings.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section7_10&quot;&gt;&lt;/a&gt;<sp/>7.10.<sp/>Why<sp/>some<sp/>GLM<sp/>functions<sp/>can<sp/>crash<sp/>because<sp/>of<sp/>division<sp/>by<sp/>zero?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLM<sp/>functions<sp/>crashing<sp/>is<sp/>the<sp/>result<sp/>of<sp/>a<sp/>domain<sp/>error.<sp/>Such<sp/>behavior<sp/>follows<sp/>the<sp/>precedent<sp/>set<sp/>by<sp/>C<sp/>and<sp/>C++&apos;s<sp/>standard<sp/>library.<sp/>For<sp/>example,<sp/>it’s<sp/>a<sp/>domain<sp/>error<sp/>to<sp/>pass<sp/>a<sp/>null<sp/>vector<sp/>(all<sp/>zeroes)<sp/>to<sp/>glm::normalize<sp/>function,<sp/>or<sp/>to<sp/>pass<sp/>a<sp/>negative<sp/>number<sp/>into<sp/>std::sqrt.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section7_11&quot;&gt;&lt;/a&gt;<sp/>7.11.<sp/>What<sp/>unit<sp/>for<sp/>angles<sp/>is<sp/>used<sp/>in<sp/>GLM?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLSL<sp/>is<sp/>using<sp/>radians<sp/>but<sp/>GLU<sp/>is<sp/>using<sp/>degrees<sp/>to<sp/>express<sp/>angles.<sp/>This<sp/>has<sp/>caused<sp/>GLM<sp/>to<sp/>use<sp/>inconsistent<sp/>units<sp/>for<sp/>angles.<sp/>Starting<sp/>with<sp/>GLM<sp/>0.9.6,<sp/>all<sp/>GLM<sp/>functions<sp/>are<sp/>using<sp/>radians.<sp/>For<sp/>more<sp/>information,<sp/>follow</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>[link](http://www.g-truc.net/post-0693.html#menu).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section7_12&quot;&gt;&lt;/a&gt;<sp/>7.12.<sp/>Windows<sp/>headers<sp/>cause<sp/>build<sp/>errors...</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Some<sp/>Windows<sp/>headers<sp/>define<sp/>min<sp/>and<sp/>max<sp/>as<sp/>macros<sp/>which<sp/>may<sp/>cause<sp/>compatibility<sp/>with<sp/>third<sp/>party<sp/>libraries<sp/>such<sp/>as<sp/>GLM.</highlight></codeline>
+<codeline><highlight class="normal">It<sp/>is<sp/>highly<sp/>recommended<sp/>to<sp/>[define<sp/>NOMINMAX](http://stackoverflow.com/questions/4913922/possible-problems-with-nominmax-on-visual-c)<sp/>before<sp/>including<sp/>Windows<sp/>headers<sp/>to<sp/>workaround<sp/>this<sp/>issue.</highlight></codeline>
+<codeline><highlight class="normal">To<sp/>workaround<sp/>the<sp/>incompatibility<sp/>with<sp/>these<sp/>macros,<sp/>GLM<sp/>will<sp/>systematically<sp/>undef<sp/>these<sp/>macros<sp/>if<sp/>they<sp/>are<sp/>defined.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section7_13&quot;&gt;&lt;/a&gt;<sp/>7.13.<sp/>Constant<sp/>expressions<sp/>support</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLM<sp/>has<sp/>some<sp/>C++<sp/>&lt;a<sp/>href=&quot;http://en.cppreference.com/w/cpp/language/constexpr&quot;&gt;constant<sp/>expressions&lt;/a&gt;<sp/>support.<sp/>However,<sp/>GLM<sp/>automatically<sp/>detects<sp/>the<sp/>use<sp/>of<sp/>SIMD<sp/>instruction<sp/>sets<sp/>through<sp/>compiler<sp/>arguments<sp/>to<sp/>populate<sp/>its<sp/>implementation<sp/>with<sp/>SIMD<sp/>intrinsics.</highlight></codeline>
+<codeline><highlight class="normal">Unfortunately,<sp/>GCC<sp/>and<sp/>Clang<sp/>doesn&apos;t<sp/>support<sp/>SIMD<sp/>instrinsics<sp/>as<sp/>constant<sp/>expressions.<sp/>To<sp/>allow<sp/>constant<sp/>expressions<sp/>on<sp/>all<sp/>vectors<sp/>and<sp/>matrices<sp/>types,<sp/>define<sp/>GLM\_FORCE\_PURE<sp/>before<sp/>including<sp/>GLM<sp/>headers.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline><highlight class="normal">##<sp/>&lt;a<sp/>name=&quot;section8&quot;&gt;&lt;/a&gt;<sp/>8.<sp/>Code<sp/>samples</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>series<sp/>of<sp/>samples<sp/>only<sp/>shows<sp/>various<sp/>GLM<sp/>features<sp/>without<sp/>consideration<sp/>of<sp/>any<sp/>sort.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section8_1&quot;&gt;&lt;/a&gt;<sp/>8.1.<sp/>Compute<sp/>a<sp/>triangle<sp/>normal</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;<sp/>//<sp/>vec3<sp/>normalize<sp/>cross</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">glm::vec3<sp/>computeNormal(glm::vec3<sp/>const&amp;<sp/>a,<sp/>glm::vec3<sp/>const&amp;<sp/>b,<sp/>glm::vec3<sp/>const&amp;<sp/>c)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>glm::normalize(glm::cross(c<sp/>-<sp/>a,<sp/>b<sp/>-<sp/>a));</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>A<sp/>much<sp/>faster<sp/>but<sp/>less<sp/>accurate<sp/>alternative:</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;<sp/>//<sp/>vec3<sp/>cross</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/gtx/fast_square_root.hpp&gt;<sp/>//<sp/>fastNormalize</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">glm::vec3<sp/>computeNormal(glm::vec3<sp/>const&amp;<sp/>a,<sp/>glm::vec3<sp/>const&amp;<sp/>b,<sp/>glm::vec3<sp/>const&amp;<sp/>c)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>glm::fastNormalize(glm::cross(c<sp/>-<sp/>a,<sp/>b<sp/>-<sp/>a));</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section8_2&quot;&gt;&lt;/a&gt;<sp/>8.2.<sp/>Matrix<sp/>transform</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;<sp/>//<sp/>vec3,<sp/>vec4,<sp/>ivec4,<sp/>mat4</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/gtc/matrix_transform.hpp&gt;<sp/>//<sp/>translate,<sp/>rotate,<sp/>scale,<sp/>perspective</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/gtc/type_ptr.hpp&gt;<sp/>//<sp/>value_ptr</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>setUniformMVP(GLuint<sp/>Location,<sp/>glm::vec3<sp/>const&amp;<sp/>Translate,<sp/>glm::vec3<sp/>const&amp;<sp/>Rotate)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::mat4<sp/>Projection<sp/>=<sp/>glm::perspective(45.0f,<sp/>4.0f<sp/>/<sp/>3.0f,<sp/>0.1f,<sp/>100.f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::mat4<sp/>ViewTranslate<sp/>=<sp/>glm::translate(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm::mat4(1.0f),<sp/>Translate);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::mat4<sp/>ViewRotateX<sp/>=<sp/>glm::rotate(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ViewTranslate,<sp/>Rotate.y,<sp/>glm::vec3(-1.0f,<sp/>0.0f,<sp/>0.0f));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::mat4<sp/>View<sp/>=<sp/>glm::rotate(ViewRotateX,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Rotate.x,<sp/>glm::vec3(0.0f,<sp/>1.0f,<sp/>0.0f));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::mat4<sp/>Model<sp/>=<sp/>glm::scale(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm::mat4(1.0f),<sp/>glm::vec3(0.5f));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::mat4<sp/>MVP<sp/>=<sp/>Projection<sp/>*<sp/>View<sp/>*<sp/>Model;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glUniformMatrix4fv(Location,<sp/>1,<sp/>GL_FALSE,<sp/>glm::value_ptr(MVP));</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section8_3&quot;&gt;&lt;/a&gt;<sp/>8.3.<sp/>Vector<sp/>types</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;<sp/>//<sp/>vec2</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/gtc/type_precision.hpp&gt;<sp/>//<sp/>hvec2,<sp/>i8vec2,<sp/>i32vec2</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">std::size_t<sp/>const<sp/>VertexCount<sp/>=<sp/>4;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Float<sp/>quad<sp/>geometry</highlight></codeline>
+<codeline><highlight class="normal">std::size_t<sp/>const<sp/>PositionSizeF32<sp/>=<sp/>VertexCount<sp/>*<sp/>sizeof(glm::vec2);</highlight></codeline>
+<codeline><highlight class="normal">glm::vec2<sp/>const<sp/>PositionDataF32[VertexCount]<sp/>=</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec2(-1.0f,-1.0f),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec2(<sp/>1.0f,-1.0f),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec2(<sp/>1.0f,<sp/>1.0f),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec2(-1.0f,<sp/>1.0f)</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Half-float<sp/>quad<sp/>geometry</highlight></codeline>
+<codeline><highlight class="normal">std::size_t<sp/>const<sp/>PositionSizeF16<sp/>=<sp/>VertexCount<sp/>*<sp/>sizeof(glm::hvec2);</highlight></codeline>
+<codeline><highlight class="normal">glm::hvec2<sp/>const<sp/>PositionDataF16[VertexCount]<sp/>=</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::hvec2(-1.0f,<sp/>-1.0f),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::hvec2(<sp/>1.0f,<sp/>-1.0f),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::hvec2(<sp/>1.0f,<sp/>1.0f),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::hvec2(-1.0f,<sp/>1.0f)</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>8<sp/>bits<sp/>signed<sp/>integer<sp/>quad<sp/>geometry</highlight></codeline>
+<codeline><highlight class="normal">std::size_t<sp/>const<sp/>PositionSizeI8<sp/>=<sp/>VertexCount<sp/>*<sp/>sizeof(glm::i8vec2);</highlight></codeline>
+<codeline><highlight class="normal">glm::i8vec2<sp/>const<sp/>PositionDataI8[VertexCount]<sp/>=</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::i8vec2(-1,-1),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::i8vec2(<sp/>1,-1),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::i8vec2(<sp/>1,<sp/>1),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::i8vec2(-1,<sp/>1)</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>32<sp/>bits<sp/>signed<sp/>integer<sp/>quad<sp/>geometry</highlight></codeline>
+<codeline><highlight class="normal">std::size_t<sp/>const<sp/>PositionSizeI32<sp/>=<sp/>VertexCount<sp/>*<sp/>sizeof(glm::i32vec2);</highlight></codeline>
+<codeline><highlight class="normal">glm::i32vec2<sp/>const<sp/>PositionDataI32[VertexCount]<sp/>=</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::i32vec2(-1,-1),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::i32vec2(<sp/>1,-1),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::i32vec2(<sp/>1,<sp/>1),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::i32vec2(-1,<sp/>1)</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section8_4&quot;&gt;&lt;/a&gt;<sp/>8.4.<sp/>Lighting</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/glm.hpp&gt;<sp/>//<sp/>vec3<sp/>normalize<sp/>reflect<sp/>dot<sp/>pow</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;glm/gtc/random.hpp&gt;<sp/>//<sp/>ballRand</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>vecRand3,<sp/>generate<sp/>a<sp/>random<sp/>and<sp/>equiprobable<sp/>normalized<sp/>vec3</highlight></codeline>
+<codeline><highlight class="normal">glm::vec3<sp/>lighting(intersection<sp/>const&amp;<sp/>Intersection,<sp/>material<sp/>const&amp;<sp/>Material,<sp/>light<sp/>const&amp;<sp/>Light,<sp/>glm::vec3<sp/>const&amp;<sp/>View)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec3<sp/>Color<sp/>=<sp/>glm::vec3(0.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::vec3<sp/>LightVertor<sp/>=<sp/>glm::normalize(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Light.position()<sp/>-<sp/>Intersection.globalPosition()<sp/>+</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm::ballRand(0.0f,<sp/>Light.inaccuracy());</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>if(!shadow(Intersection.globalPosition(),<sp/>Light.position(),<sp/>LightVertor))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>float<sp/>Diffuse<sp/>=<sp/>glm::dot(Intersection.normal(),<sp/>LightVector);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(Diffuse<sp/>&amp;lt;=<sp/>0.0f)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>Color;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(Material.isDiffuse())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Color<sp/>+=<sp/>Light.color()<sp/>*<sp/>Material.diffuse()<sp/>*<sp/>Diffuse;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(Material.isSpecular())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm::vec3<sp/>Reflect<sp/>=<sp/>glm::reflect(-LightVector,<sp/>Intersection.normal());</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>float<sp/>Dot<sp/>=<sp/>glm::dot(Reflect,<sp/>View);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>float<sp/>Base<sp/>=<sp/>Dot<sp/>&amp;gt;<sp/>0.0f<sp/>?<sp/>Dot<sp/>:<sp/>0.0f;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>float<sp/>Specular<sp/>=<sp/>glm::pow(Base,<sp/>Material.exponent());</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Color<sp/>+=<sp/>Material.specular()<sp/>\*<sp/>Specular;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>Color;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline><highlight class="normal">##<sp/>&lt;a<sp/>name=&quot;section9&quot;&gt;&lt;/a&gt;<sp/>9.<sp/>References</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section9_1&quot;&gt;&lt;/a&gt;<sp/>9.1.<sp/>OpenGL<sp/>specifications</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>OpenGL<sp/>4.3<sp/>core<sp/>specification</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[GLSL<sp/>4.30<sp/>specification](http://www.opengl.org/registry/doc/GLSLangSpec.4.30.7.diff.pdf)</highlight></codeline>
+<codeline><highlight class="normal">![](media/image21.png){width=&quot;2.859722222222222in&quot;<sp/>height=&quot;1.6083333333333334in&quot;}-<sp/>[*GLU<sp/>1.3<sp/>specification*](http://www.opengl.org/documentation/specs/glu/glu1_3.pdf)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section9_2&quot;&gt;&lt;/a&gt;<sp/>9.2.<sp/>External<sp/>links</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>[GLM<sp/>on<sp/>stackoverflow](http://stackoverflow.com/search?q=GLM)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section9_3&quot;&gt;&lt;/a&gt;<sp/>9.3.<sp/>Projects<sp/>using<sp/>GLM</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">***[Leo’s<sp/>Fortune](http://www.leosfortune.com/)***</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Leo’s<sp/>Fortune<sp/>is<sp/>a<sp/>platform<sp/>adventure<sp/>game<sp/>where<sp/>you<sp/>hunt<sp/>down<sp/>the<sp/>cunning<sp/>and<sp/>mysterious<sp/>thief<sp/>that<sp/>stole<sp/>your<sp/>gold.<sp/>Available<sp/>on<sp/>PS4,<sp/>Xbox<sp/>One,<sp/>PC,<sp/>Mac,<sp/>iOS<sp/>and<sp/>Android.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Beautifully<sp/>hand-crafted<sp/>levels<sp/>bring<sp/>the<sp/>story<sp/>of<sp/>Leo<sp/>to<sp/>life<sp/>in<sp/>this<sp/>epic<sp/>adventure.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">“I<sp/>just<sp/>returned<sp/>home<sp/>to<sp/>find<sp/>all<sp/>my<sp/>gold<sp/>has<sp/>been<sp/>stolen!<sp/>For<sp/>some<sp/>devious<sp/>purpose,<sp/>the<sp/>thief<sp/>has<sp/>dropped<sp/>pieces<sp/>of<sp/>my<sp/>gold<sp/>like<sp/>breadcrumbs<sp/>through<sp/>the<sp/>woods.”</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">“Despite<sp/>this<sp/>pickle<sp/>of<sp/>a<sp/>trap,<sp/>I<sp/>am<sp/>left<sp/>with<sp/>no<sp/>choice<sp/>but<sp/>to<sp/>follow<sp/>the<sp/>trail.”</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">“Whatever<sp/>lies<sp/>ahead,<sp/>I<sp/>must<sp/>recover<sp/>my<sp/>fortune.”<sp/>-Leopold</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/references-leosfortune.jpeg)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/references-leosfortune2.jpg)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***OpenGL<sp/>4.0<sp/>Shading<sp/>Language<sp/>Cookbook***](http://www.packtpub.com/opengl-4-0-shading-language-cookbook/book?tag=rk/opengl4-abr1/0811)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">A<sp/>set<sp/>of<sp/>recipes<sp/>that<sp/>demonstrates<sp/>a<sp/>wide<sp/>of<sp/>techniques<sp/>for<sp/>producing<sp/>high-quality,<sp/>real-time<sp/>3D<sp/>graphics<sp/>with<sp/>GLSL<sp/>4.0,<sp/>such<sp/>as:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>Using<sp/>GLSL<sp/>4.0<sp/>to<sp/>implement<sp/>lighting<sp/>and<sp/>shading<sp/>techniques.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Using<sp/>the<sp/>new<sp/>features<sp/>of<sp/>GLSL<sp/>4.0<sp/>including<sp/>tessellation<sp/>and<sp/>geometry<sp/>shaders.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Using<sp/>textures<sp/>in<sp/>GLSL<sp/>as<sp/>part<sp/>of<sp/>a<sp/>wide<sp/>variety<sp/>of<sp/>techniques<sp/>from<sp/>basic<sp/>texture<sp/>mapping<sp/>to<sp/>deferred<sp/>shading.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Simple,<sp/>easy-to-follow<sp/>examples<sp/>with<sp/>GLSL<sp/>source<sp/>code<sp/>are<sp/>provided,<sp/>as<sp/>well<sp/>as<sp/>a<sp/>basic<sp/>description<sp/>of<sp/>the<sp/>theory<sp/>behind<sp/>each<sp/>technique.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/references-glsl4book.jpg)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***Outerra***](http://outerra.com/)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">A<sp/>3D<sp/>planetary<sp/>engine<sp/>for<sp/>seamless<sp/>planet<sp/>rendering<sp/>from<sp/>space<sp/>down<sp/>to<sp/>the<sp/>surface.<sp/>Can<sp/>use<sp/>arbitrary<sp/>resolution<sp/>of<sp/>elevation<sp/>data,<sp/>refining<sp/>it<sp/>to<sp/>centimetre<sp/>resolution<sp/>using<sp/>fractal<sp/>algorithms.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/references-outerra1.jpg)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/references-outerra2.jpg)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/references-outerra3.jpg)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/references-outerra4.jpg)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***Falcor***](https://github.com/NVIDIA/Falcor)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Real-time<sp/>rendering<sp/>research<sp/>framework<sp/>by<sp/>NVIDIA.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***Cinder***](https://libcinder.org/)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Cinder<sp/>is<sp/>a<sp/>free<sp/>and<sp/>open<sp/>source<sp/>library<sp/>for<sp/>professional-quality<sp/>creative<sp/>coding<sp/>in<sp/>C++.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Cinder<sp/>is<sp/>a<sp/>C++<sp/>library for<sp/>programming<sp/>with<sp/>aesthetic<sp/>intent<sp/>-<sp/>the<sp/>sort<sp/>of<sp/>development<sp/>often<sp/>called creative<sp/>coding.<sp/>This<sp/>includes<sp/>domains<sp/>like<sp/>graphics,<sp/>audio,<sp/>video,<sp/>and<sp/>computational<sp/>geometry.<sp/>Cinder<sp/>is<sp/>cross-platform,<sp/>with<sp/>official<sp/>support<sp/>for OS<sp/>X,<sp/>Windows,<sp/>iOS,<sp/>and<sp/>WinRT.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Cinder<sp/>is<sp/>production-proven,<sp/>powerful<sp/>enough<sp/>to<sp/>be<sp/>the<sp/>primary<sp/>tool<sp/>for<sp/>professionals,<sp/>but<sp/>still<sp/>suitable<sp/>for<sp/>learning<sp/>and<sp/>experimentation.<sp/>Cinder<sp/>is<sp/>released<sp/>under<sp/>the [2-Clause<sp/>BSD<sp/>License](http://opensource.org/licenses/BSD-2-Clause).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/references-cinder.png)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***opencloth***](http://code.google.com/p/opencloth/)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">A<sp/>collection<sp/>of<sp/>source<sp/>codes<sp/>implementing<sp/>cloth<sp/>simulation<sp/>algorithms<sp/>in<sp/>OpenGL.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Simple,<sp/>easy-to-follow<sp/>examples<sp/>with<sp/>GLSL<sp/>source<sp/>code,<sp/>as<sp/>well<sp/>as<sp/>a<sp/>basic<sp/>description<sp/>of<sp/>the<sp/>theory<sp/>behind<sp/>each<sp/>technique.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/references-opencloth1.png)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![](/doc/manual/references-opencloth3.png)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***LibreOffice***](https://www.libreoffice.org/)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">LibreOffice<sp/>includes<sp/>several<sp/>applications<sp/>that<sp/>make<sp/>it<sp/>the<sp/>most<sp/>powerful<sp/>Free<sp/>and<sp/>Open<sp/>Source<sp/>office<sp/>suite<sp/>on<sp/>the<sp/>market.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[***Are<sp/>you<sp/>using<sp/>GLM<sp/>in<sp/>a<sp/>project?***](mailto:glm@g-truc.net)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section9_4&quot;&gt;&lt;/a&gt;<sp/>9.4.<sp/>Tutorials<sp/>using<sp/>GLM</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>[Sascha<sp/>Willems&apos;<sp/>Vulkan<sp/>examples](https://github.com/SaschaWillems/Vulkan),<sp/>Examples<sp/>and<sp/>demos<sp/>for<sp/>the<sp/>new<sp/>Vulkan<sp/>API</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[VKTS](https://github.com/McNopper/Vulkan)<sp/>Vulkan<sp/>examples<sp/>using<sp/>VulKan<sp/>ToolS<sp/>(VKTS)</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[*The<sp/>OpenGL<sp/>Samples<sp/>Pack*](http://www.g-truc.net/project-0026.html#menu),<sp/>samples<sp/>that<sp/>show<sp/>how<sp/>to<sp/>set<sp/>up<sp/>all<sp/>the<sp/>different<sp/>new<sp/>features</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[*Learning<sp/>Modern<sp/>3D<sp/>Graphics<sp/>programming*](http://www.arcsynthesis.org/gltut/),<sp/>a<sp/>great<sp/>OpenGL<sp/>tutorial<sp/>using<sp/>GLM<sp/>by<sp/>Jason<sp/>L.<sp/>McKesson</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[*Morten<sp/>Nobel-Jørgensen’s*](http://blog.nobel-joergensen.com/2011/04/02/glm-brilliant-math-library-for-opengl/)<sp/>review<sp/>and<sp/>use<sp/>an<sp/>[*OpenGL<sp/>renderer*](https://github.com/mortennobel/RenderE)</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[*Swiftless’<sp/>OpenGL<sp/>tutorial*](http://www.swiftless.com/opengltuts.html)<sp/>using<sp/>GLM<sp/>by<sp/>Donald<sp/>Urquhart</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[*Rastergrid*](http://rastergrid.com/blog/),<sp/>many<sp/>technical<sp/>articles<sp/>with<sp/>companion<sp/>programs<sp/>using<sp/>GLM<sp/>by<sp/>Daniel<sp/>Rákos\</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[*OpenGL<sp/>Tutorial*](http://www.opengl-tutorial.org),<sp/>tutorials<sp/>for<sp/>OpenGL<sp/>3.1<sp/>and<sp/>later</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[*OpenGL<sp/>Programming<sp/>on<sp/>Wikibooks*](http://en.wikibooks.org/wiki/OpenGL_Programming):<sp/>For<sp/>beginners<sp/>who<sp/>are<sp/>discovering<sp/>OpenGL.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[*3D<sp/>Game<sp/>Engine<sp/>Programming*](http://3dgep.com/):<sp/>Learning<sp/>the<sp/>latest<sp/>3D<sp/>Game<sp/>Engine<sp/>Programming<sp/>techniques.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[Game<sp/>Tutorials](http://www.gametutorials.com/opengl-4-matrices-and-glm/),<sp/>graphics<sp/>and<sp/>game<sp/>programming.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[open.gl](https://open.gl/),<sp/>OpenGL<sp/>tutorial</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[c-jump](http://www.c-jump.com/bcc/common/Talk3/Math/GLM/GLM.html),<sp/>GLM<sp/>tutorial</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[Learn<sp/>OpenGL](http://learnopengl.com/),<sp/>OpenGL<sp/>tutorial</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[***Are<sp/>you<sp/>using<sp/>GLM<sp/>in<sp/>a<sp/>tutorial?***](mailto:glm@g-truc.net)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section9_5&quot;&gt;&lt;/a&gt;<sp/>9.5.<sp/>Equivalent<sp/>for<sp/>other<sp/>languages</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>[*cglm*](https://github.com/recp/cglm):<sp/>OpenGL<sp/>Mathematics<sp/>(glm)<sp/>for<sp/>C.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[*GlmSharp*](https://github.com/Philip-Trettner/GlmSharp):<sp/>Open-source<sp/>semi-generated<sp/>GLM-flavored<sp/>math<sp/>library<sp/>for<sp/>.NET/C\#.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[glm-js](https://github.com/humbletim/glm-js):<sp/>JavaScript<sp/>adaptation<sp/>of<sp/>the<sp/>OpenGL<sp/>Mathematics<sp/>(GLM)<sp/>C++<sp/>library<sp/>interfaces</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[JVM<sp/>OpenGL<sp/>Mathematics<sp/>(GLM)](https://github.com/kotlin-graphics/glm):<sp/>written<sp/>in<sp/>Kotlin,<sp/>Java<sp/>compatible</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[JGLM](https://github.com/jroyalty/jglm)<sp/>-<sp/>Java<sp/>OpenGL<sp/>Mathematics<sp/>Library</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[SwiftGL<sp/>Math<sp/>Library](https://github.com/SwiftGL/Math/blob/master/Sources/glm.swift)<sp/>GLM<sp/>for<sp/>Swift</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[glm-go](https://github.com/jbowtie/glm-go):<sp/>Simple<sp/>linear<sp/>algebra<sp/>library<sp/>similar<sp/>in<sp/>spirit<sp/>to<sp/>GLM</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[openll](https://github.com/Polkm/openll):<sp/>Lua<sp/>bindings<sp/>for<sp/>OpenGL,<sp/>GLM,<sp/>GLFW,<sp/>OpenAL,<sp/>SOIL<sp/>and<sp/>PhysicsFS</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[glm-rs](https://github.com/dche/glm-rs):<sp/>GLSL<sp/>mathematics<sp/>for<sp/>Rust<sp/>programming<sp/>language</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[glmpython](https://github.com/Queatz/glmpython):<sp/>GLM<sp/>math<sp/>library<sp/>for<sp/>Python</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section9_6&quot;&gt;&lt;/a&gt;<sp/>9.6.<sp/>Alternatives<sp/>to<sp/>GLM</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>[*CML*](http://cmldev.net/):<sp/>The<sp/>CML<sp/>(Configurable<sp/>Math<sp/>Library)<sp/>is<sp/>a<sp/>free<sp/>C++<sp/>math<sp/>library<sp/>for<sp/>games<sp/>and<sp/>graphics.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[*Eigen*](http://eigen.tuxfamily.org/):<sp/>A<sp/>more<sp/>heavy<sp/>weight<sp/>math<sp/>library<sp/>for<sp/>general<sp/>linear<sp/>algebra<sp/>in<sp/>C++.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[*glhlib*](http://glhlib.sourceforge.net/):<sp/>A<sp/>much<sp/>more<sp/>than<sp/>glu<sp/>C<sp/>library.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Are<sp/>you<sp/>using<sp/>or<sp/>developing<sp/>an<sp/>alternative<sp/>library<sp/>to<sp/>GLM?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>&lt;a<sp/>name=&quot;section9_7&quot;&gt;&lt;/a&gt;<sp/>9.7.<sp/>Acknowledgements</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GLM<sp/>is<sp/>developed<sp/>and<sp/>maintained<sp/>by<sp/>[*Christophe<sp/>Riccio*](http://www.g-truc.net)<sp/>but<sp/>many<sp/>contributors<sp/>have<sp/>made<sp/>this<sp/>project<sp/>what<sp/>it<sp/>is.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Special<sp/>thanks<sp/>to:</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Ashima<sp/>Arts<sp/>and<sp/>Stefan<sp/>Gustavson<sp/>for<sp/>their<sp/>work<sp/>on<sp/>[*webgl-noise*](https://github.com/ashima/webgl-noise)<sp/>which<sp/>has<sp/>been<sp/>used<sp/>for<sp/>GLM<sp/>noises<sp/>implementation.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[*Arthur<sp/>Winters*](http://athile.net/library/wiki/index.php?title=Athile_Technologies)<sp/>for<sp/>the<sp/>C++11<sp/>and<sp/>Visual<sp/>C++<sp/>swizzle<sp/>operators<sp/>implementation<sp/>and<sp/>tests.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Joshua<sp/>Smith<sp/>and<sp/>Christoph<sp/>Schied<sp/>for<sp/>the<sp/>discussions<sp/>and<sp/>the<sp/>experiments<sp/>around<sp/>the<sp/>swizzle<sp/>operators<sp/>implementation<sp/>issues.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Guillaume<sp/>Chevallereau<sp/>for<sp/>providing<sp/>and<sp/>maintaining<sp/>the<sp/>[*nightlight<sp/>build<sp/>system*](http://my.cdash.org/index.php?project=GLM).</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Ghenadii<sp/>Ursachi<sp/>for<sp/>GLM\_GTX\_matrix\_interpolation<sp/>implementation.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Mathieu<sp/>Roumillac<sp/>for<sp/>providing<sp/>some<sp/>implementation<sp/>ideas.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>[*Grant<sp/>James*](http://www.zeuscmd.com/)<sp/>for<sp/>the<sp/>implementation<sp/>of<sp/>all<sp/>combination<sp/>of<sp/>none-squared<sp/>matrix<sp/>products.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Jesse<sp/>Talavera-Greenberg<sp/>for<sp/>his<sp/>work<sp/>on<sp/>the<sp/>manual<sp/>amount<sp/>other<sp/>things.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>All<sp/>the<sp/>GLM<sp/>users<sp/>that<sp/>have<sp/>report<sp/>bugs<sp/>and<sp/>hence<sp/>help<sp/>GLM<sp/>to<sp/>become<sp/>a<sp/>great<sp/>library!</highlight></codeline>
+    </programlisting>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/manual.md"/>
+  </compounddef>
+</doxygen>

@@ -1,5 +1,5 @@
 \hypertarget{shader_8cpp_source}{}\doxysection{shader.\+cpp}
-\label{shader_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/re/core/shader.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/re/core/shader.cpp}}
+\label{shader_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/core/shader.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/core/shader.cpp}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00001}00001 \textcolor{comment}{//}}
@@ -22,7 +22,7 @@
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00018}00018 \textcolor{preprocessor}{\#include <string>}}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00019}00019 \textcolor{preprocessor}{\#include <vector>}}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00020}00020 }
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00021}00021 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacere}{re}}}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00021}00021 \textcolor{keyword}{namespace }ceres}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00022}00022 \{}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00023}00023 \textcolor{comment}{// 匿名命名空间,变量声明对其他文件中的代码不可见}}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00024}00024 \textcolor{keyword}{namespace}}
@@ -78,7 +78,7 @@
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00074}00074         \textcolor{keywordflow}{if} (std::regex\_search(s, m, e))}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00075}00075         \{}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00076}00076             std::string match = m[1];}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00077}00077             match.insert(0, \textcolor{stringliteral}{"{}embeddedResource/"{}});}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00077}00077             match.insert(0, \textcolor{stringliteral}{"{}shaders/"{}});}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00078}00078             \textcolor{keyword}{auto} res = getFileContents(match);}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00079}00079             \textcolor{keywordflow}{if} (res.empty())}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00080}00080             \{}
@@ -310,8 +310,8 @@
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00306}00306         \textcolor{keywordflow}{return} s\_unlit;}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00307}00307     \}}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00308}00308     s\_unlit = create()}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00309}00309                   .withSourceFile(\textcolor{stringliteral}{"{}embeddedResource/unlit\_vert.glsl"{}}, ShaderType::Vertex)}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00310}00310                   .withSourceFile(\textcolor{stringliteral}{"{}embeddedResource/unlit\_frag.glsl"{}}, ShaderType::Fragment)}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00309}00309                   .withSourceFile(\textcolor{stringliteral}{"{}shaders/unlit\_vert.glsl"{}}, ShaderType::Vertex)}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00310}00310                   .withSourceFile(\textcolor{stringliteral}{"{}shaders/unlit\_frag.glsl"{}}, ShaderType::Fragment)}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00311}00311                   .withName(\textcolor{stringliteral}{"{}Unlit"{}})}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00312}00312                   .build();}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00313}00313     \textcolor{keywordflow}{return} s\_unlit;}
@@ -324,8 +324,8 @@
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00320}00320         \textcolor{keywordflow}{return} s\_blit;}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00321}00321     \}}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00322}00322     s\_blit = create()}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00323}00323                  .withSourceFile(\textcolor{stringliteral}{"{}embeddedResource/blit\_vert.glsl"{}}, ShaderType::Vertex)}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00324}00324                  .withSourceFile(\textcolor{stringliteral}{"{}embeddedResource/blit\_frag.glsl"{}}, ShaderType::Fragment)}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00323}00323                  .withSourceFile(\textcolor{stringliteral}{"{}shaders/blit\_vert.glsl"{}}, ShaderType::Vertex)}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00324}00324                  .withSourceFile(\textcolor{stringliteral}{"{}shaders/blit\_frag.glsl"{}}, ShaderType::Fragment)}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00325}00325                  .withName(\textcolor{stringliteral}{"{}Blit"{}})}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00326}00326                  .build();}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00327}00327     \textcolor{keywordflow}{return} s\_blit;}
@@ -339,8 +339,8 @@
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00335}00335     \}}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00336}00336 }
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00337}00337     s\_unlitSprite = create()}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00338}00338                         .withSourceFile(\textcolor{stringliteral}{"{}embeddedResource/sprite\_vert.glsl"{}}, ShaderType::Vertex)}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00339}00339                         .withSourceFile(\textcolor{stringliteral}{"{}embeddedResource/sprite\_frag.glsl"{}}, ShaderType::Fragment)}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00338}00338                         .withSourceFile(\textcolor{stringliteral}{"{}shaders/sprite\_vert.glsl"{}}, ShaderType::Vertex)}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00339}00339                         .withSourceFile(\textcolor{stringliteral}{"{}shaders/sprite\_frag.glsl"{}}, ShaderType::Fragment)}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00340}00340                         .withBlend(BlendType::AlphaBlending)}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00341}00341                         .withDepthWrite(\textcolor{keyword}{false})}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00342}00342                         .withName(\textcolor{stringliteral}{"{}Unlit Sprite"{}})}
@@ -355,8 +355,8 @@
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00351}00351         \textcolor{keywordflow}{return} s\_standardParticles;}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00352}00352     \}}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00353}00353     s\_standardParticles = Shader::create()}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00354}00354                               .withSourceFile(\textcolor{stringliteral}{"{}embeddedResource/particles\_vert.glsl"{}}, ShaderType::Vertex)}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00355}00355                               .withSourceFile(\textcolor{stringliteral}{"{}embeddedResource/particles\_frag.glsl"{}}, ShaderType::Fragment)}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00354}00354                               .withSourceFile(\textcolor{stringliteral}{"{}shaders/particles\_vert.glsl"{}}, ShaderType::Vertex)}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00355}00355                               .withSourceFile(\textcolor{stringliteral}{"{}shaders/particles\_frag.glsl"{}}, ShaderType::Fragment)}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00356}00356                               .withBlend(BlendType::AdditiveBlending)}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00357}00357                               .withDepthWrite(\textcolor{keyword}{false})}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00358}00358                               .withName(\textcolor{stringliteral}{"{}Standard Particles"{}})}
@@ -369,7 +369,7 @@
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00365}00365     \textcolor{keyword}{auto}* r = Renderer::s\_instance;}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00366}00366     \textcolor{keywordflow}{if} (r == \textcolor{keyword}{nullptr})}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00367}00367     \{}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00368}00368         LOG\_FATAL(\textcolor{stringliteral}{"{}Cannot instantiate re::Shader before sre::Renderer is created."{}});}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00368}00368         LOG\_FATAL(\textcolor{stringliteral}{"{}Cannot instantiate re::Shader before sceres::Renderer is created."{}});}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00369}00369     \}}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00370}00370     r-\/>m\_renderStatsCurrent.shaderCount++;}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00371}00371     r-\/>m\_shaders.emplace\_back(\textcolor{keyword}{this});}
@@ -953,8 +953,8 @@
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00949}00949         \textcolor{keywordflow}{return} s\_standardPBR;}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00950}00950     \}}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00951}00951     s\_standardPBR = create()}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00952}00952                         .withSourceFile(\textcolor{stringliteral}{"{}embeddedResource/standard\_pbr\_vert.glsl"{}}, ShaderType::Vertex)}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00953}00953                         .withSourceFile(\textcolor{stringliteral}{"{}embeddedResource/standard\_pbr\_frag.glsl"{}}, ShaderType::Fragment)}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00952}00952                         .withSourceFile(\textcolor{stringliteral}{"{}shaders/standard\_pbr\_vert.glsl"{}}, ShaderType::Vertex)}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00953}00953                         .withSourceFile(\textcolor{stringliteral}{"{}shaders/standard\_pbr\_frag.glsl"{}}, ShaderType::Fragment)}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00954}00954                         .withName(\textcolor{stringliteral}{"{}Standard"{}})}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00955}00955                         .build();}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00956}00956     \textcolor{keywordflow}{return} s\_standardPBR;}
@@ -967,8 +967,8 @@
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00963}00963         \textcolor{keywordflow}{return} s\_standardBlinnPhong;}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00964}00964     \}}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00965}00965     s\_standardBlinnPhong = Shader::create()}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00966}00966                                .withSourceFile(\textcolor{stringliteral}{"{}embeddedResource/standard\_blinn\_phong\_vert.glsl"{}}, ShaderType::Vertex)}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00967}00967                                .withSourceFile(\textcolor{stringliteral}{"{}embeddedResource/standard\_blinn\_phong\_frag.glsl"{}}, ShaderType::Fragment)}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00966}00966                                .withSourceFile(\textcolor{stringliteral}{"{}shaders/standard\_blinn\_phong\_vert.glsl"{}}, ShaderType::Vertex)}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00967}00967                                .withSourceFile(\textcolor{stringliteral}{"{}shaders/standard\_blinn\_phong\_frag.glsl"{}}, ShaderType::Fragment)}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00968}00968                                .withName(\textcolor{stringliteral}{"{}Standard Blinn Phong"{}})}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00969}00969                                .build();}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00970}00970     \textcolor{keywordflow}{return} s\_standardBlinnPhong;}
@@ -981,8 +981,8 @@
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00977}00977         \textcolor{keywordflow}{return} s\_standardPhong;}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00978}00978     \}}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00979}00979     s\_standardPhong = create()}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00980}00980                           .withSourceFile(\textcolor{stringliteral}{"{}embeddedResource/standard\_phong\_vert.glsl"{}}, ShaderType::Vertex)}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00981}00981                           .withSourceFile(\textcolor{stringliteral}{"{}embeddedResource/standard\_phong\_frag.glsl"{}}, ShaderType::Fragment)}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00980}00980                           .withSourceFile(\textcolor{stringliteral}{"{}shaders/standard\_phong\_vert.glsl"{}}, ShaderType::Vertex)}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00981}00981                           .withSourceFile(\textcolor{stringliteral}{"{}shaders/standard\_phong\_frag.glsl"{}}, ShaderType::Fragment)}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00982}00982                           .withName(\textcolor{stringliteral}{"{}StandardPhong"{}})}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00983}00983                           .build();}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00984}00984     \textcolor{keywordflow}{return} s\_standardPhong;}
@@ -995,8 +995,8 @@
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00991}00991         \textcolor{keywordflow}{return} s\_skybox;}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00992}00992     \}}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00993}00993     s\_skybox = create()}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00994}00994                    .withSourceFile(\textcolor{stringliteral}{"{}embeddedResource/skybox\_vert.glsl"{}}, ShaderType::Vertex)}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00995}00995                    .withSourceFile(\textcolor{stringliteral}{"{}embeddedResource/skybox\_frag.glsl"{}}, ShaderType::Fragment)}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00994}00994                    .withSourceFile(\textcolor{stringliteral}{"{}shaders/skybox\_vert.glsl"{}}, ShaderType::Vertex)}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00995}00995                    .withSourceFile(\textcolor{stringliteral}{"{}shaders/skybox\_frag.glsl"{}}, ShaderType::Fragment)}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00996}00996                    .withDepthWrite(\textcolor{keyword}{false}) \textcolor{comment}{// 天空盒需要禁止深度写入}}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00997}00997                    .withName(\textcolor{stringliteral}{"{}Skybox"{}})}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l00998}00998                    .build();}
@@ -1107,6 +1107,6 @@
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l01103}01103     LOG\_INFO(\textcolor{stringliteral}{"{}after insertPreprocessorDefines:source is:\(\backslash\)n \{\}"{}}, source.substr(0, insertPos + 1) + ss.str() + source.substr(insertPos + 1));}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l01104}01104     \textcolor{keywordflow}{return} source.substr(0, insertPos + 1) + ss.str() + source.substr(insertPos + 1);}
 \DoxyCodeLine{\Hypertarget{shader_8cpp_source_l01105}01105 \}}
-\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l01106}01106 \} \textcolor{comment}{// namespace re}}
+\DoxyCodeLine{\Hypertarget{shader_8cpp_source_l01106}01106 \} \textcolor{comment}{// namespace ceres}}
 
 \end{DoxyCode}

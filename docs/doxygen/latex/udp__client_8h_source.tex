@@ -1,0 +1,100 @@
+\hypertarget{udp__client_8h_source}{}\doxysection{udp\+\_\+client.\+h}
+\label{udp__client_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/udp\_client.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/udp\_client.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00001}00001 \textcolor{comment}{// Copyright(c) 2015-\/present, Gabi Melman \& spdlog contributors.}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00002}00002 \textcolor{comment}{// Distributed under the MIT License (http://opensource.org/licenses/MIT)}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00004}00004 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00006}00006 \textcolor{comment}{// Helper RAII over unix udp client socket.}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00007}00007 \textcolor{comment}{// Will throw on construction if the socket creation failed.}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00009}00009 \textcolor{preprocessor}{\#ifdef \_WIN32}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00010}00010 \textcolor{preprocessor}{\#    error "{}include udp\_client-\/windows.h instead"{}}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00011}00011 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00013}00013 \textcolor{preprocessor}{\#include <spdlog/common.h>}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00014}00014 \textcolor{preprocessor}{\#include <spdlog/details/os.h>}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00016}00016 \textcolor{preprocessor}{\#include <sys/socket.h>}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00017}00017 \textcolor{preprocessor}{\#include <netinet/in.h>}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00018}00018 \textcolor{preprocessor}{\#include <arpa/inet.h>}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00019}00019 \textcolor{preprocessor}{\#include <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00020}00020 \textcolor{preprocessor}{\#include <netdb.h>}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00021}00021 \textcolor{preprocessor}{\#include <netinet/udp.h>}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00023}00023 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00025}00025 \textcolor{keyword}{namespace }spdlog \{}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00026}00026 \textcolor{keyword}{namespace }details \{}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00028}00028 \textcolor{keyword}{class }udp\_client}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00029}00029 \{}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00030}00030     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} TX\_BUFFER\_SIZE = 1024 * 10;}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00031}00031     \textcolor{keywordtype}{int} socket\_ = -\/1;}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00032}00032     \textcolor{keyword}{struct }sockaddr\_in sockAddr\_;}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00034}00034     \textcolor{keywordtype}{void} cleanup\_()}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00035}00035     \{}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00036}00036         \textcolor{keywordflow}{if} (socket\_ != -\/1)}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00037}00037         \{}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00038}00038             ::close(socket\_);}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00039}00039             socket\_ = -\/1;}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00040}00040         \}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00041}00041     \}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00043}00043 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00044}00044     udp\_client(\textcolor{keyword}{const} std::string \&host, uint16\_t port)}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00045}00045     \{}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00046}00046         socket\_ = ::socket(PF\_INET, SOCK\_DGRAM, 0);}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00047}00047         \textcolor{keywordflow}{if} (socket\_ < 0)}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00048}00048         \{}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00049}00049             throw\_spdlog\_ex(\textcolor{stringliteral}{"{}error: Create Socket Failed!"{}});}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00050}00050         \}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00052}00052         \textcolor{keywordtype}{int} option\_value = TX\_BUFFER\_SIZE;}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00053}00053         \textcolor{keywordflow}{if} (::setsockopt(socket\_, SOL\_SOCKET, SO\_SNDBUF, \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const }\textcolor{keywordtype}{char} *\textcolor{keyword}{>}(\&option\_value), \textcolor{keyword}{sizeof}(option\_value)) < 0)}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00054}00054         \{}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00055}00055             cleanup\_();}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00056}00056             throw\_spdlog\_ex(\textcolor{stringliteral}{"{}error: setsockopt(SO\_SNDBUF) Failed!"{}});}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00057}00057         \}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00059}00059         sockAddr\_.sin\_family = AF\_INET;}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00060}00060         sockAddr\_.sin\_port = htons(port);}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00062}00062         \textcolor{keywordflow}{if} (::inet\_aton(host.c\_str(), \&sockAddr\_.sin\_addr) == 0)}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00063}00063         \{}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00064}00064             cleanup\_();}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00065}00065             throw\_spdlog\_ex(\textcolor{stringliteral}{"{}error: Invalid address!"{}});}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00066}00066         \}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00068}00068         ::memset(sockAddr\_.sin\_zero, 0x00, \textcolor{keyword}{sizeof}(sockAddr\_.sin\_zero));}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00069}00069     \}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00071}00071     \string~udp\_client()}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00072}00072     \{}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00073}00073         cleanup\_();}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00074}00074     \}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00075}00075 }
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00076}00076     \textcolor{keywordtype}{int} fd()\textcolor{keyword}{ const}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00077}00077 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00078}00078         \textcolor{keywordflow}{return} socket\_;}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00079}00079     \}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00081}00081     \textcolor{comment}{// Send exactly n\_bytes of the given data.}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00082}00082     \textcolor{comment}{// On error close the connection and throw.}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00083}00083     \textcolor{keywordtype}{void} send(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *data, \textcolor{keywordtype}{size\_t} n\_bytes)}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00084}00084     \{}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00085}00085         ssize\_t toslen = 0;}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00086}00086         socklen\_t tolen = \textcolor{keyword}{sizeof}(\textcolor{keyword}{struct }sockaddr);}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00087}00087         \textcolor{keywordflow}{if} ((toslen = ::sendto(socket\_, data, n\_bytes, 0, (\textcolor{keyword}{struct} sockaddr *)\&sockAddr\_, tolen)) == -\/1)}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00088}00088         \{}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00089}00089             throw\_spdlog\_ex(\textcolor{stringliteral}{"{}sendto(2) failed"{}}, errno);}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00090}00090         \}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00091}00091     \}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00092}00092 \};}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00093}00093 \} \textcolor{comment}{// namespace details}}
+\DoxyCodeLine{\Hypertarget{udp__client_8h_source_l00094}00094 \} \textcolor{comment}{// namespace spdlog}}
+
+\end{DoxyCode}

@@ -9,7 +9,7 @@
 #include <array>
 #include <glm/glm.hpp>
 #include <string>
-/// 精灵图集
+// 精灵图集
 namespace ceres
 {
 class SpriteAtlas;

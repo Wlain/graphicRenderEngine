@@ -1,0 +1,158 @@
+\hypertarget{threads_8c_source}{}\doxysection{threads.\+c}
+\label{threads_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/tests/threads.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/tests/threads.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00001}00001 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00002}00002 \textcolor{comment}{// Multi-\/threading test}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00003}00003 \textcolor{comment}{// Copyright (c) Camilla Löwy <elmindreda@glfw.org>}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00005}00005 \textcolor{comment}{// This software is provided 'as-\/is', without any express or implied}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00006}00006 \textcolor{comment}{// warranty. In no event will the authors be held liable for any damages}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00007}00007 \textcolor{comment}{// arising from the use of this software.}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00009}00009 \textcolor{comment}{// Permission is granted to anyone to use this software for any purpose,}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00010}00010 \textcolor{comment}{// including commercial applications, and to alter it and redistribute it}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00011}00011 \textcolor{comment}{// freely, subject to the following restrictions:}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00012}00012 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00013}00013 \textcolor{comment}{// 1. The origin of this software must not be misrepresented; you must not}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00014}00014 \textcolor{comment}{//    claim that you wrote the original software. If you use this software}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00015}00015 \textcolor{comment}{//    in a product, an acknowledgment in the product documentation would}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00016}00016 \textcolor{comment}{//    be appreciated but is not required.}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00017}00017 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00018}00018 \textcolor{comment}{// 2. Altered source versions must be plainly marked as such, and must not}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00019}00019 \textcolor{comment}{//    be misrepresented as being the original software.}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00020}00020 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00021}00021 \textcolor{comment}{// 3. This notice may not be removed or altered from any source}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00022}00022 \textcolor{comment}{//    distribution.}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00023}00023 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00024}00024 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00025}00025 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00026}00026 \textcolor{comment}{// This test is intended to verify whether the OpenGL context part of}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00027}00027 \textcolor{comment}{// the GLFW API is able to be used from multiple threads}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00028}00028 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00029}00029 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00031}00031 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{tinycthread_8h}{tinycthread.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00033}00033 \textcolor{preprocessor}{\#include <glad/gl.h>}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00034}00034 \textcolor{preprocessor}{\#define GLFW\_INCLUDE\_NONE}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00035}00035 \textcolor{preprocessor}{\#include <GLFW/glfw3.h>}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00037}00037 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00038}00038 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00039}00039 \textcolor{preprocessor}{\#include <math.h>}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00041}\mbox{\hyperlink{struct_thread}{00041}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00042}00042 \{}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00043}00043     \mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window;}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00044}00044     \textcolor{keyword}{const} \textcolor{keywordtype}{char}* title;}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00045}00045     \textcolor{keywordtype}{float} r, g, b;}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00046}00046     thrd\_t id;}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00047}00047 \} \mbox{\hyperlink{struct_thread}{Thread}};}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00049}00049 \textcolor{keyword}{static} \textcolor{keyword}{volatile} \textcolor{keywordtype}{int} running = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00051}00051 \textcolor{keyword}{static} \textcolor{keywordtype}{void} error\_callback(\textcolor{keywordtype}{int} error, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* description)}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00052}00052 \{}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00053}00053     fprintf(stderr, \textcolor{stringliteral}{"{}Error: \%s\(\backslash\)n"{}}, description);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00054}00054 \}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00056}00056 \textcolor{keyword}{static} \textcolor{keywordtype}{void} key\_callback(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int} key, \textcolor{keywordtype}{int} scancode, \textcolor{keywordtype}{int} action, \textcolor{keywordtype}{int} mods)}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00057}00057 \{}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00058}00058     \textcolor{keywordflow}{if} (key == GLFW\_KEY\_ESCAPE \&\& action == \mbox{\hyperlink{group__input_ga2485743d0b59df3791c45951c4195265}{GLFW\_PRESS}})}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00059}00059         \mbox{\hyperlink{group__window_ga1cadeda7a1e2f224e06a8415d30741aa}{glfwSetWindowShouldClose}}(window, \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}});}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00060}00060 \}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00062}00062 \textcolor{keyword}{static} \textcolor{keywordtype}{int} thread\_main(\textcolor{keywordtype}{void}* data)}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00063}00063 \{}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00064}00064     \textcolor{keyword}{const} \mbox{\hyperlink{struct_thread}{Thread}}* thread = data;}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00065}00065 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00066}00066     \mbox{\hyperlink{group__context_gafd76c93e15ec8b0b90506a9936a46185}{glfwMakeContextCurrent}}(thread-\/>window);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00067}00067     \mbox{\hyperlink{group__context_ga12a595c06947cec4967c6e1f14210a8a}{glfwSwapInterval}}(1);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00069}00069     \textcolor{keywordflow}{while} (running)}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00070}00070     \{}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00071}00071         \textcolor{keyword}{const} \textcolor{keywordtype}{float} v = (float) fabs(\mbox{\hyperlink{group__core__func__trigonometric_ga3fcdcfa2d2ac38de9ba1885cd1c79414}{sin}}(\mbox{\hyperlink{group__input_ga03d4a1039b8662c71eeb40beea8cb622}{glfwGetTime}}() * 2.f));}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00072}00072         glClearColor(thread-\/>r * v, thread-\/>g * v, thread-\/>b * v, 0.f);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00074}00074         glClear(GL\_COLOR\_BUFFER\_BIT);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00075}00075         \mbox{\hyperlink{group__window_gafb827800eedbfcbc97b1e5408df668d7}{glfwSwapBuffers}}(thread-\/>window);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00076}00076     \}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00078}00078     \mbox{\hyperlink{group__context_gafd76c93e15ec8b0b90506a9936a46185}{glfwMakeContextCurrent}}(NULL);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00079}00079     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00080}00080 \}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00082}00082 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00083}00083 \{}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00084}00084     \textcolor{keywordtype}{int} i, \mbox{\hyperlink{structresult}{result}};}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00085}00085     \mbox{\hyperlink{struct_thread}{Thread}} threads[] =}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00086}00086     \{}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00087}00087         \{ NULL, \textcolor{stringliteral}{"{}Red"{}}, 1.f, 0.f, 0.f, 0 \},}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00088}00088         \{ NULL, \textcolor{stringliteral}{"{}Green"{}}, 0.f, 1.f, 0.f, 0 \},}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00089}00089         \{ NULL, \textcolor{stringliteral}{"{}Blue"{}}, 0.f, 0.f, 1.f, 0 \}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00090}00090     \};}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00091}00091     \textcolor{keyword}{const} \textcolor{keywordtype}{int} count = \textcolor{keyword}{sizeof}(threads) / \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_thread}{Thread}});}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00093}00093     \mbox{\hyperlink{group__init_ga746e2757d069eaea423349aca6ae097a}{glfwSetErrorCallback}}(error\_callback);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00095}00095     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{group__init_gab41771f0215a2e0afb4cf1cf98082d40}{glfwInit}}())}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00096}00096         exit(EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00098}00098     \mbox{\hyperlink{group__window_ga69c40728499720bef8a49aa925ea0efa}{glfwWindowHint}}(\mbox{\hyperlink{group__window_gafb3cdc45297e06d8f1eb13adc69ca6c4}{GLFW\_VISIBLE}}, \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}});}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00099}00099 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00100}00100     \textcolor{keywordflow}{for} (i = 0;  i < count;  i++)}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00101}00101     \{}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00102}00102         threads[i].window = \mbox{\hyperlink{group__window_gaaccd00fafe81e2db94e8cdf55721e055}{glfwCreateWindow}}(200, 200,}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00103}00103                                              threads[i].title,}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00104}00104                                              NULL, NULL);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00105}00105         \textcolor{keywordflow}{if} (!threads[i].window)}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00106}00106         \{}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00107}00107             \mbox{\hyperlink{group__init_gafd90e6fd4819ea9e22e5e739519a6504}{glfwTerminate}}();}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00108}00108             exit(EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00109}00109         \}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00111}00111         \mbox{\hyperlink{group__input_gaa4cbcb81b939b8800e44cea971ddae47}{glfwSetKeyCallback}}(threads[i].window, key\_callback);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00112}00112 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00113}00113         \mbox{\hyperlink{group__window_ga0dc8d880a0d87be16d3ea8114561f6f0}{glfwSetWindowPos}}(threads[i].window, 200 + 250 * i, 200);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00114}00114         \mbox{\hyperlink{group__window_ga7945bcdff9e5e058cf36505d6873ed8c}{glfwShowWindow}}(threads[i].window);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00115}00115     \}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00117}00117     \mbox{\hyperlink{group__context_gafd76c93e15ec8b0b90506a9936a46185}{glfwMakeContextCurrent}}(threads[0].window);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00118}00118     gladLoadGL(\mbox{\hyperlink{group__context_ga0e8af175218929615c16e74938c10f2a}{glfwGetProcAddress}});}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00119}00119     \mbox{\hyperlink{group__context_gafd76c93e15ec8b0b90506a9936a46185}{glfwMakeContextCurrent}}(NULL);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00121}00121     \textcolor{keywordflow}{for} (i = 0;  i < count;  i++)}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00122}00122     \{}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00123}00123         \textcolor{keywordflow}{if} (\mbox{\hyperlink{tinycthread_8h_a1a52b6cd2d15cc6c4741d5124f85d183}{thrd\_create}}(\&threads[i].\textcolor{keywordtype}{id}, thread\_main, threads + i) !=}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00124}00124             \mbox{\hyperlink{tinycthread_8h_a6f15c94421801f7f6a4338653b9017dc}{thrd\_success}})}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00125}00125         \{}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00126}00126             fprintf(stderr, \textcolor{stringliteral}{"{}Failed to create secondary thread\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00127}00127 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00128}00128             \mbox{\hyperlink{group__init_gafd90e6fd4819ea9e22e5e739519a6504}{glfwTerminate}}();}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00129}00129             exit(EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00130}00130         \}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00131}00131     \}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00132}00132 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00133}00133     \textcolor{keywordflow}{while} (running)}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00134}00134     \{}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00135}00135         \mbox{\hyperlink{group__window_ga6e042d05823c11e11c7339b81a237738}{glfwWaitEvents}}();}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00136}00136 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00137}00137         \textcolor{keywordflow}{for} (i = 0;  i < count;  i++)}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00138}00138         \{}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00139}00139             \textcolor{keywordflow}{if} (\mbox{\hyperlink{group__window_gaa6162f67dfa38b8beda2fea623649332}{glfwWindowShouldClose}}(threads[i].window))}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00140}00140                 running = \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00141}00141         \}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00142}00142     \}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00143}00143 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00144}00144     \textcolor{keywordflow}{for} (i = 0;  i < count;  i++)}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00145}00145         \mbox{\hyperlink{group__window_gaa17e287d521544bdeceafa09ac036e20}{glfwHideWindow}}(threads[i].window);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00146}00146 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00147}00147     \textcolor{keywordflow}{for} (i = 0;  i < count;  i++)}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00148}00148         \mbox{\hyperlink{tinycthread_8h_aa2e83a544f49f74cf217a69a882b5d80}{thrd\_join}}(threads[i].\textcolor{keywordtype}{id}, \&\mbox{\hyperlink{structresult}{result}});}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00149}00149 }
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00150}00150     exit(EXIT\_SUCCESS);}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00151}00151 \}}
+\DoxyCodeLine{\Hypertarget{threads_8c_source_l00152}00152 }
+
+\end{DoxyCode}

@@ -1,0 +1,130 @@
+\hypertarget{pg__test_8c_source}{}\doxysection{pg\+\_\+test.\+c}
+\label{pg__test_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/pg\_test/pg\_test.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/pg\_test/pg\_test.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00001}00001 \textcolor{preprocessor}{\#define STB\_DEFINE}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00002}00002 \textcolor{preprocessor}{\#include "{}stb.h"{}}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00003}00003 \textcolor{preprocessor}{\#define STB\_PG\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00004}00004 \textcolor{preprocessor}{\#include "{}stb\_pg.h"{}}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00005}00005 \textcolor{preprocessor}{\#define STB\_IMAGE\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00006}00006 \textcolor{preprocessor}{\#include "{}stb\_image.h"{}}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00007}00007 \textcolor{preprocessor}{\#define STB\_IMAGE\_WRITE\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00008}00008 \textcolor{preprocessor}{\#include "{}stb\_image\_write.h"{}}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00009}00009 }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00010}00010 \textcolor{keyword}{static} \textcolor{keywordtype}{float} *hf;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00011}00011 \textcolor{keyword}{static} \textcolor{keywordtype}{int} hf\_width = 10001;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00012}00012 \textcolor{keyword}{static} \textcolor{keywordtype}{int} hf\_height = 10001;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00013}00013 }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00014}00014 \textcolor{keyword}{static} \textcolor{keywordtype}{float} get\_height(\textcolor{keywordtype}{float} x, \textcolor{keywordtype}{float} y)}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00015}00015 \{}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00016}00016    \textcolor{keywordtype}{float} h00,h01,h10,h11,h0,h1;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00017}00017    \textcolor{keywordtype}{int} ix,iy;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00018}00018    \textcolor{keywordflow}{if} (x < 0) x = 0;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00019}00019    \textcolor{keywordflow}{if} (x > hf\_width-\/1) x = (float) hf\_width-\/1;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00020}00020    \textcolor{keywordflow}{if} (y < 0) y = 0;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00021}00021    \textcolor{keywordflow}{if} (y > hf\_height-\/1) y = (float) hf\_height-\/1;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00022}00022    ix = (int) x; x -\/= ix;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00023}00023    iy = (int) y; y -\/= iy;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00024}00024    h00 = hf[(iy+0)*hf\_height+(ix+0)];}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00025}00025    h10 = hf[(iy+0)*hf\_height+(ix+1)];}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00026}00026    h01 = hf[(iy+1)*hf\_height+(ix+0)];}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00027}00027    h11 = hf[(iy+1)*hf\_height+(ix+1)];}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00028}00028    h0 = stb\_lerp(y, h00, h01);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00029}00029    h1 = stb\_lerp(y, h10, h11);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00030}00030    \textcolor{keywordflow}{return} stb\_lerp(x, h0, h1);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00031}00031 \}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00033}00033 \textcolor{keywordtype}{void} stbpg\_tick(\textcolor{keywordtype}{float} dt)}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00034}00034 \{}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00035}00035    \textcolor{keywordtype}{int} i=0,j=0;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00036}00036    \textcolor{keywordtype}{int} \mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{step}} = 1;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00038}00038    glUseProgram(0);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00040}00040    glClearColor(0.6f,0.7f,1.0f,1.0f);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00041}00041    glClearDepth(1.0f);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00042}00042    glClear(GL\_COLOR\_BUFFER\_BIT | GL\_DEPTH\_BUFFER\_BIT);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00044}00044    glDepthFunc(GL\_LESS);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00045}00045    glEnable(GL\_DEPTH\_TEST);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00046}00046 \textcolor{preprocessor}{\#if 1}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00047}00047    glEnable(GL\_CULL\_FACE);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00049}00049    glMatrixMode(GL\_PROJECTION);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00050}00050    glLoadIdentity();}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00051}00051    gluPerspective(60.0, 1920/1080.0f, 0.02f, 8000.0f);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00052}00052    \textcolor{comment}{//glOrtho(-\/8,8,-\/6,6, -\/100, 100);}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00054}00054    glMatrixMode(GL\_MODELVIEW);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00055}00055    glLoadIdentity();}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00056}00056    glRotatef(-\/90, 1,0,0); \textcolor{comment}{// z-\/up}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00058}00058    \{}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00059}00059       \textcolor{keywordtype}{float} x,y;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00060}00060       stbpg\_get\_mouselook(\&x,\&y);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00061}00061       glRotatef(-\/y, 1,0,0);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00062}00062       glRotatef(-\/x, 0,0,1);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00063}00063    \}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00065}00065    \{}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00066}00066       \textcolor{keyword}{static} \textcolor{keywordtype}{float} cam\_x = 1000;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00067}00067       \textcolor{keyword}{static} \textcolor{keywordtype}{float} cam\_y = 1000;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00068}00068       \textcolor{keyword}{static} \textcolor{keywordtype}{float} cam\_z = 700;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00069}00069       \textcolor{keywordtype}{float} x=0,y=0;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00070}00070       stbpg\_get\_keymove(\&x,\&y);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00071}00071       cam\_x += x*dt*5.0f;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00072}00072       cam\_y += y*dt*5.0f;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00073}00073       glTranslatef(-\/cam\_x, -\/cam\_y, -\/cam\_z);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00074}00074       \textcolor{keywordflow}{if} (cam\_x >= 0 \&\& cam\_x < hf\_width \&\& cam\_y >= 0 \&\& cam\_y < hf\_height)}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00075}00075          cam\_z = get\_height(cam\_x, cam\_y) + 1.65f; \textcolor{comment}{// average eye height in meters}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00076}00076    \}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00078}00078    \textcolor{keywordflow}{for} (j=501; j+1 < 1500+0*hf\_height; j += \mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{step}}) \{}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00079}00079       glBegin(GL\_QUAD\_STRIP);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00080}00080       \textcolor{keywordflow}{for} (i=501; i < 1500+0*hf\_width; i += \mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{step}}) \{}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00081}00081          \textcolor{keyword}{static} \textcolor{keywordtype}{int} flip=0;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00082}00082          \textcolor{keywordflow}{if} (flip)}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00083}00083             glColor3f(0.5,0.5,0.5);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00084}00084          \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00085}00085             glColor3f(0.4f,0.4f,0.4f);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00086}00086          flip = !flip;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00087}00087          glVertex3f((\textcolor{keywordtype}{float}) i, (\textcolor{keywordtype}{float}) j+\mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{step}},hf[(j+\mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{step}})*hf\_width+i]);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00088}00088          glVertex3f((\textcolor{keywordtype}{float}) i, (\textcolor{keywordtype}{float}) j   ,hf[  j    *hf\_width+i]);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00089}00089       \}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00090}00090       glEnd();}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00091}00091    \}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00093}00093    glBegin(GL\_LINES);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00094}00094       glColor3f(1,0,0); glVertex3f(10,0,0); glVertex3f(0,0,0);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00095}00095       glColor3f(0,1,0); glVertex3f(0,10,0); glVertex3f(0,0,0);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00096}00096       glColor3f(0,0,1); glVertex3f(0,0,10); glVertex3f(0,0,0);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00097}00097    glEnd();}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00098}00098 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00099}00099 \}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00100}00100 }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00101}00101 \textcolor{keywordtype}{void} stbpg\_main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} **argv)}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00102}00102 \{}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00103}00103    \textcolor{keywordtype}{int} i,j;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00105}00105 \textcolor{preprocessor}{   \#if 0}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00106}00106    \textcolor{keywordtype}{int} w,h,c;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00107}00107    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} *data = stbi\_load\_16(\textcolor{stringliteral}{"{}c:/x/ned\_1m/test2.png"{}}, \&w, \&h, \&c, 1);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00108}00108    stb\_filewrite(\textcolor{stringliteral}{"{}c:/x/ned\_1m/x73\_y428\_10012\_10012.bin"{}}, data, w*h*2);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00109}00109 \textcolor{preprocessor}{   \#else}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00110}00110    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} *data = stb\_file(\textcolor{stringliteral}{"{}c:/x/ned\_1m/x73\_y428\_10012\_10012.bin"{}}, NULL);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00111}00111    \textcolor{keywordtype}{int} w=10012, h = 10012;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00112}00112 \textcolor{preprocessor}{   \#endif}}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00113}00113 }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00114}00114    hf = malloc(hf\_width * hf\_height * 4);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00115}00115    \textcolor{keywordflow}{for} (j=0; j < hf\_height; ++j)}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00116}00116       \textcolor{keywordflow}{for} (i=0; i < hf\_width; ++i)}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00117}00117          hf[j*hf\_width+i] = data[j*w+i] / 32.0f;}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00118}00118 }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00119}00119    stbpg\_gl\_compat\_version(1,1);   }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00120}00120    stbpg\_windowed(\textcolor{stringliteral}{"{}terrain\_edit"{}}, 1920, 1080);}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00121}00121    stbpg\_run();}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00122}00122 }
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00123}00123    \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{pg__test_8c_source_l00124}00124 \}}
+
+\end{DoxyCode}

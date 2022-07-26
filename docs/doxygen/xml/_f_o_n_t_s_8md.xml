@@ -1,0 +1,410 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="_f_o_n_t_s_8md" kind="file" language="Markdown">
+    <compoundname>FONTS.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">_(You<sp/>may<sp/>browse<sp/>this<sp/>at<sp/>https://github.com/ocornut/imgui/blob/master/docs/FONTS.md<sp/>or<sp/>view<sp/>this<sp/>file<sp/>with<sp/>any<sp/>Markdown<sp/>viewer)_</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Dear<sp/>ImGui:<sp/>Using<sp/>Fonts</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>code<sp/>in<sp/>imgui.cpp<sp/>embeds<sp/>a<sp/>copy<sp/>of<sp/>&apos;ProggyClean.ttf&apos;<sp/>(by<sp/>Tristan<sp/>Grimmer),</highlight></codeline>
+<codeline><highlight class="normal">a<sp/>13<sp/>pixels<sp/>high,<sp/>pixel-perfect<sp/>font<sp/>used<sp/>by<sp/>default.<sp/>We<sp/>embed<sp/>it<sp/>in<sp/>the<sp/>source<sp/>code<sp/>so<sp/>you<sp/>can<sp/>use<sp/>Dear<sp/>ImGui<sp/>without<sp/>any<sp/>file<sp/>system<sp/>access.<sp/>ProggyClean<sp/>does<sp/>not<sp/>scale<sp/>smoothly,<sp/>therefore<sp/>it<sp/>is<sp/>recommended<sp/>that<sp/>you<sp/>load<sp/>your<sp/>own<sp/>file<sp/>when<sp/>using<sp/>Dear<sp/>ImGui<sp/>in<sp/>an<sp/>application<sp/>aiming<sp/>to<sp/>look<sp/>nice<sp/>and<sp/>wanting<sp/>to<sp/>support<sp/>multiple<sp/>resolutions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>may<sp/>also<sp/>load<sp/>external<sp/>.TTF/.OTF<sp/>files.</highlight></codeline>
+<codeline><highlight class="normal">In<sp/>the<sp/>[misc/fonts/](https://github.com/ocornut/imgui/tree/master/misc/fonts)<sp/>folder<sp/>you<sp/>can<sp/>find<sp/>a<sp/>few<sp/>suggested<sp/>fonts,<sp/>provided<sp/>as<sp/>a<sp/>convenience.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Also<sp/>read<sp/>the<sp/>FAQ:**<sp/>https://www.dearimgui.org/faq<sp/>(there<sp/>is<sp/>a<sp/>Fonts<sp/>section!)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Index</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[Readme<sp/>First](#readme-first)</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[How<sp/>should<sp/>I<sp/>handle<sp/>DPI<sp/>in<sp/>my<sp/>application?](#how-should-i-handle-dpi-in-my-application)</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[Fonts<sp/>Loading<sp/>Instructions](#font-loading-instructions)</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[Using<sp/>Icon<sp/>Fonts](#using-icon-fonts)</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[Using<sp/>FreeType<sp/>Rasterizer<sp/>(imgui_freetype)](#using-freetype-rasterizer-imgui_freetype)</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[Using<sp/>Colorful<sp/>Glyphs/Emojis](#using-colorful-glyphsemojis)</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[Using<sp/>Custom<sp/>Glyph<sp/>Ranges](#using-custom-glyph-ranges)</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[Using<sp/>Custom<sp/>Colorful<sp/>Icons](#using-custom-colorful-icons)</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[Using<sp/>Font<sp/>Data<sp/>Embedded<sp/>In<sp/>Source<sp/>Code](#using-font-data-embedded-in-source-code)</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[About<sp/>filenames](#about-filenames)</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[Credits/Licenses<sp/>For<sp/>Fonts<sp/>Included<sp/>In<sp/>Repository](#creditslicenses-for-fonts-included-in-repository)</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[Font<sp/>Links](#font-links)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---------------------------------------</highlight></codeline>
+<codeline><highlight class="normal"><sp/>##<sp/>Readme<sp/>First</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>You<sp/>can<sp/>use<sp/>the<sp/>`Metrics/Debugger`<sp/>window<sp/>(available<sp/>in<sp/>`Demo&gt;Tools`)<sp/>to<sp/>browse<sp/>your<sp/>fonts<sp/>and<sp/>understand<sp/>what&apos;s<sp/>going<sp/>on<sp/>if<sp/>you<sp/>have<sp/>an<sp/>issue.<sp/>You<sp/>can<sp/>also<sp/>reach<sp/>it<sp/>in<sp/>`Demo-&gt;Tools-&gt;Style<sp/>Editor-&gt;Fonts`.<sp/>The<sp/>same<sp/>information<sp/>are<sp/>also<sp/>available<sp/>in<sp/>the<sp/>Style<sp/>Editor<sp/>under<sp/>Fonts.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![imgui_capture_0008](https://user-images.githubusercontent.com/8225057/135429892-0e41ef8d-33c5-4991-bcf6-f997a0bcfd6b.png)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>All<sp/>loaded<sp/>fonts<sp/>glyphs<sp/>are<sp/>rendered<sp/>into<sp/>a<sp/>single<sp/>texture<sp/>atlas<sp/>ahead<sp/>of<sp/>time.<sp/>Calling<sp/>either<sp/>of<sp/>`io.Fonts-&gt;GetTexDataAsAlpha8()`,<sp/>`io.Fonts-&gt;GetTexDataAsRGBA32()`<sp/>or<sp/>`io.Fonts-&gt;Build()`<sp/>will<sp/>build<sp/>the<sp/>atlas.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>Make<sp/>sure<sp/>your<sp/>font<sp/>ranges<sp/>data<sp/>are<sp/>persistent<sp/>(available<sp/>during<sp/>the<sp/>calls<sp/>to<sp/>`GetTexDataAsAlpha8()`/`GetTexDataAsRGBA32()/`Build()`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>Use<sp/>C++11<sp/>u8&quot;my<sp/>text&quot;<sp/>syntax<sp/>to<sp/>encode<sp/>literal<sp/>strings<sp/>as<sp/>UTF-8.<sp/>e.g.:</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">u8&quot;hello&quot;</highlight></codeline>
+<codeline><highlight class="normal">u8&quot;こんにちは&quot;<sp/><sp/><sp/>//<sp/>this<sp/>will<sp/>be<sp/>encoded<sp/>as<sp/>UTF-8</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>[Return<sp/>to<sp/>Index](#index)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>How<sp/>should<sp/>I<sp/>handle<sp/>DPI<sp/>in<sp/>my<sp/>application?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>[FAQ<sp/>entry](https://github.com/ocornut/imgui/blob/master/docs/FAQ.md#q-how-should-i-handle-dpi-in-my-application).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>[Return<sp/>to<sp/>Index](#index)</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Font<sp/>Loading<sp/>Instructions</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Load<sp/>default<sp/>font:**</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">ImGuiIO&amp;<sp/>io<sp/>=<sp/>ImGui::GetIO();</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontDefault();</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Load<sp/>.TTF/.OTF<sp/>file<sp/>with:**</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">ImGuiIO&amp;<sp/>io<sp/>=<sp/>ImGui::GetIO();</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(&quot;font.ttf&quot;,<sp/>size_pixels);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>get<sp/>an<sp/>assert<sp/>stating<sp/>&quot;Could<sp/>not<sp/>load<sp/>font<sp/>file!&quot;,<sp/>your<sp/>font<sp/>filename<sp/>is<sp/>likely<sp/>incorrect.<sp/>Read<sp/>&quot;[About<sp/>filenames](#about-filenames)&quot;<sp/>carefully.</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Load<sp/>multiple<sp/>fonts:**</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Init</highlight></codeline>
+<codeline><highlight class="normal">ImGuiIO&amp;<sp/>io<sp/>=<sp/>ImGui::GetIO();</highlight></codeline>
+<codeline><highlight class="normal">ImFont*<sp/>font1<sp/>=<sp/>io.Fonts-&gt;AddFontFromFileTTF(&quot;font.ttf&quot;,<sp/>size_pixels);</highlight></codeline>
+<codeline><highlight class="normal">ImFont*<sp/>font2<sp/>=<sp/>io.Fonts-&gt;AddFontFromFileTTF(&quot;anotherfont.otf&quot;,<sp/>size_pixels);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>In<sp/>application<sp/>loop:<sp/>select<sp/>font<sp/>at<sp/>runtime</highlight></codeline>
+<codeline><highlight class="normal">ImGui::Text(&quot;Hello&quot;);<sp/>//<sp/>use<sp/>the<sp/>default<sp/>font<sp/>(which<sp/>is<sp/>the<sp/>first<sp/>loaded<sp/>font)</highlight></codeline>
+<codeline><highlight class="normal">ImGui::PushFont(font2);</highlight></codeline>
+<codeline><highlight class="normal">ImGui::Text(&quot;Hello<sp/>with<sp/>another<sp/>font&quot;);</highlight></codeline>
+<codeline><highlight class="normal">ImGui::PopFont();</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**For<sp/>advanced<sp/>options<sp/>create<sp/>a<sp/>ImFontConfig<sp/>structure<sp/>and<sp/>pass<sp/>it<sp/>to<sp/>the<sp/>AddFont()<sp/>function<sp/>(it<sp/>will<sp/>be<sp/>copied<sp/>internally):**</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">ImFontConfig<sp/>config;</highlight></codeline>
+<codeline><highlight class="normal">config.OversampleH<sp/>=<sp/>2;</highlight></codeline>
+<codeline><highlight class="normal">config.OversampleV<sp/>=<sp/>1;</highlight></codeline>
+<codeline><highlight class="normal">config.GlyphExtraSpacing.x<sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline><highlight class="normal">ImFont*<sp/>font<sp/>=<sp/>io.Fonts-&gt;AddFontFromFileTTF(&quot;font.ttf&quot;,<sp/>size_pixels,<sp/>&amp;config);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Combine<sp/>multiple<sp/>fonts<sp/>into<sp/>one:**</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Load<sp/>a<sp/>first<sp/>font</highlight></codeline>
+<codeline><highlight class="normal">ImFont*<sp/>font<sp/>=<sp/>io.Fonts-&gt;AddFontDefault();</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Add<sp/>character<sp/>ranges<sp/>and<sp/>merge<sp/>into<sp/>the<sp/>previous<sp/>font</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>The<sp/>ranges<sp/>array<sp/>is<sp/>not<sp/>copied<sp/>by<sp/>the<sp/>AddFont*<sp/>functions<sp/>and<sp/>is<sp/>used<sp/>lazily</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>so<sp/>ensure<sp/>it<sp/>is<sp/>available<sp/>at<sp/>the<sp/>time<sp/>of<sp/>building<sp/>or<sp/>calling<sp/>GetTexDataAsRGBA32().</highlight></codeline>
+<codeline><highlight class="normal">static<sp/>const<sp/>ImWchar<sp/>icons_ranges[]<sp/>=<sp/>{<sp/>0xf000,<sp/>0xf3ff,<sp/>0<sp/>};<sp/>//<sp/>Will<sp/>not<sp/>be<sp/>copied<sp/>by<sp/>AddFont*<sp/>so<sp/>keep<sp/>in<sp/>scope.</highlight></codeline>
+<codeline><highlight class="normal">ImFontConfig<sp/>config;</highlight></codeline>
+<codeline><highlight class="normal">config.MergeMode<sp/>=<sp/>true;</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(&quot;DroidSans.ttf&quot;,<sp/>18.0f,<sp/>&amp;config,<sp/>io.Fonts-&gt;GetGlyphRangesJapanese());<sp/>//<sp/>Merge<sp/>into<sp/>first<sp/>font</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(&quot;fontawesome-webfont.ttf&quot;,<sp/>18.0f,<sp/>&amp;config,<sp/>icons_ranges);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Merge<sp/>into<sp/>first<sp/>font</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;Build();</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Add<sp/>a<sp/>fourth<sp/>parameter<sp/>to<sp/>bake<sp/>specific<sp/>font<sp/>ranges<sp/>only:**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Basic<sp/>Latin,<sp/>Extended<sp/>Latin</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(&quot;font.ttf&quot;,<sp/>size_pixels,<sp/>NULL,<sp/>io.Fonts-&gt;GetGlyphRangesDefault());</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Default<sp/>+<sp/>Selection<sp/>of<sp/>2500<sp/>Ideographs<sp/>used<sp/>by<sp/>Simplified<sp/>Chinese</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(&quot;font.ttf&quot;,<sp/>size_pixels,<sp/>NULL,<sp/>io.Fonts-&gt;GetGlyphRangesChineseSimplifiedCommon());</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Default<sp/>+<sp/>Hiragana,<sp/>Katakana,<sp/>Half-Width,<sp/>Selection<sp/>of<sp/>1946<sp/>Ideographs</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(&quot;font.ttf&quot;,<sp/>size_pixels,<sp/>NULL,<sp/>io.Fonts-&gt;GetGlyphRangesJapanese());</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">See<sp/>[Using<sp/>Custom<sp/>Glyph<sp/>Ranges](#using-custom-glyph-ranges)<sp/>section<sp/>to<sp/>create<sp/>your<sp/>own<sp/>ranges.</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Example<sp/>loading<sp/>and<sp/>using<sp/>a<sp/>Japanese<sp/>font:**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">ImGuiIO&amp;<sp/>io<sp/>=<sp/>ImGui::GetIO();</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(&quot;NotoSansCJKjp-Medium.otf&quot;,<sp/>20.0f,<sp/>NULL,<sp/>io.Fonts-&gt;GetGlyphRangesJapanese());</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">ImGui::Text(u8&quot;こんにちは！テスト<sp/>%d&quot;,<sp/>123);</highlight></codeline>
+<codeline><highlight class="normal">if<sp/>(ImGui::Button(u8&quot;ロード&quot;))</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>do<sp/>stuff</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">ImGui::InputText(&quot;string&quot;,<sp/>buf,<sp/>IM_ARRAYSIZE(buf));</highlight></codeline>
+<codeline><highlight class="normal">ImGui::SliderFloat(&quot;float&quot;,<sp/>&amp;f,<sp/>0.0f,<sp/>1.0f);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![sample<sp/>code<sp/>output](https://raw.githubusercontent.com/wiki/ocornut/imgui/web/v160/code_sample_02_jp.png)</highlight></codeline>
+<codeline><highlight class="normal">&lt;br&gt;_(settings:<sp/>Dark<sp/>style<sp/>(left),<sp/>Light<sp/>style<sp/>(right)<sp/>/<sp/>Font:<sp/>NotoSansCJKjp-Medium,<sp/>20px<sp/>/<sp/>Rounding:<sp/>5)_</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Font<sp/>Atlas<sp/>too<sp/>large?**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>If<sp/>you<sp/>have<sp/>very<sp/>large<sp/>number<sp/>of<sp/>glyphs<sp/>or<sp/>multiple<sp/>fonts,<sp/>the<sp/>texture<sp/>may<sp/>become<sp/>too<sp/>big<sp/>for<sp/>your<sp/>graphics<sp/>API.<sp/>The<sp/>typical<sp/>result<sp/>of<sp/>failing<sp/>to<sp/>upload<sp/>a<sp/>texture<sp/>is<sp/>if<sp/>every<sp/>glyphs<sp/>appears<sp/>as<sp/>white<sp/>rectangles.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Mind<sp/>the<sp/>fact<sp/>that<sp/>some<sp/>graphics<sp/>drivers<sp/>have<sp/>texture<sp/>size<sp/>limitation.<sp/>If<sp/>you<sp/>are<sp/>building<sp/>a<sp/>PC<sp/>application,<sp/>mind<sp/>the<sp/>fact<sp/>that<sp/>your<sp/>users<sp/>may<sp/>use<sp/>hardware<sp/>with<sp/>lower<sp/>limitations<sp/>than<sp/>yours.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Some<sp/>solutions:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/>Reduce<sp/>glyphs<sp/>ranges<sp/>by<sp/>calculating<sp/>them<sp/>from<sp/>source<sp/>localization<sp/>data.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>You<sp/>can<sp/>use<sp/>the<sp/>`ImFontGlyphRangesBuilder`<sp/>for<sp/>this<sp/>purpose<sp/>and<sp/>rebuilding<sp/>your<sp/>atlas<sp/>between<sp/>frames<sp/>when<sp/>new<sp/>characters<sp/>are<sp/>needed.<sp/>This<sp/>will<sp/>be<sp/>the<sp/>biggest<sp/>win!</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/>You<sp/>may<sp/>reduce<sp/>oversampling,<sp/>e.g.<sp/>`font_config.OversampleH<sp/>=<sp/>2`,<sp/>this<sp/>will<sp/>largely<sp/>reduce<sp/>your<sp/>texture<sp/>size.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>Note<sp/>that<sp/>while<sp/>OversampleH<sp/>=<sp/>2<sp/>looks<sp/>visibly<sp/>very<sp/>close<sp/>to<sp/>3<sp/>in<sp/>most<sp/>situations,<sp/>with<sp/>OversampleH<sp/>=<sp/>1<sp/>the<sp/>quality<sp/>drop<sp/>will<sp/>be<sp/>noticeable.</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/>Set<sp/>`io.Fonts.TexDesiredWidth`<sp/>to<sp/>specify<sp/>a<sp/>texture<sp/>width<sp/>to<sp/>minimize<sp/>texture<sp/>height<sp/>(see<sp/>comment<sp/>in<sp/>`ImFontAtlas::Build()`<sp/>function).</highlight></codeline>
+<codeline><highlight class="normal">4.<sp/>Set<sp/>`io.Fonts.Flags<sp/>|=<sp/>ImFontAtlasFlags_NoPowerOfTwoHeight;`<sp/>to<sp/>disable<sp/>rounding<sp/>the<sp/>texture<sp/>height<sp/>to<sp/>the<sp/>next<sp/>power<sp/>of<sp/>two.</highlight></codeline>
+<codeline><highlight class="normal">5.<sp/>Read<sp/>about<sp/>oversampling<sp/>[here](https://github.com/nothings/stb/blob/master/tests/oversample).</highlight></codeline>
+<codeline><highlight class="normal">6.<sp/>To<sp/>support<sp/>the<sp/>extended<sp/>range<sp/>of<sp/>unicode<sp/>beyond<sp/>0xFFFF<sp/>(e.g.<sp/>emoticons,<sp/>dingbats,<sp/>symbols,<sp/>shapes,<sp/>ancient<sp/>languages,<sp/>etc...)<sp/>add<sp/>`#define<sp/>IMGUI_USE_WCHAR32`in<sp/>your<sp/>`imconfig.h`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>[Return<sp/>to<sp/>Index](#index)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Using<sp/>Icon<sp/>Fonts</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Using<sp/>an<sp/>icon<sp/>font<sp/>(such<sp/>as<sp/>[FontAwesome](http://fontawesome.io)<sp/>or<sp/>[OpenFontIcons](https://github.com/traverseda/OpenFontIcons))<sp/>is<sp/>an<sp/>easy<sp/>and<sp/>practical<sp/>way<sp/>to<sp/>use<sp/>icons<sp/>in<sp/>your<sp/>Dear<sp/>ImGui<sp/>application.</highlight></codeline>
+<codeline><highlight class="normal">A<sp/>common<sp/>pattern<sp/>is<sp/>to<sp/>merge<sp/>the<sp/>icon<sp/>font<sp/>within<sp/>your<sp/>main<sp/>font,<sp/>so<sp/>you<sp/>can<sp/>embed<sp/>icons<sp/>directly<sp/>from<sp/>your<sp/>strings<sp/>without<sp/>having<sp/>to<sp/>change<sp/>fonts<sp/>back<sp/>and<sp/>forth.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>refer<sp/>to<sp/>the<sp/>icon<sp/>UTF-8<sp/>codepoints<sp/>from<sp/>your<sp/>C++<sp/>code,<sp/>you<sp/>may<sp/>use<sp/>those<sp/>headers<sp/>files<sp/>created<sp/>by<sp/>Juliette<sp/>Foucaut:<sp/>https://github.com/juliettef/IconFontCppHeaders.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">So<sp/>you<sp/>can<sp/>use<sp/>`ICON_FA_SEARCH`<sp/>as<sp/>a<sp/>string<sp/>that<sp/>will<sp/>render<sp/>as<sp/>a<sp/>&quot;Search&quot;<sp/>icon.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Example<sp/>Setup:</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Merge<sp/>icons<sp/>into<sp/>default<sp/>tool<sp/>font</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&quot;IconsFontAwesome.h&quot;</highlight></codeline>
+<codeline><highlight class="normal">ImGuiIO&amp;<sp/>io<sp/>=<sp/>ImGui::GetIO();</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontDefault();</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">ImFontConfig<sp/>config;</highlight></codeline>
+<codeline><highlight class="normal">config.MergeMode<sp/>=<sp/>true;</highlight></codeline>
+<codeline><highlight class="normal">config.GlyphMinAdvanceX<sp/>=<sp/>13.0f;<sp/>//<sp/>Use<sp/>if<sp/>you<sp/>want<sp/>to<sp/>make<sp/>the<sp/>icon<sp/>monospaced</highlight></codeline>
+<codeline><highlight class="normal">static<sp/>const<sp/>ImWchar<sp/>icon_ranges[]<sp/>=<sp/>{<sp/>ICON_MIN_FA,<sp/>ICON_MAX_FA,<sp/>0<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(&quot;fonts/fontawesome-webfont.ttf&quot;,<sp/>13.0f,<sp/>&amp;config,<sp/>icon_ranges);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">Example<sp/>Usage:</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Usage,<sp/>e.g.</highlight></codeline>
+<codeline><highlight class="normal">ImGui::Text(&quot;%s<sp/>among<sp/>%d<sp/>items&quot;,<sp/>ICON_FA_SEARCH,<sp/>count);</highlight></codeline>
+<codeline><highlight class="normal">ImGui::Button(ICON_FA_SEARCH<sp/>&quot;<sp/>Search&quot;);</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>C<sp/>string<sp/>_literals_<sp/>can<sp/>be<sp/>concatenated<sp/>at<sp/>compilation<sp/>time,<sp/>e.g.<sp/>&quot;hello&quot;<sp/>&quot;<sp/>world&quot;</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>ICON_FA_SEARCH<sp/>is<sp/>defined<sp/>as<sp/>a<sp/>string<sp/>literal<sp/>so<sp/>this<sp/>is<sp/>the<sp/>same<sp/>as<sp/>&quot;A&quot;<sp/>&quot;B&quot;<sp/>becoming<sp/>&quot;AB&quot;</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">See<sp/>Links<sp/>below<sp/>for<sp/>other<sp/>icons<sp/>fonts<sp/>and<sp/>related<sp/>tools.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Here&apos;s<sp/>an<sp/>application<sp/>using<sp/>icons<sp/>(&quot;Avoyd&quot;,<sp/>https://www.avoyd.com):</highlight></codeline>
+<codeline><highlight class="normal">![avoyd](https://user-images.githubusercontent.com/8225057/81696852-c15d9e80-9464-11ea-9cab-2a4d4fc84396.jpg)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>[Return<sp/>to<sp/>Index](#index)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Using<sp/>FreeType<sp/>Rasterizer<sp/>(imgui_freetype)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>Dear<sp/>ImGui<sp/>uses<sp/>imstb\_truetype.h<sp/>to<sp/>rasterize<sp/>fonts<sp/>(with<sp/>optional<sp/>oversampling).<sp/>This<sp/>technique<sp/>and<sp/>its<sp/>implementation<sp/>are<sp/>not<sp/>ideal<sp/>for<sp/>fonts<sp/>rendered<sp/>at<sp/>small<sp/>sizes,<sp/>which<sp/>may<sp/>appear<sp/>a<sp/>little<sp/>blurry<sp/>or<sp/>hard<sp/>to<sp/>read.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>There<sp/>is<sp/>an<sp/>implementation<sp/>of<sp/>the<sp/>ImFontAtlas<sp/>builder<sp/>using<sp/>FreeType<sp/>that<sp/>you<sp/>can<sp/>use<sp/>in<sp/>the<sp/>[misc/freetype/](https://github.com/ocornut/imgui/tree/master/misc/freetype)<sp/>folder.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>FreeType<sp/>supports<sp/>auto-hinting<sp/>which<sp/>tends<sp/>to<sp/>improve<sp/>the<sp/>readability<sp/>of<sp/>small<sp/>fonts.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Read<sp/>documentation<sp/>in<sp/>the<sp/>[misc/freetype/](https://github.com/ocornut/imgui/tree/master/misc/freetype)<sp/>folder.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Correct<sp/>sRGB<sp/>space<sp/>blending<sp/>will<sp/>have<sp/>an<sp/>important<sp/>effect<sp/>on<sp/>your<sp/>font<sp/>rendering<sp/>quality.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>[Return<sp/>to<sp/>Index](#index)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Using<sp/>Colorful<sp/>Glyphs/Emojis</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>Rendering<sp/>of<sp/>colored<sp/>emojis<sp/>is<sp/>only<sp/>supported<sp/>by<sp/>imgui_freetype<sp/>with<sp/>FreeType<sp/>2.10+.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>You<sp/>will<sp/>need<sp/>to<sp/>load<sp/>fonts<sp/>with<sp/>the<sp/>`ImGuiFreeTypeBuilderFlags_LoadColor`<sp/>flag.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Emojis<sp/>are<sp/>frequently<sp/>encoded<sp/>in<sp/>upper<sp/>Unicode<sp/>layers<sp/>(character<sp/>codes<sp/>&gt;0x10000)<sp/>and<sp/>will<sp/>need<sp/>dear<sp/>imgui<sp/>compiled<sp/>with<sp/>`IMGUI_USE_WCHAR32`.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Not<sp/>all<sp/>types<sp/>of<sp/>color<sp/>fonts<sp/>are<sp/>supported<sp/>by<sp/>FreeType<sp/>at<sp/>the<sp/>moment.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Stateful<sp/>Unicode<sp/>features<sp/>such<sp/>as<sp/>skin<sp/>tone<sp/>modifiers<sp/>are<sp/>not<sp/>supported<sp/>by<sp/>the<sp/>text<sp/>renderer.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![colored<sp/>glyphs](https://user-images.githubusercontent.com/8225057/106171241-9dc4ba80-6191-11eb-8a69-ca1467b206d1.png)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(&quot;../../../imgui_dev/data/fonts/NotoSans-Regular.ttf&quot;,<sp/>16.0f);</highlight></codeline>
+<codeline><highlight class="normal">static<sp/>ImWchar<sp/>ranges[]<sp/>=<sp/>{<sp/>0x1,<sp/>0x1FFFF,<sp/>0<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">static<sp/>ImFontConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.OversampleH<sp/>=<sp/>cfg.OversampleV<sp/>=<sp/>1;</highlight></codeline>
+<codeline><highlight class="normal">cfg.MergeMode<sp/>=<sp/>true;</highlight></codeline>
+<codeline><highlight class="normal">cfg.FontBuilderFlags<sp/>|=<sp/>ImGuiFreeTypeBuilderFlags_LoadColor;</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(&quot;C:\\Windows\\Fonts\\seguiemj.ttf&quot;,<sp/>16.0f,<sp/>&amp;cfg,<sp/>ranges);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>[Return<sp/>to<sp/>Index](#index)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Using<sp/>Custom<sp/>Glyph<sp/>Ranges</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>can<sp/>use<sp/>the<sp/>`ImFontGlyphRangesBuilder`<sp/>helper<sp/>to<sp/>create<sp/>glyph<sp/>ranges<sp/>based<sp/>on<sp/>text<sp/>input.<sp/>For<sp/>example:<sp/>for<sp/>a<sp/>game<sp/>where<sp/>your<sp/>script<sp/>is<sp/>known,<sp/>if<sp/>you<sp/>can<sp/>feed<sp/>your<sp/>entire<sp/>script<sp/>to<sp/>it<sp/>and<sp/>only<sp/>build<sp/>the<sp/>characters<sp/>the<sp/>game<sp/>needs.</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">ImVector&lt;ImWchar&gt;<sp/>ranges;</highlight></codeline>
+<codeline><highlight class="normal">ImFontGlyphRangesBuilder<sp/>builder;</highlight></codeline>
+<codeline><highlight class="normal">builder.AddText(&quot;Hello<sp/>world&quot;);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Add<sp/>a<sp/>string<sp/>(here<sp/>&quot;Hello<sp/>world&quot;<sp/>contains<sp/>7<sp/>unique<sp/>characters)</highlight></codeline>
+<codeline><highlight class="normal">builder.AddChar(0x7262);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Add<sp/>a<sp/>specific<sp/>character</highlight></codeline>
+<codeline><highlight class="normal">builder.AddRanges(io.Fonts-&gt;GetGlyphRangesJapanese());<sp/>//<sp/>Add<sp/>one<sp/>of<sp/>the<sp/>default<sp/>ranges</highlight></codeline>
+<codeline><highlight class="normal">builder.BuildRanges(&amp;ranges);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Build<sp/>the<sp/>final<sp/>result<sp/>(ordered<sp/>ranges<sp/>with<sp/>all<sp/>the<sp/>unique<sp/>characters<sp/>submitted)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(&quot;myfontfile.ttf&quot;,<sp/>size_in_pixels,<sp/>NULL,<sp/>ranges.Data);</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;Build();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Build<sp/>the<sp/>atlas<sp/>while<sp/>&apos;ranges&apos;<sp/>is<sp/>still<sp/>in<sp/>scope<sp/>and<sp/>not<sp/>deleted.</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>[Return<sp/>to<sp/>Index](#index)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Using<sp/>Custom<sp/>Colorful<sp/>Icons</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">As<sp/>an<sp/>alternative<sp/>to<sp/>rendering<sp/>colorful<sp/>glyphs<sp/>using<sp/>imgui_freetype<sp/>with<sp/>`ImGuiFreeTypeBuilderFlags_LoadColor`,<sp/>you<sp/>may<sp/>allocate<sp/>your<sp/>own<sp/>space<sp/>in<sp/>the<sp/>texture<sp/>atlas<sp/>and<sp/>write<sp/>yourself<sp/>into<sp/>it.<sp/>**(This<sp/>is<sp/>a<sp/>BETA<sp/>api,<sp/>use<sp/>if<sp/>you<sp/>are<sp/>familiar<sp/>with<sp/>dear<sp/>imgui<sp/>and<sp/>with<sp/>your<sp/>rendering<sp/>backend)**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>You<sp/>can<sp/>use<sp/>the<sp/>`ImFontAtlas::AddCustomRect()`<sp/>and<sp/>`ImFontAtlas::AddCustomRectFontGlyph()`<sp/>api<sp/>to<sp/>register<sp/>rectangles<sp/>that<sp/>will<sp/>be<sp/>packed<sp/>into<sp/>the<sp/>font<sp/>atlas<sp/>texture.<sp/>Register<sp/>them<sp/>before<sp/>building<sp/>the<sp/>atlas,<sp/>then<sp/>call<sp/>Build()`.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>You<sp/>can<sp/>then<sp/>use<sp/>`ImFontAtlas::GetCustomRectByIndex(int)`<sp/>to<sp/>query<sp/>the<sp/>position/size<sp/>of<sp/>your<sp/>rectangle<sp/>within<sp/>the<sp/>texture,<sp/>and<sp/>blit/copy<sp/>any<sp/>graphics<sp/>data<sp/>of<sp/>your<sp/>choice<sp/>into<sp/>those<sp/>rectangles.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>This<sp/>API<sp/>is<sp/>beta<sp/>because<sp/>it<sp/>is<sp/>likely<sp/>to<sp/>change<sp/>in<sp/>order<sp/>to<sp/>support<sp/>multi-dpi<sp/>(multiple<sp/>viewports<sp/>on<sp/>multiple<sp/>monitors<sp/>with<sp/>varying<sp/>DPI<sp/>scale).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Pseudo-code:</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Add<sp/>font,<sp/>then<sp/>register<sp/>two<sp/>custom<sp/>13x13<sp/>rectangles<sp/>mapped<sp/>to<sp/>glyph<sp/>&apos;a&apos;<sp/>and<sp/>&apos;b&apos;<sp/>of<sp/>this<sp/>font</highlight></codeline>
+<codeline><highlight class="normal">ImFont*<sp/>font<sp/>=<sp/>io.Fonts-&gt;AddFontDefault();</highlight></codeline>
+<codeline><highlight class="normal">int<sp/>rect_ids[2];</highlight></codeline>
+<codeline><highlight class="normal">rect_ids[0]<sp/>=<sp/>io.Fonts-&gt;AddCustomRectFontGlyph(font,<sp/>&apos;a&apos;,<sp/>13,<sp/>13,<sp/>13+1);</highlight></codeline>
+<codeline><highlight class="normal">rect_ids[1]<sp/>=<sp/>io.Fonts-&gt;AddCustomRectFontGlyph(font,<sp/>&apos;b&apos;,<sp/>13,<sp/>13,<sp/>13+1);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Build<sp/>atlas</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;Build();</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Retrieve<sp/>texture<sp/>in<sp/>RGBA<sp/>format</highlight></codeline>
+<codeline><highlight class="normal">unsigned<sp/>char*<sp/>tex_pixels<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline><highlight class="normal">int<sp/>tex_width,<sp/>tex_height;</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;GetTexDataAsRGBA32(&amp;tex_pixels,<sp/>&amp;tex_width,<sp/>&amp;tex_height);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">for<sp/>(int<sp/>rect_n<sp/>=<sp/>0;<sp/>rect_n<sp/>&lt;<sp/>IM_ARRAYSIZE(rect_ids);<sp/>rect_n++)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>int<sp/>rect_id<sp/>=<sp/>rects_ids[rect_n];</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>if<sp/>(const<sp/>ImFontAtlas::CustomRect*<sp/>rect<sp/>=<sp/>io.Fonts-&gt;GetCustomRectByIndex(rect_id))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Fill<sp/>the<sp/>custom<sp/>rectangle<sp/>with<sp/>red<sp/>pixels<sp/>(in<sp/>reality<sp/>you<sp/>would<sp/>draw/copy<sp/>your<sp/>bitmap<sp/>data<sp/>here!)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>for<sp/>(int<sp/>y<sp/>=<sp/>0;<sp/>y<sp/>&lt;<sp/>rect-&gt;Height;<sp/>y++)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImU32*<sp/>p<sp/>=<sp/>(ImU32*)tex_pixels<sp/>+<sp/>(rect-&gt;Y<sp/>+<sp/>y)<sp/>*<sp/>tex_width<sp/>+<sp/>(rect-&gt;X);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>for<sp/>(int<sp/>x<sp/>=<sp/>rect-&gt;Width;<sp/>x<sp/>&gt;<sp/>0;<sp/>x--)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*p++<sp/>=<sp/>IM_COL32(255,<sp/>0,<sp/>0,<sp/>255);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>[Return<sp/>to<sp/>Index](#index)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Using<sp/>Font<sp/>Data<sp/>Embedded<sp/>In<sp/>Source<sp/>Code</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>Compile<sp/>and<sp/>use<sp/>[binary_to_compressed_c.cpp](https://github.com/ocornut/imgui/blob/master/misc/fonts/binary_to_compressed_c.cpp)<sp/>to<sp/>create<sp/>a<sp/>compressed<sp/>C<sp/>style<sp/>array<sp/>that<sp/>you<sp/>can<sp/>embed<sp/>in<sp/>source<sp/>code.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>See<sp/>the<sp/>documentation<sp/>in<sp/>[binary_to_compressed_c.cpp](https://github.com/ocornut/imgui/blob/master/misc/fonts/binary_to_compressed_c.cpp)<sp/>for<sp/>instruction<sp/>on<sp/>how<sp/>to<sp/>use<sp/>the<sp/>tool.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>You<sp/>may<sp/>find<sp/>a<sp/>precompiled<sp/>version<sp/>binary_to_compressed_c.exe<sp/>for<sp/>Windows<sp/>instead<sp/>of<sp/>demo<sp/>binaries<sp/>package<sp/>(see<sp/>[README](https://github.com/ocornut/imgui/blob/master/docs/README.md)).</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>The<sp/>tool<sp/>can<sp/>optionally<sp/>output<sp/>Base85<sp/>encoding<sp/>to<sp/>reduce<sp/>the<sp/>size<sp/>of<sp/>_source<sp/>code_<sp/>but<sp/>the<sp/>read-only<sp/>arrays<sp/>in<sp/>the<sp/>actual<sp/>binary<sp/>will<sp/>be<sp/>about<sp/>20%<sp/>bigger.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Then<sp/>load<sp/>the<sp/>font<sp/>with:</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">ImFont*<sp/>font<sp/>=<sp/>io.Fonts-&gt;AddFontFromMemoryCompressedTTF(compressed_data,<sp/>compressed_data_size,<sp/>size_pixels,<sp/>...);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">or</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">ImFont*<sp/>font<sp/>=<sp/>io.Fonts-&gt;AddFontFromMemoryCompressedBase85TTF(compressed_data_base85,<sp/>size_pixels,<sp/>...);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>[Return<sp/>to<sp/>Index](#index)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>About<sp/>filenames</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Please<sp/>note<sp/>that<sp/>many<sp/>new<sp/>C/C++<sp/>users<sp/>have<sp/>issues<sp/>their<sp/>files<sp/>_because<sp/>the<sp/>filename<sp/>they<sp/>provide<sp/>is<sp/>wrong_.**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Two<sp/>things<sp/>to<sp/>watch<sp/>for:</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Make<sp/>sure<sp/>your<sp/>IDE/debugger<sp/>settings<sp/>starts<sp/>your<sp/>executable<sp/>from<sp/>the<sp/>right<sp/>working<sp/>directory.<sp/>In<sp/>Visual<sp/>Studio<sp/>you<sp/>can<sp/>change<sp/>your<sp/>working<sp/>directory<sp/>in<sp/>project<sp/>`Properties<sp/>&gt;<sp/>General<sp/>&gt;<sp/>Debugging<sp/>&gt;<sp/>Working<sp/>Directory`.<sp/>People<sp/>assume<sp/>that<sp/>their<sp/>execution<sp/>will<sp/>start<sp/>from<sp/>the<sp/>root<sp/>folder<sp/>of<sp/>the<sp/>project,<sp/>where<sp/>by<sp/>default<sp/>it<sp/>oftens<sp/>start<sp/>from<sp/>the<sp/>folder<sp/>where<sp/>object<sp/>or<sp/>executable<sp/>files<sp/>are<sp/>stored.</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Relative<sp/>filename<sp/>depends<sp/>on<sp/>your<sp/>Working<sp/>Directory<sp/>when<sp/>running<sp/>your<sp/>program!</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(&quot;MyImage01.jpg&quot;,<sp/>...);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Load<sp/>from<sp/>the<sp/>parent<sp/>folder<sp/>of<sp/>your<sp/>Working<sp/>Directory</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(&quot;../MyImage01.jpg&quot;,<sp/>...);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>In<sp/>C/C++<sp/>and<sp/>most<sp/>programming<sp/>languages<sp/>if<sp/>you<sp/>want<sp/>to<sp/>use<sp/>a<sp/>backslash<sp/>`\`<sp/>within<sp/>a<sp/>string<sp/>literal,<sp/>you<sp/>need<sp/>to<sp/>write<sp/>it<sp/>double<sp/>backslash<sp/>`\\`.<sp/>At<sp/>it<sp/>happens,<sp/>Windows<sp/>uses<sp/>backslashes<sp/>as<sp/>a<sp/>path<sp/>separator,<sp/>so<sp/>be<sp/>mindful.</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(&quot;MyFiles\MyImage01.jpg&quot;,<sp/>...);<sp/><sp/><sp/>//<sp/>This<sp/>is<sp/>INCORRECT!!</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(&quot;MyFiles\\MyImage01.jpg&quot;,<sp/>...);<sp/><sp/>//<sp/>This<sp/>is<sp/>CORRECT</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">In<sp/>some<sp/>situations,<sp/>you<sp/>may<sp/>also<sp/>use<sp/>`/`<sp/>path<sp/>separator<sp/>under<sp/>Windows.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>[Return<sp/>to<sp/>Index](#index)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Credits/Licenses<sp/>For<sp/>Fonts<sp/>Included<sp/>In<sp/>Repository</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Some<sp/>fonts<sp/>files<sp/>are<sp/>available<sp/>in<sp/>the<sp/>`misc/fonts/`<sp/>folder:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Roboto-Medium.ttf**,<sp/>by<sp/>Christian<sp/>Robetson</highlight></codeline>
+<codeline><highlight class="normal">&lt;br&gt;Apache<sp/>License<sp/>2.0</highlight></codeline>
+<codeline><highlight class="normal">&lt;br&gt;https://fonts.google.com/specimen/Roboto</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Cousine-Regular.ttf**,<sp/>by<sp/>Steve<sp/>Matteson</highlight></codeline>
+<codeline><highlight class="normal">&lt;br&gt;Digitized<sp/>data<sp/>copyright<sp/>(c)<sp/>2010<sp/>Google<sp/>Corporation.</highlight></codeline>
+<codeline><highlight class="normal">&lt;br&gt;Licensed<sp/>under<sp/>the<sp/>SIL<sp/>Open<sp/>Font<sp/>License,<sp/>Version<sp/>1.1</highlight></codeline>
+<codeline><highlight class="normal">&lt;br&gt;https://fonts.google.com/specimen/Cousine</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**DroidSans.ttf**,<sp/>by<sp/>Steve<sp/>Matteson</highlight></codeline>
+<codeline><highlight class="normal">&lt;br&gt;Apache<sp/>License<sp/>2.0</highlight></codeline>
+<codeline><highlight class="normal">&lt;br&gt;https://www.fontsquirrel.com/fonts/droid-sans</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**ProggyClean.ttf**,<sp/>by<sp/>Tristan<sp/>Grimmer</highlight></codeline>
+<codeline><highlight class="normal">&lt;br&gt;MIT<sp/>License</highlight></codeline>
+<codeline><highlight class="normal">&lt;br&gt;(recommended<sp/>loading<sp/>setting:<sp/>Size<sp/>=<sp/>13.0,<sp/>GlyphOffset.y<sp/>=<sp/>+1)</highlight></codeline>
+<codeline><highlight class="normal">&lt;br&gt;http://www.proggyfonts.net/</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**ProggyTiny.ttf**,<sp/>by<sp/>Tristan<sp/>Grimmer</highlight></codeline>
+<codeline><highlight class="normal">&lt;br&gt;MIT<sp/>License</highlight></codeline>
+<codeline><highlight class="normal">&lt;br&gt;(recommended<sp/>loading<sp/>setting:<sp/>Size<sp/>=<sp/>10.0,<sp/>GlyphOffset.y<sp/>=<sp/>+1)</highlight></codeline>
+<codeline><highlight class="normal">&lt;br&gt;http://www.proggyfonts.net/</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Karla-Regular.ttf**,<sp/>by<sp/>Jonathan<sp/>Pinhorn</highlight></codeline>
+<codeline><highlight class="normal">&lt;br&gt;SIL<sp/>OPEN<sp/>FONT<sp/>LICENSE<sp/>Version<sp/>1.1</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>[Return<sp/>to<sp/>Index](#index)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Font<sp/>Links</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>ICON<sp/>FONTS</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>C/C++<sp/>header<sp/>for<sp/>icon<sp/>fonts<sp/>(#define<sp/>with<sp/>code<sp/>points<sp/>to<sp/>use<sp/>in<sp/>source<sp/>code<sp/>string<sp/>literals)<sp/>https://github.com/juliettef/IconFontCppHeaders</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>FontAwesome<sp/>https://fortawesome.github.io/Font-Awesome</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>OpenFontIcons<sp/>https://github.com/traverseda/OpenFontIcons</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Google<sp/>Icon<sp/>Fonts<sp/>https://design.google.com/icons/</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Kenney<sp/>Icon<sp/>Font<sp/>(Game<sp/>Controller<sp/>Icons)<sp/>https://github.com/nicodinh/kenney-icon-font</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>IcoMoon<sp/>-<sp/>Custom<sp/>Icon<sp/>font<sp/>builder<sp/>https://icomoon.io/app</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>REGULAR<sp/>FONTS</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>Google<sp/>Noto<sp/>Fonts<sp/>(worldwide<sp/>languages)<sp/>https://www.google.com/get/noto/</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Open<sp/>Sans<sp/>Fonts<sp/>https://fonts.google.com/specimen/Open+Sans</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>(Japanese)<sp/>M+<sp/>fonts<sp/>by<sp/>Coji<sp/>Morishita<sp/>http://mplus-fonts.sourceforge.jp/mplus-outline-fonts/index-en.html</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>MONOSPACE<sp/>FONTS</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Pixel<sp/>Perfect:</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Proggy<sp/>Fonts,<sp/>by<sp/>Tristan<sp/>Grimmer<sp/>http://www.proggyfonts.net<sp/>or<sp/>http://upperbounds.net</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Sweet16,<sp/>Sweet16<sp/>Mono,<sp/>by<sp/>Martin<sp/>Sedlak<sp/>(Latin<sp/>+<sp/>Supplemental<sp/>+<sp/>Extended<sp/>A)<sp/>https://github.com/kmar/Sweet16Font<sp/>(also<sp/>include<sp/>an<sp/>.inl<sp/>file<sp/>to<sp/>use<sp/>directly<sp/>in<sp/>dear<sp/>imgui.)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Regular:</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Google<sp/>Noto<sp/>Mono<sp/>Fonts<sp/>https://www.google.com/get/noto/</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Typefaces<sp/>for<sp/>source<sp/>code<sp/>beautification<sp/>https://github.com/chrissimpkins/codeface</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Programmation<sp/>fonts<sp/>http://s9w.github.io/font_compare/</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Inconsolata<sp/>http://www.levien.com/type/myfonts/inconsolata.html</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Adobe<sp/>Source<sp/>Code<sp/>Pro:<sp/>Monospaced<sp/>font<sp/>family<sp/>for<sp/>ui<sp/>&amp;<sp/>coding<sp/>environments<sp/>https://github.com/adobe-fonts/source-code-pro</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Monospace/Fixed<sp/>Width<sp/>Programmer&apos;s<sp/>Fonts<sp/>http://www.lowing.org/fonts/</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Or<sp/>use<sp/>Arial<sp/>Unicode<sp/>or<sp/>other<sp/>Unicode<sp/>fonts<sp/>provided<sp/>with<sp/>Windows<sp/>for<sp/>full<sp/>characters<sp/>coverage<sp/>(not<sp/>sure<sp/>of<sp/>their<sp/>licensing).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>[Return<sp/>to<sp/>Index](#index)</highlight></codeline>
+    </programlisting>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/docs/FONTS.md"/>
+  </compounddef>
+</doxygen>

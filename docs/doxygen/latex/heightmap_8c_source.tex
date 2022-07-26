@@ -1,0 +1,518 @@
+\hypertarget{heightmap_8c_source}{}\doxysection{heightmap.\+c}
+\label{heightmap_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/examples/heightmap.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/examples/heightmap.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00001}00001 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00002}00002 \textcolor{comment}{// Heightmap example program using OpenGL 3 core profile}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00003}00003 \textcolor{comment}{// Copyright (c) 2010 Olivier Delannoy}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00005}00005 \textcolor{comment}{// This software is provided 'as-\/is', without any express or implied}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00006}00006 \textcolor{comment}{// warranty. In no event will the authors be held liable for any damages}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00007}00007 \textcolor{comment}{// arising from the use of this software.}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00009}00009 \textcolor{comment}{// Permission is granted to anyone to use this software for any purpose,}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00010}00010 \textcolor{comment}{// including commercial applications, and to alter it and redistribute it}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00011}00011 \textcolor{comment}{// freely, subject to the following restrictions:}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00012}00012 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00013}00013 \textcolor{comment}{// 1. The origin of this software must not be misrepresented; you must not}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00014}00014 \textcolor{comment}{//    claim that you wrote the original software. If you use this software}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00015}00015 \textcolor{comment}{//    in a product, an acknowledgment in the product documentation would}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00016}00016 \textcolor{comment}{//    be appreciated but is not required.}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00017}00017 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00018}00018 \textcolor{comment}{// 2. Altered source versions must be plainly marked as such, and must not}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00019}00019 \textcolor{comment}{//    be misrepresented as being the original software.}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00020}00020 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00021}00021 \textcolor{comment}{// 3. This notice may not be removed or altered from any source}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00022}00022 \textcolor{comment}{//    distribution.}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00023}00023 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00024}00024 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00026}00026 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00027}00027 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00028}00028 \textcolor{preprocessor}{\#include <math.h>}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00029}00029 \textcolor{preprocessor}{\#include <assert.h>}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00030}00030 \textcolor{preprocessor}{\#include <stddef.h>}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00032}00032 \textcolor{preprocessor}{\#include <glad/gl.h>}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00033}00033 \textcolor{preprocessor}{\#define GLFW\_INCLUDE\_NONE}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00034}00034 \textcolor{preprocessor}{\#include <GLFW/glfw3.h>}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00036}00036 \textcolor{comment}{/* Map height updates */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00037}00037 \textcolor{preprocessor}{\#define MAX\_CIRCLE\_SIZE (5.0f)}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00038}00038 \textcolor{preprocessor}{\#define MAX\_DISPLACEMENT (1.0f)}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00039}00039 \textcolor{preprocessor}{\#define DISPLACEMENT\_SIGN\_LIMIT (0.3f)}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00040}00040 \textcolor{preprocessor}{\#define MAX\_ITER (200)}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00041}00041 \textcolor{preprocessor}{\#define NUM\_ITER\_AT\_A\_TIME (1)}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00043}00043 \textcolor{comment}{/* Map general information */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00044}00044 \textcolor{preprocessor}{\#define MAP\_SIZE (10.0f)}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00045}00045 \textcolor{preprocessor}{\#define MAP\_NUM\_VERTICES (80)}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00046}00046 \textcolor{preprocessor}{\#define MAP\_NUM\_TOTAL\_VERTICES (MAP\_NUM\_VERTICES*MAP\_NUM\_VERTICES)}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00047}00047 \textcolor{preprocessor}{\#define MAP\_NUM\_LINES (3* (MAP\_NUM\_VERTICES -\/ 1) * (MAP\_NUM\_VERTICES -\/ 1) + \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00048}00048 \textcolor{preprocessor}{               2 * (MAP\_NUM\_VERTICES -\/ 1))}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00051}00051 \textcolor{comment}{/**********************************************************************}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00052}00052 \textcolor{comment}{ * Default shader programs}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00053}00053 \textcolor{comment}{ *********************************************************************/}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00055}00055 \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{char}* vertex\_shader\_text =}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00056}00056 \textcolor{stringliteral}{"{}\#version 150\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00057}00057 \textcolor{stringliteral}{"{}uniform mat4 project;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00058}00058 \textcolor{stringliteral}{"{}uniform mat4 modelview;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00059}00059 \textcolor{stringliteral}{"{}in float x;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00060}00060 \textcolor{stringliteral}{"{}in float y;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00061}00061 \textcolor{stringliteral}{"{}in float z;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00062}00062 \textcolor{stringliteral}{"{}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00063}00063 \textcolor{stringliteral}{"{}void main()\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00064}00064 \textcolor{stringliteral}{"{}\{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00065}00065 \textcolor{stringliteral}{"{}   gl\_Position = project * modelview * vec4(x, y, z, 1.0);\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00066}00066 \textcolor{stringliteral}{"{}\}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00068}00068 \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{char}* fragment\_shader\_text =}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00069}00069 \textcolor{stringliteral}{"{}\#version 150\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00070}00070 \textcolor{stringliteral}{"{}out vec4 color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00071}00071 \textcolor{stringliteral}{"{}void main()\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00072}00072 \textcolor{stringliteral}{"{}\{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00073}00073 \textcolor{stringliteral}{"{}    color = vec4(0.2, 1.0, 0.2, 1.0); \(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00074}00074 \textcolor{stringliteral}{"{}\}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00075}00075 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00076}00076 \textcolor{comment}{/**********************************************************************}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00077}00077 \textcolor{comment}{ * Values for shader uniforms}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00078}00078 \textcolor{comment}{ *********************************************************************/}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00080}00080 \textcolor{comment}{/* Frustum configuration */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00081}00081 \textcolor{keyword}{static} GLfloat view\_angle = 45.0f;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00082}00082 \textcolor{keyword}{static} GLfloat aspect\_ratio = 4.0f/3.0f;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00083}00083 \textcolor{keyword}{static} GLfloat z\_near = 1.0f;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00084}00084 \textcolor{keyword}{static} GLfloat z\_far = 100.f;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00086}00086 \textcolor{comment}{/* Projection matrix */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00087}00087 \textcolor{keyword}{static} GLfloat projection\_matrix[16] = \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00088}00088     1.0f, 0.0f, 0.0f, 0.0f,}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00089}00089     0.0f, 1.0f, 0.0f, 0.0f,}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00090}00090     0.0f, 0.0f, 1.0f, 0.0f,}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00091}00091     0.0f, 0.0f, 0.0f, 1.0f}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00092}00092 \};}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00093}00093 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00094}00094 \textcolor{comment}{/* Model view matrix */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00095}00095 \textcolor{keyword}{static} GLfloat modelview\_matrix[16] = \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00096}00096     1.0f, 0.0f, 0.0f, 0.0f,}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00097}00097     0.0f, 1.0f, 0.0f, 0.0f,}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00098}00098     0.0f, 0.0f, 1.0f, 0.0f,}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00099}00099     0.0f, 0.0f, 0.0f, 1.0f}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00100}00100 \};}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00101}00101 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00102}00102 \textcolor{comment}{/**********************************************************************}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00103}00103 \textcolor{comment}{ * Heightmap vertex and index data}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00104}00104 \textcolor{comment}{ *********************************************************************/}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00106}00106 \textcolor{keyword}{static} GLfloat map\_vertices[3][MAP\_NUM\_TOTAL\_VERTICES];}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00107}00107 \textcolor{keyword}{static} GLuint  map\_line\_indices[2*MAP\_NUM\_LINES];}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00108}00108 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00109}00109 \textcolor{comment}{/* Store uniform location for the shaders}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00110}00110 \textcolor{comment}{ * Those values are setup as part of the process of creating}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00111}00111 \textcolor{comment}{ * the shader program. They should not be used before creating}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00112}00112 \textcolor{comment}{ * the program.}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00113}00113 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00114}00114 \textcolor{keyword}{static} GLuint mesh;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00115}00115 \textcolor{keyword}{static} GLuint mesh\_vbo[4];}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00117}00117 \textcolor{comment}{/**********************************************************************}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00118}00118 \textcolor{comment}{ * OpenGL helper functions}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00119}00119 \textcolor{comment}{ *********************************************************************/}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00121}00121 \textcolor{comment}{/* Creates a shader object of the specified type using the specified text}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00122}00122 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00123}00123 \textcolor{keyword}{static} GLuint make\_shader(GLenum type, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* text)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00124}00124 \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00125}00125     GLuint shader;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00126}00126     GLint shader\_ok;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00127}00127     GLsizei log\_length;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00128}00128     \textcolor{keywordtype}{char} info\_log[8192];}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00129}00129 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00130}00130     shader = glCreateShader(type);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00131}00131     \textcolor{keywordflow}{if} (shader != 0)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00132}00132     \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00133}00133         glShaderSource(shader, 1, (\textcolor{keyword}{const} GLchar**)\&text, NULL);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00134}00134         glCompileShader(shader);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00135}00135         glGetShaderiv(shader, GL\_COMPILE\_STATUS, \&shader\_ok);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00136}00136         \textcolor{keywordflow}{if} (shader\_ok != GL\_TRUE)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00137}00137         \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00138}00138             fprintf(stderr, \textcolor{stringliteral}{"{}ERROR: Failed to compile \%s shader\(\backslash\)n"{}}, (type == GL\_FRAGMENT\_SHADER) ? \textcolor{stringliteral}{"{}fragment"{}} : \textcolor{stringliteral}{"{}vertex"{}} );}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00139}00139             glGetShaderInfoLog(shader, 8192, \&log\_length,info\_log);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00140}00140             fprintf(stderr, \textcolor{stringliteral}{"{}ERROR: \(\backslash\)n\%s\(\backslash\)n\(\backslash\)n"{}}, info\_log);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00141}00141             glDeleteShader(shader);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00142}00142             shader = 0;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00143}00143         \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00144}00144     \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00145}00145     \textcolor{keywordflow}{return} shader;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00146}00146 \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00147}00147 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00148}00148 \textcolor{comment}{/* Creates a program object using the specified vertex and fragment text}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00149}00149 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00150}00150 \textcolor{keyword}{static} GLuint make\_shader\_program(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* vs\_text, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* fs\_text)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00151}00151 \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00152}00152     GLuint program = 0u;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00153}00153     GLint program\_ok;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00154}00154     GLuint vertex\_shader = 0u;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00155}00155     GLuint fragment\_shader = 0u;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00156}00156     GLsizei log\_length;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00157}00157     \textcolor{keywordtype}{char} info\_log[8192];}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00158}00158 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00159}00159     vertex\_shader = make\_shader(GL\_VERTEX\_SHADER, vs\_text);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00160}00160     \textcolor{keywordflow}{if} (vertex\_shader != 0u)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00161}00161     \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00162}00162         fragment\_shader = make\_shader(GL\_FRAGMENT\_SHADER, fs\_text);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00163}00163         \textcolor{keywordflow}{if} (fragment\_shader != 0u)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00164}00164         \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00165}00165             \textcolor{comment}{/* make the program that connect the two shader and link it */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00166}00166             program = glCreateProgram();}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00167}00167             \textcolor{keywordflow}{if} (program != 0u)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00168}00168             \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00169}00169                 \textcolor{comment}{/* attach both shader and link */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00170}00170                 glAttachShader(program, vertex\_shader);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00171}00171                 glAttachShader(program, fragment\_shader);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00172}00172                 glLinkProgram(program);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00173}00173                 glGetProgramiv(program, GL\_LINK\_STATUS, \&program\_ok);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00174}00174 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00175}00175                 \textcolor{keywordflow}{if} (program\_ok != GL\_TRUE)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00176}00176                 \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00177}00177                     fprintf(stderr, \textcolor{stringliteral}{"{}ERROR, failed to link shader program\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00178}00178                     glGetProgramInfoLog(program, 8192, \&log\_length, info\_log);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00179}00179                     fprintf(stderr, \textcolor{stringliteral}{"{}ERROR: \(\backslash\)n\%s\(\backslash\)n\(\backslash\)n"{}}, info\_log);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00180}00180                     glDeleteProgram(program);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00181}00181                     glDeleteShader(fragment\_shader);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00182}00182                     glDeleteShader(vertex\_shader);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00183}00183                     program = 0u;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00184}00184                 \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00185}00185             \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00186}00186         \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00187}00187         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00188}00188         \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00189}00189             fprintf(stderr, \textcolor{stringliteral}{"{}ERROR: Unable to load fragment shader\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00190}00190             glDeleteShader(vertex\_shader);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00191}00191         \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00192}00192     \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00193}00193     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00194}00194     \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00195}00195         fprintf(stderr, \textcolor{stringliteral}{"{}ERROR: Unable to load vertex shader\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00196}00196     \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00197}00197     \textcolor{keywordflow}{return} program;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00198}00198 \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00199}00199 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00200}00200 \textcolor{comment}{/**********************************************************************}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00201}00201 \textcolor{comment}{ * Geometry creation functions}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00202}00202 \textcolor{comment}{ *********************************************************************/}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00203}00203 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00204}00204 \textcolor{comment}{/* Generate vertices and indices for the heightmap}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00205}00205 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00206}00206 \textcolor{keyword}{static} \textcolor{keywordtype}{void} init\_map(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00207}00207 \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00208}00208     \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00209}00209     \textcolor{keywordtype}{int} j;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00210}00210     \textcolor{keywordtype}{int} k;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00211}00211     GLfloat \mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{step}} = MAP\_SIZE / (MAP\_NUM\_VERTICES -\/ 1);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00212}00212     GLfloat x = 0.0f;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00213}00213     GLfloat z = 0.0f;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00214}00214     \textcolor{comment}{/* Create a flat grid */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00215}00215     k = 0;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00216}00216     \textcolor{keywordflow}{for} (i = 0 ; i < MAP\_NUM\_VERTICES ; ++i)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00217}00217     \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00218}00218         \textcolor{keywordflow}{for} (j = 0 ; j < MAP\_NUM\_VERTICES ; ++j)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00219}00219         \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00220}00220             map\_vertices[0][k] = x;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00221}00221             map\_vertices[1][k] = 0.0f;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00222}00222             map\_vertices[2][k] = z;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00223}00223             z += \mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{step}};}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00224}00224             ++k;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00225}00225         \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00226}00226         x += \mbox{\hyperlink{group__core__func__common_ga015a1261ff23e12650211aa872863cce}{step}};}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00227}00227         z = 0.0f;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00228}00228     \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00229}00229 \textcolor{preprocessor}{\#if DEBUG\_ENABLED}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00230}00230     \textcolor{keywordflow}{for} (i = 0 ; i < MAP\_NUM\_TOTAL\_VERTICES ; ++i)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00231}00231     \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00232}00232         printf (\textcolor{stringliteral}{"{}Vertice \%d (\%f, \%f, \%f)\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00233}00233                 i, map\_vertices[0][i], map\_vertices[1][i], map\_vertices[2][i]);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00234}00234 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00235}00235     \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00236}00236 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00237}00237     \textcolor{comment}{/* create indices */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00238}00238     \textcolor{comment}{/* line fan based on i}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00239}00239 \textcolor{comment}{     * i+1}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00240}00240 \textcolor{comment}{     * |  / i + n + 1}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00241}00241 \textcolor{comment}{     * | /}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00242}00242 \textcolor{comment}{     * |/}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00243}00243 \textcolor{comment}{     * i -\/-\/-\/ i + n}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00244}00244 \textcolor{comment}{     */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00245}00245 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00246}00246     \textcolor{comment}{/* close the top of the square */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00247}00247     k = 0;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00248}00248     \textcolor{keywordflow}{for} (i = 0 ; i < MAP\_NUM\_VERTICES  -\/1 ; ++i)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00249}00249     \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00250}00250         map\_line\_indices[k++] = (i + 1) * MAP\_NUM\_VERTICES -\/1;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00251}00251         map\_line\_indices[k++] = (i + 2) * MAP\_NUM\_VERTICES -\/1;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00252}00252     \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00253}00253     \textcolor{comment}{/* close the right of the square */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00254}00254     \textcolor{keywordflow}{for} (i = 0 ; i < MAP\_NUM\_VERTICES -\/1 ; ++i)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00255}00255     \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00256}00256         map\_line\_indices[k++] = (MAP\_NUM\_VERTICES -\/ 1) * MAP\_NUM\_VERTICES + i;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00257}00257         map\_line\_indices[k++] = (MAP\_NUM\_VERTICES -\/ 1) * MAP\_NUM\_VERTICES + i + 1;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00258}00258     \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00259}00259 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00260}00260     \textcolor{keywordflow}{for} (i = 0 ; i < (MAP\_NUM\_VERTICES -\/ 1) ; ++i)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00261}00261     \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00262}00262         \textcolor{keywordflow}{for} (j = 0 ; j < (MAP\_NUM\_VERTICES -\/ 1) ; ++j)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00263}00263         \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00264}00264             \textcolor{keywordtype}{int} ref = i * (MAP\_NUM\_VERTICES) + j;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00265}00265             map\_line\_indices[k++] = ref;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00266}00266             map\_line\_indices[k++] = ref + 1;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00267}00267 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00268}00268             map\_line\_indices[k++] = ref;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00269}00269             map\_line\_indices[k++] = ref + MAP\_NUM\_VERTICES;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00270}00270 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00271}00271             map\_line\_indices[k++] = ref;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00272}00272             map\_line\_indices[k++] = ref + MAP\_NUM\_VERTICES + 1;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00273}00273         \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00274}00274     \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00275}00275 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00276}00276 \textcolor{preprocessor}{\#ifdef DEBUG\_ENABLED}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00277}00277     \textcolor{keywordflow}{for} (k = 0 ; k < 2 * MAP\_NUM\_LINES ; k += 2)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00278}00278     \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00279}00279         \textcolor{keywordtype}{int} beg, end;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00280}00280         beg = map\_line\_indices[k];}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00281}00281         end = map\_line\_indices[k+1];}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00282}00282         printf (\textcolor{stringliteral}{"{}Line \%d: \%d -\/> \%d (\%f, \%f, \%f) -\/> (\%f, \%f, \%f)\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00283}00283                 k / 2, beg, end,}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00284}00284                 map\_vertices[0][beg], map\_vertices[1][beg], map\_vertices[2][beg],}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00285}00285                 map\_vertices[0][end], map\_vertices[1][end], map\_vertices[2][end]);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00286}00286     \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00287}00287 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00288}00288 \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00289}00289 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00290}00290 \textcolor{keyword}{static} \textcolor{keywordtype}{void} generate\_heightmap\_\_circle(\textcolor{keywordtype}{float}* center\_x, \textcolor{keywordtype}{float}* center\_y,}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00291}00291         \textcolor{keywordtype}{float}* size, \textcolor{keywordtype}{float}* displacement)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00292}00292 \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00293}00293     \textcolor{keywordtype}{float} \mbox{\hyperlink{group__core__func__common_gaf749e7f029eb88580a45493e41002629}{sign}};}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00294}00294     \textcolor{comment}{/* random value for element in between [0-\/1.0] */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00295}00295     *center\_x = (MAP\_SIZE * rand()) / (1.0f * RAND\_MAX);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00296}00296     *center\_y = (MAP\_SIZE * rand()) / (1.0f * RAND\_MAX);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00297}00297     *size = (MAX\_CIRCLE\_SIZE * rand()) / (1.0f * RAND\_MAX);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00298}00298     \mbox{\hyperlink{group__core__func__common_gaf749e7f029eb88580a45493e41002629}{sign}} = (1.0f * rand()) / (1.0f * RAND\_MAX);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00299}00299     \mbox{\hyperlink{group__core__func__common_gaf749e7f029eb88580a45493e41002629}{sign}} = (\mbox{\hyperlink{group__core__func__common_gaf749e7f029eb88580a45493e41002629}{sign}} < DISPLACEMENT\_SIGN\_LIMIT) ? -\/1.0f : 1.0f;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00300}00300     *displacement = (\mbox{\hyperlink{group__core__func__common_gaf749e7f029eb88580a45493e41002629}{sign}} * (MAX\_DISPLACEMENT * rand())) / (1.0f * RAND\_MAX);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00301}00301 \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00302}00302 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00303}00303 \textcolor{comment}{/* Run the specified number of iterations of the generation process for the}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00304}00304 \textcolor{comment}{ * heightmap}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00305}00305 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00306}00306 \textcolor{keyword}{static} \textcolor{keywordtype}{void} update\_map(\textcolor{keywordtype}{int} num\_iter)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00307}00307 \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00308}00308     assert(num\_iter > 0);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00309}00309     \textcolor{keywordflow}{while}(num\_iter)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00310}00310     \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00311}00311         \textcolor{comment}{/* center of the circle */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00312}00312         \textcolor{keywordtype}{float} center\_x;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00313}00313         \textcolor{keywordtype}{float} center\_z;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00314}00314         \textcolor{keywordtype}{float} circle\_size;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00315}00315         \textcolor{keywordtype}{float} disp;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00316}00316         \textcolor{keywordtype}{size\_t} ii;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00317}00317         generate\_heightmap\_\_circle(\&center\_x, \&center\_z, \&circle\_size, \&disp);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00318}00318         disp = disp / 2.0f;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00319}00319         \textcolor{keywordflow}{for} (ii = 0u ; ii < MAP\_NUM\_TOTAL\_VERTICES ; ++ii)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00320}00320         \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00321}00321             GLfloat dx = center\_x -\/ map\_vertices[0][ii];}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00322}00322             GLfloat dz = center\_z -\/ map\_vertices[2][ii];}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00323}00323             GLfloat pd = (2.0f * (float) \mbox{\hyperlink{group__core__func__exponential_ga1f904e09827e939a56e4158f45ca8ede}{sqrt}}((dx * dx) + (dz * dz))) / circle\_size;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00324}00324             \textcolor{keywordflow}{if} (fabs(pd) <= 1.0f)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00325}00325             \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00326}00326                 \textcolor{comment}{/* tx,tz is within the circle */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00327}00327                 GLfloat new\_height = disp + (float) (\mbox{\hyperlink{group__core__func__trigonometric_ga54745147add8b4fa05642f5c71f6833e}{cos}}(pd*3.14f)*disp);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00328}00328                 map\_vertices[1][ii] += new\_height;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00329}00329             \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00330}00330         \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00331}00331         -\/-\/num\_iter;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00332}00332     \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00333}00333 \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00334}00334 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00335}00335 \textcolor{comment}{/**********************************************************************}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00336}00336 \textcolor{comment}{ * OpenGL helper functions}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00337}00337 \textcolor{comment}{ *********************************************************************/}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00338}00338 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00339}00339 \textcolor{comment}{/* Create VBO, IBO and VAO objects for the heightmap geometry and bind them to}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00340}00340 \textcolor{comment}{ * the specified program object}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00341}00341 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00342}00342 \textcolor{keyword}{static} \textcolor{keywordtype}{void} make\_mesh(GLuint program)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00343}00343 \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00344}00344     GLuint attrloc;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00345}00345 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00346}00346     glGenVertexArrays(1, \&mesh);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00347}00347     glGenBuffers(4, mesh\_vbo);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00348}00348     glBindVertexArray(mesh);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00349}00349     \textcolor{comment}{/* Prepare the data for drawing through a buffer inidices */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00350}00350     glBindBuffer(GL\_ELEMENT\_ARRAY\_BUFFER, mesh\_vbo[3]);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00351}00351     glBufferData(GL\_ELEMENT\_ARRAY\_BUFFER, \textcolor{keyword}{sizeof}(GLuint)* MAP\_NUM\_LINES * 2, map\_line\_indices, GL\_STATIC\_DRAW);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00352}00352 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00353}00353     \textcolor{comment}{/* Prepare the attributes for rendering */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00354}00354     attrloc = glGetAttribLocation(program, \textcolor{stringliteral}{"{}x"{}});}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00355}00355     glBindBuffer(GL\_ARRAY\_BUFFER, mesh\_vbo[0]);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00356}00356     glBufferData(GL\_ARRAY\_BUFFER, \textcolor{keyword}{sizeof}(GLfloat) * MAP\_NUM\_TOTAL\_VERTICES, \&map\_vertices[0][0], GL\_STATIC\_DRAW);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00357}00357     glEnableVertexAttribArray(attrloc);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00358}00358     glVertexAttribPointer(attrloc, 1, GL\_FLOAT, GL\_FALSE, 0, 0);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00359}00359 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00360}00360     attrloc = glGetAttribLocation(program, \textcolor{stringliteral}{"{}z"{}});}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00361}00361     glBindBuffer(GL\_ARRAY\_BUFFER, mesh\_vbo[2]);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00362}00362     glBufferData(GL\_ARRAY\_BUFFER, \textcolor{keyword}{sizeof}(GLfloat) * MAP\_NUM\_TOTAL\_VERTICES, \&map\_vertices[2][0], GL\_STATIC\_DRAW);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00363}00363     glEnableVertexAttribArray(attrloc);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00364}00364     glVertexAttribPointer(attrloc, 1, GL\_FLOAT, GL\_FALSE, 0, 0);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00365}00365 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00366}00366     attrloc = glGetAttribLocation(program, \textcolor{stringliteral}{"{}y"{}});}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00367}00367     glBindBuffer(GL\_ARRAY\_BUFFER, mesh\_vbo[1]);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00368}00368     glBufferData(GL\_ARRAY\_BUFFER, \textcolor{keyword}{sizeof}(GLfloat) * MAP\_NUM\_TOTAL\_VERTICES, \&map\_vertices[1][0], GL\_DYNAMIC\_DRAW);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00369}00369     glEnableVertexAttribArray(attrloc);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00370}00370     glVertexAttribPointer(attrloc, 1, GL\_FLOAT, GL\_FALSE, 0, 0);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00371}00371 \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00372}00372 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00373}00373 \textcolor{comment}{/* Update VBO vertices from source data}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00374}00374 \textcolor{comment}{ */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00375}00375 \textcolor{keyword}{static} \textcolor{keywordtype}{void} update\_mesh(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00376}00376 \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00377}00377     glBufferSubData(GL\_ARRAY\_BUFFER, 0, \textcolor{keyword}{sizeof}(GLfloat) * MAP\_NUM\_TOTAL\_VERTICES, \&map\_vertices[1][0]);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00378}00378 \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00379}00379 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00380}00380 \textcolor{comment}{/**********************************************************************}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00381}00381 \textcolor{comment}{ * GLFW callback functions}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00382}00382 \textcolor{comment}{ *********************************************************************/}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00383}00383 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00384}00384 \textcolor{keyword}{static} \textcolor{keywordtype}{void} key\_callback(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int} key, \textcolor{keywordtype}{int} scancode, \textcolor{keywordtype}{int} action, \textcolor{keywordtype}{int} mods)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00385}00385 \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00386}00386     \textcolor{keywordflow}{switch}(key)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00387}00387     \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00388}00388         \textcolor{keywordflow}{case} GLFW\_KEY\_ESCAPE:}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00389}00389             \textcolor{comment}{/* Exit program on Escape */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00390}00390             \mbox{\hyperlink{group__window_ga1cadeda7a1e2f224e06a8415d30741aa}{glfwSetWindowShouldClose}}(window, \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}});}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00391}00391             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00392}00392     \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00393}00393 \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00394}00394 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00395}00395 \textcolor{keyword}{static} \textcolor{keywordtype}{void} error\_callback(\textcolor{keywordtype}{int} error, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* description)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00396}00396 \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00397}00397     fprintf(stderr, \textcolor{stringliteral}{"{}Error: \%s\(\backslash\)n"{}}, description);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00398}00398 \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00399}00399 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00400}00400 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char}** argv)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00401}00401 \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00402}00402     \mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00403}00403     \textcolor{keywordtype}{int} iter;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00404}00404     \textcolor{keywordtype}{double} dt;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00405}00405     \textcolor{keywordtype}{double} last\_update\_time;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00406}00406     \textcolor{keywordtype}{int} frame;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00407}00407     \textcolor{keywordtype}{float} f;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00408}00408     GLint uloc\_modelview;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00409}00409     GLint uloc\_project;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00410}00410     \textcolor{keywordtype}{int} width, height;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00411}00411 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00412}00412     GLuint shader\_program;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00413}00413 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00414}00414     \mbox{\hyperlink{group__init_ga746e2757d069eaea423349aca6ae097a}{glfwSetErrorCallback}}(error\_callback);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00415}00415 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00416}00416     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{group__init_gab41771f0215a2e0afb4cf1cf98082d40}{glfwInit}}())}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00417}00417         exit(EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00418}00418 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00419}00419     \mbox{\hyperlink{group__window_ga69c40728499720bef8a49aa925ea0efa}{glfwWindowHint}}(\mbox{\hyperlink{group__window_gadba13c7a1b3aa40831eb2beedbd5bd1d}{GLFW\_RESIZABLE}}, \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}});}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00420}00420     \mbox{\hyperlink{group__window_ga69c40728499720bef8a49aa925ea0efa}{glfwWindowHint}}(\mbox{\hyperlink{group__window_gafe5e4922de1f9932d7e9849bb053b0c0}{GLFW\_CONTEXT\_VERSION\_MAJOR}}, 3);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00421}00421     \mbox{\hyperlink{group__window_ga69c40728499720bef8a49aa925ea0efa}{glfwWindowHint}}(\mbox{\hyperlink{group__window_ga31aca791e4b538c4e4a771eb95cc2d07}{GLFW\_CONTEXT\_VERSION\_MINOR}}, 2);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00422}00422     \mbox{\hyperlink{group__window_ga69c40728499720bef8a49aa925ea0efa}{glfwWindowHint}}(\mbox{\hyperlink{group__window_ga44f3a6b4261fbe351e0b950b0f372e12}{GLFW\_OPENGL\_PROFILE}}, GLFW\_OPENGL\_CORE\_PROFILE);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00423}00423     \mbox{\hyperlink{group__window_ga69c40728499720bef8a49aa925ea0efa}{glfwWindowHint}}(\mbox{\hyperlink{group__window_ga13d24b12465da8b28985f46c8557925b}{GLFW\_OPENGL\_FORWARD\_COMPAT}}, \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}});}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00424}00424 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00425}00425     window = \mbox{\hyperlink{group__window_gaaccd00fafe81e2db94e8cdf55721e055}{glfwCreateWindow}}(800, 600, \textcolor{stringliteral}{"{}GLFW OpenGL3 Heightmap demo"{}}, NULL, NULL);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00426}00426     \textcolor{keywordflow}{if} (! window )}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00427}00427     \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00428}00428         \mbox{\hyperlink{group__init_gafd90e6fd4819ea9e22e5e739519a6504}{glfwTerminate}}();}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00429}00429         exit(EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00430}00430     \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00431}00431 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00432}00432     \textcolor{comment}{/* Register events callback */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00433}00433     \mbox{\hyperlink{group__input_gaa4cbcb81b939b8800e44cea971ddae47}{glfwSetKeyCallback}}(window, key\_callback);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00434}00434 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00435}00435     \mbox{\hyperlink{group__context_gafd76c93e15ec8b0b90506a9936a46185}{glfwMakeContextCurrent}}(window);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00436}00436     gladLoadGL(\mbox{\hyperlink{group__context_ga0e8af175218929615c16e74938c10f2a}{glfwGetProcAddress}});}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00437}00437 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00438}00438     \textcolor{comment}{/* Prepare opengl resources for rendering */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00439}00439     shader\_program = make\_shader\_program(vertex\_shader\_text, fragment\_shader\_text);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00440}00440 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00441}00441     \textcolor{keywordflow}{if} (shader\_program == 0u)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00442}00442     \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00443}00443         \mbox{\hyperlink{group__init_gafd90e6fd4819ea9e22e5e739519a6504}{glfwTerminate}}();}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00444}00444         exit(EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00445}00445     \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00446}00446 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00447}00447     glUseProgram(shader\_program);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00448}00448     uloc\_project   = glGetUniformLocation(shader\_program, \textcolor{stringliteral}{"{}project"{}});}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00449}00449     uloc\_modelview = glGetUniformLocation(shader\_program, \textcolor{stringliteral}{"{}modelview"{}});}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00450}00450 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00451}00451     \textcolor{comment}{/* Compute the projection matrix */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00452}00452     f = 1.0f / tanf(view\_angle / 2.0f);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00453}00453     projection\_matrix[0]  = f / aspect\_ratio;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00454}00454     projection\_matrix[5]  = f;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00455}00455     projection\_matrix[10] = (z\_far + z\_near)/ (z\_near -\/ z\_far);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00456}00456     projection\_matrix[11] = -\/1.0f;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00457}00457     projection\_matrix[14] = 2.0f * (z\_far * z\_near) / (z\_near -\/ z\_far);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00458}00458     glUniformMatrix4fv(uloc\_project, 1, GL\_FALSE, projection\_matrix);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00459}00459 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00460}00460     \textcolor{comment}{/* Set the camera position */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00461}00461     modelview\_matrix[12]  = -\/5.0f;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00462}00462     modelview\_matrix[13]  = -\/5.0f;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00463}00463     modelview\_matrix[14]  = -\/20.0f;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00464}00464     glUniformMatrix4fv(uloc\_modelview, 1, GL\_FALSE, modelview\_matrix);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00465}00465 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00466}00466     \textcolor{comment}{/* Create mesh data */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00467}00467     init\_map();}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00468}00468     make\_mesh(shader\_program);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00469}00469 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00470}00470     \textcolor{comment}{/* Create vao + vbo to store the mesh */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00471}00471     \textcolor{comment}{/* Create the vbo to store all the information for the grid and the height */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00472}00472 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00473}00473     \textcolor{comment}{/* setup the scene ready for rendering */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00474}00474     \mbox{\hyperlink{group__window_gaf7d17f3534b4b6dc9a6f905e3a240b7e}{glfwGetFramebufferSize}}(window, \&width, \&height);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00475}00475     glViewport(0, 0, width, height);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00476}00476     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00477}00477 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00478}00478     \textcolor{comment}{/* main loop */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00479}00479     frame = 0;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00480}00480     iter = 0;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00481}00481     last\_update\_time = \mbox{\hyperlink{group__input_ga03d4a1039b8662c71eeb40beea8cb622}{glfwGetTime}}();}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00482}00482 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00483}00483     \textcolor{keywordflow}{while} (!\mbox{\hyperlink{group__window_gaa6162f67dfa38b8beda2fea623649332}{glfwWindowShouldClose}}(window))}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00484}00484     \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00485}00485         ++frame;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00486}00486         \textcolor{comment}{/* render the next frame */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00487}00487         glClear(GL\_COLOR\_BUFFER\_BIT);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00488}00488         glDrawElements(GL\_LINES, 2* MAP\_NUM\_LINES , GL\_UNSIGNED\_INT, 0);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00489}00489 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00490}00490         \textcolor{comment}{/* display and process events through callbacks */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00491}00491         \mbox{\hyperlink{group__window_gafb827800eedbfcbc97b1e5408df668d7}{glfwSwapBuffers}}(window);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00492}00492         \mbox{\hyperlink{group__window_ga872d16e4c77f58c0436f356255920cfc}{glfwPollEvents}}();}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00493}00493         \textcolor{comment}{/* Check the frame rate and update the heightmap if needed */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00494}00494         dt = \mbox{\hyperlink{group__input_ga03d4a1039b8662c71eeb40beea8cb622}{glfwGetTime}}();}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00495}00495         \textcolor{keywordflow}{if} ((dt -\/ last\_update\_time) > 0.2)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00496}00496         \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00497}00497             \textcolor{comment}{/* generate the next iteration of the heightmap */}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00498}00498             \textcolor{keywordflow}{if} (iter < MAX\_ITER)}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00499}00499             \{}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00500}00500                 update\_map(NUM\_ITER\_AT\_A\_TIME);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00501}00501                 update\_mesh();}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00502}00502                 iter += NUM\_ITER\_AT\_A\_TIME;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00503}00503             \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00504}00504             last\_update\_time = dt;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00505}00505             frame = 0;}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00506}00506         \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00507}00507     \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00508}00508 }
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00509}00509     \mbox{\hyperlink{group__init_gafd90e6fd4819ea9e22e5e739519a6504}{glfwTerminate}}();}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00510}00510     exit(EXIT\_SUCCESS);}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00511}00511 \}}
+\DoxyCodeLine{\Hypertarget{heightmap_8c_source_l00512}00512 }
+
+\end{DoxyCode}

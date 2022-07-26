@@ -1,0 +1,335 @@
+\hypertarget{core__func__matrix_8cpp_source}{}\doxysection{core\+\_\+func\+\_\+matrix.\+cpp}
+\label{core__func__matrix_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/core/core\_func\_matrix.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/core/core\_func\_matrix.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00001}00001 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{matrix_8hpp}{glm/matrix.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00002}00002 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{matrix__transform_8hpp}{glm/gtc/matrix\_transform.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00003}00003 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{ulp_8hpp}{glm/gtc/ulp.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00004}00004 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{epsilon_8hpp}{glm/gtc/epsilon.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00005}00005 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{constants_8hpp}{glm/gtc/constants.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00007}00007 \textcolor{preprocessor}{\#include <ctime>}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00008}00008 \textcolor{preprocessor}{\#include <cstdio>}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00009}00009 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00010}00010 \textcolor{keyword}{using namespace }glm;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00011}00011 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00012}00012 \textcolor{keywordtype}{int} test\_matrixCompMult()}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00013}00013 \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00014}00014     \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00016}00016     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00017}00017         \mbox{\hyperlink{structglm_1_1mat}{mat2}} m(0, 1, 2, 3);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00018}00018         \mbox{\hyperlink{structglm_1_1mat}{mat2}} n = \mbox{\hyperlink{group__core__func__matrix_ga24628d844879cc9d0a77ede181e5925e}{matrixCompMult}}(m, m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00019}00019         \mbox{\hyperlink{structglm_1_1mat}{mat2}} expected = \mbox{\hyperlink{group__core__types_ga8357ec0aab6f8cf69313592492663c3f}{mat2}}(0, 1, 4, 9);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00020}00020         \textcolor{keywordflow}{for} (length\_t l = 0; l < m.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00021}00021             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(n[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00022}00022     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00023}00023 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00024}00024     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00025}00025         \mbox{\hyperlink{structglm_1_1mat}{mat2x3}} m(0, 1, 2, 3, 4, 5);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00026}00026         \mbox{\hyperlink{structglm_1_1mat}{mat2x3}} n = \mbox{\hyperlink{group__core__func__matrix_ga24628d844879cc9d0a77ede181e5925e}{matrixCompMult}}(m, m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00027}00027         \mbox{\hyperlink{structglm_1_1mat}{mat2x3}} expected = \mbox{\hyperlink{group__core__types_gaea02797b8231f6dd9380345f6ff12155}{mat2x3}}(0, 1, 4, 9, 16, 25);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00028}00028         \textcolor{keywordflow}{for} (length\_t l = 0; l < m.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00029}00029             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(n[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00030}00030     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00032}00032     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00033}00033         \mbox{\hyperlink{structglm_1_1mat}{mat2x4}} m(0, 1, 2, 3, 4, 5, 6, 7);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00034}00034         \mbox{\hyperlink{structglm_1_1mat}{mat2x4}} n = \mbox{\hyperlink{group__core__func__matrix_ga24628d844879cc9d0a77ede181e5925e}{matrixCompMult}}(m, m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00035}00035         \mbox{\hyperlink{structglm_1_1mat}{mat2x4}} expected = \mbox{\hyperlink{group__core__types_gaa9bfb36efaf88ecad32369ec8a01d901}{mat2x4}}(0, 1, 4, 9, 16, 25, 36, 49);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00036}00036         \textcolor{keywordflow}{for} (length\_t l = 0; l < m.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00037}00037             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(n[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00038}00038     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00040}00040     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00041}00041         \mbox{\hyperlink{structglm_1_1mat}{mat3}} m(0, 1, 2, 3, 4, 5, 6, 7, 8);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00042}00042         \mbox{\hyperlink{structglm_1_1mat}{mat3}} n = \mbox{\hyperlink{group__core__func__matrix_ga24628d844879cc9d0a77ede181e5925e}{matrixCompMult}}(m, m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00043}00043         \mbox{\hyperlink{structglm_1_1mat}{mat3}} expected = \mbox{\hyperlink{group__core__types_gadfaff2a7dce5cbf4e77a47ecea42ac5b}{mat3}}(0, 1, 4, 9, 16, 25, 36, 49, 64);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00044}00044         \textcolor{keywordflow}{for} (length\_t l = 0; l < m.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00045}00045             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(n[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00046}00046     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00048}00048     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00049}00049         \mbox{\hyperlink{structglm_1_1mat}{mat3x2}} m(0, 1, 2, 3, 4, 5);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00050}00050         \mbox{\hyperlink{structglm_1_1mat}{mat3x2}} n = \mbox{\hyperlink{group__core__func__matrix_ga24628d844879cc9d0a77ede181e5925e}{matrixCompMult}}(m, m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00051}00051         \mbox{\hyperlink{structglm_1_1mat}{mat3x2}} expected = \mbox{\hyperlink{group__core__types_gad7476e0e866186f12ee87975c6b01552}{mat3x2}}(0, 1, 4, 9, 16, 25);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00052}00052         \textcolor{keywordflow}{for} (length\_t l = 0; l < m.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00053}00053             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(n[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00054}00054     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00056}00056     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00057}00057         \mbox{\hyperlink{structglm_1_1mat}{mat3x4}} m(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00058}00058         \mbox{\hyperlink{structglm_1_1mat}{mat3x4}} n = \mbox{\hyperlink{group__core__func__matrix_ga24628d844879cc9d0a77ede181e5925e}{matrixCompMult}}(m, m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00059}00059         \mbox{\hyperlink{structglm_1_1mat}{mat3x4}} expected = \mbox{\hyperlink{group__core__types_ga5524ae15d7fc00a68b8e0e3a0733cc2a}{mat3x4}}(0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00060}00060         \textcolor{keywordflow}{for} (length\_t l = 0; l < m.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00061}00061             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(n[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00062}00062     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00064}00064     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00065}00065         \mbox{\hyperlink{structglm_1_1mat}{mat4}} m(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00066}00066         \mbox{\hyperlink{structglm_1_1mat}{mat4}} n = \mbox{\hyperlink{group__core__func__matrix_ga24628d844879cc9d0a77ede181e5925e}{matrixCompMult}}(m, m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00067}00067         \mbox{\hyperlink{structglm_1_1mat}{mat4}} expected = \mbox{\hyperlink{group__core__types_ga7dcd2365c2e368e6af5b7adeb6a9c8df}{mat4}}(0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00068}00068         \textcolor{keywordflow}{for} (length\_t l = 0; l < m.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00069}00069             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(n[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00070}00070     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00071}00071 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00072}00072     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00073}00073         \mbox{\hyperlink{structglm_1_1mat}{mat4x2}} m(0, 1, 2, 3, 4, 5, 6, 7);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00074}00074         \mbox{\hyperlink{structglm_1_1mat}{mat4x2}} n = \mbox{\hyperlink{group__core__func__matrix_ga24628d844879cc9d0a77ede181e5925e}{matrixCompMult}}(m, m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00075}00075         \mbox{\hyperlink{structglm_1_1mat}{mat4x2}} expected = \mbox{\hyperlink{group__core__types_ga72cf8ec4f4cda85943f4683531e421bc}{mat4x2}}(0, 1, 4, 9, 16, 25, 36, 49);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00076}00076         \textcolor{keywordflow}{for} (length\_t l = 0; l < m.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00077}00077             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(n[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00078}00078     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00080}00080     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00081}00081         \mbox{\hyperlink{structglm_1_1mat}{mat4x3}} m(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00082}00082         \mbox{\hyperlink{structglm_1_1mat}{mat4x3}} n = \mbox{\hyperlink{group__core__func__matrix_ga24628d844879cc9d0a77ede181e5925e}{matrixCompMult}}(m, m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00083}00083         \mbox{\hyperlink{structglm_1_1mat}{mat4x3}} expected = \mbox{\hyperlink{group__core__types_gad3f3f750dcdc74a9037342c5cae55f5e}{mat4x3}}(0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00084}00084         \textcolor{keywordflow}{for} (length\_t l = 0; l < m.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00085}00085             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(n[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00086}00086     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00088}00088     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00089}00089 \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00091}00091 \textcolor{keywordtype}{int} test\_outerProduct()}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00092}00092 \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00093}00093     \{ \mbox{\hyperlink{structglm_1_1mat}{glm::mat2}} m = glm::outerProduct(\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1.0f), \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1.0f)); \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00094}00094     \{ \mbox{\hyperlink{structglm_1_1mat}{glm::mat3}} m = glm::outerProduct(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1.0f), \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1.0f)); \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00095}00095     \{ \mbox{\hyperlink{structglm_1_1mat}{glm::mat4}} m = glm::outerProduct(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1.0f), \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1.0f)); \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00096}00096 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00097}00097     \{ \mbox{\hyperlink{structglm_1_1mat}{glm::mat2x3}} m = glm::outerProduct(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1.0f), \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1.0f)); \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00098}00098     \{ \mbox{\hyperlink{structglm_1_1mat}{glm::mat2x4}} m = glm::outerProduct(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1.0f), \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1.0f)); \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00099}00099 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00100}00100     \{ \mbox{\hyperlink{structglm_1_1mat}{glm::mat3x2}} m = glm::outerProduct(\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1.0f), \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1.0f)); \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00101}00101     \{ \mbox{\hyperlink{structglm_1_1mat}{glm::mat3x4}} m = glm::outerProduct(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1.0f), \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1.0f)); \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00102}00102   }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00103}00103     \{ \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x2}} m = glm::outerProduct(\mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1.0f), \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1.0f)); \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00104}00104     \{ \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x3}} m = glm::outerProduct(\mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1.0f), \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1.0f)); \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00106}00106     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00107}00107 \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00108}00108 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00109}00109 \textcolor{keywordtype}{int} test\_transpose()}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00110}00110 \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00111}00111     \textcolor{keywordtype}{int} Error(0);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00112}00112 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00113}00113     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00114}00114         \mbox{\hyperlink{structglm_1_1mat}{mat2}} \textcolor{keyword}{const} m(0, 1, 2, 3);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00115}00115         \mbox{\hyperlink{structglm_1_1mat}{mat2}} \textcolor{keyword}{const} t = \mbox{\hyperlink{group__core__func__matrix_ga4d251df5957b62996391bccb61cc9974}{transpose}}(m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00116}00116         \mbox{\hyperlink{structglm_1_1mat}{mat2}} \textcolor{keyword}{const} expected = \mbox{\hyperlink{group__core__types_ga8357ec0aab6f8cf69313592492663c3f}{mat2}}(0, 2, 1, 3);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00117}00117         \textcolor{keywordflow}{for} (length\_t l = 0; l < expected.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00118}00118             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(t[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00119}00119     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00121}00121     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00122}00122         \mbox{\hyperlink{structglm_1_1mat}{mat2x3}} m(0, 1, 2, 3, 4, 5);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00123}00123         \mbox{\hyperlink{structglm_1_1mat}{mat3x2}} t = \mbox{\hyperlink{group__core__func__matrix_ga4d251df5957b62996391bccb61cc9974}{transpose}}(m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00124}00124         \mbox{\hyperlink{structglm_1_1mat}{mat3x2}} \textcolor{keyword}{const} expected = \mbox{\hyperlink{group__core__types_gad7476e0e866186f12ee87975c6b01552}{mat3x2}}(0, 3, 1, 4, 2, 5);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00125}00125         \textcolor{keywordflow}{for} (length\_t l = 0; l < expected.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00126}00126             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(t[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00127}00127     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00128}00128 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00129}00129     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00130}00130         \mbox{\hyperlink{structglm_1_1mat}{mat2x4}} m(0, 1, 2, 3, 4, 5, 6, 7);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00131}00131         \mbox{\hyperlink{structglm_1_1mat}{mat4x2}} t = \mbox{\hyperlink{group__core__func__matrix_ga4d251df5957b62996391bccb61cc9974}{transpose}}(m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00132}00132         \mbox{\hyperlink{structglm_1_1mat}{mat4x2}} \textcolor{keyword}{const} expected = \mbox{\hyperlink{group__core__types_ga72cf8ec4f4cda85943f4683531e421bc}{mat4x2}}(0, 4, 1, 5, 2, 6, 3, 7);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00133}00133         \textcolor{keywordflow}{for} (length\_t l = 0; l < expected.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00134}00134             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(t[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00135}00135     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00136}00136 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00137}00137     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00138}00138         \mbox{\hyperlink{structglm_1_1mat}{mat3}} m(0, 1, 2, 3, 4, 5, 6, 7, 8);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00139}00139         \mbox{\hyperlink{structglm_1_1mat}{mat3}} t = \mbox{\hyperlink{group__core__func__matrix_ga4d251df5957b62996391bccb61cc9974}{transpose}}(m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00140}00140         \mbox{\hyperlink{structglm_1_1mat}{mat3}} \textcolor{keyword}{const} expected = \mbox{\hyperlink{group__core__types_gadfaff2a7dce5cbf4e77a47ecea42ac5b}{mat3}}(0, 3, 6, 1, 4, 7, 2, 5, 8);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00141}00141         \textcolor{keywordflow}{for} (length\_t l = 0; l < expected.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00142}00142             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(t[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00143}00143     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00144}00144 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00145}00145     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00146}00146         \mbox{\hyperlink{structglm_1_1mat}{mat3x2}} m(0, 1, 2, 3, 4, 5);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00147}00147         \mbox{\hyperlink{structglm_1_1mat}{mat2x3}} t = \mbox{\hyperlink{group__core__func__matrix_ga4d251df5957b62996391bccb61cc9974}{transpose}}(m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00148}00148         \mbox{\hyperlink{structglm_1_1mat}{mat2x3}} \textcolor{keyword}{const} expected = \mbox{\hyperlink{group__core__types_gaea02797b8231f6dd9380345f6ff12155}{mat2x3}}(0, 2, 4, 1, 3, 5);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00149}00149         \textcolor{keywordflow}{for} (length\_t l = 0; l < expected.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00150}00150             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(t[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00151}00151     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00152}00152 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00153}00153     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00154}00154         \mbox{\hyperlink{structglm_1_1mat}{mat3x4}} m(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00155}00155         \mbox{\hyperlink{structglm_1_1mat}{mat4x3}} t = \mbox{\hyperlink{group__core__func__matrix_ga4d251df5957b62996391bccb61cc9974}{transpose}}(m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00156}00156         \mbox{\hyperlink{structglm_1_1mat}{mat4x3}} \textcolor{keyword}{const} expected = \mbox{\hyperlink{group__core__types_gad3f3f750dcdc74a9037342c5cae55f5e}{mat4x3}}(0, 4, 8, 1, 5, 9, 2, 6, 10, 3, 7, 11);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00157}00157         \textcolor{keywordflow}{for} (length\_t l = 0; l < expected.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00158}00158             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(t[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00159}00159     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00160}00160 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00161}00161     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00162}00162         \mbox{\hyperlink{structglm_1_1mat}{mat4}} m(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00163}00163         \mbox{\hyperlink{structglm_1_1mat}{mat4}} t = \mbox{\hyperlink{group__core__func__matrix_ga4d251df5957b62996391bccb61cc9974}{transpose}}(m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00164}00164         \mbox{\hyperlink{structglm_1_1mat}{mat4}} \textcolor{keyword}{const} expected = \mbox{\hyperlink{group__core__types_ga7dcd2365c2e368e6af5b7adeb6a9c8df}{mat4}}(0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00165}00165         \textcolor{keywordflow}{for} (length\_t l = 0; l < expected.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00166}00166             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(t[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00167}00167     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00168}00168 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00169}00169     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00170}00170         \mbox{\hyperlink{structglm_1_1mat}{mat4x2}} m(0, 1, 2, 3, 4, 5, 6, 7);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00171}00171         \mbox{\hyperlink{structglm_1_1mat}{mat2x4}} t = \mbox{\hyperlink{group__core__func__matrix_ga4d251df5957b62996391bccb61cc9974}{transpose}}(m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00172}00172         \mbox{\hyperlink{structglm_1_1mat}{mat2x4}} \textcolor{keyword}{const} expected = \mbox{\hyperlink{group__core__types_gaa9bfb36efaf88ecad32369ec8a01d901}{mat2x4}}(0, 2, 4, 6, 1, 3, 5, 7);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00173}00173         \textcolor{keywordflow}{for} (length\_t l = 0; l < expected.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00174}00174             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(t[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00175}00175     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00176}00176 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00177}00177     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00178}00178         \mbox{\hyperlink{structglm_1_1mat}{mat4x3}} m(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00179}00179         \mbox{\hyperlink{structglm_1_1mat}{mat3x4}} t = \mbox{\hyperlink{group__core__func__matrix_ga4d251df5957b62996391bccb61cc9974}{transpose}}(m);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00180}00180         \mbox{\hyperlink{structglm_1_1mat}{mat3x4}} \textcolor{keyword}{const} expected = \mbox{\hyperlink{group__core__types_ga5524ae15d7fc00a68b8e0e3a0733cc2a}{mat3x4}}(0, 3, 6, 9, 1, 4, 7, 10, 2, 5, 8, 11);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00181}00181         \textcolor{keywordflow}{for} (length\_t l = 0; l < expected.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00182}00182             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(t[l], expected[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00183}00183     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00184}00184 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00185}00185     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00186}00186 \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00187}00187 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00188}00188 \textcolor{keywordtype}{int} test\_determinant()}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00189}00189 \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00190}00190 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00191}00191 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00192}00192     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00193}00193 \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00194}00194 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00195}00195 \textcolor{keywordtype}{int} test\_inverse()}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00196}00196 \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00197}00197     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00198}00198 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00199}00199     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00200}00200         \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} A4x4(}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00201}00201             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1, 0, 1, 0), }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00202}00202             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(0, 1, 0, 0), }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00203}00203             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(0, 0, 1, 0), }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00204}00204             \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(0, 0, 0, 1));}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00205}00205         \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} B4x4 = \mbox{\hyperlink{group__core__func__matrix_gace61e11fc177491beeca0c6971e2f3fc}{inverse}}(A4x4);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00206}00206         \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} I4x4 = A4x4 * B4x4;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00207}00207         \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} Identity(1);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00208}00208         \textcolor{keywordflow}{for} (length\_t l = 0; l < Identity.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00209}00209             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(I4x4[l], Identity[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00210}00210     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00211}00211 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00212}00212     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00213}00213         \mbox{\hyperlink{structglm_1_1mat}{glm::mat3x3}} A3x3(}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00214}00214             \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(1, 0, 1), }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00215}00215             \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 1, 0), }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00216}00216             \mbox{\hyperlink{structglm_1_1vec}{glm::vec3}}(0, 0, 1));}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00217}00217         \mbox{\hyperlink{structglm_1_1mat}{glm::mat3x3}} B3x3 = \mbox{\hyperlink{group__core__func__matrix_gace61e11fc177491beeca0c6971e2f3fc}{glm::inverse}}(A3x3);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00218}00218         \mbox{\hyperlink{structglm_1_1mat}{glm::mat3x3}} I3x3 = A3x3 * B3x3;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00219}00219         \mbox{\hyperlink{structglm_1_1mat}{glm::mat3x3}} Identity(1);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00220}00220         \textcolor{keywordflow}{for} (length\_t l = 0; l < Identity.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00221}00221             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(I3x3[l], Identity[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00222}00222     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00223}00223 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00224}00224     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00225}00225         \mbox{\hyperlink{structglm_1_1mat}{glm::mat2x2}} A2x2(}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00226}00226             \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(1, 1), }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00227}00227             \mbox{\hyperlink{structglm_1_1vec}{glm::vec2}}(0, 1));}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00228}00228         \mbox{\hyperlink{structglm_1_1mat}{glm::mat2x2}} B2x2 = \mbox{\hyperlink{group__core__func__matrix_gace61e11fc177491beeca0c6971e2f3fc}{glm::inverse}}(A2x2);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00229}00229         \mbox{\hyperlink{structglm_1_1mat}{glm::mat2x2}} I2x2 = A2x2 * B2x2;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00230}00230         \mbox{\hyperlink{structglm_1_1mat}{glm::mat2x2}} Identity(1);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00231}00231         \textcolor{keywordflow}{for} (length\_t l = 0; l < Identity.length(); ++l)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00232}00232             Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{epsilonEqual}}(I2x2[l], Identity[l], epsilon<float>())) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00233}00233     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00234}00234 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00235}00235     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00236}00236 \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00237}00237 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00238}00238 \textcolor{keywordtype}{int} test\_inverse\_simd()}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00239}00239 \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00240}00240     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00241}00241 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00242}00242     \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} \textcolor{keyword}{const} Identity(1);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00243}00243 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00244}00244     \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} \textcolor{keyword}{const} A4x4(}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00245}00245         \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1, 0, 1, 0),}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00246}00246         \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(0, 1, 0, 0),}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00247}00247         \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(0, 0, 1, 0),}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00248}00248         \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(0, 0, 0, 1));}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00249}00249     \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} \textcolor{keyword}{const} B4x4 = \mbox{\hyperlink{group__core__func__matrix_gace61e11fc177491beeca0c6971e2f3fc}{glm::inverse}}(A4x4);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00250}00250     \mbox{\hyperlink{structglm_1_1mat}{glm::mat4x4}} \textcolor{keyword}{const} I4x4 = A4x4 * B4x4;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00251}00251 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00252}00252     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(I4x4[0], Identity[0], 0.001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00253}00253     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(I4x4[1], Identity[1], 0.001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00254}00254     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(I4x4[2], Identity[2], 0.001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00255}00255     Error += \mbox{\hyperlink{group__core__func__vector__relational_gab5af106b2d5675d51af84815d937384d}{glm::all}}(\mbox{\hyperlink{group__gtc__epsilon_ga7f8df975688289781ee26998c73d6798}{glm::epsilonEqual}}(I4x4[3], Identity[3], 0.001f)) ? 0 : 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00256}00256 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00257}00257     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00258}00258 \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00259}00259 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00260}00260 \textcolor{keyword}{template}<\textcolor{keyword}{typename} VEC3, \textcolor{keyword}{typename} MAT4>}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00261}00261 \textcolor{keywordtype}{int} test\_inverse\_perf(std::size\_t Count, std::size\_t Instance, \textcolor{keywordtype}{char} \textcolor{keyword}{const} * Message)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00262}00262 \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00263}00263     std::vector<MAT4> TestInputs;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00264}00264     TestInputs.resize(Count);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00265}00265     std::vector<MAT4> TestOutputs;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00266}00266     TestOutputs.resize(TestInputs.size());}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00267}00267 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00268}00268     VEC3 Axis(glm::normalize(VEC3(1.0f, 2.0f, 3.0f)));}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00269}00269 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00270}00270     \textcolor{keywordflow}{for}(std::size\_t i = 0; i < TestInputs.size(); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00271}00271     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00272}00272         \textcolor{keyword}{typename} MAT4::value\_type f = \textcolor{keyword}{static\_cast<}typename MAT4::value\_type\textcolor{keyword}{>}(i + Instance) * \textcolor{keyword}{typename} MAT4::value\_type(0.1) + \textcolor{keyword}{typename} MAT4::value\_type(0.1);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00273}00273         TestInputs[i] = \mbox{\hyperlink{group__gtc__matrix__transform_ga42613eb0c7deb5f5188fc159df6c8950}{glm::rotate}}(\mbox{\hyperlink{group__gtc__matrix__transform_ga67d8473d6b293d1bb2b4eaf249795cab}{glm::translate}}(MAT4(1), Axis * f), f, Axis);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00274}00274         \textcolor{comment}{//TestInputs[i] = glm::translate(MAT4(1), Axis * f);}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00275}00275     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00276}00276 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00277}00277     std::clock\_t StartTime = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00278}00278 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00279}00279     \textcolor{keywordflow}{for}(std::size\_t i = 0; i < TestInputs.size(); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00280}00280         TestOutputs[i] = \mbox{\hyperlink{group__core__func__matrix_gace61e11fc177491beeca0c6971e2f3fc}{glm::inverse}}(TestInputs[i]);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00281}00281 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00282}00282     std::clock\_t EndTime = std::clock();}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00283}00283 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00284}00284     \textcolor{keywordflow}{for}(std::size\_t i = 0; i < TestInputs.size(); ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00285}00285         TestOutputs[i] = TestOutputs[i] * TestInputs[i];}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00286}00286 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00287}00287     \textcolor{keyword}{typename} MAT4::value\_type Diff(0);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00288}00288     \textcolor{keywordflow}{for}(std::size\_t Entry = 0; Entry < TestOutputs.size(); ++Entry)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00289}00289     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00290}00290         MAT4 i(1.0);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00291}00291         MAT4 m(TestOutputs[Entry]);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00292}00292         \textcolor{keywordflow}{for}(glm::length\_t y = 0; y < m.length(); ++y)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00293}00293         \textcolor{keywordflow}{for}(glm::length\_t x = 0; x < m[y].length(); ++x)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00294}00294             Diff = \mbox{\hyperlink{group__core__func__common_ga98caa7f95a94c86a86ebce893a45326c}{glm::max}}(m[y][x], i[y][x]);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00295}00295     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00296}00296 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00297}00297     \textcolor{comment}{//glm::uint Ulp = 0;}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00298}00298     \textcolor{comment}{//Ulp = glm::max(glm::float\_distance(*Dst, *Src), Ulp);}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00299}00299 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00300}00300     printf(\textcolor{stringliteral}{"{}inverse<\%s>(\%f): \%lu\(\backslash\)n"{}}, Message, \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{double}\textcolor{keyword}{>}(Diff), EndTime -\/ StartTime);}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00301}00301 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00302}00302     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00303}00303 \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00304}00304 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00305}00305 \textcolor{keywordtype}{int} main()}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00306}00306 \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00307}00307     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00308}00308     Error += test\_matrixCompMult();}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00309}00309     Error += test\_outerProduct();}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00310}00310     Error += test\_transpose();}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00311}00311     Error += test\_determinant();}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00312}00312     Error += test\_inverse();}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00313}00313     Error += test\_inverse\_simd();}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00314}00314 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00315}00315 \textcolor{preprocessor}{\#   ifdef NDEBUG}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00316}00316     std::size\_t \textcolor{keyword}{const} Samples = 1000;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00317}00317 \textcolor{preprocessor}{\#   else}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00318}00318     std::size\_t \textcolor{keyword}{const} Samples = 1;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00319}00319 \textcolor{preprocessor}{\#   endif}\textcolor{comment}{//NDEBUG}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00320}00320 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00321}00321     \textcolor{keywordflow}{for}(std::size\_t i = 0; i < 1; ++i)}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00322}00322     \{}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00323}00323         Error += test\_inverse\_perf<glm::vec3, glm::mat4>(Samples, i, \textcolor{stringliteral}{"{}mat4"{}});}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00324}00324         Error += test\_inverse\_perf<glm::dvec3, glm::dmat4>(Samples, i, \textcolor{stringliteral}{"{}dmat4"{}});}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00325}00325     \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00326}00326 }
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00327}00327     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00328}00328 \}}
+\DoxyCodeLine{\Hypertarget{core__func__matrix_8cpp_source_l00329}00329 }
+
+\end{DoxyCode}

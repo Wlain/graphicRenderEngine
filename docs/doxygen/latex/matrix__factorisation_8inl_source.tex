@@ -1,0 +1,90 @@
+\hypertarget{matrix__factorisation_8inl_source}{}\doxysection{matrix\+\_\+factorisation.\+inl}
+\label{matrix__factorisation_8inl_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtx/matrix\_factorisation.inl@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtx/matrix\_factorisation.inl}}
+\mbox{\hyperlink{matrix__factorisation_8inl}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00004}00004 \textcolor{keyword}{namespace }glm}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00005}00005 \{}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00006}00006     \textcolor{keyword}{template} <length\_t C, length\_t R, \textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00007}\mbox{\hyperlink{group__gtx__matrix__factorisation_ga904aa227f3fc40a3ae08fe0f6810b5ad}{00007}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<C, R, T, Q>}} \mbox{\hyperlink{group__gtx__matrix__factorisation_ga904aa227f3fc40a3ae08fe0f6810b5ad}{flipud}}(\mbox{\hyperlink{structglm_1_1mat}{mat<C, R, T, Q>}} \textcolor{keyword}{const}\& in)}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00008}00008     \{}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00009}00009         \mbox{\hyperlink{structglm_1_1mat}{mat<R, C, T, Q>}} tin = \mbox{\hyperlink{group__core__func__matrix_ga4d251df5957b62996391bccb61cc9974}{transpose}}(in);}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00010}00010         tin = \mbox{\hyperlink{group__gtx__matrix__factorisation_gaf44ef34db04c55013bc3d9eee990b80c}{fliplr}}(tin);}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00011}00011         \mbox{\hyperlink{structglm_1_1mat}{mat<C, R, T, Q>}} out = \mbox{\hyperlink{group__core__func__matrix_ga4d251df5957b62996391bccb61cc9974}{transpose}}(tin);}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00013}00013         \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00014}00014     \}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00016}00016     \textcolor{keyword}{template} <length\_t C, length\_t R, \textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00017}\mbox{\hyperlink{group__gtx__matrix__factorisation_gaf44ef34db04c55013bc3d9eee990b80c}{00017}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<C, R, T, Q>}} \mbox{\hyperlink{group__gtx__matrix__factorisation_gaf44ef34db04c55013bc3d9eee990b80c}{fliplr}}(\mbox{\hyperlink{structglm_1_1mat}{mat<C, R, T, Q>}} \textcolor{keyword}{const}\& in)}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00018}00018     \{}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00019}00019         \mbox{\hyperlink{structglm_1_1mat}{mat<C, R, T, Q>}} out;}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00020}00020         \textcolor{keywordflow}{for} (length\_t i = 0; i < C; i++)}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00021}00021         \{}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00022}00022             out[i] = in[(C -\/ i) -\/ 1];}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00023}00023         \}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00025}00025         \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00026}00026     \}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00028}00028     \textcolor{keyword}{template} <length\_t C, length\_t R, \textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00029}\mbox{\hyperlink{group__gtx__matrix__factorisation_ga77022dca1aa38add548f9f56a9f8071a}{00029}}     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{void} \mbox{\hyperlink{group__gtx__matrix__factorisation_ga77022dca1aa38add548f9f56a9f8071a}{qr\_decompose}}(\mbox{\hyperlink{structglm_1_1mat}{mat<C, R, T, Q>}} \textcolor{keyword}{const}\& in, \mbox{\hyperlink{structglm_1_1mat}{mat}}<(C < R ? C : R), R, T, Q>\& q, \mbox{\hyperlink{structglm_1_1mat}{mat}}<C, (C < R ? C : R), T, Q>\& r)}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00030}00030     \{}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00031}00031         \textcolor{comment}{// Uses modified Gram-\/Schmidt method}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00032}00032         \textcolor{comment}{// Source: https://en.wikipedia.org/wiki/Gram–Schmidt\_process}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00033}00033         \textcolor{comment}{// And https://en.wikipedia.org/wiki/QR\_decomposition}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00035}00035         \textcolor{comment}{//For all the linearly independs columns of the input...}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00036}00036         \textcolor{comment}{// (there can be no more linearly independents columns than there are rows.)}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00037}00037         \textcolor{keywordflow}{for} (length\_t i = 0; i < (C < R ? C : R); i++)}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00038}00038         \{}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00039}00039             \textcolor{comment}{//Copy in Q the input's i-\/th column.}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00040}00040             q[i] = in[i];}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00042}00042             \textcolor{comment}{//j = [0,i[}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00043}00043             \textcolor{comment}{// Make that column orthogonal to all the previous ones by substracting to it the non-\/orthogonal projection of all the previous columns.}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00044}00044             \textcolor{comment}{// Also: Fill the zero elements of R}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00045}00045             \textcolor{keywordflow}{for} (length\_t j = 0; j < i; j++)}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00046}00046             \{}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00047}00047                 q[i] -\/= dot(q[i], q[j])*q[j];}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00048}00048                 r[j][i] = 0;}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00049}00049             \}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00051}00051             \textcolor{comment}{//Now, Q i-\/th column is orthogonal to all the previous columns. Normalize it.}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00052}00052             q[i] = normalize(q[i]);}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00054}00054             \textcolor{comment}{//j = [i,C[}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00055}00055             \textcolor{comment}{//Finally, compute the corresponding coefficients of R by computing the projection of the resulting column on the other columns of the input.}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00056}00056             \textcolor{keywordflow}{for} (length\_t j = i; j < C; j++)}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00057}00057             \{}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00058}00058                 r[j][i] = dot(in[j], q[i]);}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00059}00059             \}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00060}00060         \}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00061}00061     \}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00062}00062 }
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00063}00063     \textcolor{keyword}{template} <length\_t C, length\_t R, \textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00064}\mbox{\hyperlink{group__gtx__matrix__factorisation_ga4e022709c9e7eaad9d7cc315d2cdb05c}{00064}}     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{void} \mbox{\hyperlink{group__gtx__matrix__factorisation_ga4e022709c9e7eaad9d7cc315d2cdb05c}{rq\_decompose}}(\mbox{\hyperlink{structglm_1_1mat}{mat<C, R, T, Q>}} \textcolor{keyword}{const}\& in, \mbox{\hyperlink{structglm_1_1mat}{mat}}<(C < R ? C : R), R, T, Q>\& r, \mbox{\hyperlink{structglm_1_1mat}{mat}}<C, (C < R ? C : R), T, Q>\& q)}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00065}00065     \{}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00066}00066         \textcolor{comment}{// From https://en.wikipedia.org/wiki/QR\_decomposition:}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00067}00067         \textcolor{comment}{// The RQ decomposition transforms a matrix A into the product of an upper triangular matrix R (also known as right-\/triangular) and an orthogonal matrix Q. The only difference from QR decomposition is the order of these matrices.}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00068}00068         \textcolor{comment}{// QR decomposition is Gram–Schmidt orthogonalization of columns of A, started from the first column.}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00069}00069         \textcolor{comment}{// RQ decomposition is Gram–Schmidt orthogonalization of rows of A, started from the last row.}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00071}00071         \mbox{\hyperlink{structglm_1_1mat}{mat<R, C, T, Q>}} tin = \mbox{\hyperlink{group__core__func__matrix_ga4d251df5957b62996391bccb61cc9974}{transpose}}(in);}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00072}00072         tin = \mbox{\hyperlink{group__gtx__matrix__factorisation_gaf44ef34db04c55013bc3d9eee990b80c}{fliplr}}(tin);}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00074}00074         \mbox{\hyperlink{structglm_1_1mat}{mat}}<R, (C < R ? C : R), T, Q> tr;}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00075}00075         \mbox{\hyperlink{structglm_1_1mat}{mat}}<(C < R ? C : R), C, T, Q> tq;}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00076}00076         \mbox{\hyperlink{group__gtx__matrix__factorisation_ga77022dca1aa38add548f9f56a9f8071a}{qr\_decompose}}(tin, tq, tr);}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00078}00078         tr = \mbox{\hyperlink{group__gtx__matrix__factorisation_gaf44ef34db04c55013bc3d9eee990b80c}{fliplr}}(tr);}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00079}00079         r = \mbox{\hyperlink{group__core__func__matrix_ga4d251df5957b62996391bccb61cc9974}{transpose}}(tr);}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00080}00080         r = \mbox{\hyperlink{group__gtx__matrix__factorisation_gaf44ef34db04c55013bc3d9eee990b80c}{fliplr}}(r);}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00082}00082         tq = \mbox{\hyperlink{group__gtx__matrix__factorisation_gaf44ef34db04c55013bc3d9eee990b80c}{fliplr}}(tq);}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00083}00083         q = \mbox{\hyperlink{group__core__func__matrix_ga4d251df5957b62996391bccb61cc9974}{transpose}}(tq);}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00084}00084     \}}
+\DoxyCodeLine{\Hypertarget{matrix__factorisation_8inl_source_l00085}00085 \} \textcolor{comment}{//namespace glm}}
+
+\end{DoxyCode}

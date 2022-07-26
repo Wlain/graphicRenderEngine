@@ -1,0 +1,777 @@
+\hypertarget{bundled_2ranges_8h_source}{}\doxysection{ranges.\+h}
+\label{bundled_2ranges_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/fmt/bundled/ranges.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/fmt/bundled/ranges.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00001}00001 \textcolor{comment}{// Formatting library for C++ -\/ experimental range support}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00003}00003 \textcolor{comment}{// Copyright (c) 2012 -\/ present, Victor Zverovich}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00004}00004 \textcolor{comment}{// All rights reserved.}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00005}00005 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00006}00006 \textcolor{comment}{// For the license information refer to format.h.}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00007}00007 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00008}00008 \textcolor{comment}{// Copyright (c) 2018 -\/ present, Remotion (Igor Schulz)}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00009}00009 \textcolor{comment}{// All Rights Reserved}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00010}00010 \textcolor{comment}{// \{fmt\} support for ranges, containers and types tuple interface.}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00011}00011 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00012}00012 \textcolor{preprocessor}{\#ifndef FMT\_RANGES\_H\_}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00013}00013 \textcolor{preprocessor}{\#define FMT\_RANGES\_H\_}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00015}00015 \textcolor{preprocessor}{\#include <initializer\_list>}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00016}00016 \textcolor{preprocessor}{\#include <tuple>}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00017}00017 \textcolor{preprocessor}{\#include <type\_traits>}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00018}00018 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00019}00019 \textcolor{preprocessor}{\#include "{}format.h"{}}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00020}00020 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00021}00021 FMT\_BEGIN\_NAMESPACE}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00023}00023 \textcolor{keyword}{namespace }detail \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00025}00025 \textcolor{keyword}{template} <\textcolor{keyword}{typename} RangeT, \textcolor{keyword}{typename} OutputIterator>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00026}00026 OutputIterator copy(\textcolor{keyword}{const} RangeT\& range, OutputIterator out) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00027}00027   \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = range.begin(), end = range.end(); it != end; ++it)}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00028}00028     *out++ = *it;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00029}00029   \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00030}00030 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00032}00032 \textcolor{keyword}{template} <\textcolor{keyword}{typename} OutputIterator>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00033}00033 OutputIterator copy(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* str, OutputIterator out) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00034}00034   \textcolor{keywordflow}{while} (*str) *out++ = *str++;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00035}00035   \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00036}00036 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00038}00038 \textcolor{keyword}{template} <\textcolor{keyword}{typename} OutputIterator>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00039}00039 OutputIterator copy(\textcolor{keywordtype}{char} ch, OutputIterator out) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00040}00040   *out++ = ch;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00041}00041   \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00042}00042 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00044}00044 \textcolor{keyword}{template} <\textcolor{keyword}{typename} OutputIterator>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00045}00045 OutputIterator copy(\textcolor{keywordtype}{wchar\_t} ch, OutputIterator out) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00046}00046   *out++ = ch;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00047}00047   \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00048}00048 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00050}00050 \textcolor{comment}{// Returns true if T has a std::string-\/like interface, like std::string\_view.}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00051}\mbox{\hyperlink{classdetail_1_1is__std__string__like}{00051}} \textcolor{keyword}{template} <\textcolor{keyword}{typename} T> \textcolor{keyword}{class }\mbox{\hyperlink{classdetail_1_1is__std__string__like}{is\_std\_string\_like}} \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00052}00052   \textcolor{keyword}{template} <\textcolor{keyword}{typename} U>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00053}00053   \textcolor{keyword}{static} \textcolor{keyword}{auto} check(U* p)}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00054}00054       -\/> \textcolor{keyword}{decltype}((void)p-\/>find(\textcolor{charliteral}{'a'}), p-\/>length(), (void)p-\/>data(), int());}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00055}00055   \textcolor{keyword}{template} <\textcolor{keyword}{typename}> \textcolor{keyword}{static} \textcolor{keywordtype}{void} check(...);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00057}00057  \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00058}00058   \textcolor{keyword}{static} FMT\_CONSTEXPR\_DECL \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classvalue}{value}} =}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00059}00059       \mbox{\hyperlink{structis__string}{is\_string<T>::value}} ||}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00060}00060       std::is\_convertible<T, std\_string\_view<char>>\mbox{\hyperlink{classvalue}{::value}} ||}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00061}00061       !std::is\_void<decltype(check<T>(\textcolor{keyword}{nullptr}))>::\mbox{\hyperlink{classvalue}{value}};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00062}00062 \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00064}00064 \textcolor{keyword}{template} <\textcolor{keyword}{typename} Char>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00065}\mbox{\hyperlink{structdetail_1_1is__std__string__like_3_01fmt_1_1basic__string__view_3_01_char_01_4_01_4}{00065}} \textcolor{keyword}{struct }\mbox{\hyperlink{classdetail_1_1is__std__string__like}{is\_std\_string\_like}}<fmt::\mbox{\hyperlink{classbasic__string__view}{basic\_string\_view}}<Char>> : std::true\_type \{\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00066}00066 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00067}\mbox{\hyperlink{classdetail_1_1is__map}{00067}} \textcolor{keyword}{template} <\textcolor{keyword}{typename} T> \textcolor{keyword}{class }\mbox{\hyperlink{classdetail_1_1is__map}{is\_map}} \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00068}00068   \textcolor{keyword}{template} <\textcolor{keyword}{typename} U> \textcolor{keyword}{static} \textcolor{keyword}{auto} check(U*) -\/> \textcolor{keyword}{typename} U::mapped\_type;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00069}00069   \textcolor{keyword}{template} <\textcolor{keyword}{typename}> \textcolor{keyword}{static} \textcolor{keywordtype}{void} check(...);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00071}00071  \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00072}00072 \textcolor{preprocessor}{\#ifdef FMT\_FORMAT\_MAP\_AS\_LIST}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00073}00073   \textcolor{keyword}{static} FMT\_CONSTEXPR\_DECL \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classvalue}{value}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00074}00074 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00075}00075   \textcolor{keyword}{static} FMT\_CONSTEXPR\_DECL \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classvalue}{value}} =}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00076}00076       !std::is\_void<decltype(check<T>(\textcolor{keyword}{nullptr}))>::\mbox{\hyperlink{classvalue}{value}};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00077}00077 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00078}00078 \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00080}\mbox{\hyperlink{classdetail_1_1is__set}{00080}} \textcolor{keyword}{template} <\textcolor{keyword}{typename} T> \textcolor{keyword}{class }\mbox{\hyperlink{classdetail_1_1is__set}{is\_set}} \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00081}00081   \textcolor{keyword}{template} <\textcolor{keyword}{typename} U> \textcolor{keyword}{static} \textcolor{keyword}{auto} check(U*) -\/> \textcolor{keyword}{typename} U::key\_type;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00082}00082   \textcolor{keyword}{template} <\textcolor{keyword}{typename}> \textcolor{keyword}{static} \textcolor{keywordtype}{void} check(...);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00083}00083 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00084}00084  \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00085}00085 \textcolor{preprocessor}{\#ifdef FMT\_FORMAT\_SET\_AS\_LIST}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00086}00086   \textcolor{keyword}{static} FMT\_CONSTEXPR\_DECL \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classvalue}{value}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00087}00087 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00088}00088   \textcolor{keyword}{static} FMT\_CONSTEXPR\_DECL \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classvalue}{value}} =}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00089}00089       !std::is\_void<decltype(check<T>(\textcolor{keyword}{nullptr}))>::\mbox{\hyperlink{classvalue}{value}} \&\& !\mbox{\hyperlink{classdetail_1_1is__map}{is\_map<T>::value}};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00090}00090 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00091}00091 \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00093}\mbox{\hyperlink{structdetail_1_1conditional__helper}{00093}} \textcolor{keyword}{template} <\textcolor{keyword}{typename}... Ts> \textcolor{keyword}{struct }\mbox{\hyperlink{structdetail_1_1conditional__helper}{conditional\_helper}} \{\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00095}\mbox{\hyperlink{structdetail_1_1is__range__}{00095}} \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} \_ = \textcolor{keywordtype}{void}> \textcolor{keyword}{struct }\mbox{\hyperlink{structdetail_1_1is__range__}{is\_range\_}} : std::false\_type \{\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00096}00096 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00097}00097 \textcolor{preprocessor}{\#if !FMT\_MSC\_VER || FMT\_MSC\_VER > 1800}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00098}00098 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00099}00099 \textcolor{preprocessor}{\#  define FMT\_DECLTYPE\_RETURN(val)  \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00100}00100 \textcolor{preprocessor}{    -\/>decltype(val) \{ return val; \} \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00101}00101 \textcolor{preprocessor}{    static\_assert(                  \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00102}00102 \textcolor{preprocessor}{        true, "{}"{}})  \textcolor{comment}{// This makes it so that a semicolon is required after the}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00103}00103                    \textcolor{comment}{// macro, which helps clang-\/format handle the formatting.}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00105}00105 \textcolor{comment}{// C array overload}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00106}00106 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, std::\textcolor{keywordtype}{size\_t} N>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00107}00107 \textcolor{keyword}{auto} range\_begin(\textcolor{keyword}{const} T (\&arr)[N]) -\/> \textcolor{keyword}{const} T* \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00108}00108   \textcolor{keywordflow}{return} arr;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00109}00109 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00110}00110 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, std::\textcolor{keywordtype}{size\_t} N>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00111}00111 \textcolor{keyword}{auto} range\_end(\textcolor{keyword}{const} T (\&arr)[N]) -\/> \textcolor{keyword}{const} T* \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00112}00112   \textcolor{keywordflow}{return} arr + N;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00113}00113 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00115}00115 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Enable = \textcolor{keywordtype}{void}>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00116}\mbox{\hyperlink{structdetail_1_1has__member__fn__begin__end__t}{00116}} \textcolor{keyword}{struct }\mbox{\hyperlink{structdetail_1_1has__member__fn__begin__end__t}{has\_member\_fn\_begin\_end\_t}} : std::false\_type \{\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00117}00117 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00118}00118 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00119}\mbox{\hyperlink{structdetail_1_1has__member__fn__begin__end__t_3_01_t_00_01void__t_3_01decltype_07std_1_1declval2d279443b63d262c3d0c3ea7654a8b24}{00119}} \textcolor{keyword}{struct }\mbox{\hyperlink{structdetail_1_1has__member__fn__begin__end__t}{has\_member\_fn\_begin\_end\_t}}<T, void\_t<decltype(std::declval<T>().begin()),}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00120}00120                                            decltype(std::declval<T>().end())>>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00121}00121     : std::true\_type \{\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00122}00122 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00123}00123 \textcolor{comment}{// Member function overload}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00124}00124 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00125}00125 \textcolor{keyword}{auto} range\_begin(T\&\& rng) FMT\_DECLTYPE\_RETURN(\textcolor{keyword}{static\_cast<}T\&\&\textcolor{keyword}{>}(rng).begin());}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00126}00126 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00127}00127 \textcolor{keyword}{auto} range\_end(T\&\& rng) FMT\_DECLTYPE\_RETURN(\textcolor{keyword}{static\_cast<}T\&\&\textcolor{keyword}{>}(rng).end());}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00128}00128 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00129}00129 \textcolor{comment}{// ADL overload. Only participates in overload resolution if member functions}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00130}00130 \textcolor{comment}{// are not found.}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00131}00131 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00132}00132 \textcolor{keyword}{auto} range\_begin(T\&\& rng)}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00133}00133     -\/> enable\_if\_t<!has\_member\_fn\_begin\_end\_t<T\&\&>::value,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00134}00134                    \textcolor{keyword}{decltype}(begin(\textcolor{keyword}{static\_cast<}T\&\&\textcolor{keyword}{>}(rng)))> \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00135}00135   \textcolor{keywordflow}{return} begin(\textcolor{keyword}{static\_cast<}T\&\&\textcolor{keyword}{>}(rng));}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00136}00136 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00137}00137 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00138}00138 \textcolor{keyword}{auto} range\_end(T\&\& rng) -\/> enable\_if\_t<!has\_member\_fn\_begin\_end\_t<T\&\&>::value,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00139}00139                                        \textcolor{keyword}{decltype}(end(\textcolor{keyword}{static\_cast<}T\&\&\textcolor{keyword}{>}(rng)))> \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00140}00140   \textcolor{keywordflow}{return} end(\textcolor{keyword}{static\_cast<}T\&\&\textcolor{keyword}{>}(rng));}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00141}00141 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00142}00142 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00143}00143 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Enable = \textcolor{keywordtype}{void}>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00144}\mbox{\hyperlink{structdetail_1_1has__const__begin__end}{00144}} \textcolor{keyword}{struct }\mbox{\hyperlink{structdetail_1_1has__const__begin__end}{has\_const\_begin\_end}} : std::false\_type \{\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00145}00145 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Enable = \textcolor{keywordtype}{void}>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00146}\mbox{\hyperlink{structdetail_1_1has__mutable__begin__end}{00146}} \textcolor{keyword}{struct }\mbox{\hyperlink{structdetail_1_1has__mutable__begin__end}{has\_mutable\_begin\_end}} : std::false\_type \{\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00147}00147 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00148}00148 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00149}\mbox{\hyperlink{structdetail_1_1has__const__begin__end_3_01_t_00_01void__t_3_01decltype_07detail_1_1range__begin4d0cf3c56adb617747d1750d2b5598ac}{00149}} \textcolor{keyword}{struct }\mbox{\hyperlink{structdetail_1_1has__const__begin__end}{has\_const\_begin\_end}}<}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00150}00150     T,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00151}00151     void\_t<}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00152}00152         decltype(detail::range\_begin(std::declval<const remove\_cvref\_t<T>\&>())),}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00153}00153         decltype(detail::range\_end(std::declval<const remove\_cvref\_t<T>\&>()))>>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00154}00154     : std::true\_type \{\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00155}00155 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00156}00156 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00157}\mbox{\hyperlink{structdetail_1_1has__mutable__begin__end_3_01_t_00_01void__t_3_01decltype_07detail_1_1range__begd5f2729531552232d214cda8da44d539}{00157}} \textcolor{keyword}{struct }\mbox{\hyperlink{structdetail_1_1has__mutable__begin__end}{has\_mutable\_begin\_end}}<}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00158}00158     T, void\_t<decltype(detail::range\_begin(std::declval<T>())),}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00159}00159               decltype(detail::range\_end(std::declval<T>())),}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00160}00160               enable\_if\_t<std::is\_copy\_constructible<T>::value>>>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00161}00161     : std::true\_type \{\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00162}00162 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00163}00163 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00164}\mbox{\hyperlink{structdetail_1_1is__range___3_01_t_00_01void_01_4}{00164}} \textcolor{keyword}{struct }\mbox{\hyperlink{structdetail_1_1is__range__}{is\_range\_}}<T, void>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00165}00165     : std::integral\_constant<bool, (has\_const\_begin\_end<T>::value ||}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00166}00166                                     has\_mutable\_begin\_end<T>::value)> \{\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00167}00167 \textcolor{preprocessor}{\#  undef FMT\_DECLTYPE\_RETURN}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00168}00168 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00169}00169 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00170}00170 \textcolor{comment}{// tuple\_size and tuple\_element check.}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00171}\mbox{\hyperlink{classdetail_1_1is__tuple__like__}{00171}} \textcolor{keyword}{template} <\textcolor{keyword}{typename} T> \textcolor{keyword}{class }\mbox{\hyperlink{classdetail_1_1is__tuple__like__}{is\_tuple\_like\_}} \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00172}00172   \textcolor{keyword}{template} <\textcolor{keyword}{typename} U>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00173}00173   \textcolor{keyword}{static} \textcolor{keyword}{auto} check(U* p) -\/> \textcolor{keyword}{decltype}(std::tuple\_size<U>::value, int());}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00174}00174   \textcolor{keyword}{template} <\textcolor{keyword}{typename}> \textcolor{keyword}{static} \textcolor{keywordtype}{void} check(...);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00175}00175 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00176}00176  \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00177}00177   \textcolor{keyword}{static} FMT\_CONSTEXPR\_DECL \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classvalue}{value}} =}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00178}00178       !std::is\_void<decltype(check<T>(\textcolor{keyword}{nullptr}))>::\mbox{\hyperlink{classvalue}{value}};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00179}00179 \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00180}00180 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00181}00181 \textcolor{comment}{// Check for integer\_sequence}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00182}00182 \textcolor{preprocessor}{\#if defined(\_\_cpp\_lib\_integer\_sequence) || FMT\_MSC\_VER >= 1900}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00183}00183 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, T... N>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00184}00184 \textcolor{keyword}{using} \mbox{\hyperlink{structdetail_1_1integer__sequence}{integer\_sequence}} = std::integer\_sequence<T, N...>;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00185}00185 \textcolor{keyword}{template} <\textcolor{keywordtype}{size\_t}... N> \textcolor{keyword}{using} \mbox{\hyperlink{structdetail_1_1integer__sequence}{index\_sequence}} = std::index\_sequence<N...>;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00186}00186 \textcolor{keyword}{template} <\textcolor{keywordtype}{size\_t} N> \textcolor{keyword}{using} \mbox{\hyperlink{structdetail_1_1make__integer__sequence}{make\_index\_sequence}} = std::make\_index\_sequence<N>;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00187}00187 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00188}\mbox{\hyperlink{structdetail_1_1integer__sequence}{00188}} \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, T... N> \textcolor{keyword}{struct }\mbox{\hyperlink{structdetail_1_1integer__sequence}{integer\_sequence}} \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00189}00189   \textcolor{keyword}{using} value\_type = T;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00190}00190 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00191}00191   \textcolor{keyword}{static} FMT\_CONSTEXPR \textcolor{keywordtype}{size\_t} size() \{ \textcolor{keywordflow}{return} \textcolor{keyword}{sizeof}...(N); \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00192}00192 \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00193}00193 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00194}00194 \textcolor{keyword}{template} <\textcolor{keywordtype}{size\_t}... N> \textcolor{keyword}{using} \mbox{\hyperlink{structdetail_1_1integer__sequence}{index\_sequence}} = \mbox{\hyperlink{structdetail_1_1integer__sequence}{integer\_sequence}}<size\_t, N...>;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00195}00195 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00196}00196 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, \textcolor{keywordtype}{size\_t} N, T... Ns>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00197}\mbox{\hyperlink{structdetail_1_1make__integer__sequence}{00197}} \textcolor{keyword}{struct }\mbox{\hyperlink{structdetail_1_1make__integer__sequence}{make\_integer\_sequence}} : \mbox{\hyperlink{structdetail_1_1make__integer__sequence}{make\_integer\_sequence}}<T, N -\/ 1, N -\/ 1, Ns...> \{\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00198}00198 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, T... Ns>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00199}\mbox{\hyperlink{structdetail_1_1make__integer__sequence_3_01_t_00_010_00_01_ns_8_8_8_01_4}{00199}} \textcolor{keyword}{struct }\mbox{\hyperlink{structdetail_1_1make__integer__sequence}{make\_integer\_sequence}}<T, 0, Ns...> : \mbox{\hyperlink{structdetail_1_1integer__sequence}{integer\_sequence}}<T, Ns...> \{\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00200}00200 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00201}00201 \textcolor{keyword}{template} <\textcolor{keywordtype}{size\_t} N>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00202}00202 \textcolor{keyword}{using} \mbox{\hyperlink{structdetail_1_1make__integer__sequence}{make\_index\_sequence}} = \mbox{\hyperlink{structdetail_1_1make__integer__sequence}{make\_integer\_sequence<size\_t, N>}};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00203}00203 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00204}00204 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00205}00205 \textcolor{keyword}{template} <\textcolor{keyword}{class }Tuple, \textcolor{keyword}{class }F, \textcolor{keywordtype}{size\_t}... Is>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00206}00206 \textcolor{keywordtype}{void} for\_each(\mbox{\hyperlink{structdetail_1_1integer__sequence}{index\_sequence<Is...>}}, Tuple\&\& tup, F\&\& f) FMT\_NOEXCEPT \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00207}00207   \textcolor{keyword}{using} std::get;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00208}00208   \textcolor{comment}{// using free function get<I>(T) now.}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00209}00209   \textcolor{keyword}{const} \textcolor{keywordtype}{int} \_[] = \{0, ((void)f(get<Is>(tup)), 0)...\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00210}00210   (void)\_;  \textcolor{comment}{// blocks warnings}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00211}00211 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00212}00212 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00213}00213 \textcolor{keyword}{template} <\textcolor{keyword}{class} T>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00214}00214 FMT\_CONSTEXPR make\_index\_sequence<std::tuple\_size<T>::value> get\_indexes(}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00215}00215     T \textcolor{keyword}{const}\&) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00216}00216   \textcolor{keywordflow}{return} \{\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00217}00217 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00218}00218 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00219}00219 \textcolor{keyword}{template} <\textcolor{keyword}{class} Tuple, \textcolor{keyword}{class} F> \textcolor{keywordtype}{void} for\_each(Tuple\&\& tup, F\&\& f) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00220}00220   \textcolor{keyword}{const} \textcolor{keyword}{auto} indexes = get\_indexes(tup);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00221}00221   for\_each(indexes, std::forward<Tuple>(tup), std::forward<F>(f));}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00222}00222 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00223}00223 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00224}00224 \textcolor{keyword}{template} <\textcolor{keyword}{typename} Range>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00225}00225 \textcolor{keyword}{using} value\_type =}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00226}00226     remove\_cvref\_t<decltype(*detail::range\_begin(std::declval<Range>()))>;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00227}00227 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00228}00228 \textcolor{keyword}{template} <\textcolor{keyword}{typename} OutputIt> OutputIt write\_delimiter(OutputIt out) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00229}00229   *out++ = \textcolor{charliteral}{','};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00230}00230   *out++ = \textcolor{charliteral}{' '};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00231}00231   \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00232}00232 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00233}00233 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00234}\mbox{\hyperlink{structdetail_1_1singleton}{00234}} \textcolor{keyword}{struct }\mbox{\hyperlink{structdetail_1_1singleton}{singleton}} \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00235}00235   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} upper;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00236}00236   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} lower\_count;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00237}00237 \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00238}00238 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00239}00239 \textcolor{keyword}{inline} \textcolor{keyword}{auto} is\_printable(uint16\_t x, \textcolor{keyword}{const} \mbox{\hyperlink{structdetail_1_1singleton}{singleton}}* singletons,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00240}00240                          \textcolor{keywordtype}{size\_t} singletons\_size,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00241}00241                          \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* singleton\_lowers,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00242}00242                          \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* normal, \textcolor{keywordtype}{size\_t} normal\_size)}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00243}00243     -\/> \textcolor{keywordtype}{bool} \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00244}00244   \textcolor{keyword}{auto} upper = x >> 8;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00245}00245   \textcolor{keyword}{auto} lower\_start = 0;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00246}00246   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < singletons\_size; ++i) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00247}00247     \textcolor{keyword}{auto} s = singletons[i];}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00248}00248     \textcolor{keyword}{auto} lower\_end = lower\_start + s.lower\_count;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00249}00249     \textcolor{keywordflow}{if} (upper < s.upper) \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00250}00250     \textcolor{keywordflow}{if} (upper == s.upper) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00251}00251       \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} j = lower\_start; j < lower\_end; ++j) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00252}00252         \textcolor{keywordflow}{if} (singleton\_lowers[j] == (x \& 0xff)) \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00253}00253       \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00254}00254     \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00255}00255     lower\_start = lower\_end;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00256}00256   \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00257}00257 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00258}00258   \textcolor{keyword}{auto} xsigned = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(x);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00259}00259   \textcolor{keyword}{auto} current = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00260}00260   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < normal\_size; ++i) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00261}00261     \textcolor{keyword}{auto} v = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(normal[i]);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00262}00262     \textcolor{keyword}{auto} len = (v \& 0x80) != 0 ? (v \& 0x7f) << 8 | normal[++i] : v;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00263}00263     xsigned -\/= len;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00264}00264     \textcolor{keywordflow}{if} (xsigned < 0) \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00265}00265     current = !current;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00266}00266   \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00267}00267   \textcolor{keywordflow}{return} current;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00268}00268 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00269}00269 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00270}00270 \textcolor{comment}{// Returns true iff the code point cp is printable.}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00271}00271 \textcolor{comment}{// This code is generated by support/printable.py.}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00272}00272 \textcolor{keyword}{inline} \textcolor{keyword}{auto} is\_printable(uint32\_t cp) -\/> \textcolor{keywordtype}{bool} \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00273}00273   \textcolor{keyword}{static} \textcolor{keyword}{constexpr} singleton singletons0[] = \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00274}00274       \{0x00, 1\},  \{0x03, 5\},  \{0x05, 6\},  \{0x06, 3\},  \{0x07, 6\},  \{0x08, 8\},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00275}00275       \{0x09, 17\}, \{0x0a, 28\}, \{0x0b, 25\}, \{0x0c, 20\}, \{0x0d, 16\}, \{0x0e, 13\},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00276}00276       \{0x0f, 4\},  \{0x10, 3\},  \{0x12, 18\}, \{0x13, 9\},  \{0x16, 1\},  \{0x17, 5\},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00277}00277       \{0x18, 2\},  \{0x19, 3\},  \{0x1a, 7\},  \{0x1c, 2\},  \{0x1d, 1\},  \{0x1f, 22\},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00278}00278       \{0x20, 3\},  \{0x2b, 3\},  \{0x2c, 2\},  \{0x2d, 11\}, \{0x2e, 1\},  \{0x30, 3\},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00279}00279       \{0x31, 2\},  \{0x32, 1\},  \{0xa7, 2\},  \{0xa9, 2\},  \{0xaa, 4\},  \{0xab, 8\},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00280}00280       \{0xfa, 2\},  \{0xfb, 5\},  \{0xfd, 4\},  \{0xfe, 3\},  \{0xff, 9\},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00281}00281   \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00282}00282   \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} singletons0\_lower[] = \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00283}00283       0xad, 0x78, 0x79, 0x8b, 0x8d, 0xa2, 0x30, 0x57, 0x58, 0x8b, 0x8c, 0x90,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00284}00284       0x1c, 0x1d, 0xdd, 0x0e, 0x0f, 0x4b, 0x4c, 0xfb, 0xfc, 0x2e, 0x2f, 0x3f,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00285}00285       0x5c, 0x5d, 0x5f, 0xb5, 0xe2, 0x84, 0x8d, 0x8e, 0x91, 0x92, 0xa9, 0xb1,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00286}00286       0xba, 0xbb, 0xc5, 0xc6, 0xc9, 0xca, 0xde, 0xe4, 0xe5, 0xff, 0x00, 0x04,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00287}00287       0x11, 0x12, 0x29, 0x31, 0x34, 0x37, 0x3a, 0x3b, 0x3d, 0x49, 0x4a, 0x5d,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00288}00288       0x84, 0x8e, 0x92, 0xa9, 0xb1, 0xb4, 0xba, 0xbb, 0xc6, 0xca, 0xce, 0xcf,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00289}00289       0xe4, 0xe5, 0x00, 0x04, 0x0d, 0x0e, 0x11, 0x12, 0x29, 0x31, 0x34, 0x3a,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00290}00290       0x3b, 0x45, 0x46, 0x49, 0x4a, 0x5e, 0x64, 0x65, 0x84, 0x91, 0x9b, 0x9d,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00291}00291       0xc9, 0xce, 0xcf, 0x0d, 0x11, 0x29, 0x45, 0x49, 0x57, 0x64, 0x65, 0x8d,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00292}00292       0x91, 0xa9, 0xb4, 0xba, 0xbb, 0xc5, 0xc9, 0xdf, 0xe4, 0xe5, 0xf0, 0x0d,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00293}00293       0x11, 0x45, 0x49, 0x64, 0x65, 0x80, 0x84, 0xb2, 0xbc, 0xbe, 0xbf, 0xd5,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00294}00294       0xd7, 0xf0, 0xf1, 0x83, 0x85, 0x8b, 0xa4, 0xa6, 0xbe, 0xbf, 0xc5, 0xc7,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00295}00295       0xce, 0xcf, 0xda, 0xdb, 0x48, 0x98, 0xbd, 0xcd, 0xc6, 0xce, 0xcf, 0x49,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00296}00296       0x4e, 0x4f, 0x57, 0x59, 0x5e, 0x5f, 0x89, 0x8e, 0x8f, 0xb1, 0xb6, 0xb7,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00297}00297       0xbf, 0xc1, 0xc6, 0xc7, 0xd7, 0x11, 0x16, 0x17, 0x5b, 0x5c, 0xf6, 0xf7,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00298}00298       0xfe, 0xff, 0x80, 0x0d, 0x6d, 0x71, 0xde, 0xdf, 0x0e, 0x0f, 0x1f, 0x6e,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00299}00299       0x6f, 0x1c, 0x1d, 0x5f, 0x7d, 0x7e, 0xae, 0xaf, 0xbb, 0xbc, 0xfa, 0x16,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00300}00300       0x17, 0x1e, 0x1f, 0x46, 0x47, 0x4e, 0x4f, 0x58, 0x5a, 0x5c, 0x5e, 0x7e,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00301}00301       0x7f, 0xb5, 0xc5, 0xd4, 0xd5, 0xdc, 0xf0, 0xf1, 0xf5, 0x72, 0x73, 0x8f,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00302}00302       0x74, 0x75, 0x96, 0x2f, 0x5f, 0x26, 0x2e, 0x2f, 0xa7, 0xaf, 0xb7, 0xbf,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00303}00303       0xc7, 0xcf, 0xd7, 0xdf, 0x9a, 0x40, 0x97, 0x98, 0x30, 0x8f, 0x1f, 0xc0,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00304}00304       0xc1, 0xce, 0xff, 0x4e, 0x4f, 0x5a, 0x5b, 0x07, 0x08, 0x0f, 0x10, 0x27,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00305}00305       0x2f, 0xee, 0xef, 0x6e, 0x6f, 0x37, 0x3d, 0x3f, 0x42, 0x45, 0x90, 0x91,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00306}00306       0xfe, 0xff, 0x53, 0x67, 0x75, 0xc8, 0xc9, 0xd0, 0xd1, 0xd8, 0xd9, 0xe7,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00307}00307       0xfe, 0xff,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00308}00308   \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00309}00309   \textcolor{keyword}{static} \textcolor{keyword}{constexpr} singleton singletons1[] = \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00310}00310       \{0x00, 6\},  \{0x01, 1\}, \{0x03, 1\},  \{0x04, 2\}, \{0x08, 8\},  \{0x09, 2\},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00311}00311       \{0x0a, 5\},  \{0x0b, 2\}, \{0x0e, 4\},  \{0x10, 1\}, \{0x11, 2\},  \{0x12, 5\},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00312}00312       \{0x13, 17\}, \{0x14, 1\}, \{0x15, 2\},  \{0x17, 2\}, \{0x19, 13\}, \{0x1c, 5\},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00313}00313       \{0x1d, 8\},  \{0x24, 1\}, \{0x6a, 3\},  \{0x6b, 2\}, \{0xbc, 2\},  \{0xd1, 2\},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00314}00314       \{0xd4, 12\}, \{0xd5, 9\}, \{0xd6, 2\},  \{0xd7, 2\}, \{0xda, 1\},  \{0xe0, 5\},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00315}00315       \{0xe1, 2\},  \{0xe8, 2\}, \{0xee, 32\}, \{0xf0, 4\}, \{0xf8, 2\},  \{0xf9, 2\},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00316}00316       \{0xfa, 2\},  \{0xfb, 1\},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00317}00317   \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00318}00318   \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} singletons1\_lower[] = \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00319}00319       0x0c, 0x27, 0x3b, 0x3e, 0x4e, 0x4f, 0x8f, 0x9e, 0x9e, 0x9f, 0x06, 0x07,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00320}00320       0x09, 0x36, 0x3d, 0x3e, 0x56, 0xf3, 0xd0, 0xd1, 0x04, 0x14, 0x18, 0x36,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00321}00321       0x37, 0x56, 0x57, 0x7f, 0xaa, 0xae, 0xaf, 0xbd, 0x35, 0xe0, 0x12, 0x87,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00322}00322       0x89, 0x8e, 0x9e, 0x04, 0x0d, 0x0e, 0x11, 0x12, 0x29, 0x31, 0x34, 0x3a,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00323}00323       0x45, 0x46, 0x49, 0x4a, 0x4e, 0x4f, 0x64, 0x65, 0x5c, 0xb6, 0xb7, 0x1b,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00324}00324       0x1c, 0x07, 0x08, 0x0a, 0x0b, 0x14, 0x17, 0x36, 0x39, 0x3a, 0xa8, 0xa9,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00325}00325       0xd8, 0xd9, 0x09, 0x37, 0x90, 0x91, 0xa8, 0x07, 0x0a, 0x3b, 0x3e, 0x66,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00326}00326       0x69, 0x8f, 0x92, 0x6f, 0x5f, 0xee, 0xef, 0x5a, 0x62, 0x9a, 0x9b, 0x27,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00327}00327       0x28, 0x55, 0x9d, 0xa0, 0xa1, 0xa3, 0xa4, 0xa7, 0xa8, 0xad, 0xba, 0xbc,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00328}00328       0xc4, 0x06, 0x0b, 0x0c, 0x15, 0x1d, 0x3a, 0x3f, 0x45, 0x51, 0xa6, 0xa7,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00329}00329       0xcc, 0xcd, 0xa0, 0x07, 0x19, 0x1a, 0x22, 0x25, 0x3e, 0x3f, 0xc5, 0xc6,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00330}00330       0x04, 0x20, 0x23, 0x25, 0x26, 0x28, 0x33, 0x38, 0x3a, 0x48, 0x4a, 0x4c,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00331}00331       0x50, 0x53, 0x55, 0x56, 0x58, 0x5a, 0x5c, 0x5e, 0x60, 0x63, 0x65, 0x66,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00332}00332       0x6b, 0x73, 0x78, 0x7d, 0x7f, 0x8a, 0xa4, 0xaa, 0xaf, 0xb0, 0xc0, 0xd0,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00333}00333       0xae, 0xaf, 0x79, 0xcc, 0x6e, 0x6f, 0x93,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00334}00334   \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00335}00335   \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} normal0[] = \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00336}00336       0x00, 0x20, 0x5f, 0x22, 0x82, 0xdf, 0x04, 0x82, 0x44, 0x08, 0x1b, 0x04,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00337}00337       0x06, 0x11, 0x81, 0xac, 0x0e, 0x80, 0xab, 0x35, 0x28, 0x0b, 0x80, 0xe0,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00338}00338       0x03, 0x19, 0x08, 0x01, 0x04, 0x2f, 0x04, 0x34, 0x04, 0x07, 0x03, 0x01,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00339}00339       0x07, 0x06, 0x07, 0x11, 0x0a, 0x50, 0x0f, 0x12, 0x07, 0x55, 0x07, 0x03,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00340}00340       0x04, 0x1c, 0x0a, 0x09, 0x03, 0x08, 0x03, 0x07, 0x03, 0x02, 0x03, 0x03,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00341}00341       0x03, 0x0c, 0x04, 0x05, 0x03, 0x0b, 0x06, 0x01, 0x0e, 0x15, 0x05, 0x3a,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00342}00342       0x03, 0x11, 0x07, 0x06, 0x05, 0x10, 0x07, 0x57, 0x07, 0x02, 0x07, 0x15,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00343}00343       0x0d, 0x50, 0x04, 0x43, 0x03, 0x2d, 0x03, 0x01, 0x04, 0x11, 0x06, 0x0f,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00344}00344       0x0c, 0x3a, 0x04, 0x1d, 0x25, 0x5f, 0x20, 0x6d, 0x04, 0x6a, 0x25, 0x80,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00345}00345       0xc8, 0x05, 0x82, 0xb0, 0x03, 0x1a, 0x06, 0x82, 0xfd, 0x03, 0x59, 0x07,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00346}00346       0x15, 0x0b, 0x17, 0x09, 0x14, 0x0c, 0x14, 0x0c, 0x6a, 0x06, 0x0a, 0x06,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00347}00347       0x1a, 0x06, 0x59, 0x07, 0x2b, 0x05, 0x46, 0x0a, 0x2c, 0x04, 0x0c, 0x04,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00348}00348       0x01, 0x03, 0x31, 0x0b, 0x2c, 0x04, 0x1a, 0x06, 0x0b, 0x03, 0x80, 0xac,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00349}00349       0x06, 0x0a, 0x06, 0x21, 0x3f, 0x4c, 0x04, 0x2d, 0x03, 0x74, 0x08, 0x3c,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00350}00350       0x03, 0x0f, 0x03, 0x3c, 0x07, 0x38, 0x08, 0x2b, 0x05, 0x82, 0xff, 0x11,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00351}00351       0x18, 0x08, 0x2f, 0x11, 0x2d, 0x03, 0x20, 0x10, 0x21, 0x0f, 0x80, 0x8c,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00352}00352       0x04, 0x82, 0x97, 0x19, 0x0b, 0x15, 0x88, 0x94, 0x05, 0x2f, 0x05, 0x3b,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00353}00353       0x07, 0x02, 0x0e, 0x18, 0x09, 0x80, 0xb3, 0x2d, 0x74, 0x0c, 0x80, 0xd6,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00354}00354       0x1a, 0x0c, 0x05, 0x80, 0xff, 0x05, 0x80, 0xdf, 0x0c, 0xee, 0x0d, 0x03,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00355}00355       0x84, 0x8d, 0x03, 0x37, 0x09, 0x81, 0x5c, 0x14, 0x80, 0xb8, 0x08, 0x80,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00356}00356       0xcb, 0x2a, 0x38, 0x03, 0x0a, 0x06, 0x38, 0x08, 0x46, 0x08, 0x0c, 0x06,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00357}00357       0x74, 0x0b, 0x1e, 0x03, 0x5a, 0x04, 0x59, 0x09, 0x80, 0x83, 0x18, 0x1c,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00358}00358       0x0a, 0x16, 0x09, 0x4c, 0x04, 0x80, 0x8a, 0x06, 0xab, 0xa4, 0x0c, 0x17,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00359}00359       0x04, 0x31, 0xa1, 0x04, 0x81, 0xda, 0x26, 0x07, 0x0c, 0x05, 0x05, 0x80,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00360}00360       0xa5, 0x11, 0x81, 0x6d, 0x10, 0x78, 0x28, 0x2a, 0x06, 0x4c, 0x04, 0x80,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00361}00361       0x8d, 0x04, 0x80, 0xbe, 0x03, 0x1b, 0x03, 0x0f, 0x0d,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00362}00362   \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00363}00363   \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} normal1[] = \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00364}00364       0x5e, 0x22, 0x7b, 0x05, 0x03, 0x04, 0x2d, 0x03, 0x66, 0x03, 0x01, 0x2f,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00365}00365       0x2e, 0x80, 0x82, 0x1d, 0x03, 0x31, 0x0f, 0x1c, 0x04, 0x24, 0x09, 0x1e,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00366}00366       0x05, 0x2b, 0x05, 0x44, 0x04, 0x0e, 0x2a, 0x80, 0xaa, 0x06, 0x24, 0x04,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00367}00367       0x24, 0x04, 0x28, 0x08, 0x34, 0x0b, 0x01, 0x80, 0x90, 0x81, 0x37, 0x09,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00368}00368       0x16, 0x0a, 0x08, 0x80, 0x98, 0x39, 0x03, 0x63, 0x08, 0x09, 0x30, 0x16,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00369}00369       0x05, 0x21, 0x03, 0x1b, 0x05, 0x01, 0x40, 0x38, 0x04, 0x4b, 0x05, 0x2f,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00370}00370       0x04, 0x0a, 0x07, 0x09, 0x07, 0x40, 0x20, 0x27, 0x04, 0x0c, 0x09, 0x36,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00371}00371       0x03, 0x3a, 0x05, 0x1a, 0x07, 0x04, 0x0c, 0x07, 0x50, 0x49, 0x37, 0x33,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00372}00372       0x0d, 0x33, 0x07, 0x2e, 0x08, 0x0a, 0x81, 0x26, 0x52, 0x4e, 0x28, 0x08,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00373}00373       0x2a, 0x56, 0x1c, 0x14, 0x17, 0x09, 0x4e, 0x04, 0x1e, 0x0f, 0x43, 0x0e,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00374}00374       0x19, 0x07, 0x0a, 0x06, 0x48, 0x08, 0x27, 0x09, 0x75, 0x0b, 0x3f, 0x41,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00375}00375       0x2a, 0x06, 0x3b, 0x05, 0x0a, 0x06, 0x51, 0x06, 0x01, 0x05, 0x10, 0x03,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00376}00376       0x05, 0x80, 0x8b, 0x62, 0x1e, 0x48, 0x08, 0x0a, 0x80, 0xa6, 0x5e, 0x22,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00377}00377       0x45, 0x0b, 0x0a, 0x06, 0x0d, 0x13, 0x39, 0x07, 0x0a, 0x36, 0x2c, 0x04,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00378}00378       0x10, 0x80, 0xc0, 0x3c, 0x64, 0x53, 0x0c, 0x48, 0x09, 0x0a, 0x46, 0x45,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00379}00379       0x1b, 0x48, 0x08, 0x53, 0x1d, 0x39, 0x81, 0x07, 0x46, 0x0a, 0x1d, 0x03,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00380}00380       0x47, 0x49, 0x37, 0x03, 0x0e, 0x08, 0x0a, 0x06, 0x39, 0x07, 0x0a, 0x81,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00381}00381       0x36, 0x19, 0x80, 0xb7, 0x01, 0x0f, 0x32, 0x0d, 0x83, 0x9b, 0x66, 0x75,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00382}00382       0x0b, 0x80, 0xc4, 0x8a, 0xbc, 0x84, 0x2f, 0x8f, 0xd1, 0x82, 0x47, 0xa1,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00383}00383       0xb9, 0x82, 0x39, 0x07, 0x2a, 0x04, 0x02, 0x60, 0x26, 0x0a, 0x46, 0x0a,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00384}00384       0x28, 0x05, 0x13, 0x82, 0xb0, 0x5b, 0x65, 0x4b, 0x04, 0x39, 0x07, 0x11,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00385}00385       0x40, 0x05, 0x0b, 0x02, 0x0e, 0x97, 0xf8, 0x08, 0x84, 0xd6, 0x2a, 0x09,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00386}00386       0xa2, 0xf7, 0x81, 0x1f, 0x31, 0x03, 0x11, 0x04, 0x08, 0x81, 0x8c, 0x89,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00387}00387       0x04, 0x6b, 0x05, 0x0d, 0x03, 0x09, 0x07, 0x10, 0x93, 0x60, 0x80, 0xf6,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00388}00388       0x0a, 0x73, 0x08, 0x6e, 0x17, 0x46, 0x80, 0x9a, 0x14, 0x0c, 0x57, 0x09,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00389}00389       0x19, 0x80, 0x87, 0x81, 0x47, 0x03, 0x85, 0x42, 0x0f, 0x15, 0x85, 0x50,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00390}00390       0x2b, 0x80, 0xd5, 0x2d, 0x03, 0x1a, 0x04, 0x02, 0x81, 0x70, 0x3a, 0x05,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00391}00391       0x01, 0x85, 0x00, 0x80, 0xd7, 0x29, 0x4c, 0x04, 0x0a, 0x04, 0x02, 0x83,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00392}00392       0x11, 0x44, 0x4c, 0x3d, 0x80, 0xc2, 0x3c, 0x06, 0x01, 0x04, 0x55, 0x05,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00393}00393       0x1b, 0x34, 0x02, 0x81, 0x0e, 0x2c, 0x04, 0x64, 0x0c, 0x56, 0x0a, 0x80,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00394}00394       0xae, 0x38, 0x1d, 0x0d, 0x2c, 0x04, 0x09, 0x07, 0x02, 0x0e, 0x06, 0x80,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00395}00395       0x9a, 0x83, 0xd8, 0x08, 0x0d, 0x03, 0x0d, 0x03, 0x74, 0x0c, 0x59, 0x07,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00396}00396       0x0c, 0x14, 0x0c, 0x04, 0x38, 0x08, 0x0a, 0x06, 0x28, 0x08, 0x22, 0x4e,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00397}00397       0x81, 0x54, 0x0c, 0x15, 0x03, 0x03, 0x05, 0x07, 0x09, 0x19, 0x07, 0x07,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00398}00398       0x09, 0x03, 0x0d, 0x07, 0x29, 0x80, 0xcb, 0x25, 0x0a, 0x84, 0x06,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00399}00399   \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00400}00400   \textcolor{keyword}{auto} lower = \textcolor{keyword}{static\_cast<}uint16\_t\textcolor{keyword}{>}(cp);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00401}00401   \textcolor{keywordflow}{if} (cp < 0x10000) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00402}00402     \textcolor{keywordflow}{return} is\_printable(lower, singletons0,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00403}00403                         \textcolor{keyword}{sizeof}(singletons0) / \textcolor{keyword}{sizeof}(*singletons0),}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00404}00404                         singletons0\_lower, normal0, \textcolor{keyword}{sizeof}(normal0));}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00405}00405   \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00406}00406   \textcolor{keywordflow}{if} (cp < 0x20000) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00407}00407     \textcolor{keywordflow}{return} is\_printable(lower, singletons1,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00408}00408                         \textcolor{keyword}{sizeof}(singletons1) / \textcolor{keyword}{sizeof}(*singletons1),}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00409}00409                         singletons1\_lower, normal1, \textcolor{keyword}{sizeof}(normal1));}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00410}00410   \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00411}00411   \textcolor{keywordflow}{if} (0x2a6de <= cp \&\& cp < 0x2a700) \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00412}00412   \textcolor{keywordflow}{if} (0x2b735 <= cp \&\& cp < 0x2b740) \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00413}00413   \textcolor{keywordflow}{if} (0x2b81e <= cp \&\& cp < 0x2b820) \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00414}00414   \textcolor{keywordflow}{if} (0x2cea2 <= cp \&\& cp < 0x2ceb0) \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00415}00415   \textcolor{keywordflow}{if} (0x2ebe1 <= cp \&\& cp < 0x2f800) \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00416}00416   \textcolor{keywordflow}{if} (0x2fa1e <= cp \&\& cp < 0x30000) \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00417}00417   \textcolor{keywordflow}{if} (0x3134b <= cp \&\& cp < 0xe0100) \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00418}00418   \textcolor{keywordflow}{if} (0xe01f0 <= cp \&\& cp < 0x110000) \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00419}00419   \textcolor{keywordflow}{return} cp < 0x110000;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00420}00420 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00421}00421 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00422}00422 \textcolor{keyword}{inline} \textcolor{keyword}{auto} needs\_escape(uint32\_t cp) -\/> \textcolor{keywordtype}{bool} \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00423}00423   \textcolor{keywordflow}{return} cp < 0x20 || cp == 0x7f || cp == \textcolor{charliteral}{'"{}'} || cp == \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'} ||}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00424}00424          !is\_printable(cp);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00425}00425 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00426}00426 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00427}\mbox{\hyperlink{structdetail_1_1find__escape__result}{00427}} \textcolor{keyword}{template} <\textcolor{keyword}{typename} Char> \textcolor{keyword}{struct }\mbox{\hyperlink{structdetail_1_1find__escape__result}{find\_escape\_result}} \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00428}00428   \textcolor{keyword}{const} Char* begin;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00429}00429   \textcolor{keyword}{const} Char* end;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00430}00430   uint32\_t cp;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00431}00431 \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00432}00432 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00433}00433 \textcolor{keyword}{template} <\textcolor{keyword}{typename} Char>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00434}00434 \textcolor{keyword}{auto} find\_escape(\textcolor{keyword}{const} Char* begin, \textcolor{keyword}{const} Char* end)}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00435}00435     -\/> \mbox{\hyperlink{structdetail_1_1find__escape__result}{find\_escape\_result<Char>}} \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00436}00436   \textcolor{keywordflow}{for} (; begin != end; ++begin) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00437}00437     \textcolor{keyword}{auto} cp = \textcolor{keyword}{static\_cast<}typename std::make\_unsigned<Char>::type\textcolor{keyword}{>}(*begin);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00438}00438     \textcolor{keywordflow}{if} (\textcolor{keyword}{sizeof}(Char) == 1 \&\& cp >= 0x80) \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00439}00439     \textcolor{keywordflow}{if} (needs\_escape(cp)) \textcolor{keywordflow}{return} \{begin, begin + 1, cp\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00440}00440   \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00441}00441   \textcolor{keywordflow}{return} \{begin, \textcolor{keyword}{nullptr}, 0\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00442}00442 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00443}00443 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00444}00444 \textcolor{keyword}{inline} \textcolor{keyword}{auto} find\_escape(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* begin, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* end)}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00445}00445     -\/> find\_escape\_result<char> \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00446}00446   \textcolor{keywordflow}{if} (!is\_utf8()) \textcolor{keywordflow}{return} find\_escape<char>(begin, end);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00447}00447   \textcolor{keyword}{auto} \mbox{\hyperlink{structresult}{result}} = find\_escape\_result<char>\{end, \textcolor{keyword}{nullptr}, 0\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00448}00448   for\_each\_codepoint(\mbox{\hyperlink{classbasic__string__view}{string\_view}}(begin, to\_unsigned(end -\/ begin)),}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00449}00449                      [\&](uint32\_t cp, \mbox{\hyperlink{classbasic__string__view}{string\_view}} sv) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00450}00450                        \textcolor{keywordflow}{if} (needs\_escape(cp)) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00451}00451                          \mbox{\hyperlink{structresult}{result}} = \{sv.begin(), sv.end(), cp\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00452}00452                          \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00453}00453                        \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00454}00454                        \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00455}00455                      \});}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00456}00456   \textcolor{keywordflow}{return} \mbox{\hyperlink{structresult}{result}};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00457}00457 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00458}00458 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00459}00459 \textcolor{keyword}{template} <\textcolor{keyword}{typename} Char, \textcolor{keyword}{typename} OutputIt>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00460}00460 \textcolor{keyword}{auto} write\_range\_entry(OutputIt out, \mbox{\hyperlink{classbasic__string__view}{basic\_string\_view<Char>}} str) -\/> OutputIt \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00461}00461   *out++ = \textcolor{charliteral}{'"{}'};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00462}00462   \textcolor{keyword}{auto} begin = str.begin(), end = str.end();}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00463}00463   \textcolor{keywordflow}{do} \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00464}00464     \textcolor{keyword}{auto} escape = find\_escape(begin, end);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00465}00465     out = copy\_str<Char>(begin, escape.begin, out);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00466}00466     begin = escape.end;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00467}00467     \textcolor{keywordflow}{if} (!begin) \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00468}00468     \textcolor{keyword}{auto} c = \textcolor{keyword}{static\_cast<}Char\textcolor{keyword}{>}(escape.cp);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00469}00469     \textcolor{keywordflow}{switch} (escape.cp) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00470}00470     \textcolor{keywordflow}{case} \textcolor{charliteral}{'\(\backslash\)n'}:}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00471}00471       *out++ = \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00472}00472       c = \textcolor{charliteral}{'n'};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00473}00473       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00474}00474     \textcolor{keywordflow}{case} \textcolor{charliteral}{'\(\backslash\)r'}:}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00475}00475       *out++ = \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00476}00476       c = \textcolor{charliteral}{'r'};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00477}00477       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00478}00478     \textcolor{keywordflow}{case} \textcolor{charliteral}{'\(\backslash\)t'}:}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00479}00479       *out++ = \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00480}00480       c = \textcolor{charliteral}{'t'};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00481}00481       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00482}00482     \textcolor{keywordflow}{case} \textcolor{charliteral}{'"{}'}:}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00483}00483       FMT\_FALLTHROUGH;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00484}00484     \textcolor{keywordflow}{case} \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'}:}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00485}00485       *out++ = \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00486}00486       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00487}00487     \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00488}00488       \textcolor{keywordflow}{if} (is\_utf8()) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00489}00489         \textcolor{keywordflow}{if} (escape.cp < 0x100) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00490}00490           out = format\_to(out, \textcolor{stringliteral}{"{}\(\backslash\)\(\backslash\)x\{:02x\}"{}}, escape.cp);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00491}00491           \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00492}00492         \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00493}00493         \textcolor{keywordflow}{if} (escape.cp < 0x10000) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00494}00494           out = format\_to(out, \textcolor{stringliteral}{"{}\(\backslash\)\(\backslash\)u\{:04x\}"{}}, escape.cp);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00495}00495           \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00496}00496         \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00497}00497         \textcolor{keywordflow}{if} (escape.cp < 0x110000) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00498}00498           out = format\_to(out, \textcolor{stringliteral}{"{}\(\backslash\)\(\backslash\)U\{:08x\}"{}}, escape.cp);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00499}00499           \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00500}00500         \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00501}00501       \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00502}00502       \textcolor{keywordflow}{for} (Char escape\_char : \mbox{\hyperlink{classbasic__string__view}{basic\_string\_view<Char>}}(}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00503}00503                escape.begin, to\_unsigned(escape.end -\/ escape.begin))) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00504}00504         out = format\_to(}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00505}00505             out, \textcolor{stringliteral}{"{}\(\backslash\)\(\backslash\)x\{:02x\}"{}},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00506}00506             \textcolor{keyword}{static\_cast<}typename std::make\_unsigned<Char>::type\textcolor{keyword}{>}(escape\_char));}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00507}00507       \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00508}00508       \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00509}00509     \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00510}00510     *out++ = c;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00511}00511   \} \textcolor{keywordflow}{while} (begin != end);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00512}00512   *out++ = \textcolor{charliteral}{'"{}'};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00513}00513   \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00514}00514 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00515}00515 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00516}00516 \textcolor{keyword}{template} <\textcolor{keyword}{typename} Char, \textcolor{keyword}{typename} OutputIt, \textcolor{keyword}{typename} T,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00517}00517           FMT\_ENABLE\_IF(std::is\_convertible<T, \mbox{\hyperlink{structstd__string__view}{std\_string\_view<char>}}>::\mbox{\hyperlink{classvalue}{value}})>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00518}00518 \textcolor{keyword}{inline} \textcolor{keyword}{auto} write\_range\_entry(OutputIt out, \textcolor{keyword}{const} T\& str) -\/> OutputIt \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00519}00519   \textcolor{keyword}{auto} sv = \mbox{\hyperlink{structstd__string__view}{std\_string\_view<Char>}}(str);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00520}00520   \textcolor{keywordflow}{return} write\_range\_entry<Char>(out, \mbox{\hyperlink{classbasic__string__view}{basic\_string\_view<Char>}}(sv));}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00521}00521 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00522}00522 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00523}00523 \textcolor{keyword}{template} <\textcolor{keyword}{typename} Char, \textcolor{keyword}{typename} OutputIt, \textcolor{keyword}{typename} Arg,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00524}00524           FMT\_ENABLE\_IF(std::is\_same<Arg, Char>::value)>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00525}00525 OutputIt write\_range\_entry(OutputIt out, \textcolor{keyword}{const} Arg v) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00526}00526   *out++ = \textcolor{charliteral}{'\(\backslash\)''};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00527}00527   *out++ = v;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00528}00528   *out++ = \textcolor{charliteral}{'\(\backslash\)''};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00529}00529   \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00530}00530 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00531}00531 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00532}00532 \textcolor{keyword}{template} <}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00533}00533     \textcolor{keyword}{typename} Char, \textcolor{keyword}{typename} OutputIt, \textcolor{keyword}{typename} Arg,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00534}00534     FMT\_ENABLE\_IF(!is\_std\_string\_like<\textcolor{keyword}{typename} std::decay<Arg>::type>::\mbox{\hyperlink{classvalue}{value}} \&\&}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00535}00535                   !std::is\_same<Arg, Char>::value)>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00536}00536 OutputIt write\_range\_entry(OutputIt out, \textcolor{keyword}{const} Arg\& v) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00537}00537   \textcolor{keywordflow}{return} write<Char>(out, v);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00538}00538 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00539}00539 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00540}00540 \}  \textcolor{comment}{// namespace detail}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00541}00541 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00542}\mbox{\hyperlink{structis__tuple__like}{00542}} \textcolor{keyword}{template} <\textcolor{keyword}{typename} T> \textcolor{keyword}{struct }\mbox{\hyperlink{structis__tuple__like}{is\_tuple\_like}} \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00543}00543   \textcolor{keyword}{static} FMT\_CONSTEXPR\_DECL \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classvalue}{value}} =}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00544}00544       \mbox{\hyperlink{classdetail_1_1is__tuple__like__}{detail::is\_tuple\_like\_<T>::value}} \&\& !\mbox{\hyperlink{structdetail_1_1is__range__}{detail::is\_range\_<T>::value}};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00545}00545 \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00546}00546 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00547}00547 \textcolor{keyword}{template} <\textcolor{keyword}{typename} TupleT, \textcolor{keyword}{typename} Char>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00548}\mbox{\hyperlink{structformatter_3_01_tuple_t_00_01_char_00_01enable__if__t_3_01fmt_1_1is__tuple__like_3_01_tuple_t_01_4_1_1value_01_4_01_4}{00548}} \textcolor{keyword}{struct }\mbox{\hyperlink{structformatter}{formatter}}<TupleT, Char, enable\_if\_t<fmt::\mbox{\hyperlink{structis__tuple__like}{is\_tuple\_like}}<TupleT>\mbox{\hyperlink{classvalue}{::value}}>> \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00549}00549  \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00550}00550   \textcolor{comment}{// C++11 generic lambda for format().}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00551}00551   \textcolor{keyword}{template} <\textcolor{keyword}{typename} FormatContext> \textcolor{keyword}{struct }format\_each \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00552}00552     \textcolor{keyword}{template} <\textcolor{keyword}{typename} T> \textcolor{keywordtype}{void} operator()(\textcolor{keyword}{const} T\& v) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00553}00553       \textcolor{keywordflow}{if} (i > 0) out = detail::write\_delimiter(out);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00554}00554       out = detail::write\_range\_entry<Char>(out, v);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00555}00555       ++i;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00556}00556     \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00557}00557     \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00558}00558     \textcolor{keyword}{typename} FormatContext::iterator\& out;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00559}00559   \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00560}00560 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00561}00561  \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00562}00562   \textcolor{keyword}{template} <\textcolor{keyword}{typename} ParseContext>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00563}00563   FMT\_CONSTEXPR \textcolor{keyword}{auto} parse(ParseContext\& ctx) -\/> \textcolor{keyword}{decltype}(ctx.begin()) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00564}00564     \textcolor{keywordflow}{return} ctx.begin();}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00565}00565   \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00566}00566 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00567}00567   \textcolor{keyword}{template} <\textcolor{keyword}{typename} FormatContext = format\_context>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00568}00568   \textcolor{keyword}{auto} format(\textcolor{keyword}{const} TupleT\& values, FormatContext\& ctx) -\/> \textcolor{keyword}{decltype}(ctx.out()) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00569}00569     \textcolor{keyword}{auto} out = ctx.out();}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00570}00570     *out++ = \textcolor{charliteral}{'('};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00571}00571     detail::for\_each(values, format\_each<FormatContext>\{0, out\});}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00572}00572     *out++ = \textcolor{charliteral}{')'};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00573}00573     \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00574}00574   \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00575}00575 \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00576}00576 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00577}\mbox{\hyperlink{structis__range}{00577}} \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Char> \textcolor{keyword}{struct }\mbox{\hyperlink{structis__range}{is\_range}} \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00578}00578   \textcolor{keyword}{static} FMT\_CONSTEXPR\_DECL \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classvalue}{value}} =}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00579}00579       \mbox{\hyperlink{structdetail_1_1is__range__}{detail::is\_range\_<T>::value}} \&\& !\mbox{\hyperlink{classdetail_1_1is__std__string__like}{detail::is\_std\_string\_like<T>::value}} \&\&}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00580}00580       !\mbox{\hyperlink{classdetail_1_1is__map}{detail::is\_map<T>::value}} \&\&}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00581}00581       !std::is\_convertible<T, std::basic\_string<Char>>\mbox{\hyperlink{classvalue}{::value}} \&\&}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00582}00582       !std::is\_constructible<detail::std\_string\_view<Char>, T>\mbox{\hyperlink{classvalue}{::value}};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00583}00583 \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00584}00584 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00585}00585 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Char>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00586}\mbox{\hyperlink{structformatter_3_01_t_00_01_char_00_01enable__if__t_3_01fmt_1_1is__range_3_01_t_00_01_char_01_4cba26440f94df2f142946ab02c9c1c06}{00586}} \textcolor{keyword}{struct }\mbox{\hyperlink{structformatter}{formatter}}<}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00587}00587     T, Char,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00588}00588     enable\_if\_t<}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00589}00589         fmt::\mbox{\hyperlink{structis__range}{is\_range}}<T, Char>\mbox{\hyperlink{classvalue}{::value}}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00590}00590 \textcolor{comment}{// Workaround a bug in MSVC 2019 and earlier.}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00591}00591 \textcolor{preprocessor}{\#if !FMT\_MSC\_VER}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00592}00592         \&\& (is\_formattable<detail::value\_type<T>, Char>::value ||}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00593}00593             detail::has\_fallback\_formatter<detail::value\_type<T>, Char>::value)}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00594}00594 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00595}00595         >> \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00596}00596   \textcolor{keyword}{template} <\textcolor{keyword}{typename} ParseContext>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00597}00597   FMT\_CONSTEXPR \textcolor{keyword}{auto} parse(ParseContext\& ctx) -\/> \textcolor{keyword}{decltype}(ctx.begin()) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00598}00598     \textcolor{keywordflow}{return} ctx.begin();}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00599}00599   \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00600}00600 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00601}00601   \textcolor{keyword}{template} <}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00602}00602       \textcolor{keyword}{typename} FormatContext, \textcolor{keyword}{typename} U,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00603}00603       FMT\_ENABLE\_IF(}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00604}00604           std::is\_same<U, conditional\_t<\mbox{\hyperlink{structdetail_1_1has__const__begin__end}{detail::has\_const\_begin\_end<T>::value}},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00605}00605                                         \textcolor{keyword}{const} T, T>>::\mbox{\hyperlink{classvalue}{value}})>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00606}00606   \textcolor{keyword}{auto} format(U\& range, FormatContext\& ctx) -\/> \textcolor{keyword}{decltype}(ctx.out()) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00607}00607 \textcolor{preprocessor}{\#ifdef FMT\_DEPRECATED\_BRACED\_RANGES}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00608}00608     Char prefix = \textcolor{charliteral}{'\{'};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00609}00609     Char postfix = \textcolor{charliteral}{'\}'};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00610}00610 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00611}00611     Char prefix = \mbox{\hyperlink{classdetail_1_1is__set}{detail::is\_set<T>::value}} ? \textcolor{charliteral}{'\{'} : \textcolor{charliteral}{'['};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00612}00612     Char postfix = \mbox{\hyperlink{classdetail_1_1is__set}{detail::is\_set<T>::value}} ? \textcolor{charliteral}{'\}'} : \textcolor{charliteral}{']'};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00613}00613 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00614}00614     \textcolor{keyword}{auto} out = ctx.out();}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00615}00615     *out++ = prefix;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00616}00616     \textcolor{keywordtype}{int} i = 0;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00617}00617     \textcolor{keyword}{auto} it = std::begin(range);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00618}00618     \textcolor{keyword}{auto} end = std::end(range);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00619}00619     \textcolor{keywordflow}{for} (; it != end; ++it) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00620}00620       \textcolor{keywordflow}{if} (i > 0) out = detail::write\_delimiter(out);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00621}00621       out = detail::write\_range\_entry<Char>(out, *it);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00622}00622       ++i;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00623}00623     \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00624}00624     *out++ = postfix;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00625}00625     \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00626}00626   \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00627}00627 \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00628}00628 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00629}00629 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Char>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00630}\mbox{\hyperlink{structformatter_3_01_t_00_01_char_00_01enable__if__t_3_01detail_1_1is__map_3_01_t_01_4_1_1value_53212af8d40eae8d53388dcc2cfe05ab}{00630}} \textcolor{keyword}{struct }\mbox{\hyperlink{structformatter}{formatter}}<}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00631}00631     T, Char,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00632}00632     enable\_if\_t<}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00633}00633         detail::is\_map<T>\mbox{\hyperlink{classvalue}{::value}}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00634}00634 \textcolor{comment}{// Workaround a bug in MSVC 2019 and earlier.}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00635}00635 \textcolor{preprocessor}{\#if !FMT\_MSC\_VER}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00636}00636         \&\& (is\_formattable<detail::value\_type<T>, Char>::value ||}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00637}00637             detail::has\_fallback\_formatter<detail::value\_type<T>, Char>::value)}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00638}00638 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00639}00639         >> \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00640}00640   \textcolor{keyword}{template} <\textcolor{keyword}{typename} ParseContext>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00641}00641   FMT\_CONSTEXPR \textcolor{keyword}{auto} parse(ParseContext\& ctx) -\/> \textcolor{keyword}{decltype}(ctx.begin()) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00642}00642     \textcolor{keywordflow}{return} ctx.begin();}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00643}00643   \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00644}00644 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00645}00645   \textcolor{keyword}{template} <}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00646}00646       \textcolor{keyword}{typename} FormatContext, \textcolor{keyword}{typename} U,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00647}00647       FMT\_ENABLE\_IF(}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00648}00648           std::is\_same<U, conditional\_t<\mbox{\hyperlink{structdetail_1_1has__const__begin__end}{detail::has\_const\_begin\_end<T>::value}},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00649}00649                                         \textcolor{keyword}{const} T, T>>::\mbox{\hyperlink{classvalue}{value}})>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00650}00650   \textcolor{keyword}{auto} format(U\& map, FormatContext\& ctx) -\/> \textcolor{keyword}{decltype}(ctx.out()) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00651}00651     \textcolor{keyword}{auto} out = ctx.out();}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00652}00652     *out++ = \textcolor{charliteral}{'\{'};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00653}00653     \textcolor{keywordtype}{int} i = 0;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00654}00654     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& item : map) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00655}00655       \textcolor{keywordflow}{if} (i > 0) out = detail::write\_delimiter(out);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00656}00656       out = detail::write\_range\_entry<Char>(out, item.first);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00657}00657       *out++ = \textcolor{charliteral}{':'};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00658}00658       *out++ = \textcolor{charliteral}{' '};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00659}00659       out = detail::write\_range\_entry<Char>(out, item.second);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00660}00660       ++i;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00661}00661     \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00662}00662     *out++ = \textcolor{charliteral}{'\}'};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00663}00663     \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00664}00664   \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00665}00665 \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00666}00666 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00667}\mbox{\hyperlink{structtuple__join__view}{00667}} \textcolor{keyword}{template} <\textcolor{keyword}{typename} Char, \textcolor{keyword}{typename}... T> \textcolor{keyword}{struct }\mbox{\hyperlink{structtuple__join__view}{tuple\_join\_view}} : detail::view \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00668}00668   \textcolor{keyword}{const} std::tuple<T...>\& tuple;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00669}00669   \mbox{\hyperlink{classbasic__string__view}{basic\_string\_view<Char>}} sep;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00670}00670 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00671}00671   \mbox{\hyperlink{structtuple__join__view}{tuple\_join\_view}}(\textcolor{keyword}{const} std::tuple<T...>\& t, \mbox{\hyperlink{classbasic__string__view}{basic\_string\_view<Char>}} s)}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00672}00672       : tuple(t), sep\{s\} \{\}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00673}00673 \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00674}00674 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00675}00675 \textcolor{keyword}{template} <\textcolor{keyword}{typename} Char, \textcolor{keyword}{typename}... T>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00676}00676 \textcolor{keyword}{using} \mbox{\hyperlink{structtuple__join__view}{tuple\_arg\_join}} = \mbox{\hyperlink{structtuple__join__view}{tuple\_join\_view}}<Char, T...>;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00677}00677 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00678}00678 \textcolor{comment}{// Define FMT\_TUPLE\_JOIN\_SPECIFIERS to enable experimental format specifiers}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00679}00679 \textcolor{comment}{// support in tuple\_join. It is disabled by default because of issues with}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00680}00680 \textcolor{comment}{// the dynamic width and precision.}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00681}00681 \textcolor{preprocessor}{\#ifndef FMT\_TUPLE\_JOIN\_SPECIFIERS}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00682}00682 \textcolor{preprocessor}{\#  define FMT\_TUPLE\_JOIN\_SPECIFIERS 0}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00683}00683 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00684}00684 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00685}00685 \textcolor{keyword}{template} <\textcolor{keyword}{typename} Char, \textcolor{keyword}{typename}... T>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00686}\mbox{\hyperlink{structformatter_3_01tuple__join__view_3_01_char_00_01_t_8_8_8_01_4_00_01_char_01_4}{00686}} \textcolor{keyword}{struct }\mbox{\hyperlink{structformatter}{formatter}}<\mbox{\hyperlink{structtuple__join__view}{tuple\_join\_view}}<Char, T...>, Char> \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00687}00687   \textcolor{keyword}{template} <\textcolor{keyword}{typename} ParseContext>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00688}00688   FMT\_CONSTEXPR \textcolor{keyword}{auto} parse(ParseContext\& ctx) -\/> \textcolor{keyword}{decltype}(ctx.begin()) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00689}00689     \textcolor{keywordflow}{return} do\_parse(ctx, std::integral\_constant<\textcolor{keywordtype}{size\_t}, \textcolor{keyword}{sizeof}...(T)>());}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00690}00690   \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00691}00691 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00692}00692   \textcolor{keyword}{template} <\textcolor{keyword}{typename} FormatContext>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00693}00693   \textcolor{keyword}{auto} format(\textcolor{keyword}{const} \mbox{\hyperlink{structtuple__join__view}{tuple\_join\_view<Char, T...>}}\& \mbox{\hyperlink{classvalue}{value}},}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00694}00694               FormatContext\& ctx) \textcolor{keyword}{const} -\/> \textcolor{keyword}{typename} FormatContext::iterator \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00695}00695     \textcolor{keywordflow}{return} do\_format(\mbox{\hyperlink{classvalue}{value}}, ctx,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00696}00696                      std::integral\_constant<\textcolor{keywordtype}{size\_t}, \textcolor{keyword}{sizeof}...(T)>());}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00697}00697   \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00698}00698 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00699}00699  \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00700}00700   std::tuple<formatter<typename std::decay<T>::type, Char>...> formatters\_;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00701}00701 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00702}00702   \textcolor{keyword}{template} <\textcolor{keyword}{typename} ParseContext>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00703}00703   FMT\_CONSTEXPR \textcolor{keyword}{auto} do\_parse(ParseContext\& ctx,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00704}00704                               std::integral\_constant<size\_t, 0>)}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00705}00705       -\/> \textcolor{keyword}{decltype}(ctx.begin()) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00706}00706     \textcolor{keywordflow}{return} ctx.begin();}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00707}00707   \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00708}00708 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00709}00709   \textcolor{keyword}{template} <\textcolor{keyword}{typename} ParseContext, \textcolor{keywordtype}{size\_t} N>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00710}00710   FMT\_CONSTEXPR \textcolor{keyword}{auto} do\_parse(ParseContext\& ctx,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00711}00711                               std::integral\_constant<size\_t, N>)}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00712}00712       -\/> \textcolor{keyword}{decltype}(ctx.begin()) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00713}00713     \textcolor{keyword}{auto} end = ctx.begin();}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00714}00714 \textcolor{preprocessor}{\#if FMT\_TUPLE\_JOIN\_SPECIFIERS}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00715}00715     end = std::get<\textcolor{keyword}{sizeof}...(T) -\/ N>(formatters\_).parse(ctx);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00716}00716     \textcolor{keywordflow}{if} (N > 1) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00717}00717       \textcolor{keyword}{auto} end1 = do\_parse(ctx, std::integral\_constant<size\_t, N -\/ 1>());}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00718}00718       \textcolor{keywordflow}{if} (end != end1)}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00719}00719         FMT\_THROW(\mbox{\hyperlink{classformat__error}{format\_error}}(\textcolor{stringliteral}{"{}incompatible format specs for tuple elements"{}}));}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00720}00720     \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00721}00721 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00722}00722     \textcolor{keywordflow}{return} end;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00723}00723   \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00724}00724 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00725}00725   \textcolor{keyword}{template} <\textcolor{keyword}{typename} FormatContext>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00726}00726   \textcolor{keyword}{auto} do\_format(\textcolor{keyword}{const} \mbox{\hyperlink{structtuple__join__view}{tuple\_join\_view<Char, T...>}}\&, FormatContext\& ctx,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00727}00727                  std::integral\_constant<size\_t, 0>) \textcolor{keyword}{const} -\/>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00728}00728       \textcolor{keyword}{typename} FormatContext::iterator \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00729}00729     \textcolor{keywordflow}{return} ctx.out();}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00730}00730   \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00731}00731 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00732}00732   \textcolor{keyword}{template} <\textcolor{keyword}{typename} FormatContext, \textcolor{keywordtype}{size\_t} N>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00733}00733   \textcolor{keyword}{auto} do\_format(\textcolor{keyword}{const} \mbox{\hyperlink{structtuple__join__view}{tuple\_join\_view<Char, T...>}}\& \mbox{\hyperlink{classvalue}{value}}, FormatContext\& ctx,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00734}00734                  std::integral\_constant<size\_t, N>) \textcolor{keyword}{const} -\/>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00735}00735       \textcolor{keyword}{typename} FormatContext::iterator \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00736}00736     \textcolor{keyword}{auto} out = std::get<\textcolor{keyword}{sizeof}...(T) -\/ N>(formatters\_)}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00737}00737                    .format(std::get<\textcolor{keyword}{sizeof}...(T) -\/ N>(\mbox{\hyperlink{classvalue}{value}}.tuple), ctx);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00738}00738     \textcolor{keywordflow}{if} (N > 1) \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00739}00739       out = std::copy(\mbox{\hyperlink{classvalue}{value}}.sep.begin(), \mbox{\hyperlink{classvalue}{value}}.sep.end(), out);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00740}00740       ctx.advance\_to(out);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00741}00741       \textcolor{keywordflow}{return} do\_format(\mbox{\hyperlink{classvalue}{value}}, ctx, std::integral\_constant<size\_t, N -\/ 1>());}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00742}00742     \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00743}00743     \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00744}00744   \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00745}00745 \};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00746}00746 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00747}00747 FMT\_MODULE\_EXPORT\_BEGIN}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00748}00748 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00760}00760 \textcolor{keyword}{template} <\textcolor{keyword}{typename}... T>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00761}00761 FMT\_CONSTEXPR \textcolor{keyword}{auto} join(\textcolor{keyword}{const} std::tuple<T...>\& tuple, \mbox{\hyperlink{classbasic__string__view}{string\_view}} sep)}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00762}00762     -\/> \mbox{\hyperlink{structtuple__join__view}{tuple\_join\_view}}<char, T...> \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00763}00763   \textcolor{keywordflow}{return} \{tuple, sep\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00764}00764 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00765}00765 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00766}00766 \textcolor{keyword}{template} <\textcolor{keyword}{typename}... T>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00767}00767 FMT\_CONSTEXPR \textcolor{keyword}{auto} join(\textcolor{keyword}{const} std::tuple<T...>\& tuple,}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00768}00768                         \mbox{\hyperlink{classbasic__string__view}{basic\_string\_view<wchar\_t>}} sep)}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00769}00769     -\/> \mbox{\hyperlink{structtuple__join__view}{tuple\_join\_view}}<wchar\_t, T...> \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00770}00770   \textcolor{keywordflow}{return} \{tuple, sep\};}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00771}00771 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00772}00772 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00784}00784 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00785}00785 \textcolor{keyword}{auto} join(std::initializer\_list<T> list, \mbox{\hyperlink{classbasic__string__view}{string\_view}} sep)}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00786}00786     -\/> \mbox{\hyperlink{structjoin__view}{join\_view<const T*, const T*>}} \{}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00787}00787   \textcolor{keywordflow}{return} join(std::begin(list), std::end(list), sep);}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00788}00788 \}}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00789}00789 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00790}00790 FMT\_MODULE\_EXPORT\_END}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00791}00791 FMT\_END\_NAMESPACE}
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00792}00792 }
+\DoxyCodeLine{\Hypertarget{bundled_2ranges_8h_source_l00793}00793 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// FMT\_RANGES\_H\_}}
+
+\end{DoxyCode}

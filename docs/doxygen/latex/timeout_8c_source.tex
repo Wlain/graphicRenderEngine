@@ -1,0 +1,104 @@
+\hypertarget{timeout_8c_source}{}\doxysection{timeout.\+c}
+\label{timeout_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/tests/timeout.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/tests/timeout.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00001}00001 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00002}00002 \textcolor{comment}{// Event wait timeout test}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00003}00003 \textcolor{comment}{// Copyright (c) Camilla Löwy <elmindreda@glfw.org>}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00005}00005 \textcolor{comment}{// This software is provided 'as-\/is', without any express or implied}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00006}00006 \textcolor{comment}{// warranty. In no event will the authors be held liable for any damages}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00007}00007 \textcolor{comment}{// arising from the use of this software.}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00009}00009 \textcolor{comment}{// Permission is granted to anyone to use this software for any purpose,}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00010}00010 \textcolor{comment}{// including commercial applications, and to alter it and redistribute it}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00011}00011 \textcolor{comment}{// freely, subject to the following restrictions:}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00012}00012 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00013}00013 \textcolor{comment}{// 1. The origin of this software must not be misrepresented; you must not}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00014}00014 \textcolor{comment}{//    claim that you wrote the original software. If you use this software}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00015}00015 \textcolor{comment}{//    in a product, an acknowledgment in the product documentation would}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00016}00016 \textcolor{comment}{//    be appreciated but is not required.}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00017}00017 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00018}00018 \textcolor{comment}{// 2. Altered source versions must be plainly marked as such, and must not}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00019}00019 \textcolor{comment}{//    be misrepresented as being the original software.}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00020}00020 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00021}00021 \textcolor{comment}{// 3. This notice may not be removed or altered from any source}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00022}00022 \textcolor{comment}{//    distribution.}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00023}00023 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00024}00024 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00025}00025 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00026}00026 \textcolor{comment}{// This test is intended to verify that waiting for events with timeout works}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00027}00027 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00028}00028 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00030}00030 \textcolor{preprocessor}{\#include <glad/gl.h>}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00031}00031 \textcolor{preprocessor}{\#define GLFW\_INCLUDE\_NONE}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00032}00032 \textcolor{preprocessor}{\#include <GLFW/glfw3.h>}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00034}00034 \textcolor{preprocessor}{\#include <time.h>}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00035}00035 \textcolor{preprocessor}{\#include <math.h>}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00036}00036 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00037}00037 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00039}00039 \textcolor{keyword}{static} \textcolor{keywordtype}{void} error\_callback(\textcolor{keywordtype}{int} error, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* description)}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00040}00040 \{}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00041}00041     fprintf(stderr, \textcolor{stringliteral}{"{}Error: \%s\(\backslash\)n"{}}, description);}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00042}00042 \}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00044}00044 \textcolor{keyword}{static} \textcolor{keywordtype}{void} key\_callback(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int} key, \textcolor{keywordtype}{int} scancode, \textcolor{keywordtype}{int} action, \textcolor{keywordtype}{int} mods)}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00045}00045 \{}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00046}00046     \textcolor{keywordflow}{if} (key == GLFW\_KEY\_ESCAPE \&\& action == \mbox{\hyperlink{group__input_ga2485743d0b59df3791c45951c4195265}{GLFW\_PRESS}})}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00047}00047         \mbox{\hyperlink{group__window_ga1cadeda7a1e2f224e06a8415d30741aa}{glfwSetWindowShouldClose}}(window, \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}});}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00048}00048 \}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00050}00050 \textcolor{keyword}{static} \textcolor{keywordtype}{float} nrand(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00051}00051 \{}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00052}00052     \textcolor{keywordflow}{return} (\textcolor{keywordtype}{float}) rand() / (float) RAND\_MAX;}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00053}00053 \}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00055}00055 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00056}00056 \{}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00057}00057     \mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window;}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00059}00059     srand((\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}) time(NULL));}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00061}00061     \mbox{\hyperlink{group__init_ga746e2757d069eaea423349aca6ae097a}{glfwSetErrorCallback}}(error\_callback);}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00062}00062 }
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00063}00063     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{group__init_gab41771f0215a2e0afb4cf1cf98082d40}{glfwInit}}())}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00064}00064         exit(EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00065}00065 }
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00066}00066     window = \mbox{\hyperlink{group__window_gaaccd00fafe81e2db94e8cdf55721e055}{glfwCreateWindow}}(640, 480, \textcolor{stringliteral}{"{}Event Wait Timeout Test"{}}, NULL, NULL);}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00067}00067     \textcolor{keywordflow}{if} (!window)}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00068}00068     \{}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00069}00069         \mbox{\hyperlink{group__init_gafd90e6fd4819ea9e22e5e739519a6504}{glfwTerminate}}();}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00070}00070         exit(EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00071}00071     \}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00073}00073     \mbox{\hyperlink{group__context_gafd76c93e15ec8b0b90506a9936a46185}{glfwMakeContextCurrent}}(window);}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00074}00074     gladLoadGL(\mbox{\hyperlink{group__context_ga0e8af175218929615c16e74938c10f2a}{glfwGetProcAddress}});}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00075}00075     \mbox{\hyperlink{group__input_gaa4cbcb81b939b8800e44cea971ddae47}{glfwSetKeyCallback}}(window, key\_callback);}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00077}00077     \textcolor{keywordflow}{while} (!\mbox{\hyperlink{group__window_gaa6162f67dfa38b8beda2fea623649332}{glfwWindowShouldClose}}(window))}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00078}00078     \{}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00079}00079         \textcolor{keywordtype}{int} width, height;}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00080}00080         \textcolor{keywordtype}{float} r = nrand(), g = nrand(), b = nrand();}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00081}00081         \textcolor{keywordtype}{float} l = (float) \mbox{\hyperlink{group__core__func__exponential_ga1f904e09827e939a56e4158f45ca8ede}{sqrt}}(r * r + g * g + b * b);}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00083}00083         \mbox{\hyperlink{group__window_gaf7d17f3534b4b6dc9a6f905e3a240b7e}{glfwGetFramebufferSize}}(window, \&width, \&height);}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00085}00085         glViewport(0, 0, width, height);}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00086}00086         glClearColor(r / l, g / l, b / l, 1.f);}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00087}00087         glClear(GL\_COLOR\_BUFFER\_BIT);}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00088}00088         \mbox{\hyperlink{group__window_gafb827800eedbfcbc97b1e5408df668d7}{glfwSwapBuffers}}(window);}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00089}00089 }
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00090}00090         \mbox{\hyperlink{group__window_ga05223a0a4c5e50f10f289e60398153aa}{glfwWaitEventsTimeout}}(1.0);}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00091}00091     \}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00093}00093     \mbox{\hyperlink{group__window_ga806747476b7247d292be3711c323ea10}{glfwDestroyWindow}}(window);}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00095}00095     \mbox{\hyperlink{group__init_gafd90e6fd4819ea9e22e5e739519a6504}{glfwTerminate}}();}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00096}00096     exit(EXIT\_SUCCESS);}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00097}00097 \}}
+\DoxyCodeLine{\Hypertarget{timeout_8c_source_l00098}00098 }
+
+\end{DoxyCode}

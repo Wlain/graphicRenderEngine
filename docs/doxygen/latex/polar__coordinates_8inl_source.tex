@@ -1,0 +1,42 @@
+\hypertarget{polar__coordinates_8inl_source}{}\doxysection{polar\+\_\+coordinates.\+inl}
+\label{polar__coordinates_8inl_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtx/polar\_coordinates.inl@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtx/polar\_coordinates.inl}}
+\mbox{\hyperlink{polar__coordinates_8inl}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00004}00004 \textcolor{keyword}{namespace }glm}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00005}00005 \{}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00006}00006     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00007}\mbox{\hyperlink{group__gtx__polar__coordinates_gaba267270e686615d598de0ffda7bd484}{00007}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \mbox{\hyperlink{group__gtx__polar__coordinates_gaba267270e686615d598de0ffda7bd484}{polar}}}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00008}00008     (}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00009}00009         \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& \mbox{\hyperlink{group__gtx__polar__coordinates_gabce39068644e280c949d18cfec3fcc12}{euclidean}}}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00010}00010     )}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00011}00011     \{}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00012}00012         T \textcolor{keyword}{const} Length(length(\mbox{\hyperlink{group__gtx__polar__coordinates_gabce39068644e280c949d18cfec3fcc12}{euclidean}}));}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00013}00013         \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const} tmp(\mbox{\hyperlink{group__gtx__polar__coordinates_gabce39068644e280c949d18cfec3fcc12}{euclidean}} / Length);}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00014}00014         T \textcolor{keyword}{const} xz\_dist(\mbox{\hyperlink{group__core__func__exponential_ga1f904e09827e939a56e4158f45ca8ede}{sqrt}}(tmp.x * tmp.x + tmp.z * tmp.z));}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00016}00016         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}}(}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00017}00017             \mbox{\hyperlink{group__core__func__trigonometric_gad3628b879437a75d1941f965b2893db7}{asin}}(tmp.y),    \textcolor{comment}{// latitude}}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00018}00018             atan(tmp.x, tmp.z),     \textcolor{comment}{// longitude}}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00019}00019             xz\_dist);               \textcolor{comment}{// xz distance}}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00020}00020     \}}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00022}00022     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00023}\mbox{\hyperlink{group__gtx__polar__coordinates_gabce39068644e280c949d18cfec3fcc12}{00023}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \mbox{\hyperlink{group__gtx__polar__coordinates_gabce39068644e280c949d18cfec3fcc12}{euclidean}}}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00024}00024     (}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00025}00025         \mbox{\hyperlink{structglm_1_1vec_3_012_00_01_t_00_01_q_01_4}{vec<2, T, Q>}} \textcolor{keyword}{const}\& \mbox{\hyperlink{group__gtx__polar__coordinates_gaba267270e686615d598de0ffda7bd484}{polar}}}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00026}00026     )}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00027}00027     \{}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00028}00028         T \textcolor{keyword}{const} latitude(\mbox{\hyperlink{group__gtx__polar__coordinates_gaba267270e686615d598de0ffda7bd484}{polar}}.x);}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00029}00029         T \textcolor{keyword}{const} longitude(\mbox{\hyperlink{group__gtx__polar__coordinates_gaba267270e686615d598de0ffda7bd484}{polar}}.y);}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00031}00031         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}}(}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00032}00032             \mbox{\hyperlink{group__core__func__trigonometric_ga54745147add8b4fa05642f5c71f6833e}{cos}}(latitude) * \mbox{\hyperlink{group__core__func__trigonometric_ga3fcdcfa2d2ac38de9ba1885cd1c79414}{sin}}(longitude),}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00033}00033             \mbox{\hyperlink{group__core__func__trigonometric_ga3fcdcfa2d2ac38de9ba1885cd1c79414}{sin}}(latitude),}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00034}00034             \mbox{\hyperlink{group__core__func__trigonometric_ga54745147add8b4fa05642f5c71f6833e}{cos}}(latitude) * \mbox{\hyperlink{group__core__func__trigonometric_ga54745147add8b4fa05642f5c71f6833e}{cos}}(longitude));}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00035}00035     \}}
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{polar__coordinates_8inl_source_l00037}00037 \}\textcolor{comment}{//namespace glm}}
+
+\end{DoxyCode}

@@ -1,0 +1,93 @@
+\hypertarget{herringbone__generator_8c_source}{}\doxysection{herringbone\+\_\+generator.\+c}
+\label{herringbone__generator_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/herringbone\_generator.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/herringbone\_generator.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00001}00001 \textcolor{preprocessor}{\#define STB\_HERRINGBONE\_WANG\_TILE\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00002}00002 \textcolor{preprocessor}{\#include "{}stb\_herringbone\_wang\_tile.h"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00004}00004 \textcolor{preprocessor}{\#define STB\_IMAGE\_WRITE\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00005}00005 \textcolor{preprocessor}{\#include "{}stb\_image\_write.h"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00006}00006 }
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00007}00007 \textcolor{comment}{//  e 12 1 1 1 1 1 1 4 4}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00009}00009 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} **argv)}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00010}00010 \{}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00011}00011    \mbox{\hyperlink{structstbhw__config}{stbhw\_config}} c = \{ 0 \};}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00012}00012    \textcolor{keywordtype}{int} w,h, num\_colors,i;}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00013}00013    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *data;}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00015}00015    \textcolor{keywordflow}{if} (argc == 1)  \textcolor{keywordflow}{goto} usage;}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00016}00016    \textcolor{keywordflow}{if} (argc  < 3)  \textcolor{keywordflow}{goto} error;}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00017}00017 }
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00018}00018    \textcolor{keywordflow}{switch} (argv[2][0]) \{}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00019}00019       \textcolor{keywordflow}{case} \textcolor{charliteral}{'c'}:}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00020}00020          \textcolor{keywordflow}{if} (argc <  8 || argc > 10)}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00021}00021             \textcolor{keywordflow}{goto} error;}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00022}00022          num\_colors = 4;}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00023}00023          c.is\_corner = 1;}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00024}00024          \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00026}00026       \textcolor{keywordflow}{case} \textcolor{charliteral}{'e'}:}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00027}00027          \textcolor{keywordflow}{if} (argc < 10 || argc > 12)}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00028}00028             \textcolor{keywordflow}{goto} error;}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00029}00029          num\_colors = 6;}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00030}00030          c.is\_corner = 0;}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00031}00031          \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00033}00033       \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00034}00034          \textcolor{keywordflow}{goto} error;}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00035}00035    \}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00037}00037    c.short\_side\_len = atoi(argv[3]);}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00038}00038    \textcolor{keywordflow}{for} (i=0; i < num\_colors; ++i)}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00039}00039       c.num\_color[i] = atoi(argv[4+i]);}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00041}00041    c.num\_vary\_x = 1;}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00042}00042    c.num\_vary\_y = 1;}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00044}00044    \textcolor{keywordflow}{if} (argc > 4+i)}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00045}00045       c.num\_vary\_x = atoi(argv[4+i]);}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00046}00046    \textcolor{keywordflow}{if} (argc > 5+i)}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00047}00047       c.num\_vary\_y = atoi(argv[5+i]);}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00049}00049    stbhw\_get\_template\_size(\&c, \&w, \&h);}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00051}00051    data = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *) malloc(w*h*3);}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00053}00053    \textcolor{keywordflow}{if} (stbhw\_make\_template(\&c, data, w, h, w*3))}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00054}00054       stbi\_write\_png(argv[1], w, h, 3, data, w*3);}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00055}00055    \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00056}00056       fprintf(stderr, \textcolor{stringliteral}{"{}Error: \%s\(\backslash\)n"{}}, stbhw\_get\_last\_error());}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00057}00057    \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00059}00059  error:}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00060}00060    fputs(\textcolor{stringliteral}{"{}Invalid command-\/line arguments\(\backslash\)n\(\backslash\)n"{}}, stderr);}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00061}00061  usage:}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00062}00062    fputs(\textcolor{stringliteral}{"{}Usage (see source for corner \& edge type definitions):\(\backslash\)n\(\backslash\)n"{}}, stderr);}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00063}00063    fputs(\textcolor{stringliteral}{"{}herringbone\_generator \{outfile\} c \{sidelen\} \{c0\} \{c1\} \{c2\} \{c3\} [\{vx\} \{vy\}]\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00064}00064          \textcolor{stringliteral}{"{}     \{outfile\}  -\/-\/ filename that template will be written to as PNG\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00065}00065          \textcolor{stringliteral}{"{}     \{sidelen\}  -\/-\/ length of short side of rectangle in pixels\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00066}00066          \textcolor{stringliteral}{"{}     \{c0\}       -\/-\/ number of colors for corner type 0\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00067}00067          \textcolor{stringliteral}{"{}     \{c1\}       -\/-\/ number of colors for corner type 1\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00068}00068          \textcolor{stringliteral}{"{}     \{c2\}       -\/-\/ number of colors for corner type 2\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00069}00069          \textcolor{stringliteral}{"{}     \{c3\}       -\/-\/ number of colors for corner type 3\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00070}00070          \textcolor{stringliteral}{"{}     \{vx\}       -\/-\/ number of color-\/duplicating variations horizontally in template\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00071}00071          \textcolor{stringliteral}{"{}     \{vy\}       -\/-\/ number of color-\/duplicating variations vertically in template\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00072}00072          \textcolor{stringliteral}{"{}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00073}00073          , stderr);}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00074}00074    fputs(\textcolor{stringliteral}{"{}herringbone\_generator \{outfile\} e \{sidelen\} \{e0\} \{e1\} \{e2\} \{e3\} \{e4\} \{e5\} [\{vx\} \{vy\}]\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00075}00075          \textcolor{stringliteral}{"{}     \{outfile\}  -\/-\/ filename that template will be written to as PNG\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00076}00076          \textcolor{stringliteral}{"{}     \{sidelen\}  -\/-\/ length of short side of rectangle in pixels\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00077}00077          \textcolor{stringliteral}{"{}     \{e0\}       -\/-\/ number of colors for edge type 0\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00078}00078          \textcolor{stringliteral}{"{}     \{e1\}       -\/-\/ number of colors for edge type 1\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00079}00079          \textcolor{stringliteral}{"{}     \{e2\}       -\/-\/ number of colors for edge type 2\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00080}00080          \textcolor{stringliteral}{"{}     \{e3\}       -\/-\/ number of colors for edge type 3\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00081}00081          \textcolor{stringliteral}{"{}     \{e4\}       -\/-\/ number of colors for edge type 4\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00082}00082          \textcolor{stringliteral}{"{}     \{e5\}       -\/-\/ number of colors for edge type 5\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00083}00083          \textcolor{stringliteral}{"{}     \{vx\}       -\/-\/ number of color-\/duplicating variations horizontally in template\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00084}00084          \textcolor{stringliteral}{"{}     \{vy\}       -\/-\/ number of color-\/duplicating variations vertically in template\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00085}00085          , stderr);}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00086}00086    \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{\Hypertarget{herringbone__generator_8c_source_l00087}00087 \}}
+
+\end{DoxyCode}

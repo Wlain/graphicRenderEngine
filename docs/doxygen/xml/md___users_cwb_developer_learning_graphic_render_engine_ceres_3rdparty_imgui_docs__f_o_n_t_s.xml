@@ -1,0 +1,368 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s" kind="page">
+    <compoundname>md__Users_cwb_developer_learning_graphicRenderEngine_ceres_3rdparty_imgui_docs_FONTS</compoundname>
+    <title>FONTS</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>_(You may browse this at <ulink url="https://github.com/ocornut/imgui/blob/master/docs/FONTS.md">https://github.com/ocornut/imgui/blob/master/docs/FONTS.md</ulink> or view this file with any Markdown viewer)_</para>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md495">
+<title>Dear ImGui: Using Fonts</title>
+<para>The code in <ref refid="imgui_8cpp_source" kindref="compound">imgui.cpp</ref> embeds a copy of &apos;ProggyClean.ttf&apos; (by Tristan Grimmer), a 13 pixels high, pixel-perfect font used by default. We embed it in the source code so you can use Dear ImGui without any file system access. ProggyClean does not scale smoothly, therefore it is recommended that you load your own file when using Dear ImGui in an application aiming to look nice and wanting to support multiple resolutions.</para>
+<para>You may also load external .TTF/.OTF files. In the <ulink url="https://github.com/ocornut/imgui/tree/master/misc/fonts">misc/fonts/</ulink> folder you can find a few suggested fonts, provided as a convenience.</para>
+<para><bold>Also read the FAQ:</bold> <ulink url="https://www.dearimgui.org/faq">https://www.dearimgui.org/faq</ulink> (there is a Fonts section!)</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md496">
+<title>Index</title>
+<para><itemizedlist>
+<listitem><para><ulink url="#readme-first">Readme First</ulink></para>
+</listitem><listitem><para><ulink url="#how-should-i-handle-dpi-in-my-application">How should I handle DPI in my application?</ulink></para>
+</listitem><listitem><para><ulink url="#font-loading-instructions">Fonts Loading Instructions</ulink></para>
+</listitem><listitem><para><ulink url="#using-icon-fonts">Using Icon Fonts</ulink></para>
+</listitem><listitem><para><ulink url="#using-freetype-rasterizer-imgui_freetype">Using FreeType Rasterizer (imgui_freetype)</ulink></para>
+</listitem><listitem><para><ulink url="#using-colorful-glyphsemojis">Using Colorful Glyphs/Emojis</ulink></para>
+</listitem><listitem><para><ulink url="#using-custom-glyph-ranges">Using Custom Glyph Ranges</ulink></para>
+</listitem><listitem><para><ulink url="#using-custom-colorful-icons">Using Custom Colorful Icons</ulink></para>
+</listitem><listitem><para><ulink url="#using-font-data-embedded-in-source-code">Using Font Data Embedded In Source Code</ulink></para>
+</listitem><listitem><para><ulink url="#about-filenames">About filenames</ulink></para>
+</listitem><listitem><para><ulink url="#creditslicenses-for-fonts-included-in-repository">Credits/Licenses For Fonts Included In Repository</ulink></para>
+</listitem><listitem><para><ulink url="#font-links">Font Links</ulink></para>
+</listitem></itemizedlist>
+</para>
+<para><hruler/>
+ </para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md498">
+<title>Readme First</title>
+<para><itemizedlist>
+<listitem><para>You can use the <computeroutput>Metrics/Debugger</computeroutput> window (available in <computeroutput>Demo&gt;Tools</computeroutput>) to browse your fonts and understand what&apos;s going on if you have an issue. You can also reach it in <computeroutput>Demo-&gt;Tools-&gt;Style Editor-&gt;Fonts</computeroutput>. The same information are also available in the Style Editor under Fonts.</para>
+</listitem></itemizedlist>
+</para>
+<para><image type="html" name="https://user-images.githubusercontent.com/8225057/135429892-0e41ef8d-33c5-4991-bcf6-f997a0bcfd6b.png" alt="imgui_capture_0008" inline="yes"></image>
+</para>
+<para><itemizedlist>
+<listitem><para>All loaded fonts glyphs are rendered into a single texture atlas ahead of time. Calling either of <computeroutput>io.Fonts-&gt;GetTexDataAsAlpha8()</computeroutput>, <computeroutput>io.Fonts-&gt;GetTexDataAsRGBA32()</computeroutput> or <computeroutput>io.Fonts-&gt;Build()</computeroutput> will build the atlas.</para>
+</listitem><listitem><para>Make sure your font ranges data are persistent (available during the calls to <computeroutput>GetTexDataAsAlpha8()</computeroutput>/<computeroutput>GetTexDataAsRGBA32()/</computeroutput>Build()`.</para>
+</listitem><listitem><para>Use C++11 u8&quot;my text&quot; syntax to encode literal strings as UTF-8. e.g.: <programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="group__gtc__type__precision_1ga5e3dc67373d5068997d2d9f41c9024d2" kindref="member">u8</ref></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="group__gtc__type__precision_1ga5e3dc67373d5068997d2d9f41c9024d2" kindref="member">u8</ref></highlight><highlight class="stringliteral">&quot;こんにちは&quot;</highlight><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>this<sp/>will<sp/>be<sp/>encoded<sp/>as<sp/>UTF-8</highlight></codeline>
+</programlisting></para>
+</listitem></itemizedlist>
+</para>
+<para><anchor id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md499"/> <heading level="5"><ulink url="#index">Return to Index</ulink></heading>
+</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md500">
+<title>How should I handle DPI in my application?</title>
+<para>See <ulink url="https://github.com/ocornut/imgui/blob/master/docs/FAQ.md#q-how-should-i-handle-dpi-in-my-application">FAQ entry</ulink>.</para>
+<para><anchor id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md501"/> <heading level="5"><ulink url="#index">Return to Index</ulink></heading>
+</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md502">
+<title>Font Loading Instructions</title>
+<para><bold>Load default font:</bold> <programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="struct_im_gui_i_o" kindref="compound">ImGuiIO</ref>&amp;<sp/>io<sp/>=<sp/>ImGui::GetIO();</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontDefault();</highlight></codeline>
+</programlisting></para>
+<para><bold>Load .TTF/.OTF file with:</bold> <programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="struct_im_gui_i_o" kindref="compound">ImGuiIO</ref>&amp;<sp/>io<sp/>=<sp/>ImGui::GetIO();</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;font.ttf&quot;</highlight><highlight class="normal">,<sp/>size_pixels);</highlight></codeline>
+</programlisting> If you get an assert stating &quot;Could not load font file!&quot;, your font filename is likely incorrect. Read &quot;[About filenames](#about-filenames)&quot; carefully.</para>
+<para><bold>Load multiple fonts:</bold> <programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Init</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="struct_im_gui_i_o" kindref="compound">ImGuiIO</ref>&amp;<sp/>io<sp/>=<sp/>ImGui::GetIO();</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="struct_im_font" kindref="compound">ImFont</ref>*<sp/>font1<sp/>=<sp/>io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;font.ttf&quot;</highlight><highlight class="normal">,<sp/>size_pixels);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="struct_im_font" kindref="compound">ImFont</ref>*<sp/>font2<sp/>=<sp/>io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;anotherfont.otf&quot;</highlight><highlight class="normal">,<sp/>size_pixels);</highlight></codeline>
+</programlisting> <programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>In<sp/>application<sp/>loop:<sp/>select<sp/>font<sp/>at<sp/>runtime</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ImGui::Text(</highlight><highlight class="stringliteral">&quot;Hello&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>use<sp/>the<sp/>default<sp/>font<sp/>(which<sp/>is<sp/>the<sp/>first<sp/>loaded<sp/>font)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ImGui::PushFont(font2);</highlight></codeline>
+<codeline><highlight class="normal">ImGui::Text(</highlight><highlight class="stringliteral">&quot;Hello<sp/>with<sp/>another<sp/>font&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">ImGui::PopFont();</highlight></codeline>
+</programlisting></para>
+<para><bold>For advanced options create a <ref refid="struct_im_font_config" kindref="compound">ImFontConfig</ref> structure and pass it to the AddFont() function (it will be copied internally):</bold> <programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="struct_im_font_config" kindref="compound">ImFontConfig</ref><sp/>config;</highlight></codeline>
+<codeline><highlight class="normal">config.OversampleH<sp/>=<sp/>2;</highlight></codeline>
+<codeline><highlight class="normal">config.OversampleV<sp/>=<sp/>1;</highlight></codeline>
+<codeline><highlight class="normal">config.GlyphExtraSpacing.x<sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="struct_im_font" kindref="compound">ImFont</ref>*<sp/>font<sp/>=<sp/>io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;font.ttf&quot;</highlight><highlight class="normal">,<sp/>size_pixels,<sp/>&amp;config);</highlight></codeline>
+</programlisting></para>
+<para><bold>Combine multiple fonts into one:</bold> <programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Load<sp/>a<sp/>first<sp/>font</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="struct_im_font" kindref="compound">ImFont</ref>*<sp/>font<sp/>=<sp/>io.Fonts-&gt;AddFontDefault();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Add<sp/>character<sp/>ranges<sp/>and<sp/>merge<sp/>into<sp/>the<sp/>previous<sp/>font</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>ranges<sp/>array<sp/>is<sp/>not<sp/>copied<sp/>by<sp/>the<sp/>AddFont*<sp/>functions<sp/>and<sp/>is<sp/>used<sp/>lazily</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>so<sp/>ensure<sp/>it<sp/>is<sp/>available<sp/>at<sp/>the<sp/>time<sp/>of<sp/>building<sp/>or<sp/>calling<sp/>GetTexDataAsRGBA32().</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ImWchar<sp/>icons_ranges[]<sp/>=<sp/>{<sp/>0xf000,<sp/>0xf3ff,<sp/>0<sp/>};<sp/></highlight><highlight class="comment">//<sp/>Will<sp/>not<sp/>be<sp/>copied<sp/>by<sp/>AddFont*<sp/>so<sp/>keep<sp/>in<sp/>scope.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="struct_im_font_config" kindref="compound">ImFontConfig</ref><sp/>config;</highlight></codeline>
+<codeline><highlight class="normal">config.MergeMode<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;DroidSans.ttf&quot;</highlight><highlight class="normal">,<sp/>18.0f,<sp/>&amp;config,<sp/>io.Fonts-&gt;GetGlyphRangesJapanese());<sp/></highlight><highlight class="comment">//<sp/>Merge<sp/>into<sp/>first<sp/>font</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;fontawesome-webfont.ttf&quot;</highlight><highlight class="normal">,<sp/>18.0f,<sp/>&amp;config,<sp/>icons_ranges);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Merge<sp/>into<sp/>first<sp/>font</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;Build();</highlight></codeline>
+</programlisting></para>
+<para><bold>Add a fourth parameter to bake specific font ranges only:</bold></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Basic<sp/>Latin,<sp/>Extended<sp/>Latin</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;font.ttf&quot;</highlight><highlight class="normal">,<sp/>size_pixels,<sp/>NULL,<sp/>io.Fonts-&gt;GetGlyphRangesDefault());</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Default<sp/>+<sp/>Selection<sp/>of<sp/>2500<sp/>Ideographs<sp/>used<sp/>by<sp/>Simplified<sp/>Chinese</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;font.ttf&quot;</highlight><highlight class="normal">,<sp/>size_pixels,<sp/>NULL,<sp/>io.Fonts-&gt;GetGlyphRangesChineseSimplifiedCommon());</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Default<sp/>+<sp/>Hiragana,<sp/>Katakana,<sp/>Half-Width,<sp/>Selection<sp/>of<sp/>1946<sp/>Ideographs</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;font.ttf&quot;</highlight><highlight class="normal">,<sp/>size_pixels,<sp/>NULL,<sp/>io.Fonts-&gt;GetGlyphRangesJapanese());</highlight></codeline>
+</programlisting> See <ulink url="#using-custom-glyph-ranges">Using Custom Glyph Ranges</ulink> section to create your own ranges.</para>
+<para><bold>Example loading and using a Japanese font:</bold></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="struct_im_gui_i_o" kindref="compound">ImGuiIO</ref>&amp;<sp/>io<sp/>=<sp/>ImGui::GetIO();</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;NotoSansCJKjp-Medium.otf&quot;</highlight><highlight class="normal">,<sp/>20.0f,<sp/>NULL,<sp/>io.Fonts-&gt;GetGlyphRangesJapanese());</highlight></codeline>
+</programlisting> <programlisting filename=".cpp"><codeline><highlight class="normal">ImGui::Text(<ref refid="group__gtc__type__precision_1ga5e3dc67373d5068997d2d9f41c9024d2" kindref="member">u8</ref></highlight><highlight class="stringliteral">&quot;こんにちは！テスト<sp/>%d&quot;</highlight><highlight class="normal">,<sp/>123);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ImGui::Button(<ref refid="group__gtc__type__precision_1ga5e3dc67373d5068997d2d9f41c9024d2" kindref="member">u8</ref></highlight><highlight class="stringliteral">&quot;ロード&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>do<sp/>stuff</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">ImGui::InputText(</highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">,<sp/>buf,<sp/>IM_ARRAYSIZE(buf));</highlight></codeline>
+<codeline><highlight class="normal">ImGui::SliderFloat(</highlight><highlight class="stringliteral">&quot;float&quot;</highlight><highlight class="normal">,<sp/>&amp;f,<sp/>0.0f,<sp/>1.0f);</highlight></codeline>
+</programlisting></para>
+<para><image type="html" name="https://raw.githubusercontent.com/wiki/ocornut/imgui/web/v160/code_sample_02_jp.png" alt="sample code output" inline="yes"></image>
+ <linebreak/>
+_(settings: Dark style (left), Light style (right) / Font: NotoSansCJKjp-Medium, 20px / Rounding: 5)_</para>
+<para><bold>Font Atlas too large?</bold></para>
+<para><itemizedlist>
+<listitem><para>If you have very large number of glyphs or multiple fonts, the texture may become too big for your graphics API. The typical result of failing to upload a texture is if every glyphs appears as white rectangles.</para>
+</listitem><listitem><para>Mind the fact that some graphics drivers have texture size limitation. If you are building a PC application, mind the fact that your users may use hardware with lower limitations than yours.</para>
+</listitem></itemizedlist>
+</para>
+<para>Some solutions:</para>
+<para><orderedlist>
+<listitem><para>Reduce glyphs ranges by calculating them from source localization data. You can use the <computeroutput><ref refid="struct_im_font_glyph_ranges_builder" kindref="compound">ImFontGlyphRangesBuilder</ref></computeroutput> for this purpose and rebuilding your atlas between frames when new characters are needed. This will be the biggest win!</para>
+</listitem><listitem><para>You may reduce oversampling, e.g. <computeroutput>font_config.OversampleH = 2</computeroutput>, this will largely reduce your texture size. Note that while OversampleH = 2 looks visibly very close to 3 in most situations, with OversampleH = 1 the quality drop will be noticeable.</para>
+</listitem><listitem><para>Set <computeroutput>io.Fonts.TexDesiredWidth</computeroutput> to specify a texture width to minimize texture height (see comment in <computeroutput>ImFontAtlas::Build()</computeroutput> function).</para>
+</listitem><listitem><para>Set <computeroutput>io.Fonts.Flags |= ImFontAtlasFlags_NoPowerOfTwoHeight;</computeroutput> to disable rounding the texture height to the next power of two.</para>
+</listitem><listitem><para>Read about oversampling <ulink url="https://github.com/nothings/stb/blob/master/tests/oversample">here</ulink>.</para>
+</listitem><listitem><para>To support the extended range of unicode beyond 0xFFFF (e.g. emoticons, dingbats, symbols, shapes, ancient languages, etc...) add <computeroutput>#define IMGUI_USE_WCHAR32</computeroutput>in your <computeroutput><ref refid="imconfig_8h_source" kindref="compound">imconfig.h</ref></computeroutput>.</para>
+</listitem></orderedlist>
+</para>
+<para><anchor id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md503"/> <heading level="5"><ulink url="#index">Return to Index</ulink></heading>
+</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md504">
+<title>Using Icon Fonts</title>
+<para>Using an icon font (such as <ulink url="http://fontawesome.io">FontAwesome</ulink> or <ulink url="https://github.com/traverseda/OpenFontIcons">OpenFontIcons</ulink>) is an easy and practical way to use icons in your Dear ImGui application. A common pattern is to merge the icon font within your main font, so you can embed icons directly from your strings without having to change fonts back and forth.</para>
+<para>To refer to the icon UTF-8 codepoints from your C++ code, you may use those headers files created by Juliette Foucaut: <ulink url="https://github.com/juliettef/IconFontCppHeaders">https://github.com/juliettef/IconFontCppHeaders</ulink>.</para>
+<para>So you can use <computeroutput>ICON_FA_SEARCH</computeroutput> as a string that will render as a &quot;Search&quot; icon.</para>
+<para>Example Setup: <programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Merge<sp/>icons<sp/>into<sp/>default<sp/>tool<sp/>font</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;IconsFontAwesome.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="struct_im_gui_i_o" kindref="compound">ImGuiIO</ref>&amp;<sp/>io<sp/>=<sp/>ImGui::GetIO();</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontDefault();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="struct_im_font_config" kindref="compound">ImFontConfig</ref><sp/>config;</highlight></codeline>
+<codeline><highlight class="normal">config.MergeMode<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">config.GlyphMinAdvanceX<sp/>=<sp/>13.0f;<sp/></highlight><highlight class="comment">//<sp/>Use<sp/>if<sp/>you<sp/>want<sp/>to<sp/>make<sp/>the<sp/>icon<sp/>monospaced</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ImWchar<sp/>icon_ranges[]<sp/>=<sp/>{<sp/>ICON_MIN_FA,<sp/>ICON_MAX_FA,<sp/>0<sp/>};</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;fonts/fontawesome-webfont.ttf&quot;</highlight><highlight class="normal">,<sp/>13.0f,<sp/>&amp;config,<sp/>icon_ranges);</highlight></codeline>
+</programlisting> Example Usage: <programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Usage,<sp/>e.g.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ImGui::Text(</highlight><highlight class="stringliteral">&quot;%s<sp/>among<sp/>%d<sp/>items&quot;</highlight><highlight class="normal">,<sp/>ICON_FA_SEARCH,<sp/>count);</highlight></codeline>
+<codeline><highlight class="normal">ImGui::Button(ICON_FA_SEARCH<sp/></highlight><highlight class="stringliteral">&quot;<sp/>Search&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>C<sp/>string<sp/>_literals_<sp/>can<sp/>be<sp/>concatenated<sp/>at<sp/>compilation<sp/>time,<sp/>e.g.<sp/>&quot;hello&quot;<sp/>&quot;<sp/>world&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>ICON_FA_SEARCH<sp/>is<sp/>defined<sp/>as<sp/>a<sp/>string<sp/>literal<sp/>so<sp/>this<sp/>is<sp/>the<sp/>same<sp/>as<sp/>&quot;A&quot;<sp/>&quot;B&quot;<sp/>becoming<sp/>&quot;AB&quot;</highlight></codeline>
+</programlisting> See Links below for other icons fonts and related tools.</para>
+<para>Here&apos;s an application using icons (&quot;Avoyd&quot;, <ulink url="https://www.avoyd.com">https://www.avoyd.com</ulink>): <image type="html" name="https://user-images.githubusercontent.com/8225057/81696852-c15d9e80-9464-11ea-9cab-2a4d4fc84396.jpg" alt="avoyd" inline="yes"></image>
+</para>
+<para><anchor id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md505"/> <heading level="5"><ulink url="#index">Return to Index</ulink></heading>
+</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md506">
+<title>Using FreeType Rasterizer (imgui_freetype)</title>
+<para><itemizedlist>
+<listitem><para>Dear ImGui uses <ref refid="imstb__truetype_8h_source" kindref="compound">imstb_truetype.h</ref> to rasterize fonts (with optional oversampling). This technique and its implementation are not ideal for fonts rendered at small sizes, which may appear a little blurry or hard to read.</para>
+</listitem><listitem><para>There is an implementation of the <ref refid="struct_im_font_atlas" kindref="compound">ImFontAtlas</ref> builder using FreeType that you can use in the <ulink url="https://github.com/ocornut/imgui/tree/master/misc/freetype">misc/freetype/</ulink> folder.</para>
+</listitem><listitem><para>FreeType supports auto-hinting which tends to improve the readability of small fonts.</para>
+</listitem><listitem><para>Read documentation in the <ulink url="https://github.com/ocornut/imgui/tree/master/misc/freetype">misc/freetype/</ulink> folder.</para>
+</listitem><listitem><para>Correct sRGB space blending will have an important effect on your font rendering quality.</para>
+</listitem></itemizedlist>
+</para>
+<para><anchor id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md507"/> <heading level="5"><ulink url="#index">Return to Index</ulink></heading>
+</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md508">
+<title>Using Colorful Glyphs/Emojis</title>
+<para><itemizedlist>
+<listitem><para>Rendering of colored emojis is only supported by imgui_freetype with FreeType 2.10+.</para>
+</listitem><listitem><para>You will need to load fonts with the <computeroutput>ImGuiFreeTypeBuilderFlags_LoadColor</computeroutput> flag.</para>
+</listitem><listitem><para>Emojis are frequently encoded in upper Unicode layers (character codes &gt;0x10000) and will need dear imgui compiled with <computeroutput>IMGUI_USE_WCHAR32</computeroutput>.</para>
+</listitem><listitem><para>Not all types of color fonts are supported by FreeType at the moment.</para>
+</listitem><listitem><para>Stateful Unicode features such as skin tone modifiers are not supported by the text renderer.</para>
+</listitem></itemizedlist>
+</para>
+<para><image type="html" name="https://user-images.githubusercontent.com/8225057/106171241-9dc4ba80-6191-11eb-8a69-ca1467b206d1.png" alt="colored glyphs" inline="yes"></image>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;../../../imgui_dev/data/fonts/NotoSans-Regular.ttf&quot;</highlight><highlight class="normal">,<sp/>16.0f);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>ImWchar<sp/>ranges[]<sp/>=<sp/>{<sp/>0x1,<sp/>0x1FFFF,<sp/>0<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="struct_im_font_config" kindref="compound">ImFontConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.OversampleH<sp/>=<sp/>cfg.OversampleV<sp/>=<sp/>1;</highlight></codeline>
+<codeline><highlight class="normal">cfg.MergeMode<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.FontBuilderFlags<sp/>|=<sp/>ImGuiFreeTypeBuilderFlags_LoadColor;</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;C:\\Windows\\Fonts\\seguiemj.ttf&quot;</highlight><highlight class="normal">,<sp/>16.0f,<sp/>&amp;cfg,<sp/>ranges);</highlight></codeline>
+</programlisting></para>
+<para><anchor id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md509"/> <heading level="5"><ulink url="#index">Return to Index</ulink></heading>
+</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md510">
+<title>Using Custom Glyph Ranges</title>
+<para>You can use the <computeroutput><ref refid="struct_im_font_glyph_ranges_builder" kindref="compound">ImFontGlyphRangesBuilder</ref></computeroutput> helper to create glyph ranges based on text input. For example: for a game where your script is known, if you can feed your entire script to it and only build the characters the game needs. <programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="struct_im_vector" kindref="compound">ImVector&lt;ImWchar&gt;</ref><sp/>ranges;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="struct_im_font_glyph_ranges_builder" kindref="compound">ImFontGlyphRangesBuilder</ref><sp/>builder;</highlight></codeline>
+<codeline><highlight class="normal">builder.AddText(</highlight><highlight class="stringliteral">&quot;Hello<sp/>world&quot;</highlight><highlight class="normal">);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>a<sp/>string<sp/>(here<sp/>&quot;Hello<sp/>world&quot;<sp/>contains<sp/>7<sp/>unique<sp/>characters)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">builder.AddChar(0x7262);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>a<sp/>specific<sp/>character</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">builder.AddRanges(io.Fonts-&gt;GetGlyphRangesJapanese());<sp/></highlight><highlight class="comment">//<sp/>Add<sp/>one<sp/>of<sp/>the<sp/>default<sp/>ranges</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">builder.BuildRanges(&amp;ranges);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>the<sp/>final<sp/>result<sp/>(ordered<sp/>ranges<sp/>with<sp/>all<sp/>the<sp/>unique<sp/>characters<sp/>submitted)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;myfontfile.ttf&quot;</highlight><highlight class="normal">,<sp/>size_in_pixels,<sp/>NULL,<sp/>ranges.Data);</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;Build();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>the<sp/>atlas<sp/>while<sp/>&apos;ranges&apos;<sp/>is<sp/>still<sp/>in<sp/>scope<sp/>and<sp/>not<sp/>deleted.</highlight></codeline>
+</programlisting></para>
+<para><anchor id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md511"/> <heading level="5"><ulink url="#index">Return to Index</ulink></heading>
+</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md512">
+<title>Using Custom Colorful Icons</title>
+<para>As an alternative to rendering colorful glyphs using imgui_freetype with <computeroutput>ImGuiFreeTypeBuilderFlags_LoadColor</computeroutput>, you may allocate your own space in the texture atlas and write yourself into it. **(This is a BETA api, use if you are familiar with dear imgui and with your rendering backend)**</para>
+<para><itemizedlist>
+<listitem><para>You can use the <computeroutput>ImFontAtlas::AddCustomRect()</computeroutput> and <computeroutput>ImFontAtlas::AddCustomRectFontGlyph()</computeroutput> api to register rectangles that will be packed into the font atlas texture. Register them before building the atlas, then call Build()<computeroutput>.</computeroutput></para>
+</listitem><listitem><para><computeroutput>You can then use</computeroutput>ImFontAtlas::GetCustomRectByIndex(int)` to query the position/size of your rectangle within the texture, and blit/copy any graphics data of your choice into those rectangles.</para>
+</listitem><listitem><para>This API is beta because it is likely to change in order to support multi-dpi (multiple viewports on multiple monitors with varying DPI scale).</para>
+</listitem></itemizedlist>
+</para>
+<sect4 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md513">
+<title>Pseudo-code:</title>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Add<sp/>font,<sp/>then<sp/>register<sp/>two<sp/>custom<sp/>13x13<sp/>rectangles<sp/>mapped<sp/>to<sp/>glyph<sp/>&apos;a&apos;<sp/>and<sp/>&apos;b&apos;<sp/>of<sp/>this<sp/>font</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="struct_im_font" kindref="compound">ImFont</ref>*<sp/>font<sp/>=<sp/>io.Fonts-&gt;AddFontDefault();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rect_ids[2];</highlight></codeline>
+<codeline><highlight class="normal">rect_ids[0]<sp/>=<sp/>io.Fonts-&gt;AddCustomRectFontGlyph(font,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">,<sp/>13,<sp/>13,<sp/>13+1);</highlight></codeline>
+<codeline><highlight class="normal">rect_ids[1]<sp/>=<sp/>io.Fonts-&gt;AddCustomRectFontGlyph(font,<sp/></highlight><highlight class="charliteral">&apos;b&apos;</highlight><highlight class="normal">,<sp/>13,<sp/>13,<sp/>13+1);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Build<sp/>atlas</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;Build();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Retrieve<sp/>texture<sp/>in<sp/>RGBA<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>tex_pixels<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>tex_width,<sp/>tex_height;</highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;GetTexDataAsRGBA32(&amp;tex_pixels,<sp/>&amp;tex_width,<sp/>&amp;tex_height);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rect_n<sp/>=<sp/>0;<sp/>rect_n<sp/>&lt;<sp/>IM_ARRAYSIZE(rect_ids);<sp/>rect_n++)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rect_id<sp/>=<sp/>rects_ids[rect_n];</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ImFontAtlas::CustomRect*<sp/>rect<sp/>=<sp/>io.Fonts-&gt;GetCustomRectByIndex(rect_id))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fill<sp/>the<sp/>custom<sp/>rectangle<sp/>with<sp/>red<sp/>pixels<sp/>(in<sp/>reality<sp/>you<sp/>would<sp/>draw/copy<sp/>your<sp/>bitmap<sp/>data<sp/>here!)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>y<sp/>=<sp/>0;<sp/>y<sp/>&lt;<sp/>rect-&gt;Height;<sp/>y++)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ImU32*<sp/>p<sp/>=<sp/>(ImU32*)tex_pixels<sp/>+<sp/>(rect-&gt;Y<sp/>+<sp/>y)<sp/>*<sp/>tex_width<sp/>+<sp/>(rect-&gt;X);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>x<sp/>=<sp/>rect-&gt;Width;<sp/>x<sp/>&gt;<sp/>0;<sp/>x--)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*p++<sp/>=<sp/>IM_COL32(255,<sp/>0,<sp/>0,<sp/>255);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><anchor id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md514"/> <heading level="5"><ulink url="#index">Return to Index</ulink></heading>
+</para>
+</sect4>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md515">
+<title>Using Font Data Embedded In Source Code</title>
+<para><itemizedlist>
+<listitem><para>Compile and use <ulink url="https://github.com/ocornut/imgui/blob/master/misc/fonts/binary_to_compressed_c.cpp">binary_to_compressed_c.cpp</ulink> to create a compressed C style array that you can embed in source code.</para>
+</listitem><listitem><para>See the documentation in <ulink url="https://github.com/ocornut/imgui/blob/master/misc/fonts/binary_to_compressed_c.cpp">binary_to_compressed_c.cpp</ulink> for instruction on how to use the tool.</para>
+</listitem><listitem><para>You may find a precompiled version binary_to_compressed_c.exe for Windows instead of demo binaries package (see <ulink url="https://github.com/ocornut/imgui/blob/master/docs/README.md">README</ulink>).</para>
+</listitem><listitem><para>The tool can optionally output Base85 encoding to reduce the size of <emphasis>source code</emphasis> but the read-only arrays in the actual binary will be about 20% bigger.</para>
+</listitem></itemizedlist>
+</para>
+<para>Then load the font with: <programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="struct_im_font" kindref="compound">ImFont</ref>*<sp/>font<sp/>=<sp/>io.Fonts-&gt;AddFontFromMemoryCompressedTTF(compressed_data,<sp/>compressed_data_size,<sp/>size_pixels,<sp/>...);</highlight></codeline>
+</programlisting> or <programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="struct_im_font" kindref="compound">ImFont</ref>*<sp/>font<sp/>=<sp/>io.Fonts-&gt;AddFontFromMemoryCompressedBase85TTF(compressed_data_base85,<sp/>size_pixels,<sp/>...);</highlight></codeline>
+</programlisting></para>
+<para><anchor id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md516"/> <heading level="5"><ulink url="#index">Return to Index</ulink></heading>
+</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md517">
+<title>About filenames</title>
+<para><bold>Please note that many new C/C++ users have issues their files <emphasis>because the filename they provide is wrong</emphasis>.</bold></para>
+<para>Two things to watch for:<itemizedlist>
+<listitem><para>Make sure your IDE/debugger settings starts your executable from the right working directory. In Visual Studio you can change your working directory in project <computeroutput>Properties &gt; General &gt; Debugging &gt; Working Directory</computeroutput>. People assume that their execution will start from the root folder of the project, where by default it oftens start from the folder where object or executable files are stored. <programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Relative<sp/>filename<sp/>depends<sp/>on<sp/>your<sp/>Working<sp/>Directory<sp/>when<sp/>running<sp/>your<sp/>program!</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;MyImage01.jpg&quot;</highlight><highlight class="normal">,<sp/>...);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Load<sp/>from<sp/>the<sp/>parent<sp/>folder<sp/>of<sp/>your<sp/>Working<sp/>Directory</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;../MyImage01.jpg&quot;</highlight><highlight class="normal">,<sp/>...);</highlight></codeline>
+</programlisting></para>
+</listitem><listitem><para>In C/C++ and most programming languages if you want to use a backslash <computeroutput>\</computeroutput> within a string literal, you need to write it double backslash <computeroutput>\\</computeroutput>. At it happens, Windows uses backslashes as a path separator, so be mindful. <programlisting filename=".cpp"><codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;MyFiles\MyImage01.jpg&quot;</highlight><highlight class="normal">,<sp/>...);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>INCORRECT!!</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">io.Fonts-&gt;AddFontFromFileTTF(</highlight><highlight class="stringliteral">&quot;MyFiles\\MyImage01.jpg&quot;</highlight><highlight class="normal">,<sp/>...);<sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>CORRECT</highlight></codeline>
+</programlisting> In some situations, you may also use <computeroutput>/</computeroutput> path separator under Windows.</para>
+</listitem></itemizedlist>
+</para>
+<para><anchor id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md518"/> <heading level="5"><ulink url="#index">Return to Index</ulink></heading>
+</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md519">
+<title>Credits/Licenses For Fonts Included In Repository</title>
+<para>Some fonts files are available in the <computeroutput>misc/fonts/</computeroutput> folder:</para>
+<para><bold>Roboto-Medium.ttf</bold>, by Christian Robetson <linebreak/>
+Apache License 2.0 <linebreak/>
+<ulink url="https://fonts.google.com/specimen/Roboto">https://fonts.google.com/specimen/Roboto</ulink></para>
+<para><bold>Cousine-Regular.ttf</bold>, by Steve Matteson <linebreak/>
+Digitized data copyright (c) 2010 Google Corporation. <linebreak/>
+Licensed under the SIL Open Font License, Version 1.1 <linebreak/>
+<ulink url="https://fonts.google.com/specimen/Cousine">https://fonts.google.com/specimen/Cousine</ulink></para>
+<para><bold>DroidSans.ttf</bold>, by Steve Matteson <linebreak/>
+Apache License 2.0 <linebreak/>
+<ulink url="https://www.fontsquirrel.com/fonts/droid-sans">https://www.fontsquirrel.com/fonts/droid-sans</ulink></para>
+<para><bold>ProggyClean.ttf</bold>, by Tristan Grimmer <linebreak/>
+MIT License <linebreak/>
+(recommended loading setting: Size = 13.0, GlyphOffset.y = +1) <linebreak/>
+<ulink url="http://www.proggyfonts.net/">http://www.proggyfonts.net/</ulink></para>
+<para><bold>ProggyTiny.ttf</bold>, by Tristan Grimmer <linebreak/>
+MIT License <linebreak/>
+(recommended loading setting: Size = 10.0, GlyphOffset.y = +1) <linebreak/>
+<ulink url="http://www.proggyfonts.net/">http://www.proggyfonts.net/</ulink></para>
+<para><bold>Karla-Regular.ttf</bold>, by Jonathan Pinhorn <linebreak/>
+SIL OPEN FONT LICENSE Version 1.1</para>
+<para><anchor id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md520"/> <heading level="5"><ulink url="#index">Return to Index</ulink></heading>
+</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md521">
+<title>Font Links</title>
+<sect4 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md522">
+<title>ICON FONTS</title>
+<para><itemizedlist>
+<listitem><para>C/C++ header for icon fonts (#define with code points to use in source code string literals) <ulink url="https://github.com/juliettef/IconFontCppHeaders">https://github.com/juliettef/IconFontCppHeaders</ulink></para>
+</listitem><listitem><para>FontAwesome <ulink url="https://fortawesome.github.io/Font-Awesome">https://fortawesome.github.io/Font-Awesome</ulink></para>
+</listitem><listitem><para>OpenFontIcons <ulink url="https://github.com/traverseda/OpenFontIcons">https://github.com/traverseda/OpenFontIcons</ulink></para>
+</listitem><listitem><para>Google Icon Fonts <ulink url="https://design.google.com/icons/">https://design.google.com/icons/</ulink></para>
+</listitem><listitem><para>Kenney Icon Font (Game Controller Icons) <ulink url="https://github.com/nicodinh/kenney-icon-font">https://github.com/nicodinh/kenney-icon-font</ulink></para>
+</listitem><listitem><para>IcoMoon - Custom Icon font builder <ulink url="https://icomoon.io/app">https://icomoon.io/app</ulink></para>
+</listitem></itemizedlist>
+</para>
+</sect4>
+<sect4 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md523">
+<title>REGULAR FONTS</title>
+<para><itemizedlist>
+<listitem><para>Google Noto Fonts (worldwide languages) <ulink url="https://www.google.com/get/noto/">https://www.google.com/get/noto/</ulink></para>
+</listitem><listitem><para>Open Sans Fonts <ulink url="https://fonts.google.com/specimen/Open+Sans">https://fonts.google.com/specimen/Open+Sans</ulink></para>
+</listitem><listitem><para>(Japanese) M+ fonts by Coji Morishita <ulink url="http://mplus-fonts.sourceforge.jp/mplus-outline-fonts/index-en.html">http://mplus-fonts.sourceforge.jp/mplus-outline-fonts/index-en.html</ulink></para>
+</listitem></itemizedlist>
+</para>
+</sect4>
+<sect4 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md524">
+<title>MONOSPACE FONTS</title>
+<para>Pixel Perfect:<itemizedlist>
+<listitem><para>Proggy Fonts, by Tristan Grimmer <ulink url="http://www.proggyfonts.net">http://www.proggyfonts.net</ulink> or <ulink url="http://upperbounds.net">http://upperbounds.net</ulink></para>
+</listitem><listitem><para>Sweet16, Sweet16 Mono, by Martin Sedlak (Latin + Supplemental + Extended A) <ulink url="https://github.com/kmar/Sweet16Font">https://github.com/kmar/Sweet16Font</ulink> (also include an .inl file to use directly in dear imgui.)</para>
+</listitem></itemizedlist>
+</para>
+<para>Regular:<itemizedlist>
+<listitem><para>Google Noto Mono Fonts <ulink url="https://www.google.com/get/noto/">https://www.google.com/get/noto/</ulink></para>
+</listitem><listitem><para>Typefaces for source code beautification <ulink url="https://github.com/chrissimpkins/codeface">https://github.com/chrissimpkins/codeface</ulink></para>
+</listitem><listitem><para>Programmation fonts <ulink url="http://s9w.github.io/font_compare/">http://s9w.github.io/font_compare/</ulink></para>
+</listitem><listitem><para>Inconsolata <ulink url="http://www.levien.com/type/myfonts/inconsolata.html">http://www.levien.com/type/myfonts/inconsolata.html</ulink></para>
+</listitem><listitem><para>Adobe Source Code Pro: Monospaced font family for ui &amp; coding environments <ulink url="https://github.com/adobe-fonts/source-code-pro">https://github.com/adobe-fonts/source-code-pro</ulink></para>
+</listitem><listitem><para>Monospace/Fixed Width Programmer&apos;s Fonts <ulink url="http://www.lowing.org/fonts/">http://www.lowing.org/fonts/</ulink></para>
+</listitem></itemizedlist>
+</para>
+<para>Or use Arial Unicode or other Unicode fonts provided with Windows for full characters coverage (not sure of their licensing).</para>
+<para><anchor id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_docs__f_o_n_t_s_1autotoc_md525"/> <heading level="5"><ulink url="#index">Return to Index</ulink></heading>
+</para>
+</sect4>
+</sect2>
+    </detaileddescription>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/docs/FONTS.md"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,65 @@
+\hypertarget{linux__joystick_8h_source}{}\doxysection{linux\+\_\+joystick.\+h}
+\label{linux__joystick_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/linux\_joystick.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/linux\_joystick.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00001}00001 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00002}00002 \textcolor{comment}{// GLFW 3.4 Linux -\/ www.glfw.org}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00003}00003 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00004}00004 \textcolor{comment}{// Copyright (c) 2014 Jonas Ådahl <jadahl@gmail.com>}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00005}00005 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00006}00006 \textcolor{comment}{// This software is provided 'as-\/is', without any express or implied}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00007}00007 \textcolor{comment}{// warranty. In no event will the authors be held liable for any damages}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00008}00008 \textcolor{comment}{// arising from the use of this software.}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00009}00009 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00010}00010 \textcolor{comment}{// Permission is granted to anyone to use this software for any purpose,}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00011}00011 \textcolor{comment}{// including commercial applications, and to alter it and redistribute it}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00012}00012 \textcolor{comment}{// freely, subject to the following restrictions:}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00013}00013 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00014}00014 \textcolor{comment}{// 1. The origin of this software must not be misrepresented; you must not}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00015}00015 \textcolor{comment}{//    claim that you wrote the original software. If you use this software}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00016}00016 \textcolor{comment}{//    in a product, an acknowledgment in the product documentation would}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00017}00017 \textcolor{comment}{//    be appreciated but is not required.}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00018}00018 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00019}00019 \textcolor{comment}{// 2. Altered source versions must be plainly marked as such, and must not}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00020}00020 \textcolor{comment}{//    be misrepresented as being the original software.}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00021}00021 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00022}00022 \textcolor{comment}{// 3. This notice may not be removed or altered from any source}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00023}00023 \textcolor{comment}{//    distribution.}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00024}00024 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00025}00025 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00027}00027 \textcolor{preprocessor}{\#include <linux/input.h>}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00028}00028 \textcolor{preprocessor}{\#include <linux/limits.h>}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00029}00029 \textcolor{preprocessor}{\#include <regex.h>}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00031}00031 \textcolor{preprocessor}{\#define \_GLFW\_PLATFORM\_JOYSTICK\_STATE         \_GLFWjoystickLinux linjs}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00032}00032 \textcolor{preprocessor}{\#define \_GLFW\_PLATFORM\_LIBRARY\_JOYSTICK\_STATE \_GLFWlibraryLinux  linjs}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00034}00034 \textcolor{preprocessor}{\#define \_GLFW\_PLATFORM\_MAPPING\_NAME "{}Linux"{}}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00036}00036 \textcolor{comment}{// Linux-\/specific joystick data}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00037}00037 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00038}\mbox{\hyperlink{struct___g_l_f_wjoystick_linux}{00038}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___g_l_f_wjoystick_linux}{\_GLFWjoystickLinux}}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00039}00039 \{}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00040}00040     \textcolor{keywordtype}{int}                     fd;}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00041}00041     \textcolor{keywordtype}{char}                    path[PATH\_MAX];}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00042}00042     \textcolor{keywordtype}{int}                     keyMap[KEY\_CNT -\/ BTN\_MISC];}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00043}00043     \textcolor{keywordtype}{int}                     absMap[ABS\_CNT];}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00044}00044     \textcolor{keyword}{struct }input\_absinfo    absInfo[ABS\_CNT];}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00045}00045     \textcolor{keywordtype}{int}                     hats[4][2];}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00046}00046 \} \mbox{\hyperlink{struct___g_l_f_wjoystick_linux}{\_GLFWjoystickLinux}};}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00048}00048 \textcolor{comment}{// Linux-\/specific joystick API data}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00049}00049 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00050}\mbox{\hyperlink{struct___g_l_f_wlibrary_linux}{00050}} \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___g_l_f_wlibrary_linux}{\_GLFWlibraryLinux}}}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00051}00051 \{}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00052}00052     \textcolor{keywordtype}{int}                     inotify;}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00053}00053     \textcolor{keywordtype}{int}                     watch;}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00054}00054     regex\_t                 regex;}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00055}00055     GLFWbool                dropped;}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00056}00056 \} \mbox{\hyperlink{struct___g_l_f_wlibrary_linux}{\_GLFWlibraryLinux}};}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00058}00058 \textcolor{keywordtype}{void} \_glfwDetectJoystickConnectionLinux(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{linux__joystick_8h_source_l00059}00059 }
+
+\end{DoxyCode}

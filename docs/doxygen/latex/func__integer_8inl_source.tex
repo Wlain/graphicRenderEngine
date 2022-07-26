@@ -1,0 +1,383 @@
+\hypertarget{func__integer_8inl_source}{}\doxysection{func\+\_\+integer.\+inl}
+\label{func__integer_8inl_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/detail/func\_integer.inl@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/detail/func\_integer.inl}}
+\mbox{\hyperlink{func__integer_8inl}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00004}00004 \textcolor{preprocessor}{\#include "{}../ext/vec1.hpp"{}}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00005}00005 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{type__vec2_8hpp}{type\_vec2.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00006}00006 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{type__vec3_8hpp}{type\_vec3.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00007}00007 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{type__vec4_8hpp}{type\_vec4.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00008}00008 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{type__int_8hpp}{type\_int.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00009}00009 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{__vectorize_8hpp}{\_vectorize.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00010}00010 \textcolor{preprocessor}{\#if(GLM\_ARCH \& GLM\_ARCH\_X86 \&\& GLM\_COMPILER \& GLM\_COMPILER\_VC)}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00011}00011 \textcolor{preprocessor}{\#   include <intrin.h>}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00012}00012 \textcolor{preprocessor}{\#   pragma intrinsic(\_BitScanReverse)}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00013}00013 \textcolor{preprocessor}{\#endif}\textcolor{comment}{//(GLM\_ARCH \& GLM\_ARCH\_X86 \&\& GLM\_COMPILER \& GLM\_COMPILER\_VC)}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00014}00014 \textcolor{preprocessor}{\#include <limits>}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00016}00016 \textcolor{preprocessor}{\#if !GLM\_HAS\_EXTENDED\_INTEGER\_TYPE}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00017}00017 \textcolor{preprocessor}{\#   if GLM\_COMPILER \& GLM\_COMPILER\_GCC}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00018}00018 \textcolor{preprocessor}{\#       pragma GCC diagnostic ignored "{}-\/Wlong-\/long"{}}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00019}00019 \textcolor{preprocessor}{\#   endif}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00020}00020 \textcolor{preprocessor}{\#   if (GLM\_COMPILER \& GLM\_COMPILER\_CLANG)}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00021}00021 \textcolor{preprocessor}{\#       pragma clang diagnostic ignored "{}-\/Wc++11-\/long-\/long"{}}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00022}00022 \textcolor{preprocessor}{\#   endif}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00023}00023 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00025}00025 \textcolor{keyword}{namespace }glm\{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00026}00026 \textcolor{keyword}{namespace }detail}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00027}00027 \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00028}00028     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00029}00029     GLM\_FUNC\_QUALIFIER T \mbox{\hyperlink{structmask}{mask}}(T Bits)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00030}00030     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00031}00031         \textcolor{keywordflow}{return} Bits >= \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(\textcolor{keyword}{sizeof}(T) * 8) ? \string~static\_cast<T>(0) : (static\_cast<T>(1) << Bits) -\/ static\_cast<T>(1);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00032}00032     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00034}00034     \textcolor{keyword}{template}<length\_t L, \textcolor{keyword}{typename} T, qualifier Q, \textcolor{keywordtype}{bool} Aligned, \textcolor{keywordtype}{bool} EXEC>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00035}\mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_reverse_step}{00035}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_reverse_step}{compute\_bitfieldReverseStep}}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00036}00036     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00037}00037         GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} call(\mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \textcolor{keyword}{const}\& v, T, T)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00038}00038         \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00039}00039             \textcolor{keywordflow}{return} v;}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00040}00040         \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00041}00041     \};}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00043}00043     \textcolor{keyword}{template}<length\_t L, \textcolor{keyword}{typename} T, qualifier Q, \textcolor{keywordtype}{bool} Aligned>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00044}\mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_reverse_step_3_01_l_00_01_t_00_01_q_00_01_aligned_00_01true_01_4}{00044}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_reverse_step}{compute\_bitfieldReverseStep}}<L, T, Q, Aligned, true>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00045}00045     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00046}00046         GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} call(\mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \textcolor{keyword}{const}\& v, T Mask, T Shift)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00047}00047         \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00048}00048             \textcolor{keywordflow}{return} (v \& Mask) << Shift | (v \& (\string~Mask)) >> Shift;}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00049}00049         \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00050}00050     \};}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00052}00052     \textcolor{keyword}{template}<length\_t L, \textcolor{keyword}{typename} T, qualifier Q, \textcolor{keywordtype}{bool} Aligned, \textcolor{keywordtype}{bool} EXEC>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00053}\mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_bit_count_step}{00053}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_bit_count_step}{compute\_bitfieldBitCountStep}}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00054}00054     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00055}00055         GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} call(\mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \textcolor{keyword}{const}\& v, T, T)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00056}00056         \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00057}00057             \textcolor{keywordflow}{return} v;}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00058}00058         \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00059}00059     \};}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00061}00061     \textcolor{keyword}{template}<length\_t L, \textcolor{keyword}{typename} T, qualifier Q, \textcolor{keywordtype}{bool} Aligned>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00062}\mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_bit_count_step_3_01_l_00_01_t_00_01_q_00_01_aligned_00_01true_01_4}{00062}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_bit_count_step}{compute\_bitfieldBitCountStep}}<L, T, Q, Aligned, true>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00063}00063     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00064}00064         GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} call(\mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \textcolor{keyword}{const}\& v, T Mask, T Shift)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00065}00065         \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00066}00066             \textcolor{keywordflow}{return} (v \& Mask) + ((v >> Shift) \& Mask);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00067}00067         \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00068}00068     \};}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00070}00070     \textcolor{keyword}{template}<\textcolor{keyword}{typename} genIUType, \textcolor{keywordtype}{size\_t} Bits>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00071}\mbox{\hyperlink{structglm_1_1detail_1_1compute__find_l_s_b}{00071}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structglm_1_1detail_1_1compute__find_l_s_b}{compute\_findLSB}}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00072}00072     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00073}00073         GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \textcolor{keywordtype}{int} call(genIUType Value)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00074}00074         \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00075}00075             \textcolor{keywordflow}{if}(Value == 0)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00076}00076                 \textcolor{keywordflow}{return} -\/1;}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00078}00078             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__func__integer_ga137ebce004abfd2750df0eb3c7f9855f}{glm::bitCount}}(\string~Value \& (Value -\/ \textcolor{keyword}{static\_cast<}genIUType\textcolor{keyword}{>}(1)));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00079}00079         \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00080}00080     \};}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00082}00082 \textcolor{preprocessor}{\#   if GLM\_HAS\_BITSCAN\_WINDOWS}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00083}00083         \textcolor{keyword}{template}<\textcolor{keyword}{typename} genIUType>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00084}00084         \textcolor{keyword}{struct }\mbox{\hyperlink{structglm_1_1detail_1_1compute__find_l_s_b}{compute\_findLSB}}<genIUType, 32>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00085}00085         \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00086}00086             GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \textcolor{keywordtype}{int} call(genIUType Value)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00087}00087             \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00088}00088                 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} Result(0);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00089}00089                 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} IsNotNull = \_BitScanForward(\&Result, *\textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long}*\textcolor{keyword}{>}(\&Value));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00090}00090                 \textcolor{keywordflow}{return} IsNotNull ? int(Result) : -\/1;}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00091}00091             \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00092}00092         \};}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00093}00093 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00094}00094 \textcolor{preprocessor}{\#       if !((GLM\_COMPILER \& GLM\_COMPILER\_VC) \&\& (GLM\_MODEL == GLM\_MODEL\_32))}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00095}00095         \textcolor{keyword}{template}<\textcolor{keyword}{typename} genIUType>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00096}00096         \textcolor{keyword}{struct }compute\_findLSB<genIUType, 64>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00097}00097         \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00098}00098             GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \textcolor{keywordtype}{int} call(genIUType Value)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00099}00099             \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00100}00100                 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} Result(0);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00101}00101                 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} IsNotNull = \_BitScanForward64(\&Result, *\textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{unsigned} \_\_int64*\textcolor{keyword}{>}(\&Value));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00102}00102                 \textcolor{keywordflow}{return} IsNotNull ? int(Result) : -\/1;}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00103}00103             \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00104}00104         \};}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00105}00105 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00106}00106 \textcolor{preprocessor}{\#   endif}\textcolor{comment}{//GLM\_HAS\_BITSCAN\_WINDOWS}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00108}00108     \textcolor{keyword}{template}<length\_t L, \textcolor{keyword}{typename} T, qualifier Q, \textcolor{keywordtype}{bool} EXEC = true>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00109}\mbox{\hyperlink{structglm_1_1detail_1_1compute__find_m_s_b__step__vec}{00109}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structglm_1_1detail_1_1compute__find_m_s_b__step__vec}{compute\_findMSB\_step\_vec}}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00110}00110     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00111}00111         GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} call(\mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \textcolor{keyword}{const}\& x, T Shift)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00112}00112         \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00113}00113             \textcolor{keywordflow}{return} x | (x >> Shift);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00114}00114         \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00115}00115     \};}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00117}00117     \textcolor{keyword}{template}<length\_t L, \textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00118}\mbox{\hyperlink{structglm_1_1detail_1_1compute__find_m_s_b__step__vec_3_01_l_00_01_t_00_01_q_00_01false_01_4}{00118}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structglm_1_1detail_1_1compute__find_m_s_b__step__vec}{compute\_findMSB\_step\_vec}}<L, T, Q, false>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00119}00119     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00120}00120         GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} call(\mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \textcolor{keyword}{const}\& x, T)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00121}00121         \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00122}00122             \textcolor{keywordflow}{return} x;}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00123}00123         \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00124}00124     \};}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00126}00126     \textcolor{keyword}{template}<length\_t L, \textcolor{keyword}{typename} T, qualifier Q, \textcolor{keywordtype}{int}>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00127}\mbox{\hyperlink{structglm_1_1detail_1_1compute__find_m_s_b__vec}{00127}}     \textcolor{keyword}{struct }\mbox{\hyperlink{structglm_1_1detail_1_1compute__find_m_s_b__vec}{compute\_findMSB\_vec}}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00128}00128     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00129}00129         GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \mbox{\hyperlink{structglm_1_1vec}{vec<L, int, Q>}} call(\mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00130}00130         \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00131}00131             \mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} x(v);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00132}00132             x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__find_m_s_b__step__vec}{compute\_findMSB\_step\_vec}}<L, T, Q, \textcolor{keyword}{sizeof}(T) * 8 >=  8>::call(x, \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}( 1));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00133}00133             x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__find_m_s_b__step__vec}{compute\_findMSB\_step\_vec}}<L, T, Q, \textcolor{keyword}{sizeof}(T) * 8 >=  8>::call(x, \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}( 2));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00134}00134             x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__find_m_s_b__step__vec}{compute\_findMSB\_step\_vec}}<L, T, Q, \textcolor{keyword}{sizeof}(T) * 8 >=  8>::call(x, \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}( 4));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00135}00135             x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__find_m_s_b__step__vec}{compute\_findMSB\_step\_vec}}<L, T, Q, \textcolor{keyword}{sizeof}(T) * 8 >= 16>::call(x, \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}( 8));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00136}00136             x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__find_m_s_b__step__vec}{compute\_findMSB\_step\_vec}}<L, T, Q, \textcolor{keyword}{sizeof}(T) * 8 >= 32>::call(x, \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(16));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00137}00137             x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__find_m_s_b__step__vec}{compute\_findMSB\_step\_vec}}<L, T, Q, \textcolor{keyword}{sizeof}(T) * 8 >= 64>::call(x, \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(32));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00138}00138             \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec}{vec<L, int, Q>}}(\textcolor{keyword}{sizeof}(T) * 8 -\/ 1) -\/ \mbox{\hyperlink{group__core__func__integer_ga137ebce004abfd2750df0eb3c7f9855f}{glm::bitCount}}(\string~x);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00139}00139         \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00140}00140     \};}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00141}00141 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00142}00142 \textcolor{preprocessor}{\#   if GLM\_HAS\_BITSCAN\_WINDOWS}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00143}00143         \textcolor{keyword}{template}<\textcolor{keyword}{typename} genIUType>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00144}00144         GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{int} compute\_findMSB\_32(genIUType Value)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00145}00145         \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00146}00146             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} Result(0);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00147}00147             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} IsNotNull = \_BitScanReverse(\&Result, *\textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long}*\textcolor{keyword}{>}(\&Value));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00148}00148             \textcolor{keywordflow}{return} IsNotNull ? int(Result) : -\/1;}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00149}00149         \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00150}00150 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00151}00151         \textcolor{keyword}{template}<length\_t L, \textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00152}00152         \textcolor{keyword}{struct }compute\_findMSB\_vec<L, T, Q, 32>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00153}00153         \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00154}00154             GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \mbox{\hyperlink{structglm_1_1vec}{vec<L, int, Q>}} call(\mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \textcolor{keyword}{const}\& x)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00155}00155             \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00156}00156                 \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1detail_1_1functor1}{detail::functor1<L, int, T, Q>::call}}(compute\_findMSB\_32, x);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00157}00157             \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00158}00158         \};}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00159}00159 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00160}00160 \textcolor{preprocessor}{\#       if !((GLM\_COMPILER \& GLM\_COMPILER\_VC) \&\& (GLM\_MODEL == GLM\_MODEL\_32))}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00161}00161         \textcolor{keyword}{template}<\textcolor{keyword}{typename} genIUType>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00162}00162         GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{int} compute\_findMSB\_64(genIUType Value)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00163}00163         \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00164}00164             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} Result(0);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00165}00165             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} IsNotNull = \_BitScanReverse64(\&Result, *\textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{unsigned} \_\_int64*\textcolor{keyword}{>}(\&Value));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00166}00166             \textcolor{keywordflow}{return} IsNotNull ? int(Result) : -\/1;}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00167}00167         \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00168}00168 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00169}00169         \textcolor{keyword}{template}<length\_t L, \textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00170}00170         \textcolor{keyword}{struct }compute\_findMSB\_vec<L, T, Q, 64>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00171}00171         \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00172}00172             GLM\_FUNC\_QUALIFIER \textcolor{keyword}{static} \mbox{\hyperlink{structvec}{vec<L, int, Q>}} call(\mbox{\hyperlink{structvec}{vec<L, T, Q>}} \textcolor{keyword}{const}\& x)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00173}00173             \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00174}00174                 \textcolor{keywordflow}{return} detail::functor1<L, int, T, Q>::call(compute\_findMSB\_64, x);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00175}00175             \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00176}00176         \};}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00177}00177 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00178}00178 \textcolor{preprocessor}{\#   endif}\textcolor{comment}{//GLM\_HAS\_BITSCAN\_WINDOWS}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00179}00179 \}\textcolor{comment}{//namespace detail}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00180}00180 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00181}00181     \textcolor{comment}{// uaddCarry}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00182}00182     GLM\_FUNC\_QUALIFIER uint \mbox{\hyperlink{group__core__func__integer_ga69005cfca795a929dec5f08f952a6b54}{uaddCarry}}(uint \textcolor{keyword}{const}\& x, uint \textcolor{keyword}{const}\& y, uint \& Carry)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00183}00183     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00184}00184         uint64 \textcolor{keyword}{const} Value64(\textcolor{keyword}{static\_cast<}uint64\textcolor{keyword}{>}(x) + \textcolor{keyword}{static\_cast<}uint64\textcolor{keyword}{>}(y));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00185}00185         uint64 \textcolor{keyword}{const} Max32((\textcolor{keyword}{static\_cast<}uint64\textcolor{keyword}{>}(1) << \textcolor{keyword}{static\_cast<}uint64\textcolor{keyword}{>}(32)) -\/ \textcolor{keyword}{static\_cast<}uint64\textcolor{keyword}{>}(1));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00186}00186         Carry = Value64 > Max32 ? 1u : 0u;}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00187}00187         \textcolor{keywordflow}{return} \textcolor{keyword}{static\_cast<}uint32\textcolor{keyword}{>}(Value64 \% (Max32 + \textcolor{keyword}{static\_cast<}uint64\textcolor{keyword}{>}(1)));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00188}00188     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00189}00189 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00190}00190     \textcolor{keyword}{template}<length\_t L, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00191}\mbox{\hyperlink{group__core__func__integer_ga69005cfca795a929dec5f08f952a6b54}{00191}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint, Q>}} \mbox{\hyperlink{group__core__func__integer_ga69005cfca795a929dec5f08f952a6b54}{uaddCarry}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, uint, Q>}} \textcolor{keyword}{const}\& x, \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint, Q>}} \textcolor{keyword}{const}\& y, \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint, Q>}}\& Carry)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00192}00192     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00193}00193         \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint64, Q>}} Value64(\mbox{\hyperlink{structglm_1_1vec}{vec<L, uint64, Q>}}(x) + \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint64, Q>}}(y));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00194}00194         \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint64, Q>}} Max32((\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}}\textcolor{keyword}{>}(1) << \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}}\textcolor{keyword}{>}(32)) -\/ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}}\textcolor{keyword}{>}(1));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00195}00195         Carry = \mbox{\hyperlink{group__core__func__common_ga8e93f374aae27d1a88b921860351f8d4}{mix}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, uint32, Q>}}(0), \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint32, Q>}}(1), \mbox{\hyperlink{group__core__func__vector__relational_ga53c3d9755c8fbde7ba807db23908a7d6}{greaterThan}}(Value64, Max32));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00196}00196         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint32, Q>}}(Value64 \% (Max32 + \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}}\textcolor{keyword}{>}(1)));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00197}00197     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00198}00198 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00199}00199     \textcolor{comment}{// usubBorrow}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00200}00200     GLM\_FUNC\_QUALIFIER uint \mbox{\hyperlink{group__core__func__integer_gae369510d9076eb8b4cc1798299d3f520}{usubBorrow}}(uint \textcolor{keyword}{const}\& x, uint \textcolor{keyword}{const}\& y, uint \& Borrow)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00201}00201     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00202}00202         GLM\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(uint) == \textcolor{keyword}{sizeof}(uint32), \textcolor{stringliteral}{"{}uint and uint32 size mismatch"{}});}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00203}00203 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00204}00204         Borrow = x >= y ? \textcolor{keyword}{static\_cast<}uint32\textcolor{keyword}{>}(0) : \textcolor{keyword}{static\_cast<}uint32\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00205}00205         \textcolor{keywordflow}{if}(y >= x)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00206}00206             \textcolor{keywordflow}{return} y -\/ x;}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00207}00207         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00208}00208             \textcolor{keywordflow}{return} \textcolor{keyword}{static\_cast<}uint32\textcolor{keyword}{>}((\textcolor{keyword}{static\_cast<}int64\textcolor{keyword}{>}(1) << \textcolor{keyword}{static\_cast<}int64\textcolor{keyword}{>}(32)) + (\textcolor{keyword}{static\_cast<}int64\textcolor{keyword}{>}(y) -\/ \textcolor{keyword}{static\_cast<}int64\textcolor{keyword}{>}(x)));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00209}00209     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00210}00210 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00211}00211     \textcolor{keyword}{template}<length\_t L, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00212}\mbox{\hyperlink{group__core__func__integer_gae369510d9076eb8b4cc1798299d3f520}{00212}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint, Q>}} \mbox{\hyperlink{group__core__func__integer_gae369510d9076eb8b4cc1798299d3f520}{usubBorrow}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, uint, Q>}} \textcolor{keyword}{const}\& x, \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint, Q>}} \textcolor{keyword}{const}\& y, \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint, Q>}}\& Borrow)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00213}00213     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00214}00214         Borrow = \mbox{\hyperlink{group__core__func__common_ga8e93f374aae27d1a88b921860351f8d4}{mix}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, uint, Q>}}(1), \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint, Q>}}(0), \mbox{\hyperlink{group__core__func__vector__relational_ga41e37f89010e15923ad714c830355684}{greaterThanEqual}}(x, y));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00215}00215         \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint, Q>}} \textcolor{keyword}{const} YgeX(y -\/ x);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00216}00216         \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint, Q>}} \textcolor{keyword}{const} XgeY(\mbox{\hyperlink{structglm_1_1vec}{vec<L, uint32, Q>}}((\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_ga435d75819cce297cc5fa21bd84ef89a5}{int64}}\textcolor{keyword}{>}(1) << \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_ga435d75819cce297cc5fa21bd84ef89a5}{int64}}\textcolor{keyword}{>}(32)) + (\mbox{\hyperlink{structglm_1_1vec}{vec<L, int64, Q>}}(y) -\/ \mbox{\hyperlink{structglm_1_1vec}{vec<L, int64, Q>}}(x))));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00217}00217         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__func__common_ga8e93f374aae27d1a88b921860351f8d4}{mix}}(XgeY, YgeX, \mbox{\hyperlink{group__core__func__vector__relational_ga41e37f89010e15923ad714c830355684}{greaterThanEqual}}(y, x));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00218}00218     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00219}00219 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00220}00220     \textcolor{comment}{// umulExtended}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00221}00221     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{void} \mbox{\hyperlink{group__core__func__integer_ga732e2fb56db57ea541c7e5c92b7121be}{umulExtended}}(uint \textcolor{keyword}{const}\& x, uint \textcolor{keyword}{const}\& y, uint \& msb, uint \& lsb)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00222}00222     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00223}00223         GLM\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(uint) == \textcolor{keyword}{sizeof}(uint32), \textcolor{stringliteral}{"{}uint and uint32 size mismatch"{}});}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00224}00224 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00225}00225         uint64 Value64 = \textcolor{keyword}{static\_cast<}uint64\textcolor{keyword}{>}(x) * \textcolor{keyword}{static\_cast<}uint64\textcolor{keyword}{>}(y);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00226}00226         msb = \textcolor{keyword}{static\_cast<}uint\textcolor{keyword}{>}(Value64 >> \textcolor{keyword}{static\_cast<}uint64\textcolor{keyword}{>}(32));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00227}00227         lsb = \textcolor{keyword}{static\_cast<}uint\textcolor{keyword}{>}(Value64);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00228}00228     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00229}00229 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00230}00230     \textcolor{keyword}{template}<length\_t L, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00231}\mbox{\hyperlink{group__core__func__integer_ga732e2fb56db57ea541c7e5c92b7121be}{00231}}     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{void} \mbox{\hyperlink{group__core__func__integer_ga732e2fb56db57ea541c7e5c92b7121be}{umulExtended}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, uint, Q>}} \textcolor{keyword}{const}\& x, \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint, Q>}} \textcolor{keyword}{const}\& y, \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint, Q>}}\& msb, \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint, Q>}}\& lsb)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00232}00232     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00233}00233         GLM\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__precision_ga4fd29415871152bfb5abd588334147c8}{uint}}) == \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga202b6a53c105fcb7e531f9b443518451}{uint32}}), \textcolor{stringliteral}{"{}uint and uint32 size mismatch"{}});}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00234}00234 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00235}00235         \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint64, Q>}} Value64(\mbox{\hyperlink{structglm_1_1vec}{vec<L, uint64, Q>}}(x) * \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint64, Q>}}(y));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00236}00236         msb = \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint32, Q>}}(Value64 >> \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_gae3632bf9b37da66233d78930dd06378a}{uint64}}\textcolor{keyword}{>}(32));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00237}00237         lsb = \mbox{\hyperlink{structglm_1_1vec}{vec<L, uint32, Q>}}(Value64);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00238}00238     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00239}00239 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00240}00240     \textcolor{comment}{// imulExtended}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00241}00241     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{void} \mbox{\hyperlink{group__core__func__integer_gac0c510a70e852f57594a9141848642e3}{imulExtended}}(\textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} y, \textcolor{keywordtype}{int}\& msb, \textcolor{keywordtype}{int}\& lsb)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00242}00242     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00243}00243         GLM\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}) == \textcolor{keyword}{sizeof}(int32), \textcolor{stringliteral}{"{}int and int32 size mismatch"{}});}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00244}00244 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00245}00245         int64 Value64 = \textcolor{keyword}{static\_cast<}int64\textcolor{keyword}{>}(x) * \textcolor{keyword}{static\_cast<}int64\textcolor{keyword}{>}(y);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00246}00246         msb = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(Value64 >> \textcolor{keyword}{static\_cast<}int64\textcolor{keyword}{>}(32));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00247}00247         lsb = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(Value64);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00248}00248     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00249}00249 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00250}00250     \textcolor{keyword}{template}<length\_t L, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00251}\mbox{\hyperlink{group__core__func__integer_gac0c510a70e852f57594a9141848642e3}{00251}}     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{void} \mbox{\hyperlink{group__core__func__integer_gac0c510a70e852f57594a9141848642e3}{imulExtended}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, int, Q>}} \textcolor{keyword}{const}\& x, \mbox{\hyperlink{structglm_1_1vec}{vec<L, int, Q>}} \textcolor{keyword}{const}\& y, \mbox{\hyperlink{structglm_1_1vec}{vec<L, int, Q>}}\& msb, \mbox{\hyperlink{structglm_1_1vec}{vec<L, int, Q>}}\& lsb)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00252}00252     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00253}00253         GLM\_STATIC\_ASSERT(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}) == \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__gtc__type__precision_ga632d8b25f6b61659f39ea4321fab92a4}{int32}}), \textcolor{stringliteral}{"{}int and int32 size mismatch"{}});}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00254}00254 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00255}00255         \mbox{\hyperlink{structglm_1_1vec}{vec<L, int64, Q>}} Value64(\mbox{\hyperlink{structglm_1_1vec}{vec<L, int64, Q>}}(x) * \mbox{\hyperlink{structglm_1_1vec}{vec<L, int64, Q>}}(y));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00256}00256         lsb = \mbox{\hyperlink{structglm_1_1vec}{vec<L, int32, Q>}}(Value64 \& \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_ga435d75819cce297cc5fa21bd84ef89a5}{int64}}\textcolor{keyword}{>}(0xFFFFFFFF));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00257}00257         msb = \mbox{\hyperlink{structglm_1_1vec}{vec<L, int32, Q>}}((Value64 >> \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_ga435d75819cce297cc5fa21bd84ef89a5}{int64}}\textcolor{keyword}{>}(32)) \& \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{group__gtc__type__precision_ga435d75819cce297cc5fa21bd84ef89a5}{int64}}\textcolor{keyword}{>}(0xFFFFFFFF));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00258}00258     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00259}00259 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00260}00260     \textcolor{comment}{// bitfieldExtract}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00261}00261     \textcolor{keyword}{template}<\textcolor{keyword}{typename} genIUType>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00262}00262     GLM\_FUNC\_QUALIFIER genIUType \mbox{\hyperlink{group__core__func__integer_ga962cf1ace50c35be9366bbe44eeb712a}{bitfieldExtract}}(genIUType Value, \textcolor{keywordtype}{int} Offset, \textcolor{keywordtype}{int} Bits)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00263}00263     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00264}00264         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__func__integer_ga962cf1ace50c35be9366bbe44eeb712a}{bitfieldExtract}}(\mbox{\hyperlink{structvec}{vec<1, genIUType>}}(Value), Offset, Bits).x;}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00265}00265     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00266}00266 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00267}00267     \textcolor{keyword}{template}<length\_t L, \textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00268}\mbox{\hyperlink{group__core__func__integer_ga962cf1ace50c35be9366bbe44eeb712a}{00268}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \mbox{\hyperlink{group__core__func__integer_ga962cf1ace50c35be9366bbe44eeb712a}{bitfieldExtract}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \textcolor{keyword}{const}\& Value, \textcolor{keywordtype}{int} Offset, \textcolor{keywordtype}{int} Bits)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00269}00269     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00270}00270         GLM\_STATIC\_ASSERT(std::numeric\_limits<T>::is\_integer, \textcolor{stringliteral}{"{}'bitfieldExtract' only accept integer inputs"{}});}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00271}00271 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00272}00272         \textcolor{keywordflow}{return} (Value >> \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(Offset)) \& \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(detail::mask(Bits));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00273}00273     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00274}00274 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00275}00275     \textcolor{comment}{// bitfieldInsert}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00276}00276     \textcolor{keyword}{template}<\textcolor{keyword}{typename} genIUType>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00277}00277     GLM\_FUNC\_QUALIFIER genIUType \mbox{\hyperlink{group__core__func__integer_gaf4333bc422e66cfddb3cdf33102ff41b}{bitfieldInsert}}(genIUType \textcolor{keyword}{const}\& Base, genIUType \textcolor{keyword}{const}\& Insert, \textcolor{keywordtype}{int} Offset, \textcolor{keywordtype}{int} Bits)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00278}00278     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00279}00279         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__func__integer_gaf4333bc422e66cfddb3cdf33102ff41b}{bitfieldInsert}}(\mbox{\hyperlink{structvec}{vec<1, genIUType>}}(Base), \mbox{\hyperlink{structvec}{vec<1, genIUType>}}(Insert), Offset, Bits).x;}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00280}00280     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00281}00281 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00282}00282     \textcolor{keyword}{template}<length\_t L, \textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00283}\mbox{\hyperlink{group__core__func__integer_gaf4333bc422e66cfddb3cdf33102ff41b}{00283}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \mbox{\hyperlink{group__core__func__integer_gaf4333bc422e66cfddb3cdf33102ff41b}{bitfieldInsert}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \textcolor{keyword}{const}\& Base, \mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \textcolor{keyword}{const}\& Insert, \textcolor{keywordtype}{int} Offset, \textcolor{keywordtype}{int} Bits)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00284}00284     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00285}00285         GLM\_STATIC\_ASSERT(std::numeric\_limits<T>::is\_integer, \textcolor{stringliteral}{"{}'bitfieldInsert' only accept integer values"{}});}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00286}00286 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00287}00287         T \textcolor{keyword}{const} Mask = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(detail::mask(Bits) << Offset);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00288}00288         \textcolor{keywordflow}{return} (Base \& \string~Mask) | (Insert \& Mask);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00289}00289     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00290}00290 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00291}00291     \textcolor{comment}{// bitfieldReverse}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00292}00292     \textcolor{keyword}{template}<\textcolor{keyword}{typename} genType>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00293}00293     GLM\_FUNC\_QUALIFIER genType \mbox{\hyperlink{group__core__func__integer_ga738aa6cc864fcfcb43da438e93c2f162}{bitfieldReverse}}(genType x)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00294}00294     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00295}00295         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__func__integer_ga738aa6cc864fcfcb43da438e93c2f162}{bitfieldReverse}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec<1, genType, glm::defaultp>}}(x)).x;}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00296}00296     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00297}00297 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00298}00298     \textcolor{keyword}{template}<length\_t L, \textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00299}\mbox{\hyperlink{group__core__func__integer_ga738aa6cc864fcfcb43da438e93c2f162}{00299}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \mbox{\hyperlink{group__core__func__integer_ga738aa6cc864fcfcb43da438e93c2f162}{bitfieldReverse}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00300}00300     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00301}00301         \mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} x(v);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00302}00302         x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_reverse_step}{detail::compute\_bitfieldReverseStep<L, T, Q, detail::is\_aligned<Q>::value}}, \textcolor{keyword}{sizeof}(T) * 8>=  2>::call(x, \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0x5555555555555555ull), \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}( 1));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00303}00303         x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_reverse_step}{detail::compute\_bitfieldReverseStep<L, T, Q, detail::is\_aligned<Q>::value}}, \textcolor{keyword}{sizeof}(T) * 8>=  4>::call(x, \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0x3333333333333333ull), \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}( 2));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00304}00304         x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_reverse_step}{detail::compute\_bitfieldReverseStep<L, T, Q, detail::is\_aligned<Q>::value}}, \textcolor{keyword}{sizeof}(T) * 8>=  8>::call(x, \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0x0F0F0F0F0F0F0F0Full), \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}( 4));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00305}00305         x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_reverse_step}{detail::compute\_bitfieldReverseStep<L, T, Q, detail::is\_aligned<Q>::value}}, \textcolor{keyword}{sizeof}(T) * 8>= 16>::call(x, \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0x00FF00FF00FF00FFull), \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}( 8));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00306}00306         x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_reverse_step}{detail::compute\_bitfieldReverseStep<L, T, Q, detail::is\_aligned<Q>::value}}, \textcolor{keyword}{sizeof}(T) * 8>= 32>::call(x, \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0x0000FFFF0000FFFFull), \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(16));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00307}00307         x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_reverse_step}{detail::compute\_bitfieldReverseStep<L, T, Q, detail::is\_aligned<Q>::value}}, \textcolor{keyword}{sizeof}(T) * 8>= 64>::call(x, \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0x00000000FFFFFFFFull), \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(32));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00308}00308         \textcolor{keywordflow}{return} x;}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00309}00309     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00310}00310 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00311}00311     \textcolor{comment}{// bitCount}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00312}00312     \textcolor{keyword}{template}<\textcolor{keyword}{typename} genType>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00313}\mbox{\hyperlink{group__core__func__integer_ga44abfe3379e11cbd29425a843420d0d6}{00313}}     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{int} \mbox{\hyperlink{group__core__func__integer_ga137ebce004abfd2750df0eb3c7f9855f}{bitCount}}(genType x)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00314}00314     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00315}00315         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__func__integer_ga137ebce004abfd2750df0eb3c7f9855f}{bitCount}}(\mbox{\hyperlink{structglm_1_1vec}{glm::vec<1, genType, glm::defaultp>}}(x)).x;}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00316}00316     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00317}00317 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00318}00318     \textcolor{keyword}{template}<length\_t L, \textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00319}\mbox{\hyperlink{group__core__func__integer_ga137ebce004abfd2750df0eb3c7f9855f}{00319}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec<L, int, Q>}} \mbox{\hyperlink{group__core__func__integer_ga137ebce004abfd2750df0eb3c7f9855f}{bitCount}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00320}00320     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00321}00321 \textcolor{preprocessor}{\#       if GLM\_COMPILER \& GLM\_COMPILER\_VC}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00322}00322 \textcolor{preprocessor}{\#           pragma warning(push)}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00323}00323 \textcolor{preprocessor}{\#           pragma warning(disable : 4310) }\textcolor{comment}{//cast truncates constant value}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00324}00324 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00325}00325 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00326}00326         \mbox{\hyperlink{structglm_1_1vec}{vec<L, typename detail::make\_unsigned<T>::type}}, Q> x(*\textcolor{keyword}{reinterpret\_cast<}\mbox{\hyperlink{structglm_1_1vec}{vec<L, typename detail::make\_unsigned<T>::type}}, Q\textcolor{keyword}{>} \textcolor{keyword}{const} *>(\&v));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00327}00327         x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_bit_count_step}{detail::compute\_bitfieldBitCountStep<L, typename detail::make\_unsigned<T>::type}}, Q, \mbox{\hyperlink{structglm_1_1detail_1_1is__aligned}{detail::is\_aligned<Q>::value}}, \textcolor{keyword}{sizeof}(T) * 8>=  2>::call(x, \textcolor{keyword}{typename} \mbox{\hyperlink{structglm_1_1detail_1_1make__unsigned}{detail::make\_unsigned<T>::type}}(0x5555555555555555ull), \textcolor{keyword}{typename} \mbox{\hyperlink{structglm_1_1detail_1_1make__unsigned}{detail::make\_unsigned<T>::type}}( 1));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00328}00328         x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_bit_count_step}{detail::compute\_bitfieldBitCountStep<L, typename detail::make\_unsigned<T>::type}}, Q, \mbox{\hyperlink{structglm_1_1detail_1_1is__aligned}{detail::is\_aligned<Q>::value}}, \textcolor{keyword}{sizeof}(T) * 8>=  4>::call(x, \textcolor{keyword}{typename} \mbox{\hyperlink{structglm_1_1detail_1_1make__unsigned}{detail::make\_unsigned<T>::type}}(0x3333333333333333ull), \textcolor{keyword}{typename} \mbox{\hyperlink{structglm_1_1detail_1_1make__unsigned}{detail::make\_unsigned<T>::type}}( 2));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00329}00329         x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_bit_count_step}{detail::compute\_bitfieldBitCountStep<L, typename detail::make\_unsigned<T>::type}}, Q, \mbox{\hyperlink{structglm_1_1detail_1_1is__aligned}{detail::is\_aligned<Q>::value}}, \textcolor{keyword}{sizeof}(T) * 8>=  8>::call(x, \textcolor{keyword}{typename} \mbox{\hyperlink{structglm_1_1detail_1_1make__unsigned}{detail::make\_unsigned<T>::type}}(0x0F0F0F0F0F0F0F0Full), \textcolor{keyword}{typename} \mbox{\hyperlink{structglm_1_1detail_1_1make__unsigned}{detail::make\_unsigned<T>::type}}( 4));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00330}00330         x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_bit_count_step}{detail::compute\_bitfieldBitCountStep<L, typename detail::make\_unsigned<T>::type}}, Q, \mbox{\hyperlink{structglm_1_1detail_1_1is__aligned}{detail::is\_aligned<Q>::value}}, \textcolor{keyword}{sizeof}(T) * 8>= 16>::call(x, \textcolor{keyword}{typename} \mbox{\hyperlink{structglm_1_1detail_1_1make__unsigned}{detail::make\_unsigned<T>::type}}(0x00FF00FF00FF00FFull), \textcolor{keyword}{typename} \mbox{\hyperlink{structglm_1_1detail_1_1make__unsigned}{detail::make\_unsigned<T>::type}}( 8));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00331}00331         x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_bit_count_step}{detail::compute\_bitfieldBitCountStep<L, typename detail::make\_unsigned<T>::type}}, Q, \mbox{\hyperlink{structglm_1_1detail_1_1is__aligned}{detail::is\_aligned<Q>::value}}, \textcolor{keyword}{sizeof}(T) * 8>= 32>::call(x, \textcolor{keyword}{typename} \mbox{\hyperlink{structglm_1_1detail_1_1make__unsigned}{detail::make\_unsigned<T>::type}}(0x0000FFFF0000FFFFull), \textcolor{keyword}{typename} \mbox{\hyperlink{structglm_1_1detail_1_1make__unsigned}{detail::make\_unsigned<T>::type}}(16));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00332}00332         x = \mbox{\hyperlink{structglm_1_1detail_1_1compute__bitfield_bit_count_step}{detail::compute\_bitfieldBitCountStep<L, typename detail::make\_unsigned<T>::type}}, Q, \mbox{\hyperlink{structglm_1_1detail_1_1is__aligned}{detail::is\_aligned<Q>::value}}, \textcolor{keyword}{sizeof}(T) * 8>= 64>::call(x, \textcolor{keyword}{typename} \mbox{\hyperlink{structglm_1_1detail_1_1make__unsigned}{detail::make\_unsigned<T>::type}}(0x00000000FFFFFFFFull), \textcolor{keyword}{typename} \mbox{\hyperlink{structglm_1_1detail_1_1make__unsigned}{detail::make\_unsigned<T>::type}}(32));}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00333}00333         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec}{vec<L, int, Q>}}(x);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00334}00334 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00335}00335 \textcolor{preprocessor}{\#       if GLM\_COMPILER \& GLM\_COMPILER\_VC}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00336}00336 \textcolor{preprocessor}{\#           pragma warning(pop)}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00337}00337 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00338}00338     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00339}00339 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00340}00340     \textcolor{comment}{// findLSB}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00341}00341     \textcolor{keyword}{template}<\textcolor{keyword}{typename} genIUType>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00342}\mbox{\hyperlink{group__core__func__integer_gaf74c4d969fa34ab8acb9d390f5ca5274}{00342}}     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{int} \mbox{\hyperlink{group__core__func__integer_gaed9f546bbafdcb101a4727d8c1ebb24c}{findLSB}}(genIUType Value)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00343}00343     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00344}00344         GLM\_STATIC\_ASSERT(std::numeric\_limits<genIUType>::is\_integer, \textcolor{stringliteral}{"{}'findLSB' only accept integer values"{}});}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00345}00345 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00346}00346         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1detail_1_1compute__find_l_s_b}{detail::compute\_findLSB}}<genIUType, \textcolor{keyword}{sizeof}(genIUType) * 8>::call(Value);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00347}00347     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00348}00348 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00349}00349     \textcolor{keyword}{template}<length\_t L, \textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00350}\mbox{\hyperlink{group__core__func__integer_gaed9f546bbafdcb101a4727d8c1ebb24c}{00350}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec<L, int, Q>}} \mbox{\hyperlink{group__core__func__integer_gaed9f546bbafdcb101a4727d8c1ebb24c}{findLSB}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \textcolor{keyword}{const}\& x)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00351}00351     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00352}00352         GLM\_STATIC\_ASSERT(std::numeric\_limits<T>::is\_integer, \textcolor{stringliteral}{"{}'findLSB' only accept integer values"{}});}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00353}00353 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00354}00354         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1detail_1_1functor1}{detail::functor1<L, int, T, Q>::call}}(\mbox{\hyperlink{group__core__func__integer_gaed9f546bbafdcb101a4727d8c1ebb24c}{findLSB}}, x);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00355}00355     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00356}00356 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00357}00357     \textcolor{comment}{// findMSB}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00358}00358     \textcolor{keyword}{template}<\textcolor{keyword}{typename} genIUType>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00359}\mbox{\hyperlink{group__core__func__integer_ga7e4a794d766861c70bc961630f8ef621}{00359}}     GLM\_FUNC\_QUALIFIER \textcolor{keywordtype}{int} \mbox{\hyperlink{group__core__func__integer_ga97229b4c9d98b836108625d36561c5a4}{findMSB}}(genIUType v)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00360}00360     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00361}00361         GLM\_STATIC\_ASSERT(std::numeric\_limits<genIUType>::is\_integer, \textcolor{stringliteral}{"{}'findMSB' only accept integer values"{}});}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00362}00362 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00363}00363         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__core__func__integer_ga97229b4c9d98b836108625d36561c5a4}{findMSB}}(\mbox{\hyperlink{structglm_1_1vec}{vec<1, genIUType>}}(v)).x;}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00364}00364     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00365}00365 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00366}00366     \textcolor{keyword}{template}<length\_t L, \textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00367}\mbox{\hyperlink{group__core__func__integer_ga97229b4c9d98b836108625d36561c5a4}{00367}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec}{vec<L, int, Q>}} \mbox{\hyperlink{group__core__func__integer_ga97229b4c9d98b836108625d36561c5a4}{findMSB}}(\mbox{\hyperlink{structglm_1_1vec}{vec<L, T, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00368}00368     \{}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00369}00369         GLM\_STATIC\_ASSERT(std::numeric\_limits<T>::is\_integer, \textcolor{stringliteral}{"{}'findMSB' only accept integer values"{}});}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00370}00370 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00371}00371         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1detail_1_1compute__find_m_s_b__vec}{detail::compute\_findMSB\_vec}}<L, T, Q, \textcolor{keyword}{sizeof}(T) * 8>::call(v);}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00372}00372     \}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00373}00373 \}\textcolor{comment}{//namespace glm}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00374}00374 }
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00375}00375 \textcolor{preprocessor}{\#if GLM\_ARCH != GLM\_ARCH\_PURE \&\& GLM\_HAS\_UNRESTRICTED\_UNIONS}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00376}00376 \textcolor{preprocessor}{\#   include "{}\mbox{\hyperlink{func__integer__simd_8inl}{func\_integer\_simd.inl}}"{}}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00377}00377 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{func__integer_8inl_source_l00378}00378 }
+
+\end{DoxyCode}

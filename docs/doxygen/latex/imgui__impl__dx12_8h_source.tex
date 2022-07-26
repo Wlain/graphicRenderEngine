@@ -1,0 +1,46 @@
+\hypertarget{imgui__impl__dx12_8h_source}{}\doxysection{imgui\+\_\+impl\+\_\+dx12.\+h}
+\label{imgui__impl__dx12_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/backends/imgui\_impl\_dx12.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/backends/imgui\_impl\_dx12.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00001}00001 \textcolor{comment}{// dear imgui: Renderer Backend for DirectX12}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00002}00002 \textcolor{comment}{// This needs to be used along with a Platform Backend (e.g. Win32)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00004}00004 \textcolor{comment}{// Implemented features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00005}00005 \textcolor{comment}{//  [X] Renderer: User texture binding. Use 'D3D12\_GPU\_DESCRIPTOR\_HANDLE' as ImTextureID. Read the FAQ about ImTextureID!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00006}00006 \textcolor{comment}{//  [X] Renderer: Multi-\/viewport support. Enable with 'io.ConfigFlags |= ImGuiConfigFlags\_ViewportsEnable'.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00007}00007 \textcolor{comment}{//  [X] Renderer: Support for large meshes (64k+ vertices) with 16-\/bit indices.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00009}00009 \textcolor{comment}{// Important: to compile on 32-\/bit systems, this backend requires code to be compiled with '\#define ImTextureID ImU64'.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00010}00010 \textcolor{comment}{// This is because we need ImTextureID to carry a 64-\/bit value and by default ImTextureID is defined as void*.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00011}00011 \textcolor{comment}{// This define is set in the example .vcxproj file and need to be replicated in your app or by adding it to your imconfig.h file.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00013}00013 \textcolor{comment}{// You can use unmodified imgui\_impl\_* files in your project. See examples/ folder for examples of using this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00014}00014 \textcolor{comment}{// Prefer including the entire imgui/ repository into your project (either as a copy or as a submodule), and only build the backends you need.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00015}00015 \textcolor{comment}{// If you are new to Dear ImGui, read documentation from the docs/ folder + read the top of imgui.cpp.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00016}00016 \textcolor{comment}{// Read online: https://github.com/ocornut/imgui/tree/master/docs}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00017}00017 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00018}00018 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00019}00019 \textcolor{preprocessor}{\#include "{}imgui.h"{}}      \textcolor{comment}{// IMGUI\_IMPL\_API}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00020}00020 \textcolor{preprocessor}{\#include <dxgiformat.h>} \textcolor{comment}{// DXGI\_FORMAT}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00022}00022 \textcolor{keyword}{struct }ID3D12Device;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00023}00023 \textcolor{keyword}{struct }ID3D12DescriptorHeap;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00024}00024 \textcolor{keyword}{struct }ID3D12GraphicsCommandList;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00025}00025 \textcolor{keyword}{struct }D3D12\_CPU\_DESCRIPTOR\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00026}00026 \textcolor{keyword}{struct }D3D12\_GPU\_DESCRIPTOR\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00028}00028 \textcolor{comment}{// cmd\_list is the command list that the implementation will use to render imgui draw lists.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00029}00029 \textcolor{comment}{// Before calling the render function, caller must prepare cmd\_list by resetting it and setting the appropriate}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00030}00030 \textcolor{comment}{// render target and descriptor heap that contains font\_srv\_cpu\_desc\_handle/font\_srv\_gpu\_desc\_handle.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00031}00031 \textcolor{comment}{// font\_srv\_cpu\_desc\_handle and font\_srv\_gpu\_desc\_handle are handles to a single SRV descriptor to use for the internal font texture.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00032}00032 IMGUI\_IMPL\_API \textcolor{keywordtype}{bool}     ImGui\_ImplDX12\_Init(ID3D12Device* device, \textcolor{keywordtype}{int} num\_frames\_in\_flight, DXGI\_FORMAT rtv\_format, ID3D12DescriptorHeap* cbv\_srv\_heap,}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00033}00033                                             D3D12\_CPU\_DESCRIPTOR\_HANDLE font\_srv\_cpu\_desc\_handle, D3D12\_GPU\_DESCRIPTOR\_HANDLE font\_srv\_gpu\_desc\_handle);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00034}00034 IMGUI\_IMPL\_API \textcolor{keywordtype}{void}     ImGui\_ImplDX12\_Shutdown();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00035}00035 IMGUI\_IMPL\_API \textcolor{keywordtype}{void}     ImGui\_ImplDX12\_NewFrame();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00036}00036 IMGUI\_IMPL\_API \textcolor{keywordtype}{void}     ImGui\_ImplDX12\_RenderDrawData(\mbox{\hyperlink{struct_im_draw_data}{ImDrawData}}* draw\_data, ID3D12GraphicsCommandList* graphics\_command\_list);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00038}00038 \textcolor{comment}{// Use if you want to reset your rendering device without losing Dear ImGui state.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00039}00039 IMGUI\_IMPL\_API \textcolor{keywordtype}{void}     ImGui\_ImplDX12\_InvalidateDeviceObjects();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00040}00040 IMGUI\_IMPL\_API \textcolor{keywordtype}{bool}     ImGui\_ImplDX12\_CreateDeviceObjects();}
+
+\end{DoxyCode}

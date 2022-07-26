@@ -1,0 +1,369 @@
+\hypertarget{nsgl__context_8m_source}{}\doxysection{nsgl\+\_\+context.\+m}
+\label{nsgl__context_8m_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/nsgl\_context.m@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/nsgl\_context.m}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00001}00001 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00002}00002 \textcolor{comment}{// GLFW 3.4 macOS -\/ www.glfw.org}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00003}00003 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00004}00004 \textcolor{comment}{// Copyright (c) 2009-\/2019 Camilla Löwy <elmindreda@glfw.org>}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00005}00005 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00006}00006 \textcolor{comment}{// This software is provided 'as-\/is', without any express or implied}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00007}00007 \textcolor{comment}{// warranty. In no event will the authors be held liable for any damages}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00008}00008 \textcolor{comment}{// arising from the use of this software.}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00009}00009 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00010}00010 \textcolor{comment}{// Permission is granted to anyone to use this software for any purpose,}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00011}00011 \textcolor{comment}{// including commercial applications, and to alter it and redistribute it}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00012}00012 \textcolor{comment}{// freely, subject to the following restrictions:}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00013}00013 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00014}00014 \textcolor{comment}{// 1. The origin of this software must not be misrepresented; you must not}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00015}00015 \textcolor{comment}{//    claim that you wrote the original software. If you use this software}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00016}00016 \textcolor{comment}{//    in a product, an acknowledgment in the product documentation would}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00017}00017 \textcolor{comment}{//    be appreciated but is not required.}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00018}00018 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00019}00019 \textcolor{comment}{// 2. Altered source versions must be plainly marked as such, and must not}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00020}00020 \textcolor{comment}{//    be misrepresented as being the original software.}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00021}00021 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00022}00022 \textcolor{comment}{// 3. This notice may not be removed or altered from any source}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00023}00023 \textcolor{comment}{//    distribution.}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00024}00024 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00025}00025 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00026}00026 \textcolor{comment}{// It is fine to use C99 in this file because it will not be built with VS}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00027}00027 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00028}00028 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00029}00029 \textcolor{preprocessor}{\#include "{}internal.h"{}}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00031}00031 \textcolor{preprocessor}{\#include <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00032}00032 \textcolor{preprocessor}{\#include <math.h>}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00034}00034 \textcolor{keyword}{static} \textcolor{keywordtype}{void} makeContextCurrentNSGL(\mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}* window)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00035}00035 \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00036}00036     @autoreleasepool \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00038}00038     \textcolor{keywordflow}{if} (window)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00039}00039         [window-\/>context.nsgl.object makeCurrentContext];}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00040}00040     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00041}00041         [NSOpenGLContext clearCurrentContext];}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00043}00043     \_glfwPlatformSetTls(\&\_glfw.contextSlot, window);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00045}00045     \} \textcolor{comment}{// autoreleasepool}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00046}00046 \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00048}00048 \textcolor{keyword}{static} \textcolor{keywordtype}{void} swapBuffersNSGL(\mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}* window)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00049}00049 \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00050}00050     @autoreleasepool \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00052}00052     \textcolor{comment}{// HACK: Simulate vsync with usleep as NSGL swap interval does not apply to}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00053}00053     \textcolor{comment}{//       windows with a non-\/visible occlusion state}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00054}00054     \textcolor{keywordflow}{if} (window-\/>ns.occluded)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00055}00055     \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00056}00056         \textcolor{keywordtype}{int} interval = 0;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00057}00057         [window-\/>context.nsgl.object getValues:\&interval}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00058}00058                                   forParameter:NSOpenGLContextParameterSwapInterval];}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00060}00060         \textcolor{keywordflow}{if} (interval > 0)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00061}00061         \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00062}00062             \textcolor{keyword}{const} \textcolor{keywordtype}{double} framerate = 60.0;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00063}00063             \textcolor{keyword}{const} uint64\_t frequency = \_glfwPlatformGetTimerFrequency();}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00064}00064             \textcolor{keyword}{const} uint64\_t \mbox{\hyperlink{classvalue}{value}} = \_glfwPlatformGetTimerValue();}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00065}00065 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00066}00066             \textcolor{keyword}{const} \textcolor{keywordtype}{double} elapsed = \mbox{\hyperlink{classvalue}{value}} / (double) frequency;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00067}00067             \textcolor{keyword}{const} \textcolor{keywordtype}{double} period = 1.0 / framerate;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00068}00068             \textcolor{keyword}{const} \textcolor{keywordtype}{double} delay = period -\/ \mbox{\hyperlink{group__gtx__common_ga22feecd4248d9ef34b079a091f273281}{fmod}}(elapsed, period);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00070}00070             usleep(floorl(delay * 1e6));}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00071}00071         \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00072}00072     \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00074}00074     [window-\/>context.nsgl.object flushBuffer];}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00075}00075 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00076}00076     \} \textcolor{comment}{// autoreleasepool}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00077}00077 \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00078}00078 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00079}00079 \textcolor{keyword}{static} \textcolor{keywordtype}{void} swapIntervalNSGL(\textcolor{keywordtype}{int} interval)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00080}00080 \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00081}00081     @autoreleasepool \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00083}00083     \mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}* window = \_glfwPlatformGetTls(\&\_glfw.contextSlot);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00084}00084     \textcolor{keywordflow}{if} (window)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00085}00085     \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00086}00086         [window-\/>context.nsgl.object setValues:\&interval}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00087}00087                                   forParameter:NSOpenGLContextParameterSwapInterval];}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00088}00088     \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00089}00089 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00090}00090     \} \textcolor{comment}{// autoreleasepool}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00091}00091 \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00093}00093 \textcolor{keyword}{static} \textcolor{keywordtype}{int} extensionSupportedNSGL(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* extension)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00094}00094 \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00095}00095     \textcolor{comment}{// There are no NSGL extensions}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00096}00096     \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00097}00097 \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00098}00098 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00099}00099 \textcolor{keyword}{static} \mbox{\hyperlink{group__context_ga3d47c2d2fbe0be9c505d0e04e91a133c}{GLFWglproc}} getProcAddressNSGL(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* procname)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00100}00100 \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00101}00101     CFStringRef symbolName = CFStringCreateWithCString(kCFAllocatorDefault,}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00102}00102                                                        procname,}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00103}00103                                                        kCFStringEncodingASCII);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00105}00105     \mbox{\hyperlink{group__context_ga3d47c2d2fbe0be9c505d0e04e91a133c}{GLFWglproc}} symbol = CFBundleGetFunctionPointerForName(\_glfw.nsgl.framework,}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00106}00106                                                           symbolName);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00108}00108     CFRelease(symbolName);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00109}00109 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00110}00110     \textcolor{keywordflow}{return} symbol;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00111}00111 \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00112}00112 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00113}00113 \textcolor{keyword}{static} \textcolor{keywordtype}{void} destroyContextNSGL(\mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}* window)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00114}00114 \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00115}00115     @autoreleasepool \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00117}00117     [window-\/>context.nsgl.pixelFormat release];}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00118}00118     window-\/>context.nsgl.pixelFormat = nil;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00120}00120     [window-\/>context.nsgl.object release];}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00121}00121     window-\/>context.nsgl.object = nil;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00122}00122 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00123}00123     \} \textcolor{comment}{// autoreleasepool}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00124}00124 \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00126}00126 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00130}00130 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00131}00131 \textcolor{comment}{// Initialize OpenGL support}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00132}00132 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00133}00133 GLFWbool \_glfwInitNSGL(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00134}00134 \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00135}00135     \textcolor{keywordflow}{if} (\_glfw.nsgl.framework)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00136}00136         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00137}00137 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00138}00138     \_glfw.nsgl.framework =}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00139}00139         CFBundleGetBundleWithIdentifier(CFSTR(\textcolor{stringliteral}{"{}com.apple.opengl"{}}));}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00140}00140     \textcolor{keywordflow}{if} (\_glfw.nsgl.framework == NULL)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00141}00141     \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00142}00142         \_glfwInputError(\mbox{\hyperlink{group__errors_ga56882b290db23261cc6c053c40c2d08e}{GLFW\_API\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00143}00143                         \textcolor{stringliteral}{"{}NSGL: Failed to locate OpenGL framework"{}});}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00144}00144         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00145}00145     \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00146}00146 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00147}00147     \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00148}00148 \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00149}00149 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00150}00150 \textcolor{comment}{// Terminate OpenGL support}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00151}00151 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00152}00152 \textcolor{keywordtype}{void} \_glfwTerminateNSGL(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00153}00153 \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00154}00154 \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00155}00155 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00156}00156 \textcolor{comment}{// Create the OpenGL context}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00157}00157 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00158}00158 GLFWbool \_glfwCreateContextNSGL(\mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}* window,}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00159}00159                                 \textcolor{keyword}{const} \mbox{\hyperlink{struct___g_l_f_wctxconfig}{\_GLFWctxconfig}}* ctxconfig,}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00160}00160                                 \textcolor{keyword}{const} \mbox{\hyperlink{struct___g_l_f_wfbconfig}{\_GLFWfbconfig}}* fbconfig)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00161}00161 \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00162}00162     \textcolor{keywordflow}{if} (ctxconfig-\/>client == GLFW\_OPENGL\_ES\_API)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00163}00163     \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00164}00164         \_glfwInputError(\mbox{\hyperlink{group__errors_ga56882b290db23261cc6c053c40c2d08e}{GLFW\_API\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00165}00165                         \textcolor{stringliteral}{"{}NSGL: OpenGL ES is not available on macOS"{}});}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00166}00166         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00167}00167     \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00168}00168 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00169}00169     \textcolor{keywordflow}{if} (ctxconfig-\/>major > 2)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00170}00170     \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00171}00171         \textcolor{keywordflow}{if} (ctxconfig-\/>major == 3 \&\& ctxconfig-\/>minor < 2)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00172}00172         \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00173}00173             \_glfwInputError(\mbox{\hyperlink{group__errors_gad16c5565b4a69f9c2a9ac2c0dbc89462}{GLFW\_VERSION\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00174}00174                             \textcolor{stringliteral}{"{}NSGL: The targeted version of macOS does not support OpenGL 3.0 or 3.1 but may support 3.2 and above"{}});}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00175}00175             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00176}00176         \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00177}00177     \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00178}00178 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00179}00179     \textcolor{comment}{// Context robustness modes (GL\_KHR\_robustness) are not yet supported by}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00180}00180     \textcolor{comment}{// macOS but are not a hard constraint, so ignore and continue}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00181}00181 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00182}00182     \textcolor{comment}{// Context release behaviors (GL\_KHR\_context\_flush\_control) are not yet}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00183}00183     \textcolor{comment}{// supported by macOS but are not a hard constraint, so ignore and continue}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00184}00184 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00185}00185     \textcolor{comment}{// Debug contexts (GL\_KHR\_debug) are not yet supported by macOS but are not}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00186}00186     \textcolor{comment}{// a hard constraint, so ignore and continue}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00187}00187 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00188}00188     \textcolor{comment}{// No-\/error contexts (GL\_KHR\_no\_error) are not yet supported by macOS but}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00189}00189     \textcolor{comment}{// are not a hard constraint, so ignore and continue}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00190}00190 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00191}00191 \textcolor{preprocessor}{\#define addAttrib(a) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00192}00192 \textcolor{preprocessor}{\{ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00193}00193 \textcolor{preprocessor}{    assert((size\_t) index < sizeof(attribs) / sizeof(attribs[0])); \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00194}00194 \textcolor{preprocessor}{    attribs[index++] = a; \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00195}00195 \textcolor{preprocessor}{\}}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00196}00196 \textcolor{preprocessor}{\#define setAttrib(a, v) \{ addAttrib(a); addAttrib(v); \}}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00197}00197 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00198}00198     NSOpenGLPixelFormatAttribute attribs[40];}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00199}00199     \textcolor{keywordtype}{int} index = 0;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00200}00200 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00201}00201     addAttrib(NSOpenGLPFAAccelerated);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00202}00202     addAttrib(NSOpenGLPFAClosestPolicy);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00203}00203 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00204}00204     \textcolor{keywordflow}{if} (ctxconfig-\/>nsgl.offline)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00205}00205     \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00206}00206         addAttrib(NSOpenGLPFAAllowOfflineRenderers);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00207}00207         \textcolor{comment}{// NOTE: This replaces the NSSupportsAutomaticGraphicsSwitching key in}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00208}00208         \textcolor{comment}{//       Info.plist for unbundled applications}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00209}00209         \textcolor{comment}{// HACK: This assumes that NSOpenGLPixelFormat will remain}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00210}00210         \textcolor{comment}{//       a straightforward wrapper of its CGL counterpart}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00211}00211         addAttrib(kCGLPFASupportsAutomaticGraphicsSwitching);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00212}00212     \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00213}00213 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00214}00214 \textcolor{preprocessor}{\#if MAC\_OS\_X\_VERSION\_MAX\_ALLOWED >= 101000}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00215}00215     \textcolor{keywordflow}{if} (ctxconfig-\/>major >= 4)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00216}00216     \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00217}00217         setAttrib(NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion4\_1Core);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00218}00218     \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00219}00219     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00220}00220 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/*MAC\_OS\_X\_VERSION\_MAX\_ALLOWED*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00221}00221     \textcolor{keywordflow}{if} (ctxconfig-\/>major >= 3)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00222}00222     \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00223}00223         setAttrib(NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3\_2Core);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00224}00224     \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00225}00225 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00226}00226     \textcolor{keywordflow}{if} (ctxconfig-\/>major <= 2)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00227}00227     \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00228}00228         \textcolor{keywordflow}{if} (fbconfig-\/>auxBuffers != GLFW\_DONT\_CARE)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00229}00229             setAttrib(NSOpenGLPFAAuxBuffers, fbconfig-\/>auxBuffers);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00230}00230 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00231}00231         \textcolor{keywordflow}{if} (fbconfig-\/>accumRedBits != GLFW\_DONT\_CARE \&\&}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00232}00232             fbconfig-\/>accumGreenBits != GLFW\_DONT\_CARE \&\&}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00233}00233             fbconfig-\/>accumBlueBits != GLFW\_DONT\_CARE \&\&}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00234}00234             fbconfig-\/>accumAlphaBits != GLFW\_DONT\_CARE)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00235}00235         \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00236}00236             \textcolor{keyword}{const} \textcolor{keywordtype}{int} accumBits = fbconfig-\/>accumRedBits +}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00237}00237                                   fbconfig-\/>accumGreenBits +}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00238}00238                                   fbconfig-\/>accumBlueBits +}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00239}00239                                   fbconfig-\/>accumAlphaBits;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00240}00240 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00241}00241             setAttrib(NSOpenGLPFAAccumSize, accumBits);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00242}00242         \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00243}00243     \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00244}00244 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00245}00245     \textcolor{keywordflow}{if} (fbconfig-\/>redBits != GLFW\_DONT\_CARE \&\&}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00246}00246         fbconfig-\/>greenBits != GLFW\_DONT\_CARE \&\&}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00247}00247         fbconfig-\/>blueBits != GLFW\_DONT\_CARE)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00248}00248     \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00249}00249         \textcolor{keywordtype}{int} colorBits = fbconfig-\/>redBits +}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00250}00250                         fbconfig-\/>greenBits +}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00251}00251                         fbconfig-\/>blueBits;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00252}00252 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00253}00253         \textcolor{comment}{// macOS needs non-\/zero color size, so set reasonable values}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00254}00254         \textcolor{keywordflow}{if} (colorBits == 0)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00255}00255             colorBits = 24;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00256}00256         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (colorBits < 15)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00257}00257             colorBits = 15;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00258}00258 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00259}00259         setAttrib(NSOpenGLPFAColorSize, colorBits);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00260}00260     \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00261}00261 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00262}00262     \textcolor{keywordflow}{if} (fbconfig-\/>alphaBits != GLFW\_DONT\_CARE)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00263}00263         setAttrib(NSOpenGLPFAAlphaSize, fbconfig-\/>alphaBits);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00264}00264 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00265}00265     \textcolor{keywordflow}{if} (fbconfig-\/>depthBits != GLFW\_DONT\_CARE)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00266}00266         setAttrib(NSOpenGLPFADepthSize, fbconfig-\/>depthBits);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00267}00267 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00268}00268     \textcolor{keywordflow}{if} (fbconfig-\/>stencilBits != GLFW\_DONT\_CARE)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00269}00269         setAttrib(NSOpenGLPFAStencilSize, fbconfig-\/>stencilBits);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00270}00270 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00271}00271     \textcolor{keywordflow}{if} (fbconfig-\/>stereo)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00272}00272     \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00273}00273 \textcolor{preprocessor}{\#if MAC\_OS\_X\_VERSION\_MAX\_ALLOWED >= 101200}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00274}00274         \_glfwInputError(\mbox{\hyperlink{group__errors_ga196e125ef261d94184e2b55c05762f14}{GLFW\_FORMAT\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00275}00275                         \textcolor{stringliteral}{"{}NSGL: Stereo rendering is deprecated"{}});}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00276}00276         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00277}00277 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00278}00278         addAttrib(NSOpenGLPFAStereo);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00279}00279 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00280}00280     \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00281}00281 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00282}00282     \textcolor{keywordflow}{if} (fbconfig-\/>doublebuffer)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00283}00283         addAttrib(NSOpenGLPFADoubleBuffer);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00284}00284 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00285}00285     \textcolor{keywordflow}{if} (fbconfig-\/>samples != GLFW\_DONT\_CARE)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00286}00286     \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00287}00287         \textcolor{keywordflow}{if} (fbconfig-\/>samples == 0)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00288}00288         \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00289}00289             setAttrib(NSOpenGLPFASampleBuffers, 0);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00290}00290         \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00291}00291         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00292}00292         \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00293}00293             setAttrib(NSOpenGLPFASampleBuffers, 1);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00294}00294             setAttrib(NSOpenGLPFASamples, fbconfig-\/>samples);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00295}00295         \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00296}00296     \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00297}00297 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00298}00298     \textcolor{comment}{// NOTE: All NSOpenGLPixelFormats on the relevant cards support sRGB}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00299}00299     \textcolor{comment}{//       framebuffer, so there's no need (and no way) to request it}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00300}00300 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00301}00301     addAttrib(0);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00302}00302 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00303}00303 \textcolor{preprocessor}{\#undef addAttrib}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00304}00304 \textcolor{preprocessor}{\#undef setAttrib}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00305}00305 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00306}00306     window-\/>context.nsgl.pixelFormat =}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00307}00307         [[NSOpenGLPixelFormat alloc] initWithAttributes:attribs];}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00308}00308     \textcolor{keywordflow}{if} (window-\/>context.nsgl.pixelFormat == nil)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00309}00309     \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00310}00310         \_glfwInputError(\mbox{\hyperlink{group__errors_ga196e125ef261d94184e2b55c05762f14}{GLFW\_FORMAT\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00311}00311                         \textcolor{stringliteral}{"{}NSGL: Failed to find a suitable pixel format"{}});}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00312}00312         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00313}00313     \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00314}00314 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00315}00315     NSOpenGLContext* share = nil;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00316}00316 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00317}00317     \textcolor{keywordflow}{if} (ctxconfig-\/>share)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00318}00318         share = ctxconfig-\/>share-\/>context.nsgl.object;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00319}00319 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00320}00320     window-\/>context.nsgl.object =}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00321}00321         [[NSOpenGLContext alloc] initWithFormat:window-\/>context.nsgl.pixelFormat}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00322}00322                                    shareContext:share];}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00323}00323     \textcolor{keywordflow}{if} (window-\/>context.nsgl.object == nil)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00324}00324     \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00325}00325         \_glfwInputError(\mbox{\hyperlink{group__errors_gad16c5565b4a69f9c2a9ac2c0dbc89462}{GLFW\_VERSION\_UNAVAILABLE}},}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00326}00326                         \textcolor{stringliteral}{"{}NSGL: Failed to create OpenGL context"{}});}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00327}00327         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00328}00328     \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00329}00329 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00330}00330     \textcolor{keywordflow}{if} (fbconfig-\/>transparent)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00331}00331     \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00332}00332         GLint opaque = 0;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00333}00333         [window-\/>context.nsgl.object setValues:\&opaque}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00334}00334                                   forParameter:NSOpenGLContextParameterSurfaceOpacity];}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00335}00335     \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00336}00336 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00337}00337     [window-\/>ns.view setWantsBestResolutionOpenGLSurface:window-\/>ns.retina];}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00338}00338 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00339}00339     [window-\/>context.nsgl.object setView:window-\/>ns.view];}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00340}00340 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00341}00341     window-\/>context.makeCurrent = makeContextCurrentNSGL;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00342}00342     window-\/>context.swapBuffers = swapBuffersNSGL;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00343}00343     window-\/>context.swapInterval = swapIntervalNSGL;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00344}00344     window-\/>context.extensionSupported = extensionSupportedNSGL;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00345}00345     window-\/>context.getProcAddress = getProcAddressNSGL;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00346}00346     window-\/>context.destroy = destroyContextNSGL;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00347}00347 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00348}00348     \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00349}00349 \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00350}00350 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00351}00351 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00355}00355 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00356}00356 GLFWAPI \textcolor{keywordtype}{id} glfwGetNSGLContext(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* handle)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00357}00357 \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00358}00358     \mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}* window = (\mbox{\hyperlink{struct___g_l_f_wwindow}{\_GLFWwindow}}*) handle;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00359}00359     \_GLFW\_REQUIRE\_INIT\_OR\_RETURN(nil);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00360}00360 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00361}00361     \textcolor{keywordflow}{if} (window-\/>context.client == GLFW\_NO\_API)}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00362}00362     \{}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00363}00363         \_glfwInputError(\mbox{\hyperlink{group__errors_gacff24d2757da752ae4c80bf452356487}{GLFW\_NO\_WINDOW\_CONTEXT}}, NULL);}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00364}00364         \textcolor{keywordflow}{return} nil;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00365}00365     \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00366}00366 }
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00367}00367     \textcolor{keywordflow}{return} window-\/>context.nsgl.object;}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00368}00368 \}}
+\DoxyCodeLine{\Hypertarget{nsgl__context_8m_source_l00369}00369 }
+
+\end{DoxyCode}

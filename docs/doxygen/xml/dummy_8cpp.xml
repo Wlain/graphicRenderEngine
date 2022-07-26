@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="dummy_8cpp" kind="file" language="C++">
+    <compoundname>dummy.cpp</compoundname>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="dummy_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int main</definition>
+        <argsstring>()</argsstring>
+        <name>main</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/detail/dummy.cpp" line="168" column="5" bodyfile="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/detail/dummy.cpp" bodystart="168" bodyend="186"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="8"><highlight class="comment">#define<sp/>GLM_MESSAGES</highlight></codeline>
+<codeline lineno="9"><highlight class="comment">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+<codeline lineno="10"><highlight class="comment">#include<sp/>&lt;glm/ext.hpp&gt;</highlight></codeline>
+<codeline lineno="11"><highlight class="comment">#include<sp/>&lt;limits&gt;</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"></highlight></codeline>
+<codeline lineno="13"><highlight class="comment">struct<sp/>material</highlight></codeline>
+<codeline lineno="14"><highlight class="comment">{</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec4<sp/>emission;<sp/>//<sp/>Ecm</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec4<sp/>ambient;<sp/>//<sp/>Acm</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec4<sp/>diffuse;<sp/>//<sp/>Dcm</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec4<sp/>specular;<sp/>//<sp/>Scm</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/><sp/><sp/><sp/>float<sp/>shininess;<sp/>//<sp/>Srm</highlight></codeline>
+<codeline lineno="20"><highlight class="comment">};</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"></highlight></codeline>
+<codeline lineno="22"><highlight class="comment">struct<sp/>light</highlight></codeline>
+<codeline lineno="23"><highlight class="comment">{</highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec4<sp/>ambient;<sp/>//<sp/>Acli</highlight></codeline>
+<codeline lineno="25"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec4<sp/>diffuse;<sp/>//<sp/>Dcli</highlight></codeline>
+<codeline lineno="26"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec4<sp/>specular;<sp/>//<sp/>Scli</highlight></codeline>
+<codeline lineno="27"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec4<sp/>position;<sp/>//<sp/>Ppli</highlight></codeline>
+<codeline lineno="28"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec4<sp/>halfVector;<sp/>//<sp/>Derived:<sp/>Hi</highlight></codeline>
+<codeline lineno="29"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec3<sp/>spotDirection;<sp/>//<sp/>Sdli</highlight></codeline>
+<codeline lineno="30"><highlight class="comment"><sp/><sp/><sp/><sp/>float<sp/>spotExponent;<sp/>//<sp/>Srli</highlight></codeline>
+<codeline lineno="31"><highlight class="comment"><sp/><sp/><sp/><sp/>float<sp/>spotCutoff;<sp/>//<sp/>Crli</highlight></codeline>
+<codeline lineno="32"><highlight class="comment"><sp/><sp/><sp/><sp/>//<sp/>(range:<sp/>[0.0,90.0],<sp/>180.0)</highlight></codeline>
+<codeline lineno="33"><highlight class="comment"><sp/><sp/><sp/><sp/>float<sp/>spotCosCutoff;<sp/>//<sp/>Derived:<sp/>cos(Crli)</highlight></codeline>
+<codeline lineno="34"><highlight class="comment"><sp/><sp/><sp/><sp/>//<sp/>(range:<sp/>[1.0,0.0],-1.0)</highlight></codeline>
+<codeline lineno="35"><highlight class="comment"><sp/><sp/><sp/><sp/>float<sp/>constantAttenuation;<sp/>//<sp/>K0</highlight></codeline>
+<codeline lineno="36"><highlight class="comment"><sp/><sp/><sp/><sp/>float<sp/>linearAttenuation;<sp/>//<sp/>K1</highlight></codeline>
+<codeline lineno="37"><highlight class="comment"><sp/><sp/><sp/><sp/>float<sp/>quadraticAttenuation;//<sp/>K2</highlight></codeline>
+<codeline lineno="38"><highlight class="comment">};</highlight></codeline>
+<codeline lineno="39"><highlight class="comment"></highlight></codeline>
+<codeline lineno="40"><highlight class="comment"></highlight></codeline>
+<codeline lineno="41"><highlight class="comment">//<sp/>Sample<sp/>1</highlight></codeline>
+<codeline lineno="42"><highlight class="comment">#include<sp/>&lt;glm/vec3.hpp&gt;//<sp/>glm::vec3</highlight></codeline>
+<codeline lineno="43"><highlight class="comment">#include<sp/>&lt;glm/geometric.hpp&gt;//<sp/>glm::cross,<sp/>glm::normalize</highlight></codeline>
+<codeline lineno="44"><highlight class="comment"></highlight></codeline>
+<codeline lineno="45"><highlight class="comment">glm::vec3<sp/>computeNormal</highlight></codeline>
+<codeline lineno="46"><highlight class="comment">(</highlight></codeline>
+<codeline lineno="47"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec3<sp/>const&amp;<sp/>a,</highlight></codeline>
+<codeline lineno="48"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec3<sp/>const&amp;<sp/>b,</highlight></codeline>
+<codeline lineno="49"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec3<sp/>const&amp;<sp/>c</highlight></codeline>
+<codeline lineno="50"><highlight class="comment">)</highlight></codeline>
+<codeline lineno="51"><highlight class="comment">{</highlight></codeline>
+<codeline lineno="52"><highlight class="comment"><sp/><sp/><sp/><sp/>return<sp/>glm::normalize(glm::cross(c<sp/>-<sp/>a,<sp/>b<sp/>-<sp/>a));</highlight></codeline>
+<codeline lineno="53"><highlight class="comment">}</highlight></codeline>
+<codeline lineno="54"><highlight class="comment"></highlight></codeline>
+<codeline lineno="55"><highlight class="comment">typedef<sp/>unsigned<sp/>int<sp/>GLuint;</highlight></codeline>
+<codeline lineno="56"><highlight class="comment">#define<sp/>GL_FALSE<sp/>0</highlight></codeline>
+<codeline lineno="57"><highlight class="comment">void<sp/>glUniformMatrix4fv(GLuint,<sp/>int,<sp/>int,<sp/>float*){}</highlight></codeline>
+<codeline lineno="58"><highlight class="comment"></highlight></codeline>
+<codeline lineno="59"><highlight class="comment">//<sp/>Sample<sp/>2</highlight></codeline>
+<codeline lineno="60"><highlight class="comment">#include<sp/>&lt;glm/vec3.hpp&gt;<sp/>//<sp/>glm::vec3</highlight></codeline>
+<codeline lineno="61"><highlight class="comment">#include<sp/>&lt;glm/vec4.hpp&gt;<sp/>//<sp/>glm::vec4,<sp/>glm::ivec4</highlight></codeline>
+<codeline lineno="62"><highlight class="comment">#include<sp/>&lt;glm/mat4x4.hpp&gt;<sp/>//<sp/>glm::mat4</highlight></codeline>
+<codeline lineno="63"><highlight class="comment">#include<sp/>&lt;glm/gtc/matrix_transform.hpp&gt;<sp/>//<sp/>glm::translate,<sp/>glm::rotate,<sp/>glm::scale,<sp/>glm::perspective</highlight></codeline>
+<codeline lineno="64"><highlight class="comment">#include<sp/>&lt;glm/gtc/type_ptr.hpp&gt;<sp/>//<sp/>glm::value_ptr</highlight></codeline>
+<codeline lineno="65"><highlight class="comment">void<sp/>func(GLuint<sp/>LocationMVP,<sp/>float<sp/>Translate,<sp/>glm::vec2<sp/>const&amp;<sp/>Rotate)</highlight></codeline>
+<codeline lineno="66"><highlight class="comment">{</highlight></codeline>
+<codeline lineno="67"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::mat4<sp/>Projection<sp/>=<sp/>glm::perspective(45.0f,<sp/>4.0f<sp/>/<sp/>3.0f,<sp/>0.1f,<sp/>100.f);</highlight></codeline>
+<codeline lineno="68"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::mat4<sp/>ViewTranslate<sp/>=<sp/>glm::translate(glm::mat4(1.0f),<sp/>glm::vec3(0.0f,<sp/>0.0f,<sp/>-Translate));</highlight></codeline>
+<codeline lineno="69"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::mat4<sp/>ViewRotateX<sp/>=<sp/>glm::rotate(ViewTranslate,<sp/>Rotate.y,<sp/>glm::vec3(-1.0f,<sp/>0.0f,<sp/>0.0f));</highlight></codeline>
+<codeline lineno="70"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::mat4<sp/>View<sp/>=<sp/>glm::rotate(ViewRotateX,<sp/>Rotate.x,<sp/>glm::vec3(0.0f,<sp/>1.0f,<sp/>0.0f));</highlight></codeline>
+<codeline lineno="71"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::mat4<sp/>Model<sp/>=<sp/>glm::scale(glm::mat4(1.0f),<sp/>glm::vec3(0.5f));</highlight></codeline>
+<codeline lineno="72"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::mat4<sp/>MVP<sp/>=<sp/>Projection<sp/>*<sp/>View<sp/>*<sp/>Model;</highlight></codeline>
+<codeline lineno="73"><highlight class="comment"><sp/><sp/><sp/><sp/>glUniformMatrix4fv(LocationMVP,<sp/>1,<sp/>GL_FALSE,<sp/>glm::value_ptr(MVP));</highlight></codeline>
+<codeline lineno="74"><highlight class="comment">}</highlight></codeline>
+<codeline lineno="75"><highlight class="comment"></highlight></codeline>
+<codeline lineno="76"><highlight class="comment">//<sp/>Sample<sp/>3</highlight></codeline>
+<codeline lineno="77"><highlight class="comment">#include<sp/>&lt;glm/vec2.hpp&gt;//<sp/>glm::vec2</highlight></codeline>
+<codeline lineno="78"><highlight class="comment">#include<sp/>&lt;glm/packing.hpp&gt;//<sp/>glm::packUnorm2x16</highlight></codeline>
+<codeline lineno="79"><highlight class="comment">#include<sp/>&lt;glm/integer.hpp&gt;//<sp/>glm::uint</highlight></codeline>
+<codeline lineno="80"><highlight class="comment">#include<sp/>&lt;glm/gtc/type_precision.hpp&gt;//<sp/>glm::i8vec2,<sp/>glm::i32vec2</highlight></codeline>
+<codeline lineno="81"><highlight class="comment">std::size_t<sp/>const<sp/>VertexCount<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="82"><highlight class="comment">//<sp/>Float<sp/>quad<sp/>geometry</highlight></codeline>
+<codeline lineno="83"><highlight class="comment">std::size_t<sp/>const<sp/>PositionSizeF32<sp/>=<sp/>VertexCount<sp/>*<sp/>sizeof(glm::vec2);</highlight></codeline>
+<codeline lineno="84"><highlight class="comment">glm::vec2<sp/>const<sp/>PositionDataF32[VertexCount]<sp/>=</highlight></codeline>
+<codeline lineno="85"><highlight class="comment">{</highlight></codeline>
+<codeline lineno="86"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec2(-1.0f,-1.0f),</highlight></codeline>
+<codeline lineno="87"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec2(<sp/>1.0f,-1.0f),</highlight></codeline>
+<codeline lineno="88"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec2(<sp/>1.0f,<sp/>1.0f),</highlight></codeline>
+<codeline lineno="89"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec2(-1.0f,<sp/>1.0f)</highlight></codeline>
+<codeline lineno="90"><highlight class="comment"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="91"><highlight class="comment">//<sp/>Half-float<sp/>quad<sp/>geometry</highlight></codeline>
+<codeline lineno="92"><highlight class="comment">std::size_t<sp/>const<sp/>PositionSizeF16<sp/>=<sp/>VertexCount<sp/>*<sp/>sizeof(glm::uint);</highlight></codeline>
+<codeline lineno="93"><highlight class="comment">glm::uint<sp/>const<sp/>PositionDataF16[VertexCount]<sp/>=</highlight></codeline>
+<codeline lineno="94"><highlight class="comment">{</highlight></codeline>
+<codeline lineno="95"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::uint(glm::packUnorm2x16(glm::vec2(-1.0f,<sp/>-1.0f))),</highlight></codeline>
+<codeline lineno="96"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::uint(glm::packUnorm2x16(glm::vec2(<sp/>1.0f,<sp/>-1.0f))),</highlight></codeline>
+<codeline lineno="97"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::uint(glm::packUnorm2x16(glm::vec2(<sp/>1.0f,<sp/>1.0f))),</highlight></codeline>
+<codeline lineno="98"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::uint(glm::packUnorm2x16(glm::vec2(-1.0f,<sp/>1.0f)))</highlight></codeline>
+<codeline lineno="99"><highlight class="comment">};</highlight></codeline>
+<codeline lineno="100"><highlight class="comment">//<sp/>8<sp/>bits<sp/>signed<sp/>integer<sp/>quad<sp/>geometry</highlight></codeline>
+<codeline lineno="101"><highlight class="comment">std::size_t<sp/>const<sp/>PositionSizeI8<sp/>=<sp/>VertexCount<sp/>*<sp/>sizeof(glm::i8vec2);</highlight></codeline>
+<codeline lineno="102"><highlight class="comment">glm::i8vec2<sp/>const<sp/>PositionDataI8[VertexCount]<sp/>=</highlight></codeline>
+<codeline lineno="103"><highlight class="comment">{</highlight></codeline>
+<codeline lineno="104"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::i8vec2(-1,-1),</highlight></codeline>
+<codeline lineno="105"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::i8vec2(<sp/>1,-1),</highlight></codeline>
+<codeline lineno="106"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::i8vec2(<sp/>1,<sp/>1),</highlight></codeline>
+<codeline lineno="107"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::i8vec2(-1,<sp/>1)</highlight></codeline>
+<codeline lineno="108"><highlight class="comment">};</highlight></codeline>
+<codeline lineno="109"><highlight class="comment">//<sp/>32<sp/>bits<sp/>signed<sp/>integer<sp/>quad<sp/>geometry</highlight></codeline>
+<codeline lineno="110"><highlight class="comment">std::size_t<sp/>const<sp/>PositionSizeI32<sp/>=<sp/>VertexCount<sp/>*<sp/>sizeof(glm::i32vec2);</highlight></codeline>
+<codeline lineno="111"><highlight class="comment">glm::i32vec2<sp/>const<sp/>PositionDataI32[VertexCount]<sp/>=</highlight></codeline>
+<codeline lineno="112"><highlight class="comment">{</highlight></codeline>
+<codeline lineno="113"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::i32vec2<sp/>(-1,-1),</highlight></codeline>
+<codeline lineno="114"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::i32vec2<sp/>(<sp/>1,-1),</highlight></codeline>
+<codeline lineno="115"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::i32vec2<sp/>(<sp/>1,<sp/>1),</highlight></codeline>
+<codeline lineno="116"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::i32vec2<sp/>(-1,<sp/>1)</highlight></codeline>
+<codeline lineno="117"><highlight class="comment">};</highlight></codeline>
+<codeline lineno="118"><highlight class="comment"></highlight></codeline>
+<codeline lineno="119"><highlight class="comment">struct<sp/>intersection</highlight></codeline>
+<codeline lineno="120"><highlight class="comment">{</highlight></codeline>
+<codeline lineno="121"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec4<sp/>position;</highlight></codeline>
+<codeline lineno="122"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec3<sp/>normal;</highlight></codeline>
+<codeline lineno="123"><highlight class="comment">};</highlight></codeline>
+<codeline lineno="124"><highlight class="comment">*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="128"><highlight class="comment">//<sp/>Sample<sp/>4</highlight></codeline>
+<codeline lineno="129"><highlight class="comment">#include<sp/>&lt;glm/vec3.hpp&gt;//<sp/>glm::vec3</highlight></codeline>
+<codeline lineno="130"><highlight class="comment">#include<sp/>&lt;glm/geometric.hpp&gt;//<sp/>glm::normalize,<sp/>glm::dot,<sp/>glm::reflect</highlight></codeline>
+<codeline lineno="131"><highlight class="comment">#include<sp/>&lt;glm/exponential.hpp&gt;//<sp/>glm::pow</highlight></codeline>
+<codeline lineno="132"><highlight class="comment">#include<sp/>&lt;glm/gtc/random.hpp&gt;//<sp/>glm::vecRand3</highlight></codeline>
+<codeline lineno="133"><highlight class="comment">glm::vec3<sp/>lighting</highlight></codeline>
+<codeline lineno="134"><highlight class="comment">(</highlight></codeline>
+<codeline lineno="135"><highlight class="comment"><sp/><sp/><sp/><sp/>intersection<sp/>const&amp;<sp/>Intersection,</highlight></codeline>
+<codeline lineno="136"><highlight class="comment"><sp/><sp/><sp/><sp/>material<sp/>const&amp;<sp/>Material,</highlight></codeline>
+<codeline lineno="137"><highlight class="comment"><sp/><sp/><sp/><sp/>light<sp/>const&amp;<sp/>Light,</highlight></codeline>
+<codeline lineno="138"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec3<sp/>const&amp;<sp/>View</highlight></codeline>
+<codeline lineno="139"><highlight class="comment">)</highlight></codeline>
+<codeline lineno="140"><highlight class="comment">{</highlight></codeline>
+<codeline lineno="141"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec3<sp/>Color(0.0f);</highlight></codeline>
+<codeline lineno="142"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec3<sp/>LightVertor(glm::normalize(</highlight></codeline>
+<codeline lineno="143"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Light.position<sp/>-<sp/>Intersection.position<sp/>+</highlight></codeline>
+<codeline lineno="144"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm::vecRand3(0.0f,<sp/>Light.inaccuracy));</highlight></codeline>
+<codeline lineno="145"><highlight class="comment"></highlight></codeline>
+<codeline lineno="146"><highlight class="comment"><sp/><sp/><sp/><sp/>if(!shadow(Intersection.position,<sp/>Light.position,<sp/>LightVertor))</highlight></codeline>
+<codeline lineno="147"><highlight class="comment"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>float<sp/>Diffuse<sp/>=<sp/>glm::dot(Intersection.normal,<sp/>LightVector);</highlight></codeline>
+<codeline lineno="149"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(Diffuse<sp/>&lt;=<sp/>0.0f)</highlight></codeline>
+<codeline lineno="150"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>Color;</highlight></codeline>
+<codeline lineno="151"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(Material.isDiffuse())</highlight></codeline>
+<codeline lineno="152"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Color<sp/>+=<sp/>Light.color()<sp/>*<sp/>Material.diffuse<sp/>*<sp/>Diffuse;</highlight></codeline>
+<codeline lineno="153"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(Material.isSpecular())</highlight></codeline>
+<codeline lineno="154"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm::vec3<sp/>Reflect(glm::reflect(</highlight></codeline>
+<codeline lineno="156"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm::normalize(-LightVector),</highlight></codeline>
+<codeline lineno="157"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm::normalize(Intersection.normal)));</highlight></codeline>
+<codeline lineno="158"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>float<sp/>Dot<sp/>=<sp/>glm::dot(Reflect,<sp/>View);</highlight></codeline>
+<codeline lineno="159"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>float<sp/>Base<sp/>=<sp/>Dot<sp/>&gt;<sp/>0.0f<sp/>?<sp/>Dot<sp/>:<sp/>0.0f;</highlight></codeline>
+<codeline lineno="160"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>float<sp/>Specular<sp/>=<sp/>glm::pow(Base,<sp/>Material.exponent);</highlight></codeline>
+<codeline lineno="161"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Color<sp/>+=<sp/>Material.specular<sp/>*<sp/>Specular;</highlight></codeline>
+<codeline lineno="162"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="comment"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="comment"><sp/><sp/><sp/><sp/>return<sp/>Color;</highlight></codeline>
+<codeline lineno="165"><highlight class="comment">}</highlight></codeline>
+<codeline lineno="166"><highlight class="comment">*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>main()</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="171"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec1<sp/>o(1);</highlight></codeline>
+<codeline lineno="172"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec2<sp/>a(1);</highlight></codeline>
+<codeline lineno="173"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec3<sp/>b(1);</highlight></codeline>
+<codeline lineno="174"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::vec4<sp/>c(1);</highlight></codeline>
+<codeline lineno="175"><highlight class="comment"></highlight></codeline>
+<codeline lineno="176"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::quat<sp/>q;</highlight></codeline>
+<codeline lineno="177"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::dualquat<sp/>p;</highlight></codeline>
+<codeline lineno="178"><highlight class="comment"></highlight></codeline>
+<codeline lineno="179"><highlight class="comment"><sp/><sp/><sp/><sp/>glm::mat4<sp/>m(1);</highlight></codeline>
+<codeline lineno="180"><highlight class="comment"></highlight></codeline>
+<codeline lineno="181"><highlight class="comment"><sp/><sp/><sp/><sp/>float<sp/>a0<sp/>=<sp/>normalizeDotA(a,<sp/>a);</highlight></codeline>
+<codeline lineno="182"><highlight class="comment"><sp/><sp/><sp/><sp/>float<sp/>b0<sp/>=<sp/>normalizeDotB(b,<sp/>b);</highlight></codeline>
+<codeline lineno="183"><highlight class="comment"><sp/><sp/><sp/><sp/>float<sp/>c0<sp/>=<sp/>normalizeDotC(c,<sp/>c);</highlight></codeline>
+<codeline lineno="184"><highlight class="comment">*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/detail/dummy.cpp"/>
+  </compounddef>
+</doxygen>

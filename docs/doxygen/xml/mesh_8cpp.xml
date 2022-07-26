@@ -63,7 +63,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>/Users/cwb/developer/learning/graphicRenderEngine/re/core/mesh.cpp</label>
+        <label>/Users/cwb/developer/learning/graphicRenderEngine/ceres/core/mesh.cpp</label>
         <link refid="mesh_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -339,7 +339,7 @@
         <label>vector</label>
       </node>
     </incdepgraph>
-    <innernamespace refid="namespacere">re</innernamespace>
+    <innernamespace refid="namespaceceres">ceres</innernamespace>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
@@ -359,7 +359,7 @@
 <codeline lineno="12"><highlight class="normal"></highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;glm/gtc/constants.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iomanip&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacere" kindref="compound">re</ref></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">ceres</highlight></codeline>
 <codeline lineno="16"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="17"><highlight class="normal">Mesh::Mesh(std::map&lt;std::string,<sp/>std::vector&lt;float&gt;&gt;&amp;&amp;<sp/>attributesFloat,<sp/>std::map&lt;std::string,<sp/>std::vector&lt;glm::vec2&gt;&gt;&amp;&amp;<sp/>attributesVec2,<sp/>std::map&lt;std::string,<sp/>std::vector&lt;glm::vec3&gt;&gt;&amp;&amp;<sp/>attributesVec3,</highlight></codeline>
 <codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::vector&lt;glm::vec4&gt;&gt;&amp;&amp;<sp/>attributesVec4,<sp/>std::map&lt;std::string,<sp/>std::vector&lt;glm::i32vec4&gt;&gt;&amp;&amp;<sp/>attributesIVec4,<sp/>std::vector&lt;std::vector&lt;uint16_t&gt;&gt;&amp;&amp;<sp/>indices,</highlight></codeline>
@@ -368,7 +368,7 @@
 <codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>m_meshId<sp/>=<sp/>m_meshIdCount++;</highlight></codeline>
 <codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(Renderer::s_instance<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
 <codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Cannot<sp/>instantiate<sp/>re::Mesh<sp/>before<sp/>re::Renderer<sp/>is<sp/>created.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Cannot<sp/>instantiate<sp/>re::Mesh<sp/>before<sp/>ceres::Renderer<sp/>is<sp/>created.&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>glGenBuffers(1,<sp/>&amp;m_vbo);</highlight></codeline>
 <codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>update(std::move(attributesFloat),<sp/>std::move(attributesVec2),<sp/>std::move(attributesVec3),<sp/>std::move(attributesVec4),<sp/>std::move(attributesIVec4),<sp/>std::move(indices),<sp/>meshTopology,<sp/>bufferUsage,<sp/>name,<sp/>renderStats);</highlight></codeline>
@@ -540,7 +540,7 @@
 <codeline lineno="193"><highlight class="normal">Mesh::MeshBuilder<sp/>Mesh::update()</highlight></codeline>
 <codeline lineno="194"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>Mesh::MeshBuilder<sp/>builder;</highlight></codeline>
-<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>builder.m_updateMesh<sp/>=<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>builder.m_mesh<sp/>=<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>builder.m_attributesFloat<sp/>=<sp/>m_attributesFloat;</highlight></codeline>
 <codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>builder.m_attributesVec2<sp/>=<sp/>m_attributesVec2;</highlight></codeline>
 <codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>builder.m_attributesVec3<sp/>=<sp/>m_attributesVec3;</highlight></codeline>
@@ -1116,11 +1116,11 @@
 <codeline lineno="769"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>withTangents(newTangents);</highlight></codeline>
 <codeline lineno="770"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="771"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="772"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(m_updateMesh<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="772"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(m_mesh<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
 <codeline lineno="773"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="774"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>renderStats.meshBytes<sp/>-=<sp/>m_updateMesh-&gt;getDataSize();</highlight></codeline>
-<codeline lineno="775"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m_updateMesh-&gt;update(std::move(m_attributesFloat),<sp/>std::move(m_attributesVec2),<sp/>std::move(m_attributesVec3),<sp/>std::move(m_attributesVec4),<sp/>std::move(m_attributesIVec4),<sp/>std::move(m_indices),<sp/>m_topologies,<sp/>m_bufferUsage,<sp/>m_name,<sp/>renderStats);</highlight></codeline>
-<codeline lineno="776"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m_updateMesh-&gt;shared_from_this();</highlight></codeline>
+<codeline lineno="774"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>renderStats.meshBytes<sp/>-=<sp/>m_mesh-&gt;getDataSize();</highlight></codeline>
+<codeline lineno="775"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m_mesh-&gt;update(std::move(m_attributesFloat),<sp/>std::move(m_attributesVec2),<sp/>std::move(m_attributesVec3),<sp/>std::move(m_attributesVec4),<sp/>std::move(m_attributesIVec4),<sp/>std::move(m_indices),<sp/>m_topologies,<sp/>m_bufferUsage,<sp/>m_name,<sp/>renderStats);</highlight></codeline>
+<codeline lineno="776"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m_mesh-&gt;shared_from_this();</highlight></codeline>
 <codeline lineno="777"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="778"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>mesh<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>Mesh(std::move(m_attributesFloat),<sp/>std::move(m_attributesVec2),<sp/>std::move(m_attributesVec3),<sp/>std::move(m_attributesVec4),<sp/>std::move(m_attributesIVec4),<sp/>std::move(m_indices),<sp/>m_topologies,<sp/>m_bufferUsage,<sp/>m_name,<sp/>renderStats);</highlight></codeline>
 <codeline lineno="779"><highlight class="normal"><sp/><sp/><sp/><sp/>renderStats.meshCount++;</highlight></codeline>
@@ -1129,7 +1129,7 @@
 <codeline lineno="782"><highlight class="normal"></highlight></codeline>
 <codeline lineno="783"><highlight class="normal">Mesh::MeshBuilder&amp;<sp/>Mesh::MeshBuilder::withAttribute(std::string_view<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>values)</highlight></codeline>
 <codeline lineno="784"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="785"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(m_updateMesh<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>m_attributesFloat.find(name.data())<sp/>==<sp/>m_attributesFloat.end())</highlight></codeline>
+<codeline lineno="785"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(m_mesh<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>m_attributesFloat.find(name.data())<sp/>==<sp/>m_attributesFloat.end())</highlight></codeline>
 <codeline lineno="786"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="787"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LOG_ERROR(</highlight><highlight class="stringliteral">&quot;Cannot<sp/>change<sp/>mesh<sp/>structure.<sp/>{}<sp/>did<sp/>not<sp/>exist<sp/>in<sp/>original<sp/>mesh.&quot;</highlight><highlight class="normal">,<sp/>name.data());</highlight></codeline>
 <codeline lineno="788"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -1142,7 +1142,7 @@
 <codeline lineno="795"><highlight class="normal"></highlight></codeline>
 <codeline lineno="796"><highlight class="normal">Mesh::MeshBuilder&amp;<sp/>Mesh::MeshBuilder::withAttribute(std::string_view<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;glm::vec2&gt;&amp;<sp/>values)</highlight></codeline>
 <codeline lineno="797"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="798"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(m_updateMesh<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>m_attributesVec2.find(name.data())<sp/>==<sp/>m_attributesVec2.end())</highlight></codeline>
+<codeline lineno="798"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(m_mesh<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>m_attributesVec2.find(name.data())<sp/>==<sp/>m_attributesVec2.end())</highlight></codeline>
 <codeline lineno="799"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="800"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LOG_ERROR(</highlight><highlight class="stringliteral">&quot;Cannot<sp/>change<sp/>mesh<sp/>structure.<sp/>{}<sp/>did<sp/>not<sp/>exist<sp/>in<sp/>original<sp/>mesh.&quot;</highlight><highlight class="normal">,<sp/>name.data());</highlight></codeline>
 <codeline lineno="801"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -1155,7 +1155,7 @@
 <codeline lineno="808"><highlight class="normal"></highlight></codeline>
 <codeline lineno="809"><highlight class="normal">Mesh::MeshBuilder&amp;<sp/>Mesh::MeshBuilder::withAttribute(std::string_view<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;glm::vec3&gt;&amp;<sp/>values)</highlight></codeline>
 <codeline lineno="810"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="811"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(m_updateMesh<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>m_attributesVec3.find(name.data())<sp/>==<sp/>m_attributesVec3.end())</highlight></codeline>
+<codeline lineno="811"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(m_mesh<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>m_attributesVec3.find(name.data())<sp/>==<sp/>m_attributesVec3.end())</highlight></codeline>
 <codeline lineno="812"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="813"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LOG_ERROR(</highlight><highlight class="stringliteral">&quot;Cannot<sp/>change<sp/>mesh<sp/>structure.<sp/>{}<sp/>did<sp/>not<sp/>exist<sp/>in<sp/>original<sp/>mesh.&quot;</highlight><highlight class="normal">,<sp/>name.data());</highlight></codeline>
 <codeline lineno="814"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -1168,7 +1168,7 @@
 <codeline lineno="821"><highlight class="normal"></highlight></codeline>
 <codeline lineno="822"><highlight class="normal">Mesh::MeshBuilder&amp;<sp/>Mesh::MeshBuilder::withAttribute(std::string_view<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;glm::vec4&gt;&amp;<sp/>values)</highlight></codeline>
 <codeline lineno="823"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="824"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(m_updateMesh<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>m_attributesVec4.find(name.data())<sp/>==<sp/>m_attributesVec4.end())</highlight></codeline>
+<codeline lineno="824"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(m_mesh<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>m_attributesVec4.find(name.data())<sp/>==<sp/>m_attributesVec4.end())</highlight></codeline>
 <codeline lineno="825"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="826"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LOG_ERROR(</highlight><highlight class="stringliteral">&quot;Cannot<sp/>change<sp/>mesh<sp/>structure.<sp/>{}<sp/>did<sp/>not<sp/>exist<sp/>in<sp/>original<sp/>mesh.&quot;</highlight><highlight class="normal">,<sp/>name.data());</highlight></codeline>
 <codeline lineno="827"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -1464,7 +1464,7 @@
 <codeline lineno="1117"><highlight class="normal"></highlight></codeline>
 <codeline lineno="1118"><highlight class="normal">Mesh::MeshBuilder&amp;<sp/>Mesh::MeshBuilder::withAttribute(std::string_view<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;glm::i32vec4&gt;&amp;<sp/>values)</highlight></codeline>
 <codeline lineno="1119"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="1120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(m_updateMesh<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>m_attributesIVec4.find(name.data())<sp/>==<sp/>m_attributesIVec4.end())</highlight></codeline>
+<codeline lineno="1120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(m_mesh<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>m_attributesIVec4.find(name.data())<sp/>==<sp/>m_attributesIVec4.end())</highlight></codeline>
 <codeline lineno="1121"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="1122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LOG_ERROR(</highlight><highlight class="stringliteral">&quot;Cannot<sp/>change<sp/>mesh<sp/>structure.<sp/>{}<sp/>did<sp/>not<sp/>exist<sp/>in<sp/>original<sp/>mesh.&quot;</highlight><highlight class="normal">,<sp/>name.data());</highlight></codeline>
 <codeline lineno="1123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -1531,8 +1531,8 @@
 <codeline lineno="1184"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="1185"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="1186"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1187"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>re</highlight></codeline>
+<codeline lineno="1187"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ceres</highlight></codeline>
     </programlisting>
-    <location file="/Users/cwb/developer/learning/graphicRenderEngine/re/core/mesh.cpp"/>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/core/mesh.cpp"/>
   </compounddef>
 </doxygen>

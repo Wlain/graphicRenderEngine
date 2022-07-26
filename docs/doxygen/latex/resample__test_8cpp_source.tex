@@ -1,0 +1,1128 @@
+\hypertarget{resample__test_8cpp_source}{}\doxysection{resample\+\_\+test.\+cpp}
+\label{resample__test_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/resample\_test.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/stb/tests/resample\_test.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00001}00001 \textcolor{preprocessor}{\#define \_CRT\_SECURE\_NO\_WARNINGS}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00002}00002 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00003}00003 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00005}00005 \textcolor{preprocessor}{\#if defined(\_WIN32) \&\& \_MSC\_VER > 1200}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#define STBIR\_ASSERT(x) \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00007}00007 \textcolor{preprocessor}{    if (!(x)) \{         \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00008}00008 \textcolor{preprocessor}{        \_\_debugbreak();  \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00009}00009 \textcolor{preprocessor}{    \} else}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00010}00010 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00011}00011 \textcolor{preprocessor}{\#include <assert.h>}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00012}00012 \textcolor{preprocessor}{\#define STBIR\_ASSERT(x) assert(x)}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00013}00013 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00015}00015 \textcolor{preprocessor}{\#define STBIR\_MALLOC stbir\_malloc}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00016}00016 \textcolor{preprocessor}{\#define STBIR\_FREE stbir\_free}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00017}00017 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00018}\mbox{\hyperlink{classstbir__context}{00018}} \textcolor{keyword}{class }\mbox{\hyperlink{classstbir__context}{stbir\_context}} \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00019}00019 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00020}00020     \mbox{\hyperlink{classstbir__context}{stbir\_context}}()}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00021}00021     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00022}00022         size = 1000000;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00023}00023         memory = malloc(size);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00024}00024     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00026}00026     \mbox{\hyperlink{classstbir__context}{\string~stbir\_context}}()}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00027}00027     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00028}00028         free(memory);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00029}00029     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00031}00031     \textcolor{keywordtype}{size\_t} size;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00032}00032     \textcolor{keywordtype}{void}* memory;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00033}00033 \} g\_context;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00035}00035 \textcolor{keywordtype}{void}* stbir\_malloc(\textcolor{keywordtype}{size\_t} size, \textcolor{keywordtype}{void}* context)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00036}00036 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00037}00037     \textcolor{keywordflow}{if} (!context)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00038}00038         \textcolor{keywordflow}{return} malloc(size);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00040}00040     \mbox{\hyperlink{classstbir__context}{stbir\_context}}* real\_context = (\mbox{\hyperlink{classstbir__context}{stbir\_context}}*)context;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00041}00041     \textcolor{keywordflow}{if} (size > real\_context-\/>size)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00042}00042         \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00044}00044     \textcolor{keywordflow}{return} real\_context-\/>memory;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00045}00045 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00047}00047 \textcolor{keywordtype}{void} stbir\_free(\textcolor{keywordtype}{void}* memory, \textcolor{keywordtype}{void}* context)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00048}00048 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00049}00049     \textcolor{keywordflow}{if} (!context)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00050}00050         free(memory);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00051}00051 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00053}00053 \textcolor{comment}{//\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00054}00054 \textcolor{keywordtype}{void} stbir\_progress(\textcolor{keywordtype}{float} p)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00055}00055 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00056}00056     \textcolor{comment}{//printf("{}\%f\(\backslash\)n"{}, p);}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00057}00057     STBIR\_ASSERT(p >= 0 \&\& p <= 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00058}00058 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00060}00060 \textcolor{preprocessor}{\#ifdef \_\_clang\_\_}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00061}00061 \textcolor{preprocessor}{\#define STBIRDEF static inline}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00062}00062 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00064}00064 \textcolor{preprocessor}{\#define STBIR\_PROGRESS\_REPORT stbir\_progress}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00065}00065 \textcolor{preprocessor}{\#define STB\_IMAGE\_RESIZE\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00066}00066 \textcolor{preprocessor}{\#define STB\_IMAGE\_RESIZE\_STATIC}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00067}00067 \textcolor{preprocessor}{\#include "{}stb\_image\_resize.h"{}}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00069}00069 \textcolor{preprocessor}{\#define STB\_IMAGE\_WRITE\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00070}00070 \textcolor{preprocessor}{\#include "{}stb\_image\_write.h"{}}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00071}00071 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00072}00072 \textcolor{preprocessor}{\#define STB\_IMAGE\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00073}00073 \textcolor{preprocessor}{\#include "{}stb\_image.h"{}}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00074}00074 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00075}00075 \textcolor{preprocessor}{\#ifdef \_WIN32}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00076}00076 \textcolor{preprocessor}{\#include <sys/timeb.h>}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00077}00077 \textcolor{preprocessor}{\#include <direct.h>}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00078}00078 \textcolor{preprocessor}{\#define mkdir(a, b) \_mkdir(a)}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00079}00079 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00080}00080 \textcolor{preprocessor}{\#include <sys/stat.h>}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00081}00081 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00083}00083 \textcolor{preprocessor}{\#define MT\_SIZE 624}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00084}00084 \textcolor{keyword}{static} \textcolor{keywordtype}{size\_t} g\_aiMT[MT\_SIZE];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00085}00085 \textcolor{keyword}{static} \textcolor{keywordtype}{size\_t} g\_iMTI = 0;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00086}00086 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00087}00087 \textcolor{comment}{// Mersenne Twister implementation from Wikipedia.}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00088}00088 \textcolor{comment}{// Avoiding use of the system rand() to be sure that our tests generate the same test data on any system.}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00089}00089 \textcolor{keywordtype}{void} mtsrand(\textcolor{keywordtype}{size\_t} iSeed)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00090}00090 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00091}00091     g\_aiMT[0] = iSeed;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00092}00092     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 1; i < MT\_SIZE; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00093}00093     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00094}00094         \textcolor{keywordtype}{size\_t} inner1 = g\_aiMT[i -\/ 1];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00095}00095         \textcolor{keywordtype}{size\_t} inner2 = (g\_aiMT[i -\/ 1] >> 30);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00096}00096         \textcolor{keywordtype}{size\_t} inner = inner1 \string^ inner2;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00097}00097         g\_aiMT[i] = (0x6c078965 * inner) + i;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00098}00098     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00099}00099 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00100}00100     g\_iMTI = 0;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00101}00101 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00103}00103 \textcolor{keywordtype}{size\_t} mtrand()}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00104}00104 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00105}00105     \textcolor{keywordflow}{if} (g\_iMTI == 0)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00106}00106     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00107}00107         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < MT\_SIZE; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00108}00108         \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00109}00109             \textcolor{keywordtype}{size\_t} y = (0x80000000 \& (g\_aiMT[i])) + (0x7fffffff \& (g\_aiMT[(i + 1) \% MT\_SIZE]));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00110}00110             g\_aiMT[i] = g\_aiMT[(i + 397) \% MT\_SIZE] \string^ (y >> 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00111}00111             \textcolor{keywordflow}{if} ((y \% 2) == 1)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00112}00112                 g\_aiMT[i] = g\_aiMT[i] \string^ 0x9908b0df;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00113}00113         \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00114}00114     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00115}00115 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00116}00116     \textcolor{keywordtype}{size\_t} y = g\_aiMT[g\_iMTI];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00117}00117     y = y \string^ (y >> 11);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00118}00118     y = y \string^ ((y << 7) \& (0x9d2c5680));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00119}00119     y = y \string^ ((y << 15) \& (0xefc60000));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00120}00120     y = y \string^ (y >> 18);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00121}00121 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00122}00122     g\_iMTI = (g\_iMTI + 1) \% MT\_SIZE;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00123}00123 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00124}00124     \textcolor{keywordflow}{return} y;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00125}00125 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00126}00126 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00127}00127 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00128}00128 \textcolor{keyword}{inline} \textcolor{keywordtype}{float} mtfrand()}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00129}00129 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00130}00130     \textcolor{keyword}{const} \textcolor{keywordtype}{int} ninenine = 999999;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00131}00131     \textcolor{keywordflow}{return} (\textcolor{keywordtype}{float})(mtrand() \% ninenine)/ninenine;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00132}00132 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00134}00134 \textcolor{keywordtype}{void} resizer(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} **argv)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00135}00135 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00136}00136     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* input\_pixels;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00137}00137     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* output\_pixels;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00138}00138     \textcolor{keywordtype}{int} w, h;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00139}00139     \textcolor{keywordtype}{int} n;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00140}00140     \textcolor{keywordtype}{int} out\_w, out\_h;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00141}00141     input\_pixels = stbi\_load(argv[1], \&w, \&h, \&n, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00142}00142     out\_w = w*3;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00143}00143     out\_h = h*3;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00144}00144     output\_pixels = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*) malloc(out\_w*out\_h*n);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00145}00145     \textcolor{comment}{//stbir\_resize\_uint8\_srgb(input\_pixels, w, h, 0, output\_pixels, out\_w, out\_h, 0, n, -\/1,0);}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00146}00146     stbir\_resize\_uint8(input\_pixels, w, h, 0, output\_pixels, out\_w, out\_h, 0, n);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00147}00147     stbi\_write\_png(\textcolor{stringliteral}{"{}output.png"{}}, out\_w, out\_h, n, output\_pixels, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00148}00148     exit(0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00149}00149 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00150}00150 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00151}00151 \textcolor{keywordtype}{void} performance(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} **argv)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00152}00152 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00153}00153     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* input\_pixels;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00154}00154     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* output\_pixels;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00155}00155     \textcolor{keywordtype}{int} w, h, count;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00156}00156     \textcolor{keywordtype}{int} n, i;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00157}00157     \textcolor{keywordtype}{int} out\_w, out\_h, srgb=1;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00158}00158     input\_pixels = stbi\_load(argv[1], \&w, \&h, \&n, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00159}00159 \textcolor{preprocessor}{    \#if 0}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00160}00160     out\_w = w/4; out\_h = h/4; count=100; \textcolor{comment}{// 1}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00161}00161 \textcolor{preprocessor}{    \#elif 0}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00162}00162     out\_w = w*2; out\_h = h/4; count=20; \textcolor{comment}{// 2   // note this is structured pessimily, would be much faster to downsample vertically first}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00163}00163 \textcolor{preprocessor}{    \#elif 0}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00164}00164     out\_w = w/4; out\_h = h*2; count=50; \textcolor{comment}{// 3}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00165}00165 \textcolor{preprocessor}{    \#elif 0}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00166}00166     out\_w = w*3; out\_h = h*3; count=2; srgb=0; \textcolor{comment}{// 4}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00167}00167 \textcolor{preprocessor}{    \#else}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00168}00168     out\_w = w*3; out\_h = h*3; count=2; \textcolor{comment}{// 5   // this is dominated by linear-\/>sRGB conversion}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00169}00169 \textcolor{preprocessor}{    \#endif}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00170}00170 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00171}00171     output\_pixels = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*) malloc(out\_w*out\_h*n);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00172}00172     \textcolor{keywordflow}{for} (i=0; i < count; ++i)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00173}00173         \textcolor{keywordflow}{if} (srgb)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00174}00174             stbir\_resize\_uint8\_srgb(input\_pixels, w, h, 0, output\_pixels, out\_w, out\_h, 0, n,-\/1,0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00175}00175         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00176}00176             stbir\_resize(input\_pixels, w, h, 0, output\_pixels, out\_w, out\_h, 0, STBIR\_TYPE\_UINT8, n,-\/1, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_DEFAULT, STBIR\_FILTER\_DEFAULT, STBIR\_COLORSPACE\_LINEAR, NULL);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00177}00177     exit(0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00178}00178 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00179}00179 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00180}00180 \textcolor{keywordtype}{void} test\_suite(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} **argv);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00181}00181 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00182}00182 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char}** argv)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00183}00183 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00184}00184     \textcolor{comment}{//resizer(argc, argv);}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00185}00185     \textcolor{comment}{//performance(argc, argv);}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00186}00186 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00187}00187     test\_suite(argc, argv);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00188}00188     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00189}00189 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00190}00190 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00191}00191 \textcolor{keywordtype}{void} resize\_image(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* filename, \textcolor{keywordtype}{float} width\_percent, \textcolor{keywordtype}{float} height\_percent, stbir\_filter filter, stbir\_edge edge, stbir\_colorspace colorspace, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* output\_filename)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00192}00192 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00193}00193     \textcolor{keywordtype}{int} w, h, n;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00194}00194 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00195}00195     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* input\_data = stbi\_load(filename, \&w, \&h, \&n, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00196}00196     \textcolor{keywordflow}{if} (!input\_data)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00197}00197     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00198}00198         printf(\textcolor{stringliteral}{"{}Input image could not be loaded\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00199}00199         \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00200}00200     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00201}00201 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00202}00202     \textcolor{keywordtype}{int} out\_w = (int)(w * width\_percent);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00203}00203     \textcolor{keywordtype}{int} out\_h = (int)(h * height\_percent);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00204}00204 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00205}00205     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* output\_data = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*)malloc(out\_w * out\_h * n);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00206}00206 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00207}00207     stbir\_resize(input\_data, w, h, 0, output\_data, out\_w, out\_h, 0, STBIR\_TYPE\_UINT8, n, STBIR\_ALPHA\_CHANNEL\_NONE, 0, edge, edge, filter, filter, colorspace, \&g\_context);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00208}00208 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00209}00209     stbi\_image\_free(input\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00210}00210 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00211}00211     stbi\_write\_png(output\_filename, out\_w, out\_h, n, output\_data, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00212}00212 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00213}00213     free(output\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00214}00214 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00215}00215 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00216}00216 \textcolor{keyword}{template} <\textcolor{keyword}{typename} F, \textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00217}00217 \textcolor{keywordtype}{void} convert\_image(\textcolor{keyword}{const} F* input, T* \mbox{\hyperlink{structoutput}{output}}, \textcolor{keywordtype}{int} length)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00218}00218 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00219}00219     \textcolor{keywordtype}{double} f = (\mbox{\hyperlink{group__core__func__exponential_ga717a43207fffc8b5e8e66cf56ded5ace}{pow}}(2.0, 8.0 * \textcolor{keyword}{sizeof}(T)) -\/ 1) / (\mbox{\hyperlink{group__core__func__exponential_ga717a43207fffc8b5e8e66cf56ded5ace}{pow}}(2.0, 8.0 * \textcolor{keyword}{sizeof}(F)) -\/ 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00220}00220     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < length; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00221}00221         \mbox{\hyperlink{structoutput}{output}}[i] = (T)(((double)input[i]) * f);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00222}00222 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00223}00223 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00224}00224 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00225}00225 \textcolor{keywordtype}{void} test\_format(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* file, \textcolor{keywordtype}{float} width\_percent, \textcolor{keywordtype}{float} height\_percent, stbir\_datatype type, stbir\_colorspace colorspace)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00226}00226 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00227}00227     \textcolor{keywordtype}{int} w, h, n;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00228}00228     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* input\_data = stbi\_load(file, \&w, \&h, \&n, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00229}00229 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00230}00230     \textcolor{keywordflow}{if} (input\_data == NULL)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00231}00231         \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00232}00232 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00233}00233 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00234}00234     \textcolor{keywordtype}{int} new\_w = (int)(w * width\_percent);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00235}00235     \textcolor{keywordtype}{int} new\_h = (int)(h * height\_percent);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00236}00236 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00237}00237     T* T\_data = (T*)malloc(w * h * n * \textcolor{keyword}{sizeof}(T));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00238}00238     memset(T\_data, 0, w*h*n*\textcolor{keyword}{sizeof}(T));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00239}00239     convert\_image<unsigned char, T>(input\_data, T\_data, w * h * n);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00240}00240 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00241}00241     T* output\_data = (T*)malloc(new\_w * new\_h * n * \textcolor{keyword}{sizeof}(T));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00242}00242 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00243}00243     stbir\_resize(T\_data, w, h, 0, output\_data, new\_w, new\_h, 0, type, n, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_CATMULLROM, STBIR\_FILTER\_CATMULLROM, colorspace, \&g\_context);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00244}00244 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00245}00245     free(T\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00246}00246     stbi\_image\_free(input\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00247}00247 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00248}00248     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* char\_data = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*)malloc(new\_w * new\_h * n * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{char}));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00249}00249     convert\_image<T, unsigned char>(output\_data, char\_data, new\_w * new\_h * n);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00250}00250 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00251}00251     \textcolor{keywordtype}{char} \mbox{\hyperlink{structoutput}{output}}[200];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00252}00252     sprintf(\mbox{\hyperlink{structoutput}{output}}, \textcolor{stringliteral}{"{}test-\/output/type-\/\%d-\/\%d-\/\%d-\/\%d-\/\%s"{}}, type, colorspace, new\_w, new\_h, file);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00253}00253     stbi\_write\_png(\mbox{\hyperlink{structoutput}{output}}, new\_w, new\_h, n, char\_data, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00254}00254 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00255}00255     free(char\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00256}00256     free(output\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00257}00257 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00258}00258 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00259}00259 \textcolor{keywordtype}{void} convert\_image\_float(\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* input, \textcolor{keywordtype}{float}* \mbox{\hyperlink{structoutput}{output}}, \textcolor{keywordtype}{int} length)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00260}00260 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00261}00261     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < length; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00262}00262         \mbox{\hyperlink{structoutput}{output}}[i] = ((\textcolor{keywordtype}{float})input[i])/255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00263}00263 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00264}00264 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00265}00265 \textcolor{keywordtype}{void} convert\_image\_float(\textcolor{keyword}{const} \textcolor{keywordtype}{float}* input, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* \mbox{\hyperlink{structoutput}{output}}, \textcolor{keywordtype}{int} length)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00266}00266 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00267}00267     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < length; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00268}00268         \mbox{\hyperlink{structoutput}{output}}[i] = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char})(stbir\_\_saturate(input[i]) * 255);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00269}00269 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00270}00270 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00271}00271 \textcolor{keywordtype}{void} test\_float(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* file, \textcolor{keywordtype}{float} width\_percent, \textcolor{keywordtype}{float} height\_percent, stbir\_datatype type, stbir\_colorspace colorspace)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00272}00272 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00273}00273     \textcolor{keywordtype}{int} w, h, n;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00274}00274     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* input\_data = stbi\_load(file, \&w, \&h, \&n, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00275}00275 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00276}00276     \textcolor{keywordflow}{if} (input\_data == NULL)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00277}00277         \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00278}00278 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00279}00279     \textcolor{keywordtype}{int} new\_w = (int)(w * width\_percent);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00280}00280     \textcolor{keywordtype}{int} new\_h = (int)(h * height\_percent);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00281}00281 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00282}00282     \textcolor{keywordtype}{float}* T\_data = (\textcolor{keywordtype}{float}*)malloc(w * h * n * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00283}00283     convert\_image\_float(input\_data, T\_data, w * h * n);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00284}00284 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00285}00285     \textcolor{keywordtype}{float}* output\_data = (\textcolor{keywordtype}{float}*)malloc(new\_w * new\_h * n * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00286}00286 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00287}00287     stbir\_resize\_float\_generic(T\_data, w, h, 0, output\_data, new\_w, new\_h, 0, n, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_CATMULLROM, colorspace, \&g\_context);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00288}00288 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00289}00289     free(T\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00290}00290     stbi\_image\_free(input\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00291}00291 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00292}00292     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* char\_data = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*)malloc(new\_w * new\_h * n * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{char}));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00293}00293     convert\_image\_float(output\_data, char\_data, new\_w * new\_h * n);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00294}00294 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00295}00295     \textcolor{keywordtype}{char} \mbox{\hyperlink{structoutput}{output}}[200];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00296}00296     sprintf(\mbox{\hyperlink{structoutput}{output}}, \textcolor{stringliteral}{"{}test-\/output/type-\/\%d-\/\%d-\/\%d-\/\%d-\/\%s"{}}, type, colorspace, new\_w, new\_h, file);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00297}00297     stbi\_write\_png(\mbox{\hyperlink{structoutput}{output}}, new\_w, new\_h, n, char\_data, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00298}00298 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00299}00299     free(char\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00300}00300     free(output\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00301}00301 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00302}00302 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00303}00303 \textcolor{keywordtype}{void} test\_channels(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* file, \textcolor{keywordtype}{float} width\_percent, \textcolor{keywordtype}{float} height\_percent, \textcolor{keywordtype}{int} channels)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00304}00304 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00305}00305     \textcolor{keywordtype}{int} w, h, n;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00306}00306     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* input\_data = stbi\_load(file, \&w, \&h, \&n, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00307}00307 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00308}00308     \textcolor{keywordflow}{if} (input\_data == NULL)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00309}00309         \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00310}00310 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00311}00311     \textcolor{keywordtype}{int} new\_w = (int)(w * width\_percent);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00312}00312     \textcolor{keywordtype}{int} new\_h = (int)(h * height\_percent);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00313}00313 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00314}00314     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* channels\_data = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*)malloc(w * h * channels * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00315}00315 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00316}00316     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < w * h; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00317}00317     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00318}00318         \textcolor{keywordtype}{int} input\_position = i * n;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00319}00319         \textcolor{keywordtype}{int} output\_position = i * channels;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00320}00320 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00321}00321         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} c = 0; c < channels; c++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00322}00322             channels\_data[output\_position + c] = input\_data[input\_position + stbir\_\_min(c, n)];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00323}00323     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00324}00324 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00325}00325     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* output\_data = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*)malloc(new\_w * new\_h * channels * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00326}00326 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00327}00327     stbir\_resize\_uint8\_srgb(channels\_data, w, h, 0, output\_data, new\_w, new\_h, 0, channels, STBIR\_ALPHA\_CHANNEL\_NONE, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00328}00328 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00329}00329     free(channels\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00330}00330     stbi\_image\_free(input\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00331}00331 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00332}00332     \textcolor{keywordtype}{char} \mbox{\hyperlink{structoutput}{output}}[200];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00333}00333     sprintf(\mbox{\hyperlink{structoutput}{output}}, \textcolor{stringliteral}{"{}test-\/output/channels-\/\%d-\/\%d-\/\%d-\/\%s"{}}, channels, new\_w, new\_h, file);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00334}00334     stbi\_write\_png(\mbox{\hyperlink{structoutput}{output}}, new\_w, new\_h, channels, output\_data, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00335}00335 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00336}00336     free(output\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00337}00337 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00338}00338 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00339}00339 \textcolor{keywordtype}{void} test\_subpixel(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* file, \textcolor{keywordtype}{float} width\_percent, \textcolor{keywordtype}{float} height\_percent, \textcolor{keywordtype}{float} s1, \textcolor{keywordtype}{float} t1)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00340}00340 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00341}00341     \textcolor{keywordtype}{int} w, h, n;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00342}00342     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* input\_data = stbi\_load(file, \&w, \&h, \&n, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00343}00343 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00344}00344     \textcolor{keywordflow}{if} (input\_data == NULL)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00345}00345         \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00346}00346 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00347}00347     s1 = ((float)w -\/ 1 + s1)/w;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00348}00348     t1 = ((float)h -\/ 1 + t1)/h;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00349}00349 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00350}00350     \textcolor{keywordtype}{int} new\_w = (int)(w * width\_percent);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00351}00351     \textcolor{keywordtype}{int} new\_h = (int)(h * height\_percent);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00352}00352 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00353}00353     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* output\_data = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*)malloc(new\_w * new\_h * n * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00354}00354 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00355}00355     stbir\_resize\_region(input\_data, w, h, 0, output\_data, new\_w, new\_h, 0, STBIR\_TYPE\_UINT8, n, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_BOX, STBIR\_FILTER\_CATMULLROM, STBIR\_COLORSPACE\_SRGB, \&g\_context, 0, 0, s1, t1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00356}00356 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00357}00357     stbi\_image\_free(input\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00358}00358 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00359}00359     \textcolor{keywordtype}{char} \mbox{\hyperlink{structoutput}{output}}[200];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00360}00360     sprintf(\mbox{\hyperlink{structoutput}{output}}, \textcolor{stringliteral}{"{}test-\/output/subpixel-\/\%d-\/\%d-\/\%f-\/\%f-\/\%s"{}}, new\_w, new\_h, s1, t1, file);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00361}00361     stbi\_write\_png(\mbox{\hyperlink{structoutput}{output}}, new\_w, new\_h, n, output\_data, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00362}00362 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00363}00363     free(output\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00364}00364 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00365}00365 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00366}00366 \textcolor{keywordtype}{void} test\_subpixel\_region(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* file, \textcolor{keywordtype}{float} width\_percent, \textcolor{keywordtype}{float} height\_percent, \textcolor{keywordtype}{float} s0, \textcolor{keywordtype}{float} t0, \textcolor{keywordtype}{float} s1, \textcolor{keywordtype}{float} t1)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00367}00367 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00368}00368     \textcolor{keywordtype}{int} w, h, n;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00369}00369     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* input\_data = stbi\_load(file, \&w, \&h, \&n, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00370}00370 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00371}00371     \textcolor{keywordflow}{if} (input\_data == NULL)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00372}00372         \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00373}00373 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00374}00374     \textcolor{keywordtype}{int} new\_w = (int)(w * width\_percent);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00375}00375     \textcolor{keywordtype}{int} new\_h = (int)(h * height\_percent);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00376}00376 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00377}00377     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* output\_data = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*)malloc(new\_w * new\_h * n * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00378}00378 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00379}00379     stbir\_resize\_region(input\_data, w, h, 0, output\_data, new\_w, new\_h, 0, STBIR\_TYPE\_UINT8, n, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_BOX, STBIR\_FILTER\_CATMULLROM, STBIR\_COLORSPACE\_SRGB, \&g\_context, s0, t0, s1, t1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00380}00380 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00381}00381     stbi\_image\_free(input\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00382}00382 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00383}00383     \textcolor{keywordtype}{char} \mbox{\hyperlink{structoutput}{output}}[200];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00384}00384     sprintf(\mbox{\hyperlink{structoutput}{output}}, \textcolor{stringliteral}{"{}test-\/output/subpixel-\/region-\/\%d-\/\%d-\/\%f-\/\%f-\/\%f-\/\%f-\/\%s"{}}, new\_w, new\_h, s0, t0, s1, t1, file);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00385}00385     stbi\_write\_png(\mbox{\hyperlink{structoutput}{output}}, new\_w, new\_h, n, output\_data, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00386}00386 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00387}00387     free(output\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00388}00388 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00389}00389 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00390}00390 \textcolor{keywordtype}{void} test\_subpixel\_command(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* file, \textcolor{keywordtype}{float} width\_percent, \textcolor{keywordtype}{float} height\_percent, \textcolor{keywordtype}{float} x\_scale, \textcolor{keywordtype}{float} y\_scale, \textcolor{keywordtype}{float} x\_offset, \textcolor{keywordtype}{float} y\_offset)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00391}00391 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00392}00392     \textcolor{keywordtype}{int} w, h, n;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00393}00393     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* input\_data = stbi\_load(file, \&w, \&h, \&n, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00394}00394 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00395}00395     \textcolor{keywordflow}{if} (input\_data == NULL)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00396}00396         \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00397}00397 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00398}00398     \textcolor{keywordtype}{int} new\_w = (int)(w * width\_percent);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00399}00399     \textcolor{keywordtype}{int} new\_h = (int)(h * height\_percent);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00400}00400 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00401}00401     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* output\_data = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*)malloc(new\_w * new\_h * n * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00402}00402 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00403}00403     stbir\_resize\_subpixel(input\_data, w, h, 0, output\_data, new\_w, new\_h, 0, STBIR\_TYPE\_UINT8, n, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_BOX, STBIR\_FILTER\_CATMULLROM, STBIR\_COLORSPACE\_SRGB, \&g\_context, x\_scale, y\_scale, x\_offset, y\_offset);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00404}00404 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00405}00405     stbi\_image\_free(input\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00406}00406 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00407}00407     \textcolor{keywordtype}{char} \mbox{\hyperlink{structoutput}{output}}[200];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00408}00408     sprintf(\mbox{\hyperlink{structoutput}{output}}, \textcolor{stringliteral}{"{}test-\/output/subpixel-\/command-\/\%d-\/\%d-\/\%f-\/\%f-\/\%f-\/\%f-\/\%s"{}}, new\_w, new\_h, x\_scale, y\_scale, x\_offset, y\_offset, file);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00409}00409     stbi\_write\_png(\mbox{\hyperlink{structoutput}{output}}, new\_w, new\_h, n, output\_data, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00410}00410 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00411}00411     free(output\_data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00412}00412 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00413}00413 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00414}00414 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}* pixel(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}* \mbox{\hyperlink{classbuffer}{buffer}}, \textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} y, \textcolor{keywordtype}{int} c, \textcolor{keywordtype}{int} w, \textcolor{keywordtype}{int} n)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00415}00415 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00416}00416     \textcolor{keywordflow}{return} \&\mbox{\hyperlink{classbuffer}{buffer}}[y*w*n + x*n + c];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00417}00417 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00418}00418 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00419}00419 \textcolor{keywordtype}{void} test\_premul()}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00420}00420 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00421}00421     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} input[2 * 2 * 4];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00422}00422     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \mbox{\hyperlink{structoutput}{output}}[1 * 1 * 4];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00423}00423     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} output2[2 * 2 * 4];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00424}00424 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00425}00425     memset(input, 0, \textcolor{keyword}{sizeof}(input));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00426}00426 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00427}00427     \textcolor{comment}{// First a test to make sure premul is working properly.}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00428}00428 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00429}00429     \textcolor{comment}{// Top left -\/ solid red}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00430}00430     *pixel(input, 0, 0, 0, 2, 4) = 255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00431}00431     *pixel(input, 0, 0, 3, 2, 4) = 255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00432}00432 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00433}00433     \textcolor{comment}{// Bottom left -\/ solid red}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00434}00434     *pixel(input, 0, 1, 0, 2, 4) = 255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00435}00435     *pixel(input, 0, 1, 3, 2, 4) = 255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00436}00436 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00437}00437     \textcolor{comment}{// Top right -\/ transparent green}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00438}00438     *pixel(input, 1, 0, 1, 2, 4) = 255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00439}00439     *pixel(input, 1, 0, 3, 2, 4) = 25;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00440}00440 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00441}00441     \textcolor{comment}{// Bottom right -\/ transparent green}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00442}00442     *pixel(input, 1, 1, 1, 2, 4) = 255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00443}00443     *pixel(input, 1, 1, 3, 2, 4) = 25;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00444}00444 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00445}00445     stbir\_resize(input, 2, 2, 0, \mbox{\hyperlink{structoutput}{output}}, 1, 1, 0, STBIR\_TYPE\_UINT32, 4, 3, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_BOX, STBIR\_FILTER\_BOX, STBIR\_COLORSPACE\_LINEAR, \&g\_context);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00446}00446 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00447}00447     \textcolor{keywordtype}{float} r = (float)255 / 4294967296;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00448}00448     \textcolor{keywordtype}{float} g = (float)255 / 4294967296;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00449}00449     \textcolor{keywordtype}{float} ra = (float)255 / 4294967296;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00450}00450     \textcolor{keywordtype}{float} ga = (float)25 / 4294967296;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00451}00451     \textcolor{keywordtype}{float} a = (ra + ga) / 2;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00452}00452 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00453}00453     STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[0] == (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int})(r * ra / 2 / a * 4294967296 + 0.5f)); \textcolor{comment}{// 232}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00454}00454     STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[1] == (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int})(g * ga / 2 / a * 4294967296 + 0.5f)); \textcolor{comment}{// 23}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00455}00455     STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[2] == 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00456}00456     STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[3] == (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int})(a * 4294967296 + 0.5f)); \textcolor{comment}{// 140}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00457}00457 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00458}00458     \textcolor{comment}{// Now a test to make sure it doesn't clobber existing values.}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00459}00459 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00460}00460     \textcolor{comment}{// Top right -\/ completely transparent green}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00461}00461     *pixel(input, 1, 0, 1, 2, 4) = 255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00462}00462     *pixel(input, 1, 0, 3, 2, 4) = 0;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00463}00463 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00464}00464     \textcolor{comment}{// Bottom right -\/ completely transparent green}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00465}00465     *pixel(input, 1, 1, 1, 2, 4) = 255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00466}00466     *pixel(input, 1, 1, 3, 2, 4) = 0;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00467}00467 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00468}00468     stbir\_resize(input, 2, 2, 0, output2, 2, 2, 0, STBIR\_TYPE\_UINT32, 4, 3, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_BOX, STBIR\_FILTER\_BOX, STBIR\_COLORSPACE\_LINEAR, \&g\_context);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00469}00469 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00470}00470     STBIR\_ASSERT(*pixel(output2, 0, 0, 0, 2, 4) == 255);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00471}00471     STBIR\_ASSERT(*pixel(output2, 0, 0, 1, 2, 4) == 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00472}00472     STBIR\_ASSERT(*pixel(output2, 0, 0, 2, 2, 4) == 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00473}00473     STBIR\_ASSERT(*pixel(output2, 0, 0, 3, 2, 4) == 255);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00474}00474 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00475}00475     STBIR\_ASSERT(*pixel(output2, 0, 1, 0, 2, 4) == 255);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00476}00476     STBIR\_ASSERT(*pixel(output2, 0, 1, 1, 2, 4) == 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00477}00477     STBIR\_ASSERT(*pixel(output2, 0, 1, 2, 2, 4) == 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00478}00478     STBIR\_ASSERT(*pixel(output2, 0, 1, 3, 2, 4) == 255);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00479}00479 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00480}00480     STBIR\_ASSERT(*pixel(output2, 1, 0, 0, 2, 4) == 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00481}00481     STBIR\_ASSERT(*pixel(output2, 1, 0, 1, 2, 4) == 255);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00482}00482     STBIR\_ASSERT(*pixel(output2, 1, 0, 2, 2, 4) == 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00483}00483     STBIR\_ASSERT(*pixel(output2, 1, 0, 3, 2, 4) == 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00484}00484 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00485}00485     STBIR\_ASSERT(*pixel(output2, 1, 1, 0, 2, 4) == 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00486}00486     STBIR\_ASSERT(*pixel(output2, 1, 1, 1, 2, 4) == 255);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00487}00487     STBIR\_ASSERT(*pixel(output2, 1, 1, 2, 2, 4) == 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00488}00488     STBIR\_ASSERT(*pixel(output2, 1, 1, 3, 2, 4) == 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00489}00489 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00490}00490 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00491}00491 \textcolor{comment}{// test that splitting a pow-\/2 image into tiles produces identical results}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00492}00492 \textcolor{keywordtype}{void} test\_subpixel\_1()}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00493}00493 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00494}00494     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} image[8 * 8];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00495}00495 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00496}00496     mtsrand(0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00497}00497 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00498}00498     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < \textcolor{keyword}{sizeof}(image); i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00499}00499         image[i] = mtrand() \& 255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00500}00500 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00501}00501     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} output\_data[16 * 16];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00502}00502 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00503}00503     stbir\_resize\_region(image, 8, 8, 0, output\_data, 16, 16, 0, STBIR\_TYPE\_UINT8, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_CATMULLROM, STBIR\_FILTER\_CATMULLROM, STBIR\_COLORSPACE\_SRGB, \&g\_context, 0, 0, 1, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00504}00504 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00505}00505     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} output\_left[8 * 16];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00506}00506     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} output\_right[8 * 16];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00507}00507 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00508}00508     stbir\_resize\_region(image, 8, 8, 0, output\_left, 8, 16, 0, STBIR\_TYPE\_UINT8, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_CATMULLROM, STBIR\_FILTER\_CATMULLROM, STBIR\_COLORSPACE\_SRGB, \&g\_context, 0, 0, 0.5f, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00509}00509     stbir\_resize\_region(image, 8, 8, 0, output\_right, 8, 16, 0, STBIR\_TYPE\_UINT8, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_CATMULLROM, STBIR\_FILTER\_CATMULLROM, STBIR\_COLORSPACE\_SRGB, \&g\_context, 0.5f, 0, 1, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00510}00510 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00511}00511     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x = 0; x < 8; x++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00512}00512     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00513}00513         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y = 0; y < 16; y++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00514}00514         \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00515}00515             STBIR\_ASSERT(output\_data[y * 16 + x] == output\_left[y * 8 + x]);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00516}00516             STBIR\_ASSERT(output\_data[y * 16 + x + 8] == output\_right[y * 8 + x]);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00517}00517         \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00518}00518     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00519}00519 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00520}00520     stbir\_resize\_subpixel(image, 8, 8, 0, output\_left, 8, 16, 0, STBIR\_TYPE\_UINT8, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_CATMULLROM, STBIR\_FILTER\_CATMULLROM, STBIR\_COLORSPACE\_SRGB, \&g\_context, 2, 2, 0, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00521}00521     stbir\_resize\_subpixel(image, 8, 8, 0, output\_right, 8, 16, 0, STBIR\_TYPE\_UINT8, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_CATMULLROM, STBIR\_FILTER\_CATMULLROM, STBIR\_COLORSPACE\_SRGB, \&g\_context, 2, 2, 8, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00522}00522 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00523}00523     \{\textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x = 0; x < 8; x++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00524}00524     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00525}00525         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y = 0; y < 16; y++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00526}00526         \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00527}00527             STBIR\_ASSERT(output\_data[y * 16 + x] == output\_left[y * 8 + x]);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00528}00528             STBIR\_ASSERT(output\_data[y * 16 + x + 8] == output\_right[y * 8 + x]);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00529}00529         \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00530}00530     \}\}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00531}00531 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00532}00532 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00533}00533 \textcolor{comment}{// test that replicating an image and using a subtile of it produces same results as wraparound}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00534}00534 \textcolor{keywordtype}{void} test\_subpixel\_2()}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00535}00535 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00536}00536     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} image[8 * 8];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00537}00537 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00538}00538     mtsrand(0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00539}00539 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00540}00540     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < \textcolor{keyword}{sizeof}(image); i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00541}00541         image[i] = mtrand() \& 255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00542}00542 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00543}00543     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} large\_image[32 * 32];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00544}00544 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00545}00545     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x = 0; x < 8; x++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00546}00546     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00547}00547         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y = 0; y < 8; y++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00548}00548         \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00549}00549             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 4; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00550}00550             \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00551}00551                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j = 0; j < 4; j++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00552}00552                     large\_image[j*4*8*8 + i*8 + y*4*8 + x] = image[y*8 + x];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00553}00553             \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00554}00554         \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00555}00555     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00556}00556 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00557}00557     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} output\_data\_1[16 * 16];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00558}00558     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} output\_data\_2[16 * 16];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00559}00559 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00560}00560     stbir\_resize(image, 8, 8, 0, output\_data\_1, 16, 16, 0, STBIR\_TYPE\_UINT8, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_WRAP, STBIR\_EDGE\_WRAP, STBIR\_FILTER\_CATMULLROM, STBIR\_FILTER\_CATMULLROM, STBIR\_COLORSPACE\_SRGB, \&g\_context);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00561}00561     stbir\_resize\_region(large\_image, 32, 32, 0, output\_data\_2, 16, 16, 0, STBIR\_TYPE\_UINT8, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_WRAP, STBIR\_EDGE\_WRAP, STBIR\_FILTER\_CATMULLROM, STBIR\_FILTER\_CATMULLROM, STBIR\_COLORSPACE\_SRGB, \&g\_context, 0.25f, 0.25f, 0.5f, 0.5f);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00562}00562 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00563}00563     \{\textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x = 0; x < 16; x++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00564}00564     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00565}00565         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y = 0; y < 16; y++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00566}00566             STBIR\_ASSERT(output\_data\_1[y * 16 + x] == output\_data\_2[y * 16 + x]);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00567}00567     \}\}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00568}00568 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00569}00569     stbir\_resize\_subpixel(large\_image, 32, 32, 0, output\_data\_2, 16, 16, 0, STBIR\_TYPE\_UINT8, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_WRAP, STBIR\_EDGE\_WRAP, STBIR\_FILTER\_CATMULLROM, STBIR\_FILTER\_CATMULLROM, STBIR\_COLORSPACE\_SRGB, \&g\_context, 2, 2, 16, 16);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00570}00570 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00571}00571     \{\textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x = 0; x < 16; x++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00572}00572     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00573}00573         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y = 0; y < 16; y++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00574}00574             STBIR\_ASSERT(output\_data\_1[y * 16 + x] == output\_data\_2[y * 16 + x]);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00575}00575     \}\}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00576}00576 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00577}00577 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00578}00578 \textcolor{comment}{// test that 0,0,1,1 subpixel produces same result as no-\/rect}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00579}00579 \textcolor{keywordtype}{void} test\_subpixel\_3()}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00580}00580 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00581}00581     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} image[8 * 8];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00582}00582 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00583}00583     mtsrand(0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00584}00584 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00585}00585     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < \textcolor{keyword}{sizeof}(image); i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00586}00586         image[i] = mtrand() \& 255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00587}00587 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00588}00588     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} output\_data\_1[32 * 32];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00589}00589     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} output\_data\_2[32 * 32];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00590}00590 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00591}00591     stbir\_resize\_region(image, 8, 8, 0, output\_data\_1, 32, 32, 0, STBIR\_TYPE\_UINT8, 1, 0, STBIR\_ALPHA\_CHANNEL\_NONE, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_CATMULLROM, STBIR\_FILTER\_CATMULLROM, STBIR\_COLORSPACE\_LINEAR, NULL, 0, 0, 1, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00592}00592     stbir\_resize\_uint8(image, 8, 8, 0, output\_data\_2, 32, 32, 0, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00593}00593 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00594}00594     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x = 0; x < 32; x++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00595}00595     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00596}00596         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y = 0; y < 32; y++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00597}00597             STBIR\_ASSERT(output\_data\_1[y * 32 + x] == output\_data\_2[y * 32 + x]);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00598}00598     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00599}00599 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00600}00600     stbir\_resize\_subpixel(image, 8, 8, 0, output\_data\_1, 32, 32, 0, STBIR\_TYPE\_UINT8, 1, 0, STBIR\_ALPHA\_CHANNEL\_NONE, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_CATMULLROM, STBIR\_FILTER\_CATMULLROM, STBIR\_COLORSPACE\_LINEAR, NULL, 4, 4, 0, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00601}00601 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00602}00602     \{\textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} x = 0; x < 32; x++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00603}00603     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00604}00604         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} y = 0; y < 32; y++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00605}00605             STBIR\_ASSERT(output\_data\_1[y * 32 + x] == output\_data\_2[y * 32 + x]);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00606}00606     \}\}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00607}00607 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00608}00608 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00609}00609 \textcolor{comment}{// test that 1:1 resample using s,t=0,0,1,1 with bilinear produces original image}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00610}00610 \textcolor{keywordtype}{void} test\_subpixel\_4()}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00611}00611 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00612}00612     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} image[8 * 8];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00613}00613 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00614}00614     mtsrand(0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00615}00615 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00616}00616     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < \textcolor{keyword}{sizeof}(image); i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00617}00617         image[i] = mtrand() \& 255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00618}00618 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00619}00619     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} \mbox{\hyperlink{structoutput}{output}}[8 * 8];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00620}00620 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00621}00621     stbir\_resize\_region(image, 8, 8, 0, \mbox{\hyperlink{structoutput}{output}}, 8, 8, 0, STBIR\_TYPE\_UINT8, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_TRIANGLE, STBIR\_FILTER\_TRIANGLE, STBIR\_COLORSPACE\_LINEAR, \&g\_context, 0, 0, 1, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00622}00622     STBIR\_ASSERT(memcmp(image, \mbox{\hyperlink{structoutput}{output}}, 8 * 8) == 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00623}00623 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00624}00624     stbir\_resize\_subpixel(image, 8, 8, 0, \mbox{\hyperlink{structoutput}{output}}, 8, 8, 0, STBIR\_TYPE\_UINT8, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_TRIANGLE, STBIR\_FILTER\_TRIANGLE, STBIR\_COLORSPACE\_LINEAR, \&g\_context, 1, 1, 0, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00625}00625     STBIR\_ASSERT(memcmp(image, \mbox{\hyperlink{structoutput}{output}}, 8 * 8) == 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00626}00626 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00627}00627 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00628}00628 \textcolor{keyword}{static} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}  image88\_int[8][8];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00629}00629 \textcolor{keyword}{static} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} image88 [8][8];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00630}00630 \textcolor{keyword}{static} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} output88[8][8];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00631}00631 \textcolor{keyword}{static} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} output44[4][4];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00632}00632 \textcolor{keyword}{static} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} output22[2][2];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00633}00633 \textcolor{keyword}{static} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} output11[1][1];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00634}00634 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00635}00635 \textcolor{keywordtype}{void} resample\_88(stbir\_filter filter)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00636}00636 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00637}00637     stbir\_resize\_uint8\_generic(image88[0],8,8,0, output88[0],8,8,0, 1,-\/1,0, STBIR\_EDGE\_CLAMP, filter, STBIR\_COLORSPACE\_LINEAR, NULL);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00638}00638     stbir\_resize\_uint8\_generic(image88[0],8,8,0, output44[0],4,4,0, 1,-\/1,0, STBIR\_EDGE\_CLAMP, filter, STBIR\_COLORSPACE\_LINEAR, NULL);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00639}00639     stbir\_resize\_uint8\_generic(image88[0],8,8,0, output22[0],2,2,0, 1,-\/1,0, STBIR\_EDGE\_CLAMP, filter, STBIR\_COLORSPACE\_LINEAR, NULL);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00640}00640     stbir\_resize\_uint8\_generic(image88[0],8,8,0, output11[0],1,1,0, 1,-\/1,0, STBIR\_EDGE\_CLAMP, filter, STBIR\_COLORSPACE\_LINEAR, NULL);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00641}00641 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00642}00642 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00643}00643 \textcolor{keywordtype}{void} verify\_box(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00644}00644 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00645}00645     \textcolor{keywordtype}{int} i,j,t;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00646}00646 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00647}00647     resample\_88(STBIR\_FILTER\_BOX);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00648}00648 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00649}00649     \textcolor{keywordflow}{for} (i=0; i < \textcolor{keyword}{sizeof}(image88); ++i)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00650}00650         STBIR\_ASSERT(image88[0][i] == output88[0][i]);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00651}00651 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00652}00652     t = 0;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00653}00653     \textcolor{keywordflow}{for} (j=0; j < 4; ++j)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00654}00654         \textcolor{keywordflow}{for} (i=0; i < 4; ++i) \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00655}00655             \textcolor{keywordtype}{int} n = image88[j*2+0][i*2+0]}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00656}00656                   + image88[j*2+0][i*2+1]}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00657}00657                   + image88[j*2+1][i*2+0]}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00658}00658                   + image88[j*2+1][i*2+1];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00659}00659             STBIR\_ASSERT(output44[j][i] == ((n+2)>>2) || output44[j][i] == ((n+1)>>2)); \textcolor{comment}{// can't guarantee exact rounding due to numerical precision}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00660}00660             t += n;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00661}00661         \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00662}00662     STBIR\_ASSERT(output11[0][0] == ((t+32)>>6) || output11[0][0] == ((t+31)>>6)); \textcolor{comment}{// can't guarantee exact rounding due to numerical precision}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00663}00663 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00664}00664 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00665}00665 \textcolor{keywordtype}{void} verify\_filter\_normalized(stbir\_filter filter, \textcolor{keywordtype}{int} output\_size, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \mbox{\hyperlink{classvalue}{value}})}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00666}00666 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00667}00667     \textcolor{keywordtype}{int} i, j;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00668}00668     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \mbox{\hyperlink{structoutput}{output}}[64];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00669}00669 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00670}00670     stbir\_resize(image88\_int[0], 8, 8, 0, \mbox{\hyperlink{structoutput}{output}}, output\_size, output\_size, 0, STBIR\_TYPE\_UINT32, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, filter, filter, STBIR\_COLORSPACE\_LINEAR, NULL);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00671}00671 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00672}00672     \textcolor{keywordflow}{for} (j = 0; j < output\_size; ++j)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00673}00673         \textcolor{keywordflow}{for} (i = 0; i < output\_size; ++i)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00674}00674             STBIR\_ASSERT(\mbox{\hyperlink{classvalue}{value}} == \mbox{\hyperlink{structoutput}{output}}[j*output\_size + i]);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00675}00675 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00676}00676 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00677}00677 \textcolor{keywordtype}{float} round2(\textcolor{keywordtype}{float} f)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00678}00678 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00679}00679     \textcolor{keywordflow}{return} (\textcolor{keywordtype}{float}) \mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{floor}}(f+0.5f); \textcolor{comment}{// round() isn't C standard pre-\/C99}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00680}00680 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00681}00681 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00682}00682 \textcolor{keywordtype}{void} test\_filters(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00683}00683 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00684}00684     \textcolor{keywordtype}{int} i,j;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00685}00685 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00686}00686     mtsrand(0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00687}00687 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00688}00688     \textcolor{keywordflow}{for} (i=0; i < \textcolor{keyword}{sizeof}(image88); ++i)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00689}00689         image88[0][i] = mtrand() \& 255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00690}00690     verify\_box();}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00691}00691 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00692}00692     \textcolor{keywordflow}{for} (i=0; i < \textcolor{keyword}{sizeof}(image88); ++i)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00693}00693         image88[0][i] = 0;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00694}00694     image88[4][4] = 255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00695}00695     verify\_box();}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00696}00696 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00697}00697     \textcolor{keywordflow}{for} (j=0; j < 8; ++j)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00698}00698         \textcolor{keywordflow}{for} (i=0; i < 8; ++i)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00699}00699             image88[j][i] = (j\string^i)\&1 ? 255 : 0;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00700}00700     verify\_box();}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00701}00701 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00702}00702     \textcolor{keywordflow}{for} (j=0; j < 8; ++j)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00703}00703         \textcolor{keywordflow}{for} (i=0; i < 8; ++i)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00704}00704             image88[j][i] = i\&2 ? 255 : 0;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00705}00705     verify\_box();}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00706}00706 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00707}00707     \textcolor{keywordtype}{int} \mbox{\hyperlink{classvalue}{value}} = 64;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00708}00708 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00709}00709     \textcolor{keywordflow}{for} (j = 0; j < 8; ++j)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00710}00710         \textcolor{keywordflow}{for} (i = 0; i < 8; ++i)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00711}00711             image88\_int[j][i] = \mbox{\hyperlink{classvalue}{value}};}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00712}00712 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00713}00713     verify\_filter\_normalized(STBIR\_FILTER\_BOX, 8, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00714}00714     verify\_filter\_normalized(STBIR\_FILTER\_TRIANGLE, 8, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00715}00715     verify\_filter\_normalized(STBIR\_FILTER\_CUBICBSPLINE, 8, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00716}00716     verify\_filter\_normalized(STBIR\_FILTER\_CATMULLROM, 8, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00717}00717     verify\_filter\_normalized(STBIR\_FILTER\_MITCHELL, 8, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00718}00718 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00719}00719     verify\_filter\_normalized(STBIR\_FILTER\_BOX, 4, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00720}00720     verify\_filter\_normalized(STBIR\_FILTER\_TRIANGLE, 4, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00721}00721     verify\_filter\_normalized(STBIR\_FILTER\_CUBICBSPLINE, 4, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00722}00722     verify\_filter\_normalized(STBIR\_FILTER\_CATMULLROM, 4, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00723}00723     verify\_filter\_normalized(STBIR\_FILTER\_MITCHELL, 4, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00724}00724 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00725}00725     verify\_filter\_normalized(STBIR\_FILTER\_BOX, 2, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00726}00726     verify\_filter\_normalized(STBIR\_FILTER\_TRIANGLE, 2, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00727}00727     verify\_filter\_normalized(STBIR\_FILTER\_CUBICBSPLINE, 2, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00728}00728     verify\_filter\_normalized(STBIR\_FILTER\_CATMULLROM, 2, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00729}00729     verify\_filter\_normalized(STBIR\_FILTER\_MITCHELL, 2, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00730}00730 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00731}00731     verify\_filter\_normalized(STBIR\_FILTER\_BOX, 1, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00732}00732     verify\_filter\_normalized(STBIR\_FILTER\_TRIANGLE, 1, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00733}00733     verify\_filter\_normalized(STBIR\_FILTER\_CUBICBSPLINE, 1, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00734}00734     verify\_filter\_normalized(STBIR\_FILTER\_CATMULLROM, 1, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00735}00735     verify\_filter\_normalized(STBIR\_FILTER\_MITCHELL, 1, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00736}00736 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00737}00737     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00738}00738         \textcolor{comment}{// This test is designed to produce coefficients that are very badly denormalized.}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00739}00739         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} v = 556;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00740}00740 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00741}00741         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} input[100 * 100];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00742}00742         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \mbox{\hyperlink{structoutput}{output}}[11 * 11];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00743}00743 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00744}00744         \textcolor{keywordflow}{for} (j = 0; j < 100 * 100; ++j)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00745}00745             input[j] = v;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00746}00746 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00747}00747         stbir\_resize(input, 100, 100, 0, \mbox{\hyperlink{structoutput}{output}}, 11, 11, 0, STBIR\_TYPE\_UINT32, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_TRIANGLE, STBIR\_FILTER\_TRIANGLE, STBIR\_COLORSPACE\_LINEAR, NULL);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00748}00748 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00749}00749         \textcolor{keywordflow}{for} (j = 0; j < 11 * 11; ++j)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00750}00750             STBIR\_ASSERT(v == \mbox{\hyperlink{structoutput}{output}}[j]);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00751}00751     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00752}00752 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00753}00753     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00754}00754         \textcolor{comment}{// Now test the trapezoid filter for downsampling.}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00755}00755         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} input[3 * 1];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00756}00756         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \mbox{\hyperlink{structoutput}{output}}[2 * 1];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00757}00757 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00758}00758         input[0] = 0;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00759}00759         input[1] = 255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00760}00760         input[2] = 127;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00761}00761 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00762}00762         stbir\_resize(input, 3, 1, 0, \mbox{\hyperlink{structoutput}{output}}, 2, 1, 0, STBIR\_TYPE\_UINT32, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_BOX, STBIR\_FILTER\_BOX, STBIR\_COLORSPACE\_LINEAR, NULL);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00763}00763 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00764}00764         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[0] == (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int})round2((\textcolor{keywordtype}{float})(input[0] * 2 + input[1]) / 3));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00765}00765         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[1] == (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int})round2((\textcolor{keywordtype}{float})(input[2] * 2 + input[1]) / 3));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00766}00766 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00767}00767         stbir\_resize(input, 1, 3, 0, \mbox{\hyperlink{structoutput}{output}}, 1, 2, 0, STBIR\_TYPE\_UINT32, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_BOX, STBIR\_FILTER\_BOX, STBIR\_COLORSPACE\_LINEAR, NULL);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00768}00768 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00769}00769         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[0] == (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int})round2((\textcolor{keywordtype}{float})(input[0] * 2 + input[1]) / 3));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00770}00770         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[1] == (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int})round2((\textcolor{keywordtype}{float})(input[2] * 2 + input[1]) / 3));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00771}00771     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00772}00772 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00773}00773     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00774}00774         \textcolor{comment}{// Now test the trapezoid filter for upsampling.}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00775}00775         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} input[2 * 1];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00776}00776         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \mbox{\hyperlink{structoutput}{output}}[3 * 1];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00777}00777 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00778}00778         input[0] = 0;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00779}00779         input[1] = 255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00780}00780 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00781}00781         stbir\_resize(input, 2, 1, 0, \mbox{\hyperlink{structoutput}{output}}, 3, 1, 0, STBIR\_TYPE\_UINT32, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_BOX, STBIR\_FILTER\_BOX, STBIR\_COLORSPACE\_LINEAR, NULL);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00782}00782 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00783}00783         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[0] == input[0]);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00784}00784         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[1] == (input[0] + input[1]) / 2);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00785}00785         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[2] == input[1]);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00786}00786 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00787}00787         stbir\_resize(input, 1, 2, 0, \mbox{\hyperlink{structoutput}{output}}, 1, 3, 0, STBIR\_TYPE\_UINT32, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_BOX, STBIR\_FILTER\_BOX, STBIR\_COLORSPACE\_LINEAR, NULL);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00788}00788 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00789}00789         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[0] == input[0]);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00790}00790         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[1] == (input[0] + input[1]) / 2);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00791}00791         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[2] == input[1]);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00792}00792     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00793}00793 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00794}00794     \textcolor{comment}{// checkerboard}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00795}00795     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00796}00796         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} input[64][64];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00797}00797         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} \mbox{\hyperlink{structoutput}{output}}[16][16];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00798}00798         \textcolor{keywordtype}{int} i,j;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00799}00799         \textcolor{keywordflow}{for} (j=0; j < 64; ++j)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00800}00800             \textcolor{keywordflow}{for} (i=0; i < 64; ++i)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00801}00801                 input[j][i] = (i\string^j)\&1 ? 255 : 0;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00802}00802         stbir\_resize\_uint8\_generic(input[0], 64, 64, 0, \mbox{\hyperlink{structoutput}{output}}[0],16,16,0, 1,-\/1,0,STBIR\_EDGE\_WRAP,STBIR\_FILTER\_DEFAULT,STBIR\_COLORSPACE\_LINEAR,0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00803}00803         \textcolor{keywordflow}{for} (j=0; j < 16; ++j)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00804}00804             \textcolor{keywordflow}{for} (i=0; i < 16; ++i)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00805}00805                 STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[j][i] == 128);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00806}00806         stbir\_resize\_uint8\_srgb\_edgemode(input[0], 64, 64, 0, \mbox{\hyperlink{structoutput}{output}}[0],16,16,0, 1,-\/1,0,STBIR\_EDGE\_WRAP);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00807}00807         \textcolor{keywordflow}{for} (j=0; j < 16; ++j)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00808}00808             \textcolor{keywordflow}{for} (i=0; i < 16; ++i)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00809}00809                 STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[j][i] == 188);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00810}00810 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00811}00811 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00812}00812     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00813}00813 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00814}00814     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00815}00815         \textcolor{comment}{// Test trapezoid box filter}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00816}00816         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} input[2 * 1];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00817}00817         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} \mbox{\hyperlink{structoutput}{output}}[127 * 1];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00818}00818 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00819}00819         input[0] = 0;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00820}00820         input[1] = 255;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00821}00821 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00822}00822         stbir\_resize(input, 2, 1, 0, \mbox{\hyperlink{structoutput}{output}}, 127, 1, 0, STBIR\_TYPE\_UINT8, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_BOX, STBIR\_FILTER\_BOX, STBIR\_COLORSPACE\_LINEAR, NULL);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00823}00823         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[0] == 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00824}00824         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[127 / 2 -\/ 1] == 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00825}00825         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[127 / 2] == 128);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00826}00826         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[127 / 2 + 1] == 255);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00827}00827         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[126] == 255);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00828}00828         stbi\_write\_png(\textcolor{stringliteral}{"{}test-\/output/trapezoid-\/upsample-\/horizontal.png"{}}, 127, 1, 1, \mbox{\hyperlink{structoutput}{output}}, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00829}00829 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00830}00830         stbir\_resize(input, 1, 2, 0, \mbox{\hyperlink{structoutput}{output}}, 1, 127, 0, STBIR\_TYPE\_UINT8, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_BOX, STBIR\_FILTER\_BOX, STBIR\_COLORSPACE\_LINEAR, NULL);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00831}00831         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[0] == 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00832}00832         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[127 / 2 -\/ 1] == 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00833}00833         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[127 / 2] == 128);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00834}00834         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[127 / 2 + 1] == 255);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00835}00835         STBIR\_ASSERT(\mbox{\hyperlink{structoutput}{output}}[126] == 255);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00836}00836         stbi\_write\_png(\textcolor{stringliteral}{"{}test-\/output/trapezoid-\/upsample-\/vertical.png"{}}, 1, 127, 1, \mbox{\hyperlink{structoutput}{output}}, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00837}00837     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00838}00838 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00839}00839 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00840}00840 \textcolor{preprocessor}{\#define UMAX32   4294967295U}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00841}00841 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00842}00842 \textcolor{keyword}{static} \textcolor{keywordtype}{void} write32(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *filename, stbir\_uint32 *\mbox{\hyperlink{structoutput}{output}}, \textcolor{keywordtype}{int} w, \textcolor{keywordtype}{int} h)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00843}00843 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00844}00844     stbir\_uint8 *data = (stbir\_uint8*) malloc(w*h*3);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00845}00845     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0; i < w*h*3; ++i)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00846}00846         data[i] = \mbox{\hyperlink{structoutput}{output}}[i]>>24;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00847}00847     stbi\_write\_png(filename, w, h, 3, data, 0);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00848}00848     free(data);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00849}00849 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00850}00850 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00851}00851 \textcolor{keyword}{static} \textcolor{keywordtype}{void} test\_32(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00852}00852 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00853}00853     \textcolor{keywordtype}{int} w=100,h=120,x,y, out\_w,out\_h;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00854}00854     stbir\_uint32 *input  = (stbir\_uint32*) malloc(4 * 3 * w * h);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00855}00855     stbir\_uint32 *\mbox{\hyperlink{structoutput}{output}} = (stbir\_uint32*) malloc(4 * 3 * 3*w * 3*h);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00856}00856     \textcolor{keywordflow}{for} (y=0; y < h; ++y) \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00857}00857         \textcolor{keywordflow}{for} (x=0; x < w; ++x) \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00858}00858             input[y*3*w + x*3 + 0] = x * ( UMAX32/w );}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00859}00859             input[y*3*w + x*3 + 1] = y * ( UMAX32/h );}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00860}00860             input[y*3*w + x*3 + 2] = UMAX32/2;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00861}00861         \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00862}00862     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00863}00863     out\_w = w*33/16;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00864}00864     out\_h = h*33/16;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00865}00865     stbir\_resize(input,w,h,0,\mbox{\hyperlink{structoutput}{output}},out\_w,out\_h,0,STBIR\_TYPE\_UINT32,3,-\/1,0,STBIR\_EDGE\_CLAMP,STBIR\_EDGE\_CLAMP,STBIR\_FILTER\_DEFAULT,STBIR\_FILTER\_DEFAULT,STBIR\_COLORSPACE\_LINEAR,NULL);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00866}00866     write32(\textcolor{stringliteral}{"{}test-\/output/seantest\_1.png"{}}, \mbox{\hyperlink{structoutput}{output}},out\_w,out\_h);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00867}00867 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00868}00868     out\_w = w*16/33;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00869}00869     out\_h = h*16/33;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00870}00870     stbir\_resize(input,w,h,0,\mbox{\hyperlink{structoutput}{output}},out\_w,out\_h,0,STBIR\_TYPE\_UINT32,3,-\/1,0,STBIR\_EDGE\_CLAMP,STBIR\_EDGE\_CLAMP,STBIR\_FILTER\_DEFAULT,STBIR\_FILTER\_DEFAULT,STBIR\_COLORSPACE\_LINEAR,NULL);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00871}00871     write32(\textcolor{stringliteral}{"{}test-\/output/seantest\_2.png"{}}, \mbox{\hyperlink{structoutput}{output}},out\_w,out\_h);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00872}00872 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00873}00873 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00874}00874 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00875}00875 \textcolor{keywordtype}{void} test\_suite(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} **argv)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00876}00876 \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00877}00877     \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00878}00878     \textcolor{keyword}{const} \textcolor{keywordtype}{char} *barbara;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00879}00879 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00880}00880     mkdir(\textcolor{stringliteral}{"{}test-\/output"{}}, 777);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00881}00881 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00882}00882     \textcolor{keywordflow}{if} (argc > 1)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00883}00883         barbara = argv[1];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00884}00884     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00885}00885         barbara = \textcolor{stringliteral}{"{}barbara.png"{}};}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00886}00886 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00887}00887     \textcolor{comment}{// check what cases we need normalization for}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00888}00888 \textcolor{preprocessor}{\#if 1}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00889}00889     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00890}00890         \textcolor{keywordtype}{float} x, y;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00891}00891         \textcolor{keywordflow}{for} (x = -\/1; x < 1; x += 0.05f) \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00892}00892             \textcolor{keywordtype}{float} sums[5] = \{ 0 \};}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00893}00893             \textcolor{keywordtype}{float} o;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00894}00894             \textcolor{keywordflow}{for} (o = -\/5; o <= 5; ++o) \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00895}00895                 sums[0] += stbir\_\_filter\_mitchell(x + o, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00896}00896                 sums[1] += stbir\_\_filter\_catmullrom(x + o, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00897}00897                 sums[2] += stbir\_\_filter\_cubic(x + o, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00898}00898                 sums[3] += stbir\_\_filter\_triangle(x + o, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00899}00899                 sums[4] += stbir\_\_filter\_trapezoid(x + o, 0.5f);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00900}00900             \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00901}00901             \textcolor{keywordflow}{for} (i = 0; i < 5; ++i)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00902}00902                 STBIR\_ASSERT(sums[i] >= 1.0 -\/ 0.001 \&\& sums[i] <= 1.0 + 0.001);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00903}00903         \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00904}00904 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00905}00905 \textcolor{preprocessor}{\#if 1   }}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00906}00906         \textcolor{keywordflow}{for} (y = 0.11f; y < 1; y += 0.01f) \{  \textcolor{comment}{// Step}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00907}00907             \textcolor{keywordflow}{for} (x = -\/1; x < 1; x += 0.05f) \{ \textcolor{comment}{// Phase}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00908}00908                 \textcolor{keywordtype}{float} sums[5] = \{ 0 \};}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00909}00909                 \textcolor{keywordtype}{float} o;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00910}00910                 \textcolor{keywordflow}{for} (o = -\/5; o <= 5; o += y) \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00911}00911                     sums[0] += y * stbir\_\_filter\_mitchell(x + o, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00912}00912                     sums[1] += y * stbir\_\_filter\_catmullrom(x + o, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00913}00913                     sums[2] += y * stbir\_\_filter\_cubic(x + o, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00914}00914                     sums[4] += y * stbir\_\_filter\_trapezoid(x + o, 0.5f);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00915}00915                     sums[3] += y * stbir\_\_filter\_triangle(x + o, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00916}00916                 \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00917}00917                 \textcolor{keywordflow}{for} (i = 0; i < 3; ++i)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00918}00918                     STBIR\_ASSERT(sums[i] >= 1.0 -\/ 0.0170 \&\& sums[i] <= 1.0 + 0.0170);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00919}00919             \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00920}00920         \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00921}00921 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00922}00922     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00923}00923 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00924}00924 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00925}00925 \textcolor{preprocessor}{\#if 0 }\textcolor{comment}{// linear\_to\_srgb\_uchar table}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00926}00926     \textcolor{keywordflow}{for} (i=0; i < 256; ++i) \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00927}00927         \textcolor{keywordtype}{float} f = stbir\_\_srgb\_to\_linear((i-\/0.5f)/255.0f);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00928}00928         printf(\textcolor{stringliteral}{"{}\%9d, "{}}, (\textcolor{keywordtype}{int}) ((f) * (1<<28)));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00929}00929         \textcolor{keywordflow}{if} ((i \& 7) == 7)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00930}00930             printf(\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00931}00931     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00932}00932 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00933}00933 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00934}00934     \textcolor{comment}{// old tests that hacky fix worked on -\/ test that}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00935}00935     \textcolor{comment}{// every uint8 maps to itself}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00936}00936     \textcolor{keywordflow}{for} (i = 0; i < 256; i++) \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00937}00937         \textcolor{keywordtype}{float} f = stbir\_\_srgb\_to\_linear(\textcolor{keywordtype}{float}(i) / 255);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00938}00938         \textcolor{keywordtype}{int} n = stbir\_\_linear\_to\_srgb\_uchar(f);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00939}00939         STBIR\_ASSERT(n == i);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00940}00940     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00941}00941 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00942}00942     \textcolor{comment}{// new tests that hacky fix failed for -\/ test that}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00943}00943     \textcolor{comment}{// values adjacent to uint8 round to nearest uint8}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00944}00944     \textcolor{keywordflow}{for} (i = 0; i < 256; i++) \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00945}00945         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{float} y = -\/0.42f; y <= 0.42f; y += 0.01f) \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00946}00946             \textcolor{keywordtype}{float} f = stbir\_\_srgb\_to\_linear((i+y) / 255.0f);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00947}00947             \textcolor{keywordtype}{int} n = stbir\_\_linear\_to\_srgb\_uchar(f);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00948}00948             STBIR\_ASSERT(n == i);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00949}00949         \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00950}00950     \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00951}00951 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00952}00952     test\_filters();}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00953}00953 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00954}00954     test\_subpixel\_1();}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00955}00955     test\_subpixel\_2();}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00956}00956     test\_subpixel\_3();}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00957}00957     test\_subpixel\_4();}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00958}00958 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00959}00959     test\_premul();}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00960}00960 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00961}00961     test\_32();}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00962}00962 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00963}00963     \textcolor{comment}{// Some tests to make sure errors don't pop up with strange filter/dimension combinations.}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00964}00964     stbir\_resize(image88, 8, 8, 0, output88, 4, 16, 0, STBIR\_TYPE\_UINT8, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_BOX, STBIR\_FILTER\_CATMULLROM, STBIR\_COLORSPACE\_SRGB, \&g\_context);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00965}00965     stbir\_resize(image88, 8, 8, 0, output88, 4, 16, 0, STBIR\_TYPE\_UINT8, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_CATMULLROM, STBIR\_FILTER\_BOX, STBIR\_COLORSPACE\_SRGB, \&g\_context);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00966}00966     stbir\_resize(image88, 8, 8, 0, output88, 16, 4, 0, STBIR\_TYPE\_UINT8, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_BOX, STBIR\_FILTER\_CATMULLROM, STBIR\_COLORSPACE\_SRGB, \&g\_context);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00967}00967     stbir\_resize(image88, 8, 8, 0, output88, 16, 4, 0, STBIR\_TYPE\_UINT8, 1, STBIR\_ALPHA\_CHANNEL\_NONE, 0, STBIR\_EDGE\_CLAMP, STBIR\_EDGE\_CLAMP, STBIR\_FILTER\_CATMULLROM, STBIR\_FILTER\_BOX, STBIR\_COLORSPACE\_SRGB, \&g\_context);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00968}00968 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00969}00969     \textcolor{keywordtype}{int} barbara\_width, barbara\_height, barbara\_channels;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00970}00970     stbi\_image\_free(stbi\_load(barbara, \&barbara\_width, \&barbara\_height, \&barbara\_channels, 0));}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00971}00971 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00972}00972     \textcolor{keywordtype}{int} res = 10;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00973}00973     \textcolor{comment}{// Downscaling}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00974}00974     \{\textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i <= res; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00975}00975     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00976}00976         \textcolor{keywordtype}{float} t = (float)i/res;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00977}00977         \textcolor{keywordtype}{float} scale = 0.5;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00978}00978         \textcolor{keywordtype}{float} out\_scale = 2.0f/3;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00979}00979         \textcolor{keywordtype}{float} x\_shift = (barbara\_width*out\_scale -\/ barbara\_width*\mbox{\hyperlink{group__gtc__matrix__transform_gaae2f8b2080622b24b85e1096748599b6}{scale}}) * t;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00980}00980         \textcolor{keywordtype}{float} y\_shift = (barbara\_height*out\_scale -\/ barbara\_height*\mbox{\hyperlink{group__gtc__matrix__transform_gaae2f8b2080622b24b85e1096748599b6}{scale}}) * t;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00981}00981 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00982}00982         test\_subpixel\_command(barbara, scale, scale, out\_scale, out\_scale, x\_shift, y\_shift);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00983}00983     \}\}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00984}00984 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00985}00985     \textcolor{comment}{// Upscaling}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00986}00986     \{\textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i <= res; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00987}00987     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00988}00988         \textcolor{keywordtype}{float} t = (float)i/res;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00989}00989         \textcolor{keywordtype}{float} scale = 2;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00990}00990         \textcolor{keywordtype}{float} out\_scale = 3;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00991}00991         \textcolor{keywordtype}{float} x\_shift = (barbara\_width*out\_scale -\/ barbara\_width*\mbox{\hyperlink{group__gtc__matrix__transform_gaae2f8b2080622b24b85e1096748599b6}{scale}}) * t;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00992}00992         \textcolor{keywordtype}{float} y\_shift = (barbara\_height*out\_scale -\/ barbara\_height*\mbox{\hyperlink{group__gtc__matrix__transform_gaae2f8b2080622b24b85e1096748599b6}{scale}}) * t;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00993}00993 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00994}00994         test\_subpixel\_command(barbara, scale, scale, out\_scale, out\_scale, x\_shift, y\_shift);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00995}00995     \}\}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00996}00996 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00997}00997     \textcolor{comment}{// Downscaling}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00998}00998     \{\textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i <= res; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l00999}00999     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01000}01000         \textcolor{keywordtype}{float} t = (float)i/res / 2;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01001}01001         test\_subpixel\_region(barbara, 0.25f, 0.25f, t, t, t+0.5f, t+0.5f);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01002}01002     \}\}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01003}01003 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01004}01004     \textcolor{comment}{// No scaling}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01005}01005     \{\textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i <= res; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01006}01006     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01007}01007         \textcolor{keywordtype}{float} t = (float)i/res / 2;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01008}01008         test\_subpixel\_region(barbara, 0.5f, 0.5f, t, t, t+0.5f, t+0.5f);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01009}01009     \}\}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01010}01010 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01011}01011     \textcolor{comment}{// Upscaling}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01012}01012     \{\textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i <= res; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01013}01013     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01014}01014         \textcolor{keywordtype}{float} t = (float)i/res / 2;}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01015}01015         test\_subpixel\_region(barbara, 1, 1, t, t, t+0.5f, t+0.5f);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01016}01016     \}\}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01017}01017 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01018}01018     \{\textcolor{keywordflow}{for} (i = 0; i < 10; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01019}01019         test\_subpixel(barbara, 0.5f, 0.5f, (\textcolor{keywordtype}{float})i / 10, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01020}01020    \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01021}01021 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01022}01022     \{\textcolor{keywordflow}{for} (i = 0; i < 10; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01023}01023         test\_subpixel(barbara, 0.5f, 0.5f, 1, (\textcolor{keywordtype}{float})i / 10);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01024}01024    \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01025}01025 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01026}01026     \{\textcolor{keywordflow}{for} (i = 0; i < 10; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01027}01027         test\_subpixel(barbara, 2, 2, (\textcolor{keywordtype}{float})i / 10, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01028}01028    \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01029}01029 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01030}01030     \{\textcolor{keywordflow}{for} (i = 0; i < 10; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01031}01031         test\_subpixel(barbara, 2, 2, 1, (\textcolor{keywordtype}{float})i / 10);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01032}01032    \}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01033}01033 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01034}01034     \textcolor{comment}{// Channels test}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01035}01035     test\_channels(barbara, 0.5f, 0.5f, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01036}01036     test\_channels(barbara, 0.5f, 0.5f, 2);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01037}01037     test\_channels(barbara, 0.5f, 0.5f, 3);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01038}01038     test\_channels(barbara, 0.5f, 0.5f, 4);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01039}01039 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01040}01040     test\_channels(barbara, 2, 2, 1);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01041}01041     test\_channels(barbara, 2, 2, 2);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01042}01042     test\_channels(barbara, 2, 2, 3);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01043}01043     test\_channels(barbara, 2, 2, 4);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01044}01044 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01045}01045     \textcolor{comment}{// filter tests}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01046}01046     resize\_image(barbara, 2, 2, STBIR\_FILTER\_BOX         , STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_SRGB, \textcolor{stringliteral}{"{}test-\/output/barbara-\/upsample-\/nearest.png"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01047}01047     resize\_image(barbara, 2, 2, STBIR\_FILTER\_TRIANGLE    , STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_SRGB, \textcolor{stringliteral}{"{}test-\/output/barbara-\/upsample-\/bilinear.png"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01048}01048     resize\_image(barbara, 2, 2, STBIR\_FILTER\_CUBICBSPLINE, STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_SRGB, \textcolor{stringliteral}{"{}test-\/output/barbara-\/upsample-\/bicubic.png"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01049}01049     resize\_image(barbara, 2, 2, STBIR\_FILTER\_CATMULLROM  , STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_SRGB, \textcolor{stringliteral}{"{}test-\/output/barbara-\/upsample-\/catmullrom.png"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01050}01050     resize\_image(barbara, 2, 2, STBIR\_FILTER\_MITCHELL    , STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_SRGB, \textcolor{stringliteral}{"{}test-\/output/barbara-\/upsample-\/mitchell.png"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01051}01051 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01052}01052     resize\_image(barbara, 0.5f, 0.5f, STBIR\_FILTER\_BOX         , STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_SRGB, \textcolor{stringliteral}{"{}test-\/output/barbara-\/downsample-\/nearest.png"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01053}01053     resize\_image(barbara, 0.5f, 0.5f, STBIR\_FILTER\_TRIANGLE    , STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_SRGB, \textcolor{stringliteral}{"{}test-\/output/barbara-\/downsample-\/bilinear.png"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01054}01054     resize\_image(barbara, 0.5f, 0.5f, STBIR\_FILTER\_CUBICBSPLINE, STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_SRGB, \textcolor{stringliteral}{"{}test-\/output/barbara-\/downsample-\/bicubic.png"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01055}01055     resize\_image(barbara, 0.5f, 0.5f, STBIR\_FILTER\_CATMULLROM  , STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_SRGB, \textcolor{stringliteral}{"{}test-\/output/barbara-\/downsample-\/catmullrom.png"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01056}01056     resize\_image(barbara, 0.5f, 0.5f, STBIR\_FILTER\_MITCHELL    , STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_SRGB, \textcolor{stringliteral}{"{}test-\/output/barbara-\/downsample-\/mitchell.png"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01057}01057 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01058}01058     \{\textcolor{keywordflow}{for} (i = 10; i < 100; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01059}01059     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01060}01060         \textcolor{keywordtype}{char} outname[200];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01061}01061         sprintf(outname, \textcolor{stringliteral}{"{}test-\/output/barbara-\/width-\/\%d.jpg"{}}, i);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01062}01062         resize\_image(barbara, (\textcolor{keywordtype}{float})i / 100, 1, STBIR\_FILTER\_CATMULLROM, STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_SRGB, outname);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01063}01063     \}\}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01064}01064 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01065}01065     \{\textcolor{keywordflow}{for} (i = 110; i < 500; i += 10)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01066}01066     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01067}01067         \textcolor{keywordtype}{char} outname[200];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01068}01068         sprintf(outname, \textcolor{stringliteral}{"{}test-\/output/barbara-\/width-\/\%d.jpg"{}}, i);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01069}01069         resize\_image(barbara, (\textcolor{keywordtype}{float})i / 100, 1, STBIR\_FILTER\_CATMULLROM, STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_SRGB, outname);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01070}01070     \}\}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01071}01071 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01072}01072     \{\textcolor{keywordflow}{for} (i = 10; i < 100; i++)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01073}01073     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01074}01074         \textcolor{keywordtype}{char} outname[200];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01075}01075         sprintf(outname, \textcolor{stringliteral}{"{}test-\/output/barbara-\/height-\/\%d.jpg"{}}, i);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01076}01076         resize\_image(barbara, 1, (\textcolor{keywordtype}{float})i / 100, STBIR\_FILTER\_CATMULLROM, STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_SRGB, outname);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01077}01077     \}\}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01078}01078 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01079}01079     \{\textcolor{keywordflow}{for} (i = 110; i < 500; i += 10)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01080}01080     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01081}01081         \textcolor{keywordtype}{char} outname[200];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01082}01082         sprintf(outname, \textcolor{stringliteral}{"{}test-\/output/barbara-\/height-\/\%d.jpg"{}}, i);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01083}01083         resize\_image(barbara, 1, (\textcolor{keywordtype}{float})i / 100, STBIR\_FILTER\_CATMULLROM, STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_SRGB, outname);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01084}01084     \}\}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01085}01085 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01086}01086     \{\textcolor{keywordflow}{for} (i = 50; i < 200; i += 10)}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01087}01087     \{}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01088}01088         \textcolor{keywordtype}{char} outname[200];}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01089}01089         sprintf(outname, \textcolor{stringliteral}{"{}test-\/output/barbara-\/width-\/height-\/\%d.jpg"{}}, i);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01090}01090         resize\_image(barbara, 100 / (\textcolor{keywordtype}{float})i, (\textcolor{keywordtype}{float})i / 100, STBIR\_FILTER\_CATMULLROM, STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_SRGB, outname);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01091}01091     \}\}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01092}01092 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01093}01093     test\_format<unsigned short>(barbara, 0.5, 2.0, STBIR\_TYPE\_UINT16, STBIR\_COLORSPACE\_SRGB);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01094}01094     test\_format<unsigned short>(barbara, 0.5, 2.0, STBIR\_TYPE\_UINT16, STBIR\_COLORSPACE\_LINEAR);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01095}01095     test\_format<unsigned short>(barbara, 2.0, 0.5, STBIR\_TYPE\_UINT16, STBIR\_COLORSPACE\_SRGB);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01096}01096     test\_format<unsigned short>(barbara, 2.0, 0.5, STBIR\_TYPE\_UINT16, STBIR\_COLORSPACE\_LINEAR);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01097}01097 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01098}01098     test\_format<unsigned int>(barbara, 0.5, 2.0, STBIR\_TYPE\_UINT32, STBIR\_COLORSPACE\_SRGB);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01099}01099     test\_format<unsigned int>(barbara, 0.5, 2.0, STBIR\_TYPE\_UINT32, STBIR\_COLORSPACE\_LINEAR);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01100}01100     test\_format<unsigned int>(barbara, 2.0, 0.5, STBIR\_TYPE\_UINT32, STBIR\_COLORSPACE\_SRGB);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01101}01101     test\_format<unsigned int>(barbara, 2.0, 0.5, STBIR\_TYPE\_UINT32, STBIR\_COLORSPACE\_LINEAR);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01102}01102 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01103}01103     test\_float(barbara, 0.5, 2.0, STBIR\_TYPE\_FLOAT, STBIR\_COLORSPACE\_SRGB);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01104}01104     test\_float(barbara, 0.5, 2.0, STBIR\_TYPE\_FLOAT, STBIR\_COLORSPACE\_LINEAR);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01105}01105     test\_float(barbara, 2.0, 0.5, STBIR\_TYPE\_FLOAT, STBIR\_COLORSPACE\_SRGB);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01106}01106     test\_float(barbara, 2.0, 0.5, STBIR\_TYPE\_FLOAT, STBIR\_COLORSPACE\_LINEAR);}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01107}01107 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01108}01108     \textcolor{comment}{// Edge behavior tests}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01109}01109     resize\_image(\textcolor{stringliteral}{"{}hgradient.png"{}}, 2, 2, STBIR\_FILTER\_CATMULLROM, STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_LINEAR, \textcolor{stringliteral}{"{}test-\/output/hgradient-\/clamp.png"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01110}01110     resize\_image(\textcolor{stringliteral}{"{}hgradient.png"{}}, 2, 2, STBIR\_FILTER\_CATMULLROM, STBIR\_EDGE\_WRAP, STBIR\_COLORSPACE\_LINEAR, \textcolor{stringliteral}{"{}test-\/output/hgradient-\/wrap.png"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01111}01111 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01112}01112     resize\_image(\textcolor{stringliteral}{"{}vgradient.png"{}}, 2, 2, STBIR\_FILTER\_CATMULLROM, STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_LINEAR, \textcolor{stringliteral}{"{}test-\/output/vgradient-\/clamp.png"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01113}01113     resize\_image(\textcolor{stringliteral}{"{}vgradient.png"{}}, 2, 2, STBIR\_FILTER\_CATMULLROM, STBIR\_EDGE\_WRAP, STBIR\_COLORSPACE\_LINEAR, \textcolor{stringliteral}{"{}test-\/output/vgradient-\/wrap.png"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01114}01114 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01115}01115     resize\_image(\textcolor{stringliteral}{"{}1px-\/border.png"{}}, 2, 2, STBIR\_FILTER\_CATMULLROM, STBIR\_EDGE\_REFLECT, STBIR\_COLORSPACE\_LINEAR, \textcolor{stringliteral}{"{}test-\/output/1px-\/border-\/reflect.png"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01116}01116     resize\_image(\textcolor{stringliteral}{"{}1px-\/border.png"{}}, 2, 2, STBIR\_FILTER\_CATMULLROM, STBIR\_EDGE\_CLAMP, STBIR\_COLORSPACE\_LINEAR, \textcolor{stringliteral}{"{}test-\/output/1px-\/border-\/clamp.png"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01117}01117 }
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01118}01118     \textcolor{comment}{// sRGB tests}}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01119}01119     resize\_image(\textcolor{stringliteral}{"{}gamma\_colors.jpg"{}}, .5f, .5f, STBIR\_FILTER\_CATMULLROM, STBIR\_EDGE\_REFLECT, STBIR\_COLORSPACE\_SRGB, \textcolor{stringliteral}{"{}test-\/output/gamma\_colors.jpg"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01120}01120     resize\_image(\textcolor{stringliteral}{"{}gamma\_2.2.jpg"{}}, .5f, .5f, STBIR\_FILTER\_CATMULLROM, STBIR\_EDGE\_REFLECT, STBIR\_COLORSPACE\_SRGB, \textcolor{stringliteral}{"{}test-\/output/gamma\_2.2.jpg"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01121}01121     resize\_image(\textcolor{stringliteral}{"{}gamma\_dalai\_lama\_gray.jpg"{}}, .5f, .5f, STBIR\_FILTER\_CATMULLROM, STBIR\_EDGE\_REFLECT, STBIR\_COLORSPACE\_SRGB, \textcolor{stringliteral}{"{}test-\/output/gamma\_dalai\_lama\_gray.jpg"{}});}
+\DoxyCodeLine{\Hypertarget{resample__test_8cpp_source_l01122}01122 \}}
+
+\end{DoxyCode}

@@ -1,0 +1,813 @@
+\hypertarget{matrix__transform_8inl_source}{}\doxysection{matrix\+\_\+transform.\+inl}
+\label{matrix__transform_8inl_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtc/matrix\_transform.inl@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtc/matrix\_transform.inl}}
+\mbox{\hyperlink{matrix__transform_8inl}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00004}00004 \textcolor{preprocessor}{\#include "{}../geometric.hpp"{}}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00005}00005 \textcolor{preprocessor}{\#include "{}../trigonometric.hpp"{}}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00006}00006 \textcolor{preprocessor}{\#include "{}../matrix.hpp"{}}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00008}00008 \textcolor{keyword}{namespace }glm}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00009}00009 \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00010}00010     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00011}\mbox{\hyperlink{group__gtc__matrix__transform_ga67d8473d6b293d1bb2b4eaf249795cab}{00011}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga67d8473d6b293d1bb2b4eaf249795cab}{translate}}(\mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \textcolor{keyword}{const}\& m, \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00012}00012     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00013}00013         \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} Result(m);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00014}00014         Result[3] = m[0] * v[0] + m[1] * v[1] + m[2] * v[2] + m[3];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00015}00015         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00016}00016     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00017}00017 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00018}00018     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00019}\mbox{\hyperlink{group__gtc__matrix__transform_ga42613eb0c7deb5f5188fc159df6c8950}{00019}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga42613eb0c7deb5f5188fc159df6c8950}{rotate}}(\mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \textcolor{keyword}{const}\& m, T angle, \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00020}00020     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00021}00021         T \textcolor{keyword}{const} a = \mbox{\hyperlink{group__gtc__quaternion_gaaee6c856cae3217d274a240238cb6373}{angle}};}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00022}00022         T \textcolor{keyword}{const} c = \mbox{\hyperlink{group__core__func__trigonometric_ga54745147add8b4fa05642f5c71f6833e}{cos}}(a);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00023}00023         T \textcolor{keyword}{const} s = \mbox{\hyperlink{group__core__func__trigonometric_ga3fcdcfa2d2ac38de9ba1885cd1c79414}{sin}}(a);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00025}00025         \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}(normalize(v));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00026}00026         \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} temp((T(1) -\/ c) * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}});}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00028}00028         \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} Rotate;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00029}00029         Rotate[0][0] = c + temp[0] * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}[0];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00030}00030         Rotate[0][1] = temp[0] * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}[1] + s * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}[2];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00031}00031         Rotate[0][2] = temp[0] * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}[2] -\/ s * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}[1];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00033}00033         Rotate[1][0] = temp[1] * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}[0] -\/ s * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}[2];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00034}00034         Rotate[1][1] = c + temp[1] * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}[1];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00035}00035         Rotate[1][2] = temp[1] * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}[2] + s * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}[0];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00037}00037         Rotate[2][0] = temp[2] * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}[0] + s * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}[1];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00038}00038         Rotate[2][1] = temp[2] * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}[1] -\/ s * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}[0];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00039}00039         Rotate[2][2] = c + temp[2] * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}[2];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00041}00041         \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00042}00042         Result[0] = m[0] * Rotate[0][0] + m[1] * Rotate[0][1] + m[2] * Rotate[0][2];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00043}00043         Result[1] = m[0] * Rotate[1][0] + m[1] * Rotate[1][1] + m[2] * Rotate[1][2];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00044}00044         Result[2] = m[0] * Rotate[2][0] + m[1] * Rotate[2][1] + m[2] * Rotate[2][2];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00045}00045         Result[3] = m[3];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00046}00046         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00047}00047     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00049}00049     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00050}00050     GLM\_FUNC\_QUALIFIER mat<4, 4, T, Q> rotate\_slow(mat<4, 4, T, Q> \textcolor{keyword}{const}\& m, T angle, \mbox{\hyperlink{structvec}{vec<3, T, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00051}00051     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00052}00052         T \textcolor{keyword}{const} a = \mbox{\hyperlink{group__gtc__quaternion_gaaee6c856cae3217d274a240238cb6373}{angle}};}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00053}00053         T \textcolor{keyword}{const} c = \mbox{\hyperlink{group__core__func__trigonometric_ga54745147add8b4fa05642f5c71f6833e}{cos}}(a);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00054}00054         T \textcolor{keyword}{const} s = \mbox{\hyperlink{group__core__func__trigonometric_ga3fcdcfa2d2ac38de9ba1885cd1c79414}{sin}}(a);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00055}00055         mat<4, 4, T, Q> Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00057}00057         \mbox{\hyperlink{structvec}{vec<3, T, Q>}} \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}} = normalize(v);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00059}00059         Result[0][0] = c + (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) -\/ c)      * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.x     * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.x;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00060}00060         Result[0][1] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) -\/ c) * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.x * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.y + s * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.z;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00061}00061         Result[0][2] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) -\/ c) * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.x * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.z -\/ s * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.y;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00062}00062         Result[0][3] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00064}00064         Result[1][0] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) -\/ c) * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.y * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.x -\/ s * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.z;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00065}00065         Result[1][1] = c + (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) -\/ c) * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.y * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.y;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00066}00066         Result[1][2] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) -\/ c) * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.y * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.z + s * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.x;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00067}00067         Result[1][3] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00069}00069         Result[2][0] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) -\/ c) * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.z * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.x + s * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.y;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00070}00070         Result[2][1] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) -\/ c) * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.z * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.y -\/ s * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.x;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00071}00071         Result[2][2] = c + (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) -\/ c) * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.z * \mbox{\hyperlink{group__gtc__quaternion_gacb991327b755ed51ce12605e4c541250}{axis}}.z;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00072}00072         Result[2][3] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00074}00074         Result[3] = \mbox{\hyperlink{structvec}{vec<4, T, Q>}}(0, 0, 0, 1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00075}00075         \textcolor{keywordflow}{return} m * Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00076}00076     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00078}00078     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00079}\mbox{\hyperlink{group__gtc__matrix__transform_gaae2f8b2080622b24b85e1096748599b6}{00079}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \mbox{\hyperlink{group__gtc__matrix__transform_gaae2f8b2080622b24b85e1096748599b6}{scale}}(\mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \textcolor{keyword}{const}\& m, \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00080}00080     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00081}00081         \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00082}00082         Result[0] = m[0] * v[0];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00083}00083         Result[1] = m[1] * v[1];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00084}00084         Result[2] = m[2] * v[2];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00085}00085         Result[3] = m[3];}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00086}00086         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00087}00087     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00088}00088 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00089}00089     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00090}00090     GLM\_FUNC\_QUALIFIER mat<4, 4, T, Q> scale\_slow(mat<4, 4, T, Q> \textcolor{keyword}{const}\& m, \mbox{\hyperlink{structvec}{vec<3, T, Q>}} \textcolor{keyword}{const}\& v)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00091}00091     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00092}00092         mat<4, 4, T, Q> Result(T(1));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00093}00093         Result[0][0] = v.x;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00094}00094         Result[1][1] = v.y;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00095}00095         Result[2][2] = v.z;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00096}00096         \textcolor{keywordflow}{return} m * Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00097}00097     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00098}00098 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00099}00099     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00100}\mbox{\hyperlink{group__gtc__matrix__transform_gaa8568ef1d14d6654becb860ed6163817}{00100}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga9f2fb5616010518c43894fe934f6f914}{ortho}}(T left, T right, T bottom, T top)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00101}00101     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00102}00102         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00103}00103         Result[0][0] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00104}00104         Result[1][1] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00105}00105         Result[3][0] = -\/ (right + left) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00106}00106         Result[3][1] = -\/ (top + bottom) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00107}00107         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00108}00108     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00109}00109 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00110}00110     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00111}\mbox{\hyperlink{group__gtc__matrix__transform_gad889c03e019e5f3dbe17ffc46b3d2224}{00111}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gad889c03e019e5f3dbe17ffc46b3d2224}{orthoLH\_ZO}}(T left, T right, T bottom, T top, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00112}00112     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00113}00113         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00114}00114         Result[0][0] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00115}00115         Result[1][1] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00116}00116         Result[2][2] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00117}00117         Result[3][0] = -\/ (right + left) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00118}00118         Result[3][1] = -\/ (top + bottom) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00119}00119         Result[3][2] = -\/ zNear / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00120}00120         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00121}00121     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00122}00122 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00123}00123     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00124}\mbox{\hyperlink{group__gtc__matrix__transform_ga6483b1c6f456214b172870d4302067f2}{00124}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga6483b1c6f456214b172870d4302067f2}{orthoLH\_NO}}(T left, T right, T bottom, T top, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00125}00125     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00126}00126         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00127}00127         Result[0][0] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00128}00128         Result[1][1] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00129}00129         Result[2][2] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00130}00130         Result[3][0] = -\/ (right + left) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00131}00131         Result[3][1] = -\/ (top + bottom) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00132}00132         Result[3][2] = -\/ (zFar + zNear) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00133}00133         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00134}00134     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00135}00135 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00136}00136     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00137}\mbox{\hyperlink{group__gtc__matrix__transform_gab74a81b31fdf79b83780190ed01058b0}{00137}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gab74a81b31fdf79b83780190ed01058b0}{orthoRH\_ZO}}(T left, T right, T bottom, T top, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00138}00138     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00139}00139         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00140}00140         Result[0][0] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00141}00141         Result[1][1] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00142}00142         Result[2][2] = -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00143}00143         Result[3][0] = -\/ (right + left) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00144}00144         Result[3][1] = -\/ (top + bottom) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00145}00145         Result[3][2] = -\/ zNear / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00146}00146         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00147}00147     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00148}00148 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00149}00149     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00150}\mbox{\hyperlink{group__gtc__matrix__transform_ga612cba4d8b1ffb8abf0968b4daf1461e}{00150}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga612cba4d8b1ffb8abf0968b4daf1461e}{orthoRH\_NO}}(T left, T right, T bottom, T top, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00151}00151     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00152}00152         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00153}00153         Result[0][0] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00154}00154         Result[1][1] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00155}00155         Result[2][2] = -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00156}00156         Result[3][0] = -\/ (right + left) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00157}00157         Result[3][1] = -\/ (top + bottom) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00158}00158         Result[3][2] = -\/ (zFar + zNear) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00159}00159         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00160}00160     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00161}00161 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00162}00162     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00163}\mbox{\hyperlink{group__gtc__matrix__transform_ga8079772d895a0d75d705a611d521fd60}{00163}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga8079772d895a0d75d705a611d521fd60}{orthoZO}}(T left, T right, T bottom, T top, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00164}00164     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00165}00165 \textcolor{preprocessor}{\#       if GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00166}00166             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gad889c03e019e5f3dbe17ffc46b3d2224}{orthoLH\_ZO}}(left, right, bottom, top, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00167}00167 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00168}00168             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gab74a81b31fdf79b83780190ed01058b0}{orthoRH\_ZO}}(left, right, bottom, top, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00169}00169 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00170}00170     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00171}00171 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00172}00172     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00173}\mbox{\hyperlink{group__gtc__matrix__transform_gaaf196eb7ed62a815932e4f55a76fdbbb}{00173}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gaaf196eb7ed62a815932e4f55a76fdbbb}{orthoNO}}(T left, T right, T bottom, T top, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00174}00174     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00175}00175 \textcolor{preprocessor}{\#       if GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00176}00176             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga6483b1c6f456214b172870d4302067f2}{orthoLH\_NO}}(left, right, bottom, top, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00177}00177 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00178}00178             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga612cba4d8b1ffb8abf0968b4daf1461e}{orthoRH\_NO}}(left, right, bottom, top, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00179}00179 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00180}00180     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00181}00181 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00182}00182     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00183}\mbox{\hyperlink{group__gtc__matrix__transform_ga8dd6ed0963b92e610448163d12f20dc7}{00183}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga8dd6ed0963b92e610448163d12f20dc7}{orthoLH}}(T left, T right, T bottom, T top, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00184}00184     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00185}00185 \textcolor{preprocessor}{\#       if GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00186}00186             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gad889c03e019e5f3dbe17ffc46b3d2224}{orthoLH\_ZO}}(left, right, bottom, top, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00187}00187 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00188}00188             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga6483b1c6f456214b172870d4302067f2}{orthoLH\_NO}}(left, right, bottom, top, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00189}00189 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00190}00190     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00191}00191 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00192}00192     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00193}\mbox{\hyperlink{group__gtc__matrix__transform_gafb9a54c12086283da25e5e4b48b755a9}{00193}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gafb9a54c12086283da25e5e4b48b755a9}{orthoRH}}(T left, T right, T bottom, T top, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00194}00194     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00195}00195 \textcolor{preprocessor}{\#       if GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00196}00196             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gab74a81b31fdf79b83780190ed01058b0}{orthoRH\_ZO}}(left, right, bottom, top, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00197}00197 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00198}00198             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga612cba4d8b1ffb8abf0968b4daf1461e}{orthoRH\_NO}}(left, right, bottom, top, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00199}00199 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00200}00200     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00201}00201 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00202}00202     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00203}\mbox{\hyperlink{group__gtc__matrix__transform_ga9f2fb5616010518c43894fe934f6f914}{00203}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga9f2fb5616010518c43894fe934f6f914}{ortho}}(T left, T right, T bottom, T top, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00204}00204     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00205}00205 \textcolor{preprocessor}{\#       if GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED \&\& GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00206}00206             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gad889c03e019e5f3dbe17ffc46b3d2224}{orthoLH\_ZO}}(left, right, bottom, top, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00207}00207 \textcolor{preprocessor}{\#       elif GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED \&\& GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_NEGATIVE\_ONE\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00208}00208             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga6483b1c6f456214b172870d4302067f2}{orthoLH\_NO}}(left, right, bottom, top, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00209}00209 \textcolor{preprocessor}{\#       elif GLM\_COORDINATE\_SYSTEM == GLM\_RIGHT\_HANDED \&\& GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00210}00210             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gab74a81b31fdf79b83780190ed01058b0}{orthoRH\_ZO}}(left, right, bottom, top, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00211}00211 \textcolor{preprocessor}{\#       elif GLM\_COORDINATE\_SYSTEM == GLM\_RIGHT\_HANDED \&\& GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_NEGATIVE\_ONE\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00212}00212             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga612cba4d8b1ffb8abf0968b4daf1461e}{orthoRH\_NO}}(left, right, bottom, top, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00213}00213 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00214}00214     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00215}00215 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00216}00216     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00217}\mbox{\hyperlink{group__gtc__matrix__transform_gacb5c1add5780bdb8fb5c18259f88c59d}{00217}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gacb5c1add5780bdb8fb5c18259f88c59d}{frustumLH\_ZO}}(T left, T right, T bottom, T top, T nearVal, T farVal)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00218}00218     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00219}00219         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(0);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00220}00220         Result[0][0] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * nearVal) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00221}00221         Result[1][1] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * nearVal) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00222}00222         Result[2][0] = (right + left) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00223}00223         Result[2][1] = (top + bottom) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00224}00224         Result[2][2] = farVal / (farVal -\/ nearVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00225}00225         Result[2][3] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00226}00226         Result[3][2] = -\/(farVal * nearVal) / (farVal -\/ nearVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00227}00227         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00228}00228     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00229}00229 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00230}00230     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00231}\mbox{\hyperlink{group__gtc__matrix__transform_ga268c2e08a8531e5aca32181e5ed49aa2}{00231}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga268c2e08a8531e5aca32181e5ed49aa2}{frustumLH\_NO}}(T left, T right, T bottom, T top, T nearVal, T farVal)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00232}00232     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00233}00233         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(0);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00234}00234         Result[0][0] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * nearVal) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00235}00235         Result[1][1] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * nearVal) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00236}00236         Result[2][0] = (right + left) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00237}00237         Result[2][1] = (top + bottom) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00238}00238         Result[2][2] = (farVal + nearVal) / (farVal -\/ nearVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00239}00239         Result[2][3] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00240}00240         Result[3][2] = -\/ (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * farVal * nearVal) / (farVal -\/ nearVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00241}00241         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00242}00242     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00243}00243 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00244}00244     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00245}\mbox{\hyperlink{group__gtc__matrix__transform_ga2a0614c8f5bc13c5f9f4b0cf9c39278a}{00245}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga2a0614c8f5bc13c5f9f4b0cf9c39278a}{frustumRH\_ZO}}(T left, T right, T bottom, T top, T nearVal, T farVal)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00246}00246     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00247}00247         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(0);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00248}00248         Result[0][0] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * nearVal) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00249}00249         Result[1][1] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * nearVal) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00250}00250         Result[2][0] = (right + left) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00251}00251         Result[2][1] = (top + bottom) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00252}00252         Result[2][2] = farVal / (nearVal -\/ farVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00253}00253         Result[2][3] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(-\/1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00254}00254         Result[3][2] = -\/(farVal * nearVal) / (farVal -\/ nearVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00255}00255         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00256}00256     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00257}00257 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00258}00258     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00259}\mbox{\hyperlink{group__gtc__matrix__transform_gaf83f2f11c373982d3fdbf138be7d7c27}{00259}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gaf83f2f11c373982d3fdbf138be7d7c27}{frustumRH\_NO}}(T left, T right, T bottom, T top, T nearVal, T farVal)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00260}00260     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00261}00261         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(0);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00262}00262         Result[0][0] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * nearVal) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00263}00263         Result[1][1] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * nearVal) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00264}00264         Result[2][0] = (right + left) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00265}00265         Result[2][1] = (top + bottom) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00266}00266         Result[2][2] = -\/ (farVal + nearVal) / (farVal -\/ nearVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00267}00267         Result[2][3] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(-\/1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00268}00268         Result[3][2] = -\/ (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * farVal * nearVal) / (farVal -\/ nearVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00269}00269         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00270}00270     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00271}00271 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00272}00272     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00273}\mbox{\hyperlink{group__gtc__matrix__transform_ga5c91ea8845dbaad8f8ab47103866459e}{00273}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga5c91ea8845dbaad8f8ab47103866459e}{frustumZO}}(T left, T right, T bottom, T top, T nearVal, T farVal)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00274}00274     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00275}00275 \textcolor{preprocessor}{\#       if GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00276}00276             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gacb5c1add5780bdb8fb5c18259f88c59d}{frustumLH\_ZO}}(left, right, bottom, top, nearVal, farVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00277}00277 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00278}00278             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga2a0614c8f5bc13c5f9f4b0cf9c39278a}{frustumRH\_ZO}}(left, right, bottom, top, nearVal, farVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00279}00279 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00280}00280     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00281}00281 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00282}00282     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00283}\mbox{\hyperlink{group__gtc__matrix__transform_ga3c50f09a1f20ab527a6f99b6f36be23f}{00283}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga3c50f09a1f20ab527a6f99b6f36be23f}{frustumNO}}(T left, T right, T bottom, T top, T nearVal, T farVal)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00284}00284     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00285}00285 \textcolor{preprocessor}{\#       if GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00286}00286             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga268c2e08a8531e5aca32181e5ed49aa2}{frustumLH\_NO}}(left, right, bottom, top, nearVal, farVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00287}00287 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00288}00288             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gaf83f2f11c373982d3fdbf138be7d7c27}{frustumRH\_NO}}(left, right, bottom, top, nearVal, farVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00289}00289 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00290}00290     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00291}00291 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00292}00292     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00293}\mbox{\hyperlink{group__gtc__matrix__transform_gaf040a59a5112c06be7579fee2b05bc6f}{00293}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gaf040a59a5112c06be7579fee2b05bc6f}{frustumLH}}(T left, T right, T bottom, T top, T nearVal, T farVal)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00294}00294     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00295}00295 \textcolor{preprocessor}{\#       if GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00296}00296             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gacb5c1add5780bdb8fb5c18259f88c59d}{frustumLH\_ZO}}(left, right, bottom, top, nearVal, farVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00297}00297 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00298}00298             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga268c2e08a8531e5aca32181e5ed49aa2}{frustumLH\_NO}}(left, right, bottom, top, nearVal, farVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00299}00299 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00300}00300     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00301}00301 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00302}00302     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00303}\mbox{\hyperlink{group__gtc__matrix__transform_gaa881f9ebd1a43e2d032c9a524faf0e7b}{00303}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gaa881f9ebd1a43e2d032c9a524faf0e7b}{frustumRH}}(T left, T right, T bottom, T top, T nearVal, T farVal)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00304}00304     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00305}00305 \textcolor{preprocessor}{\#       if GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00306}00306             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga2a0614c8f5bc13c5f9f4b0cf9c39278a}{frustumRH\_ZO}}(left, right, bottom, top, nearVal, farVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00307}00307 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00308}00308             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gaf83f2f11c373982d3fdbf138be7d7c27}{frustumRH\_NO}}(left, right, bottom, top, nearVal, farVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00309}00309 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00310}00310     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00311}00311 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00312}00312     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00313}\mbox{\hyperlink{group__gtc__matrix__transform_gaf2b9bdfe77c910ce3ae07c1a386d110e}{00313}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gaf2b9bdfe77c910ce3ae07c1a386d110e}{frustum}}(T left, T right, T bottom, T top, T nearVal, T farVal)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00314}00314     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00315}00315 \textcolor{preprocessor}{\#       if GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED \&\& GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00316}00316             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gacb5c1add5780bdb8fb5c18259f88c59d}{frustumLH\_ZO}}(left, right, bottom, top, nearVal, farVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00317}00317 \textcolor{preprocessor}{\#       elif GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED \&\& GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_NEGATIVE\_ONE\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00318}00318             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga268c2e08a8531e5aca32181e5ed49aa2}{frustumLH\_NO}}(left, right, bottom, top, nearVal, farVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00319}00319 \textcolor{preprocessor}{\#       elif GLM\_COORDINATE\_SYSTEM == GLM\_RIGHT\_HANDED \&\& GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00320}00320             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga2a0614c8f5bc13c5f9f4b0cf9c39278a}{frustumRH\_ZO}}(left, right, bottom, top, nearVal, farVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00321}00321 \textcolor{preprocessor}{\#       elif GLM\_COORDINATE\_SYSTEM == GLM\_RIGHT\_HANDED \&\& GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_NEGATIVE\_ONE\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00322}00322             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gaf83f2f11c373982d3fdbf138be7d7c27}{frustumRH\_NO}}(left, right, bottom, top, nearVal, farVal);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00323}00323 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00324}00324     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00325}00325 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00326}00326     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00327}\mbox{\hyperlink{group__gtc__matrix__transform_ga703204a33716e0eefc1a6ff383ab62ed}{00327}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga703204a33716e0eefc1a6ff383ab62ed}{perspectiveRH\_ZO}}(T fovy, T aspect, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00328}00328     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00329}00329         assert(\mbox{\hyperlink{group__core__func__common_ga693d77696ff36572a0da79efec965acd}{abs}}(aspect -\/ \mbox{\hyperlink{group__gtc__constants_ga2a1e57fc5592b69cfae84174cbfc9429}{std::numeric\_limits<T>::epsilon}}()) > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00330}00330 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00331}00331         T \textcolor{keyword}{const} tanHalfFovy = \mbox{\hyperlink{group__core__func__trigonometric_gae5727eacf7692c197af6298b6d4ad922}{tan}}(fovy / \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00332}00332 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00333}00333         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00334}00334         Result[0][0] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) / (aspect * tanHalfFovy);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00335}00335         Result[1][1] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) / (tanHalfFovy);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00336}00336         Result[2][2] = zFar / (zNear -\/ zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00337}00337         Result[2][3] = -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00338}00338         Result[3][2] = -\/(zFar * zNear) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00339}00339         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00340}00340     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00341}00341 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00342}00342     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00343}\mbox{\hyperlink{group__gtc__matrix__transform_ga68eacfaf3cbfbc7a5465a9a0e4701ce6}{00343}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga68eacfaf3cbfbc7a5465a9a0e4701ce6}{perspectiveRH\_NO}}(T fovy, T aspect, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00344}00344     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00345}00345         assert(\mbox{\hyperlink{group__core__func__common_ga693d77696ff36572a0da79efec965acd}{abs}}(aspect -\/ \mbox{\hyperlink{group__gtc__constants_ga2a1e57fc5592b69cfae84174cbfc9429}{std::numeric\_limits<T>::epsilon}}()) > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00346}00346 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00347}00347         T \textcolor{keyword}{const} tanHalfFovy = \mbox{\hyperlink{group__core__func__trigonometric_gae5727eacf7692c197af6298b6d4ad922}{tan}}(fovy / \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00348}00348 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00349}00349         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00350}00350         Result[0][0] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) / (aspect * tanHalfFovy);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00351}00351         Result[1][1] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) / (tanHalfFovy);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00352}00352         Result[2][2] = -\/ (zFar + zNear) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00353}00353         Result[2][3] = -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00354}00354         Result[3][2] = -\/ (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * zFar * zNear) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00355}00355         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00356}00356     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00357}00357 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00358}00358     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00359}\mbox{\hyperlink{group__gtc__matrix__transform_ga947bfc6e136d0a6bc75b8a0fa10f568d}{00359}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga947bfc6e136d0a6bc75b8a0fa10f568d}{perspectiveLH\_ZO}}(T fovy, T aspect, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00360}00360     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00361}00361         assert(\mbox{\hyperlink{group__core__func__common_ga693d77696ff36572a0da79efec965acd}{abs}}(aspect -\/ \mbox{\hyperlink{group__gtc__constants_ga2a1e57fc5592b69cfae84174cbfc9429}{std::numeric\_limits<T>::epsilon}}()) > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00362}00362 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00363}00363         T \textcolor{keyword}{const} tanHalfFovy = \mbox{\hyperlink{group__core__func__trigonometric_gae5727eacf7692c197af6298b6d4ad922}{tan}}(fovy / \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00364}00364 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00365}00365         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00366}00366         Result[0][0] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) / (aspect * tanHalfFovy);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00367}00367         Result[1][1] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) / (tanHalfFovy);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00368}00368         Result[2][2] = zFar / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00369}00369         Result[2][3] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00370}00370         Result[3][2] = -\/(zFar * zNear) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00371}00371         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00372}00372     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00373}00373 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00374}00374     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00375}\mbox{\hyperlink{group__gtc__matrix__transform_gaaf666c22f31e443004f2192706ef4fdc}{00375}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gaaf666c22f31e443004f2192706ef4fdc}{perspectiveLH\_NO}}(T fovy, T aspect, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00376}00376     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00377}00377         assert(\mbox{\hyperlink{group__core__func__common_ga693d77696ff36572a0da79efec965acd}{abs}}(aspect -\/ \mbox{\hyperlink{group__gtc__constants_ga2a1e57fc5592b69cfae84174cbfc9429}{std::numeric\_limits<T>::epsilon}}()) > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00378}00378 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00379}00379         T \textcolor{keyword}{const} tanHalfFovy = \mbox{\hyperlink{group__core__func__trigonometric_gae5727eacf7692c197af6298b6d4ad922}{tan}}(fovy / \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00380}00380 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00381}00381         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00382}00382         Result[0][0] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) / (aspect * tanHalfFovy);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00383}00383         Result[1][1] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1) / (tanHalfFovy);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00384}00384         Result[2][2] = (zFar + zNear) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00385}00385         Result[2][3] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00386}00386         Result[3][2] = -\/ (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * zFar * zNear) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00387}00387         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00388}00388     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00389}00389 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00390}00390     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00391}\mbox{\hyperlink{group__gtc__matrix__transform_ga32430648d1b0aecd30c08943ce33a1f0}{00391}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga32430648d1b0aecd30c08943ce33a1f0}{perspectiveZO}}(T fovy, T aspect, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00392}00392     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00393}00393 \textcolor{preprocessor}{\#       if GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00394}00394             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga947bfc6e136d0a6bc75b8a0fa10f568d}{perspectiveLH\_ZO}}(fovy, aspect, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00395}00395 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00396}00396             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga703204a33716e0eefc1a6ff383ab62ed}{perspectiveRH\_ZO}}(fovy, aspect, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00397}00397 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00398}00398     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00399}00399 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00400}00400     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00401}\mbox{\hyperlink{group__gtc__matrix__transform_ga7c2215fd8b8b9f37e29c548d0e48bd91}{00401}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga7c2215fd8b8b9f37e29c548d0e48bd91}{perspectiveNO}}(T fovy, T aspect, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00402}00402     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00403}00403 \textcolor{preprocessor}{\#       if GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00404}00404             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gaaf666c22f31e443004f2192706ef4fdc}{perspectiveLH\_NO}}(fovy, aspect, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00405}00405 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00406}00406             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga68eacfaf3cbfbc7a5465a9a0e4701ce6}{perspectiveRH\_NO}}(fovy, aspect, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00407}00407 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00408}00408     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00409}00409 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00410}00410     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00411}\mbox{\hyperlink{group__gtc__matrix__transform_ga8b7f443c7e30e879fc98fcf1b922d958}{00411}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga8b7f443c7e30e879fc98fcf1b922d958}{perspectiveLH}}(T fovy, T aspect, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00412}00412     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00413}00413 \textcolor{preprocessor}{\#       if GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00414}00414             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga947bfc6e136d0a6bc75b8a0fa10f568d}{perspectiveLH\_ZO}}(fovy, aspect, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00415}00415 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00416}00416             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gaaf666c22f31e443004f2192706ef4fdc}{perspectiveLH\_NO}}(fovy, aspect, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00417}00417 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00418}00418     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00419}00419 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00420}00420     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00421}\mbox{\hyperlink{group__gtc__matrix__transform_ga0786f78f02365fc789c6a4cd809bd441}{00421}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga0786f78f02365fc789c6a4cd809bd441}{perspectiveRH}}(T fovy, T aspect, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00422}00422     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00423}00423 \textcolor{preprocessor}{\#       if GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00424}00424             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga703204a33716e0eefc1a6ff383ab62ed}{perspectiveRH\_ZO}}(fovy, aspect, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00425}00425 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00426}00426             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga68eacfaf3cbfbc7a5465a9a0e4701ce6}{perspectiveRH\_NO}}(fovy, aspect, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00427}00427 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00428}00428     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00429}00429 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00430}00430     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00431}\mbox{\hyperlink{group__gtc__matrix__transform_ga9e13be491fd69a438c8fda440cf0156e}{00431}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga9e13be491fd69a438c8fda440cf0156e}{perspective}}(T fovy, T aspect, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00432}00432     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00433}00433 \textcolor{preprocessor}{\#       if GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED \&\& GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00434}00434             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga947bfc6e136d0a6bc75b8a0fa10f568d}{perspectiveLH\_ZO}}(fovy, aspect, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00435}00435 \textcolor{preprocessor}{\#       elif GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED \&\& GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_NEGATIVE\_ONE\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00436}00436             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gaaf666c22f31e443004f2192706ef4fdc}{perspectiveLH\_NO}}(fovy, aspect, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00437}00437 \textcolor{preprocessor}{\#       elif GLM\_COORDINATE\_SYSTEM == GLM\_RIGHT\_HANDED \&\& GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00438}00438             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga703204a33716e0eefc1a6ff383ab62ed}{perspectiveRH\_ZO}}(fovy, aspect, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00439}00439 \textcolor{preprocessor}{\#       elif GLM\_COORDINATE\_SYSTEM == GLM\_RIGHT\_HANDED \&\& GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_NEGATIVE\_ONE\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00440}00440             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga68eacfaf3cbfbc7a5465a9a0e4701ce6}{perspectiveRH\_NO}}(fovy, aspect, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00441}00441 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00442}00442     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00443}00443 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00444}00444     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00445}\mbox{\hyperlink{group__gtc__matrix__transform_ga19141a2882d584872baf2bed83acad68}{00445}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga19141a2882d584872baf2bed83acad68}{perspectiveFovRH\_ZO}}(T fov, T width, T height, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00446}00446     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00447}00447         assert(width > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00448}00448         assert(height > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00449}00449         assert(fov > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00450}00450 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00451}00451         T \textcolor{keyword}{const} rad = fov;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00452}00452         T \textcolor{keyword}{const} h = \mbox{\hyperlink{group__core__func__trigonometric_ga54745147add8b4fa05642f5c71f6833e}{glm::cos}}(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5) * rad) / \mbox{\hyperlink{group__core__func__trigonometric_ga3fcdcfa2d2ac38de9ba1885cd1c79414}{glm::sin}}(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5) * rad);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00453}00453         T \textcolor{keyword}{const} w = h * height / width; }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00454}00454 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00455}00455         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00456}00456         Result[0][0] = w;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00457}00457         Result[1][1] = h;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00458}00458         Result[2][2] = zFar / (zNear -\/ zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00459}00459         Result[2][3] = -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00460}00460         Result[3][2] = -\/(zFar * zNear) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00461}00461         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00462}00462     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00463}00463 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00464}00464     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00465}\mbox{\hyperlink{group__gtc__matrix__transform_ga80b35c54ebe2c39b72773a729cbb0ada}{00465}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga80b35c54ebe2c39b72773a729cbb0ada}{perspectiveFovRH\_NO}}(T fov, T width, T height, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00466}00466     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00467}00467         assert(width > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00468}00468         assert(height > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00469}00469         assert(fov > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00470}00470 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00471}00471         T \textcolor{keyword}{const} rad = fov;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00472}00472         T \textcolor{keyword}{const} h = \mbox{\hyperlink{group__core__func__trigonometric_ga54745147add8b4fa05642f5c71f6833e}{glm::cos}}(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5) * rad) / \mbox{\hyperlink{group__core__func__trigonometric_ga3fcdcfa2d2ac38de9ba1885cd1c79414}{glm::sin}}(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5) * rad);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00473}00473         T \textcolor{keyword}{const} w = h * height / width; }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00474}00474 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00475}00475         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00476}00476         Result[0][0] = w;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00477}00477         Result[1][1] = h;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00478}00478         Result[2][2] = -\/ (zFar + zNear) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00479}00479         Result[2][3] = -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00480}00480         Result[3][2] = -\/ (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * zFar * zNear) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00481}00481         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00482}00482     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00483}00483 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00484}00484     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00485}\mbox{\hyperlink{group__gtc__matrix__transform_gaa4b4aa571d1b9e77878183ef37b487fb}{00485}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gaa4b4aa571d1b9e77878183ef37b487fb}{perspectiveFovLH\_ZO}}(T fov, T width, T height, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00486}00486     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00487}00487         assert(width > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00488}00488         assert(height > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00489}00489         assert(fov > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00490}00490 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00491}00491         T \textcolor{keyword}{const} rad = fov;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00492}00492         T \textcolor{keyword}{const} h = \mbox{\hyperlink{group__core__func__trigonometric_ga54745147add8b4fa05642f5c71f6833e}{glm::cos}}(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5) * rad) / \mbox{\hyperlink{group__core__func__trigonometric_ga3fcdcfa2d2ac38de9ba1885cd1c79414}{glm::sin}}(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5) * rad);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00493}00493         T \textcolor{keyword}{const} w = h * height / width; }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00494}00494 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00495}00495         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00496}00496         Result[0][0] = w;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00497}00497         Result[1][1] = h;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00498}00498         Result[2][2] = zFar / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00499}00499         Result[2][3] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00500}00500         Result[3][2] = -\/(zFar * zNear) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00501}00501         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00502}00502     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00503}00503 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00504}00504     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00505}\mbox{\hyperlink{group__gtc__matrix__transform_ga2a6ec32dc6b2b9ef545f9809129b134d}{00505}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga2a6ec32dc6b2b9ef545f9809129b134d}{perspectiveFovLH\_NO}}(T fov, T width, T height, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00506}00506     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00507}00507         assert(width > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00508}00508         assert(height > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00509}00509         assert(fov > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00510}00510 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00511}00511         T \textcolor{keyword}{const} rad = fov;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00512}00512         T \textcolor{keyword}{const} h = \mbox{\hyperlink{group__core__func__trigonometric_ga54745147add8b4fa05642f5c71f6833e}{glm::cos}}(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5) * rad) / \mbox{\hyperlink{group__core__func__trigonometric_ga3fcdcfa2d2ac38de9ba1885cd1c79414}{glm::sin}}(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5) * rad);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00513}00513         T \textcolor{keyword}{const} w = h * height / width; }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00514}00514 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00515}00515         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00516}00516         Result[0][0] = w;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00517}00517         Result[1][1] = h;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00518}00518         Result[2][2] = (zFar + zNear) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00519}00519         Result[2][3] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00520}00520         Result[3][2] = -\/ (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * zFar * zNear) / (zFar -\/ zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00521}00521         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00522}00522     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00523}00523 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00524}00524     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00525}\mbox{\hyperlink{group__gtc__matrix__transform_ga39f32367d8778de4fe4ad55d65af9b79}{00525}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga39f32367d8778de4fe4ad55d65af9b79}{perspectiveFovZO}}(T fov, T width, T height, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00526}00526     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00527}00527 \textcolor{preprocessor}{\#       if GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00528}00528             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gaa4b4aa571d1b9e77878183ef37b487fb}{perspectiveFovLH\_ZO}}(fov, width, height, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00529}00529 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00530}00530             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga19141a2882d584872baf2bed83acad68}{perspectiveFovRH\_ZO}}(fov, width, height, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00531}00531 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00532}00532     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00533}00533 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00534}00534     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00535}\mbox{\hyperlink{group__gtc__matrix__transform_gabbcd95c47d3b565f89795f4ff558361c}{00535}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gabbcd95c47d3b565f89795f4ff558361c}{perspectiveFovNO}}(T fov, T width, T height, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00536}00536     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00537}00537 \textcolor{preprocessor}{\#       if GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00538}00538             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga2a6ec32dc6b2b9ef545f9809129b134d}{perspectiveFovLH\_NO}}(fov, width, height, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00539}00539 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00540}00540             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga80b35c54ebe2c39b72773a729cbb0ada}{perspectiveFovRH\_NO}}(fov, width, height, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00541}00541 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00542}00542     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00543}00543 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00544}00544     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00545}\mbox{\hyperlink{group__gtc__matrix__transform_gaf1e5e6d8303f1462e892e0884b66f9fa}{00545}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gaf1e5e6d8303f1462e892e0884b66f9fa}{perspectiveFovLH}}(T fov, T width, T height, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00546}00546     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00547}00547 \textcolor{preprocessor}{\#       if GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00548}00548             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gaa4b4aa571d1b9e77878183ef37b487fb}{perspectiveFovLH\_ZO}}(fov, width, height, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00549}00549 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00550}00550             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga2a6ec32dc6b2b9ef545f9809129b134d}{perspectiveFovLH\_NO}}(fov, width, height, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00551}00551 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00552}00552     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00553}00553 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00554}00554     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00555}\mbox{\hyperlink{group__gtc__matrix__transform_gab6c38e30fff812659e1486322f78535f}{00555}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gab6c38e30fff812659e1486322f78535f}{perspectiveFovRH}}(T fov, T width, T height, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00556}00556     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00557}00557 \textcolor{preprocessor}{\#       if GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00558}00558             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga19141a2882d584872baf2bed83acad68}{perspectiveFovRH\_ZO}}(fov, width, height, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00559}00559 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00560}00560             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga80b35c54ebe2c39b72773a729cbb0ada}{perspectiveFovRH\_NO}}(fov, width, height, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00561}00561 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00562}00562     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00563}00563 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00564}00564     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00565}\mbox{\hyperlink{group__gtc__matrix__transform_ga44ce1914c556baee3db105b3867bd46a}{00565}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga44ce1914c556baee3db105b3867bd46a}{perspectiveFov}}(T fov, T width, T height, T zNear, T zFar)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00566}00566     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00567}00567 \textcolor{preprocessor}{\#       if GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED \&\& GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00568}00568             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gaa4b4aa571d1b9e77878183ef37b487fb}{perspectiveFovLH\_ZO}}(fov, width, height, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00569}00569 \textcolor{preprocessor}{\#       elif GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED \&\& GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_NEGATIVE\_ONE\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00570}00570             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga2a6ec32dc6b2b9ef545f9809129b134d}{perspectiveFovLH\_NO}}(fov, width, height, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00571}00571 \textcolor{preprocessor}{\#       elif GLM\_COORDINATE\_SYSTEM == GLM\_RIGHT\_HANDED \&\& GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00572}00572             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga19141a2882d584872baf2bed83acad68}{perspectiveFovRH\_ZO}}(fov, width, height, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00573}00573 \textcolor{preprocessor}{\#       elif GLM\_COORDINATE\_SYSTEM == GLM\_RIGHT\_HANDED \&\& GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_NEGATIVE\_ONE\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00574}00574             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga80b35c54ebe2c39b72773a729cbb0ada}{perspectiveFovRH\_NO}}(fov, width, height, zNear, zFar);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00575}00575 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00576}00576     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00577}00577 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00578}00578     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00579}\mbox{\hyperlink{group__gtc__matrix__transform_gadacc69d138327905cd73554e3d75377c}{00579}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gadacc69d138327905cd73554e3d75377c}{infinitePerspectiveRH}}(T fovy, T aspect, T zNear)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00580}00580     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00581}00581         T \textcolor{keyword}{const} range = \mbox{\hyperlink{group__core__func__trigonometric_gae5727eacf7692c197af6298b6d4ad922}{tan}}(fovy / \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2)) * zNear;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00582}00582         T \textcolor{keyword}{const} left = -\/range * aspect;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00583}00583         T \textcolor{keyword}{const} right = range * aspect;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00584}00584         T \textcolor{keyword}{const} bottom = -\/range;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00585}00585         T \textcolor{keyword}{const} top = range;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00586}00586 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00587}00587         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00588}00588         Result[0][0] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * zNear) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00589}00589         Result[1][1] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * zNear) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00590}00590         Result[2][2] = -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00591}00591         Result[2][3] = -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00592}00592         Result[3][2] = -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * zNear;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00593}00593         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00594}00594     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00595}00595 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00596}00596     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00597}\mbox{\hyperlink{group__gtc__matrix__transform_gaddd559a69ffbcffde8e7a54a9dc3afc5}{00597}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gaddd559a69ffbcffde8e7a54a9dc3afc5}{infinitePerspectiveLH}}(T fovy, T aspect, T zNear)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00598}00598     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00599}00599         T \textcolor{keyword}{const} range = \mbox{\hyperlink{group__core__func__trigonometric_gae5727eacf7692c197af6298b6d4ad922}{tan}}(fovy / \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2)) * zNear;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00600}00600         T \textcolor{keyword}{const} left = -\/range * aspect;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00601}00601         T \textcolor{keyword}{const} right = range * aspect;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00602}00602         T \textcolor{keyword}{const} bottom = -\/range;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00603}00603         T \textcolor{keyword}{const} top = range;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00604}00604 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00605}00605         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(T(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00606}00606         Result[0][0] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * zNear) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00607}00607         Result[1][1] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * zNear) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00608}00608         Result[2][2] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00609}00609         Result[2][3] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00610}00610         Result[3][2] = -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * zNear;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00611}00611         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00612}00612     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00613}00613 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00614}00614     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00615}\mbox{\hyperlink{group__gtc__matrix__transform_ga8f955f37bab966fa8d6a5375da30860b}{00615}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga8f955f37bab966fa8d6a5375da30860b}{infinitePerspective}}(T fovy, T aspect, T zNear)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00616}00616     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00617}00617 \textcolor{preprocessor}{\#       if GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00618}00618             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gaddd559a69ffbcffde8e7a54a9dc3afc5}{infinitePerspectiveLH}}(fovy, aspect, zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00619}00619 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00620}00620             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gadacc69d138327905cd73554e3d75377c}{infinitePerspectiveRH}}(fovy, aspect, zNear);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00621}00621 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00622}00622     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00623}00623 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00624}00624     \textcolor{comment}{// Infinite projection matrix: http://www.terathon.com/gdc07\_lengyel.pdf}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00625}00625     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00626}\mbox{\hyperlink{group__gtc__matrix__transform_ga386ddc482b372d899d7141f553418878}{00626}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gad608a11980b3a1311dcde0cdda5a28da}{tweakedInfinitePerspective}}(T fovy, T aspect, T zNear, T ep)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00627}00627     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00628}00628         T \textcolor{keyword}{const} range = \mbox{\hyperlink{group__core__func__trigonometric_gae5727eacf7692c197af6298b6d4ad922}{tan}}(fovy / \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2)) * zNear;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00629}00629         T \textcolor{keyword}{const} left = -\/range * aspect;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00630}00630         T \textcolor{keyword}{const} right = range * aspect;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00631}00631         T \textcolor{keyword}{const} bottom = -\/range;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00632}00632         T \textcolor{keyword}{const} top = range;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00633}00633 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00634}00634         \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} Result(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00635}00635         Result[0][0] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * zNear) / (right -\/ left);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00636}00636         Result[1][1] = (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * zNear) / (top -\/ bottom);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00637}00637         Result[2][2] = ep -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00638}00638         Result[2][3] = \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(-\/1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00639}00639         Result[3][2] = (ep -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2)) * zNear;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00640}00640         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00641}00641     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00642}00642 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00643}00643     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00644}\mbox{\hyperlink{group__gtc__matrix__transform_gad608a11980b3a1311dcde0cdda5a28da}{00644}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat}{mat<4, 4, T, defaultp>}} \mbox{\hyperlink{group__gtc__matrix__transform_gad608a11980b3a1311dcde0cdda5a28da}{tweakedInfinitePerspective}}(T fovy, T aspect, T zNear)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00645}00645     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00646}00646         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gad608a11980b3a1311dcde0cdda5a28da}{tweakedInfinitePerspective}}(fovy, aspect, zNear, epsilon<T>());}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00647}00647     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00648}00648 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00649}00649     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} U, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00650}\mbox{\hyperlink{group__gtc__matrix__transform_gaf98ec0fecd3a5d07592e01750927599f}{00650}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \mbox{\hyperlink{group__gtc__matrix__transform_gaf98ec0fecd3a5d07592e01750927599f}{projectZO}}(\mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& obj, \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \textcolor{keyword}{const}\& model, \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \textcolor{keyword}{const}\& \mbox{\hyperlink{group__gtx__projection_ga58384b7170801dd513de46f87c7fb00e}{proj}}, \mbox{\hyperlink{structglm_1_1vec}{vec<4, U, Q>}} \textcolor{keyword}{const}\& viewport)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00651}00651     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00652}00652         \mbox{\hyperlink{structglm_1_1vec_3_014_00_01_t_00_01_q_01_4}{vec<4, T, Q>}} tmp = \mbox{\hyperlink{structglm_1_1vec_3_014_00_01_t_00_01_q_01_4}{vec<4, T, Q>}}(obj, \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00653}00653         tmp = model * tmp;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00654}00654         tmp = \mbox{\hyperlink{group__gtx__projection_ga58384b7170801dd513de46f87c7fb00e}{proj}} * tmp;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00655}00655 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00656}00656         tmp /= tmp.w;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00657}00657         tmp.x = tmp.x * \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5) + \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00658}00658         tmp.y = tmp.y * \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5) + \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00659}00659 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00660}00660         tmp[0] = tmp[0] * T(viewport[2]) + T(viewport[0]);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00661}00661         tmp[1] = tmp[1] * T(viewport[3]) + T(viewport[1]);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00662}00662 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00663}00663         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}}(tmp);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00664}00664     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00665}00665 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00666}00666     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} U, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00667}\mbox{\hyperlink{group__gtc__matrix__transform_ga7f81da150745ac8f4af75d6ce29ab81d}{00667}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga7f81da150745ac8f4af75d6ce29ab81d}{projectNO}}(\mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& obj, \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \textcolor{keyword}{const}\& model, \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \textcolor{keyword}{const}\& \mbox{\hyperlink{group__gtx__projection_ga58384b7170801dd513de46f87c7fb00e}{proj}}, \mbox{\hyperlink{structglm_1_1vec}{vec<4, U, Q>}} \textcolor{keyword}{const}\& viewport)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00668}00668     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00669}00669         \mbox{\hyperlink{structglm_1_1vec_3_014_00_01_t_00_01_q_01_4}{vec<4, T, Q>}} tmp = \mbox{\hyperlink{structglm_1_1vec_3_014_00_01_t_00_01_q_01_4}{vec<4, T, Q>}}(obj, \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00670}00670         tmp = model * tmp;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00671}00671         tmp = \mbox{\hyperlink{group__gtx__projection_ga58384b7170801dd513de46f87c7fb00e}{proj}} * tmp;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00672}00672 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00673}00673         tmp /= tmp.w;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00674}00674         tmp = tmp * \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5) + \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0.5);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00675}00675         tmp[0] = tmp[0] * T(viewport[2]) + T(viewport[0]);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00676}00676         tmp[1] = tmp[1] * T(viewport[3]) + T(viewport[1]);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00677}00677 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00678}00678         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}}(tmp);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00679}00679     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00680}00680 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00681}00681     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} U, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00682}\mbox{\hyperlink{group__gtc__matrix__transform_ga478b351626e39c8e33e042ea8d1f418e}{00682}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga478b351626e39c8e33e042ea8d1f418e}{project}}(\mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& obj, \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \textcolor{keyword}{const}\& model, \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \textcolor{keyword}{const}\& \mbox{\hyperlink{group__gtx__projection_ga58384b7170801dd513de46f87c7fb00e}{proj}}, \mbox{\hyperlink{structglm_1_1vec}{vec<4, U, Q>}} \textcolor{keyword}{const}\& viewport)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00683}00683     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00684}00684 \textcolor{preprocessor}{\#       if GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00685}00685             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gaf98ec0fecd3a5d07592e01750927599f}{projectZO}}(obj, model, \mbox{\hyperlink{group__gtx__projection_ga58384b7170801dd513de46f87c7fb00e}{proj}}, viewport);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00686}00686 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00687}00687             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga7f81da150745ac8f4af75d6ce29ab81d}{projectNO}}(obj, model, \mbox{\hyperlink{group__gtx__projection_ga58384b7170801dd513de46f87c7fb00e}{proj}}, viewport);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00688}00688 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00689}00689     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00690}00690 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00691}00691     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} U, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00692}\mbox{\hyperlink{group__gtc__matrix__transform_ga9b3ec0d9aeea52bbcc8c1fc3fc9830e3}{00692}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga9b3ec0d9aeea52bbcc8c1fc3fc9830e3}{unProjectZO}}(\mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& win, \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \textcolor{keyword}{const}\& model, \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \textcolor{keyword}{const}\& \mbox{\hyperlink{group__gtx__projection_ga58384b7170801dd513de46f87c7fb00e}{proj}}, \mbox{\hyperlink{structglm_1_1vec}{vec<4, U, Q>}} \textcolor{keyword}{const}\& viewport)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00693}00693     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00694}00694         \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} Inverse = \mbox{\hyperlink{group__core__func__matrix_gace61e11fc177491beeca0c6971e2f3fc}{inverse}}(\mbox{\hyperlink{group__gtx__projection_ga58384b7170801dd513de46f87c7fb00e}{proj}} * model);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00695}00695 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00696}00696         \mbox{\hyperlink{structglm_1_1vec_3_014_00_01_t_00_01_q_01_4}{vec<4, T, Q>}} tmp = \mbox{\hyperlink{structglm_1_1vec_3_014_00_01_t_00_01_q_01_4}{vec<4, T, Q>}}(win, T(1));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00697}00697         tmp.x = (tmp.x -\/ T(viewport[0])) / T(viewport[2]);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00698}00698         tmp.y = (tmp.y -\/ T(viewport[1])) / T(viewport[3]);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00699}00699         tmp.x = tmp.x * \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00700}00700         tmp.y = tmp.y * \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00701}00701 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00702}00702         \mbox{\hyperlink{structglm_1_1vec_3_014_00_01_t_00_01_q_01_4}{vec<4, T, Q>}} obj = Inverse * tmp;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00703}00703         obj /= obj.w;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00704}00704 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00705}00705         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}}(obj);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00706}00706     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00707}00707 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00708}00708     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} U, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00709}\mbox{\hyperlink{group__gtc__matrix__transform_ga6214935f32f38e1dc13ba66135eb5784}{00709}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga6214935f32f38e1dc13ba66135eb5784}{unProjectNO}}(\mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& win, \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \textcolor{keyword}{const}\& model, \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \textcolor{keyword}{const}\& \mbox{\hyperlink{group__gtx__projection_ga58384b7170801dd513de46f87c7fb00e}{proj}}, \mbox{\hyperlink{structglm_1_1vec}{vec<4, U, Q>}} \textcolor{keyword}{const}\& viewport)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00710}00710     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00711}00711         \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} Inverse = \mbox{\hyperlink{group__core__func__matrix_gace61e11fc177491beeca0c6971e2f3fc}{inverse}}(\mbox{\hyperlink{group__gtx__projection_ga58384b7170801dd513de46f87c7fb00e}{proj}} * model);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00712}00712 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00713}00713         \mbox{\hyperlink{structglm_1_1vec_3_014_00_01_t_00_01_q_01_4}{vec<4, T, Q>}} tmp = \mbox{\hyperlink{structglm_1_1vec_3_014_00_01_t_00_01_q_01_4}{vec<4, T, Q>}}(win, T(1));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00714}00714         tmp.x = (tmp.x -\/ T(viewport[0])) / T(viewport[2]);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00715}00715         tmp.y = (tmp.y -\/ T(viewport[1])) / T(viewport[3]);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00716}00716         tmp = tmp * \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00717}00717 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00718}00718         \mbox{\hyperlink{structglm_1_1vec_3_014_00_01_t_00_01_q_01_4}{vec<4, T, Q>}} obj = Inverse * tmp;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00719}00719         obj /= obj.w;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00720}00720 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00721}00721         \textcolor{keywordflow}{return} \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}}(obj);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00722}00722     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00723}00723 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00724}00724     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} U, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00725}\mbox{\hyperlink{group__gtc__matrix__transform_gaefa35b1dbf52941052a5a3aadc298106}{00725}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \mbox{\hyperlink{group__gtc__matrix__transform_gaefa35b1dbf52941052a5a3aadc298106}{unProject}}(\mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& win, \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \textcolor{keyword}{const}\& model, \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \textcolor{keyword}{const}\& \mbox{\hyperlink{group__gtx__projection_ga58384b7170801dd513de46f87c7fb00e}{proj}}, \mbox{\hyperlink{structglm_1_1vec}{vec<4, U, Q>}} \textcolor{keyword}{const}\& viewport)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00726}00726     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00727}00727 \textcolor{preprocessor}{\#       if GLM\_DEPTH\_CLIP\_SPACE == GLM\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00728}00728             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga9b3ec0d9aeea52bbcc8c1fc3fc9830e3}{unProjectZO}}(win, model, \mbox{\hyperlink{group__gtx__projection_ga58384b7170801dd513de46f87c7fb00e}{proj}}, viewport);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00729}00729 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00730}00730             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga6214935f32f38e1dc13ba66135eb5784}{unProjectNO}}(win, model, \mbox{\hyperlink{group__gtx__projection_ga58384b7170801dd513de46f87c7fb00e}{proj}}, viewport);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00731}00731 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00732}00732     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00733}00733 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00734}00734     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, qualifier Q, \textcolor{keyword}{typename} U>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00735}\mbox{\hyperlink{group__gtc__matrix__transform_ga0f93e1b7ea6887f31b643ce5099b1173}{00735}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga0f93e1b7ea6887f31b643ce5099b1173}{pickMatrix}}(\mbox{\hyperlink{structglm_1_1vec_3_012_00_01_t_00_01_q_01_4}{vec<2, T, Q>}} \textcolor{keyword}{const}\& center, \mbox{\hyperlink{structglm_1_1vec_3_012_00_01_t_00_01_q_01_4}{vec<2, T, Q>}} \textcolor{keyword}{const}\& delta, \mbox{\hyperlink{structglm_1_1vec}{vec<4, U, Q>}} \textcolor{keyword}{const}\& viewport)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00736}00736     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00737}00737         assert(delta.x > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0) \&\& delta.y > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00738}00738         \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} Result(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00739}00739 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00740}00740         \textcolor{keywordflow}{if}(!(delta.x > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0) \&\& delta.y > \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0)))}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00741}00741             \textcolor{keywordflow}{return} Result; \textcolor{comment}{// Error}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00742}00742 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00743}00743         \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} Temp(}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00744}00744             (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(viewport[2]) -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * (center.x -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(viewport[0]))) / delta.x,}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00745}00745             (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(viewport[3]) -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(2) * (center.y -\/ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(viewport[1]))) / delta.y,}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00746}00746             \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(0));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00747}00747 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00748}00748         \textcolor{comment}{// Translate and scale the picked region to the entire window}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00749}00749         Result = \mbox{\hyperlink{group__gtc__matrix__transform_ga67d8473d6b293d1bb2b4eaf249795cab}{translate}}(Result, Temp);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00750}00750         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gaae2f8b2080622b24b85e1096748599b6}{scale}}(Result, \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}}(\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(viewport[2]) / delta.x, \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(viewport[3]) / delta.y, \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(1)));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00751}00751     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00752}00752 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00753}00753     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00754}\mbox{\hyperlink{group__gtc__matrix__transform_ga55e33da75ea7e0f877059cc6f181cd2b}{00754}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga55e33da75ea7e0f877059cc6f181cd2b}{lookAtRH}}(\mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& eye, \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& center, \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& up)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00755}00755     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00756}00756         \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const} f(normalize(center -\/ eye));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00757}00757         \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const} s(normalize(\mbox{\hyperlink{group__core__func__geometric_gaa9583340130a6b700eced5b100c5ccaa}{cross}}(f, up)));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00758}00758         \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const} u(\mbox{\hyperlink{group__core__func__geometric_gaa9583340130a6b700eced5b100c5ccaa}{cross}}(s, f));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00759}00759 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00760}00760         \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} Result(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00761}00761         Result[0][0] = s.x;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00762}00762         Result[1][0] = s.y;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00763}00763         Result[2][0] = s.z;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00764}00764         Result[0][1] = u.x;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00765}00765         Result[1][1] = u.y;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00766}00766         Result[2][1] = u.z;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00767}00767         Result[0][2] =-\/f.x;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00768}00768         Result[1][2] =-\/f.y;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00769}00769         Result[2][2] =-\/f.z;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00770}00770         Result[3][0] =-\/dot(s, eye);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00771}00771         Result[3][1] =-\/dot(u, eye);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00772}00772         Result[3][2] = dot(f, eye);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00773}00773         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00774}00774     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00775}00775 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00776}00776     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00777}\mbox{\hyperlink{group__gtc__matrix__transform_gab2850421652778eeef6830e4fb1ea346}{00777}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \mbox{\hyperlink{group__gtc__matrix__transform_gab2850421652778eeef6830e4fb1ea346}{lookAtLH}}(\mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& eye, \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& center, \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& up)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00778}00778     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00779}00779         \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const} f(normalize(center -\/ eye));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00780}00780         \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const} s(normalize(\mbox{\hyperlink{group__core__func__geometric_gaa9583340130a6b700eced5b100c5ccaa}{cross}}(up, f)));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00781}00781         \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const} u(\mbox{\hyperlink{group__core__func__geometric_gaa9583340130a6b700eced5b100c5ccaa}{cross}}(f, s));}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00782}00782 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00783}00783         \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} Result(1);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00784}00784         Result[0][0] = s.x;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00785}00785         Result[1][0] = s.y;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00786}00786         Result[2][0] = s.z;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00787}00787         Result[0][1] = u.x;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00788}00788         Result[1][1] = u.y;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00789}00789         Result[2][1] = u.z;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00790}00790         Result[0][2] = f.x;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00791}00791         Result[1][2] = f.y;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00792}00792         Result[2][2] = f.z;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00793}00793         Result[3][0] = -\/dot(s, eye);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00794}00794         Result[3][1] = -\/dot(u, eye);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00795}00795         Result[3][2] = -\/dot(f, eye);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00796}00796         \textcolor{keywordflow}{return} Result;}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00797}00797     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00798}00798 }
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00799}00799     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, qualifier Q>}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00800}\mbox{\hyperlink{group__gtc__matrix__transform_ga894735fbf8f3d25628c127712d0285f7}{00800}}     GLM\_FUNC\_QUALIFIER \mbox{\hyperlink{structglm_1_1mat_3_014_00_014_00_01_t_00_01_q_01_4}{mat<4, 4, T, Q>}} \mbox{\hyperlink{group__gtc__matrix__transform_ga894735fbf8f3d25628c127712d0285f7}{lookAt}}(\mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& eye, \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& center, \mbox{\hyperlink{structglm_1_1vec_3_013_00_01_t_00_01_q_01_4}{vec<3, T, Q>}} \textcolor{keyword}{const}\& up)}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00801}00801     \{}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00802}00802 \textcolor{preprocessor}{\#       if GLM\_COORDINATE\_SYSTEM == GLM\_LEFT\_HANDED}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00803}00803             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_gab2850421652778eeef6830e4fb1ea346}{lookAtLH}}(eye, center, up);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00804}00804 \textcolor{preprocessor}{\#       else}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00805}00805             \textcolor{keywordflow}{return} \mbox{\hyperlink{group__gtc__matrix__transform_ga55e33da75ea7e0f877059cc6f181cd2b}{lookAtRH}}(eye, center, up);}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00806}00806 \textcolor{preprocessor}{\#       endif}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00807}00807     \}}
+\DoxyCodeLine{\Hypertarget{matrix__transform_8inl_source_l00808}00808 \}\textcolor{comment}{//namespace glm}}
+
+\end{DoxyCode}

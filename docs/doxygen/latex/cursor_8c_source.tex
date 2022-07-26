@@ -1,0 +1,494 @@
+\hypertarget{cursor_8c_source}{}\doxysection{cursor.\+c}
+\label{cursor_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/tests/cursor.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/tests/cursor.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00001}00001 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00002}00002 \textcolor{comment}{// Cursor \& input mode tests}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00003}00003 \textcolor{comment}{// Copyright (c) Camilla Löwy <elmindreda@glfw.org>}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00005}00005 \textcolor{comment}{// This software is provided 'as-\/is', without any express or implied}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00006}00006 \textcolor{comment}{// warranty. In no event will the authors be held liable for any damages}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00007}00007 \textcolor{comment}{// arising from the use of this software.}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00009}00009 \textcolor{comment}{// Permission is granted to anyone to use this software for any purpose,}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00010}00010 \textcolor{comment}{// including commercial applications, and to alter it and redistribute it}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00011}00011 \textcolor{comment}{// freely, subject to the following restrictions:}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00012}00012 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00013}00013 \textcolor{comment}{// 1. The origin of this software must not be misrepresented; you must not}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00014}00014 \textcolor{comment}{//    claim that you wrote the original software. If you use this software}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00015}00015 \textcolor{comment}{//    in a product, an acknowledgment in the product documentation would}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00016}00016 \textcolor{comment}{//    be appreciated but is not required.}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00017}00017 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00018}00018 \textcolor{comment}{// 2. Altered source versions must be plainly marked as such, and must not}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00019}00019 \textcolor{comment}{//    be misrepresented as being the original software.}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00020}00020 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00021}00021 \textcolor{comment}{// 3. This notice may not be removed or altered from any source}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00022}00022 \textcolor{comment}{//    distribution.}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00023}00023 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00024}00024 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00025}00025 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00026}00026 \textcolor{comment}{// This test provides an interface to the cursor image and cursor mode}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00027}00027 \textcolor{comment}{// parts of the API.}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00028}00028 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00029}00029 \textcolor{comment}{// Custom cursor image generation by urraka.}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00030}00030 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00031}00031 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00033}00033 \textcolor{preprocessor}{\#include <glad/gl.h>}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00034}00034 \textcolor{preprocessor}{\#define GLFW\_INCLUDE\_NONE}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00035}00035 \textcolor{preprocessor}{\#include <GLFW/glfw3.h>}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00037}00037 \textcolor{preprocessor}{\#if defined(\_MSC\_VER)}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00038}00038  \textcolor{comment}{// Make MS math.h define M\_PI}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00039}00039 \textcolor{preprocessor}{ \#define \_USE\_MATH\_DEFINES}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00040}00040 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00042}00042 \textcolor{preprocessor}{\#include <math.h>}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00043}00043 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00044}00044 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00046}00046 \textcolor{preprocessor}{\#include "{}linmath.h"{}}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00048}00048 \textcolor{preprocessor}{\#define CURSOR\_FRAME\_COUNT 60}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00050}00050 \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{char}* vertex\_shader\_text =}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00051}00051 \textcolor{stringliteral}{"{}\#version 110\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00052}00052 \textcolor{stringliteral}{"{}uniform mat4 MVP;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00053}00053 \textcolor{stringliteral}{"{}attribute vec2 vPos;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00054}00054 \textcolor{stringliteral}{"{}void main()\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00055}00055 \textcolor{stringliteral}{"{}\{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00056}00056 \textcolor{stringliteral}{"{}    gl\_Position = MVP * vec4(vPos, 0.0, 1.0);\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00057}00057 \textcolor{stringliteral}{"{}\}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00059}00059 \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{char}* fragment\_shader\_text =}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00060}00060 \textcolor{stringliteral}{"{}\#version 110\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00061}00061 \textcolor{stringliteral}{"{}void main()\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00062}00062 \textcolor{stringliteral}{"{}\{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00063}00063 \textcolor{stringliteral}{"{}    gl\_FragColor = vec4(1.0);\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00064}00064 \textcolor{stringliteral}{"{}\}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00065}00065 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00066}00066 \textcolor{keyword}{static} \textcolor{keywordtype}{double} cursor\_x;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00067}00067 \textcolor{keyword}{static} \textcolor{keywordtype}{double} cursor\_y;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00068}00068 \textcolor{keyword}{static} \textcolor{keywordtype}{int} swap\_interval = 1;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00069}00069 \textcolor{keyword}{static} \textcolor{keywordtype}{int} wait\_events = \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00070}00070 \textcolor{keyword}{static} \textcolor{keywordtype}{int} animate\_cursor = \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00071}00071 \textcolor{keyword}{static} \textcolor{keywordtype}{int} track\_cursor = \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00072}00072 \textcolor{keyword}{static} \mbox{\hyperlink{group__input_ga89261ae18c75e863aaf2656ecdd238f4}{GLFWcursor}}* standard\_cursors[10];}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00073}00073 \textcolor{keyword}{static} \mbox{\hyperlink{group__input_ga89261ae18c75e863aaf2656ecdd238f4}{GLFWcursor}}* tracking\_cursor = NULL;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00074}00074 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00075}00075 \textcolor{keyword}{static} \textcolor{keywordtype}{void} error\_callback(\textcolor{keywordtype}{int} error, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* description)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00076}00076 \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00077}00077     fprintf(stderr, \textcolor{stringliteral}{"{}Error: \%s\(\backslash\)n"{}}, description);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00078}00078 \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00080}00080 \textcolor{keyword}{static} \textcolor{keywordtype}{float} star(\textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} y, \textcolor{keywordtype}{float} t)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00081}00081 \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00082}00082     \textcolor{keyword}{const} \textcolor{keywordtype}{float} c = 64 / 2.f;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00083}00083 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00084}00084     \textcolor{keyword}{const} \textcolor{keywordtype}{float} i = (0.25f * (float) \mbox{\hyperlink{group__core__func__trigonometric_ga3fcdcfa2d2ac38de9ba1885cd1c79414}{sin}}(2.f * M\_PI * t) + 0.75f);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00085}00085     \textcolor{keyword}{const} \textcolor{keywordtype}{float} k = 64 * 0.046875f * i;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00086}00086 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00087}00087     \textcolor{keyword}{const} \textcolor{keywordtype}{float} dist = (float) \mbox{\hyperlink{group__core__func__exponential_ga1f904e09827e939a56e4158f45ca8ede}{sqrt}}((x -\/ c) * (x -\/ c) + (y -\/ c) * (y -\/ c));}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00088}00088 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00089}00089     \textcolor{keyword}{const} \textcolor{keywordtype}{float} salpha = 1.f -\/ dist / c;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00090}00090     \textcolor{keyword}{const} \textcolor{keywordtype}{float} xalpha = (float) x == c ? c : k / (\textcolor{keywordtype}{float}) fabs(x -\/ c);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00091}00091     \textcolor{keyword}{const} \textcolor{keywordtype}{float} yalpha = (float) y == c ? c : k / (\textcolor{keywordtype}{float}) fabs(y -\/ c);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00093}00093     \textcolor{keywordflow}{return} (\textcolor{keywordtype}{float}) \mbox{\hyperlink{group__gtx__extended__min__max_gae5792cb2b51190057e4aea027eb56f81}{fmax}}(0.f, \mbox{\hyperlink{group__gtx__extended__min__max_gaa3200559611ac5b9b9ae7283547916a7}{fmin}}(1.f, i * salpha * 0.2f + salpha * xalpha * yalpha));}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00094}00094 \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00095}00095 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00096}00096 \textcolor{keyword}{static} \mbox{\hyperlink{group__input_ga89261ae18c75e863aaf2656ecdd238f4}{GLFWcursor}}* create\_cursor\_frame(\textcolor{keywordtype}{float} t)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00097}00097 \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00098}00098     \textcolor{keywordtype}{int} i = 0, x, y;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00099}00099     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} \mbox{\hyperlink{classbuffer}{buffer}}[64 * 64 * 4];}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00100}00100     \textcolor{keyword}{const} \mbox{\hyperlink{struct_g_l_f_wimage}{GLFWimage}} image = \{ 64, 64, \mbox{\hyperlink{classbuffer}{buffer}} \};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00101}00101 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00102}00102     \textcolor{keywordflow}{for} (y = 0;  y < image.width;  y++)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00103}00103     \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00104}00104         \textcolor{keywordflow}{for} (x = 0;  x < image.height;  x++)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00105}00105         \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00106}00106             \mbox{\hyperlink{classbuffer}{buffer}}[i++] = 255;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00107}00107             \mbox{\hyperlink{classbuffer}{buffer}}[i++] = 255;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00108}00108             \mbox{\hyperlink{classbuffer}{buffer}}[i++] = 255;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00109}00109             \mbox{\hyperlink{classbuffer}{buffer}}[i++] = (\textcolor{keywordtype}{unsigned} char) (255 * star(x, y, t));}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00110}00110         \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00111}00111     \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00112}00112 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00113}00113     \textcolor{keywordflow}{return} \mbox{\hyperlink{group__input_ga21fc9f020f062db88813aa722c30ba2c}{glfwCreateCursor}}(\&image, image.width / 2, image.height / 2);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00114}00114 \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00115}00115 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00116}00116 \textcolor{keyword}{static} \mbox{\hyperlink{group__input_ga89261ae18c75e863aaf2656ecdd238f4}{GLFWcursor}}* create\_tracking\_cursor(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00117}00117 \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00118}00118     \textcolor{keywordtype}{int} i = 0, x, y;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00119}00119     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} \mbox{\hyperlink{classbuffer}{buffer}}[32 * 32 * 4];}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00120}00120     \textcolor{keyword}{const} \mbox{\hyperlink{struct_g_l_f_wimage}{GLFWimage}} image = \{ 32, 32, \mbox{\hyperlink{classbuffer}{buffer}} \};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00121}00121 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00122}00122     \textcolor{keywordflow}{for} (y = 0;  y < image.width;  y++)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00123}00123     \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00124}00124         \textcolor{keywordflow}{for} (x = 0;  x < image.height;  x++)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00125}00125         \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00126}00126             \textcolor{keywordflow}{if} (x == 7 || y == 7)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00127}00127             \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00128}00128                 \mbox{\hyperlink{classbuffer}{buffer}}[i++] = 255;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00129}00129                 \mbox{\hyperlink{classbuffer}{buffer}}[i++] = 0;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00130}00130                 \mbox{\hyperlink{classbuffer}{buffer}}[i++] = 0;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00131}00131                 \mbox{\hyperlink{classbuffer}{buffer}}[i++] = 255;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00132}00132             \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00133}00133             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00134}00134             \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00135}00135                 \mbox{\hyperlink{classbuffer}{buffer}}[i++] = 0;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00136}00136                 \mbox{\hyperlink{classbuffer}{buffer}}[i++] = 0;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00137}00137                 \mbox{\hyperlink{classbuffer}{buffer}}[i++] = 0;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00138}00138                 \mbox{\hyperlink{classbuffer}{buffer}}[i++] = 0;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00139}00139             \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00140}00140         \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00141}00141     \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00142}00142 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00143}00143     \textcolor{keywordflow}{return} \mbox{\hyperlink{group__input_ga21fc9f020f062db88813aa722c30ba2c}{glfwCreateCursor}}(\&image, 7, 7);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00144}00144 \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00145}00145 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00146}00146 \textcolor{keyword}{static} \textcolor{keywordtype}{void} cursor\_position\_callback(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{double} x, \textcolor{keywordtype}{double} y)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00147}00147 \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00148}00148     printf(\textcolor{stringliteral}{"{}\%0.3f: Cursor position: \%f \%f (\%+f \%+f)\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00149}00149            \mbox{\hyperlink{group__input_ga03d4a1039b8662c71eeb40beea8cb622}{glfwGetTime}}(),}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00150}00150            x, y, x -\/ cursor\_x, y -\/ cursor\_y);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00151}00151 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00152}00152     cursor\_x = x;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00153}00153     cursor\_y = y;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00154}00154 \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00155}00155 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00156}00156 \textcolor{keyword}{static} \textcolor{keywordtype}{void} key\_callback(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window, \textcolor{keywordtype}{int} key, \textcolor{keywordtype}{int} scancode, \textcolor{keywordtype}{int} action, \textcolor{keywordtype}{int} mods)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00157}00157 \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00158}00158     \textcolor{keywordflow}{if} (action != \mbox{\hyperlink{group__input_ga2485743d0b59df3791c45951c4195265}{GLFW\_PRESS}})}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00159}00159         \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00160}00160 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00161}00161     \textcolor{keywordflow}{switch} (key)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00162}00162     \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00163}00163         \textcolor{keywordflow}{case} GLFW\_KEY\_A:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00164}00164         \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00165}00165             animate\_cursor = !animate\_cursor;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00166}00166             \textcolor{keywordflow}{if} (!animate\_cursor)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00167}00167                 \mbox{\hyperlink{group__input_gafaf103cea2f43530cff7de4e01126a4f}{glfwSetCursor}}(window, NULL);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00168}00168 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00169}00169             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00170}00170         \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00171}00171 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00172}00172         \textcolor{keywordflow}{case} GLFW\_KEY\_ESCAPE:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00173}00173         \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00174}00174             \textcolor{keywordflow}{if} (\mbox{\hyperlink{group__input_ga1248dd5b1e566b2817e71547564d6af9}{glfwGetInputMode}}(window, GLFW\_CURSOR) != GLFW\_CURSOR\_DISABLED)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00175}00175             \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00176}00176                 \mbox{\hyperlink{group__window_ga1cadeda7a1e2f224e06a8415d30741aa}{glfwSetWindowShouldClose}}(window, \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}});}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00177}00177                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00178}00178             \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00179}00179 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00180}00180             \textcolor{comment}{/* FALLTHROUGH */}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00181}00181         \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00182}00182 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00183}00183         \textcolor{keywordflow}{case} GLFW\_KEY\_N:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00184}00184             \mbox{\hyperlink{group__input_gae1eb729d2dd91dc33fd60e150a6e1684}{glfwSetInputMode}}(window, GLFW\_CURSOR, GLFW\_CURSOR\_NORMAL);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00185}00185             \mbox{\hyperlink{group__input_gad289438eb7cf53d11eca685373f44105}{glfwGetCursorPos}}(window, \&cursor\_x, \&cursor\_y);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00186}00186             printf(\textcolor{stringliteral}{"{}(( cursor is normal ))\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00187}00187             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00188}00188 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00189}00189         \textcolor{keywordflow}{case} GLFW\_KEY\_D:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00190}00190             \mbox{\hyperlink{group__input_gae1eb729d2dd91dc33fd60e150a6e1684}{glfwSetInputMode}}(window, GLFW\_CURSOR, GLFW\_CURSOR\_DISABLED);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00191}00191             printf(\textcolor{stringliteral}{"{}(( cursor is disabled ))\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00192}00192             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00193}00193 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00194}00194         \textcolor{keywordflow}{case} GLFW\_KEY\_H:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00195}00195             \mbox{\hyperlink{group__input_gae1eb729d2dd91dc33fd60e150a6e1684}{glfwSetInputMode}}(window, GLFW\_CURSOR, GLFW\_CURSOR\_HIDDEN);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00196}00196             printf(\textcolor{stringliteral}{"{}(( cursor is hidden ))\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00197}00197             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00198}00198 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00199}00199         \textcolor{keywordflow}{case} GLFW\_KEY\_R:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00200}00200             \textcolor{keywordflow}{if} (!\mbox{\hyperlink{group__input_ga9b83d8957a566b22b3b768c7d1d4be03}{glfwRawMouseMotionSupported}}())}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00201}00201                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00202}00202 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00203}00203             \textcolor{keywordflow}{if} (\mbox{\hyperlink{group__input_ga1248dd5b1e566b2817e71547564d6af9}{glfwGetInputMode}}(window, GLFW\_RAW\_MOUSE\_MOTION))}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00204}00204             \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00205}00205                 \mbox{\hyperlink{group__input_gae1eb729d2dd91dc33fd60e150a6e1684}{glfwSetInputMode}}(window, GLFW\_RAW\_MOUSE\_MOTION, \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}});}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00206}00206                 printf(\textcolor{stringliteral}{"{}(( raw input is disabled ))\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00207}00207             \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00208}00208             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00209}00209             \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00210}00210                 \mbox{\hyperlink{group__input_gae1eb729d2dd91dc33fd60e150a6e1684}{glfwSetInputMode}}(window, GLFW\_RAW\_MOUSE\_MOTION, \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}});}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00211}00211                 printf(\textcolor{stringliteral}{"{}(( raw input is enabled ))\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00212}00212             \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00213}00213             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00214}00214 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00215}00215         \textcolor{keywordflow}{case} GLFW\_KEY\_SPACE:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00216}00216             swap\_interval = 1 -\/ swap\_interval;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00217}00217             printf(\textcolor{stringliteral}{"{}(( swap interval: \%i ))\(\backslash\)n"{}}, swap\_interval);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00218}00218             \mbox{\hyperlink{group__context_ga12a595c06947cec4967c6e1f14210a8a}{glfwSwapInterval}}(swap\_interval);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00219}00219             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00220}00220 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00221}00221         \textcolor{keywordflow}{case} GLFW\_KEY\_W:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00222}00222             wait\_events = !wait\_events;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00223}00223             printf(\textcolor{stringliteral}{"{}(( \%sing for events ))\(\backslash\)n"{}}, wait\_events ? \textcolor{stringliteral}{"{}wait"{}} : \textcolor{stringliteral}{"{}poll"{}});}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00224}00224             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00225}00225 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00226}00226         \textcolor{keywordflow}{case} GLFW\_KEY\_T:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00227}00227             track\_cursor = !track\_cursor;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00228}00228             \textcolor{keywordflow}{if} (track\_cursor)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00229}00229                 \mbox{\hyperlink{group__input_gafaf103cea2f43530cff7de4e01126a4f}{glfwSetCursor}}(window, tracking\_cursor);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00230}00230             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00231}00231                 \mbox{\hyperlink{group__input_gafaf103cea2f43530cff7de4e01126a4f}{glfwSetCursor}}(window, NULL);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00232}00232 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00233}00233             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00234}00234 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00235}00235         \textcolor{keywordflow}{case} GLFW\_KEY\_P:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00236}00236         \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00237}00237             \textcolor{keywordtype}{double} x, y;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00238}00238             \mbox{\hyperlink{group__input_gad289438eb7cf53d11eca685373f44105}{glfwGetCursorPos}}(window, \&x, \&y);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00239}00239 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00240}00240             printf(\textcolor{stringliteral}{"{}Query before set: \%f \%f (\%+f \%+f)\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00241}00241                    x, y, x -\/ cursor\_x, y -\/ cursor\_y);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00242}00242             cursor\_x = x;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00243}00243             cursor\_y = y;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00244}00244 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00245}00245             \mbox{\hyperlink{group__input_gaaf152cc93418acb0ba342e3f4af922bc}{glfwSetCursorPos}}(window, cursor\_x, cursor\_y);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00246}00246             \mbox{\hyperlink{group__input_gad289438eb7cf53d11eca685373f44105}{glfwGetCursorPos}}(window, \&x, \&y);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00247}00247 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00248}00248             printf(\textcolor{stringliteral}{"{}Query after set: \%f \%f (\%+f \%+f)\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00249}00249                    x, y, x -\/ cursor\_x, y -\/ cursor\_y);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00250}00250             cursor\_x = x;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00251}00251             cursor\_y = y;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00252}00252             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00253}00253         \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00254}00254 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00255}00255         \textcolor{keywordflow}{case} GLFW\_KEY\_UP:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00256}00256             \mbox{\hyperlink{group__input_gaaf152cc93418acb0ba342e3f4af922bc}{glfwSetCursorPos}}(window, 0, 0);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00257}00257             \mbox{\hyperlink{group__input_gad289438eb7cf53d11eca685373f44105}{glfwGetCursorPos}}(window, \&cursor\_x, \&cursor\_y);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00258}00258             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00259}00259 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00260}00260         \textcolor{keywordflow}{case} GLFW\_KEY\_DOWN:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00261}00261         \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00262}00262             \textcolor{keywordtype}{int} width, height;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00263}00263             \mbox{\hyperlink{group__window_ga7feb769ebb3f3d21579b5a3fb07be76e}{glfwGetWindowSize}}(window, \&width, \&height);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00264}00264             \mbox{\hyperlink{group__input_gaaf152cc93418acb0ba342e3f4af922bc}{glfwSetCursorPos}}(window, width -\/ 1, height -\/ 1);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00265}00265             \mbox{\hyperlink{group__input_gad289438eb7cf53d11eca685373f44105}{glfwGetCursorPos}}(window, \&cursor\_x, \&cursor\_y);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00266}00266             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00267}00267         \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00268}00268 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00269}00269         \textcolor{keywordflow}{case} GLFW\_KEY\_0:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00270}00270             \mbox{\hyperlink{group__input_gafaf103cea2f43530cff7de4e01126a4f}{glfwSetCursor}}(window, NULL);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00271}00271             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00272}00272 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00273}00273         \textcolor{keywordflow}{case} GLFW\_KEY\_1:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00274}00274         \textcolor{keywordflow}{case} GLFW\_KEY\_2:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00275}00275         \textcolor{keywordflow}{case} GLFW\_KEY\_3:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00276}00276         \textcolor{keywordflow}{case} GLFW\_KEY\_4:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00277}00277         \textcolor{keywordflow}{case} GLFW\_KEY\_5:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00278}00278         \textcolor{keywordflow}{case} GLFW\_KEY\_6:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00279}00279         \textcolor{keywordflow}{case} GLFW\_KEY\_7:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00280}00280         \textcolor{keywordflow}{case} GLFW\_KEY\_8:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00281}00281         \textcolor{keywordflow}{case} GLFW\_KEY\_9:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00282}00282         \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00283}00283             \textcolor{keywordtype}{int} index = key -\/ GLFW\_KEY\_1;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00284}00284             \textcolor{keywordflow}{if} (mods \& \mbox{\hyperlink{group__mods_ga14994d3196c290aaa347248e51740274}{GLFW\_MOD\_SHIFT}})}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00285}00285                 index += 9;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00286}00286 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00287}00287             \textcolor{keywordflow}{if} (index < \textcolor{keyword}{sizeof}(standard\_cursors) / \textcolor{keyword}{sizeof}(standard\_cursors[0]))}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00288}00288                 \mbox{\hyperlink{group__input_gafaf103cea2f43530cff7de4e01126a4f}{glfwSetCursor}}(window, standard\_cursors[index]);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00289}00289 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00290}00290             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00291}00291         \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00292}00292 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00293}00293         \textcolor{keywordflow}{case} GLFW\_KEY\_F11:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00294}00294         \textcolor{keywordflow}{case} GLFW\_KEY\_ENTER:}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00295}00295         \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00296}00296             \textcolor{keyword}{static} \textcolor{keywordtype}{int} x, y, width, height;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00297}00297 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00298}00298             \textcolor{keywordflow}{if} (mods != \mbox{\hyperlink{group__mods_gad2acd5633463c29e07008687ea73c0f4}{GLFW\_MOD\_ALT}})}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00299}00299                 \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00300}00300 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00301}00301             \textcolor{keywordflow}{if} (\mbox{\hyperlink{group__window_gad441645a53bc9274a0ee163d40f0c637}{glfwGetWindowMonitor}}(window))}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00302}00302                 \mbox{\hyperlink{group__window_ga12fabf78575e59c00f822f323ae0b6ae}{glfwSetWindowMonitor}}(window, NULL, x, y, width, height, 0);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00303}00303             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00304}00304             \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00305}00305                 \mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}* monitor = \mbox{\hyperlink{group__monitor_ga34befff4f9f0fae09dd8de6fb0eb4f3e}{glfwGetPrimaryMonitor}}();}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00306}00306                 \textcolor{keyword}{const} \mbox{\hyperlink{struct_g_l_f_wvidmode}{GLFWvidmode}}* mode = \mbox{\hyperlink{group__monitor_ga21f7f60de4f4d0fa360c7ad159b75c9e}{glfwGetVideoMode}}(monitor);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00307}00307                 \mbox{\hyperlink{group__window_ga0076a8591ef7494d359730cf2250b45b}{glfwGetWindowPos}}(window, \&x, \&y);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00308}00308                 \mbox{\hyperlink{group__window_ga7feb769ebb3f3d21579b5a3fb07be76e}{glfwGetWindowSize}}(window, \&width, \&height);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00309}00309                 \mbox{\hyperlink{group__window_ga12fabf78575e59c00f822f323ae0b6ae}{glfwSetWindowMonitor}}(window, monitor,}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00310}00310                                      0, 0, mode-\/>width, mode-\/>height,}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00311}00311                                      mode-\/>refreshRate);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00312}00312             \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00313}00313 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00314}00314             \mbox{\hyperlink{group__input_gad289438eb7cf53d11eca685373f44105}{glfwGetCursorPos}}(window, \&cursor\_x, \&cursor\_y);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00315}00315             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00316}00316         \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00317}00317     \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00318}00318 \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00319}00319 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00320}00320 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00321}00321 \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00322}00322     \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00323}00323     \mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}* window;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00324}00324     \mbox{\hyperlink{group__input_ga89261ae18c75e863aaf2656ecdd238f4}{GLFWcursor}}* star\_cursors[CURSOR\_FRAME\_COUNT];}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00325}00325     \mbox{\hyperlink{group__input_ga89261ae18c75e863aaf2656ecdd238f4}{GLFWcursor}}* current\_frame = NULL;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00326}00326     GLuint vertex\_buffer, vertex\_shader, fragment\_shader, program;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00327}00327     GLint mvp\_location, vpos\_location;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00328}00328 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00329}00329     \mbox{\hyperlink{group__init_ga746e2757d069eaea423349aca6ae097a}{glfwSetErrorCallback}}(error\_callback);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00330}00330 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00331}00331     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{group__init_gab41771f0215a2e0afb4cf1cf98082d40}{glfwInit}}())}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00332}00332         exit(EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00333}00333 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00334}00334     tracking\_cursor = create\_tracking\_cursor();}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00335}00335     \textcolor{keywordflow}{if} (!tracking\_cursor)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00336}00336     \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00337}00337         \mbox{\hyperlink{group__init_gafd90e6fd4819ea9e22e5e739519a6504}{glfwTerminate}}();}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00338}00338         exit(EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00339}00339     \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00340}00340 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00341}00341     \textcolor{keywordflow}{for} (i = 0;  i < CURSOR\_FRAME\_COUNT;  i++)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00342}00342     \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00343}00343         star\_cursors[i] = create\_cursor\_frame(i / (\textcolor{keywordtype}{float}) CURSOR\_FRAME\_COUNT);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00344}00344         \textcolor{keywordflow}{if} (!star\_cursors[i])}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00345}00345         \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00346}00346             \mbox{\hyperlink{group__init_gafd90e6fd4819ea9e22e5e739519a6504}{glfwTerminate}}();}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00347}00347             exit(EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00348}00348         \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00349}00349     \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00350}00350 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00351}00351     \textcolor{keywordflow}{for} (i = 0;  i < \textcolor{keyword}{sizeof}(standard\_cursors) / \textcolor{keyword}{sizeof}(standard\_cursors[0]);  i++)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00352}00352     \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00353}00353         \textcolor{keyword}{const} \textcolor{keywordtype}{int} shapes[] = \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00354}00354             \mbox{\hyperlink{group__shapes_ga8ab0e717245b85506cb0eaefdea39d0a}{GLFW\_ARROW\_CURSOR}},}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00355}00355             \mbox{\hyperlink{group__shapes_ga36185f4375eaada1b04e431244774c86}{GLFW\_IBEAM\_CURSOR}},}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00356}00356             \mbox{\hyperlink{group__shapes_ga8af88c0ea05ab9e8f9ac1530e8873c22}{GLFW\_CROSSHAIR\_CURSOR}},}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00357}00357             \mbox{\hyperlink{group__shapes_gaad01a50929fb515bf27e4462c51f6ed0}{GLFW\_POINTING\_HAND\_CURSOR}},}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00358}00358             \mbox{\hyperlink{group__shapes_ga2010a43dc1050a7c9154148a63cf01ad}{GLFW\_RESIZE\_EW\_CURSOR}},}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00359}00359             \mbox{\hyperlink{group__shapes_gaa59214e8cdc8c8adf08fdf125ed68388}{GLFW\_RESIZE\_NS\_CURSOR}},}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00360}00360             \mbox{\hyperlink{group__shapes_gadf2c0a495ec9cef4e1a364cc99aa78da}{GLFW\_RESIZE\_NWSE\_CURSOR}},}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00361}00361             \mbox{\hyperlink{group__shapes_gab06bba3b407f92807ba9b48de667a323}{GLFW\_RESIZE\_NESW\_CURSOR}},}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00362}00362             \mbox{\hyperlink{group__shapes_ga3a5f4811155f95ccafbbb4c9a899fc1d}{GLFW\_RESIZE\_ALL\_CURSOR}},}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00363}00363             \mbox{\hyperlink{group__shapes_ga297c503095b034bc8891393b637844b1}{GLFW\_NOT\_ALLOWED\_CURSOR}}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00364}00364         \};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00365}00365 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00366}00366         standard\_cursors[i] = \mbox{\hyperlink{group__input_gab7c5b6023b39a0021b1fcdabd1d15f09}{glfwCreateStandardCursor}}(shapes[i]);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00367}00367     \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00368}00368 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00369}00369     \mbox{\hyperlink{group__window_ga69c40728499720bef8a49aa925ea0efa}{glfwWindowHint}}(\mbox{\hyperlink{group__window_gafe5e4922de1f9932d7e9849bb053b0c0}{GLFW\_CONTEXT\_VERSION\_MAJOR}}, 2);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00370}00370     \mbox{\hyperlink{group__window_ga69c40728499720bef8a49aa925ea0efa}{glfwWindowHint}}(\mbox{\hyperlink{group__window_ga31aca791e4b538c4e4a771eb95cc2d07}{GLFW\_CONTEXT\_VERSION\_MINOR}}, 0);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00371}00371 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00372}00372     window = \mbox{\hyperlink{group__window_gaaccd00fafe81e2db94e8cdf55721e055}{glfwCreateWindow}}(640, 480, \textcolor{stringliteral}{"{}Cursor Test"{}}, NULL, NULL);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00373}00373     \textcolor{keywordflow}{if} (!window)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00374}00374     \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00375}00375         \mbox{\hyperlink{group__init_gafd90e6fd4819ea9e22e5e739519a6504}{glfwTerminate}}();}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00376}00376         exit(EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00377}00377     \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00378}00378 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00379}00379     \mbox{\hyperlink{group__context_gafd76c93e15ec8b0b90506a9936a46185}{glfwMakeContextCurrent}}(window);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00380}00380     gladLoadGL(\mbox{\hyperlink{group__context_ga0e8af175218929615c16e74938c10f2a}{glfwGetProcAddress}});}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00381}00381 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00382}00382     glGenBuffers(1, \&vertex\_buffer);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00383}00383     glBindBuffer(GL\_ARRAY\_BUFFER, vertex\_buffer);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00384}00384 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00385}00385     vertex\_shader = glCreateShader(GL\_VERTEX\_SHADER);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00386}00386     glShaderSource(vertex\_shader, 1, \&vertex\_shader\_text, NULL);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00387}00387     glCompileShader(vertex\_shader);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00388}00388 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00389}00389     fragment\_shader = glCreateShader(GL\_FRAGMENT\_SHADER);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00390}00390     glShaderSource(fragment\_shader, 1, \&fragment\_shader\_text, NULL);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00391}00391     glCompileShader(fragment\_shader);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00392}00392 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00393}00393     program = glCreateProgram();}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00394}00394     glAttachShader(program, vertex\_shader);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00395}00395     glAttachShader(program, fragment\_shader);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00396}00396     glLinkProgram(program);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00397}00397 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00398}00398     mvp\_location = glGetUniformLocation(program, \textcolor{stringliteral}{"{}MVP"{}});}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00399}00399     vpos\_location = glGetAttribLocation(program, \textcolor{stringliteral}{"{}vPos"{}});}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00400}00400 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00401}00401     glEnableVertexAttribArray(vpos\_location);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00402}00402     glVertexAttribPointer(vpos\_location, 2, GL\_FLOAT, GL\_FALSE,}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00403}00403                           \textcolor{keyword}{sizeof}(\mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{vec2}}), (\textcolor{keywordtype}{void}*) 0);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00404}00404     glUseProgram(program);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00405}00405 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00406}00406     \mbox{\hyperlink{group__input_gad289438eb7cf53d11eca685373f44105}{glfwGetCursorPos}}(window, \&cursor\_x, \&cursor\_y);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00407}00407     printf(\textcolor{stringliteral}{"{}Cursor position: \%f \%f\(\backslash\)n"{}}, cursor\_x, cursor\_y);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00408}00408 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00409}00409     \mbox{\hyperlink{group__input_ga74124d0eff27040fd10e4df9e17d129c}{glfwSetCursorPosCallback}}(window, cursor\_position\_callback);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00410}00410     \mbox{\hyperlink{group__input_gaa4cbcb81b939b8800e44cea971ddae47}{glfwSetKeyCallback}}(window, key\_callback);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00411}00411 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00412}00412     \textcolor{keywordflow}{while} (!\mbox{\hyperlink{group__window_gaa6162f67dfa38b8beda2fea623649332}{glfwWindowShouldClose}}(window))}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00413}00413     \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00414}00414         glClear(GL\_COLOR\_BUFFER\_BIT);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00415}00415 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00416}00416         \textcolor{keywordflow}{if} (track\_cursor)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00417}00417         \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00418}00418             \textcolor{keywordtype}{int} wnd\_width, wnd\_height, fb\_width, fb\_height;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00419}00419             \textcolor{keywordtype}{float} \mbox{\hyperlink{group__gtc__matrix__transform_gaae2f8b2080622b24b85e1096748599b6}{scale}};}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00420}00420             \mbox{\hyperlink{group__core__types_gaa1618f51db67eaa145db101d8c8431d8}{vec2}} vertices[4];}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00421}00421             \mbox{\hyperlink{group__core__types_ga63e3ee9447ed593484140a9368e738ec}{mat4x4}} mvp;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00422}00422 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00423}00423             \mbox{\hyperlink{group__window_ga7feb769ebb3f3d21579b5a3fb07be76e}{glfwGetWindowSize}}(window, \&wnd\_width, \&wnd\_height);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00424}00424             \mbox{\hyperlink{group__window_gaf7d17f3534b4b6dc9a6f905e3a240b7e}{glfwGetFramebufferSize}}(window, \&fb\_width, \&fb\_height);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00425}00425 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00426}00426             glViewport(0, 0, fb\_width, fb\_height);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00427}00427 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00428}00428             scale = (float) fb\_width / (\textcolor{keywordtype}{float}) wnd\_width;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00429}00429             vertices[0][0] = 0.5f;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00430}00430             vertices[0][1] = (float) (fb\_height -\/ \mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{floor}}(cursor\_y * scale) -\/ 1.f + 0.5f);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00431}00431             vertices[1][0] = (float) fb\_width + 0.5f;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00432}00432             vertices[1][1] = (float) (fb\_height -\/ \mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{floor}}(cursor\_y * scale) -\/ 1.f + 0.5f);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00433}00433             vertices[2][0] = (float) \mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{floor}}(cursor\_x * scale) + 0.5f;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00434}00434             vertices[2][1] = 0.5f;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00435}00435             vertices[3][0] = (float) \mbox{\hyperlink{group__core__func__common_gac433646923ab80af6d9964f1570855d5}{floor}}(cursor\_x * scale) + 0.5f;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00436}00436             vertices[3][1] = (float) fb\_height + 0.5f;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00437}00437 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00438}00438             glBufferData(GL\_ARRAY\_BUFFER,}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00439}00439                          \textcolor{keyword}{sizeof}(vertices),}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00440}00440                          vertices,}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00441}00441                          GL\_STREAM\_DRAW);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00442}00442 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00443}00443             mat4x4\_ortho(mvp, 0.f, (\textcolor{keywordtype}{float}) fb\_width, 0.f, (\textcolor{keywordtype}{float}) fb\_height, 0.f, 1.f);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00444}00444             glUniformMatrix4fv(mvp\_location, 1, GL\_FALSE, (\textcolor{keyword}{const} GLfloat*) mvp);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00445}00445 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00446}00446             glDrawArrays(GL\_LINES, 0, 4);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00447}00447         \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00448}00448 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00449}00449         \mbox{\hyperlink{group__window_gafb827800eedbfcbc97b1e5408df668d7}{glfwSwapBuffers}}(window);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00450}00450 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00451}00451         \textcolor{keywordflow}{if} (animate\_cursor)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00452}00452         \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00453}00453             \textcolor{keyword}{const} \textcolor{keywordtype}{int} i = (int) (\mbox{\hyperlink{group__input_ga03d4a1039b8662c71eeb40beea8cb622}{glfwGetTime}}() * 30.0) \% CURSOR\_FRAME\_COUNT;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00454}00454             \textcolor{keywordflow}{if} (current\_frame != star\_cursors[i])}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00455}00455             \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00456}00456                 \mbox{\hyperlink{group__input_gafaf103cea2f43530cff7de4e01126a4f}{glfwSetCursor}}(window, star\_cursors[i]);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00457}00457                 current\_frame = star\_cursors[i];}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00458}00458             \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00459}00459         \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00460}00460         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00461}00461             current\_frame = NULL;}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00462}00462 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00463}00463         \textcolor{keywordflow}{if} (wait\_events)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00464}00464         \{}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00465}00465             \textcolor{keywordflow}{if} (animate\_cursor)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00466}00466                 \mbox{\hyperlink{group__window_ga05223a0a4c5e50f10f289e60398153aa}{glfwWaitEventsTimeout}}(1.0 / 30.0);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00467}00467             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00468}00468                 \mbox{\hyperlink{group__window_ga6e042d05823c11e11c7339b81a237738}{glfwWaitEvents}}();}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00469}00469         \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00470}00470         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00471}00471             \mbox{\hyperlink{group__window_ga872d16e4c77f58c0436f356255920cfc}{glfwPollEvents}}();}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00472}00472 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00473}00473         \textcolor{comment}{// Workaround for an issue with msvcrt and mintty}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00474}00474         fflush(stdout);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00475}00475     \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00476}00476 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00477}00477     \mbox{\hyperlink{group__window_ga806747476b7247d292be3711c323ea10}{glfwDestroyWindow}}(window);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00478}00478 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00479}00479     \textcolor{keywordflow}{for} (i = 0;  i < CURSOR\_FRAME\_COUNT;  i++)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00480}00480         \mbox{\hyperlink{group__input_ga27556b7122117bc1bbb4bb3cc003ea43}{glfwDestroyCursor}}(star\_cursors[i]);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00481}00481 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00482}00482     \textcolor{keywordflow}{for} (i = 0;  i < \textcolor{keyword}{sizeof}(standard\_cursors) / \textcolor{keyword}{sizeof}(standard\_cursors[0]);  i++)}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00483}00483         \mbox{\hyperlink{group__input_ga27556b7122117bc1bbb4bb3cc003ea43}{glfwDestroyCursor}}(standard\_cursors[i]);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00484}00484 }
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00485}00485     \mbox{\hyperlink{group__init_gafd90e6fd4819ea9e22e5e739519a6504}{glfwTerminate}}();}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00486}00486     exit(EXIT\_SUCCESS);}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00487}00487 \}}
+\DoxyCodeLine{\Hypertarget{cursor_8c_source_l00488}00488 }
+
+\end{DoxyCode}

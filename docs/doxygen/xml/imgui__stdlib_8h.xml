@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="imgui__stdlib_8h" kind="file" language="C++">
+    <compoundname>imgui_stdlib.h</compoundname>
+    <includes local="no">string</includes>
+    <includedby refid="imgui__stdlib_8cpp" local="yes">/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/misc/cpp/imgui_stdlib.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/misc/cpp/imgui_stdlib.h</label>
+        <link refid="imgui__stdlib_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/misc/cpp/imgui_stdlib.cpp</label>
+        <link refid="imgui__stdlib_8cpp_source"/>
+      </node>
+      <node id="1">
+        <label>/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/misc/cpp/imgui_stdlib.h</label>
+        <link refid="imgui__stdlib_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespace_im_gui">ImGui</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>dear<sp/>imgui:<sp/>wrappers<sp/>for<sp/>C++<sp/>standard<sp/>library<sp/>(STL)<sp/>types<sp/>(std::string,<sp/>etc.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>also<sp/>an<sp/>example<sp/>of<sp/>how<sp/>you<sp/>may<sp/>wrap<sp/>your<sp/>own<sp/>similar<sp/>types.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compatibility:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>std::string<sp/>support<sp/>is<sp/>only<sp/>guaranteed<sp/>to<sp/>work<sp/>from<sp/>C++11.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>If<sp/>you<sp/>try<sp/>to<sp/>use<sp/>it<sp/>pre-C++11,<sp/>please<sp/>share<sp/>your<sp/>findings<sp/>(w/<sp/>info<sp/>about<sp/>compiler/architecture)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Changelog:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>v0.10:<sp/>Initial<sp/>version.<sp/>Added<sp/>InputText()<sp/>/<sp/>InputTextMultiline()<sp/>calls<sp/>with<sp/>std::string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">ImGui</highlight></codeline>
+<codeline lineno="16"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ImGui::InputText()<sp/>with<sp/>std::string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Because<sp/>text<sp/>input<sp/>needs<sp/>dynamic<sp/>resizing,<sp/>we<sp/>need<sp/>to<sp/>setup<sp/>a<sp/>callback<sp/>to<sp/>grow<sp/>the<sp/>capacity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>IMGUI_API<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/>InputText(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>label,<sp/>std::string*<sp/>str,<sp/>ImGuiInputTextFlags<sp/>flags<sp/>=<sp/>0,<sp/>ImGuiInputTextCallback<sp/>callback<sp/>=<sp/>NULL,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>user_data<sp/>=<sp/>NULL);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>IMGUI_API<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/>InputTextMultiline(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>label,<sp/>std::string*<sp/>str,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_im_vec2" kindref="compound">ImVec2</ref>&amp;<sp/>size<sp/>=<sp/><ref refid="struct_im_vec2" kindref="compound">ImVec2</ref>(0,<sp/>0),<sp/>ImGuiInputTextFlags<sp/>flags<sp/>=<sp/>0,<sp/>ImGuiInputTextCallback<sp/>callback<sp/>=<sp/>NULL,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>user_data<sp/>=<sp/>NULL);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>IMGUI_API<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/>InputTextWithHint(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>label,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>hint,<sp/>std::string*<sp/>str,<sp/>ImGuiInputTextFlags<sp/>flags<sp/>=<sp/>0,<sp/>ImGuiInputTextCallback<sp/>callback<sp/>=<sp/>NULL,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>user_data<sp/>=<sp/>NULL);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/misc/cpp/imgui_stdlib.h"/>
+  </compounddef>
+</doxygen>

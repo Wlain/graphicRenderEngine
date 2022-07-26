@@ -1,0 +1,75 @@
+\hypertarget{backtracer-inl_8h_source}{}\doxysection{backtracer-\/inl.h}
+\label{backtracer-inl_8h_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/backtracer-\/inl.h@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/spdlog/include/spdlog/details/backtracer-\/inl.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00001}00001 \textcolor{comment}{// Copyright(c) 2015-\/present, Gabi Melman \& spdlog contributors.}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00002}00002 \textcolor{comment}{// Distributed under the MIT License (http://opensource.org/licenses/MIT)}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00004}00004 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00006}00006 \textcolor{preprocessor}{\#ifndef SPDLOG\_HEADER\_ONLY}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00007}00007 \textcolor{preprocessor}{\#    include <spdlog/details/backtracer.h>}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00008}00008 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00009}00009 \textcolor{keyword}{namespace }spdlog \{}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00010}00010 \textcolor{keyword}{namespace }details \{}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00011}00011 SPDLOG\_INLINE backtracer::backtracer(\textcolor{keyword}{const} backtracer \&other)}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00012}00012 \{}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00013}00013     std::lock\_guard<std::mutex> lock(other.mutex\_);}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00014}00014     enabled\_ = other.enabled();}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00015}00015     messages\_ = other.messages\_;}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00016}00016 \}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00017}00017 }
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00018}00018 SPDLOG\_INLINE backtracer::backtracer(backtracer \&\&other) SPDLOG\_NOEXCEPT}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00019}00019 \{}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00020}00020     std::lock\_guard<std::mutex> lock(other.mutex\_);}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00021}00021     enabled\_ = other.enabled();}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00022}00022     messages\_ = std::move(other.messages\_);}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00023}00023 \}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00025}00025 SPDLOG\_INLINE backtracer \&backtracer::operator=(backtracer other)}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00026}00026 \{}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00027}00027     std::lock\_guard<std::mutex> lock(mutex\_);}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00028}00028     enabled\_ = other.enabled();}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00029}00029     messages\_ = std::move(other.messages\_);}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00030}00030     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00031}00031 \}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00033}00033 SPDLOG\_INLINE \textcolor{keywordtype}{void} backtracer::enable(\textcolor{keywordtype}{size\_t} size)}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00034}00034 \{}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00035}00035     std::lock\_guard<std::mutex> lock\{mutex\_\};}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00036}00036     enabled\_.store(\textcolor{keyword}{true}, std::memory\_order\_relaxed);}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00037}00037     messages\_ = circular\_q<log\_msg\_buffer>\{size\};}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00038}00038 \}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00040}00040 SPDLOG\_INLINE \textcolor{keywordtype}{void} backtracer::disable()}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00041}00041 \{}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00042}00042     std::lock\_guard<std::mutex> lock\{mutex\_\};}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00043}00043     enabled\_.store(\textcolor{keyword}{false}, std::memory\_order\_relaxed);}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00044}00044 \}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00046}00046 SPDLOG\_INLINE \textcolor{keywordtype}{bool} backtracer::enabled()\textcolor{keyword}{ const}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00047}00047 \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00048}00048     \textcolor{keywordflow}{return} enabled\_.load(std::memory\_order\_relaxed);}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00049}00049 \}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00051}00051 SPDLOG\_INLINE \textcolor{keywordtype}{void} backtracer::push\_back(\textcolor{keyword}{const} log\_msg \&msg)}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00052}00052 \{}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00053}00053     std::lock\_guard<std::mutex> lock\{mutex\_\};}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00054}00054     messages\_.push\_back(log\_msg\_buffer\{msg\});}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00055}00055 \}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00057}00057 \textcolor{comment}{// pop all items in the q and apply the given fun on each of them.}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00058}00058 SPDLOG\_INLINE \textcolor{keywordtype}{void} backtracer::foreach\_pop(std::function<\textcolor{keywordtype}{void}(\textcolor{keyword}{const} details::log\_msg \&)> fun)}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00059}00059 \{}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00060}00060     std::lock\_guard<std::mutex> lock\{mutex\_\};}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00061}00061     \textcolor{keywordflow}{while} (!messages\_.empty())}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00062}00062     \{}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00063}00063         \textcolor{keyword}{auto} \&front\_msg = messages\_.front();}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00064}00064         fun(front\_msg);}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00065}00065         messages\_.pop\_front();}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00066}00066     \}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00067}00067 \}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00068}00068 \} \textcolor{comment}{// namespace details}}
+\DoxyCodeLine{\Hypertarget{backtracer-inl_8h_source_l00069}00069 \} \textcolor{comment}{// namespace spdlog}}
+
+\end{DoxyCode}

@@ -1,0 +1,1180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual" kind="page">
+    <compoundname>md__Users_cwb_developer_learning_graphicRenderEngine_ceres_3rdparty_glm_manual</compoundname>
+    <title>manual</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><image type="html" name="/doc/manual/logo-mini.png" alt="Alt" inline="yes"></image>
+</para>
+<sect1 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md61">
+<title>GLM 0.9.9 Manual</title>
+<para><image type="html" name="/doc/manual/g-truc.png" alt="Alt" inline="yes"></image>
+</para>
+<para><hruler/>
+ </para>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md63">
+<title>Table of Contents</title>
+<para><itemizedlist>
+<listitem><para><ulink url="#section0">0. Licenses</ulink></para>
+</listitem><listitem><para><ulink url="#section1">1. Getting started</ulink></para>
+</listitem><listitem><para><ulink url="#section1_1">1.1. Setup</ulink></para>
+</listitem><listitem><para><ulink url="#section1_2">1.2. Faster compilation</ulink></para>
+</listitem><listitem><para><ulink url="#section1_3">1.3. Example usage</ulink></para>
+</listitem><listitem><para><ulink url="#section1_4">1.4. Dependencies</ulink></para>
+</listitem><listitem><para><ulink url="#section2">2. Swizzling</ulink></para>
+</listitem><listitem><para><ulink url="#section2_1">2.1. Default C++98 implementation</ulink></para>
+</listitem><listitem><para><ulink url="#section2_2">2.2. Anonynous union member implementation</ulink></para>
+</listitem><listitem><para><ulink url="#section3">3. Preprocessor options</ulink></para>
+</listitem><listitem><para><ulink url="#section3_1">3.1. GLM_PRECISION_**: Default precision</ulink></para>
+</listitem><listitem><para><ulink url="#section3_2">3.2. GLM_FORCE_MESSAGES: Compile-time message system</ulink></para>
+</listitem><listitem><para><ulink url="#section3_3">3.3. GLM_FORCE_CXX**: C++ language detection</ulink></para>
+</listitem><listitem><para><ulink url="#section3_4">3.4. SIMD support</ulink></para>
+</listitem><listitem><para><ulink url="#section3_5">3.5. GLM_FORCE_INLINE: Force inline</ulink></para>
+</listitem><listitem><para><ulink url="#section3_6">3.6. GLM_FORCE_SIZE_T_LENGTH: Vector and matrix static size</ulink></para>
+</listitem><listitem><para><ulink url="#section3_7">3.7. GLM_FORCE_EXPLICIT_CTOR: Requiring explicit conversions</ulink></para>
+</listitem><listitem><para><ulink url="#section3_8">3.8. GLM_FORCE_UNRESTRICTED_GENTYPE: Removing genType restriction</ulink></para>
+</listitem><listitem><para><ulink url="#section3_9">3.9. GLM_FORCE_SINGLE_ONLY: Removed explicit 64-bits floating point types</ulink></para>
+</listitem><listitem><para><ulink url="#section4">4. Stable extensions</ulink></para>
+</listitem><listitem><para><ulink url="#section4_1">4.1. GLM_GTC_bitfield</ulink></para>
+</listitem><listitem><para><ulink url="#section4_2">4.2. GLM_GTC_color_space</ulink></para>
+</listitem><listitem><para><ulink url="#section4_3">4.3. GLM_GTC_constants</ulink></para>
+</listitem><listitem><para><ulink url="#section4_4">4.4. GLM_GTC_epsilon</ulink></para>
+</listitem><listitem><para><ulink url="#section4_5">4.5. GLM_GTC_integer</ulink></para>
+</listitem><listitem><para><ulink url="#section4_6">4.6. GLM_GTC_matrix_access</ulink></para>
+</listitem><listitem><para><ulink url="#section4_7">4.7. GLM_GTC_matrix_integer</ulink></para>
+</listitem><listitem><para><ulink url="#section4_8">4.8. GLM_GTC_matrix_inverse</ulink></para>
+</listitem><listitem><para><ulink url="#section4_9">4.9. GLM_GTC_matrix_transform</ulink></para>
+</listitem><listitem><para><ulink url="#section4_10">4.10. GLM_GTC_noise</ulink></para>
+</listitem><listitem><para><ulink url="#section4_11">4.11. GLM_GTC_packing</ulink></para>
+</listitem><listitem><para><ulink url="#section4_12">4.12. GLM_GTC_quaternion</ulink></para>
+</listitem><listitem><para><ulink url="#section4_13">4.13. GLM_GTC_random</ulink></para>
+</listitem><listitem><para><ulink url="#section4_14">4.14. GLM_GTC_reciprocal</ulink></para>
+</listitem><listitem><para><ulink url="#section4_15">4.15. GLM_GTC_round</ulink></para>
+</listitem><listitem><para><ulink url="#section4_16">4.16. GLM_GTC_type_alignment</ulink></para>
+</listitem><listitem><para><ulink url="#section4_17">4.17. GLM_GTC_type_precision</ulink></para>
+</listitem><listitem><para><ulink url="#section4_18">4.18. GLM_GTC_type_ptr</ulink></para>
+</listitem><listitem><para><ulink url="#section4_19">4.19. GLM_GTC_ulp</ulink></para>
+</listitem><listitem><para><ulink url="#section4_20">4.20. GLM_GTC_vec1</ulink></para>
+</listitem><listitem><para><ulink url="#section5">5. OpenGL interoperability</ulink></para>
+</listitem><listitem><para><ulink url="#section5_1">5.1. GLM Replacements for deprecated OpenGL functions</ulink></para>
+</listitem><listitem><para><ulink url="#section5_2">5.2. GLM Replacements for GPU functions</ulink></para>
+</listitem><listitem><para><ulink url="#section6">6. Known issues</ulink></para>
+</listitem><listitem><para><ulink url="#section6_1">6.1. Not function</ulink></para>
+</listitem><listitem><para><ulink url="#section6_2">6.2. Precision qualifiers support</ulink></para>
+</listitem><listitem><para><ulink url="#section7">7. FAQ</ulink></para>
+</listitem><listitem><para><ulink url="#section7_1">7.1 Why GLM follows GLSL specification and conventions?</ulink></para>
+</listitem><listitem><para><ulink url="#section7_2">7.2. Does GLM run GLSL programs?</ulink></para>
+</listitem><listitem><para><ulink url="#section7_3">7.3. Does a GLSL compiler build GLM codes?</ulink></para>
+</listitem><listitem><para><ulink url="#section7_4">7.4. Should I use ‘GTX’ extensions?</ulink></para>
+</listitem><listitem><para><ulink url="#section7_5">7.5. Where can I ask my questions?</ulink></para>
+</listitem><listitem><para><ulink url="#section7_6">7.6. Where can I find the documentation of extensions?</ulink></para>
+</listitem><listitem><para><ulink url="#section7_7">7.7. Should I use &apos;using namespace glm;&apos;?</ulink></para>
+</listitem><listitem><para><ulink url="#section7_8">7.8. Is GLM fast?</ulink></para>
+</listitem><listitem><para><ulink url="#section7_9">7.9. When I build with Visual C++ with /w4 warning level, I have warnings...</ulink></para>
+</listitem><listitem><para><ulink url="#section7_10">7.10. Why some GLM functions can crash because of division by zero?</ulink></para>
+</listitem><listitem><para><ulink url="#section7_11">7.11. What unit for angles us used in GLM?</ulink></para>
+</listitem><listitem><para><ulink url="#section7_12">7.12. Windows headers cause build errors...</ulink></para>
+</listitem><listitem><para><ulink url="#section7_13">7.13. Constant expressions support</ulink></para>
+</listitem><listitem><para><ulink url="#section8">8. Code samples</ulink></para>
+</listitem><listitem><para><ulink url="#section8_1">8.1. Compute a triangle normal</ulink></para>
+</listitem><listitem><para><ulink url="#section8_2">8.2. Matrix transform</ulink></para>
+</listitem><listitem><para><ulink url="#section8_3">8.3. Vector types</ulink></para>
+</listitem><listitem><para><ulink url="#section8_4">8.4. Lighting</ulink></para>
+</listitem><listitem><para><ulink url="#section9">9. References</ulink></para>
+</listitem><listitem><para><ulink url="#section9_1">9.1. OpenGL specifications</ulink></para>
+</listitem><listitem><para><ulink url="#section9_2">9.2. External links</ulink></para>
+</listitem><listitem><para><ulink url="#section9_3">9.3. Projects using GLM</ulink></para>
+</listitem><listitem><para><ulink url="#section9_4">9.4. Tutorials using GLM</ulink></para>
+</listitem><listitem><para><ulink url="#section9_5">9.5. Equivalent for other languages</ulink></para>
+</listitem><listitem><para><ulink url="#section9_6">9.6. Alternatives to GLM</ulink></para>
+</listitem><listitem><para><ulink url="#section9_8">9.8. Acknowledgements</ulink></para>
+</listitem></itemizedlist>
+</para>
+<para><hruler/>
+ </para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md65">
+<title>&lt;a name=&quot;section0&quot;&gt;&lt;/a&gt; Licenses</title>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md66">
+<title>The Happy Bunny License (Modified MIT License)</title>
+<para>Copyright (c) 2005 - 2017 G-Truc Creation</para>
+<para>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</para>
+<para>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</para>
+<para>Restrictions: By making use of the Software for military purposes, you choose to make a Bunny unhappy.</para>
+<para>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</para>
+<para><image type="html" name="https://github.com/g-truc/glm/blob/manual/doc/manual/frontpage1.png" inline="yes"></image>
+</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md67">
+<title>The MIT License</title>
+<para>Copyright (c) 2005 - 2017 G-Truc Creation</para>
+<para>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</para>
+<para>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</para>
+<para>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</para>
+<para><image type="html" name="https://github.com/g-truc/glm/blob/manual/doc/manual/frontpage2.png" inline="yes"></image>
+</para>
+<para><hruler/>
+</para>
+</sect3>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md69">
+<title>&lt;a name=&quot;section1&quot;&gt;&lt;/a&gt; 1. Getting started</title>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md70">
+<title>&lt;a name=&quot;section1_1&quot;&gt;&lt;/a&gt; 1.1. Setup</title>
+<para>GLM is a header-only library, and thus does not need to be compiled. We can use GLM&apos;s implementation of GLSL&apos;s mathematics functionality by including the <computeroutput>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</computeroutput> header. The library can also be installed with CMake, though the details of doing so will differ depending on the target build system.</para>
+<para>Features can also be included individually to shorten compilation times.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&lt;<ref refid="vec2_8hpp" kindref="compound">glm/vec2.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>vec2,<sp/>bvec2,<sp/>dvec2,<sp/>ivec2<sp/>and<sp/>uvec2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="vec3_8hpp" kindref="compound">glm/vec3.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>vec3,<sp/>bvec3,<sp/>dvec3,<sp/>ivec3<sp/>and<sp/>uvec3</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="vec4_8hpp" kindref="compound">glm/vec4.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>vec4,<sp/>bvec4,<sp/>dvec4,<sp/>ivec4<sp/>and<sp/>uvec4</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="mat2x2_8hpp" kindref="compound">glm/mat2x2.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>mat2,<sp/>dmat2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="mat2x3_8hpp" kindref="compound">glm/mat2x3.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>mat2x3,<sp/>dmat2x3</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="mat2x4_8hpp" kindref="compound">glm/mat2x4.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>mat2x4,<sp/>dmat2x4</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="mat3x2_8hpp" kindref="compound">glm/mat3x2.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>mat3x2,<sp/>dmat3x2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="mat3x3_8hpp" kindref="compound">glm/mat3x3.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>mat3,<sp/>dmat3</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="mat3x4_8hpp" kindref="compound">glm/mat3x4.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>mat3x4,<sp/>dmat2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="mat4x2_8hpp" kindref="compound">glm/mat4x2.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>mat4x2,<sp/>dmat4x2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="mat4x3_8hpp" kindref="compound">glm/mat4x3.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>mat4x3,<sp/>dmat4x3</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="mat4x4_8hpp" kindref="compound">glm/mat4x4.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>mat4,<sp/>dmat4</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="common_8hpp" kindref="compound">glm/common.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>all<sp/>the<sp/>GLSL<sp/>common<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="exponential_8hpp" kindref="compound">glm/exponential.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>all<sp/>the<sp/>GLSL<sp/>exponential<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;glm/geometry.hpp&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>all<sp/>the<sp/>GLSL<sp/>geometry<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="integer_8hpp" kindref="compound">glm/integer.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>all<sp/>the<sp/>GLSL<sp/>integer<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="matrix_8hpp" kindref="compound">glm/matrix.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>all<sp/>the<sp/>GLSL<sp/>matrix<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="packing_8hpp" kindref="compound">glm/packing.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>all<sp/>the<sp/>GLSL<sp/>packing<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="trigonometric_8hpp" kindref="compound">glm/trigonometric.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>all<sp/>the<sp/>GLSL<sp/>trigonometric<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="vector__relational_8hpp" kindref="compound">glm/vector_relational.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>all<sp/>the<sp/>GLSL<sp/>vector<sp/>relational<sp/>functions</highlight></codeline>
+</programlisting> </para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md71">
+<title>&lt;a name=&quot;section1_2&quot;&gt;&lt;/a&gt; 1.2. Faster compilation</title>
+<para>GLM uses C++ templates heavily, and may significantly increase compilation times for projects that use it. Hence, source files should only include the headers they actually use.</para>
+<para>To reduce compilation time, we can include <computeroutput>&lt;<ref refid="fwd_8hpp" kindref="compound">glm/fwd.hpp</ref>&gt;</computeroutput>, which forward-declares all types should their definitions not be needed.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Header<sp/>file<sp/>(forward<sp/>declarations<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="fwd_8hpp" kindref="compound">glm/fwd.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>At<sp/>this<sp/>point,<sp/>we<sp/>don&apos;t<sp/>care<sp/>what<sp/>exactly<sp/>makes<sp/>up<sp/>a<sp/>vec2;<sp/>that<sp/>won&apos;t<sp/>matter</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>until<sp/>we<sp/>write<sp/>this<sp/>function&apos;s<sp/>implementation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1vec" kindref="compound">glm::vec2</ref><sp/>functionDeclaration(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec2</ref>&amp;<sp/>input);</highlight></codeline>
+</programlisting></para>
+<para>Precompiled headers will also be helpful, though are not covered by this manual.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md72">
+<title>&lt;a name=&quot;section1_3&quot;&gt;&lt;/a&gt; 1.3. Example usage</title>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Include<sp/>GLM<sp/>core<sp/>features</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="vec3_8hpp" kindref="compound">glm/vec3.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="vec4_8hpp" kindref="compound">glm/vec4.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="mat4x4_8hpp" kindref="compound">glm/mat4x4.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="trigonometric_8hpp" kindref="compound">glm/trigonometric.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Include<sp/>GLM<sp/>extensions</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="matrix__transform_8hpp" kindref="compound">glm/gtc/matrix_transform.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/>transform(<ref refid="structglm_1_1vec" kindref="compound">glm::vec2</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>Orientation,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>Translate,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>Up)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/>Proj<sp/>=<sp/><ref refid="group__gtc__matrix__transform_1ga9e13be491fd69a438c8fda440cf0156e" kindref="member">glm::perspective</ref>(glm::radians(45.f),<sp/>1.33f,<sp/>0.1f,<sp/>10.f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/>ViewTranslate<sp/>=<sp/><ref refid="group__gtc__matrix__transform_1ga67d8473d6b293d1bb2b4eaf249795cab" kindref="member">glm::translate</ref>(<ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref>(1.f),<sp/>Translate);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/>ViewRotateX<sp/>=<sp/><ref refid="group__gtc__matrix__transform_1ga42613eb0c7deb5f5188fc159df6c8950" kindref="member">glm::rotate</ref>(ViewTranslate,<sp/>Orientation.y,<sp/>Up);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/>View<sp/>=<sp/><ref refid="group__gtc__matrix__transform_1ga42613eb0c7deb5f5188fc159df6c8950" kindref="member">glm::rotate</ref>(ViewRotateX,<sp/>Orientation.x,<sp/>Up);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/>Model<sp/>=<sp/><ref refid="group__core__types_1ga7dcd2365c2e368e6af5b7adeb6a9c8df" kindref="member">glm::mat4</ref>(1.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Proj<sp/>*<sp/>View<sp/>*<sp/>Model;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md73">
+<title>&lt;a name=&quot;section1_4&quot;&gt;&lt;/a&gt; 1.4. Dependencies</title>
+<para>GLM does not depend on external libraries or headers such as <computeroutput>&lt;GL/gl.h&gt;</computeroutput>, <ulink url="http://www.opengl.org/registry/api/GL/glcorearb.h"><computeroutput>&lt;GL/glcorearb.h&gt;</computeroutput></ulink>, <computeroutput>&lt;GLES3/gl3.h&gt;</computeroutput>, <computeroutput>&lt;GL/glu.h&gt;</computeroutput>, or <computeroutput>&lt;windows.h&gt;</computeroutput>.</para>
+<para><hruler/>
+ </para>
+</sect3>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md75">
+<title>&lt;a name=&quot;section2&quot;&gt;&lt;/a&gt; 2. Swizzling</title>
+<para>Shader languages like GLSL often feature so-called swizzle expressions, which may be used to freely select and arrange a vector&apos;s components. For example, <computeroutput>variable.x</computeroutput>, <computeroutput>variable.xzy</computeroutput> and <computeroutput>variable.zxyy</computeroutput> respectively form a scalar, a 3D vector and a 4D vector. The result of a swizzle expression in GLSL can be either an R-value or an L-value. Swizzle expressions can be written with characters from exactly one of <computeroutput>xyzw</computeroutput> (usually for positions), <computeroutput>rgba</computeroutput> (usually for colors), and <computeroutput>stpq</computeroutput> (usually for texture coordinates).</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="group__core__types_1ga5881b1b022d7fd1b7218f5916532dd02" kindref="member">vec4</ref><sp/>A;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="group__core__types_1gaa1618f51db67eaa145db101d8c8431d8" kindref="member">vec2</ref><sp/>B;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">B.yx<sp/>=<sp/>A.wy;</highlight></codeline>
+<codeline><highlight class="normal">B<sp/>=<sp/>A.xx;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="group__core__types_1ga1c47e8b3386109bc992b6c48e91b0be7" kindref="member">vec3</ref><sp/>C<sp/>=<sp/>A.bgr;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="group__core__types_1ga1c47e8b3386109bc992b6c48e91b0be7" kindref="member">vec3</ref><sp/>D<sp/>=<sp/>B.rsz;<sp/></highlight><highlight class="comment">//<sp/>Invalid,<sp/>won&apos;t<sp/>compile</highlight></codeline>
+</programlisting></para>
+<para>GLM optionally supports some of this functionality via the methods described in the following sections. Swizzling can be enabled by defining <computeroutput>GLM_FORCE_SWIZZLE</computeroutput> before including any GLM header files, or as part of a project&apos;s build process.</para>
+<para><emphasis>Note that enabling swizzle expressions will massively increase the size of your binaries and the time it takes to compile them!</emphasis></para>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md76">
+<title>&lt;a name=&quot;section2_1&quot;&gt;&lt;/a&gt; 2.1. Default C++98 implementation</title>
+<para>When compiling GLM as C++98, R-value swizzle expressions are simulated through member functions of each vector type.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#define<sp/>GLM_FORCE_SWIZZLE<sp/></highlight><highlight class="comment">//<sp/>Or<sp/>defined<sp/>when<sp/>building<sp/>(e.g.<sp/>-DGLM_FORCE_SWIZZLE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec4</ref><sp/>ColorRGBA(1.0f,<sp/>0.5f,<sp/>0.0f,<sp/>1.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/>ColorBGR<sp/>=<sp/>ColorRGBA.bgr();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/>PositionA(1.0f,<sp/>0.5f,<sp/>0.0f,<sp/>1.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/>PositionB<sp/>=<sp/>PositionXYZ.xyz()<sp/>*<sp/>2.0f;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec2</ref><sp/>TexcoordST(1.0f,<sp/>0.5f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec4</ref><sp/>TexcoordSTPQ<sp/>=<sp/>TexcoordST.stst();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>Swizzle operators return a <bold>copy</bold> of the component values, and thus <emphasis>can&apos;t</emphasis> be used as L-values to change a vector&apos;s values.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#define<sp/>GLM_FORCE_SWIZZLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/>A(1.0f,<sp/>0.5f,<sp/>0.0f);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>compiler<sp/>error,<sp/>but<sp/>A<sp/>is<sp/>not<sp/>modified.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>An<sp/>anonymous<sp/>copy<sp/>is<sp/>being<sp/>modified<sp/>(and<sp/>then<sp/>discarded).</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>A.bgr()<sp/>=<sp/><ref refid="group__core__types_1ga1c47e8b3386109bc992b6c48e91b0be7" kindref="member">glm::vec3</ref>(2.0f,<sp/>1.5f,<sp/>1.0f);<sp/></highlight><highlight class="comment">//<sp/>A<sp/>is<sp/>not<sp/>modified!</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md77">
+<title>&lt;a name=&quot;section2_2&quot;&gt;&lt;/a&gt; 2.2. Anonymous union member implementation</title>
+<para>Visual C++ supports, as a <emphasis>non-standard language extension</emphasis>, anonymous <computeroutput>struct</computeroutput>s as <computeroutput>union</computeroutput> members. This permits a powerful swizzling implementation that both allows L-value swizzle expressions and GLSL-like syntax. To use this feature, the language extension must be enabled by a supporting compiler and <computeroutput>GLM_FORCE_SWIZZLE</computeroutput> must be <computeroutput>#define</computeroutput>d.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#define<sp/>GLM_FORCE_SWIZZLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Only<sp/>guaranteed<sp/>to<sp/>work<sp/>with<sp/>Visual<sp/>C++!</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Some<sp/>compilers<sp/>that<sp/>support<sp/>Microsoft<sp/>extensions<sp/>may<sp/>compile<sp/>this.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec4</ref><sp/>ColorRGBA(1.0f,<sp/>0.5f,<sp/>0.0f,<sp/>1.0f);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>l-value:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec4</ref><sp/>ColorBGRA<sp/>=<sp/>ColorRGBA.bgra;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>r-value:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>ColorRGBA.bgra<sp/>=<sp/>ColorRGBA;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>l-value<sp/>and<sp/>r-value</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>ColorRGBA.bgra<sp/>=<sp/>ColorRGBA.rgba;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>This version returns implementation-specific objects that <emphasis>implicitly convert</emphasis> to their respective vector types. As a consequence of this design, these extra types <bold>can&apos;t be directly used</bold> by GLM functions; they must be converted through constructors or <computeroutput>operator()</computeroutput>.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#define<sp/>GLM_FORCE_SWIZZLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="group__core__types_1ga5881b1b022d7fd1b7218f5916532dd02" kindref="member">glm::vec4</ref>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="group__core__types_1ga5881b1b022d7fd1b7218f5916532dd02" kindref="member">vec4</ref><sp/>Color(1.0f,<sp/>0.5f,<sp/>0.0f,<sp/>1.0f);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Generates<sp/>compiler<sp/>errors.<sp/>Color.rgba<sp/>is<sp/>not<sp/>a<sp/>vector<sp/>type.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="group__core__types_1ga5881b1b022d7fd1b7218f5916532dd02" kindref="member">vec4</ref><sp/>ClampedA<sp/>=<sp/><ref refid="group__core__func__common_1ga93bce26c7d80d30a62f5c508f8498a6c" kindref="member">glm::clamp</ref>(Color.rgba,<sp/>0.f,<sp/>1.f);<sp/></highlight><highlight class="comment">//<sp/>ERROR</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Explicit<sp/>conversion<sp/>through<sp/>a<sp/>constructor</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="group__core__types_1ga5881b1b022d7fd1b7218f5916532dd02" kindref="member">vec4</ref><sp/>ClampedB<sp/>=<sp/><ref refid="group__core__func__common_1ga93bce26c7d80d30a62f5c508f8498a6c" kindref="member">glm::clamp</ref>(<ref refid="group__core__types_1ga5881b1b022d7fd1b7218f5916532dd02" kindref="member">vec4</ref>(Color.rgba),<sp/>0.f,<sp/>1.f);<sp/></highlight><highlight class="comment">//<sp/>OK</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Explicit<sp/>conversion<sp/>through<sp/>operator()</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="group__core__types_1ga5881b1b022d7fd1b7218f5916532dd02" kindref="member">vec4</ref><sp/>ClampedC<sp/>=<sp/><ref refid="group__core__func__common_1ga93bce26c7d80d30a62f5c508f8498a6c" kindref="member">glm::clamp</ref>(Color.rgba(),<sp/>0.f,<sp/>1.f);<sp/></highlight><highlight class="comment">//<sp/>OK</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><hruler/>
+ </para>
+</sect3>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md79">
+<title>&lt;a name=&quot;section3&quot;&gt;&lt;/a&gt; 3. Preprocessor options</title>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md80">
+<title>&lt;a name=&quot;section3_1&quot;&gt;&lt;/a&gt; 3.1. GLM_PRECISION_**: Default precision</title>
+<para>C++ does not provide a way to implement GLSL default precision selection (as defined in GLSL 4.10 specification section 4.5.3) with GLSL-like syntax.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">precision<sp/><ref refid="qualifier_8hpp_1a36ed105b07c7746804d7fdc7cc90ff25a6416f3ea0c9025fb21ed50c4d6620482" kindref="member">mediump</ref><sp/>int;</highlight></codeline>
+<codeline><highlight class="normal">precision<sp/><ref refid="qualifier_8hpp_1a36ed105b07c7746804d7fdc7cc90ff25ac6f7eab42eacbb10d59a58e95e362074" kindref="member">highp</ref><sp/>float;</highlight></codeline>
+</programlisting></para>
+<para>To use the default precision functionality, GLM provides some defines that need to added before any include of <computeroutput><ref refid="glm_8hpp" kindref="compound">glm.hpp</ref></computeroutput>:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#define<sp/>GLM_PRECISION_MEDIUMP_INT</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GLM_PRECISION_HIGHP_FLOAT</highlight></codeline>
+<codeline><highlight class="preprocessor">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+</programlisting></para>
+<para>Available defines for floating point types (<ref refid="structglm_1_1vec" kindref="compound">glm::vec</ref>*, <ref refid="structglm_1_1mat" kindref="compound">glm::mat</ref>*):</para>
+<para><itemizedlist>
+<listitem><para>GLM_PRECISION_LOWP_FLOAT: Low precision</para>
+</listitem><listitem><para>GLM_PRECISION_MEDIUMP_FLOAT: Medium precision</para>
+</listitem><listitem><para>GLM_PRECISION_HIGHP_FLOAT: High precision (default)</para>
+</listitem></itemizedlist>
+</para>
+<para>Available defines for floating point types (glm::dvec*, glm::dmat*):</para>
+<para><itemizedlist>
+<listitem><para>GLM_PRECISION_LOWP_DOUBLE: Low precision</para>
+</listitem><listitem><para>GLM_PRECISION_MEDIUMP_DOUBLE: Medium precision</para>
+</listitem><listitem><para>GLM_PRECISION_HIGHP_DOUBLE: High precision (default)</para>
+</listitem></itemizedlist>
+</para>
+<para>Available defines for signed integer types (glm::ivec*):</para>
+<para><itemizedlist>
+<listitem><para>GLM_PRECISION_LOWP_INT: Low precision</para>
+</listitem><listitem><para>GLM_PRECISION_MEDIUMP_INT: Medium precision</para>
+</listitem><listitem><para>GLM_PRECISION_HIGHP_INT: High precision (default)</para>
+</listitem></itemizedlist>
+</para>
+<para>Available defines for unsigned integer types (glm::uvec*):</para>
+<para><itemizedlist>
+<listitem><para>GLM_PRECISION_LOWP_UINT: Low precision</para>
+</listitem><listitem><para>GLM_PRECISION_MEDIUMP_UINT: Medium precision</para>
+</listitem><listitem><para>GLM_PRECISION_HIGHP_UINT: High precision (default)</para>
+</listitem></itemizedlist>
+</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md81">
+<title>&lt;a name=&quot;section3_2&quot;&gt;&lt;/a&gt; 3.2. GLM_FORCE_MESSAGES: Compile-time message system</title>
+<para>GLM includes a notification system which can display some information at build time:</para>
+<para><itemizedlist>
+<listitem><para>Platform: Windows, Linux, Native Client, QNX, etc.</para>
+</listitem><listitem><para>Compiler: Visual C++, Clang, GCC, ICC, etc.</para>
+</listitem><listitem><para>Build model: 32bits or 64 bits</para>
+</listitem><listitem><para>C++ version : C++98, C++11, MS extensions, etc.</para>
+</listitem><listitem><para>Architecture: x86, SSE, AVX, etc.</para>
+</listitem><listitem><para>Included extensions</para>
+</listitem><listitem><para>etc.</para>
+</listitem></itemizedlist>
+</para>
+<para>This system is disabled by default. To enable this system, define GLM_FORCE_MESSAGES before any inclusion of &lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;. The messages are generated only by compiler supporting #program message and only once per project build.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#define<sp/>GLM_FORCE_MESSAGES</highlight></codeline>
+<codeline><highlight class="preprocessor">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+</programlisting></para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md82">
+<title>&lt;a name=&quot;section3_3&quot;&gt;&lt;/a&gt; 3.3. GLM_FORCE_CXX**: C++ language detection</title>
+<para>GLM will automatically take advantage of compilers’ language extensions when enabled. To increase cross platform compatibility and to avoid compiler extensions, a programmer can define GLM_FORCE_CXX98 before any inclusion of &lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt; to restrict the language feature set C++98:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#define<sp/>GLM_FORCE_CXX98</highlight></codeline>
+<codeline><highlight class="preprocessor">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+</programlisting></para>
+<para>For C++11 and C++14, equivalent defines are available: GLM_FORCE_CXX11, GLM_FORCE_CXX14.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#define<sp/>GLM_FORCE_CXX11</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>If<sp/>the<sp/>compiler<sp/>doesn’t<sp/>support<sp/>C++11,<sp/>compiler<sp/>errors<sp/>will<sp/>happen.</highlight></codeline>
+</programlisting></para>
+<para>GLM_FORCE_CXX14 overrides GLM_FORCE_CXX11 and GLM_FORCE_CXX11 overrides GLM_FORCE_CXX98 defines.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md83">
+<title>&lt;a name=&quot;section3_4&quot;&gt;&lt;/a&gt; 3.4. SIMD support</title>
+<para>GLM provides some SIMD optimizations based on <ulink url="https://msdn.microsoft.com/en-us/library/26td21ds.aspx">compiler intrinsics</ulink>. These optimizations will be automatically thanks to compiler arguments. For example, if a program is compiled with Visual Studio using /arch:AVX, GLM will detect this argument and generate code using AVX instructions automatically when available.</para>
+<para>It’s possible to avoid the instruction set detection by forcing the use of a specific instruction set with one of the fallowing define: GLM_FORCE_SSE2, GLM_FORCE_SSE3, GLM_FORCE_SSSE3, GLM_FORCE_SSE41, GLM_FORCE_SSE42, GLM_FORCE_AVX, GLM_FORCE_AVX2 or GLM_FORCE_AVX512.</para>
+<para>The use of intrinsic functions by GLM implementation can be avoided using the define GLM_FORCE_PURE before any inclusion of GLM headers.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#define<sp/>GLM_FORCE_PURE</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>GLM<sp/>code<sp/>will<sp/>be<sp/>compiled<sp/>using<sp/>pure<sp/>C++<sp/>code<sp/>without<sp/>any<sp/>intrinsics</highlight></codeline>
+</programlisting></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#define<sp/>GLM_FORCE_AVX2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>If<sp/>the<sp/>compiler<sp/>doesn’t<sp/>support<sp/>AVX2<sp/>instrinsics,<sp/>compiler<sp/>errors<sp/>will<sp/>happen.</highlight></codeline>
+</programlisting></para>
+<para>Additionally, GLM provides a low level SIMD API in glm/simd directory for users who are really interested in writing fast algorithms.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md84">
+<title>&lt;a name=&quot;section3_5&quot;&gt;&lt;/a&gt; 3.5. GLM_FORCE_INLINE: Force inline</title>
+<para>To push further the software performance, a programmer can define GLM_FORCE_INLINE before any inclusion of &lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt; to force the compiler to inline GLM code.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#define<sp/>GLM_FORCE_INLINE</highlight></codeline>
+<codeline><highlight class="preprocessor">#include<sp/>&lt;glm/glm.hpp&gt;</highlight></codeline>
+</programlisting></para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md85">
+<title>&lt;a name=&quot;section3_6&quot;&gt;&lt;/a&gt; 3.6. GLM_FORCE_SIZE_T_LENGTH: Vector and matrix static size</title>
+<para>GLSL supports the member function .length() for all vector and matrix types.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>foo(<ref refid="group__core__types_1ga5881b1b022d7fd1b7218f5916532dd02" kindref="member">vec4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>v)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>Length<sp/>=<sp/>v.length();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>This function returns a int however this function typically interacts with STL size_t based code. GLM provides GLM_FORCE_SIZE_T_LENGTH pre-processor option so that member functions length() return a size_t.</para>
+<para>Additionally, GLM defines the type glm::length_t to identify length() returned type, independently from GLM_FORCE_SIZE_T_LENGTH.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#define<sp/>GLM_FORCE_SIZE_T_LENGTH</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>foo(<ref refid="group__core__types_1ga5881b1b022d7fd1b7218f5916532dd02" kindref="member">vec4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>v)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::length_t<sp/>Length<sp/>=<sp/>v.length();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md86">
+<title>&lt;a name=&quot;section3_7&quot;&gt;&lt;/a&gt; 3.7. GLM_FORCE_EXPLICIT_CTOR: Requiring explicit conversions</title>
+<para>GLSL supports implicit conversions of vector and matrix types. For example, an ivec4 can be implicitly converted into vec4.</para>
+<para>Often, this behaviour is not desirable but following the spirit of the library, this behavior is supported in GLM. However, GLM 0.9.6 introduced the define GLM_FORCE_EXPLICIT_CTOR to require explicit conversion for GLM types.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::ivec4</ref><sp/>a;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec4</ref><sp/>b(a);<sp/></highlight><highlight class="comment">//<sp/>Explicit<sp/>conversion,<sp/>OK</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec4</ref><sp/>c<sp/>=<sp/>a;<sp/></highlight><highlight class="comment">//<sp/>Implicit<sp/>conversion,<sp/>OK</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>With GLM_FORCE_EXPLICIT_CTOR define, implicit conversions are not allowed:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#define<sp/>GLM_FORCE_EXPLICIT_CTOR</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::ivec4</ref><sp/>a;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec4</ref><sp/>b(a);<sp/></highlight><highlight class="comment">//<sp/>Explicit<sp/>conversion,<sp/>OK</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec4</ref><sp/>c<sp/>=<sp/>a;<sp/></highlight><highlight class="comment">//<sp/>Implicit<sp/>conversion,<sp/>ERROR</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md87">
+<title>&lt;a name=&quot;section3_8&quot;&gt;&lt;/a&gt; 3.8. GLM_FORCE_UNRESTRICTED_GENTYPE: Removing genType restriction</title>
+<para>By default GLM only supports basic types as genType for vector, matrix and quaternion types:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec&lt;4, float&gt;</ref><sp/>my_fvec4;</highlight></codeline>
+</programlisting></para>
+<para>GLM 0.9.8 introduced GLM_FORCE_UNRESTRICTED_GENTYPE define to relax this restriction:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#define<sp/>GLM_FORCE_UNRESTRICTED_GENTYPE</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;half.hpp&quot;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>Define<sp/>“half”<sp/>class<sp/>with<sp/>behavior<sp/>equivalent<sp/>to<sp/>“float”</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec&lt;4, half&gt;</ref><sp/>my_hvec4;</highlight></codeline>
+</programlisting></para>
+<para>However, defining GLM_FORCE_UNRESTRICTED_GENTYPE is not compatible with GLM_FORCE_SWIZZLE and will generate a compilation error if both are defined at the same time.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md88">
+<title>&lt;a name=&quot;section3_9&quot;&gt;&lt;/a&gt; 3.9. GLM_FORCE_SINGLE_ONLY: Removed explicit 64-bits floating point types</title>
+<para>Some platforms (Dreamcast) doesn&apos;t support double precision floating point values. To compile on such platforms, GCC has the <ndash/>m4-single-only build argument. When defining GLM_FORCE_SINGLE_ONLY before including GLM headers, GLM releases the requirement of double precision floating point values support. Effectivement, all the float64 types are no longer defined and double behaves like float.</para>
+<para><hruler/>
+ </para>
+</sect3>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md90">
+<title>&lt;a name=&quot;section4&quot;&gt;&lt;/a&gt; 4. Stable extensions</title>
+<para>GLM extends the core GLSL feature set with extensions. These extensions include: quaternion, transformation, spline, matrix inverse, color spaces, etc.</para>
+<para>To include an extension, we only need to include the dedicated header file. Once included, the features are added to the GLM namespace.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="matrix__transform_8hpp" kindref="compound">glm/gtc/matrix_transform.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec4</ref><sp/>Position<sp/>=<sp/><ref refid="group__core__types_1ga5881b1b022d7fd1b7218f5916532dd02" kindref="member">glm::vec4</ref>(<ref refid="structglm_1_1vec" kindref="compound">glm:: vec3</ref>(0.0f),<sp/>1.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/>Model<sp/>=<sp/><ref refid="group__gtc__matrix__transform_1ga67d8473d6b293d1bb2b4eaf249795cab" kindref="member">glm::translate</ref>(<ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref>(1.0f),<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref>(1.0f));</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec4</ref><sp/>Transformed<sp/>=<sp/>Model<sp/>*<sp/>Position;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>When an extension is included, all the dependent core functionalities and extensions will be included as well.</para>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md91">
+<title>&lt;a name=&quot;section4_1&quot;&gt;&lt;/a&gt; 4.1. GLM_GTC_bitfield</title>
+<para>Fast bitfield operations on scalar and vector variables.</para>
+<para>&lt;<ref refid="bitfield_8hpp" kindref="compound">glm/gtc/bitfield.hpp</ref>&gt; need to be included to use these features.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md92">
+<title>&lt;a name=&quot;section4_2&quot;&gt;&lt;/a&gt; 4.2. GLM_GTC_color_space</title>
+<para>Conversion between linear RGB and sRGB color spaces.</para>
+<para>&lt;<ref refid="gtc_2color__space_8hpp" kindref="compound">glm/gtc/color_space.hpp</ref>&gt; need to be included to use these features.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md93">
+<title>&lt;a name=&quot;section4_3&quot;&gt;&lt;/a&gt; 4.3. GLM_GTC_constants</title>
+<para>Provide a list of built-in constants.</para>
+<para>&lt;<ref refid="constants_8hpp" kindref="compound">glm/gtc/constants.hpp</ref>&gt; need to be included to use these features.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md94">
+<title>&lt;a name=&quot;section4_4&quot;&gt;&lt;/a&gt; 4.4. GLM_GTC_epsilon</title>
+<para>Approximate equality comparisons for floating-point numbers, possibly with a user-defined epsilon.</para>
+<para>&lt;<ref refid="epsilon_8hpp" kindref="compound">glm/gtc/epsilon.hpp</ref>&gt; need to be included to use these features.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md95">
+<title>&lt;a name=&quot;section4_5&quot;&gt;&lt;/a&gt; 4.5. GLM_GTC_integer</title>
+<para>Integer variants of core GLM functions.</para>
+<para>&lt;<ref refid="gtc_2integer_8hpp" kindref="compound">glm/gtc/integer.hpp</ref>&gt; need to be included to use these features.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md96">
+<title>&lt;a name=&quot;section4_6&quot;&gt;&lt;/a&gt; 4.6. GLM_GTC_matrix_access</title>
+<para>Functions to conveniently access the individual rows or columns of a matrix.</para>
+<para>&lt;<ref refid="matrix__access_8hpp" kindref="compound">glm/gtc/matrix_access.hpp</ref>&gt; need to be included to use these features.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md97">
+<title>&lt;a name=&quot;section4_7&quot;&gt;&lt;/a&gt; 4.7. GLM_GTC_matrix_integer</title>
+<para>Integer matrix types similar to the core floating-point matrices. Some operations (such as inverse and determinant) are not supported.</para>
+<para>&lt;<ref refid="matrix__integer_8hpp" kindref="compound">glm/gtc/matrix_integer.hpp</ref>&gt; need to be included to use these features.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md98">
+<title>&lt;a name=&quot;section4_8&quot;&gt;&lt;/a&gt; 4.8. GLM_GTC_matrix_inverse</title>
+<para>Additional matrix inverse functions.</para>
+<para>&lt;<ref refid="matrix__inverse_8hpp" kindref="compound">glm/gtc/matrix_inverse.hpp</ref>&gt; need to be included to use these features.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md99">
+<title>&lt;a name=&quot;section4_9&quot;&gt;&lt;/a&gt; 4.9. GLM_GTC_matrix_transform</title>
+<para>Matrix transformation functions that follow the OpenGL fixed-function conventions.</para>
+<para>For example, the <emphasis><bold>setLookAt</bold></emphasis> function generates a transformation matrix that projects world coordinates into eye coordinates suitable for projection matrices (e.g. <emphasis><bold>perspective</bold></emphasis>, <emphasis><bold>ortho</bold></emphasis>). See the OpenGL compatibility specifications for more information about the layout of these generated matrices.</para>
+<para>The matrices generated by this extension use standard OpenGL fixed-function conventions. For example, the <emphasis><bold>setLookAt</bold></emphasis> function generates a transform from world space into the specific eye space that the projective matrix functions (<emphasis><bold>perspective</bold></emphasis>, <emphasis><bold>ortho</bold></emphasis>, etc) are designed to expect. The OpenGL compatibility specifications define the particular layout of this eye space.</para>
+<para>&lt;<ref refid="matrix__transform_8hpp" kindref="compound">glm/gtc/matrix_transform.hpp</ref>&gt; need to be included to use these features.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md100">
+<title>&lt;a name=&quot;section4_10&quot;&gt;&lt;/a&gt; 4.10. GLM_GTC_noise</title>
+<para>Define 2D, 3D and 4D procedural noise functions.</para>
+<para>&lt;<ref refid="noise_8hpp" kindref="compound">glm/gtc/noise.hpp</ref>&gt; need to be included to use these features.</para>
+<para><image type="html" name="/doc/manual/noise-simplex1.jpg" inline="yes"></image>
+</para>
+<para>Figure 4.10.1: glm::simplex(glm::vec2(x / 16.f, y / 16.f));</para>
+<para><image type="html" name="/doc/manual/noise-simplex2.jpg" inline="yes"></image>
+</para>
+<para>Figure 4.10.2: glm::simplex(glm::vec3(x / 16.f, y / 16.f, 0.5f));</para>
+<para><image type="html" name="/doc/manual/noise-simplex3.jpg" inline="yes"></image>
+</para>
+<para>Figure 4.10.3: glm::simplex(glm::vec4(x / 16.f, y / 16.f, 0.5f, 0.5f));</para>
+<para><image type="html" name="/doc/manual/noise-perlin1.jpg" inline="yes"></image>
+</para>
+<para>Figure 4.10.4: glm::perlin(glm::vec2(x / 16.f, y / 16.f));</para>
+<para><image type="html" name="/doc/manual/noise-perlin2.jpg" inline="yes"></image>
+</para>
+<para>Figure 4.10.5: glm::perlin(glm::vec3(x / 16.f, y / 16.f, 0.5f));</para>
+<para><image type="html" name="/doc/manual/noise-perlin3.jpg" inline="yes"></image>
+</para>
+<para>Figure 4.10.6: glm::perlin(glm::vec4(x / 16.f, y / 16.f, 0.5f, 0.5f)));</para>
+<para><image type="html" name="/doc/manual/noise-perlin4.png" inline="yes"></image>
+</para>
+<para>Figure 4.10.7: glm::perlin(glm::vec2(x / 16.f, y / 16.f), glm::vec2(2.0f));</para>
+<para><image type="html" name="/doc/manual/noise-perlin5.png" inline="yes"></image>
+</para>
+<para>Figure 4.10.8: glm::perlin(glm::vec3(x / 16.f, y / 16.f, 0.5f), glm::vec3(2.0f));</para>
+<para><image type="html" name="/doc/manual/noise-perlin6.png" inline="yes"></image>
+</para>
+<para>Figure 4.10.9: glm::perlin(glm::vec4(x / 16.f, y / 16.f, glm::vec2(0.5f)), glm::vec4(2.0f));</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md101">
+<title>&lt;a name=&quot;section4_11&quot;&gt;&lt;/a&gt; 4.11. GLM_GTC_packing</title>
+<para>Convert scalar and vector types to and from packed formats, saving space at the cost of precision. However, packing a value into a format that it was previously unpacked from is guaranteed to be lossless.</para>
+<para>&lt;<ref refid="gtc_2packing_8hpp" kindref="compound">glm/gtc/packing.hpp</ref>&gt; need to be included to use these features.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md102">
+<title>&lt;a name=&quot;section4_12&quot;&gt;&lt;/a&gt; 4.12. GLM_GTC_quaternion</title>
+<para>Quaternions and operations upon thereof.</para>
+<para>&lt;<ref refid="gtc_2quaternion_8hpp" kindref="compound">glm/gtc/quaternion.hpp</ref>&gt; need to be included to use these features.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md103">
+<title>&lt;a name=&quot;section4_13&quot;&gt;&lt;/a&gt; 4.13. GLM_GTC_random</title>
+<para>Probability distributions in up to four dimensions.</para>
+<para>&lt;<ref refid="random_8hpp" kindref="compound">glm/gtc/random.hpp</ref>&gt; need to be included to use these features.</para>
+<para><image type="html" name="/doc/manual/random-linearrand.png" inline="yes"></image>
+</para>
+<para>Figure 4.13.1: glm::vec4(glm::linearRand(glm::vec2(-1), glm::vec2(1)), 0, 1);</para>
+<para><image type="html" name="/doc/manual/random-circularrand.png" inline="yes"></image>
+</para>
+<para>Figure 4.13.2: glm::vec4(glm::circularRand(1.0f), 0, 1);</para>
+<para><image type="html" name="/doc/manual/random-sphericalrand.png" inline="yes"></image>
+</para>
+<para>Figure 4.13.3: glm::vec4(glm::sphericalRand(1.0f), 1);</para>
+<para><image type="html" name="/doc/manual/random-diskrand.png" inline="yes"></image>
+</para>
+<para>Figure 4.13.4: glm::vec4(glm::diskRand(1.0f), 0, 1);</para>
+<para><image type="html" name="/doc/manual/random-ballrand.png" inline="yes"></image>
+</para>
+<para>Figure 4.13.5: glm::vec4(glm::ballRand(1.0f), 1);</para>
+<para><image type="html" name="/doc/manual/random-gaussrand.png" inline="yes"></image>
+</para>
+<para>Figure 4.13.6: glm::vec4(glm::gaussRand(glm::vec3(0), glm::vec3(1)), 1);</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md104">
+<title>&lt;a name=&quot;section4_14&quot;&gt;&lt;/a&gt; 4.14. GLM_GTC_reciprocal</title>
+<para>Reciprocal trigonometric functions (e.g. secant, cosecant, tangent).</para>
+<para>&lt;<ref refid="reciprocal_8hpp" kindref="compound">glm/gtc/reciprocal.hpp</ref>&gt; need to be included to use the features of this extension.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md105">
+<title>&lt;a name=&quot;section4_15&quot;&gt;&lt;/a&gt; 4.15. GLM_GTC_round</title>
+<para>Various rounding operations and common special cases thereof.</para>
+<para>&lt;<ref refid="round_8hpp" kindref="compound">glm/gtc/round.hpp</ref>&gt; need to be included to use the features of this extension.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md106">
+<title>&lt;a name=&quot;section4_16&quot;&gt;&lt;/a&gt; 4.16. GLM_GTC_type_aligned</title>
+<para>Aligned vector types.</para>
+<para>&lt;<ref refid="gtc_2type__aligned_8hpp" kindref="compound">glm/gtc/type_aligned.hpp</ref>&gt; need to be included to use the features of this extension.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md107">
+<title>&lt;a name=&quot;section4_17&quot;&gt;&lt;/a&gt; 4.17. GLM_GTC_type_precision</title>
+<para>Vector and matrix types with defined precisions, e.g. i8vec4, which is a 4D vector of signed 8-bit integers.</para>
+<para>This extension adds defines to set the default precision of each class of types added, in a manner identical to that described in section <ulink url="#section3_1">Default precision</ulink>.</para>
+<para>Available defines for signed 8-bit integer types (glm::i8vec*):</para>
+<para><itemizedlist>
+<listitem><para>GLM_PRECISION_LOWP_INT8: Low precision</para>
+</listitem><listitem><para>GLM_PRECISION_MEDIUMP_INT8: Medium precision</para>
+</listitem><listitem><para>GLM_PRECISION_HIGHP_INT8: High precision (default)</para>
+</listitem></itemizedlist>
+</para>
+<para>Available defines for unsigned 8-bit integer types (glm::u8vec*):</para>
+<para><itemizedlist>
+<listitem><para>GLM_PRECISION_LOWP_UINT8: Low precision</para>
+</listitem><listitem><para>GLM_PRECISION_MEDIUMP_UINT8: Medium precision</para>
+</listitem><listitem><para>GLM_PRECISION_HIGHP_UINT8: High precision (default)</para>
+</listitem></itemizedlist>
+</para>
+<para>Available defines for signed 16-bit integer types (glm::i16vec*):</para>
+<para><itemizedlist>
+<listitem><para>GLM_PRECISION_LOWP_INT16: Low precision</para>
+</listitem><listitem><para>GLM_PRECISION_MEDIUMP_INT16: Medium precision</para>
+</listitem><listitem><para>GLM_PRECISION_HIGHP_INT16: High precision (default)</para>
+</listitem></itemizedlist>
+</para>
+<para>Available defines for unsigned 16-bit integer types (glm::u16vec*):</para>
+<para><itemizedlist>
+<listitem><para>GLM_PRECISION_LOWP_UINT16: Low precision</para>
+</listitem><listitem><para>GLM_PRECISION_MEDIUMP_UINT16: Medium precision</para>
+</listitem><listitem><para>GLM_PRECISION_HIGHP_UINT16: High precision (default)</para>
+</listitem></itemizedlist>
+</para>
+<para>Available defines for signed 32-bit integer types (glm::i32vec*):</para>
+<para><itemizedlist>
+<listitem><para>GLM_PRECISION_LOWP_INT32: Low precision</para>
+</listitem><listitem><para>GLM_PRECISION_MEDIUMP_INT32: Medium precision</para>
+</listitem><listitem><para>GLM_PRECISION_HIGHP_INT32: High precision (default)</para>
+</listitem></itemizedlist>
+</para>
+<para>Available defines for unsigned 32-bit integer types (glm::u32vec*):</para>
+<para><itemizedlist>
+<listitem><para>GLM_PRECISION_LOWP_UINT32: Low precision</para>
+</listitem><listitem><para>GLM_PRECISION_MEDIUMP_UINT32: Medium precision</para>
+</listitem><listitem><para>GLM_PRECISION_HIGHP_UINT32: High precision (default)</para>
+</listitem></itemizedlist>
+</para>
+<para>Available defines for signed 64-bit integer types (glm::i64vec*):</para>
+<para><itemizedlist>
+<listitem><para>GLM_PRECISION_LOWP_INT64: Low precision</para>
+</listitem><listitem><para>GLM_PRECISION_MEDIUMP_INT64: Medium precision</para>
+</listitem><listitem><para>GLM_PRECISION_HIGHP_INT64: High precision (default)</para>
+</listitem></itemizedlist>
+</para>
+<para>Available defines for unsigned 64-bit integer types (glm::u64vec*):</para>
+<para><itemizedlist>
+<listitem><para>GLM_PRECISION_LOWP_UINT64: Low precision</para>
+</listitem><listitem><para>GLM_PRECISION_MEDIUMP_UINT64: Medium precision</para>
+</listitem><listitem><para>GLM_PRECISION_HIGHP_UINT64: High precision (default)</para>
+</listitem></itemizedlist>
+</para>
+<para>Available defines for 32-bit floating-point types (glm::f32vec*, glm::f32mat*, glm::f32quat):</para>
+<para><itemizedlist>
+<listitem><para>GLM_PRECISION_LOWP_FLOAT32: Low precision</para>
+</listitem><listitem><para>GLM_PRECISION_MEDIUMP_FLOAT32: Medium precision</para>
+</listitem><listitem><para>GLM_PRECISION_HIGHP_FLOAT32: High precision (default)</para>
+</listitem></itemizedlist>
+</para>
+<para>Available defines for 64-bit floating-point types (glm::f64vec*, glm::f64mat*, glm::f64quat):</para>
+<para><itemizedlist>
+<listitem><para>GLM_PRECISION_LOWP_FLOAT64: Low precision</para>
+</listitem><listitem><para>GLM_PRECISION_MEDIUMP_FLOAT64: Medium precision</para>
+</listitem><listitem><para>GLM_PRECISION_HIGHP_FLOAT64: High precision (default)</para>
+</listitem></itemizedlist>
+</para>
+<para>&lt;<ref refid="type__precision_8hpp" kindref="compound">glm/gtc/type_precision.hpp</ref>&gt; need to be included to use the features of this extension.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md108">
+<title>&lt;a name=&quot;section4_18&quot;&gt;&lt;/a&gt; 4.18. GLM_GTC_type_ptr</title>
+<para>Facilitate interactions between pointers to basic types (e.g. float*) and GLM types (e.g. mat4).</para>
+<para>This extension defines an overloaded function, glm::value_ptr, which returns a pointer to the memory layout of any GLM vector or matrix (vec3, mat4, etc.). Matrix types store their values in column-major order. This is useful for uploading data to matrices or for copying data to buffer objects.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>GLM_GTC_type_ptr<sp/>provides<sp/>a<sp/>safe<sp/>solution:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="type__ptr_8hpp" kindref="compound">glm/gtc/type_ptr.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec4</ref><sp/>v(0.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/>m(1.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glVertex3fv(<ref refid="group__gtc__type__ptr_1gaada83809aefafd7c3264772e6b24b685" kindref="member">glm::value_ptr</ref>(v))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glLoadMatrixfv(<ref refid="group__gtc__type__ptr_1gaada83809aefafd7c3264772e6b24b685" kindref="member">glm::value_ptr</ref>(m));</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Another<sp/>solution,<sp/>this<sp/>one<sp/>inspired<sp/>by<sp/>the<sp/>STL:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec4</ref><sp/>v(0.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/>m(1.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glVertex3fv(&amp;v[0]);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glLoadMatrixfv(&amp;m[0][0]);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><emphasis>Note: It would be possible to implement [*glVertex3fv</emphasis>](<ulink url="http://www.opengl.org/sdk/docs/man2/xhtml/glVertex.xml">http://www.opengl.org/sdk/docs/man2/xhtml/glVertex.xml</ulink>)(glm::vec3(0)) in C++ with the appropriate cast operator that would result as an implicit cast in this example. However cast operators may produce programs running with unexpected behaviours without build error or any form of notification. *</para>
+<para>&lt;<ref refid="type__ptr_8hpp" kindref="compound">glm/gtc/type_ptr.hpp</ref>&gt; need to be included to use these features.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md109">
+<title>&lt;a name=&quot;section4_19&quot;&gt;&lt;/a&gt; 4.19. GLM_GTC_ulp</title>
+<para>Measure a function&apos;s accuracy given a reference implementation of it. This extension works on floating-point data and provides results in <ulink url="http://ljk.imag.fr/membres/Carine.Lucas/TPScilab/JMMuller/ulp-toms.pdf">ULP</ulink>.</para>
+<para>&lt;<ref refid="ulp_8hpp" kindref="compound">glm/gtc/ulp.hpp</ref>&gt; need to be included to use these features.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md110">
+<title>&lt;a name=&quot;section4_20&quot;&gt;&lt;/a&gt; 4.20. GLM_GTC_vec1</title>
+<para>Add *vec1 types.</para>
+<para>&lt;<ref refid="gtc_2vec1_8hpp" kindref="compound">glm/gtc/vec1.hpp</ref>&gt; need to be included to use these features.</para>
+<para><hruler/>
+ </para>
+</sect3>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md112">
+<title>&lt;a name=&quot;section5&quot;&gt;&lt;/a&gt; 5. OpenGL interoperability</title>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md113">
+<title>&lt;a name=&quot;section5_1&quot;&gt;&lt;/a&gt; 5.1. GLM replacements for deprecated OpenGL functions</title>
+<para>OpenGL 3.1 specification has deprecated some features that have been removed from OpenGL 3.2 core profile specification. GLM provides some replacement functions.</para>
+<para><ulink url="https://www.opengl.org/sdk/docs/man2/xhtml/glRotate.xml"><emphasis><bold>glRotate{f, d}:</bold></emphasis></ulink></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/><ref refid="group__gtc__matrix__transform_1ga42613eb0c7deb5f5188fc159df6c8950" kindref="member">glm::rotate</ref>(<ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>m,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>angle,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/><ref refid="group__gtc__quaternion_1gacb991327b755ed51ce12605e4c541250" kindref="member">axis</ref>);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref><sp/><ref refid="group__gtc__matrix__transform_1ga42613eb0c7deb5f5188fc159df6c8950" kindref="member">glm::rotate</ref>(<ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>m,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>angle,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::dvec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/><ref refid="group__gtc__quaternion_1gacb991327b755ed51ce12605e4c541250" kindref="member">axis</ref>);</highlight></codeline>
+</programlisting></para>
+<para>From GLM_GTC_matrix_transform extension: &lt;<ref refid="matrix__transform_8hpp" kindref="compound">glm/gtc/matrix_transform.hpp</ref>&gt;</para>
+<para><ulink url="http://www.opengl.org/sdk/docs/man2/xhtml/glScale.xml"><emphasis><bold>glScale{f, d}:</bold></emphasis></ulink></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/><ref refid="group__gtc__matrix__transform_1gaae2f8b2080622b24b85e1096748599b6" kindref="member">glm::scale</ref>(<ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>m,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>factors);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref><sp/><ref refid="group__gtc__matrix__transform_1gaae2f8b2080622b24b85e1096748599b6" kindref="member">glm::scale</ref>(<ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>m,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::dvec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>factors);</highlight></codeline>
+</programlisting></para>
+<para>From GLM_GTC_matrix_transform extension: &lt;<ref refid="matrix__transform_8hpp" kindref="compound">glm/gtc/matrix_transform.hpp</ref>&gt;</para>
+<para><ulink url="https://www.opengl.org/sdk/docs/man2/xhtml/glTranslate.xml"><emphasis><bold>glTranslate{f, d}:</bold></emphasis></ulink></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/><ref refid="group__gtc__matrix__transform_1ga67d8473d6b293d1bb2b4eaf249795cab" kindref="member">glm::translate</ref>(<ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>m,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>translation);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref><sp/><ref refid="group__gtc__matrix__transform_1ga67d8473d6b293d1bb2b4eaf249795cab" kindref="member">glm::translate</ref>(<ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>m,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::dvec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>translation);</highlight></codeline>
+</programlisting></para>
+<para>From GLM_GTC_matrix_transform extension: &lt;<ref refid="matrix__transform_8hpp" kindref="compound">glm/gtc/matrix_transform.hpp</ref>&gt;</para>
+<para><ulink url="https://www.opengl.org/sdk/docs/man2/xhtml/glLoadIdentity.xml"><emphasis><bold>glLoadIdentity:</bold></emphasis></ulink></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="group__core__types_1ga7dcd2365c2e368e6af5b7adeb6a9c8df" kindref="member">glm::mat4</ref>(1.0)<sp/>or<sp/>glm::<ref refid="group__core__types_1ga7dcd2365c2e368e6af5b7adeb6a9c8df" kindref="member">mat4</ref>();</highlight></codeline>
+<codeline><highlight class="normal">glm::<ref refid="group__core__types_1ga7f7c1300ebfd19d573e9deb1e8758b54" kindref="member">dmat4</ref>(1.0)<sp/>or<sp/>glm::<ref refid="group__core__types_1ga7f7c1300ebfd19d573e9deb1e8758b54" kindref="member">dmat4</ref>();</highlight></codeline>
+</programlisting></para>
+<para>From GLM core library: &lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</para>
+<para><ulink url="https://www.opengl.org/sdk/docs/man2/xhtml/glMultMatrix.xml"><emphasis><bold>glMultMatrix{f, d}:</bold></emphasis></ulink></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="group__core__types_1ga7dcd2365c2e368e6af5b7adeb6a9c8df" kindref="member">glm::mat4</ref>()<sp/>*<sp/><ref refid="group__core__types_1ga7dcd2365c2e368e6af5b7adeb6a9c8df" kindref="member">glm::mat4</ref>();</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="group__core__types_1ga7f7c1300ebfd19d573e9deb1e8758b54" kindref="member">glm::dmat4</ref>()<sp/>*<sp/><ref refid="group__core__types_1ga7f7c1300ebfd19d573e9deb1e8758b54" kindref="member">glm::dmat4</ref>();</highlight></codeline>
+</programlisting></para>
+<para>From GLM core library: &lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</para>
+<para><ulink url="https://www.opengl.org/sdk/docs/man2/xhtml/glLoadTransposeMatrix.xml"><emphasis><bold>glLoadTransposeMatrix{f, d}:</bold></emphasis></ulink></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="group__core__func__matrix_1ga4d251df5957b62996391bccb61cc9974" kindref="member">glm::transpose</ref>(<ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref>());</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="group__core__func__matrix_1ga4d251df5957b62996391bccb61cc9974" kindref="member">glm::transpose</ref>(<ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref>());</highlight></codeline>
+</programlisting></para>
+<para>From GLM core library: &lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</para>
+<para><ulink url="https://www.opengl.org/sdk/docs/man2/xhtml/glMultTransposeMatrix.xml"><emphasis><bold>glMultTransposeMatrix{f, d}:</bold></emphasis></ulink></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="group__core__types_1ga7dcd2365c2e368e6af5b7adeb6a9c8df" kindref="member">glm::mat4</ref>()<sp/>*<sp/><ref refid="group__core__func__matrix_1ga4d251df5957b62996391bccb61cc9974" kindref="member">glm::transpose</ref>(<ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref>());</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="group__core__types_1ga7f7c1300ebfd19d573e9deb1e8758b54" kindref="member">glm::dmat4</ref>()<sp/>*<sp/><ref refid="group__core__func__matrix_1ga4d251df5957b62996391bccb61cc9974" kindref="member">glm::transpose</ref>(<ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref>());</highlight></codeline>
+</programlisting></para>
+<para>From GLM core library: &lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</para>
+<para><ulink url="http://www.opengl.org/sdk/docs/man2/xhtml/glFrustum.xml"><emphasis><bold>glFrustum:</bold></emphasis></ulink></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/><ref refid="group__gtc__matrix__transform_1gaf2b9bdfe77c910ce3ae07c1a386d110e" kindref="member">glm::frustum</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>left,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>right,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>bottom,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>top,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>zNear,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>zFar);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref><sp/><ref refid="group__gtc__matrix__transform_1gaf2b9bdfe77c910ce3ae07c1a386d110e" kindref="member">glm::frustum</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>left,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>right,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>bottom,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>top,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>zNear,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>zFar);</highlight></codeline>
+</programlisting></para>
+<para>From GLM_GTC_matrix_transform extension: &lt;<ref refid="matrix__transform_8hpp" kindref="compound">glm/gtc/matrix_transform.hpp</ref>&gt;</para>
+<para><ulink url="https://www.opengl.org/sdk/docs/man2/xhtml/glOrtho.xml"><emphasis><bold>glOrtho:</bold></emphasis></ulink></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/><ref refid="group__gtc__matrix__transform_1gaa8568ef1d14d6654becb860ed6163817" kindref="member">glm::ortho</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>left,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>right,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>bottom,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>top,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>zNear,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>zFar);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref><sp/><ref refid="group__gtc__matrix__transform_1gaa8568ef1d14d6654becb860ed6163817" kindref="member">glm::ortho</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>left,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>right,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>bottom,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>top,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>zNear,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>zFar);</highlight></codeline>
+</programlisting></para>
+<para>From GLM_GTC_matrix_transform extension: &lt;<ref refid="matrix__transform_8hpp" kindref="compound">glm/gtc/matrix_transform.hpp</ref>&gt;</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md114">
+<title>&lt;a name=&quot;section5_2&quot;&gt;&lt;/a&gt; 5.2. GLM replacements for GLU functions</title>
+<para><ulink url="https://www.opengl.org/sdk/docs/man2/xhtml/gluLookAt.xml"><emphasis><bold>gluLookAt:</bold></emphasis></ulink></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/>glm::setLookAt(<ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>eye,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>center,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>up);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref><sp/>glm::setLookAt(<ref refid="structglm_1_1vec" kindref="compound">glm::dvec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>eye,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::dvec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>center,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::dvec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>up);</highlight></codeline>
+</programlisting></para>
+<para>From GLM_GTC_matrix_transform extension: &lt;<ref refid="matrix__transform_8hpp" kindref="compound">glm/gtc/matrix_transform.hpp</ref>&gt;</para>
+<para><ulink url="https://www.opengl.org/sdk/docs/man2/xhtml/gluOrtho2D.xml"><emphasis><bold>gluOrtho2D:</bold></emphasis></ulink></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/><ref refid="group__gtc__matrix__transform_1gaa8568ef1d14d6654becb860ed6163817" kindref="member">glm::ortho</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>left,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>right,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>bottom,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>top);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref><sp/><ref refid="group__gtc__matrix__transform_1gaa8568ef1d14d6654becb860ed6163817" kindref="member">glm::ortho</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>left,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>right,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>bottom,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>top);</highlight></codeline>
+</programlisting></para>
+<para>From GLM_GTC_matrix_transform extension: &lt;<ref refid="matrix__transform_8hpp" kindref="compound">glm/gtc/matrix_transform.hpp</ref>&gt;</para>
+<para><ulink url="https://www.opengl.org/sdk/docs/man2/xhtml/gluPerspective.xml"><emphasis><bold>gluPerspective:</bold></emphasis></ulink></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/><ref refid="group__gtc__matrix__transform_1ga9e13be491fd69a438c8fda440cf0156e" kindref="member">perspective</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>fovy,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>aspect,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>zNear,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>zFar);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref><sp/><ref refid="group__gtc__matrix__transform_1ga9e13be491fd69a438c8fda440cf0156e" kindref="member">perspective</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>fovy,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>aspect,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>zNear,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>zFar);</highlight></codeline>
+</programlisting></para>
+<para>Note that in GLM, fovy is expressed in radians, not degrees.</para>
+<para>From GLM_GTC_matrix_transform extension: &lt;<ref refid="matrix__transform_8hpp" kindref="compound">glm/gtc/matrix_transform.hpp</ref>&gt;</para>
+<para><ulink url="https://www.opengl.org/sdk/docs/man2/xhtml/gluPickMatrix.xml"><emphasis><bold>gluPickMatrix:</bold></emphasis></ulink></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/><ref refid="group__gtc__matrix__transform_1ga0f93e1b7ea6887f31b643ce5099b1173" kindref="member">pickMatrix</ref>(<ref refid="structglm_1_1vec" kindref="compound">glm::vec2</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>center,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec2</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>delta,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::ivec4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>viewport);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref><sp/><ref refid="group__gtc__matrix__transform_1ga0f93e1b7ea6887f31b643ce5099b1173" kindref="member">pickMatrix</ref>(<ref refid="structglm_1_1vec" kindref="compound">glm::dvec2</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>center,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::dvec2</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>delta,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::ivec4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>viewport);</highlight></codeline>
+</programlisting></para>
+<para>From GLM_GTC_matrix_transform extension: &lt;<ref refid="matrix__transform_8hpp" kindref="compound">glm/gtc/matrix_transform.hpp</ref>&gt;</para>
+<para><ulink url="http://www.opengl.org/sdk/docs/man2/xhtml/gluProject.xml"><emphasis><bold>gluProject:</bold></emphasis></ulink></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/><ref refid="group__gtc__matrix__transform_1ga478b351626e39c8e33e042ea8d1f418e" kindref="member">project</ref>(<ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>obj,<sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>model,<sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/><ref refid="group__gtx__projection_1ga58384b7170801dd513de46f87c7fb00e" kindref="member">proj</ref>,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::ivec4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>viewport);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1vec" kindref="compound">glm::dvec3</ref><sp/><ref refid="group__gtc__matrix__transform_1ga478b351626e39c8e33e042ea8d1f418e" kindref="member">project</ref>(<ref refid="structglm_1_1vec" kindref="compound">glm::dvec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>obj,<sp/><ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>model,<sp/><ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/><ref refid="group__gtx__projection_1ga58384b7170801dd513de46f87c7fb00e" kindref="member">proj</ref>,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::ivec4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>viewport);</highlight></codeline>
+</programlisting></para>
+<para>From GLM_GTC_matrix_transform extension: &lt;<ref refid="matrix__transform_8hpp" kindref="compound">glm/gtc/matrix_transform.hpp</ref>&gt;</para>
+<para><ulink url="https://www.opengl.org/sdk/docs/man2/xhtml/gluUnProject.xml"><emphasis><bold>gluUnProject:</bold></emphasis></ulink></para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/><ref refid="group__gtc__matrix__transform_1gaefa35b1dbf52941052a5a3aadc298106" kindref="member">unProject</ref>(<ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>win,<sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>model,<sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/><ref refid="group__gtx__projection_1ga58384b7170801dd513de46f87c7fb00e" kindref="member">proj</ref>,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::ivec4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>viewport);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1vec" kindref="compound">glm::dvec3</ref><sp/><ref refid="group__gtc__matrix__transform_1gaefa35b1dbf52941052a5a3aadc298106" kindref="member">unProject</ref>(<ref refid="structglm_1_1vec" kindref="compound">glm::dvec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>win,<sp/><ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>model,<sp/><ref refid="structglm_1_1mat" kindref="compound">glm::dmat4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/><ref refid="group__gtx__projection_1ga58384b7170801dd513de46f87c7fb00e" kindref="member">proj</ref>,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::ivec4</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>viewport);</highlight></codeline>
+</programlisting></para>
+<para>From GLM_GTC_matrix_transform extension: &lt;<ref refid="matrix__transform_8hpp" kindref="compound">glm/gtc/matrix_transform.hpp</ref>&gt;</para>
+<para><hruler/>
+ </para>
+</sect3>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md116">
+<title>&lt;a name=&quot;section6&quot;&gt;&lt;/a&gt; 6. Known issues</title>
+<para>This section reports GLSL features that GLM can&apos;t accurately emulate due to language restrictions.</para>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md117">
+<title>&lt;a name=&quot;section6_1&quot;&gt;&lt;/a&gt; 6.1. not function</title>
+<para>The GLSL function &apos;not&apos; is a keyword in C++. To prevent name collisions and ensure a consistent API, the name not_ (note the underscore) is used instead.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md118">
+<title>&lt;a name=&quot;section6_2&quot;&gt;&lt;/a&gt; 6.2. Precision qualifiers support</title>
+<para>GLM supports GLSL precision qualifiers through prefixes instead of qualifiers. For example, GLM exposes \verb|lowp_vec4|, \verb|mediump_vec4| and \verb|highp_vec4| as variations of \verb|vec4|.</para>
+<para>Similarly to GLSL, GLM precision qualifiers are used to trade precision of operations in term of <ulink url="http://en.wikipedia.org/wiki/Unit_in_the_last_place">ULPs</ulink> for better performance. By default, all the types use high precision.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Using<sp/>precision<sp/>qualifier<sp/>in<sp/>GLSL:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="group__core__types_1ga6e12a4ca00d696f07da1df4eb73e0fe8" kindref="member">ivec3</ref><sp/>foo(in<sp/><ref refid="group__core__types_1ga5881b1b022d7fd1b7218f5916532dd02" kindref="member">vec4</ref><sp/>v)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="qualifier_8hpp_1a36ed105b07c7746804d7fdc7cc90ff25ac6f7eab42eacbb10d59a58e95e362074" kindref="member">highp</ref><sp/><ref refid="group__core__types_1ga5881b1b022d7fd1b7218f5916532dd02" kindref="member">vec4</ref><sp/>a<sp/>=<sp/>v;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="qualifier_8hpp_1a36ed105b07c7746804d7fdc7cc90ff25a6416f3ea0c9025fb21ed50c4d6620482" kindref="member">mediump</ref><sp/><ref refid="group__core__types_1ga5881b1b022d7fd1b7218f5916532dd02" kindref="member">vec4</ref><sp/>b<sp/>=<sp/>a;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="qualifier_8hpp_1a36ed105b07c7746804d7fdc7cc90ff25ae161af3fc695e696ce3bf69f7332bc2d" kindref="member">lowp</ref><sp/><ref refid="group__core__types_1ga6e12a4ca00d696f07da1df4eb73e0fe8" kindref="member">ivec3</ref><sp/>c<sp/>=<sp/><ref refid="group__core__types_1ga6e12a4ca00d696f07da1df4eb73e0fe8" kindref="member">ivec3</ref>(b);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return c;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Using<sp/>precision<sp/>qualifier<sp/>in<sp/>GLM:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="group__core__types_1ga6e12a4ca00d696f07da1df4eb73e0fe8" kindref="member">ivec3</ref><sp/>foo(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="group__core__types_1ga5881b1b022d7fd1b7218f5916532dd02" kindref="member">vec4</ref><sp/>&amp;<sp/>v)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__core__precision_1ga27638826fa491205403b39198c49e9f5" kindref="member">highp_vec4</ref><sp/>a<sp/>=<sp/>v;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>medium_vec4<sp/>b<sp/>=<sp/>a;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__core__precision_1ga77f1494e08fca27e26aebbbfb8162298" kindref="member">lowp_ivec3</ref><sp/>c<sp/>=<sp/><ref refid="group__core__types_1ga6e12a4ca00d696f07da1df4eb73e0fe8" kindref="member">glm::ivec3</ref>(b);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return c;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>The syntax for default precision specifications in GLM differs from that in GLSL; for more information, see section Default Precision <anchor id="_1section3_1"/>.</para>
+<para><hruler/>
+ </para>
+</sect3>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md120">
+<title>&lt;a name=&quot;section7&quot;&gt;&lt;/a&gt; 7. FAQ</title>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md121">
+<title>&lt;a name=&quot;section7_1&quot;&gt;&lt;/a&gt; 7.1 Why GLM follows GLSL specification and conventions?</title>
+<para>Following GLSL conventions is a really strict policy of GLM. It has been designed following the idea that everyone does its own math library with his own conventions. The idea is that brilliant developers (the OpenGL ARB) worked together and agreed to make GLSL. Following GLSL conventions is a way to find consensus. Moreover, basically when a developer knows GLSL, he knows GLM.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md122">
+<title>&lt;a name=&quot;section7_2&quot;&gt;&lt;/a&gt; 7.2. Does GLM run GLSL program?</title>
+<para>No, GLM is a C++ implementation of a subset of GLSL.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md123">
+<title>&lt;a name=&quot;section7_3&quot;&gt;&lt;/a&gt; 7.3. Does a GLSL compiler build GLM codes?</title>
+<para>No, this is not what GLM attends to do.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md124">
+<title>&lt;a name=&quot;section7_4&quot;&gt;&lt;/a&gt; 7.4. Should I use ‘GTX’ extensions?</title>
+<para>GTX extensions are qualified to be experimental extensions. In GLM this means that these extensions might change from version to version without any restriction. In practice, it doesn’t really change except time to time. GTC extensions are stabled, tested and perfectly reliable in time. Many GTX extensions extend GTC extensions and provide a way to explore features and implementations and APIs and then are promoted to GTC extensions. This is fairly the way OpenGL features are developed; through extensions.</para>
+<para>Stating with GLM 0.9.9, to use experimental extensions, an application must define GLM_ENABLE_EXPERIMENTAL.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md125">
+<title>&lt;a name=&quot;section7_5&quot;&gt;&lt;/a&gt; 7.5. Where can I ask my questions?</title>
+<para>A good place is <ulink url="http://stackoverflow.com/search?q=GLM">stackoverflow</ulink> using the GLM tag.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md126">
+<title>&lt;a name=&quot;section7_6&quot;&gt;&lt;/a&gt; 7.6. Where can I find the documentation of extensions?</title>
+<para>The Doxygen generated documentation includes a complete list of all extensions available. Explore this <ulink url="http://glm.g-truc.net/html/index.html"><emphasis>API documentation</emphasis></ulink> to get a complete view of all GLM capabilities!</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md127">
+<title>&lt;a name=&quot;section7_7&quot;&gt;&lt;/a&gt; 7.7. Should I use ‘using namespace glm;’?</title>
+<para>NO! Chances are that if using namespace glm; is called, especially in a header file, name collisions will happen as GLM is based on GLSL which uses common tokens for types and functions. Avoiding using namespace glm; will a higher compatibility with third party library and SDKs.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md128">
+<title>&lt;a name=&quot;section7_8&quot;&gt;&lt;/a&gt; 7.8. Is GLM fast?</title>
+<para>GLM is mainly designed to be convenient and that&apos;s why it is written against the GLSL specification.</para>
+<para>Following the Pareto principle where 20% of the code consumes 80% of the execution time, GLM operates perfectly on the 80% of the code that consumes 20% of the performances. Furthermore, thanks to the lowp, mediump and highp qualifiers, GLM provides approximations which trade precision for performance. Finally, GLM can automatically produce SIMD optimized code for functions of its implementation.</para>
+<para>However, on performance critical code paths, we should expect that dedicated algorithms should be written to reach peak performance.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md129">
+<title>&lt;a name=&quot;section7_9&quot;&gt;&lt;/a&gt; 7.9. When I build with Visual C++ with /W4 warning level, I have warnings...</title>
+<para>You should not have any warnings even in /W4 mode. However, if you expect such level for your code, then you should ask for the same level to the compiler by at least disabling the Visual C++ language extensions (/Za) which generates warnings when used. If these extensions are enabled, then GLM will take advantage of them and the compiler will generate warnings.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md130">
+<title>&lt;a name=&quot;section7_10&quot;&gt;&lt;/a&gt; 7.10. Why some GLM functions can crash because of division by zero?</title>
+<para>GLM functions crashing is the result of a domain error. Such behavior follows the precedent set by C and C++&apos;s standard library. For example, it’s a domain error to pass a null vector (all zeroes) to glm::normalize function, or to pass a negative number into std::sqrt.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md131">
+<title>&lt;a name=&quot;section7_11&quot;&gt;&lt;/a&gt; 7.11. What unit for angles is used in GLM?</title>
+<para>GLSL is using radians but GLU is using degrees to express angles. This has caused GLM to use inconsistent units for angles. Starting with GLM 0.9.6, all GLM functions are using radians. For more information, follow the <ulink url="http://www.g-truc.net/post-0693.html#menu">link</ulink>.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md132">
+<title>&lt;a name=&quot;section7_12&quot;&gt;&lt;/a&gt; 7.12. Windows headers cause build errors...</title>
+<para>Some Windows headers define min and max as macros which may cause compatibility with third party libraries such as GLM. It is highly recommended to <ulink url="http://stackoverflow.com/questions/4913922/possible-problems-with-nominmax-on-visual-c">define NOMINMAX</ulink> before including Windows headers to workaround this issue. To workaround the incompatibility with these macros, GLM will systematically undef these macros if they are defined.</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md133">
+<title>&lt;a name=&quot;section7_13&quot;&gt;&lt;/a&gt; 7.13. Constant expressions support</title>
+<para>GLM has some C++ <ulink url="http://en.cppreference.com/w/cpp/language/constexpr">constant expressions</ulink> support. However, GLM automatically detects the use of SIMD instruction sets through compiler arguments to populate its implementation with SIMD intrinsics. Unfortunately, GCC and Clang doesn&apos;t support SIMD instrinsics as constant expressions. To allow constant expressions on all vectors and matrices types, define GLM_FORCE_PURE before including GLM headers.</para>
+<para><hruler/>
+ </para>
+</sect3>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md135">
+<title>&lt;a name=&quot;section8&quot;&gt;&lt;/a&gt; 8. Code samples</title>
+<para>This series of samples only shows various GLM features without consideration of any sort.</para>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md136">
+<title>&lt;a name=&quot;section8_1&quot;&gt;&lt;/a&gt; 8.1. Compute a triangle normal</title>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>vec3<sp/>normalize<sp/>cross</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/>computeNormal(<ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>c)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>glm::normalize(<ref refid="group__core__func__geometric_1gaa9583340130a6b700eced5b100c5ccaa" kindref="member">glm::cross</ref>(c<sp/>-<sp/>a,<sp/>b<sp/>-<sp/>a));</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>much<sp/>faster<sp/>but<sp/>less<sp/>accurate<sp/>alternative:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>vec3<sp/>cross</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="fast__square__root_8hpp" kindref="compound">glm/gtx/fast_square_root.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>fastNormalize</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/>computeNormal(<ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>c)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="group__gtx__fast__square__root_1ga3b02c1d6e0c754144e2f1e110bf9f16c" kindref="member">glm::fastNormalize</ref>(<ref refid="group__core__func__geometric_1gaa9583340130a6b700eced5b100c5ccaa" kindref="member">glm::cross</ref>(c<sp/>-<sp/>a,<sp/>b<sp/>-<sp/>a));</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md137">
+<title>&lt;a name=&quot;section8_2&quot;&gt;&lt;/a&gt; 8.2. Matrix transform</title>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>vec3,<sp/>vec4,<sp/>ivec4,<sp/>mat4</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="matrix__transform_8hpp" kindref="compound">glm/gtc/matrix_transform.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>translate,<sp/>rotate,<sp/>scale,<sp/>perspective</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="type__ptr_8hpp" kindref="compound">glm/gtc/type_ptr.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>value_ptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setUniformMVP(GLuint<sp/>Location,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>Translate,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>Rotate)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/>Projection<sp/>=<sp/><ref refid="group__gtc__matrix__transform_1ga9e13be491fd69a438c8fda440cf0156e" kindref="member">glm::perspective</ref>(45.0f,<sp/>4.0f<sp/>/<sp/>3.0f,<sp/>0.1f,<sp/>100.f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/>ViewTranslate<sp/>=<sp/><ref refid="group__gtc__matrix__transform_1ga67d8473d6b293d1bb2b4eaf249795cab" kindref="member">glm::translate</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref>(1.0f),<sp/>Translate);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/>ViewRotateX<sp/>=<sp/><ref refid="group__gtc__matrix__transform_1ga42613eb0c7deb5f5188fc159df6c8950" kindref="member">glm::rotate</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ViewTranslate,<sp/>Rotate.y,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref>(-1.0f,<sp/>0.0f,<sp/>0.0f));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/>View<sp/>=<sp/><ref refid="group__gtc__matrix__transform_1ga42613eb0c7deb5f5188fc159df6c8950" kindref="member">glm::rotate</ref>(ViewRotateX,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Rotate.x,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref>(0.0f,<sp/>1.0f,<sp/>0.0f));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/>Model<sp/>=<sp/><ref refid="group__gtc__matrix__transform_1gaae2f8b2080622b24b85e1096748599b6" kindref="member">glm::scale</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref>(1.0f),<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref>(0.5f));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1mat" kindref="compound">glm::mat4</ref><sp/>MVP<sp/>=<sp/>Projection<sp/>*<sp/>View<sp/>*<sp/>Model;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glUniformMatrix4fv(Location,<sp/>1,<sp/>GL_FALSE,<sp/><ref refid="group__gtc__type__ptr_1gaada83809aefafd7c3264772e6b24b685" kindref="member">glm::value_ptr</ref>(MVP));</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md138">
+<title>&lt;a name=&quot;section8_3&quot;&gt;&lt;/a&gt; 8.3. Vector types</title>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>vec2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="type__precision_8hpp" kindref="compound">glm/gtc/type_precision.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>hvec2,<sp/>i8vec2,<sp/>i32vec2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::size_t<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VertexCount<sp/>=<sp/>4;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Float<sp/>quad<sp/>geometry</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::size_t<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PositionSizeF32<sp/>=<sp/>VertexCount<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="group__core__types_1gaa1618f51db67eaa145db101d8c8431d8" kindref="member">glm::vec2</ref>);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1vec" kindref="compound">glm::vec2</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PositionDataF32[VertexCount]<sp/>=</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__core__types_1gaa1618f51db67eaa145db101d8c8431d8" kindref="member">glm::vec2</ref>(-1.0f,-1.0f),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__core__types_1gaa1618f51db67eaa145db101d8c8431d8" kindref="member">glm::vec2</ref>(<sp/>1.0f,-1.0f),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__core__types_1gaa1618f51db67eaa145db101d8c8431d8" kindref="member">glm::vec2</ref>(<sp/>1.0f,<sp/>1.0f),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__core__types_1gaa1618f51db67eaa145db101d8c8431d8" kindref="member">glm::vec2</ref>(-1.0f,<sp/>1.0f)</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Half-float<sp/>quad<sp/>geometry</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::size_t<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PositionSizeF16<sp/>=<sp/>VertexCount<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(glm::hvec2);</highlight></codeline>
+<codeline><highlight class="normal">glm::hvec2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PositionDataF16[VertexCount]<sp/>=</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::hvec2(-1.0f,<sp/>-1.0f),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::hvec2(<sp/>1.0f,<sp/>-1.0f),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::hvec2(<sp/>1.0f,<sp/>1.0f),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>glm::hvec2(-1.0f,<sp/>1.0f)</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>8<sp/>bits<sp/>signed<sp/>integer<sp/>quad<sp/>geometry</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::size_t<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PositionSizeI8<sp/>=<sp/>VertexCount<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="group__gtc__type__precision_1gade57e4b55fe2b2345a4f2ac2b149cd32" kindref="member">glm::i8vec2</ref>);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1vec" kindref="compound">glm::i8vec2</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PositionDataI8[VertexCount]<sp/>=</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__gtc__type__precision_1gade57e4b55fe2b2345a4f2ac2b149cd32" kindref="member">glm::i8vec2</ref>(-1,-1),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__gtc__type__precision_1gade57e4b55fe2b2345a4f2ac2b149cd32" kindref="member">glm::i8vec2</ref>(<sp/>1,-1),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__gtc__type__precision_1gade57e4b55fe2b2345a4f2ac2b149cd32" kindref="member">glm::i8vec2</ref>(<sp/>1,<sp/>1),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__gtc__type__precision_1gade57e4b55fe2b2345a4f2ac2b149cd32" kindref="member">glm::i8vec2</ref>(-1,<sp/>1)</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>32<sp/>bits<sp/>signed<sp/>integer<sp/>quad<sp/>geometry</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::size_t<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PositionSizeI32<sp/>=<sp/>VertexCount<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="group__gtc__type__precision_1ga99191e0de942ecc1df32d522f8064789" kindref="member">glm::i32vec2</ref>);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1vec" kindref="compound">glm::i32vec2</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PositionDataI32[VertexCount]<sp/>=</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__gtc__type__precision_1ga99191e0de942ecc1df32d522f8064789" kindref="member">glm::i32vec2</ref>(-1,-1),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__gtc__type__precision_1ga99191e0de942ecc1df32d522f8064789" kindref="member">glm::i32vec2</ref>(<sp/>1,-1),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__gtc__type__precision_1ga99191e0de942ecc1df32d522f8064789" kindref="member">glm::i32vec2</ref>(<sp/>1,<sp/>1),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__gtc__type__precision_1ga99191e0de942ecc1df32d522f8064789" kindref="member">glm::i32vec2</ref>(-1,<sp/>1)</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md139">
+<title>&lt;a name=&quot;section8_4&quot;&gt;&lt;/a&gt; 8.4. Lighting</title>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&lt;<ref refid="glm_8hpp" kindref="compound">glm/glm.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>vec3<sp/>normalize<sp/>reflect<sp/>dot<sp/>pow</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="random_8hpp" kindref="compound">glm/gtc/random.hpp</ref>&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>ballRand</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>vecRand3,<sp/>generate<sp/>a<sp/>random<sp/>and<sp/>equiprobable<sp/>normalized<sp/>vec3</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/>lighting(intersection<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>Intersection,<sp/>material<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>Material,<sp/>light<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>Light,<sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>View)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/>Color<sp/>=<sp/><ref refid="group__core__types_1ga1c47e8b3386109bc992b6c48e91b0be7" kindref="member">glm::vec3</ref>(0.0f);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structglm_1_1vec" kindref="compound">glm::vec3</ref><sp/>LightVertor<sp/>=<sp/>glm::normalize(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Light.position()<sp/>-<sp/>Intersection.globalPosition()<sp/>+</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__gtc__random_1gaee9e73396e6d094699de6684ea17ce3c" kindref="member">glm::ballRand</ref>(0.0f,<sp/>Light.inaccuracy());</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!shadow(Intersection.globalPosition(),<sp/>Light.position(),<sp/>LightVertor))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>float<sp/>Diffuse<sp/>=<sp/>glm::dot(Intersection.normal(),<sp/>LightVector);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(Diffuse<sp/>&amp;lt;=<sp/>0.0f)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>Color;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(Material.isDiffuse())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Color<sp/>+=<sp/>Light.color()<sp/>*<sp/>Material.diffuse()<sp/>*<sp/>Diffuse;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(Material.isSpecular())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glm::vec3<sp/>Reflect<sp/>=<sp/>glm::reflect(-LightVector,<sp/>Intersection.normal());</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>float<sp/>Dot<sp/>=<sp/>glm::dot(Reflect,<sp/>View);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>float<sp/>Base<sp/>=<sp/>Dot<sp/>&amp;gt;<sp/>0.0f<sp/>?<sp/>Dot<sp/>:<sp/>0.0f;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>float<sp/>Specular<sp/>=<sp/>glm::pow(Base,<sp/>Material.exponent());</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Color<sp/>+=<sp/>Material.specular()<sp/>\*<sp/>Specular;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Color;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><hruler/>
+ </para>
+</sect3>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md141">
+<title>&lt;a name=&quot;section9&quot;&gt;&lt;/a&gt; 9. References</title>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md142">
+<title>&lt;a name=&quot;section9_1&quot;&gt;&lt;/a&gt; 9.1. OpenGL specifications</title>
+<para><itemizedlist>
+<listitem><para>OpenGL 4.3 core specification</para>
+</listitem><listitem><para><ulink url="http://www.opengl.org/registry/doc/GLSLangSpec.4.30.7.diff.pdf">GLSL 4.30 specification</ulink> <image type="html" name="media/image21.png" inline="yes"></image>
+{width=&quot;2.859722222222222in&quot; height=&quot;1.6083333333333334in&quot;}- <ulink url="http://www.opengl.org/documentation/specs/glu/glu1_3.pdf"><emphasis>GLU 1.3 specification</emphasis></ulink></para>
+</listitem></itemizedlist>
+</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md143">
+<title>&lt;a name=&quot;section9_2&quot;&gt;&lt;/a&gt; 9.2. External links</title>
+<para><itemizedlist>
+<listitem><para><ulink url="http://stackoverflow.com/search?q=GLM">GLM on stackoverflow</ulink></para>
+</listitem></itemizedlist>
+</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md144">
+<title>&lt;a name=&quot;section9_3&quot;&gt;&lt;/a&gt; 9.3. Projects using GLM</title>
+<para><emphasis><bold><ulink url="http://www.leosfortune.com/">Leo’s Fortune</ulink></bold></emphasis></para>
+<para>Leo’s Fortune is a platform adventure game where you hunt down the cunning and mysterious thief that stole your gold. Available on PS4, Xbox One, PC, Mac, iOS and Android.</para>
+<para>Beautifully hand-crafted levels bring the story of Leo to life in this epic adventure.</para>
+<para>“I just returned home to find all my gold has been stolen! For some devious purpose, the thief has dropped pieces of my gold like breadcrumbs through the woods.”</para>
+<para>“Despite this pickle of a trap, I am left with no choice but to follow the trail.”</para>
+<para>“Whatever lies ahead, I must recover my fortune.” -Leopold</para>
+<para><image type="html" name="/doc/manual/references-leosfortune.jpeg" inline="yes"></image>
+</para>
+<para><image type="html" name="/doc/manual/references-leosfortune2.jpg" inline="yes"></image>
+</para>
+<para><ulink url="http://www.packtpub.com/opengl-4-0-shading-language-cookbook/book?tag=rk/opengl4-abr1/0811"><emphasis><bold>OpenGL 4.0 Shading Language Cookbook</bold></emphasis></ulink></para>
+<para>A set of recipes that demonstrates a wide of techniques for producing high-quality, real-time 3D graphics with GLSL 4.0, such as:</para>
+<para><itemizedlist>
+<listitem><para>Using GLSL 4.0 to implement lighting and shading techniques.</para>
+</listitem><listitem><para>Using the new features of GLSL 4.0 including tessellation and geometry shaders.</para>
+</listitem><listitem><para>Using textures in GLSL as part of a wide variety of techniques from basic texture mapping to deferred shading.</para>
+</listitem></itemizedlist>
+</para>
+<para>Simple, easy-to-follow examples with GLSL source code are provided, as well as a basic description of the theory behind each technique.</para>
+<para><image type="html" name="/doc/manual/references-glsl4book.jpg" inline="yes"></image>
+</para>
+<para><ulink url="http://outerra.com/"><emphasis><bold>Outerra</bold></emphasis></ulink></para>
+<para>A 3D planetary engine for seamless planet rendering from space down to the surface. Can use arbitrary resolution of elevation data, refining it to centimetre resolution using fractal algorithms.</para>
+<para><image type="html" name="/doc/manual/references-outerra1.jpg" inline="yes"></image>
+</para>
+<para><image type="html" name="/doc/manual/references-outerra2.jpg" inline="yes"></image>
+</para>
+<para><image type="html" name="/doc/manual/references-outerra3.jpg" inline="yes"></image>
+</para>
+<para><image type="html" name="/doc/manual/references-outerra4.jpg" inline="yes"></image>
+</para>
+<para><ulink url="https://github.com/NVIDIA/Falcor"><emphasis><bold>Falcor</bold></emphasis></ulink></para>
+<para>Real-time rendering research framework by NVIDIA.</para>
+<para><ulink url="https://libcinder.org/"><emphasis><bold>Cinder</bold></emphasis></ulink></para>
+<para>Cinder is a free and open source library for professional-quality creative coding in C++.</para>
+<para>Cinder is a C++ library for programming with aesthetic intent - the sort of development often called creative coding. This includes domains like graphics, audio, video, and computational geometry. Cinder is cross-platform, with official support for OS X, Windows, iOS, and WinRT.</para>
+<para>Cinder is production-proven, powerful enough to be the primary tool for professionals, but still suitable for learning and experimentation. Cinder is released under the <ulink url="http://opensource.org/licenses/BSD-2-Clause">2-Clause BSD License</ulink>.</para>
+<para><image type="html" name="/doc/manual/references-cinder.png" inline="yes"></image>
+</para>
+<para><ulink url="http://code.google.com/p/opencloth/"><emphasis><bold>opencloth</bold></emphasis></ulink></para>
+<para>A collection of source codes implementing cloth simulation algorithms in OpenGL.</para>
+<para>Simple, easy-to-follow examples with GLSL source code, as well as a basic description of the theory behind each technique.</para>
+<para><image type="html" name="/doc/manual/references-opencloth1.png" inline="yes"></image>
+</para>
+<para><image type="html" name="/doc/manual/references-opencloth3.png" inline="yes"></image>
+</para>
+<para><ulink url="https://www.libreoffice.org/"><emphasis><bold>LibreOffice</bold></emphasis></ulink></para>
+<para>LibreOffice includes several applications that make it the most powerful Free and Open Source office suite on the market.</para>
+<para><ulink url="mailto:glm@g-truc.net"><emphasis><bold>Are you using GLM in a project?</bold></emphasis></ulink></para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md145">
+<title>&lt;a name=&quot;section9_4&quot;&gt;&lt;/a&gt; 9.4. Tutorials using GLM</title>
+<para><itemizedlist>
+<listitem><para><ulink url="https://github.com/SaschaWillems/Vulkan">Sascha Willems&apos; Vulkan examples</ulink>, Examples and demos for the new Vulkan API</para>
+</listitem><listitem><para><ulink url="https://github.com/McNopper/Vulkan">VKTS</ulink> Vulkan examples using VulKan ToolS (VKTS)</para>
+</listitem><listitem><para><ulink url="http://www.g-truc.net/project-0026.html#menu"><emphasis>The OpenGL Samples Pack</emphasis></ulink>, samples that show how to set up all the different new features</para>
+</listitem><listitem><para><ulink url="http://www.arcsynthesis.org/gltut/"><emphasis>Learning Modern 3D Graphics programming</emphasis></ulink>, a great OpenGL tutorial using GLM by Jason L. McKesson</para>
+</listitem><listitem><para><ulink url="http://blog.nobel-joergensen.com/2011/04/02/glm-brilliant-math-library-for-opengl/"><emphasis>Morten Nobel-Jørgensen’s</emphasis></ulink> review and use an <ulink url="https://github.com/mortennobel/RenderE"><emphasis>OpenGL renderer</emphasis></ulink></para>
+</listitem><listitem><para><ulink url="http://www.swiftless.com/opengltuts.html"><emphasis>Swiftless’ OpenGL tutorial</emphasis></ulink> using GLM by Donald Urquhart</para>
+</listitem><listitem><para><ulink url="http://rastergrid.com/blog/"><emphasis>Rastergrid</emphasis></ulink>, many technical articles with companion programs using GLM by Daniel Rákos\</para>
+</listitem><listitem><para><ulink url="http://www.opengl-tutorial.org"><emphasis>OpenGL Tutorial</emphasis></ulink>, tutorials for OpenGL 3.1 and later</para>
+</listitem><listitem><para><ulink url="http://en.wikibooks.org/wiki/OpenGL_Programming"><emphasis>OpenGL Programming on Wikibooks</emphasis></ulink>: For beginners who are discovering OpenGL.</para>
+</listitem><listitem><para><ulink url="http://3dgep.com/"><emphasis>3D Game Engine Programming</emphasis></ulink>: Learning the latest 3D Game Engine Programming techniques.</para>
+</listitem><listitem><para><ulink url="http://www.gametutorials.com/opengl-4-matrices-and-glm/">Game Tutorials</ulink>, graphics and game programming.</para>
+</listitem><listitem><para><ulink url="https://open.gl/">open.gl</ulink>, OpenGL tutorial</para>
+</listitem><listitem><para><ulink url="http://www.c-jump.com/bcc/common/Talk3/Math/GLM/GLM.html">c-jump</ulink>, GLM tutorial</para>
+</listitem><listitem><para><ulink url="http://learnopengl.com/">Learn OpenGL</ulink>, OpenGL tutorial</para>
+</listitem><listitem><para><ulink url="mailto:glm@g-truc.net"><emphasis><bold>Are you using GLM in a tutorial?</bold></emphasis></ulink></para>
+</listitem></itemizedlist>
+</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md146">
+<title>&lt;a name=&quot;section9_5&quot;&gt;&lt;/a&gt; 9.5. Equivalent for other languages</title>
+<para><itemizedlist>
+<listitem><para><ulink url="https://github.com/recp/cglm"><emphasis>cglm</emphasis></ulink>: OpenGL Mathematics (glm) for C.</para>
+</listitem><listitem><para><ulink url="https://github.com/Philip-Trettner/GlmSharp"><emphasis>GlmSharp</emphasis></ulink>: Open-source semi-generated GLM-flavored math library for .NET/C#.</para>
+</listitem><listitem><para><ulink url="https://github.com/humbletim/glm-js">glm-js</ulink>: JavaScript adaptation of the OpenGL Mathematics (GLM) C++ library interfaces</para>
+</listitem><listitem><para><ulink url="https://github.com/kotlin-graphics/glm">JVM OpenGL Mathematics (GLM)</ulink>: written in Kotlin, Java compatible</para>
+</listitem><listitem><para><ulink url="https://github.com/jroyalty/jglm">JGLM</ulink> - Java OpenGL Mathematics Library</para>
+</listitem><listitem><para><ulink url="https://github.com/SwiftGL/Math/blob/master/Sources/glm.swift">SwiftGL Math Library</ulink> GLM for Swift</para>
+</listitem><listitem><para><ulink url="https://github.com/jbowtie/glm-go">glm-go</ulink>: Simple linear algebra library similar in spirit to GLM</para>
+</listitem><listitem><para><ulink url="https://github.com/Polkm/openll">openll</ulink>: Lua bindings for OpenGL, GLM, GLFW, OpenAL, SOIL and PhysicsFS</para>
+</listitem><listitem><para><ulink url="https://github.com/dche/glm-rs">glm-rs</ulink>: GLSL mathematics for Rust programming language</para>
+</listitem><listitem><para><ulink url="https://github.com/Queatz/glmpython">glmpython</ulink>: GLM math library for Python</para>
+</listitem></itemizedlist>
+</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md147">
+<title>&lt;a name=&quot;section9_6&quot;&gt;&lt;/a&gt; 9.6. Alternatives to GLM</title>
+<para><itemizedlist>
+<listitem><para><ulink url="http://cmldev.net/"><emphasis>CML</emphasis></ulink>: The CML (Configurable Math Library) is a free C++ math library for games and graphics.</para>
+</listitem><listitem><para><ulink url="http://eigen.tuxfamily.org/"><emphasis>Eigen</emphasis></ulink>: A more heavy weight math library for general linear algebra in C++.</para>
+</listitem><listitem><para><ulink url="http://glhlib.sourceforge.net/"><emphasis>glhlib</emphasis></ulink>: A much more than glu C library.</para>
+</listitem><listitem><para>Are you using or developing an alternative library to GLM?</para>
+</listitem></itemizedlist>
+</para>
+</sect3>
+<sect3 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_glm_manual_1autotoc_md148">
+<title>&lt;a name=&quot;section9_7&quot;&gt;&lt;/a&gt; 9.7. Acknowledgements</title>
+<para>GLM is developed and maintained by <ulink url="http://www.g-truc.net"><emphasis>Christophe Riccio</emphasis></ulink> but many contributors have made this project what it is.</para>
+<para>Special thanks to:<itemizedlist>
+<listitem><para>Ashima Arts and Stefan Gustavson for their work on <ulink url="https://github.com/ashima/webgl-noise"><emphasis>webgl-noise</emphasis></ulink> which has been used for GLM noises implementation.</para>
+</listitem><listitem><para><ulink url="http://athile.net/library/wiki/index.php?title=Athile_Technologies"><emphasis>Arthur Winters</emphasis></ulink> for the C++11 and Visual C++ swizzle operators implementation and tests.</para>
+</listitem><listitem><para>Joshua Smith and Christoph Schied for the discussions and the experiments around the swizzle operators implementation issues.</para>
+</listitem><listitem><para>Guillaume Chevallereau for providing and maintaining the <ulink url="http://my.cdash.org/index.php?project=GLM"><emphasis>nightlight build system</emphasis></ulink>.</para>
+</listitem><listitem><para>Ghenadii Ursachi for GLM_GTX_matrix_interpolation implementation.</para>
+</listitem><listitem><para>Mathieu Roumillac for providing some implementation ideas.</para>
+</listitem><listitem><para><ulink url="http://www.zeuscmd.com/"><emphasis>Grant James</emphasis></ulink> for the implementation of all combination of none-squared matrix products.</para>
+</listitem><listitem><para>Jesse Talavera-Greenberg for his work on the manual amount other things.</para>
+</listitem><listitem><para>All the GLM users that have report bugs and hence help GLM to become a great library! </para>
+</listitem></itemizedlist>
+</para>
+</sect3>
+</sect2>
+</sect1>
+    </detaileddescription>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/manual.md"/>
+  </compounddef>
+</doxygen>

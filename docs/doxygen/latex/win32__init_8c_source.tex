@@ -1,0 +1,636 @@
+\hypertarget{win32__init_8c_source}{}\doxysection{win32\+\_\+init.\+c}
+\label{win32__init_8c_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/win32\_init.c@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glfw/src/win32\_init.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00001}00001 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00002}00002 \textcolor{comment}{// GLFW 3.4 Win32 -\/ www.glfw.org}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00003}00003 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00004}00004 \textcolor{comment}{// Copyright (c) 2002-\/2006 Marcus Geelnard}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00005}00005 \textcolor{comment}{// Copyright (c) 2006-\/2019 Camilla Löwy <elmindreda@glfw.org>}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00006}00006 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00007}00007 \textcolor{comment}{// This software is provided 'as-\/is', without any express or implied}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00008}00008 \textcolor{comment}{// warranty. In no event will the authors be held liable for any damages}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00009}00009 \textcolor{comment}{// arising from the use of this software.}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00010}00010 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00011}00011 \textcolor{comment}{// Permission is granted to anyone to use this software for any purpose,}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00012}00012 \textcolor{comment}{// including commercial applications, and to alter it and redistribute it}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00013}00013 \textcolor{comment}{// freely, subject to the following restrictions:}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00014}00014 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00015}00015 \textcolor{comment}{// 1. The origin of this software must not be misrepresented; you must not}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00016}00016 \textcolor{comment}{//    claim that you wrote the original software. If you use this software}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00017}00017 \textcolor{comment}{//    in a product, an acknowledgment in the product documentation would}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00018}00018 \textcolor{comment}{//    be appreciated but is not required.}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00019}00019 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00020}00020 \textcolor{comment}{// 2. Altered source versions must be plainly marked as such, and must not}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00021}00021 \textcolor{comment}{//    be misrepresented as being the original software.}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00022}00022 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00023}00023 \textcolor{comment}{// 3. This notice may not be removed or altered from any source}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00024}00024 \textcolor{comment}{//    distribution.}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00025}00025 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00026}00026 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00027}00027 \textcolor{comment}{// Please use C89 style variable declarations in this file because VS 2010}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00028}00028 \textcolor{comment}{//========================================================================}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00030}00030 \textcolor{preprocessor}{\#include "{}internal.h"{}}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00032}00032 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00033}00033 \textcolor{preprocessor}{\#include <malloc.h>}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00035}00035 \textcolor{keyword}{static} \textcolor{keyword}{const} GUID \_glfw\_GUID\_DEVINTERFACE\_HID =}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00036}00036     \{0x4d1e55b2,0xf16f,0x11cf,\{0x88,0xcb,0x00,0x11,0x11,0x00,0x00,0x30\}\};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00038}00038 \textcolor{preprocessor}{\#define GUID\_DEVINTERFACE\_HID \_glfw\_GUID\_DEVINTERFACE\_HID}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00040}00040 \textcolor{preprocessor}{\#if defined(\_GLFW\_USE\_HYBRID\_HPG) || defined(\_GLFW\_USE\_OPTIMUS\_HPG)}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00042}00042 \textcolor{preprocessor}{\#if defined(\_GLFW\_BUILD\_DLL)}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00043}00043 \textcolor{preprocessor}{ \#warning "{}These symbols must be exported by the executable and have no effect in a DLL"{}}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00044}00044 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00046}00046 \textcolor{comment}{// Executables (but not DLLs) exporting this symbol with this value will be}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00047}00047 \textcolor{comment}{// automatically directed to the high-\/performance GPU on Nvidia Optimus systems}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00048}00048 \textcolor{comment}{// with up-\/to-\/date drivers}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00049}00049 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00050}00050 \_\_declspec(dllexport) DWORD NvOptimusEnablement = 1;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00052}00052 \textcolor{comment}{// Executables (but not DLLs) exporting this symbol with this value will be}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00053}00053 \textcolor{comment}{// automatically directed to the high-\/performance GPU on AMD PowerXpress systems}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00054}00054 \textcolor{comment}{// with up-\/to-\/date drivers}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00055}00055 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00056}00056 \_\_declspec(dllexport) \textcolor{keywordtype}{int} AmdPowerXpressRequestHighPerformance = 1;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00058}00058 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_GLFW\_USE\_HYBRID\_HPG}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00060}00060 \textcolor{preprocessor}{\#if defined(\_GLFW\_BUILD\_DLL)}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00062}00062 \textcolor{comment}{// GLFW DLL entry point}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00063}00063 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00064}00064 BOOL WINAPI DllMain(HINSTANCE instance, DWORD reason, LPVOID reserved)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00065}00065 \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00066}00066     \textcolor{keywordflow}{return} TRUE;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00067}00067 \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00069}00069 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_GLFW\_BUILD\_DLL}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00071}00071 \textcolor{comment}{// Load necessary libraries (DLLs)}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00072}00072 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00073}00073 \textcolor{keyword}{static} GLFWbool loadLibraries(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00074}00074 \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00075}00075     \_glfw.win32.winmm.instance = LoadLibraryA(\textcolor{stringliteral}{"{}winmm.dll"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00076}00076     \textcolor{keywordflow}{if} (!\_glfw.win32.winmm.instance)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00077}00077     \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00078}00078         \_glfwInputErrorWin32(\mbox{\hyperlink{group__errors_gad44162d78100ea5e87cdd38426b8c7a1}{GLFW\_PLATFORM\_ERROR}},}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00079}00079                              \textcolor{stringliteral}{"{}Win32: Failed to load winmm.dll"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00080}00080         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00081}00081     \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00083}00083     \_glfw.win32.winmm.GetTime = (PFN\_timeGetTime)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00084}00084         GetProcAddress(\_glfw.win32.winmm.instance, \textcolor{stringliteral}{"{}timeGetTime"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00086}00086     \_glfw.win32.user32.instance = LoadLibraryA(\textcolor{stringliteral}{"{}user32.dll"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00087}00087     \textcolor{keywordflow}{if} (!\_glfw.win32.user32.instance)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00088}00088     \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00089}00089         \_glfwInputErrorWin32(\mbox{\hyperlink{group__errors_gad44162d78100ea5e87cdd38426b8c7a1}{GLFW\_PLATFORM\_ERROR}},}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00090}00090                              \textcolor{stringliteral}{"{}Win32: Failed to load user32.dll"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00091}00091         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00092}00092     \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00093}00093 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00094}00094     \_glfw.win32.user32.SetProcessDPIAware\_ = (PFN\_SetProcessDPIAware)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00095}00095         GetProcAddress(\_glfw.win32.user32.instance, \textcolor{stringliteral}{"{}SetProcessDPIAware"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00096}00096     \_glfw.win32.user32.ChangeWindowMessageFilterEx\_ = (PFN\_ChangeWindowMessageFilterEx)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00097}00097         GetProcAddress(\_glfw.win32.user32.instance, \textcolor{stringliteral}{"{}ChangeWindowMessageFilterEx"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00098}00098     \_glfw.win32.user32.EnableNonClientDpiScaling\_ = (PFN\_EnableNonClientDpiScaling)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00099}00099         GetProcAddress(\_glfw.win32.user32.instance, \textcolor{stringliteral}{"{}EnableNonClientDpiScaling"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00100}00100     \_glfw.win32.user32.SetProcessDpiAwarenessContext\_ = (PFN\_SetProcessDpiAwarenessContext)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00101}00101         GetProcAddress(\_glfw.win32.user32.instance, \textcolor{stringliteral}{"{}SetProcessDpiAwarenessContext"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00102}00102     \_glfw.win32.user32.GetDpiForWindow\_ = (PFN\_GetDpiForWindow)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00103}00103         GetProcAddress(\_glfw.win32.user32.instance, \textcolor{stringliteral}{"{}GetDpiForWindow"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00104}00104     \_glfw.win32.user32.AdjustWindowRectExForDpi\_ = (PFN\_AdjustWindowRectExForDpi)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00105}00105         GetProcAddress(\_glfw.win32.user32.instance, \textcolor{stringliteral}{"{}AdjustWindowRectExForDpi"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00106}00106 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00107}00107     \_glfw.win32.dinput8.instance = LoadLibraryA(\textcolor{stringliteral}{"{}dinput8.dll"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00108}00108     \textcolor{keywordflow}{if} (\_glfw.win32.dinput8.instance)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00109}00109     \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00110}00110         \_glfw.win32.dinput8.Create = (PFN\_DirectInput8Create)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00111}00111             GetProcAddress(\_glfw.win32.dinput8.instance, \textcolor{stringliteral}{"{}DirectInput8Create"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00112}00112     \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00113}00113 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00114}00114     \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00115}00115         \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00116}00116         \textcolor{keyword}{const} \textcolor{keywordtype}{char}* names[] =}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00117}00117         \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00118}00118             \textcolor{stringliteral}{"{}xinput1\_4.dll"{}},}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00119}00119             \textcolor{stringliteral}{"{}xinput1\_3.dll"{}},}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00120}00120             \textcolor{stringliteral}{"{}xinput9\_1\_0.dll"{}},}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00121}00121             \textcolor{stringliteral}{"{}xinput1\_2.dll"{}},}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00122}00122             \textcolor{stringliteral}{"{}xinput1\_1.dll"{}},}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00123}00123             NULL}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00124}00124         \};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00126}00126         \textcolor{keywordflow}{for} (i = 0;  names[i];  i++)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00127}00127         \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00128}00128             \_glfw.win32.xinput.instance = LoadLibraryA(names[i]);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00129}00129             \textcolor{keywordflow}{if} (\_glfw.win32.xinput.instance)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00130}00130             \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00131}00131                 \_glfw.win32.xinput.GetCapabilities = (PFN\_XInputGetCapabilities)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00132}00132                     GetProcAddress(\_glfw.win32.xinput.instance, \textcolor{stringliteral}{"{}XInputGetCapabilities"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00133}00133                 \_glfw.win32.xinput.GetState = (PFN\_XInputGetState)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00134}00134                     GetProcAddress(\_glfw.win32.xinput.instance, \textcolor{stringliteral}{"{}XInputGetState"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00135}00135 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00136}00136                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00137}00137             \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00138}00138         \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00139}00139     \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00140}00140 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00141}00141     \_glfw.win32.dwmapi.instance = LoadLibraryA(\textcolor{stringliteral}{"{}dwmapi.dll"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00142}00142     \textcolor{keywordflow}{if} (\_glfw.win32.dwmapi.instance)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00143}00143     \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00144}00144         \_glfw.win32.dwmapi.IsCompositionEnabled = (PFN\_DwmIsCompositionEnabled)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00145}00145             GetProcAddress(\_glfw.win32.dwmapi.instance, \textcolor{stringliteral}{"{}DwmIsCompositionEnabled"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00146}00146         \_glfw.win32.dwmapi.Flush = (PFN\_DwmFlush)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00147}00147             GetProcAddress(\_glfw.win32.dwmapi.instance, \textcolor{stringliteral}{"{}DwmFlush"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00148}00148         \_glfw.win32.dwmapi.EnableBlurBehindWindow = (PFN\_DwmEnableBlurBehindWindow)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00149}00149             GetProcAddress(\_glfw.win32.dwmapi.instance, \textcolor{stringliteral}{"{}DwmEnableBlurBehindWindow"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00150}00150         \_glfw.win32.dwmapi.GetColorizationColor = (PFN\_DwmGetColorizationColor)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00151}00151             GetProcAddress(\_glfw.win32.dwmapi.instance, \textcolor{stringliteral}{"{}DwmGetColorizationColor"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00152}00152     \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00153}00153 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00154}00154     \_glfw.win32.shcore.instance = LoadLibraryA(\textcolor{stringliteral}{"{}shcore.dll"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00155}00155     \textcolor{keywordflow}{if} (\_glfw.win32.shcore.instance)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00156}00156     \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00157}00157         \_glfw.win32.shcore.SetProcessDpiAwareness\_ = (PFN\_SetProcessDpiAwareness)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00158}00158             GetProcAddress(\_glfw.win32.shcore.instance, \textcolor{stringliteral}{"{}SetProcessDpiAwareness"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00159}00159         \_glfw.win32.shcore.GetDpiForMonitor\_ = (PFN\_GetDpiForMonitor)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00160}00160             GetProcAddress(\_glfw.win32.shcore.instance, \textcolor{stringliteral}{"{}GetDpiForMonitor"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00161}00161     \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00162}00162 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00163}00163     \_glfw.win32.ntdll.instance = LoadLibraryA(\textcolor{stringliteral}{"{}ntdll.dll"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00164}00164     \textcolor{keywordflow}{if} (\_glfw.win32.ntdll.instance)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00165}00165     \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00166}00166         \_glfw.win32.ntdll.RtlVerifyVersionInfo\_ = (PFN\_RtlVerifyVersionInfo)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00167}00167             GetProcAddress(\_glfw.win32.ntdll.instance, \textcolor{stringliteral}{"{}RtlVerifyVersionInfo"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00168}00168     \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00169}00169 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00170}00170     \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00171}00171 \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00172}00172 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00173}00173 \textcolor{comment}{// Unload used libraries (DLLs)}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00174}00174 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00175}00175 \textcolor{keyword}{static} \textcolor{keywordtype}{void} freeLibraries(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00176}00176 \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00177}00177     \textcolor{keywordflow}{if} (\_glfw.win32.xinput.instance)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00178}00178         FreeLibrary(\_glfw.win32.xinput.instance);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00179}00179 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00180}00180     \textcolor{keywordflow}{if} (\_glfw.win32.dinput8.instance)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00181}00181         FreeLibrary(\_glfw.win32.dinput8.instance);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00182}00182 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00183}00183     \textcolor{keywordflow}{if} (\_glfw.win32.winmm.instance)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00184}00184         FreeLibrary(\_glfw.win32.winmm.instance);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00185}00185 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00186}00186     \textcolor{keywordflow}{if} (\_glfw.win32.user32.instance)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00187}00187         FreeLibrary(\_glfw.win32.user32.instance);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00188}00188 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00189}00189     \textcolor{keywordflow}{if} (\_glfw.win32.dwmapi.instance)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00190}00190         FreeLibrary(\_glfw.win32.dwmapi.instance);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00191}00191 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00192}00192     \textcolor{keywordflow}{if} (\_glfw.win32.shcore.instance)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00193}00193         FreeLibrary(\_glfw.win32.shcore.instance);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00194}00194 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00195}00195     \textcolor{keywordflow}{if} (\_glfw.win32.ntdll.instance)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00196}00196         FreeLibrary(\_glfw.win32.ntdll.instance);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00197}00197 \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00198}00198 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00199}00199 \textcolor{comment}{// Create key code translation tables}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00200}00200 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00201}00201 \textcolor{keyword}{static} \textcolor{keywordtype}{void} createKeyTables(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00202}00202 \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00203}00203     \textcolor{keywordtype}{int} scancode;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00204}00204 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00205}00205     memset(\_glfw.win32.keycodes, -\/1, \textcolor{keyword}{sizeof}(\_glfw.win32.keycodes));}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00206}00206     memset(\_glfw.win32.scancodes, -\/1, \textcolor{keyword}{sizeof}(\_glfw.win32.scancodes));}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00207}00207 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00208}00208     \_glfw.win32.keycodes[0x00B] = GLFW\_KEY\_0;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00209}00209     \_glfw.win32.keycodes[0x002] = GLFW\_KEY\_1;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00210}00210     \_glfw.win32.keycodes[0x003] = GLFW\_KEY\_2;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00211}00211     \_glfw.win32.keycodes[0x004] = GLFW\_KEY\_3;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00212}00212     \_glfw.win32.keycodes[0x005] = GLFW\_KEY\_4;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00213}00213     \_glfw.win32.keycodes[0x006] = GLFW\_KEY\_5;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00214}00214     \_glfw.win32.keycodes[0x007] = GLFW\_KEY\_6;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00215}00215     \_glfw.win32.keycodes[0x008] = GLFW\_KEY\_7;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00216}00216     \_glfw.win32.keycodes[0x009] = GLFW\_KEY\_8;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00217}00217     \_glfw.win32.keycodes[0x00A] = GLFW\_KEY\_9;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00218}00218     \_glfw.win32.keycodes[0x01E] = GLFW\_KEY\_A;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00219}00219     \_glfw.win32.keycodes[0x030] = GLFW\_KEY\_B;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00220}00220     \_glfw.win32.keycodes[0x02E] = GLFW\_KEY\_C;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00221}00221     \_glfw.win32.keycodes[0x020] = GLFW\_KEY\_D;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00222}00222     \_glfw.win32.keycodes[0x012] = GLFW\_KEY\_E;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00223}00223     \_glfw.win32.keycodes[0x021] = GLFW\_KEY\_F;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00224}00224     \_glfw.win32.keycodes[0x022] = GLFW\_KEY\_G;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00225}00225     \_glfw.win32.keycodes[0x023] = GLFW\_KEY\_H;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00226}00226     \_glfw.win32.keycodes[0x017] = GLFW\_KEY\_I;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00227}00227     \_glfw.win32.keycodes[0x024] = GLFW\_KEY\_J;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00228}00228     \_glfw.win32.keycodes[0x025] = GLFW\_KEY\_K;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00229}00229     \_glfw.win32.keycodes[0x026] = GLFW\_KEY\_L;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00230}00230     \_glfw.win32.keycodes[0x032] = GLFW\_KEY\_M;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00231}00231     \_glfw.win32.keycodes[0x031] = GLFW\_KEY\_N;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00232}00232     \_glfw.win32.keycodes[0x018] = GLFW\_KEY\_O;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00233}00233     \_glfw.win32.keycodes[0x019] = GLFW\_KEY\_P;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00234}00234     \_glfw.win32.keycodes[0x010] = GLFW\_KEY\_Q;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00235}00235     \_glfw.win32.keycodes[0x013] = GLFW\_KEY\_R;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00236}00236     \_glfw.win32.keycodes[0x01F] = GLFW\_KEY\_S;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00237}00237     \_glfw.win32.keycodes[0x014] = GLFW\_KEY\_T;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00238}00238     \_glfw.win32.keycodes[0x016] = GLFW\_KEY\_U;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00239}00239     \_glfw.win32.keycodes[0x02F] = GLFW\_KEY\_V;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00240}00240     \_glfw.win32.keycodes[0x011] = GLFW\_KEY\_W;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00241}00241     \_glfw.win32.keycodes[0x02D] = GLFW\_KEY\_X;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00242}00242     \_glfw.win32.keycodes[0x015] = GLFW\_KEY\_Y;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00243}00243     \_glfw.win32.keycodes[0x02C] = GLFW\_KEY\_Z;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00244}00244 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00245}00245     \_glfw.win32.keycodes[0x028] = GLFW\_KEY\_APOSTROPHE;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00246}00246     \_glfw.win32.keycodes[0x02B] = GLFW\_KEY\_BACKSLASH;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00247}00247     \_glfw.win32.keycodes[0x033] = GLFW\_KEY\_COMMA;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00248}00248     \_glfw.win32.keycodes[0x00D] = GLFW\_KEY\_EQUAL;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00249}00249     \_glfw.win32.keycodes[0x029] = GLFW\_KEY\_GRAVE\_ACCENT;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00250}00250     \_glfw.win32.keycodes[0x01A] = GLFW\_KEY\_LEFT\_BRACKET;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00251}00251     \_glfw.win32.keycodes[0x00C] = GLFW\_KEY\_MINUS;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00252}00252     \_glfw.win32.keycodes[0x034] = GLFW\_KEY\_PERIOD;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00253}00253     \_glfw.win32.keycodes[0x01B] = GLFW\_KEY\_RIGHT\_BRACKET;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00254}00254     \_glfw.win32.keycodes[0x027] = GLFW\_KEY\_SEMICOLON;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00255}00255     \_glfw.win32.keycodes[0x035] = GLFW\_KEY\_SLASH;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00256}00256     \_glfw.win32.keycodes[0x056] = GLFW\_KEY\_WORLD\_2;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00257}00257 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00258}00258     \_glfw.win32.keycodes[0x00E] = GLFW\_KEY\_BACKSPACE;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00259}00259     \_glfw.win32.keycodes[0x153] = GLFW\_KEY\_DELETE;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00260}00260     \_glfw.win32.keycodes[0x14F] = GLFW\_KEY\_END;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00261}00261     \_glfw.win32.keycodes[0x01C] = GLFW\_KEY\_ENTER;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00262}00262     \_glfw.win32.keycodes[0x001] = GLFW\_KEY\_ESCAPE;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00263}00263     \_glfw.win32.keycodes[0x147] = GLFW\_KEY\_HOME;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00264}00264     \_glfw.win32.keycodes[0x152] = GLFW\_KEY\_INSERT;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00265}00265     \_glfw.win32.keycodes[0x15D] = GLFW\_KEY\_MENU;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00266}00266     \_glfw.win32.keycodes[0x151] = GLFW\_KEY\_PAGE\_DOWN;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00267}00267     \_glfw.win32.keycodes[0x149] = GLFW\_KEY\_PAGE\_UP;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00268}00268     \_glfw.win32.keycodes[0x045] = GLFW\_KEY\_PAUSE;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00269}00269     \_glfw.win32.keycodes[0x146] = GLFW\_KEY\_PAUSE;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00270}00270     \_glfw.win32.keycodes[0x039] = GLFW\_KEY\_SPACE;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00271}00271     \_glfw.win32.keycodes[0x00F] = GLFW\_KEY\_TAB;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00272}00272     \_glfw.win32.keycodes[0x03A] = GLFW\_KEY\_CAPS\_LOCK;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00273}00273     \_glfw.win32.keycodes[0x145] = GLFW\_KEY\_NUM\_LOCK;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00274}00274     \_glfw.win32.keycodes[0x046] = GLFW\_KEY\_SCROLL\_LOCK;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00275}00275     \_glfw.win32.keycodes[0x03B] = GLFW\_KEY\_F1;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00276}00276     \_glfw.win32.keycodes[0x03C] = GLFW\_KEY\_F2;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00277}00277     \_glfw.win32.keycodes[0x03D] = GLFW\_KEY\_F3;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00278}00278     \_glfw.win32.keycodes[0x03E] = GLFW\_KEY\_F4;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00279}00279     \_glfw.win32.keycodes[0x03F] = GLFW\_KEY\_F5;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00280}00280     \_glfw.win32.keycodes[0x040] = GLFW\_KEY\_F6;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00281}00281     \_glfw.win32.keycodes[0x041] = GLFW\_KEY\_F7;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00282}00282     \_glfw.win32.keycodes[0x042] = GLFW\_KEY\_F8;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00283}00283     \_glfw.win32.keycodes[0x043] = GLFW\_KEY\_F9;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00284}00284     \_glfw.win32.keycodes[0x044] = GLFW\_KEY\_F10;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00285}00285     \_glfw.win32.keycodes[0x057] = GLFW\_KEY\_F11;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00286}00286     \_glfw.win32.keycodes[0x058] = GLFW\_KEY\_F12;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00287}00287     \_glfw.win32.keycodes[0x064] = GLFW\_KEY\_F13;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00288}00288     \_glfw.win32.keycodes[0x065] = GLFW\_KEY\_F14;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00289}00289     \_glfw.win32.keycodes[0x066] = GLFW\_KEY\_F15;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00290}00290     \_glfw.win32.keycodes[0x067] = GLFW\_KEY\_F16;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00291}00291     \_glfw.win32.keycodes[0x068] = GLFW\_KEY\_F17;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00292}00292     \_glfw.win32.keycodes[0x069] = GLFW\_KEY\_F18;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00293}00293     \_glfw.win32.keycodes[0x06A] = GLFW\_KEY\_F19;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00294}00294     \_glfw.win32.keycodes[0x06B] = GLFW\_KEY\_F20;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00295}00295     \_glfw.win32.keycodes[0x06C] = GLFW\_KEY\_F21;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00296}00296     \_glfw.win32.keycodes[0x06D] = GLFW\_KEY\_F22;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00297}00297     \_glfw.win32.keycodes[0x06E] = GLFW\_KEY\_F23;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00298}00298     \_glfw.win32.keycodes[0x076] = GLFW\_KEY\_F24;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00299}00299     \_glfw.win32.keycodes[0x038] = GLFW\_KEY\_LEFT\_ALT;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00300}00300     \_glfw.win32.keycodes[0x01D] = GLFW\_KEY\_LEFT\_CONTROL;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00301}00301     \_glfw.win32.keycodes[0x02A] = GLFW\_KEY\_LEFT\_SHIFT;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00302}00302     \_glfw.win32.keycodes[0x15B] = GLFW\_KEY\_LEFT\_SUPER;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00303}00303     \_glfw.win32.keycodes[0x137] = GLFW\_KEY\_PRINT\_SCREEN;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00304}00304     \_glfw.win32.keycodes[0x138] = GLFW\_KEY\_RIGHT\_ALT;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00305}00305     \_glfw.win32.keycodes[0x11D] = GLFW\_KEY\_RIGHT\_CONTROL;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00306}00306     \_glfw.win32.keycodes[0x036] = GLFW\_KEY\_RIGHT\_SHIFT;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00307}00307     \_glfw.win32.keycodes[0x15C] = GLFW\_KEY\_RIGHT\_SUPER;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00308}00308     \_glfw.win32.keycodes[0x150] = GLFW\_KEY\_DOWN;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00309}00309     \_glfw.win32.keycodes[0x14B] = GLFW\_KEY\_LEFT;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00310}00310     \_glfw.win32.keycodes[0x14D] = GLFW\_KEY\_RIGHT;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00311}00311     \_glfw.win32.keycodes[0x148] = GLFW\_KEY\_UP;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00312}00312 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00313}00313     \_glfw.win32.keycodes[0x052] = GLFW\_KEY\_KP\_0;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00314}00314     \_glfw.win32.keycodes[0x04F] = GLFW\_KEY\_KP\_1;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00315}00315     \_glfw.win32.keycodes[0x050] = GLFW\_KEY\_KP\_2;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00316}00316     \_glfw.win32.keycodes[0x051] = GLFW\_KEY\_KP\_3;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00317}00317     \_glfw.win32.keycodes[0x04B] = GLFW\_KEY\_KP\_4;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00318}00318     \_glfw.win32.keycodes[0x04C] = GLFW\_KEY\_KP\_5;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00319}00319     \_glfw.win32.keycodes[0x04D] = GLFW\_KEY\_KP\_6;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00320}00320     \_glfw.win32.keycodes[0x047] = GLFW\_KEY\_KP\_7;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00321}00321     \_glfw.win32.keycodes[0x048] = GLFW\_KEY\_KP\_8;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00322}00322     \_glfw.win32.keycodes[0x049] = GLFW\_KEY\_KP\_9;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00323}00323     \_glfw.win32.keycodes[0x04E] = GLFW\_KEY\_KP\_ADD;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00324}00324     \_glfw.win32.keycodes[0x053] = GLFW\_KEY\_KP\_DECIMAL;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00325}00325     \_glfw.win32.keycodes[0x135] = GLFW\_KEY\_KP\_DIVIDE;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00326}00326     \_glfw.win32.keycodes[0x11C] = GLFW\_KEY\_KP\_ENTER;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00327}00327     \_glfw.win32.keycodes[0x059] = GLFW\_KEY\_KP\_EQUAL;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00328}00328     \_glfw.win32.keycodes[0x037] = GLFW\_KEY\_KP\_MULTIPLY;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00329}00329     \_glfw.win32.keycodes[0x04A] = GLFW\_KEY\_KP\_SUBTRACT;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00330}00330 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00331}00331     \textcolor{keywordflow}{for} (scancode = 0;  scancode < 512;  scancode++)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00332}00332     \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00333}00333         \textcolor{keywordflow}{if} (\_glfw.win32.keycodes[scancode] > 0)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00334}00334             \_glfw.win32.scancodes[\_glfw.win32.keycodes[scancode]] = scancode;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00335}00335     \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00336}00336 \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00337}00337 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00338}00338 \textcolor{comment}{// Creates a dummy window for behind-\/the-\/scenes work}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00339}00339 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00340}00340 \textcolor{keyword}{static} GLFWbool createHelperWindow(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00341}00341 \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00342}00342     MSG msg;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00343}00343 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00344}00344     \_glfw.win32.helperWindowHandle =}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00345}00345         CreateWindowExW(WS\_EX\_OVERLAPPEDWINDOW,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00346}00346                         \_GLFW\_WNDCLASSNAME,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00347}00347                         L\textcolor{stringliteral}{"{}GLFW message window"{}},}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00348}00348                         WS\_CLIPSIBLINGS | WS\_CLIPCHILDREN,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00349}00349                         0, 0, 1, 1,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00350}00350                         NULL, NULL,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00351}00351                         GetModuleHandleW(NULL),}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00352}00352                         NULL);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00353}00353 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00354}00354     \textcolor{keywordflow}{if} (!\_glfw.win32.helperWindowHandle)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00355}00355     \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00356}00356         \_glfwInputErrorWin32(\mbox{\hyperlink{group__errors_gad44162d78100ea5e87cdd38426b8c7a1}{GLFW\_PLATFORM\_ERROR}},}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00357}00357                              \textcolor{stringliteral}{"{}Win32: Failed to create helper window"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00358}00358         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00359}00359     \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00360}00360 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00361}00361     \textcolor{comment}{// HACK: The command to the first ShowWindow call is ignored if the parent}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00362}00362     \textcolor{comment}{//       process passed along a STARTUPINFO, so clear that with a no-\/op call}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00363}00363     ShowWindow(\_glfw.win32.helperWindowHandle, SW\_HIDE);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00364}00364 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00365}00365     \textcolor{comment}{// Register for HID device notifications}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00366}00366     \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00367}00367         DEV\_BROADCAST\_DEVICEINTERFACE\_W dbi;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00368}00368         ZeroMemory(\&dbi, \textcolor{keyword}{sizeof}(dbi));}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00369}00369         dbi.dbcc\_size = \textcolor{keyword}{sizeof}(dbi);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00370}00370         dbi.dbcc\_devicetype = DBT\_DEVTYP\_DEVICEINTERFACE;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00371}00371         dbi.dbcc\_classguid = GUID\_DEVINTERFACE\_HID;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00372}00372 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00373}00373         \_glfw.win32.deviceNotificationHandle =}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00374}00374             RegisterDeviceNotificationW(\_glfw.win32.helperWindowHandle,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00375}00375                                         (DEV\_BROADCAST\_HDR*) \&dbi,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00376}00376                                         DEVICE\_NOTIFY\_WINDOW\_HANDLE);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00377}00377     \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00378}00378 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00379}00379     \textcolor{keywordflow}{while} (PeekMessageW(\&msg, \_glfw.win32.helperWindowHandle, 0, 0, PM\_REMOVE))}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00380}00380     \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00381}00381         TranslateMessage(\&msg);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00382}00382         DispatchMessageW(\&msg);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00383}00383     \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00384}00384 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00385}00385    \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00386}00386 \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00387}00387 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00388}00388 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00392}00392 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00393}00393 \textcolor{comment}{// Returns a wide string version of the specified UTF-\/8 string}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00394}00394 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00395}00395 WCHAR* \_glfwCreateWideStringFromUTF8Win32(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* source)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00396}00396 \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00397}00397     WCHAR* target;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00398}00398     \textcolor{keywordtype}{int} count;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00399}00399 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00400}00400     count = MultiByteToWideChar(CP\_UTF8, 0, source, -\/1, NULL, 0);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00401}00401     \textcolor{keywordflow}{if} (!count)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00402}00402     \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00403}00403         \_glfwInputErrorWin32(\mbox{\hyperlink{group__errors_gad44162d78100ea5e87cdd38426b8c7a1}{GLFW\_PLATFORM\_ERROR}},}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00404}00404                              \textcolor{stringliteral}{"{}Win32: Failed to convert string from UTF-\/8"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00405}00405         \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00406}00406     \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00407}00407 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00408}00408     target = calloc(count, \textcolor{keyword}{sizeof}(WCHAR));}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00409}00409 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00410}00410     \textcolor{keywordflow}{if} (!MultiByteToWideChar(CP\_UTF8, 0, source, -\/1, target, count))}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00411}00411     \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00412}00412         \_glfwInputErrorWin32(\mbox{\hyperlink{group__errors_gad44162d78100ea5e87cdd38426b8c7a1}{GLFW\_PLATFORM\_ERROR}},}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00413}00413                              \textcolor{stringliteral}{"{}Win32: Failed to convert string from UTF-\/8"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00414}00414         free(target);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00415}00415         \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00416}00416     \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00417}00417 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00418}00418     \textcolor{keywordflow}{return} target;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00419}00419 \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00420}00420 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00421}00421 \textcolor{comment}{// Returns a UTF-\/8 string version of the specified wide string}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00422}00422 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00423}00423 \textcolor{keywordtype}{char}* \_glfwCreateUTF8FromWideStringWin32(\textcolor{keyword}{const} WCHAR* source)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00424}00424 \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00425}00425     \textcolor{keywordtype}{char}* target;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00426}00426     \textcolor{keywordtype}{int} size;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00427}00427 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00428}00428     size = WideCharToMultiByte(CP\_UTF8, 0, source, -\/1, NULL, 0, NULL, NULL);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00429}00429     \textcolor{keywordflow}{if} (!size)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00430}00430     \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00431}00431         \_glfwInputErrorWin32(\mbox{\hyperlink{group__errors_gad44162d78100ea5e87cdd38426b8c7a1}{GLFW\_PLATFORM\_ERROR}},}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00432}00432                              \textcolor{stringliteral}{"{}Win32: Failed to convert string to UTF-\/8"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00433}00433         \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00434}00434     \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00435}00435 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00436}00436     target = calloc(size, 1);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00437}00437 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00438}00438     \textcolor{keywordflow}{if} (!WideCharToMultiByte(CP\_UTF8, 0, source, -\/1, target, size, NULL, NULL))}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00439}00439     \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00440}00440         \_glfwInputErrorWin32(\mbox{\hyperlink{group__errors_gad44162d78100ea5e87cdd38426b8c7a1}{GLFW\_PLATFORM\_ERROR}},}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00441}00441                              \textcolor{stringliteral}{"{}Win32: Failed to convert string to UTF-\/8"{}});}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00442}00442         free(target);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00443}00443         \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00444}00444     \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00445}00445 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00446}00446     \textcolor{keywordflow}{return} target;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00447}00447 \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00448}00448 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00449}00449 \textcolor{comment}{// Reports the specified error, appending information about the last Win32 error}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00450}00450 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00451}00451 \textcolor{keywordtype}{void} \_glfwInputErrorWin32(\textcolor{keywordtype}{int} error, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* description)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00452}00452 \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00453}00453     WCHAR \mbox{\hyperlink{classbuffer}{buffer}}[\_GLFW\_MESSAGE\_SIZE] = L\textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00454}00454     \textcolor{keywordtype}{char} message[\_GLFW\_MESSAGE\_SIZE] = \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00455}00455 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00456}00456     FormatMessageW(FORMAT\_MESSAGE\_FROM\_SYSTEM |}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00457}00457                        FORMAT\_MESSAGE\_IGNORE\_INSERTS |}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00458}00458                        FORMAT\_MESSAGE\_MAX\_WIDTH\_MASK,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00459}00459                    NULL,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00460}00460                    GetLastError() \& 0xffff,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00461}00461                    MAKELANGID(LANG\_NEUTRAL, SUBLANG\_DEFAULT),}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00462}00462                    \mbox{\hyperlink{classbuffer}{buffer}},}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00463}00463                    \textcolor{keyword}{sizeof}(\mbox{\hyperlink{classbuffer}{buffer}}) / \textcolor{keyword}{sizeof}(WCHAR),}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00464}00464                    NULL);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00465}00465     WideCharToMultiByte(CP\_UTF8, 0, \mbox{\hyperlink{classbuffer}{buffer}}, -\/1, message, \textcolor{keyword}{sizeof}(message), NULL, NULL);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00466}00466 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00467}00467     \_glfwInputError(error, \textcolor{stringliteral}{"{}\%s: \%s"{}}, description, message);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00468}00468 \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00469}00469 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00470}00470 \textcolor{comment}{// Updates key names according to the current keyboard layout}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00471}00471 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00472}00472 \textcolor{keywordtype}{void} \_glfwUpdateKeyNamesWin32(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00473}00473 \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00474}00474     \textcolor{keywordtype}{int} key;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00475}00475     BYTE state[256] = \{0\};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00476}00476 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00477}00477     memset(\_glfw.win32.keynames, 0, \textcolor{keyword}{sizeof}(\_glfw.win32.keynames));}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00478}00478 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00479}00479     \textcolor{keywordflow}{for} (key = GLFW\_KEY\_SPACE;  key <= GLFW\_KEY\_LAST;  key++)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00480}00480     \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00481}00481         UINT vk;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00482}00482         \textcolor{keywordtype}{int} scancode, length;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00483}00483         WCHAR chars[16];}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00484}00484 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00485}00485         scancode = \_glfw.win32.scancodes[key];}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00486}00486         \textcolor{keywordflow}{if} (scancode == -\/1)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00487}00487             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00488}00488 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00489}00489         \textcolor{keywordflow}{if} (key >= GLFW\_KEY\_KP\_0 \&\& key <= GLFW\_KEY\_KP\_ADD)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00490}00490         \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00491}00491             \textcolor{keyword}{const} UINT vks[] = \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00492}00492                 VK\_NUMPAD0,  VK\_NUMPAD1,  VK\_NUMPAD2, VK\_NUMPAD3,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00493}00493                 VK\_NUMPAD4,  VK\_NUMPAD5,  VK\_NUMPAD6, VK\_NUMPAD7,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00494}00494                 VK\_NUMPAD8,  VK\_NUMPAD9,  VK\_DECIMAL, VK\_DIVIDE,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00495}00495                 VK\_MULTIPLY, VK\_SUBTRACT, VK\_ADD}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00496}00496             \};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00497}00497 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00498}00498             vk = vks[key -\/ GLFW\_KEY\_KP\_0];}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00499}00499         \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00500}00500         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00501}00501             vk = MapVirtualKey(scancode, MAPVK\_VSC\_TO\_VK);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00502}00502 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00503}00503         length = ToUnicode(vk, scancode, state,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00504}00504                            chars, \textcolor{keyword}{sizeof}(chars) / \textcolor{keyword}{sizeof}(WCHAR),}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00505}00505                            0);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00506}00506 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00507}00507         \textcolor{keywordflow}{if} (length == -\/1)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00508}00508         \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00509}00509             length = ToUnicode(vk, scancode, state,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00510}00510                                chars, \textcolor{keyword}{sizeof}(chars) / \textcolor{keyword}{sizeof}(WCHAR),}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00511}00511                                0);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00512}00512         \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00513}00513 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00514}00514         \textcolor{keywordflow}{if} (length < 1)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00515}00515             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00516}00516 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00517}00517         WideCharToMultiByte(CP\_UTF8, 0, chars, 1,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00518}00518                             \_glfw.win32.keynames[key],}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00519}00519                             \textcolor{keyword}{sizeof}(\_glfw.win32.keynames[key]),}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00520}00520                             NULL, NULL);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00521}00521     \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00522}00522 \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00523}00523 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00524}00524 \textcolor{comment}{// Replacement for IsWindowsVersionOrGreater as MinGW lacks versionhelpers.h}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00525}00525 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00526}00526 BOOL \_glfwIsWindowsVersionOrGreaterWin32(WORD major, WORD minor, WORD sp)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00527}00527 \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00528}00528     OSVERSIONINFOEXW osvi = \{ \textcolor{keyword}{sizeof}(osvi), major, minor, 0, 0, \{0\}, sp \};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00529}00529     DWORD \mbox{\hyperlink{structmask}{mask}} = VER\_MAJORVERSION | VER\_MINORVERSION | VER\_SERVICEPACKMAJOR;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00530}00530     ULONGLONG cond = VerSetConditionMask(0, VER\_MAJORVERSION, VER\_GREATER\_EQUAL);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00531}00531     cond = VerSetConditionMask(cond, VER\_MINORVERSION, VER\_GREATER\_EQUAL);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00532}00532     cond = VerSetConditionMask(cond, VER\_SERVICEPACKMAJOR, VER\_GREATER\_EQUAL);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00533}00533     \textcolor{comment}{// HACK: Use RtlVerifyVersionInfo instead of VerifyVersionInfoW as the}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00534}00534     \textcolor{comment}{//       latter lies unless the user knew to embed a non-\/default manifest}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00535}00535     \textcolor{comment}{//       announcing support for Windows 10 via supportedOS GUID}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00536}00536     \textcolor{keywordflow}{return} RtlVerifyVersionInfo(\&osvi, \mbox{\hyperlink{structmask}{mask}}, cond) == 0;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00537}00537 \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00538}00538 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00539}00539 \textcolor{comment}{// Checks whether we are on at least the specified build of Windows 10}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00540}00540 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00541}00541 BOOL \_glfwIsWindows10BuildOrGreaterWin32(WORD build)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00542}00542 \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00543}00543     OSVERSIONINFOEXW osvi = \{ \textcolor{keyword}{sizeof}(osvi), 10, 0, build \};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00544}00544     DWORD \mbox{\hyperlink{structmask}{mask}} = VER\_MAJORVERSION | VER\_MINORVERSION | VER\_BUILDNUMBER;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00545}00545     ULONGLONG cond = VerSetConditionMask(0, VER\_MAJORVERSION, VER\_GREATER\_EQUAL);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00546}00546     cond = VerSetConditionMask(cond, VER\_MINORVERSION, VER\_GREATER\_EQUAL);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00547}00547     cond = VerSetConditionMask(cond, VER\_BUILDNUMBER, VER\_GREATER\_EQUAL);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00548}00548     \textcolor{comment}{// HACK: Use RtlVerifyVersionInfo instead of VerifyVersionInfoW as the}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00549}00549     \textcolor{comment}{//       latter lies unless the user knew to embed a non-\/default manifest}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00550}00550     \textcolor{comment}{//       announcing support for Windows 10 via supportedOS GUID}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00551}00551     \textcolor{keywordflow}{return} RtlVerifyVersionInfo(\&osvi, \mbox{\hyperlink{structmask}{mask}}, cond) == 0;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00552}00552 \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00553}00553 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00554}00554 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00558}00558 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00559}00559 \textcolor{keywordtype}{int} \_glfwPlatformInit(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00560}00560 \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00561}00561     \textcolor{comment}{// To make SetForegroundWindow work as we want, we need to fiddle}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00562}00562     \textcolor{comment}{// with the FOREGROUNDLOCKTIMEOUT system setting (we do this as early}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00563}00563     \textcolor{comment}{// as possible in the hope of still being the foreground process)}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00564}00564     SystemParametersInfoW(SPI\_GETFOREGROUNDLOCKTIMEOUT, 0,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00565}00565                           \&\_glfw.win32.foregroundLockTimeout, 0);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00566}00566     SystemParametersInfoW(SPI\_SETFOREGROUNDLOCKTIMEOUT, 0, UIntToPtr(0),}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00567}00567                           SPIF\_SENDCHANGE);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00568}00568 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00569}00569     \textcolor{keywordflow}{if} (!loadLibraries())}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00570}00570         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00571}00571 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00572}00572     createKeyTables();}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00573}00573     \_glfwUpdateKeyNamesWin32();}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00574}00574 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00575}00575     \textcolor{keywordflow}{if} (\_glfwIsWindows10CreatorsUpdateOrGreaterWin32())}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00576}00576         SetProcessDpiAwarenessContext(DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE\_V2);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00577}00577     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (IsWindows8Point1OrGreater())}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00578}00578         SetProcessDpiAwareness(PROCESS\_PER\_MONITOR\_DPI\_AWARE);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00579}00579     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (IsWindowsVistaOrGreater())}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00580}00580         SetProcessDPIAware();}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00581}00581 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00582}00582     \textcolor{keywordflow}{if} (!\_glfwRegisterWindowClassWin32())}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00583}00583         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00584}00584 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00585}00585     \textcolor{keywordflow}{if} (!createHelperWindow())}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00586}00586         \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_gac877fe3b627d21ef3a0a23e0a73ba8c5}{GLFW\_FALSE}};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00587}00587 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00588}00588     \_glfwInitTimerWin32();}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00589}00589 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00590}00590     \_glfwPollMonitorsWin32();}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00591}00591     \textcolor{keywordflow}{return} \mbox{\hyperlink{group__init_ga2744fbb29b5631bb28802dbe0cf36eba}{GLFW\_TRUE}};}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00592}00592 \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00593}00593 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00594}00594 \textcolor{keywordtype}{void} \_glfwPlatformTerminate(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00595}00595 \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00596}00596     \textcolor{keywordflow}{if} (\_glfw.win32.deviceNotificationHandle)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00597}00597         UnregisterDeviceNotification(\_glfw.win32.deviceNotificationHandle);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00598}00598 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00599}00599     \textcolor{keywordflow}{if} (\_glfw.win32.helperWindowHandle)}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00600}00600         DestroyWindow(\_glfw.win32.helperWindowHandle);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00601}00601 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00602}00602     \_glfwUnregisterWindowClassWin32();}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00603}00603 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00604}00604     \textcolor{comment}{// Restore previous foreground lock timeout system setting}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00605}00605     SystemParametersInfoW(SPI\_SETFOREGROUNDLOCKTIMEOUT, 0,}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00606}00606                           UIntToPtr(\_glfw.win32.foregroundLockTimeout),}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00607}00607                           SPIF\_SENDCHANGE);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00608}00608 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00609}00609     free(\_glfw.win32.clipboardString);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00610}00610     free(\_glfw.win32.rawInput);}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00611}00611 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00612}00612     \_glfwTerminateWGL();}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00613}00613     \_glfwTerminateEGL();}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00614}00614 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00615}00615     freeLibraries();}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00616}00616 \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00617}00617 }
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00618}00618 \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \_glfwPlatformGetVersionString(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00619}00619 \{}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00620}00620     \textcolor{keywordflow}{return} \_GLFW\_VERSION\_NUMBER \textcolor{stringliteral}{"{} Win32 WGL EGL OSMesa"{}}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00621}00621 \textcolor{preprocessor}{\#if defined(\_\_MINGW64\_VERSION\_MAJOR)}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00622}00622         \textcolor{stringliteral}{"{} MinGW-\/w64"{}}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00623}00623 \textcolor{preprocessor}{\#elif defined(\_\_MINGW32\_\_)}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00624}00624         \textcolor{stringliteral}{"{} MinGW"{}}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00625}00625 \textcolor{preprocessor}{\#elif defined(\_MSC\_VER)}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00626}00626         \textcolor{stringliteral}{"{} VisualC"{}}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00627}00627 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00628}00628 \textcolor{preprocessor}{\#if defined(\_GLFW\_USE\_HYBRID\_HPG) || defined(\_GLFW\_USE\_OPTIMUS\_HPG)}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00629}00629         \textcolor{stringliteral}{"{} hybrid-\/GPU"{}}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00630}00630 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00631}00631 \textcolor{preprocessor}{\#if defined(\_GLFW\_BUILD\_DLL)}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00632}00632         \textcolor{stringliteral}{"{} DLL"{}}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00633}00633 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00634}00634         ;}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00635}00635 \}}
+\DoxyCodeLine{\Hypertarget{win32__init_8c_source_l00636}00636 }
+
+\end{DoxyCode}

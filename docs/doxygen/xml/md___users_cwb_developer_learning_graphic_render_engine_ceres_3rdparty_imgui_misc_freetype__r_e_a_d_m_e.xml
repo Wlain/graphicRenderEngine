@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e" kind="page">
+    <compoundname>md__Users_cwb_developer_learning_graphicRenderEngine_ceres_3rdparty_imgui_misc_freetype_README</compoundname>
+    <title>imgui_freetype</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Build font atlases using FreeType instead of stb_truetype (which is the default font rasterizer). <linebreak/>
+by @vuhdo, @mikesart, @ocornut.</para>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_1autotoc_md554">
+<title>Usage</title>
+<para><orderedlist>
+<listitem><para>Get latest FreeType binaries or build yourself (under Windows you may use vcpkg with <computeroutput>vcpkg install freetype --triplet=x64-windows</computeroutput>, <computeroutput>vcpkg integrate install</computeroutput>).</para>
+</listitem><listitem><para>Add <ref refid="imgui__freetype_8h_source" kindref="compound">imgui_freetype.h</ref>/cpp alongside your project files.</para>
+</listitem><listitem><para>Add <computeroutput>#define IMGUI_ENABLE_FREETYPE</computeroutput> in your <ulink url="https://github.com/ocornut/imgui/blob/master/imconfig.h">imconfig.h</ulink> file</para>
+</listitem></orderedlist>
+</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_1autotoc_md555">
+<title>About Gamma Correct Blending</title>
+<para>FreeType assumes blending in linear space rather than gamma space. See FreeType note for <ulink url="https://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html#FT_Render_Glyph">FT_Render_Glyph</ulink>. For correct results you need to be using sRGB and convert to linear space in the pixel shader output. The default Dear ImGui styles will be impacted by this change (alpha values will need tweaking).</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_1autotoc_md556">
+<title>Testbed for toying with settings (for developers)</title>
+<para>See <ulink url="https://gist.github.com/ocornut/b3a9ecf13502fd818799a452969649ad">https://gist.github.com/ocornut/b3a9ecf13502fd818799a452969649ad</ulink></para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_1autotoc_md557">
+<title>Known issues</title>
+<para><itemizedlist>
+<listitem><para>Oversampling settins are ignored but also not so much necessary with the higher quality rendering.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_1autotoc_md558">
+<title>Comparaison</title>
+<para>Small, thin anti-aliased fonts are typically benefiting a lots from Freetype&apos;s hinting: <image type="html" name="https://user-images.githubusercontent.com/8225057/107550178-fef87f00-6bd0-11eb-8d09-e2edb2f0ccfc.gif" alt="comparing_font_rasterizers" inline="yes"></image>
+</para>
+</sect2>
+<sect2 id="md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_misc_freetype__r_e_a_d_m_e_1autotoc_md559">
+<title>Colorful glyphs/emojis</title>
+<para>You can use the <computeroutput>ImGuiFreeTypeBuilderFlags_LoadColor</computeroutput> flag to load certain colorful glyphs. See <ulink url="https://github.com/ocornut/imgui/edit/master/docs/FONTS.md#using-colorful-glyphsemojis">&quot;Using Colorful Glyphs/Emojis&quot;</ulink> section of FONTS.md.</para>
+<para><image type="html" name="https://user-images.githubusercontent.com/8225057/106171241-9dc4ba80-6191-11eb-8a69-ca1467b206d1.png" alt="colored glyphs" inline="yes"></image>
+ </para>
+</sect2>
+    </detaileddescription>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/misc/freetype/README.md"/>
+  </compounddef>
+</doxygen>

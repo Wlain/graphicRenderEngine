@@ -1,0 +1,604 @@
+\hypertarget{imgui__impl__metal_8mm_source}{}\doxysection{imgui\+\_\+impl\+\_\+metal.\+mm}
+\label{imgui__impl__metal_8mm_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/backends/imgui\_impl\_metal.mm@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/backends/imgui\_impl\_metal.mm}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00001}00001 \textcolor{comment}{// dear imgui: Renderer Backend for Metal}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00002}00002 \textcolor{comment}{// This needs to be used along with a Platform Backend (e.g. OSX)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00004}00004 \textcolor{comment}{// Implemented features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00005}00005 \textcolor{comment}{//  [X] Renderer: User texture binding. Use 'MTLTexture' as ImTextureID. Read the FAQ about ImTextureID!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00006}00006 \textcolor{comment}{//  [X] Renderer: Support for large meshes (64k+ vertices) with 16-\/bit indices.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00007}00007 \textcolor{comment}{// Missing features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00008}00008 \textcolor{comment}{//  [ ] Renderer: Multi-\/viewport / platform windows.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00009}00009 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00010}00010 \textcolor{comment}{// You can use unmodified imgui\_impl\_* files in your project. See examples/ folder for examples of using this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00011}00011 \textcolor{comment}{// Prefer including the entire imgui/ repository into your project (either as a copy or as a submodule), and only build the backends you need.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00012}00012 \textcolor{comment}{// If you are new to Dear ImGui, read documentation from the docs/ folder + read the top of imgui.cpp.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00013}00013 \textcolor{comment}{// Read online: https://github.com/ocornut/imgui/tree/master/docs}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00015}00015 \textcolor{comment}{// CHANGELOG}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00016}00016 \textcolor{comment}{// (minor and older changes stripped away, please see git history for details)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00017}00017 \textcolor{comment}{//  2022-\/01-\/03: Metal: Ignore ImDrawCmd where ElemCount == 0 (very rare but can technically be manufactured by user code).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00018}00018 \textcolor{comment}{//  2021-\/12-\/30: Metal: Added Metal C++ support. Enable with '\#define IMGUI\_IMPL\_METAL\_CPP' in your imconfig.h file.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00019}00019 \textcolor{comment}{//  2021-\/08-\/24: Metal: Fixed a crash when clipping rect larger than framebuffer is submitted. (\#4464)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00020}00020 \textcolor{comment}{//  2021-\/05-\/19: Metal: Replaced direct access to ImDrawCmd::TextureId with a call to ImDrawCmd::GetTexID(). (will become a requirement)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00021}00021 \textcolor{comment}{//  2021-\/02-\/18: Metal: Change blending equation to preserve alpha in output buffer.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00022}00022 \textcolor{comment}{//  2021-\/01-\/25: Metal: Fixed texture storage mode when building on Mac Catalyst.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00023}00023 \textcolor{comment}{//  2019-\/05-\/29: Metal: Added support for large mesh (64K+ vertices), enable ImGuiBackendFlags\_RendererHasVtxOffset flag.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00024}00024 \textcolor{comment}{//  2019-\/04-\/30: Metal: Added support for special ImDrawCallback\_ResetRenderState callback to reset render state.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00025}00025 \textcolor{comment}{//  2019-\/02-\/11: Metal: Projecting clipping rectangles correctly using draw\_data-\/>FramebufferScale to allow multi-\/viewports for retina display.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00026}00026 \textcolor{comment}{//  2018-\/11-\/30: Misc: Setting up io.BackendRendererName so it can be displayed in the About Window.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00027}00027 \textcolor{comment}{//  2018-\/07-\/05: Metal: Added new Metal backend implementation.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00028}00028 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00029}00029 \textcolor{preprocessor}{\#include "{}imgui.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00030}00030 \textcolor{preprocessor}{\#include "{}imgui\_impl\_metal.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00032}00032 \textcolor{preprocessor}{\#import <Metal/Metal.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00033}00033 \textcolor{comment}{// \#import <QuartzCore/CAMetalLayer.h> // Not supported in XCode 9.2. Maybe a macro to detect the SDK version can be used (something like \#if MACOS\_SDK >= 10.13 ...)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00034}00034 \textcolor{preprocessor}{\#import <simd/simd.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00036}00036 \textcolor{preprocessor}{\#pragma mark -\/ Support classes}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00038}00038 \textcolor{comment}{// A wrapper around a MTLBuffer object that knows the last time it was reused}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00039}\mbox{\hyperlink{interface_metal_buffer}{00039}} \textcolor{keyword}{@interface }\mbox{\hyperlink{interface_metal_buffer}{MetalBuffer}} : NSObject}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00040}00040 \textcolor{keyword}{@property} (nonatomic, strong) id<MTLBuffer> \mbox{\hyperlink{classbuffer}{buffer}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00041}00041 \textcolor{keyword}{@property} (nonatomic, assign) NSTimeInterval lastReuseTime;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00042}00042 -\/ (instancetype)initWithBuffer:(id<MTLBuffer>)\mbox{\hyperlink{classbuffer}{buffer}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00043}00043 \textcolor{keyword}{@end}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00045}00045 \textcolor{comment}{// An object that encapsulates the data necessary to uniquely identify a}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00046}00046 \textcolor{comment}{// render pipeline state. These are used as cache keys.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00047}\mbox{\hyperlink{interface_framebuffer_descriptor}{00047}} \textcolor{keyword}{@interface }\mbox{\hyperlink{interface_framebuffer_descriptor}{FramebufferDescriptor}} : NSObject<NSCopying>}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00048}00048 \textcolor{keyword}{@property} (nonatomic, assign) \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} sampleCount;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00049}00049 \textcolor{keyword}{@property} (nonatomic, assign) MTLPixelFormat colorPixelFormat;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00050}00050 \textcolor{keyword}{@property} (nonatomic, assign) MTLPixelFormat depthPixelFormat;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00051}00051 \textcolor{keyword}{@property} (nonatomic, assign) MTLPixelFormat stencilPixelFormat;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00052}00052 -\/ (instancetype)initWithRenderPassDescriptor:(MTLRenderPassDescriptor *)renderPassDescriptor;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00053}00053 \textcolor{keyword}{@end}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00055}00055 \textcolor{comment}{// A singleton that stores long-\/lived objects that are needed by the Metal}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00056}00056 \textcolor{comment}{// renderer backend. Stores the render pipeline state cache and the default}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00057}00057 \textcolor{comment}{// font texture, and manages the reusable buffer cache.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00058}\mbox{\hyperlink{interface_metal_context}{00058}} \textcolor{keyword}{@interface }\mbox{\hyperlink{interface_metal_context}{MetalContext}} : NSObject}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00059}00059 \textcolor{keyword}{@property} (nonatomic, strong) id<MTLDepthStencilState> depthStencilState;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00060}00060 \textcolor{keyword}{@property} (nonatomic, strong) \mbox{\hyperlink{interface_framebuffer_descriptor}{FramebufferDescriptor}} *framebufferDescriptor; \textcolor{comment}{// framebuffer descriptor for current frame; transient}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00061}00061 \textcolor{keyword}{@property} (nonatomic, strong) NSMutableDictionary *renderPipelineStateCache; \textcolor{comment}{// pipeline cache; keyed on framebuffer descriptors}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00062}00062 \textcolor{keyword}{@property} (nonatomic, strong, nullable) id<MTLTexture> fontTexture;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00063}00063 \textcolor{keyword}{@property} (nonatomic, strong) NSMutableArray<MetalBuffer *> *bufferCache;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00064}00064 \textcolor{keyword}{@property} (nonatomic, assign) NSTimeInterval lastBufferCachePurge;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00065}00065 -\/ (void)makeDeviceObjectsWithDevice:(id<MTLDevice>)device;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00066}00066 -\/ (void)makeFontTextureWithDevice:(id<MTLDevice>)device;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00067}00067 -\/ (\mbox{\hyperlink{interface_metal_buffer}{MetalBuffer}} *)dequeueReusableBufferOfLength:(NSUInteger)length device:(id<MTLDevice>)device;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00068}00068 -\/ (void)enqueueReusableBuffer:(\mbox{\hyperlink{interface_metal_buffer}{MetalBuffer}} *)\mbox{\hyperlink{classbuffer}{buffer}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00069}00069 -\/ (id<MTLRenderPipelineState>)renderPipelineStateForFrameAndDevice:(id<MTLDevice>)device;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00070}00070 -\/ (void)emptyRenderPipelineStateCache;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00071}00071 -\/ (void)setupRenderState:(\mbox{\hyperlink{struct_im_draw_data}{ImDrawData}} *)drawData}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00072}00072            commandBuffer:(id<MTLCommandBuffer>)commandBuffer}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00073}00073           commandEncoder:(id<MTLRenderCommandEncoder>)commandEncoder}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00074}00074      renderPipelineState:(id<MTLRenderPipelineState>)renderPipelineState}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00075}00075             vertexBuffer:(\mbox{\hyperlink{interface_metal_buffer}{MetalBuffer}} *)vertexBuffer}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00076}00076       vertexBufferOffset:(size\_t)vertexBufferOffset;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00077}00077 -\/ (void)renderDrawData:(\mbox{\hyperlink{struct_im_draw_data}{ImDrawData}} *)drawData}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00078}00078          commandBuffer:(id<MTLCommandBuffer>)commandBuffer}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00079}00079         commandEncoder:(id<MTLRenderCommandEncoder>)commandEncoder;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00080}00080 \textcolor{keyword}{@end}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00082}00082 \textcolor{keyword}{static} \mbox{\hyperlink{interface_metal_context}{MetalContext}} *g\_sharedMetalContext = nil;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00083}00083 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00084}00084 \textcolor{preprocessor}{\#ifdef IMGUI\_IMPL\_METAL\_CPP}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00086}00086 \textcolor{preprocessor}{\#pragma mark -\/ Dear ImGui Metal C++ Backend API}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00088}00088 \textcolor{keywordtype}{bool} ImGui\_ImplMetal\_Init(MTL::Device* device)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00089}00089 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00090}00090     \textcolor{keywordflow}{return} ImGui\_ImplMetal\_Init((id<MTLDevice>)(device));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00091}00091 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00093}00093 \textcolor{keywordtype}{void} ImGui\_ImplMetal\_NewFrame(MTL::RenderPassDescriptor* renderPassDescriptor)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00094}00094 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00095}00095     ImGui\_ImplMetal\_NewFrame((MTLRenderPassDescriptor*)(renderPassDescriptor));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00096}00096 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00098}00098 \textcolor{keywordtype}{void} ImGui\_ImplMetal\_RenderDrawData(\mbox{\hyperlink{struct_im_draw_data}{ImDrawData}}* draw\_data,}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00099}00099                                     MTL::CommandBuffer* commandBuffer,}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00100}00100                                     MTL::RenderCommandEncoder* commandEncoder)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00101}00101 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00102}00102     ImGui\_ImplMetal\_RenderDrawData(draw\_data,}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00103}00103                                    (id<MTLCommandBuffer>)(commandBuffer),}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00104}00104                                    (id<MTLRenderCommandEncoder>)(commandEncoder));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00105}00105 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00106}00106 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00108}00108 \textcolor{keywordtype}{bool} ImGui\_ImplMetal\_CreateFontsTexture(MTL::Device* device)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00109}00109 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00110}00110     \textcolor{keywordflow}{return} ImGui\_ImplMetal\_CreateFontsTexture((id<MTLDevice>)(device));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00111}00111 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00112}00112 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00113}00113 \textcolor{keywordtype}{bool} ImGui\_ImplMetal\_CreateDeviceObjects(MTL::Device* device)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00114}00114 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00115}00115     \textcolor{keywordflow}{return} ImGui\_ImplMetal\_CreateDeviceObjects((id<MTLDevice>)(device));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00116}00116 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00117}00117 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00118}00118 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \#ifdef IMGUI\_IMPL\_METAL\_CPP}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00120}00120 \textcolor{preprocessor}{\#pragma mark -\/ Dear ImGui Metal Backend API}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00121}00121 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00122}00122 \textcolor{keywordtype}{bool} ImGui\_ImplMetal\_Init(id<MTLDevice> device)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00123}00123 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00124}00124     \mbox{\hyperlink{struct_im_gui_i_o}{ImGuiIO}}\& io = ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00125}00125     io.BackendRendererName = \textcolor{stringliteral}{"{}imgui\_impl\_metal"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00126}00126     io.BackendFlags |= ImGuiBackendFlags\_RendererHasVtxOffset;  \textcolor{comment}{// We can honor the ImDrawCmd::VtxOffset field, allowing for large meshes.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00127}00127 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00128}00128     \textcolor{keyword}{static} dispatch\_once\_t onceToken;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00129}00129     dispatch\_once(\&onceToken, \string^\{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00130}00130         g\_sharedMetalContext = [[\mbox{\hyperlink{interface_metal_context}{MetalContext}} alloc] init];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00131}00131     \});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00132}00132 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00133}00133     ImGui\_ImplMetal\_CreateDeviceObjects(device);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00134}00134 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00135}00135     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00136}00136 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00137}00137 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00138}00138 \textcolor{keywordtype}{void} ImGui\_ImplMetal\_Shutdown()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00139}00139 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00140}00140     ImGui\_ImplMetal\_DestroyDeviceObjects();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00141}00141 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00142}00142 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00143}00143 \textcolor{keywordtype}{void} ImGui\_ImplMetal\_NewFrame(MTLRenderPassDescriptor *renderPassDescriptor)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00144}00144 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00145}00145     IM\_ASSERT(g\_sharedMetalContext != nil \&\& \textcolor{stringliteral}{"{}No Metal context. Did you call ImGui\_ImplMetal\_Init() ?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00146}00146 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00147}00147     g\_sharedMetalContext.framebufferDescriptor = [[\mbox{\hyperlink{interface_framebuffer_descriptor}{FramebufferDescriptor}} alloc] initWithRenderPassDescriptor:renderPassDescriptor];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00148}00148 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00149}00149 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00150}00150 \textcolor{comment}{// Metal Render function.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00151}00151 \textcolor{keywordtype}{void} ImGui\_ImplMetal\_RenderDrawData(\mbox{\hyperlink{struct_im_draw_data}{ImDrawData}}* draw\_data, id<MTLCommandBuffer> commandBuffer, id<MTLRenderCommandEncoder> commandEncoder)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00152}00152 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00153}00153     [g\_sharedMetalContext renderDrawData:draw\_data commandBuffer:commandBuffer commandEncoder:commandEncoder];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00154}00154 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00155}00155 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00156}00156 \textcolor{keywordtype}{bool} ImGui\_ImplMetal\_CreateFontsTexture(id<MTLDevice> device)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00157}00157 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00158}00158     [g\_sharedMetalContext makeFontTextureWithDevice:device];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00159}00159 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00160}00160     \mbox{\hyperlink{struct_im_gui_i_o}{ImGuiIO}}\& io = ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00161}00161     io.Fonts-\/>SetTexID((\_\_bridge \textcolor{keywordtype}{void} *)g\_sharedMetalContext.fontTexture); \textcolor{comment}{// ImTextureID == void*}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00162}00162 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00163}00163     \textcolor{keywordflow}{return} (g\_sharedMetalContext.fontTexture != nil);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00164}00164 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00165}00165 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00166}00166 \textcolor{keywordtype}{void} ImGui\_ImplMetal\_DestroyFontsTexture()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00167}00167 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00168}00168     \mbox{\hyperlink{struct_im_gui_i_o}{ImGuiIO}}\& io = ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00169}00169     g\_sharedMetalContext.fontTexture = nil;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00170}00170     io.Fonts-\/>SetTexID(\textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00171}00171 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00172}00172 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00173}00173 \textcolor{keywordtype}{bool} ImGui\_ImplMetal\_CreateDeviceObjects(id<MTLDevice> device)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00174}00174 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00175}00175     [g\_sharedMetalContext makeDeviceObjectsWithDevice:device];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00176}00176 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00177}00177     ImGui\_ImplMetal\_CreateFontsTexture(device);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00178}00178 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00179}00179     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00180}00180 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00181}00181 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00182}00182 \textcolor{keywordtype}{void} ImGui\_ImplMetal\_DestroyDeviceObjects()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00183}00183 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00184}00184     ImGui\_ImplMetal\_DestroyFontsTexture();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00185}00185     [g\_sharedMetalContext emptyRenderPipelineStateCache];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00186}00186 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00187}00187 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00188}00188 \textcolor{preprocessor}{\#pragma mark -\/ MetalBuffer implementation}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00189}00189 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00190}00190 \textcolor{keyword}{@implementation }\mbox{\hyperlink{interface_metal_buffer}{MetalBuffer}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00191}00191 -\/ (instancetype)initWithBuffer:(id<MTLBuffer>)\mbox{\hyperlink{classbuffer}{buffer}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00192}00192 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00193}00193     \textcolor{keywordflow}{if} ((\textcolor{keyword}{self} = [super init]))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00194}00194     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00195}00195         \_buffer = \mbox{\hyperlink{classbuffer}{buffer}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00196}00196         \_lastReuseTime = [NSDate date].timeIntervalSince1970;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00197}00197     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00198}00198     \textcolor{keywordflow}{return} \textcolor{keyword}{self};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00199}00199 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00200}00200 \textcolor{keyword}{@end}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00201}00201 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00202}00202 \textcolor{preprocessor}{\#pragma mark -\/ FramebufferDescriptor implementation}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00203}00203 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00204}00204 \textcolor{keyword}{@implementation }\mbox{\hyperlink{interface_framebuffer_descriptor}{FramebufferDescriptor}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00205}00205 -\/ (instancetype)initWithRenderPassDescriptor:(MTLRenderPassDescriptor *)renderPassDescriptor}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00206}00206 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00207}00207     \textcolor{keywordflow}{if} ((\textcolor{keyword}{self} = [super init]))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00208}00208     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00209}00209         \_sampleCount = renderPassDescriptor.colorAttachments[0].texture.sampleCount;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00210}00210         \_colorPixelFormat = renderPassDescriptor.colorAttachments[0].texture.pixelFormat;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00211}00211         \_depthPixelFormat = renderPassDescriptor.depthAttachment.texture.pixelFormat;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00212}00212         \_stencilPixelFormat = renderPassDescriptor.stencilAttachment.texture.pixelFormat;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00213}00213     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00214}00214     \textcolor{keywordflow}{return} \textcolor{keyword}{self};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00215}00215 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00216}00216 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00217}00217 -\/ (nonnull id)copyWithZone:(nullable NSZone *)zone}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00218}00218 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00219}00219     \mbox{\hyperlink{interface_framebuffer_descriptor}{FramebufferDescriptor}} *copy = [[\mbox{\hyperlink{interface_framebuffer_descriptor}{FramebufferDescriptor}} allocWithZone:zone] init];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00220}00220     copy.sampleCount = \textcolor{keyword}{self}.sampleCount;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00221}00221     copy.colorPixelFormat = \textcolor{keyword}{self}.colorPixelFormat;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00222}00222     copy.depthPixelFormat = \textcolor{keyword}{self}.depthPixelFormat;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00223}00223     copy.stencilPixelFormat = \textcolor{keyword}{self}.stencilPixelFormat;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00224}00224     \textcolor{keywordflow}{return} copy;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00225}00225 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00226}00226 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00227}00227 -\/ (NSUInteger)hash}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00228}00228 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00229}00229     NSUInteger sc = \_sampleCount \& 0x3;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00230}00230     NSUInteger cf = \_colorPixelFormat \& 0x3FF;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00231}00231     NSUInteger df = \_depthPixelFormat \& 0x3FF;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00232}00232     NSUInteger sf = \_stencilPixelFormat \& 0x3FF;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00233}00233     NSUInteger hash = (sf << 22) | (df << 12) | (cf << 2) | sc;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00234}00234     \textcolor{keywordflow}{return} hash;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00235}00235 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00236}00236 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00237}00237 -\/ (BOOL)isEqual:(\textcolor{keywordtype}{id})\textcolor{keywordtype}{object}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00238}00238 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00239}00239     \mbox{\hyperlink{interface_framebuffer_descriptor}{FramebufferDescriptor}} *other = object;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00240}00240     \textcolor{keywordflow}{if} (![other isKindOfClass:[\mbox{\hyperlink{interface_framebuffer_descriptor}{FramebufferDescriptor}} \textcolor{keyword}{class}]])}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00241}00241         \textcolor{keywordflow}{return} NO;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00242}00242     \textcolor{keywordflow}{return} other.sampleCount == \textcolor{keyword}{self}.sampleCount      \&\&}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00243}00243     other.colorPixelFormat   == \textcolor{keyword}{self}.colorPixelFormat \&\&}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00244}00244     other.depthPixelFormat   == \textcolor{keyword}{self}.depthPixelFormat \&\&}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00245}00245     other.stencilPixelFormat == \textcolor{keyword}{self}.stencilPixelFormat;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00246}00246 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00247}00247 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00248}00248 \textcolor{keyword}{@end}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00249}00249 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00250}00250 \textcolor{preprocessor}{\#pragma mark -\/ MetalContext implementation}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00251}00251 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00252}00252 \textcolor{keyword}{@implementation }\mbox{\hyperlink{interface_metal_context}{MetalContext}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00253}00253 -\/ (instancetype)init \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00254}00254     \textcolor{keywordflow}{if} ((\textcolor{keyword}{self} = [super init]))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00255}00255     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00256}00256         \_renderPipelineStateCache = [NSMutableDictionary dictionary];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00257}00257         \_bufferCache = [NSMutableArray array];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00258}00258         \_lastBufferCachePurge = [NSDate date].timeIntervalSince1970;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00259}00259     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00260}00260     \textcolor{keywordflow}{return} \textcolor{keyword}{self};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00261}00261 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00262}00262 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00263}00263 -\/ (void)makeDeviceObjectsWithDevice:(id<MTLDevice>)device}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00264}00264 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00265}00265     MTLDepthStencilDescriptor *depthStencilDescriptor = [[MTLDepthStencilDescriptor alloc] init];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00266}00266     depthStencilDescriptor.depthWriteEnabled = NO;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00267}00267     depthStencilDescriptor.depthCompareFunction = MTLCompareFunctionAlways;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00268}00268     \textcolor{keyword}{self}.depthStencilState = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00269}00269 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00270}00270 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00271}00271 \textcolor{comment}{// We are retrieving and uploading the font atlas as a 4-\/channels RGBA texture here.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00272}00272 \textcolor{comment}{// In theory we could call GetTexDataAsAlpha8() and upload a 1-\/channel texture to save on memory access bandwidth.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00273}00273 \textcolor{comment}{// However, using a shader designed for 1-\/channel texture would make it less obvious to use the ImTextureID facility to render users own textures.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00274}00274 \textcolor{comment}{// You can make that change in your implementation.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00275}00275 -\/ (void)makeFontTextureWithDevice:(id<MTLDevice>)device}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00276}00276 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00277}00277     \mbox{\hyperlink{struct_im_gui_i_o}{ImGuiIO}} \&io = ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00278}00278     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}* pixels;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00279}00279     \textcolor{keywordtype}{int} width, height;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00280}00280     io.Fonts-\/>GetTexDataAsRGBA32(\&pixels, \&width, \&height);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00281}00281     MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00282}00282                                                                                                  width:(NSUInteger)width}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00283}00283                                                                                                 height:(NSUInteger)height}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00284}00284                                                                                              mipmapped:NO];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00285}00285     textureDescriptor.usage = MTLTextureUsageShaderRead;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00286}00286 \textcolor{preprocessor}{\#if TARGET\_OS\_OSX || TARGET\_OS\_MACCATALYST}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00287}00287     textureDescriptor.storageMode = MTLStorageModeManaged;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00288}00288 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00289}00289     textureDescriptor.storageMode = MTLStorageModeShared;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00290}00290 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00291}00291     id <MTLTexture> texture = [device newTextureWithDescriptor:textureDescriptor];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00292}00292     [texture replaceRegion:MTLRegionMake2D(0, 0, (NSUInteger)width, (NSUInteger)height) mipmapLevel:0 withBytes:pixels bytesPerRow:(NSUInteger)width * 4];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00293}00293     \textcolor{keyword}{self}.fontTexture = texture;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00294}00294 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00295}00295 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00296}00296 -\/ (\mbox{\hyperlink{interface_metal_buffer}{MetalBuffer}} *)dequeueReusableBufferOfLength:(NSUInteger)length device:(id<MTLDevice>)device}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00297}00297 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00298}00298     NSTimeInterval now = [NSDate date].timeIntervalSince1970;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00299}00299 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00300}00300     \textcolor{comment}{// Purge old buffers that haven't been useful for a while}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00301}00301     \textcolor{keywordflow}{if} (now -\/ \textcolor{keyword}{self}.lastBufferCachePurge > 1.0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00302}00302     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00303}00303         NSMutableArray *survivors = [NSMutableArray array];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00304}00304         \textcolor{keywordflow}{for} (\mbox{\hyperlink{interface_metal_buffer}{MetalBuffer}} *candidate in \textcolor{keyword}{self}.bufferCache)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00305}00305         \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00306}00306             \textcolor{keywordflow}{if} (candidate.lastReuseTime > \textcolor{keyword}{self}.lastBufferCachePurge)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00307}00307             \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00308}00308                 [survivors addObject:candidate];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00309}00309             \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00310}00310         \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00311}00311         \textcolor{keyword}{self}.bufferCache = [survivors mutableCopy];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00312}00312         \textcolor{keyword}{self}.lastBufferCachePurge = now;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00313}00313     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00314}00314 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00315}00315     \textcolor{comment}{// See if we have a buffer we can reuse}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00316}00316     \mbox{\hyperlink{interface_metal_buffer}{MetalBuffer}} *bestCandidate = nil;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00317}00317     \textcolor{keywordflow}{for} (\mbox{\hyperlink{interface_metal_buffer}{MetalBuffer}} *candidate in \textcolor{keyword}{self}.bufferCache)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00318}00318         \textcolor{keywordflow}{if} (candidate.buffer.length >= length \&\& (bestCandidate == nil || bestCandidate.lastReuseTime > candidate.lastReuseTime))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00319}00319             bestCandidate = candidate;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00320}00320 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00321}00321     \textcolor{keywordflow}{if} (bestCandidate != nil)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00322}00322     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00323}00323         [\textcolor{keyword}{self}.bufferCache removeObject:bestCandidate];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00324}00324         bestCandidate.lastReuseTime = now;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00325}00325         \textcolor{keywordflow}{return} bestCandidate;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00326}00326     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00327}00327 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00328}00328     \textcolor{comment}{// No luck; make a new buffer}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00329}00329     id<MTLBuffer> backing = [device newBufferWithLength:length options:MTLResourceStorageModeShared];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00330}00330     \textcolor{keywordflow}{return} [[\mbox{\hyperlink{interface_metal_buffer}{MetalBuffer}} alloc] initWithBuffer:backing];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00331}00331 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00332}00332 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00333}00333 -\/ (void)enqueueReusableBuffer:(\mbox{\hyperlink{interface_metal_buffer}{MetalBuffer}} *)\mbox{\hyperlink{classbuffer}{buffer}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00334}00334 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00335}00335     [\textcolor{keyword}{self}.bufferCache addObject:buffer];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00336}00336 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00337}00337 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00338}00338 -\/ (\_Nullable id<MTLRenderPipelineState>)renderPipelineStateForFrameAndDevice:(id<MTLDevice>)device}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00339}00339 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00340}00340     \textcolor{comment}{// Try to retrieve a render pipeline state that is compatible with the framebuffer config for this frame}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00341}00341     \textcolor{comment}{// The hit rate for this cache should be very near 100\%.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00342}00342     id<MTLRenderPipelineState> renderPipelineState = \textcolor{keyword}{self}.renderPipelineStateCache[\textcolor{keyword}{self}.framebufferDescriptor];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00343}00343 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00344}00344     \textcolor{keywordflow}{if} (renderPipelineState == nil)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00345}00345     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00346}00346         \textcolor{comment}{// No luck; make a new render pipeline state}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00347}00347         renderPipelineState = [\textcolor{keyword}{self} \_renderPipelineStateForFramebufferDescriptor:self.framebufferDescriptor device:device];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00348}00348         \textcolor{comment}{// Cache render pipeline state for later reuse}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00349}00349         \textcolor{keyword}{self}.renderPipelineStateCache[\textcolor{keyword}{self}.framebufferDescriptor] = renderPipelineState;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00350}00350     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00351}00351 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00352}00352     \textcolor{keywordflow}{return} renderPipelineState;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00353}00353 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00354}00354 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00355}00355 -\/ (id<MTLRenderPipelineState>)\_renderPipelineStateForFramebufferDescriptor:(\mbox{\hyperlink{interface_framebuffer_descriptor}{FramebufferDescriptor}} *)descriptor device:(id<MTLDevice>)device}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00356}00356 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00357}00357     NSError *error = nil;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00358}00358 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00359}00359     NSString *shaderSource = \textcolor{stringliteral}{@"{}"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00360}00360     \textcolor{stringliteral}{"{}\#include <metal\_stdlib>\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00361}00361     \textcolor{stringliteral}{"{}using namespace metal;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00362}00362     \textcolor{stringliteral}{"{}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00363}00363     \textcolor{stringliteral}{"{}struct Uniforms \{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00364}00364     \textcolor{stringliteral}{"{}    float4x4 projectionMatrix;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00365}00365     \textcolor{stringliteral}{"{}\};\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00366}00366     \textcolor{stringliteral}{"{}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00367}00367     \textcolor{stringliteral}{"{}struct VertexIn \{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00368}00368     \textcolor{stringliteral}{"{}    float2 position  [[attribute(0)]];\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00369}00369     \textcolor{stringliteral}{"{}    float2 texCoords [[attribute(1)]];\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00370}00370     \textcolor{stringliteral}{"{}    uchar4 color     [[attribute(2)]];\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00371}00371     \textcolor{stringliteral}{"{}\};\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00372}00372     \textcolor{stringliteral}{"{}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00373}00373     \textcolor{stringliteral}{"{}struct VertexOut \{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00374}00374     \textcolor{stringliteral}{"{}    float4 position [[position]];\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00375}00375     \textcolor{stringliteral}{"{}    float2 texCoords;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00376}00376     \textcolor{stringliteral}{"{}    float4 color;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00377}00377     \textcolor{stringliteral}{"{}\};\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00378}00378     \textcolor{stringliteral}{"{}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00379}00379     \textcolor{stringliteral}{"{}vertex VertexOut vertex\_main(VertexIn in                 [[stage\_in]],\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00380}00380     \textcolor{stringliteral}{"{}                             constant Uniforms \&uniforms [[buffer(1)]]) \{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00381}00381     \textcolor{stringliteral}{"{}    VertexOut out;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00382}00382     \textcolor{stringliteral}{"{}    out.position = uniforms.projectionMatrix * float4(in.position, 0, 1);\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00383}00383     \textcolor{stringliteral}{"{}    out.texCoords = in.texCoords;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00384}00384     \textcolor{stringliteral}{"{}    out.color = float4(in.color) / float4(255.0);\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00385}00385     \textcolor{stringliteral}{"{}    return out;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00386}00386     \textcolor{stringliteral}{"{}\}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00387}00387     \textcolor{stringliteral}{"{}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00388}00388     \textcolor{stringliteral}{"{}fragment half4 fragment\_main(VertexOut in [[stage\_in]],\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00389}00389     \textcolor{stringliteral}{"{}                             texture2d<half, access::sample> texture [[texture(0)]]) \{\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00390}00390     \textcolor{stringliteral}{"{}    constexpr sampler linearSampler(coord::normalized, min\_filter::linear, mag\_filter::linear, mip\_filter::linear);\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00391}00391     \textcolor{stringliteral}{"{}    half4 texColor = texture.sample(linearSampler, in.texCoords);\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00392}00392     \textcolor{stringliteral}{"{}    return half4(in.color) * texColor;\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00393}00393     \textcolor{stringliteral}{"{}\}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00394}00394 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00395}00395     id<MTLLibrary> library = [device newLibraryWithSource:shaderSource options:nil error:\&error];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00396}00396     \textcolor{keywordflow}{if} (library == nil)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00397}00397     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00398}00398         NSLog(\textcolor{stringliteral}{@"{}Error: failed to create Metal library: \%@"{}}, error);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00399}00399         \textcolor{keywordflow}{return} nil;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00400}00400     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00401}00401 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00402}00402     id<MTLFunction> vertexFunction = [library newFunctionWithName:@"{}vertex\_main"{}];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00403}00403     id<MTLFunction> fragmentFunction = [library newFunctionWithName:@"{}fragment\_main"{}];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00404}00404 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00405}00405     \textcolor{keywordflow}{if} (vertexFunction == nil || fragmentFunction == nil)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00406}00406     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00407}00407         NSLog(\textcolor{stringliteral}{@"{}Error: failed to find Metal shader functions in library: \%@"{}}, error);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00408}00408         \textcolor{keywordflow}{return} nil;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00409}00409     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00410}00410 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00411}00411     MTLVertexDescriptor *vertexDescriptor = [MTLVertexDescriptor vertexDescriptor];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00412}00412     vertexDescriptor.attributes[0].offset = IM\_OFFSETOF(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}, pos);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00413}00413     vertexDescriptor.attributes[0].format = MTLVertexFormatFloat2; \textcolor{comment}{// position}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00414}00414     vertexDescriptor.attributes[0].bufferIndex = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00415}00415     vertexDescriptor.attributes[1].offset = IM\_OFFSETOF(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}, uv);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00416}00416     vertexDescriptor.attributes[1].format = MTLVertexFormatFloat2; \textcolor{comment}{// texCoords}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00417}00417     vertexDescriptor.attributes[1].bufferIndex = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00418}00418     vertexDescriptor.attributes[2].offset = IM\_OFFSETOF(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}, col);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00419}00419     vertexDescriptor.attributes[2].format = MTLVertexFormatUChar4; \textcolor{comment}{// color}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00420}00420     vertexDescriptor.attributes[2].bufferIndex = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00421}00421     vertexDescriptor.layouts[0].stepRate = 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00422}00422     vertexDescriptor.layouts[0].stepFunction = MTLVertexStepFunctionPerVertex;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00423}00423     vertexDescriptor.layouts[0].stride = \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00424}00424 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00425}00425     MTLRenderPipelineDescriptor *pipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00426}00426     pipelineDescriptor.vertexFunction = vertexFunction;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00427}00427     pipelineDescriptor.fragmentFunction = fragmentFunction;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00428}00428     pipelineDescriptor.vertexDescriptor = vertexDescriptor;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00429}00429     pipelineDescriptor.sampleCount = \textcolor{keyword}{self}.framebufferDescriptor.sampleCount;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00430}00430     pipelineDescriptor.colorAttachments[0].pixelFormat = \textcolor{keyword}{self}.framebufferDescriptor.colorPixelFormat;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00431}00431     pipelineDescriptor.colorAttachments[0].blendingEnabled = YES;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00432}00432     pipelineDescriptor.colorAttachments[0].rgbBlendOperation = MTLBlendOperationAdd;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00433}00433     pipelineDescriptor.colorAttachments[0].sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00434}00434     pipelineDescriptor.colorAttachments[0].destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00435}00435     pipelineDescriptor.colorAttachments[0].alphaBlendOperation = MTLBlendOperationAdd;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00436}00436     pipelineDescriptor.colorAttachments[0].sourceAlphaBlendFactor = MTLBlendFactorOne;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00437}00437     pipelineDescriptor.colorAttachments[0].destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00438}00438     pipelineDescriptor.depthAttachmentPixelFormat = \textcolor{keyword}{self}.framebufferDescriptor.depthPixelFormat;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00439}00439     pipelineDescriptor.stencilAttachmentPixelFormat = \textcolor{keyword}{self}.framebufferDescriptor.stencilPixelFormat;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00440}00440 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00441}00441     id<MTLRenderPipelineState> renderPipelineState = [device newRenderPipelineStateWithDescriptor:pipelineDescriptor error:\&error];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00442}00442     \textcolor{keywordflow}{if} (error != nil)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00443}00443     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00444}00444         NSLog(\textcolor{stringliteral}{@"{}Error: failed to create Metal pipeline state: \%@"{}}, error);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00445}00445     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00446}00446 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00447}00447     \textcolor{keywordflow}{return} renderPipelineState;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00448}00448 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00449}00449 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00450}00450 -\/ (void)emptyRenderPipelineStateCache}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00451}00451 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00452}00452     [\textcolor{keyword}{self}.renderPipelineStateCache removeAllObjects];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00453}00453 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00454}00454 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00455}00455 -\/ (void)setupRenderState:(\mbox{\hyperlink{struct_im_draw_data}{ImDrawData}} *)drawData}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00456}00456            commandBuffer:(id<MTLCommandBuffer>)commandBuffer}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00457}00457           commandEncoder:(id<MTLRenderCommandEncoder>)commandEncoder}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00458}00458      renderPipelineState:(id<MTLRenderPipelineState>)renderPipelineState}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00459}00459             vertexBuffer:(\mbox{\hyperlink{interface_metal_buffer}{MetalBuffer}} *)vertexBuffer}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00460}00460       vertexBufferOffset:(size\_t)vertexBufferOffset}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00461}00461 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00462}00462     [commandEncoder setCullMode:MTLCullModeNone];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00463}00463     [commandEncoder setDepthStencilState:g\_sharedMetalContext.depthStencilState];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00464}00464 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00465}00465     \textcolor{comment}{// Setup viewport, orthographic projection matrix}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00466}00466     \textcolor{comment}{// Our visible imgui space lies from draw\_data-\/>DisplayPos (top left) to}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00467}00467     \textcolor{comment}{// draw\_data-\/>DisplayPos+data\_data-\/>DisplaySize (bottom right). DisplayMin is typically (0,0) for single viewport apps.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00468}00468     MTLViewport viewport =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00469}00469     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00470}00470         .originX = 0.0,}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00471}00471         .originY = 0.0,}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00472}00472         .width = (double)(drawData-\/>DisplaySize.x * drawData-\/>FramebufferScale.x),}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00473}00473         .height = (double)(drawData-\/>DisplaySize.y * drawData-\/>FramebufferScale.y),}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00474}00474         .znear = 0.0,}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00475}00475         .zfar = 1.0}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00476}00476     \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00477}00477     [commandEncoder setViewport:viewport];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00478}00478 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00479}00479     \textcolor{keywordtype}{float} L = drawData-\/>DisplayPos.x;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00480}00480     \textcolor{keywordtype}{float} R = drawData-\/>DisplayPos.x + drawData-\/>DisplaySize.x;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00481}00481     \textcolor{keywordtype}{float} T = drawData-\/>DisplayPos.y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00482}00482     \textcolor{keywordtype}{float} B = drawData-\/>DisplayPos.y + drawData-\/>DisplaySize.y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00483}00483     \textcolor{keywordtype}{float} N = (float)viewport.znear;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00484}00484     \textcolor{keywordtype}{float} F = (\textcolor{keywordtype}{float})viewport.zfar;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00485}00485     \textcolor{keyword}{const} \textcolor{keywordtype}{float} ortho\_projection[4][4] =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00486}00486     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00487}00487         \{ 2.0f/(R-\/L),   0.0f,           0.0f,   0.0f \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00488}00488         \{ 0.0f,         2.0f/(T-\/B),     0.0f,   0.0f \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00489}00489         \{ 0.0f,         0.0f,        1/(F-\/N),   0.0f \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00490}00490         \{ (R+L)/(L-\/R),  (T+B)/(B-\/T), N/(F-\/N),   1.0f \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00491}00491     \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00492}00492     [commandEncoder setVertexBytes:\&ortho\_projection length:sizeof(ortho\_projection) atIndex:1];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00493}00493 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00494}00494     [commandEncoder setRenderPipelineState:renderPipelineState];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00495}00495 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00496}00496     [commandEncoder setVertexBuffer:vertexBuffer.buffer offset:0 atIndex:0];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00497}00497     [commandEncoder setVertexBufferOffset:vertexBufferOffset atIndex:0];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00498}00498 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00499}00499 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00500}00500 -\/ (void)renderDrawData:(\mbox{\hyperlink{struct_im_draw_data}{ImDrawData}} *)drawData}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00501}00501          commandBuffer:(id<MTLCommandBuffer>)commandBuffer}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00502}00502         commandEncoder:(id<MTLRenderCommandEncoder>)commandEncoder}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00503}00503 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00504}00504     \textcolor{comment}{// Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00505}00505     \textcolor{keywordtype}{int} fb\_width = (int)(drawData-\/>DisplaySize.x * drawData-\/>FramebufferScale.x);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00506}00506     \textcolor{keywordtype}{int} fb\_height = (int)(drawData-\/>DisplaySize.y * drawData-\/>FramebufferScale.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00507}00507     \textcolor{keywordflow}{if} (fb\_width <= 0 || fb\_height <= 0 || drawData-\/>CmdListsCount == 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00508}00508         \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00509}00509 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00510}00510     id<MTLRenderPipelineState> renderPipelineState = [\textcolor{keyword}{self} renderPipelineStateForFrameAndDevice:commandBuffer.device];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00511}00511 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00512}00512     \textcolor{keywordtype}{size\_t} vertexBufferLength = (size\_t)drawData-\/>TotalVtxCount * \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00513}00513     \textcolor{keywordtype}{size\_t} indexBufferLength = (size\_t)drawData-\/>TotalIdxCount * \textcolor{keyword}{sizeof}(ImDrawIdx);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00514}00514     \mbox{\hyperlink{interface_metal_buffer}{MetalBuffer}}* vertexBuffer = [\textcolor{keyword}{self} dequeueReusableBufferOfLength:vertexBufferLength device:commandBuffer.device];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00515}00515     \mbox{\hyperlink{interface_metal_buffer}{MetalBuffer}}* indexBuffer = [\textcolor{keyword}{self} dequeueReusableBufferOfLength:indexBufferLength device:commandBuffer.device];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00516}00516 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00517}00517     [\textcolor{keyword}{self} setupRenderState:drawData commandBuffer:commandBuffer commandEncoder:commandEncoder renderPipelineState:renderPipelineState vertexBuffer:vertexBuffer vertexBufferOffset:0];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00518}00518 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00519}00519     \textcolor{comment}{// Will project scissor/clipping rectangles into framebuffer space}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00520}00520     \mbox{\hyperlink{struct_im_vec2}{ImVec2}} clip\_off = drawData-\/>DisplayPos;         \textcolor{comment}{// (0,0) unless using multi-\/viewports}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00521}00521     \mbox{\hyperlink{struct_im_vec2}{ImVec2}} clip\_scale = drawData-\/>FramebufferScale; \textcolor{comment}{// (1,1) unless using retina display which are often (2,2)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00522}00522 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00523}00523     \textcolor{comment}{// Render command lists}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00524}00524     \textcolor{keywordtype}{size\_t} vertexBufferOffset = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00525}00525     \textcolor{keywordtype}{size\_t} indexBufferOffset = 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00526}00526     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} n = 0; n < drawData-\/>CmdListsCount; n++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00527}00527     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00528}00528         \textcolor{keyword}{const} \mbox{\hyperlink{struct_im_draw_list}{ImDrawList}}* cmd\_list = drawData-\/>CmdLists[n];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00529}00529 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00530}00530         memcpy((\textcolor{keywordtype}{char} *)vertexBuffer.buffer.contents + vertexBufferOffset, cmd\_list-\/>VtxBuffer.Data, (\textcolor{keywordtype}{size\_t})cmd\_list-\/>VtxBuffer.Size * \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}}));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00531}00531         memcpy((\textcolor{keywordtype}{char} *)indexBuffer.buffer.contents + indexBufferOffset, cmd\_list-\/>IdxBuffer.Data, (\textcolor{keywordtype}{size\_t})cmd\_list-\/>IdxBuffer.Size * \textcolor{keyword}{sizeof}(ImDrawIdx));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00532}00532 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00533}00533         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} cmd\_i = 0; cmd\_i < cmd\_list-\/>CmdBuffer.Size; cmd\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00534}00534         \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00535}00535             \textcolor{keyword}{const} \mbox{\hyperlink{struct_im_draw_cmd}{ImDrawCmd}}* pcmd = \&cmd\_list-\/>CmdBuffer[cmd\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00536}00536             \textcolor{keywordflow}{if} (pcmd-\/>UserCallback)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00537}00537             \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00538}00538                 \textcolor{comment}{// User callback, registered via ImDrawList::AddCallback()}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00539}00539                 \textcolor{comment}{// (ImDrawCallback\_ResetRenderState is a special callback value used by the user to request the renderer to reset render state.)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00540}00540                 \textcolor{keywordflow}{if} (pcmd-\/>UserCallback == ImDrawCallback\_ResetRenderState)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00541}00541                     [\textcolor{keyword}{self} setupRenderState:drawData commandBuffer:commandBuffer commandEncoder:commandEncoder renderPipelineState:renderPipelineState vertexBuffer:vertexBuffer vertexBufferOffset:vertexBufferOffset];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00542}00542                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00543}00543                     pcmd-\/>UserCallback(cmd\_list, pcmd);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00544}00544             \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00545}00545             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00546}00546             \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00547}00547                 \textcolor{comment}{// Project scissor/clipping rectangles into framebuffer space}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00548}00548                 \mbox{\hyperlink{struct_im_vec2}{ImVec2}} clip\_min((pcmd-\/>ClipRect.x -\/ clip\_off.x) * clip\_scale.x, (pcmd-\/>ClipRect.y -\/ clip\_off.y) * clip\_scale.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00549}00549                 \mbox{\hyperlink{struct_im_vec2}{ImVec2}} clip\_max((pcmd-\/>ClipRect.z -\/ clip\_off.x) * clip\_scale.x, (pcmd-\/>ClipRect.w -\/ clip\_off.y) * clip\_scale.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00550}00550 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00551}00551                 \textcolor{comment}{// Clamp to viewport as setScissorRect() won't accept values that are off bounds}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00552}00552                 \textcolor{keywordflow}{if} (clip\_min.x < 0.0f) \{ clip\_min.x = 0.0f; \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00553}00553                 \textcolor{keywordflow}{if} (clip\_min.y < 0.0f) \{ clip\_min.y = 0.0f; \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00554}00554                 \textcolor{keywordflow}{if} (clip\_max.x > fb\_width) \{ clip\_max.x = (float)fb\_width; \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00555}00555                 \textcolor{keywordflow}{if} (clip\_max.y > fb\_height) \{ clip\_max.y = (float)fb\_height; \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00556}00556                 \textcolor{keywordflow}{if} (clip\_max.x <= clip\_min.x || clip\_max.y <= clip\_min.y)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00557}00557                     \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00558}00558                 \textcolor{keywordflow}{if} (pcmd-\/>ElemCount == 0) \textcolor{comment}{// drawIndexedPrimitives() validation doesn't accept this}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00559}00559                     \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00560}00560 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00561}00561                 \textcolor{comment}{// Apply scissor/clipping rectangle}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00562}00562                 MTLScissorRect scissorRect =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00563}00563                 \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00564}00564                     .x = NSUInteger(clip\_min.x),}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00565}00565                     .y = NSUInteger(clip\_min.y),}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00566}00566                     .width = NSUInteger(clip\_max.x -\/ clip\_min.x),}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00567}00567                     .height = NSUInteger(clip\_max.y -\/ clip\_min.y)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00568}00568                 \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00569}00569                 [commandEncoder setScissorRect:scissorRect];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00570}00570 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00571}00571                 \textcolor{comment}{// Bind texture, Draw}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00572}00572                 \textcolor{keywordflow}{if} (ImTextureID tex\_id = pcmd-\/>GetTexID())}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00573}00573                     [commandEncoder setFragmentTexture:(\_\_bridge id<MTLTexture>)(tex\_id) atIndex:0];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00574}00574 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00575}00575                 [commandEncoder setVertexBufferOffset:(vertexBufferOffset + pcmd-\/>VtxOffset * sizeof(ImDrawVert)) atIndex:0];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00576}00576                 [commandEncoder drawIndexedPrimitives:MTLPrimitiveTypeTriangle}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00577}00577                                            indexCount:pcmd-\/>ElemCount}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00578}00578                                             indexType:sizeof(ImDrawIdx) == 2 ? MTLIndexTypeUInt16 : MTLIndexTypeUInt32}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00579}00579                                           indexBuffer:indexBuffer.buffer}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00580}00580                                     indexBufferOffset:indexBufferOffset + pcmd-\/>IdxOffset * sizeof(ImDrawIdx)];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00581}00581             \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00582}00582         \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00583}00583 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00584}00584         vertexBufferOffset += (size\_t)cmd\_list-\/>VtxBuffer.Size * \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_im_draw_vert}{ImDrawVert}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00585}00585         indexBufferOffset += (size\_t)cmd\_list-\/>IdxBuffer.Size * \textcolor{keyword}{sizeof}(ImDrawIdx);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00586}00586     \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00587}00587 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00588}00588     \_\_weak \textcolor{keywordtype}{id} weakSelf = \textcolor{keyword}{self};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00589}00589     [commandBuffer addCompletedHandler:\string^(id<MTLCommandBuffer>)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00590}00590     \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00591}00591         dispatch\_async(dispatch\_get\_main\_queue(), \string^\{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00592}00592             [weakSelf enqueueReusableBuffer:vertexBuffer];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00593}00593             [weakSelf enqueueReusableBuffer:indexBuffer];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00594}00594         \});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00595}00595     \}];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00596}00596 \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00597}00597 }
+\DoxyCodeLine{\Hypertarget{imgui__impl__metal_8mm_source_l00598}00598 \textcolor{keyword}{@end}}
+
+\end{DoxyCode}

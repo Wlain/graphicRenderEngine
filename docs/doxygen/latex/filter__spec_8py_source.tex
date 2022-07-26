@@ -1,0 +1,44 @@
+\hypertarget{filter__spec_8py_source}{}\doxysection{filter\+\_\+spec.\+py}
+\label{filter__spec_8py_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glew/auto/bin/filter\_spec.py@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glew/auto/bin/filter\_spec.py}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00001}00001 \textcolor{comment}{\#!/usr/bin/python}}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00002}00002 }
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00003}00003 \textcolor{keyword}{import} re}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00005}00005 section = re.compile(\textcolor{stringliteral}{'\string^(Name|Name Strings?|Contact|Notice|Number|Dependencies|Overview|Issues|IP Status|Status|Version|New Procedures and Functions|New Tokens|Additions to .*|Changes to .*|Modifications to .*|Add new Section .*)\(\backslash\)s*\$'})}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00006}00006 token   = re.compile(\textcolor{stringliteral}{'\string^\(\backslash\)s+(([A-\/Z0-\/9][A-\/Z0-\/9\_x]*):?\(\backslash\)s+((?:0x)?[0-\/9A-\/F]+)([\string^\(\backslash\)?]*))?\(\backslash\)s*\$'})}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00007}00007 match   = [ \textcolor{stringliteral}{'Name'}, \textcolor{stringliteral}{'Name String'}, \textcolor{stringliteral}{'Contact'}, \textcolor{stringliteral}{'Notice'}, \textcolor{stringliteral}{'Name Strings'}, \textcolor{stringliteral}{'Version'}, \textcolor{stringliteral}{'Number'}, \textcolor{stringliteral}{'Dependencies'}, \textcolor{stringliteral}{'New Procedures and Functions'}, \textcolor{stringliteral}{'New Tokens'}]}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00009}00009 \textcolor{keywordflow}{if} \_\_name\_\_ == \textcolor{stringliteral}{'\_\_main\_\_'}:}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00010}00010 }
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00011}00011   \textcolor{keyword}{from} optparse \textcolor{keyword}{import} OptionParser}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00012}00012   \textcolor{keyword}{import} os}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00013}00013 }
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00014}00014   parser = OptionParser(\textcolor{stringliteral}{'usage: \%prog [options] [SOURCES...]'})}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00015}00015   (options, args) = parser.parse\_args()}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00017}00017   \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} args:}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00018}00018       lines = open(i).readlines()}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00019}00019       f = open(i,\textcolor{stringliteral}{'w'})}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00020}00020 }
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00021}00021       \textcolor{comment}{\# Keep track of the current section as we iterate over the input}}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00022}00022       current = \textcolor{stringliteral}{''}}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00023}00023       \textcolor{keywordflow}{for} j \textcolor{keywordflow}{in} lines:}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00025}00025           \textcolor{comment}{\# Detect the start of a new section}}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00026}00026           m = section.match(j)}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00027}00027           \textcolor{keywordflow}{if} m:}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00028}00028               current = m.group(1).strip()}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00029}00029               \textcolor{keywordflow}{if} current \textcolor{keywordflow}{in} match:}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00030}00030                   \textcolor{keywordflow}{print} >>f, j,}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00031}00031               \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00033}00033           \textcolor{keywordflow}{if} current==\textcolor{stringliteral}{'New Tokens'}:}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00034}00034               \textcolor{keywordflow}{if} token.match(j):}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00035}00035                   \textcolor{keywordflow}{print} >>f, j,}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00036}00036           \textcolor{keywordflow}{elif} current \textcolor{keywordflow}{in} match:}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00037}00037                   \textcolor{keywordflow}{print} >>f, j,}
+\DoxyCodeLine{\Hypertarget{filter__spec_8py_source_l00038}00038 }
+
+\end{DoxyCode}

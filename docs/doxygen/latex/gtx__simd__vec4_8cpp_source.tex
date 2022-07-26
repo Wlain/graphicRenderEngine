@@ -1,0 +1,48 @@
+\hypertarget{gtx__simd__vec4_8cpp_source}{}\doxysection{gtx\+\_\+simd\+\_\+vec4.\+cpp}
+\label{gtx__simd__vec4_8cpp_source}\index{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/gtx/gtx\_simd\_vec4.cpp@{/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/gtx/gtx\_simd\_vec4.cpp}}
+\mbox{\hyperlink{gtx__simd__vec4_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00032}00032 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{glm_8hpp}{glm/glm.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00033}00033 \textcolor{preprocessor}{\#include <glm/gtx/simd\_vec4.hpp>}}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00034}00034 \textcolor{preprocessor}{\#include <cstdio>}}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00036}00036 \textcolor{preprocessor}{\#if(GLM\_ARCH != GLM\_ARCH\_PURE)}}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00038}00038 \textcolor{keywordtype}{int} main()}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00039}00039 \{}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00040}00040     glm::simdVec4 A1(0.0f, 0.1f, 0.2f, 0.3f);}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00041}00041     glm::simdVec4 B1(0.4f, 0.5f, 0.6f, 0.7f);}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00042}00042     glm::simdVec4 C1 = A1 + B1;}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00043}00043     glm::simdVec4 D1 = A1.swizzle<glm::X, glm::Z, glm::Y, glm::W>();}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00044}00044     glm::simdVec4 E1(\mbox{\hyperlink{structglm_1_1vec}{glm::vec4}}(1.0f));}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00045}00045     \mbox{\hyperlink{structglm_1_1vec}{glm::vec4}} F1 = glm::vec4\_cast(E1);}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00046}00046     \textcolor{comment}{//glm::vec4 G1(E1);}}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00048}00048     \textcolor{comment}{//printf("{}A1(\%2.3f, \%2.3f, \%2.3f, \%2.3f)\(\backslash\)n"{}, A1.x, A1.y, A1.z, A1.w);}}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00049}00049     \textcolor{comment}{//printf("{}B1(\%2.3f, \%2.3f, \%2.3f, \%2.3f)\(\backslash\)n"{}, B1.x, B1.y, B1.z, B1.w);}}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00050}00050     \textcolor{comment}{//printf("{}C1(\%2.3f, \%2.3f, \%2.3f, \%2.3f)\(\backslash\)n"{}, C1.x, C1.y, C1.z, C1.w);}}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00051}00051     \textcolor{comment}{//printf("{}D1(\%2.3f, \%2.3f, \%2.3f, \%2.3f)\(\backslash\)n"{}, D1.x, D1.y, D1.z, D1.w);}}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00053}00053     \_\_m128 \mbox{\hyperlink{classvalue}{value}} = \_mm\_set1\_ps(0.0f);}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00054}00054     \_\_m128 data = \_mm\_cmpeq\_ps(\mbox{\hyperlink{classvalue}{value}}, \mbox{\hyperlink{classvalue}{value}});}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00055}00055     \_\_m128 add0 = \_mm\_add\_ps(data, data);}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00057}00057     glm::simdVec4 GNI(add0);}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00059}00059     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00060}00060 \}}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00062}00062 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00064}00064 \textcolor{keywordtype}{int} main()}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00065}00065 \{}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00066}00066     \textcolor{keywordtype}{int} Error = 0;}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00068}00068     \textcolor{keywordflow}{return} Error;}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00069}00069 \}}
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{gtx__simd__vec4_8cpp_source_l00071}00071 \textcolor{preprocessor}{\#endif}\textcolor{comment}{//(GLM\_ARCH != GLM\_ARCH\_PURE)}}
+
+\end{DoxyCode}

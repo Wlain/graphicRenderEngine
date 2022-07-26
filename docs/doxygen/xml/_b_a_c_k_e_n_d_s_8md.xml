@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="_b_a_c_k_e_n_d_s_8md" kind="file" language="Markdown">
+    <compoundname>BACKENDS.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">_(You<sp/>may<sp/>browse<sp/>this<sp/>at<sp/>https://github.com/ocornut/imgui/blob/master/docs/BACKENDS.md<sp/>or<sp/>view<sp/>this<sp/>file<sp/>with<sp/>any<sp/>Markdown<sp/>viewer)_</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Dear<sp/>ImGui:<sp/>Backends</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**The<sp/>backends/<sp/>folder<sp/>contains<sp/>backends<sp/>for<sp/>popular<sp/>platforms/graphics<sp/>API,<sp/>which<sp/>you<sp/>can<sp/>use<sp/>in</highlight></codeline>
+<codeline><highlight class="normal">your<sp/>application<sp/>or<sp/>engine<sp/>to<sp/>easily<sp/>integrate<sp/>Dear<sp/>ImGui.**<sp/>Each<sp/>backend<sp/>is<sp/>typically<sp/>self-contained<sp/>in<sp/>a<sp/>pair<sp/>of<sp/>files:<sp/>imgui_impl_XXXX.cpp<sp/>+<sp/>imgui_impl_XXXX.h.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>The<sp/>&apos;Platform&apos;<sp/>backends<sp/>are<sp/>in<sp/>charge<sp/>of:<sp/>mouse/keyboard/gamepad<sp/>inputs,<sp/>cursor<sp/>shape,<sp/>timing,<sp/>windowing.&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>e.g.<sp/>Windows<sp/>([imgui_impl_win32.cpp](https://github.com/ocornut/imgui/blob/master/backends/imgui_impl_win32.cpp)),<sp/>GLFW<sp/>([imgui_impl_glfw.cpp](https://github.com/ocornut/imgui/blob/master/backends/imgui_impl_glfw.cpp)),<sp/>SDL2<sp/>([imgui_impl_sdl.cpp](https://github.com/ocornut/imgui/blob/master/backends/imgui_impl_sdl.cpp)),<sp/>etc.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>The<sp/>&apos;Renderer&apos;<sp/>backends<sp/>are<sp/>in<sp/>charge<sp/>of:<sp/>creating<sp/>atlas<sp/>texture,<sp/>rendering<sp/>imgui<sp/>draw<sp/>data.&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>e.g.<sp/>DirectX11<sp/>([imgui_impl_dx11.cpp](https://github.com/ocornut/imgui/blob/master/backends/imgui_impl_dx11.cpp)),<sp/>OpenGL/WebGL<sp/>([imgui_impl_opengl3.cpp](https://github.com/ocornut/imgui/blob/master/backends/imgui_impl_opengl3.cpp)),<sp/>Vulkan<sp/>([imgui_impl_vulkan.cpp](https://github.com/ocornut/imgui/blob/master/backends/imgui_impl_vulkan.cpp)),<sp/>etc.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>For<sp/>some<sp/>high-level<sp/>frameworks,<sp/>a<sp/>single<sp/>backend<sp/>usually<sp/>handle<sp/>both<sp/>&apos;Platform&apos;<sp/>and<sp/>&apos;Renderer&apos;<sp/>parts.&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>e.g.<sp/>Allegro<sp/>5<sp/>([imgui_impl_allegro5.cpp](https://github.com/ocornut/imgui/blob/master/backends/imgui_impl_allegro5.cpp)).<sp/>If<sp/>you<sp/>end<sp/>up<sp/>creating<sp/>a<sp/>custom<sp/>backend<sp/>for<sp/>your<sp/>engine,<sp/>you<sp/>may<sp/>want<sp/>to<sp/>do<sp/>the<sp/>same.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">An<sp/>application<sp/>usually<sp/>combines<sp/>1<sp/>Platform<sp/>backend<sp/>+<sp/>1<sp/>Renderer<sp/>backend<sp/>+<sp/>main<sp/>Dear<sp/>ImGui<sp/>sources.</highlight></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>the<sp/>[example_win32_directx11](https://github.com/ocornut/imgui/tree/master/examples/example_win32_directx11)<sp/>application<sp/>combines<sp/>imgui_impl_win32.cpp<sp/>+<sp/>imgui_impl_dx11.cpp.<sp/>There<sp/>are<sp/>20+<sp/>examples<sp/>in<sp/>the<sp/>[examples/](https://github.com/ocornut/imgui/blob/master/examples/)<sp/>folder.<sp/>See<sp/>[EXAMPLES.MD](https://github.com/ocornut/imgui/blob/master/docs/EXAMPLES.md)<sp/>for<sp/>details.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Once<sp/>Dear<sp/>ImGui<sp/>is<sp/>setup<sp/>and<sp/>running,<sp/>run<sp/>and<sp/>refer<sp/>to<sp/>`ImGui::ShowDemoWindow()`<sp/>in<sp/>imgui_demo.cpp<sp/>for<sp/>usage<sp/>of<sp/>the<sp/>end-user<sp/>API.**</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>What<sp/>are<sp/>backends</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Dear<sp/>ImGui<sp/>is<sp/>highly<sp/>portable<sp/>and<sp/>only<sp/>requires<sp/>a<sp/>few<sp/>things<sp/>to<sp/>run<sp/>and<sp/>render,<sp/>typically:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/>-<sp/>Required:<sp/>providing<sp/>mouse/keyboard<sp/>inputs<sp/>(fed<sp/>into<sp/>the<sp/>`ImGuiIO`<sp/>structure).</highlight></codeline>
+<codeline><highlight class="normal"><sp/>-<sp/>Required:<sp/>uploading<sp/>the<sp/>font<sp/>atlas<sp/>texture<sp/>into<sp/>graphics<sp/>memory.</highlight></codeline>
+<codeline><highlight class="normal"><sp/>-<sp/>Required:<sp/>rendering<sp/>indexed<sp/>textured<sp/>triangles<sp/>with<sp/>a<sp/>clipping<sp/>rectangle.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/>Extra<sp/>features<sp/>are<sp/>opt-in,<sp/>our<sp/>backends<sp/>try<sp/>to<sp/>support<sp/>as<sp/>many<sp/>as<sp/>possible:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/>-<sp/>Optional:<sp/>custom<sp/>texture<sp/>binding<sp/>support.</highlight></codeline>
+<codeline><highlight class="normal"><sp/>-<sp/>Optional:<sp/>clipboard<sp/>support.</highlight></codeline>
+<codeline><highlight class="normal"><sp/>-<sp/>Optional:<sp/>gamepad<sp/>support.</highlight></codeline>
+<codeline><highlight class="normal"><sp/>-<sp/>Optional:<sp/>mouse<sp/>cursor<sp/>shape<sp/>support.</highlight></codeline>
+<codeline><highlight class="normal"><sp/>-<sp/>Optional:<sp/>IME<sp/>support.</highlight></codeline>
+<codeline><highlight class="normal"><sp/>-<sp/>Optional:<sp/>multi-viewports<sp/>support.</highlight></codeline>
+<codeline><highlight class="normal"><sp/>etc.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>is<sp/>essentially<sp/>what<sp/>each<sp/>backends<sp/>are<sp/>doing<sp/>+<sp/>obligatory<sp/>portability<sp/>cruft.<sp/>Using<sp/>default<sp/>backends<sp/>ensure<sp/>you<sp/>can<sp/>get<sp/>all<sp/>those<sp/>features<sp/>including<sp/>the<sp/>ones<sp/>that<sp/>would<sp/>be<sp/>harder<sp/>to<sp/>implement<sp/>on<sp/>your<sp/>side<sp/>(e.g.<sp/>multi-viewports<sp/>support).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">It<sp/>is<sp/>important<sp/>to<sp/>understand<sp/>the<sp/>difference<sp/>between<sp/>the<sp/>core<sp/>Dear<sp/>ImGui<sp/>library<sp/>(files<sp/>in<sp/>the<sp/>root<sp/>folder)</highlight></codeline>
+<codeline><highlight class="normal">and<sp/>backends<sp/>which<sp/>we<sp/>are<sp/>describing<sp/>here<sp/>(backends/<sp/>folder).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>Some<sp/>issues<sp/>may<sp/>only<sp/>be<sp/>backend<sp/>or<sp/>platform<sp/>specific.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>You<sp/>should<sp/>be<sp/>able<sp/>to<sp/>write<sp/>backends<sp/>for<sp/>pretty<sp/>much<sp/>any<sp/>platform<sp/>and<sp/>any<sp/>3D<sp/>graphics<sp/>API.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>e.g.<sp/>you<sp/>can<sp/>get<sp/>creative<sp/>and<sp/>use<sp/>software<sp/>rendering<sp/>or<sp/>render<sp/>remotely<sp/>on<sp/>a<sp/>different<sp/>machine.</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Integrating<sp/>a<sp/>backend</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>&quot;Getting<sp/>Started&quot;<sp/>section<sp/>of<sp/>[EXAMPLES.MD](https://github.com/ocornut/imgui/blob/master/docs/EXAMPLES.md)<sp/>for<sp/>more<sp/>details.</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>List<sp/>of<sp/>backends</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">In<sp/>the<sp/>[backends/](https://github.com/ocornut/imgui/blob/master/backends)<sp/>folder:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">List<sp/>of<sp/>Platforms<sp/>Backends:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>imgui_impl_android.cpp<sp/><sp/><sp/><sp/>;<sp/>Android<sp/>native<sp/>app<sp/>API</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>imgui_impl_glfw.cpp<sp/><sp/><sp/><sp/><sp/><sp/><sp/>;<sp/>GLFW<sp/>(Windows,<sp/>macOS,<sp/>Linux,<sp/>etc.)<sp/>http://www.glfw.org/</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>imgui_impl_osx.mm<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>;<sp/>macOS<sp/>native<sp/>API<sp/>(not<sp/>as<sp/>feature<sp/>complete<sp/>as<sp/>glfw/sdl<sp/>backends)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>imgui_impl_sdl.cpp<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>;<sp/>SDL2<sp/>(Windows,<sp/>macOS,<sp/>Linux,<sp/>iOS,<sp/>Android)<sp/>https://www.libsdl.org</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>imgui_impl_win32.cpp<sp/><sp/><sp/><sp/><sp/><sp/>;<sp/>Win32<sp/>native<sp/>API<sp/>(Windows)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>imgui_impl_glut.cpp<sp/><sp/><sp/><sp/><sp/><sp/><sp/>;<sp/>GLUT/FreeGLUT<sp/>(this<sp/>is<sp/>prehistoric<sp/>software<sp/>and<sp/>absolutely<sp/>not<sp/>recommended<sp/>today!)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">List<sp/>of<sp/>Renderer<sp/>Backends:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>imgui_impl_dx9.cpp<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>;<sp/>DirectX9</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>imgui_impl_dx10.cpp<sp/><sp/><sp/><sp/><sp/><sp/><sp/>;<sp/>DirectX10</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>imgui_impl_dx11.cpp<sp/><sp/><sp/><sp/><sp/><sp/><sp/>;<sp/>DirectX11</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>imgui_impl_dx12.cpp<sp/><sp/><sp/><sp/><sp/><sp/><sp/>;<sp/>DirectX12</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>imgui_impl_metal.mm<sp/><sp/><sp/><sp/><sp/><sp/><sp/>;<sp/>Metal<sp/>(with<sp/>ObjC)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>imgui_impl_opengl2.cpp<sp/><sp/><sp/><sp/>;<sp/>OpenGL<sp/>2<sp/>(legacy,<sp/>fixed<sp/>pipeline<sp/>&lt;-<sp/>don&apos;t<sp/>use<sp/>with<sp/>modern<sp/>OpenGL<sp/>context)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>imgui_impl_opengl3.cpp<sp/><sp/><sp/><sp/>;<sp/>OpenGL<sp/>3/4,<sp/>OpenGL<sp/>ES<sp/>2,<sp/>OpenGL<sp/>ES<sp/>3<sp/>(modern<sp/>programmable<sp/>pipeline)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>imgui_impl_sdlrenderer.cpp;<sp/>SDL_Renderer<sp/>(optional<sp/>component<sp/>of<sp/>SDL2<sp/>available<sp/>from<sp/>SDL<sp/>2.0.18+)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>imgui_impl_vulkan.cpp<sp/><sp/><sp/><sp/><sp/>;<sp/>Vulkan</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>imgui_impl_wgpu.cpp<sp/><sp/><sp/><sp/><sp/><sp/><sp/>;<sp/>WebGPU</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">List<sp/>of<sp/>high-level<sp/>Frameworks<sp/>Backends<sp/>(combining<sp/>Platform<sp/>+<sp/>Renderer):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>imgui_impl_allegro5.cpp</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Emscripten<sp/>is<sp/>also<sp/>supported.</highlight></codeline>
+<codeline><highlight class="normal">The<sp/>[example_emscripten_opengl3](https://github.com/ocornut/imgui/tree/master/examples/example_emscripten_opengl3)<sp/>app<sp/>uses<sp/>imgui_impl_sdl.cpp<sp/>+<sp/>imgui_impl_opengl3.cpp,<sp/>but<sp/>other<sp/>combos<sp/>are<sp/>possible.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Backends<sp/>for<sp/>third-party<sp/>frameworks,<sp/>graphics<sp/>API<sp/>or<sp/>other<sp/>languages</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>https://github.com/ocornut/imgui/wiki/Bindings<sp/>for<sp/>the<sp/>full<sp/>list<sp/>(e.g.<sp/>Adventure<sp/>Game<sp/>Studio,<sp/>Cinder,<sp/>Cocos2d-x,<sp/>Game<sp/>Maker<sp/>Studio2,<sp/>Godot,<sp/>LÖVE+LUA,<sp/>Magnum,<sp/>Monogame,<sp/>Ogre,<sp/>openFrameworks,<sp/>OpenSceneGraph,<sp/>SFML,<sp/>Sokol,<sp/>Unity,<sp/>Unreal<sp/>Engine<sp/>and<sp/>many<sp/>others).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Recommended<sp/>Backends</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>are<sp/>not<sp/>sure<sp/>which<sp/>backend<sp/>to<sp/>use,<sp/>the<sp/>recommended<sp/>platform/frameworks<sp/>for<sp/>portable<sp/>applications:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|Library<sp/>|Website<sp/>|Backend<sp/>|Note<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|--------|--------|--------|-----|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>GLFW<sp/>|<sp/>https://github.com/glfw/glfw<sp/>|<sp/>imgui_impl_glfw.cpp<sp/>|<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>SDL2<sp/>|<sp/>https://www.libsdl.org<sp/>|<sp/>imgui_impl_sdl.cpp<sp/>|<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>Sokol<sp/>|<sp/>https://github.com/floooh/sokol<sp/>|<sp/>[util/sokol_imgui.h](https://github.com/floooh/sokol/blob/master/util/sokol_imgui.h)<sp/>|<sp/>Lower-level<sp/>than<sp/>GLFW/SDL<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Using<sp/>a<sp/>custom<sp/>engine?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>will<sp/>likely<sp/>be<sp/>tempted<sp/>to<sp/>start<sp/>by<sp/>rewrite<sp/>your<sp/>own<sp/>backend<sp/>using<sp/>your<sp/>own<sp/>custom/high-level<sp/>facilities...&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">Think<sp/>twice!</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>are<sp/>new<sp/>to<sp/>Dear<sp/>ImGui,<sp/>first<sp/>try<sp/>using<sp/>the<sp/>existing<sp/>backends<sp/>as-is.</highlight></codeline>
+<codeline><highlight class="normal">You<sp/>will<sp/>save<sp/>lots<sp/>of<sp/>time<sp/>integrating<sp/>the<sp/>library.</highlight></codeline>
+<codeline><highlight class="normal">You<sp/>can<sp/>LATER<sp/>decide<sp/>to<sp/>rewrite<sp/>yourself<sp/>a<sp/>custom<sp/>backend<sp/>if<sp/>you<sp/>really<sp/>need<sp/>to.</highlight></codeline>
+<codeline><highlight class="normal">In<sp/>most<sp/>situations,<sp/>custom<sp/>backends<sp/>have<sp/>less<sp/>features<sp/>and<sp/>more<sp/>bugs<sp/>than<sp/>the<sp/>standard<sp/>backends<sp/>we<sp/>provide.</highlight></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>want<sp/>portability,<sp/>you<sp/>can<sp/>use<sp/>multiple<sp/>backends<sp/>and<sp/>choose<sp/>between<sp/>them<sp/>either<sp/>at<sp/>compile<sp/>time</highlight></codeline>
+<codeline><highlight class="normal">or<sp/>at<sp/>runtime.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Example<sp/>A**:<sp/>your<sp/>engine<sp/>is<sp/>built<sp/>over<sp/>Windows<sp/>+<sp/>DirectX11<sp/>but<sp/>you<sp/>have<sp/>your<sp/>own<sp/>high-level<sp/>rendering</highlight></codeline>
+<codeline><highlight class="normal">system<sp/>layered<sp/>over<sp/>DirectX11.&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">Suggestion:<sp/>try<sp/>using<sp/>imgui_impl_win32.cpp<sp/>+<sp/>imgui_impl_dx11.cpp<sp/>first.</highlight></codeline>
+<codeline><highlight class="normal">Once<sp/>it<sp/>works,<sp/>if<sp/>you<sp/>really<sp/>need<sp/>it<sp/>you<sp/>can<sp/>replace<sp/>the<sp/>imgui_impl_dx11.cpp<sp/>code<sp/>with<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">custom<sp/>renderer<sp/>using<sp/>your<sp/>own<sp/>rendering<sp/>functions,<sp/>and<sp/>keep<sp/>using<sp/>the<sp/>standard<sp/>Win32<sp/>code<sp/>etc.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Example<sp/>B**:<sp/>your<sp/>engine<sp/>runs<sp/>on<sp/>Windows,<sp/>Mac,<sp/>Linux<sp/>and<sp/>uses<sp/>DirectX11,<sp/>Metal,<sp/>Vulkan<sp/>respectively.&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">Suggestion:<sp/>use<sp/>multiple<sp/>generic<sp/>backends!</highlight></codeline>
+<codeline><highlight class="normal">Once<sp/>it<sp/>works,<sp/>if<sp/>you<sp/>really<sp/>need<sp/>it<sp/>you<sp/>can<sp/>replace<sp/>parts<sp/>of<sp/>backends<sp/>with<sp/>your<sp/>own<sp/>abstractions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Example<sp/>C**:<sp/>your<sp/>engine<sp/>runs<sp/>on<sp/>platforms<sp/>we<sp/>can&apos;t<sp/>provide<sp/>public<sp/>backends<sp/>for<sp/>(e.g.<sp/>PS4/PS5,<sp/>Switch),</highlight></codeline>
+<codeline><highlight class="normal">and<sp/>you<sp/>have<sp/>high-level<sp/>systems<sp/>everywhere.&lt;BR&gt;</highlight></codeline>
+<codeline><highlight class="normal">Suggestion:<sp/>try<sp/>using<sp/>a<sp/>non-portable<sp/>backend<sp/>first<sp/>(e.g.<sp/>win32<sp/>+<sp/>underlying<sp/>graphics<sp/>API)<sp/>to<sp/>get</highlight></codeline>
+<codeline><highlight class="normal">your<sp/>desktop<sp/>builds<sp/>working<sp/>first.<sp/>This<sp/>will<sp/>get<sp/>you<sp/>running<sp/>faster<sp/>and<sp/>get<sp/>your<sp/>acquainted<sp/>with</highlight></codeline>
+<codeline><highlight class="normal">how<sp/>Dear<sp/>ImGui<sp/>works<sp/>and<sp/>is<sp/>setup.<sp/>You<sp/>can<sp/>then<sp/>rewrite<sp/>a<sp/>custom<sp/>backend<sp/>using<sp/>your<sp/>own<sp/>engine<sp/>API...</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Generally:</highlight></codeline>
+<codeline><highlight class="normal">It<sp/>is<sp/>unlikely<sp/>you<sp/>will<sp/>add<sp/>value<sp/>to<sp/>your<sp/>project<sp/>by<sp/>creating<sp/>your<sp/>own<sp/>backend.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Also:</highlight></codeline>
+<codeline><highlight class="normal">The<sp/>[multi-viewports<sp/>feature](https://github.com/ocornut/imgui/issues/1542)<sp/>of<sp/>the<sp/>&apos;docking&apos;<sp/>branch<sp/>allows</highlight></codeline>
+<codeline><highlight class="normal">Dear<sp/>ImGui<sp/>windows<sp/>to<sp/>be<sp/>seamlessly<sp/>detached<sp/>from<sp/>the<sp/>main<sp/>application<sp/>window.<sp/>This<sp/>is<sp/>achieved<sp/>using<sp/>an</highlight></codeline>
+<codeline><highlight class="normal">extra<sp/>layer<sp/>to<sp/>the<sp/>Platform<sp/>and<sp/>Renderer<sp/>backends,<sp/>which<sp/>allows<sp/>Dear<sp/>ImGui<sp/>to<sp/>communicate<sp/>platform-specific</highlight></codeline>
+<codeline><highlight class="normal">requests<sp/>such<sp/>as:<sp/>&quot;create<sp/>an<sp/>additional<sp/>OS<sp/>window&quot;,<sp/>&quot;create<sp/>a<sp/>render<sp/>context&quot;,<sp/>&quot;get<sp/>the<sp/>OS<sp/>position<sp/>of<sp/>this</highlight></codeline>
+<codeline><highlight class="normal">window&quot;<sp/>etc.<sp/>See<sp/>&apos;ImGuiPlatformIO&apos;<sp/>for<sp/>details.</highlight></codeline>
+<codeline><highlight class="normal">Supporting<sp/>the<sp/>multi-viewports<sp/>feature<sp/>correctly<sp/>using<sp/>100%<sp/>of<sp/>your<sp/>own<sp/>abstractions<sp/>is<sp/>more<sp/>difficult</highlight></codeline>
+<codeline><highlight class="normal">than<sp/>supporting<sp/>single-viewport.</highlight></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>decide<sp/>to<sp/>use<sp/>unmodified<sp/>imgui_impl_XXXX.cpp<sp/>files,<sp/>you<sp/>can<sp/>automatically<sp/>benefit<sp/>from</highlight></codeline>
+<codeline><highlight class="normal">improvements<sp/>and<sp/>fixes<sp/>related<sp/>to<sp/>viewports<sp/>and<sp/>platform<sp/>windows<sp/>without<sp/>extra<sp/>work<sp/>on<sp/>your<sp/>side.</highlight></codeline>
+    </programlisting>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/imgui/docs/BACKENDS.md"/>
+  </compounddef>
+</doxygen>

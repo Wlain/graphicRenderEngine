@@ -1,0 +1,574 @@
+\hypertarget{classceres_1_1_shader}{}\doxysection{ceres\+::Shader Class Reference}
+\label{classceres_1_1_shader}\index{ceres::Shader@{ceres::Shader}}
+Inheritance diagram for ceres\+::Shader\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classceres_1_1_shader}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structceres_1_1_shader_1_1_resource}{Resource}}
+\item 
+struct \mbox{\hyperlink{structceres_1_1_shader_1_1_shader_attribute}{Shader\+Attribute}}
+\item 
+class \mbox{\hyperlink{classceres_1_1_shader_1_1_shader_builder}{Shader\+Builder}}
+\item 
+struct \mbox{\hyperlink{structceres_1_1_shader_1_1_stencil_descriptor}{Stencil\+Descriptor}}
+\item 
+struct \mbox{\hyperlink{structceres_1_1_shader_1_1_uniform}{Uniform}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum class {\bfseries Blend\+Type} \{ {\bfseries Disabled}
+, {\bfseries Alpha\+Blending}
+, {\bfseries Additive\+Blending}
+ \}
+\item 
+enum class {\bfseries Uniform\+Type} \{ \newline
+{\bfseries Int}
+, {\bfseries Float}
+, {\bfseries Mat3}
+, {\bfseries Mat4}
+, \newline
+{\bfseries Vec4}
+, {\bfseries IVec4}
+, {\bfseries Vec3}
+, {\bfseries Texture}
+, \newline
+{\bfseries Invalid}
+, {\bfseries Texture\+Cube}
+ \}
+\item 
+enum class {\bfseries Cull\+Face} \{ {\bfseries Front}
+, {\bfseries Back}
+, {\bfseries None}
+ \}
+\item 
+enum class {\bfseries Shader\+Type} \{ \newline
+{\bfseries Vertex}
+, {\bfseries Fragment}
+, {\bfseries Geometry}
+, {\bfseries Tessellation\+Control}
+, \newline
+{\bfseries Tessellation\+Evaluation}
+ \}
+\item 
+enum class {\bfseries Resource\+Type} \{ {\bfseries File}
+, {\bfseries Memory}
+ \}
+\item 
+enum class {\bfseries Stencil\+Func} \{ \newline
+{\bfseries Never} = GL\+\_\+\+NEVER
+, {\bfseries Less} = GL\+\_\+\+LESS
+, {\bfseries Equal} = GL\+\_\+\+EQUAL
+, {\bfseries LEqual} = GL\+\_\+\+LEQUAL
+, \newline
+{\bfseries Greater} = GL\+\_\+\+GREATER
+, {\bfseries Not\+Equal} = GL\+\_\+\+NOTEQUAL
+, {\bfseries GEqual} = GL\+\_\+\+GEQUAL
+, {\bfseries Always} = GL\+\_\+\+ALWAYS
+, \newline
+{\bfseries Disabled}
+ \}
+\item 
+enum class {\bfseries Stencil\+Op} \{ \newline
+{\bfseries Keep} = GL\+\_\+\+KEEP
+, {\bfseries Zero} = GL\+\_\+\+ZERO
+, {\bfseries Replace} = GL\+\_\+\+REPLACE
+, {\bfseries Incr} = GL\+\_\+\+INCR
+, \newline
+{\bfseries Incr\+Wrap} = GL\+\_\+\+INCR\+\_\+\+WRAP
+, {\bfseries Decr} = GL\+\_\+\+DECR
+, {\bfseries Decr\+Wrap} = GL\+\_\+\+DECR\+\_\+\+WRAP
+, {\bfseries Invert} = GL\+\_\+\+INVERT
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structceres_1_1_shader_1_1_uniform}{Uniform}} \mbox{\hyperlink{classceres_1_1_shader_a977c0416fc3c2ca97e5a8303b7e3dd49}{get\+Uniform\+Type}} (std\+::string\+\_\+view name)
+\item 
+std\+::pair$<$ int, int $>$ \mbox{\hyperlink{classceres_1_1_shader_a5101cac396598041719f03aa2b5c8678}{get\+Attribute\+Type}} (const std\+::string \&name)
+\item 
+bool \mbox{\hyperlink{classceres_1_1_shader_a4cedb63cf69c320c2a4d5ba9bdeaffc7}{is\+Depth\+Test}} () const
+\item 
+bool \mbox{\hyperlink{classceres_1_1_shader_ab29798106b4c5df13c386f5cec729361}{is\+Depth\+Write}} () const
+\item 
+Blend\+Type \mbox{\hyperlink{classceres_1_1_shader_aedaa92aed505ce1ad46bfc5e7579fedb}{get\+Blend}} () const
+\item 
+const glm\+::vec2 \& \mbox{\hyperlink{classceres_1_1_shader_af43a031016f54c6c2b76935071f39ee1}{get\+Offset}} () const
+\item 
+const std\+::string \& \mbox{\hyperlink{classceres_1_1_shader_a2da0d30444a83b8da9d7ca7573bda1a6}{name}} () const
+\item 
+const \mbox{\hyperlink{structceres_1_1_shader_1_1_stencil_descriptor}{Stencil\+Descriptor}} \& \mbox{\hyperlink{classceres_1_1_shader_a61a349238550c32ee8c98eff2b2737ff}{get\+Stencil}} () const
+\item 
+const glm\+::bvec4 \& \mbox{\hyperlink{classceres_1_1_shader_a6e4cb2b1010f0485ff07ac7ac81d8bc2}{color\+Write\+Mask}} () const
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classceres_1_1_shader_a758f1f0b961c7e9efdb9da0e469ce6a5}{get\+Attribute\+Names}} ()
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classceres_1_1_shader_afe598d9eec80e9ace494840c6ed9201b}{get\+Uniform\+Names}} ()
+\item 
+bool \mbox{\hyperlink{classceres_1_1_shader_a73b67ac45af774da00da3ab370291019}{validate\+Mesh}} (\mbox{\hyperlink{classceres_1_1_mesh}{Mesh}} $\ast$mesh, std\+::string \&info)
+\item 
+const std\+::map$<$ std\+::string, std\+::string $>$ \& \mbox{\hyperlink{classceres_1_1_shader_a458d39e89de44cf22a430b6fe4a90041}{get\+Current\+Specialization\+Constants}} () const
+\item 
+std\+::set$<$ std\+::string $>$ \mbox{\hyperlink{classceres_1_1_shader_acdb872dbda463433c48c4e7012675116}{get\+All\+Specialization\+Constants}} ()
+\item 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_material}{Material}} $>$ \mbox{\hyperlink{classceres_1_1_shader_aa8f93ff28512494ed3cafe96075cd881}{create\+Material}} (std\+::map$<$ std\+::string, std\+::string $>$ specialization\+Constants=\{\})
+\item 
+const char $\ast$ \mbox{\hyperlink{classceres_1_1_shader_adf74e965d77078643333c13c93aa3a5a}{to\+Str}} (Uniform\+Type u)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classceres_1_1_shader_1_1_shader_builder}{Shader\+Builder}} \mbox{\hyperlink{classceres_1_1_shader_aae508b42cf664d2f43eded45711623cf}{create}} ()
+\item 
+static \mbox{\hyperlink{classceres_1_1_shader_1_1_shader_builder}{Shader\+Builder}} \mbox{\hyperlink{classceres_1_1_shader_afea1d2fe0e512b826c9d64945a511eca}{update}} ()
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_shader}{Shader}} $>$ \mbox{\hyperlink{classceres_1_1_shader_a4c93eec6eee0da34e5807a7496c5f88c}{get\+Unlit}} ()
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_shader}{Shader}} $>$ \mbox{\hyperlink{classceres_1_1_shader_a3f581b979d632c1935bcde81cc50e620}{get\+Blit}} ()
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_shader}{Shader}} $>$ \mbox{\hyperlink{classceres_1_1_shader_a4cf25fbb1e0d37164059759a72e03cfd}{get\+Unlit\+Sprite}} ()
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_shader}{Shader}} $>$ \mbox{\hyperlink{classceres_1_1_shader_ad1cb5946e26455d4ab254dcc7e866a08}{get\+Standard\+Particles}} ()
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_shader}{Shader}} $>$ \mbox{\hyperlink{classceres_1_1_shader_af2c0ff157be0a27252b1aa8351d1b700}{get\+Standard\+PBR}} ()
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_shader}{Shader}} $>$ \mbox{\hyperlink{classceres_1_1_shader_a8bd8b7102bbd4e20fe9a101b8876f0f9}{get\+Standard\+Blinn\+Phong}} ()
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_shader}{Shader}} $>$ \mbox{\hyperlink{classceres_1_1_shader_a80dc0cec5f12da8147b44eee9ff882ff}{get\+Standard\+Phong}} ()
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_shader}{Shader}} $>$ \mbox{\hyperlink{classceres_1_1_shader_aead8414ac7b03877b1394283df8ae763}{get\+Skybox}} ()
+\item 
+static uint32\+\_\+t \mbox{\hyperlink{classceres_1_1_shader_acbc60156909ac42faf088ac966eac132}{to\+Id}} (Shader\+Type st)
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classceres_1_1_shader_aa41a130f156b145bffb3f4b5172c4c93}{Mesh}}
+\item 
+class \mbox{\hyperlink{classceres_1_1_shader_aa8ab806874e69ead344abef1c5e76aa0}{Render\+Pass}}
+\item 
+class \mbox{\hyperlink{classceres_1_1_shader_aa1212b6e372a0f45d2c01f3cd203af77}{Material}}
+\item 
+class \mbox{\hyperlink{classceres_1_1_shader_a5486a5ab1c546bf41e8da20dd0b01de1}{Inspector}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00025}{25}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classceres_1_1_shader_a4f5133901fedfc58d4c83ddaf03a7bfd}\label{classceres_1_1_shader_a4f5133901fedfc58d4c83ddaf03a7bfd}} 
+\index{ceres::Shader@{ceres::Shader}!BlendType@{BlendType}}
+\index{BlendType@{BlendType}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{BlendType}{BlendType}}
+{\footnotesize\ttfamily enum class ceres\+::\+Shader\+::\+Blend\+Type\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00028}{28}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a8b3a996a8bb1ee631c8b2f23601f9c13}\label{classceres_1_1_shader_a8b3a996a8bb1ee631c8b2f23601f9c13}} 
+\index{ceres::Shader@{ceres::Shader}!CullFace@{CullFace}}
+\index{CullFace@{CullFace}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{CullFace}{CullFace}}
+{\footnotesize\ttfamily enum class ceres\+::\+Shader\+::\+Cull\+Face\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00049}{49}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_ac6285fd2b54bcff3c9760bfed76e093c}\label{classceres_1_1_shader_ac6285fd2b54bcff3c9760bfed76e093c}} 
+\index{ceres::Shader@{ceres::Shader}!ResourceType@{ResourceType}}
+\index{ResourceType@{ResourceType}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{ResourceType}{ResourceType}}
+{\footnotesize\ttfamily enum class ceres\+::\+Shader\+::\+Resource\+Type\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00084}{84}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a43a6500dd91ef75cadef2e6a4d72ddc2}\label{classceres_1_1_shader_a43a6500dd91ef75cadef2e6a4d72ddc2}} 
+\index{ceres::Shader@{ceres::Shader}!ShaderType@{ShaderType}}
+\index{ShaderType@{ShaderType}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{ShaderType}{ShaderType}}
+{\footnotesize\ttfamily enum class ceres\+::\+Shader\+::\+Shader\+Type\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00075}{75}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a9d20808e0dd2ab6c8221cd83e3b04174}\label{classceres_1_1_shader_a9d20808e0dd2ab6c8221cd83e3b04174}} 
+\index{ceres::Shader@{ceres::Shader}!StencilFunc@{StencilFunc}}
+\index{StencilFunc@{StencilFunc}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{StencilFunc}{StencilFunc}}
+{\footnotesize\ttfamily enum class ceres\+::\+Shader\+::\+Stencil\+Func\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00096}{96}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a4c94ec2e744eb6a5bbf0eb444072e213}\label{classceres_1_1_shader_a4c94ec2e744eb6a5bbf0eb444072e213}} 
+\index{ceres::Shader@{ceres::Shader}!StencilOp@{StencilOp}}
+\index{StencilOp@{StencilOp}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{StencilOp}{StencilOp}}
+{\footnotesize\ttfamily enum class ceres\+::\+Shader\+::\+Stencil\+Op\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00109}{109}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a9cb5dc0b059617f7fff5e8caeddae72d}\label{classceres_1_1_shader_a9cb5dc0b059617f7fff5e8caeddae72d}} 
+\index{ceres::Shader@{ceres::Shader}!UniformType@{UniformType}}
+\index{UniformType@{UniformType}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{UniformType}{UniformType}}
+{\footnotesize\ttfamily enum class ceres\+::\+Shader\+::\+Uniform\+Type\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00035}{35}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classceres_1_1_shader_af7016cb8b61815d0cbe9b9f0fd0b96b4}\label{classceres_1_1_shader_af7016cb8b61815d0cbe9b9f0fd0b96b4}} 
+\index{ceres::Shader@{ceres::Shader}!````~Shader@{$\sim$Shader}}
+\index{````~Shader@{$\sim$Shader}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{$\sim$Shader()}{~Shader()}}
+{\footnotesize\ttfamily ceres\+::\+Shader\+::$\sim$\+Shader (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00374}{374}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classceres_1_1_shader_a6e4cb2b1010f0485ff07ac7ac81d8bc2}\label{classceres_1_1_shader_a6e4cb2b1010f0485ff07ac7ac81d8bc2}} 
+\index{ceres::Shader@{ceres::Shader}!colorWriteMask@{colorWriteMask}}
+\index{colorWriteMask@{colorWriteMask}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{colorWriteMask()}{colorWriteMask()}}
+{\footnotesize\ttfamily const glm\+::bvec4 \& ceres\+::\+Shader\+::color\+Write\+Mask (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00196}{196}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_aae508b42cf664d2f43eded45711623cf}\label{classceres_1_1_shader_aae508b42cf664d2f43eded45711623cf}} 
+\index{ceres::Shader@{ceres::Shader}!create@{create}}
+\index{create@{create}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{create()}{create()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classceres_1_1_shader_1_1_shader_builder}{Shader\+::\+Shader\+Builder}} ceres\+::\+Shader\+::create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00718}{718}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_aa8f93ff28512494ed3cafe96075cd881}\label{classceres_1_1_shader_aa8f93ff28512494ed3cafe96075cd881}} 
+\index{ceres::Shader@{ceres::Shader}!createMaterial@{createMaterial}}
+\index{createMaterial@{createMaterial}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{createMaterial()}{createMaterial()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_material}{Material}} $>$ ceres\+::\+Shader\+::create\+Material (\begin{DoxyParamCaption}\item[{std\+::map$<$ std\+::string, std\+::string $>$}]{specialization\+Constants = {\ttfamily \{\}} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00848}{848}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_acdb872dbda463433c48c4e7012675116}\label{classceres_1_1_shader_acdb872dbda463433c48c4e7012675116}} 
+\index{ceres::Shader@{ceres::Shader}!getAllSpecializationConstants@{getAllSpecializationConstants}}
+\index{getAllSpecializationConstants@{getAllSpecializationConstants}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{getAllSpecializationConstants()}{getAllSpecializationConstants()}}
+{\footnotesize\ttfamily std\+::set$<$ std\+::string $>$ ceres\+::\+Shader\+::get\+All\+Specialization\+Constants (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l01007}{1007}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a758f1f0b961c7e9efdb9da0e469ce6a5}\label{classceres_1_1_shader_a758f1f0b961c7e9efdb9da0e469ce6a5}} 
+\index{ceres::Shader@{ceres::Shader}!getAttributeNames@{getAttributeNames}}
+\index{getAttributeNames@{getAttributeNames}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{getAttributeNames()}{getAttributeNames()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ ceres\+::\+Shader\+::get\+Attribute\+Names (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00789}{789}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a5101cac396598041719f03aa2b5c8678}\label{classceres_1_1_shader_a5101cac396598041719f03aa2b5c8678}} 
+\index{ceres::Shader@{ceres::Shader}!getAttributeType@{getAttributeType}}
+\index{getAttributeType@{getAttributeType}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{getAttributeType()}{getAttributeType()}}
+{\footnotesize\ttfamily std\+::pair$<$ int, int $>$ ceres\+::\+Shader\+::get\+Attribute\+Type (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00913}{913}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_aedaa92aed505ce1ad46bfc5e7579fedb}\label{classceres_1_1_shader_aedaa92aed505ce1ad46bfc5e7579fedb}} 
+\index{ceres::Shader@{ceres::Shader}!getBlend@{getBlend}}
+\index{getBlend@{getBlend}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{getBlend()}{getBlend()}}
+{\footnotesize\ttfamily Blend\+Type ceres\+::\+Shader\+::get\+Blend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00192}{192}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a3f581b979d632c1935bcde81cc50e620}\label{classceres_1_1_shader_a3f581b979d632c1935bcde81cc50e620}} 
+\index{ceres::Shader@{ceres::Shader}!getBlit@{getBlit}}
+\index{getBlit@{getBlit}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{getBlit()}{getBlit()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_shader}{Shader}} $>$ ceres\+::\+Shader\+::get\+Blit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00316}{316}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a458d39e89de44cf22a430b6fe4a90041}\label{classceres_1_1_shader_a458d39e89de44cf22a430b6fe4a90041}} 
+\index{ceres::Shader@{ceres::Shader}!getCurrentSpecializationConstants@{getCurrentSpecializationConstants}}
+\index{getCurrentSpecializationConstants@{getCurrentSpecializationConstants}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{getCurrentSpecializationConstants()}{getCurrentSpecializationConstants()}}
+{\footnotesize\ttfamily const std\+::map$<$ std\+::string, std\+::string $>$ \& ceres\+::\+Shader\+::get\+Current\+Specialization\+Constants (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l01002}{1002}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_af43a031016f54c6c2b76935071f39ee1}\label{classceres_1_1_shader_af43a031016f54c6c2b76935071f39ee1}} 
+\index{ceres::Shader@{ceres::Shader}!getOffset@{getOffset}}
+\index{getOffset@{getOffset}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{getOffset()}{getOffset()}}
+{\footnotesize\ttfamily const glm\+::vec2 \& ceres\+::\+Shader\+::get\+Offset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00193}{193}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_aead8414ac7b03877b1394283df8ae763}\label{classceres_1_1_shader_aead8414ac7b03877b1394283df8ae763}} 
+\index{ceres::Shader@{ceres::Shader}!getSkybox@{getSkybox}}
+\index{getSkybox@{getSkybox}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{getSkybox()}{getSkybox()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_shader}{Shader}} $>$ ceres\+::\+Shader\+::get\+Skybox (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00987}{987}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a8bd8b7102bbd4e20fe9a101b8876f0f9}\label{classceres_1_1_shader_a8bd8b7102bbd4e20fe9a101b8876f0f9}} 
+\index{ceres::Shader@{ceres::Shader}!getStandardBlinnPhong@{getStandardBlinnPhong}}
+\index{getStandardBlinnPhong@{getStandardBlinnPhong}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{getStandardBlinnPhong()}{getStandardBlinnPhong()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_shader}{Shader}} $>$ ceres\+::\+Shader\+::get\+Standard\+Blinn\+Phong (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00959}{959}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_ad1cb5946e26455d4ab254dcc7e866a08}\label{classceres_1_1_shader_ad1cb5946e26455d4ab254dcc7e866a08}} 
+\index{ceres::Shader@{ceres::Shader}!getStandardParticles@{getStandardParticles}}
+\index{getStandardParticles@{getStandardParticles}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{getStandardParticles()}{getStandardParticles()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_shader}{Shader}} $>$ ceres\+::\+Shader\+::get\+Standard\+Particles (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00347}{347}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_af2c0ff157be0a27252b1aa8351d1b700}\label{classceres_1_1_shader_af2c0ff157be0a27252b1aa8351d1b700}} 
+\index{ceres::Shader@{ceres::Shader}!getStandardPBR@{getStandardPBR}}
+\index{getStandardPBR@{getStandardPBR}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{getStandardPBR()}{getStandardPBR()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_shader}{Shader}} $>$ ceres\+::\+Shader\+::get\+Standard\+PBR (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00945}{945}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a80dc0cec5f12da8147b44eee9ff882ff}\label{classceres_1_1_shader_a80dc0cec5f12da8147b44eee9ff882ff}} 
+\index{ceres::Shader@{ceres::Shader}!getStandardPhong@{getStandardPhong}}
+\index{getStandardPhong@{getStandardPhong}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{getStandardPhong()}{getStandardPhong()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_shader}{Shader}} $>$ ceres\+::\+Shader\+::get\+Standard\+Phong (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00973}{973}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a61a349238550c32ee8c98eff2b2737ff}\label{classceres_1_1_shader_a61a349238550c32ee8c98eff2b2737ff}} 
+\index{ceres::Shader@{ceres::Shader}!getStencil@{getStencil}}
+\index{getStencil@{getStencil}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{getStencil()}{getStencil()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{structceres_1_1_shader_1_1_stencil_descriptor}{Stencil\+Descriptor}} \& ceres\+::\+Shader\+::get\+Stencil (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00195}{195}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_afe598d9eec80e9ace494840c6ed9201b}\label{classceres_1_1_shader_afe598d9eec80e9ace494840c6ed9201b}} 
+\index{ceres::Shader@{ceres::Shader}!getUniformNames@{getUniformNames}}
+\index{getUniformNames@{getUniformNames}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{getUniformNames()}{getUniformNames()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ ceres\+::\+Shader\+::get\+Uniform\+Names (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00799}{799}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a977c0416fc3c2ca97e5a8303b7e3dd49}\label{classceres_1_1_shader_a977c0416fc3c2ca97e5a8303b7e3dd49}} 
+\index{ceres::Shader@{ceres::Shader}!getUniformType@{getUniformType}}
+\index{getUniformType@{getUniformType}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{getUniformType()}{getUniformType()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structceres_1_1_shader_1_1_uniform}{Shader\+::\+Uniform}} ceres\+::\+Shader\+::get\+Uniform\+Type (\begin{DoxyParamCaption}\item[{std\+::string\+\_\+view}]{name }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00506}{506}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a4c93eec6eee0da34e5807a7496c5f88c}\label{classceres_1_1_shader_a4c93eec6eee0da34e5807a7496c5f88c}} 
+\index{ceres::Shader@{ceres::Shader}!getUnlit@{getUnlit}}
+\index{getUnlit@{getUnlit}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{getUnlit()}{getUnlit()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_shader}{Shader}} $>$ ceres\+::\+Shader\+::get\+Unlit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00302}{302}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a4cf25fbb1e0d37164059759a72e03cfd}\label{classceres_1_1_shader_a4cf25fbb1e0d37164059759a72e03cfd}} 
+\index{ceres::Shader@{ceres::Shader}!getUnlitSprite@{getUnlitSprite}}
+\index{getUnlitSprite@{getUnlitSprite}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{getUnlitSprite()}{getUnlitSprite()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classceres_1_1_shader}{Shader}} $>$ ceres\+::\+Shader\+::get\+Unlit\+Sprite (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00330}{330}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a4cedb63cf69c320c2a4d5ba9bdeaffc7}\label{classceres_1_1_shader_a4cedb63cf69c320c2a4d5ba9bdeaffc7}} 
+\index{ceres::Shader@{ceres::Shader}!isDepthTest@{isDepthTest}}
+\index{isDepthTest@{isDepthTest}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{isDepthTest()}{isDepthTest()}}
+{\footnotesize\ttfamily bool ceres\+::\+Shader\+::is\+Depth\+Test (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00190}{190}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_ab29798106b4c5df13c386f5cec729361}\label{classceres_1_1_shader_ab29798106b4c5df13c386f5cec729361}} 
+\index{ceres::Shader@{ceres::Shader}!isDepthWrite@{isDepthWrite}}
+\index{isDepthWrite@{isDepthWrite}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{isDepthWrite()}{isDepthWrite()}}
+{\footnotesize\ttfamily bool ceres\+::\+Shader\+::is\+Depth\+Write (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00191}{191}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a2da0d30444a83b8da9d7ca7573bda1a6}\label{classceres_1_1_shader_a2da0d30444a83b8da9d7ca7573bda1a6}} 
+\index{ceres::Shader@{ceres::Shader}!name@{name}}
+\index{name@{name}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{name()}{name()}}
+{\footnotesize\ttfamily const std\+::string \& ceres\+::\+Shader\+::name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00194}{194}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_acbc60156909ac42faf088ac966eac132}\label{classceres_1_1_shader_acbc60156909ac42faf088ac966eac132}} 
+\index{ceres::Shader@{ceres::Shader}!toId@{toId}}
+\index{toId@{toId}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{toId()}{toId()}}
+{\footnotesize\ttfamily uint32\+\_\+t ceres\+::\+Shader\+::to\+Id (\begin{DoxyParamCaption}\item[{Shader\+::\+Shader\+Type}]{st }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00919}{919}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_adf74e965d77078643333c13c93aa3a5a}\label{classceres_1_1_shader_adf74e965d77078643333c13c93aa3a5a}} 
+\index{ceres::Shader@{ceres::Shader}!toStr@{toStr}}
+\index{toStr@{toStr}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{toStr()}{toStr()}}
+{\footnotesize\ttfamily const char $\ast$ ceres\+::\+Shader\+::to\+Str (\begin{DoxyParamCaption}\item[{Shader\+::\+Uniform\+Type}]{u }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00886}{886}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_afea1d2fe0e512b826c9d64945a511eca}\label{classceres_1_1_shader_afea1d2fe0e512b826c9d64945a511eca}} 
+\index{ceres::Shader@{ceres::Shader}!update@{update}}
+\index{update@{update}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classceres_1_1_shader_1_1_shader_builder}{Shader\+::\+Shader\+Builder}} ceres\+::\+Shader\+::update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00940}{940}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_a73b67ac45af774da00da3ab370291019}\label{classceres_1_1_shader_a73b67ac45af774da00da3ab370291019}} 
+\index{ceres::Shader@{ceres::Shader}!validateMesh@{validateMesh}}
+\index{validateMesh@{validateMesh}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{validateMesh()}{validateMesh()}}
+{\footnotesize\ttfamily bool ceres\+::\+Shader\+::validate\+Mesh (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classceres_1_1_mesh}{Mesh}} $\ast$}]{mesh,  }\item[{std\+::string \&}]{info }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8cpp_source_l00809}{809}} of file \mbox{\hyperlink{shader_8cpp_source}{shader.\+cpp}}.
+
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classceres_1_1_shader_a5486a5ab1c546bf41e8da20dd0b01de1}\label{classceres_1_1_shader_a5486a5ab1c546bf41e8da20dd0b01de1}} 
+\index{ceres::Shader@{ceres::Shader}!Inspector@{Inspector}}
+\index{Inspector@{Inspector}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{Inspector}{Inspector}}
+{\footnotesize\ttfamily friend class \mbox{\hyperlink{classceres_1_1_inspector}{Inspector}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00263}{263}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_aa1212b6e372a0f45d2c01f3cd203af77}\label{classceres_1_1_shader_aa1212b6e372a0f45d2c01f3cd203af77}} 
+\index{ceres::Shader@{ceres::Shader}!Material@{Material}}
+\index{Material@{Material}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{Material}{Material}}
+{\footnotesize\ttfamily friend class \mbox{\hyperlink{classceres_1_1_material}{Material}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00262}{262}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_aa41a130f156b145bffb3f4b5172c4c93}\label{classceres_1_1_shader_aa41a130f156b145bffb3f4b5172c4c93}} 
+\index{ceres::Shader@{ceres::Shader}!Mesh@{Mesh}}
+\index{Mesh@{Mesh}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{Mesh}{Mesh}}
+{\footnotesize\ttfamily friend class \mbox{\hyperlink{classceres_1_1_mesh}{Mesh}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00260}{260}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+\mbox{\Hypertarget{classceres_1_1_shader_aa8ab806874e69ead344abef1c5e76aa0}\label{classceres_1_1_shader_aa8ab806874e69ead344abef1c5e76aa0}} 
+\index{ceres::Shader@{ceres::Shader}!RenderPass@{RenderPass}}
+\index{RenderPass@{RenderPass}!ceres::Shader@{ceres::Shader}}
+\doxysubsubsection{\texorpdfstring{RenderPass}{RenderPass}}
+{\footnotesize\ttfamily friend class \mbox{\hyperlink{classceres_1_1_render_pass}{Render\+Pass}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line \mbox{\hyperlink{shader_8h_source_l00261}{261}} of file \mbox{\hyperlink{shader_8h_source}{shader.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/cwb/developer/learning/graphic\+Render\+Engine/ceres/core/shader.\+h\item 
+/\+Users/cwb/developer/learning/graphic\+Render\+Engine/ceres/core/shader.\+cpp\end{DoxyCompactItemize}

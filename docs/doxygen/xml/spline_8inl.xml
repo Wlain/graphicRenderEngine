@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="spline_8inl" kind="file" language="C++">
+    <compoundname>spline.inl</compoundname>
+    <includedby refid="spline_8hpp" local="yes">/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtx/spline.hpp</includedby>
+    <invincdepgraph>
+      <node id="2">
+        <label>/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtx/spline.hpp</label>
+        <link refid="spline_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtx/spline.inl</label>
+        <link refid="spline_8inl"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/test/gtx/gtx_spline.cpp</label>
+        <link refid="gtx__spline_8cpp_source"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespaceglm">glm</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="group__gtx__spline" kindref="compound">GLM_GTX_spline</ref> </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">glm</highlight></codeline>
+<codeline lineno="5"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType&gt;</highlight></codeline>
+<codeline lineno="7" refid="group__gtx__spline_1ga8119c04f8210fd0d292757565cd6918d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>GLM_FUNC_QUALIFIER<sp/>genType<sp/><ref refid="group__gtx__spline_1ga8119c04f8210fd0d292757565cd6918d" kindref="member">catmullRom</ref></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>genType<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>v1,</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>genType<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>v2,</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>genType<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>v3,</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>genType<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>v4,</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>s</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type<sp/>s2<sp/>=<sp/><ref refid="group__gtx__optimum__pow_1ga19aaff3213bf23bdec3ef124ace237e9" kindref="member">pow2</ref>(s);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type<sp/>s3<sp/>=<sp/><ref refid="group__gtx__optimum__pow_1ga35689d03cd434d6ea819f1942d3bf82e" kindref="member">pow3</ref>(s);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type<sp/>f1<sp/>=<sp/>-s3<sp/>+<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type(2)<sp/>*<sp/>s2<sp/>-<sp/>s;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type<sp/>f2<sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type(3)<sp/>*<sp/>s3<sp/>-<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type(5)<sp/>*<sp/>s2<sp/>+<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type(2);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type<sp/>f3<sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type(-3)<sp/>*<sp/>s3<sp/>+<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type(4)<sp/>*<sp/>s2<sp/>+<sp/>s;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type<sp/>f4<sp/>=<sp/>s3<sp/>-<sp/>s2;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(f1<sp/>*<sp/>v1<sp/>+<sp/>f2<sp/>*<sp/>v2<sp/>+<sp/>f3<sp/>*<sp/>v3<sp/>+<sp/>f4<sp/>*<sp/>v4)<sp/>/<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type(2);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType&gt;</highlight></codeline>
+<codeline lineno="29" refid="group__gtx__spline_1gaa69e143f6374d32f934a8edeaa50bac9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>GLM_FUNC_QUALIFIER<sp/>genType<sp/><ref refid="group__gtx__spline_1gaa69e143f6374d32f934a8edeaa50bac9" kindref="member">hermite</ref></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>genType<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>v1,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>genType<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>t1,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>genType<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>v2,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>genType<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>t2,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>s</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type<sp/>s2<sp/>=<sp/><ref refid="group__gtx__optimum__pow_1ga19aaff3213bf23bdec3ef124ace237e9" kindref="member">pow2</ref>(s);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type<sp/>s3<sp/>=<sp/><ref refid="group__gtx__optimum__pow_1ga35689d03cd434d6ea819f1942d3bf82e" kindref="member">pow3</ref>(s);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type<sp/>f1<sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type(2)<sp/>*<sp/>s3<sp/>-<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type(3)<sp/>*<sp/>s2<sp/>+<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type(1);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type<sp/>f2<sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type(-2)<sp/>*<sp/>s3<sp/>+<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type(3)<sp/>*<sp/>s2;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type<sp/>f3<sp/>=<sp/>s3<sp/>-<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type(2)<sp/>*<sp/>s2<sp/>+<sp/>s;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type<sp/>f4<sp/>=<sp/>s3<sp/>-<sp/>s2;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f1<sp/>*<sp/>v1<sp/>+<sp/>f2<sp/>*<sp/>v2<sp/>+<sp/>f3<sp/>*<sp/>t1<sp/>+<sp/>f4<sp/>*<sp/>t2;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType&gt;</highlight></codeline>
+<codeline lineno="50" refid="group__gtx__spline_1ga6b867eb52e2fc933d2e0bf26aabc9a70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>GLM_FUNC_QUALIFIER<sp/>genType<sp/><ref refid="group__gtx__spline_1ga6b867eb52e2fc933d2e0bf26aabc9a70" kindref="member">cubic</ref></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>genType<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>v1,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>genType<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>v2,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>genType<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>v3,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>genType<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>v4,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>genType::value_type<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>s</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>((v1<sp/>*<sp/>s<sp/>+<sp/>v2)<sp/>*<sp/>s<sp/>+<sp/>v3)<sp/>*<sp/>s<sp/>+<sp/>v4;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight><highlight class="comment">//namespace<sp/>glm</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/Users/cwb/developer/learning/graphicRenderEngine/ceres/3rdparty/glm/glm/gtx/spline.inl"/>
+  </compounddef>
+</doxygen>
