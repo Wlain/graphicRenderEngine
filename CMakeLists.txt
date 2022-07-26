@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON) # 设置指定的C++版本
 # modify flat to -std=c++17 rather than -std=gnu++17
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(OPEN_SPHINX OFF)
+set(OPEN_SPHINX ON)
 
 # box2d
 add_subdirectory(3rdparty/box2d)
