@@ -1,4 +1,4 @@
-find_package(Doxygen REQUIRED)
+find_package(doxygen REQUIRED)
 
 set(DOXYGEN_INPUT_DIR ${PROJECT_SOURCE_DIR}/src)
 set(DOXYGEN_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/doxygen)
@@ -20,7 +20,7 @@ add_custom_command(
 
 add_custom_target(Doxygen ALL DEPENDS ${DOXYGEN_INDEX_FILE})
 
-find_package(Sphinx REQUIRED)
+find_package(sphinx REQUIRED)
 
 set(SPHINX_SOURCE ${CMAKE_CURRENT_SOURCE_DIR})
 set(SPHINX_BUILD ${CMAKE_CURRENT_SOURCE_DIR}/sphinx)
