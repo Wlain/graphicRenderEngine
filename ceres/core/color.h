@@ -2,8 +2,8 @@
 // Created by cwb on 2022/6/13.
 //
 
-#ifndef SIMPLERENDERENGINE_COLOR_H
-#define SIMPLERENDERENGINE_COLOR_H
+#ifndef GRAPHICRENDERENGINE_COLOR_H
+#define GRAPHICRENDERENGINE_COLOR_H
 #include <glm/glm.hpp>
 namespace ceres
 {
@@ -26,4 +26,4 @@ public:
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_COLOR_H
+#endif // GRAPHICRENDERENGINE_COLOR_H

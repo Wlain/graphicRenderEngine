@@ -2,8 +2,8 @@
 // Created by william on 2022/6/1.
 //
 
-#ifndef SIMPLERENDERENGINE_INSPECTOR_H
-#define SIMPLERENDERENGINE_INSPECTOR_H
+#ifndef GRAPHICRENDERENGINE_INSPECTOR_H
+#define GRAPHICRENDERENGINE_INSPECTOR_H
 #include "framebuffer.h"
 #include "renderStats.h"
 #include "timer.h"
@@ -55,4 +55,4 @@ private:
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_INSPECTOR_H
+#endif // GRAPHICRENDERENGINE_INSPECTOR_H

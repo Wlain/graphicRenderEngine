@@ -2,8 +2,8 @@
 // Created by william on 2022/5/22.
 //
 
-#ifndef SIMPLERENDERENGINE_SINGLETON_H
-#define SIMPLERENDERENGINE_SINGLETON_H
+#ifndef GRAPHICRENDERENGINE_SINGLETON_H
+#define GRAPHICRENDERENGINE_SINGLETON_H
 #include <type_traits>
 
 template <typename T>
@@ -22,4 +22,4 @@ public:
     Singleton(const Singleton&) = delete;
     Singleton& operator=(const Singleton&) = delete;
 };
-#endif // SIMPLERENDERENGINE_SINGLETON_H
+#endif // GRAPHICRENDERENGINE_SINGLETON_H

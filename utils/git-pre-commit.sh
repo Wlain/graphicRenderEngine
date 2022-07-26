@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
 THIS_DIR=$(dirname $0)
-cd $THIS_DIR/..
-MY_DIR=$(pwd)
-
-FM_DIR=$MY_DIR
+cd $THIS_DIR/.. || exit
+PROJECT_DIR=$(pwd)
 
 if ! [ -x "$(command -v clang-format)" ]; then
     echo 'clang-format is not installed. run "brew install clang-format" manully' >&2

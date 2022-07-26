@@ -2,8 +2,8 @@
 // Created by william on 2022/6/29.
 //
 
-#ifndef SIMPLERENDERENGINE_RESOURCE_H
-#define SIMPLERENDERENGINE_RESOURCE_H
+#ifndef GRAPHICRENDERENGINE_RESOURCE_H
+#define GRAPHICRENDERENGINE_RESOURCE_H
 #include <map>
 #include <string>
 namespace ceres
@@ -17,4 +17,4 @@ enum class ResourceType : uint8_t
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_RESOURCE_H
+#endif // GRAPHICRENDERENGINE_RESOURCE_H

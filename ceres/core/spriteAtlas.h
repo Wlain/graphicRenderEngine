@@ -2,8 +2,8 @@
 // Created by william on 2022/6/1.
 //
 
-#ifndef SIMPLERENDERENGINE_SPRITEATLAS_H
-#define SIMPLERENDERENGINE_SPRITEATLAS_H
+#ifndef GRAPHICRENDERENGINE_SPRITEATLAS_H
+#define GRAPHICRENDERENGINE_SPRITEATLAS_H
 #include "sprite.h"
 
 #include <map>
@@ -34,4 +34,4 @@ private:
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_SPRITEATLAS_H
+#endif // GRAPHICRENDERENGINE_SPRITEATLAS_H

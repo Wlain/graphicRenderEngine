@@ -5,7 +5,6 @@
 #include "engineTestSimple.h"
 #include "guiCommonDefine.h"
 #define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/transform.hpp>
 
 static std::string s_vertexShaderSource = R"(#version 330

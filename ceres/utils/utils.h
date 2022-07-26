@@ -2,8 +2,8 @@
 // Created by william on 2022/6/1.
 //
 
-#ifndef SIMPLERENDERENGINE_UTILS_H
-#define SIMPLERENDERENGINE_UTILS_H
+#ifndef GRAPHICRENDERENGINE_UTILS_H
+#define GRAPHICRENDERENGINE_UTILS_H
 #include "utils/commonMacro.h"
 
 #include <filesystem>
@@ -53,4 +53,4 @@ static std::vector<std::string> getCurrentDirFiles(std::string_view fileDir)
     return files;
 }
 
-#endif // SIMPLERENDERENGINE_UTILS_H
+#endif // GRAPHICRENDERENGINE_UTILS_H

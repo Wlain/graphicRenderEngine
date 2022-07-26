@@ -1,4 +1,4 @@
-# simpleRenderEngine
+# graphicRenderEngine
 这是一个基于C++17标准的，使用OpenGL语言编写的的简单渲染引擎（主要用于学习）
 
 渲染引擎：克瑞斯（ceres）

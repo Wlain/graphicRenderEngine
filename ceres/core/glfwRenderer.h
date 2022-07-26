@@ -2,8 +2,8 @@
 // Created by william on 2022/5/28.
 //
 
-#ifndef SIMPLERENDERENGINE_GLFWRENDERER_H
-#define SIMPLERENDERENGINE_GLFWRENDERER_H
+#ifndef GRAPHICRENDERENGINE_GLFWRENDERER_H
+#define GRAPHICRENDERENGINE_GLFWRENDERER_H
 #include "glCommonDefine.h"
 
 #include <functional>
@@ -52,4 +52,4 @@ private:
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_GLFWRENDERER_H
+#endif // GRAPHICRENDERENGINE_GLFWRENDERER_H

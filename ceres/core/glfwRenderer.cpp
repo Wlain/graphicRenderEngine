@@ -11,7 +11,7 @@ namespace ceres
 GLFWRenderer::GLFWRenderer() :
     m_frameRender([]() {}),
     m_frameUpdate([](float) {}),
-    m_windowTitle("simpleRenderEngine" + std::to_string(Renderer::s_rgVersionMajor) + "." + std::to_string(Renderer::s_rgVersionMinor) + "." + std::to_string(Renderer::s_rgVersionPoint))
+    m_windowTitle("graphicRenderEngine" + std::to_string(Renderer::s_rgVersionMajor) + "." + std::to_string(Renderer::s_rgVersionMinor) + "." + std::to_string(Renderer::s_rgVersionPoint))
 {
 }
 

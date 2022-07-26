@@ -2,8 +2,8 @@
 // Created by william on 2022/5/22.
 //
 
-#ifndef SIMPLERENDERENGINE_MESH_H
-#define SIMPLERENDERENGINE_MESH_H
+#ifndef GRAPHICRENDERENGINE_MESH_H
+#define GRAPHICRENDERENGINE_MESH_H
 #include "glCommonDefine.h"
 #include "renderStats.h"
 
@@ -178,4 +178,4 @@ private:
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_MESH_H
+#endif // GRAPHICRENDERENGINE_MESH_H

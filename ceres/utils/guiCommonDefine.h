@@ -2,9 +2,9 @@
 // Created by william on 2022/5/28.
 //
 
-#ifndef SIMPLERENDERENGINE_GUICOMMONDEFINE_H
-#define SIMPLERENDERENGINE_GUICOMMONDEFINE_H
-#include <imgui.h>
+#ifndef GRAPHICRENDERENGINE_GUICOMMONDEFINE_H
+#define GRAPHICRENDERENGINE_GUICOMMONDEFINE_H
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
-#endif // SIMPLERENDERENGINE_GUICOMMONDEFINE_H
+#include <imgui.h>
+#endif // GRAPHICRENDERENGINE_GUICOMMONDEFINE_H

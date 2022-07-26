@@ -3,8 +3,8 @@
 // Created by william on 2022/5/26.
 //
 
-#ifndef SIMPLERENDERENGINE_RENDERPASS_H
-#define SIMPLERENDERENGINE_RENDERPASS_H
+#ifndef GRAPHICRENDERENGINE_RENDERPASS_H
+#define GRAPHICRENDERENGINE_RENDERPASS_H
 #include "camera.h"
 #include "color.h"
 #include "framebuffer.h"
@@ -130,4 +130,4 @@ private:
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_RENDERPASS_H
+#endif // GRAPHICRENDERENGINE_RENDERPASS_H

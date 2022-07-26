@@ -2,8 +2,8 @@
 // Created by william on 2022/5/22.
 //
 
-#ifndef SIMPLERENDERENGINE_CAMERA_H
-#define SIMPLERENDERENGINE_CAMERA_H
+#ifndef GRAPHICRENDERENGINE_CAMERA_H
+#define GRAPHICRENDERENGINE_CAMERA_H
 #include "ray.h"
 
 #include <array>
@@ -70,4 +70,4 @@ private:
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_CAMERA_H
+#endif // GRAPHICRENDERENGINE_CAMERA_H

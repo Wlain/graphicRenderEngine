@@ -2,8 +2,8 @@
 // Created by william on 2022/5/22.
 //
 
-#ifndef SIMPLERENDERENGINE_COMMONMACRO_H
-#define SIMPLERENDERENGINE_COMMONMACRO_H
+#ifndef GRAPHICRENDERENGINE_COMMONMACRO_H
+#define GRAPHICRENDERENGINE_COMMONMACRO_H
 
 #include "logger.h"
 
@@ -67,4 +67,4 @@
 // 取消字节对齐
 #define PACK(__Declaration__) __Declaration__ __attribute__((__packed__))
 
-#endif // SIMPLERENDERENGINE_COMMONMACRO_H
+#endif // GRAPHICRENDERENGINE_COMMONMACRO_H

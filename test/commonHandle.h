@@ -2,8 +2,8 @@
 // Created by cwb on 2022/7/25.
 //
 
-#ifndef SIMPLERENDERENGINE_COMMONHANDLE_H
-#define SIMPLERENDERENGINE_COMMONHANDLE_H
+#ifndef GRAPHICRENDERENGINE_COMMONHANDLE_H
+#define GRAPHICRENDERENGINE_COMMONHANDLE_H
 #include "effectManager.h"
 
 #include <core/glfwRenderer.h>
@@ -32,4 +32,4 @@ protected:
     std::shared_ptr<EffectManager> m_effects;
 };
 
-#endif // SIMPLERENDERENGINE_COMMONHANDLE_H
+#endif // GRAPHICRENDERENGINE_COMMONHANDLE_H

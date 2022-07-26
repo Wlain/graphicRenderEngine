@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = "simpleRenderEngine"
+project = "graphicRenderEngine"
 copyright = "2022, william"
 author = "william"
 
@@ -30,7 +30,7 @@ author = "william"
 extensions = ["breathe"]
 
 # Breathe Configuration
-breathe_default_project = "simpleRenderEngine"
+breathe_default_project = "graphicRenderEngine"
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

@@ -2,8 +2,8 @@
 // Created by william on 2022/5/27.
 //
 
-#ifndef SIMPLERENDERENGINE_MATERIAL_H
-#define SIMPLERENDERENGINE_MATERIAL_H
+#ifndef GRAPHICRENDERENGINE_MATERIAL_H
+#define GRAPHICRENDERENGINE_MATERIAL_H
 #include "color.h"
 #include "shader.h"
 #include "uniformSet.h"
@@ -61,4 +61,4 @@ private:
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_MATERIAL_H
+#endif // GRAPHICRENDERENGINE_MATERIAL_H

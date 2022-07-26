@@ -2,8 +2,8 @@
 // Created by william on 2022/5/26.
 //
 
-#ifndef SIMPLERENDERENGINE_RENDERSTATS_H
-#define SIMPLERENDERENGINE_RENDERSTATS_H
+#ifndef GRAPHICRENDERENGINE_RENDERSTATS_H
+#define GRAPHICRENDERENGINE_RENDERSTATS_H
 
 namespace ceres
 {
@@ -25,4 +25,4 @@ struct RenderStats
     int meshBytesDeallocated = 0;    // size of deallocated meshes in bytes this frame
 };
 } // namespace ceres
-#endif // SIMPLERENDERENGINE_RENDERSTATS_H
+#endif // GRAPHICRENDERENGINE_RENDERSTATS_H

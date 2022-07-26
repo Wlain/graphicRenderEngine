@@ -2,8 +2,8 @@
 // Created by william on 2022/5/31.
 //
 
-#ifndef SIMPLERENDERENGINE_MODELIMPORTER_H
-#define SIMPLERENDERENGINE_MODELIMPORTER_H
+#ifndef GRAPHICRENDERENGINE_MODELIMPORTER_H
+#define GRAPHICRENDERENGINE_MODELIMPORTER_H
 #include "material.h"
 
 #include <fileSystem>
@@ -21,4 +21,4 @@ public:
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_MODELIMPORTER_H
+#endif // GRAPHICRENDERENGINE_MODELIMPORTER_H

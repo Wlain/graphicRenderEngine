@@ -2,8 +2,8 @@
 // Created by william on 2022/5/22.
 //
 
-#ifndef SIMPLERENDERENGINE_TEXTURE_H
-#define SIMPLERENDERENGINE_TEXTURE_H
+#ifndef GRAPHICRENDERENGINE_TEXTURE_H
+#define GRAPHICRENDERENGINE_TEXTURE_H
 #include "resource.h"
 
 #include <cstdlib>
@@ -149,4 +149,4 @@ private:
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_TEXTURE_H
+#endif // GRAPHICRENDERENGINE_TEXTURE_H

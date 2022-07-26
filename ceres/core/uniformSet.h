@@ -2,8 +2,8 @@
 // Created by william on 2022/6/25.
 //
 
-#ifndef SIMPLERENDERENGINE_UNIFORMSET_H
-#define SIMPLERENDERENGINE_UNIFORMSET_H
+#ifndef GRAPHICRENDERENGINE_UNIFORMSET_H
+#define GRAPHICRENDERENGINE_UNIFORMSET_H
 #include "color.h"
 #include "texture.h"
 
@@ -42,4 +42,4 @@ private:
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_UNIFORMSET_H
+#endif // GRAPHICRENDERENGINE_UNIFORMSET_H

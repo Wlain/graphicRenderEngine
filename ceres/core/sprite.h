@@ -2,8 +2,8 @@
 // Created by william on 2022/6/1.
 //
 
-#ifndef SIMPLERENDERENGINE_SPRITE_H
-#define SIMPLERENDERENGINE_SPRITE_H
+#ifndef GRAPHICRENDERENGINE_SPRITE_H
+#define GRAPHICRENDERENGINE_SPRITE_H
 #include "commonMacro.h"
 
 #include <array>
@@ -77,4 +77,4 @@ private:
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_SPRITE_H
+#endif // GRAPHICRENDERENGINE_SPRITE_H

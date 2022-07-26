@@ -2,8 +2,8 @@
 // Created by william on 2022/5/23.
 //
 
-#ifndef SIMPLERENDERENGINE_TIMER_H
-#define SIMPLERENDERENGINE_TIMER_H
+#ifndef GRAPHICRENDERENGINE_TIMER_H
+#define GRAPHICRENDERENGINE_TIMER_H
 
 #include <chrono>
 
@@ -53,4 +53,4 @@ public:
 private:
     std::chrono::time_point<std::chrono::high_resolution_clock> m_begin;
 };
-#endif // SIMPLERENDERENGINE_TIMER_H
+#endif // GRAPHICRENDERENGINE_TIMER_H

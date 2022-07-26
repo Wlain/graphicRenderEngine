@@ -2,13 +2,14 @@
 // Created by cwb on 2022/7/14.
 //
 
-#ifndef SIMPLERENDERENGINE_LUACOMMONDEFINE_H
-#define SIMPLERENDERENGINE_LUACOMMONDEFINE_H
+#ifndef GRAPHICRENDERENGINE_LUACOMMONDEFINE_H
+#define GRAPHICRENDERENGINE_LUACOMMONDEFINE_H
 
-extern "C" {
+extern "C"
+{
 #include <lua/src/lauxlib.h>
 #include <lua/src/lua.h>
 #include <lua/src/lualib.h>
 };
 
-#endif // SIMPLERENDERENGINE_LUACOMMONDEFINE_H
+#endif // GRAPHICRENDERENGINE_LUACOMMONDEFINE_H

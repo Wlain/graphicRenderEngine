@@ -2,8 +2,8 @@
 // Created by cwb on 2022/7/25.
 //
 
-#ifndef SIMPLERENDERENGINE_COMMONINTERFACE_H
-#define SIMPLERENDERENGINE_COMMONINTERFACE_H
+#ifndef GRAPHICRENDERENGINE_COMMONINTERFACE_H
+#define GRAPHICRENDERENGINE_COMMONINTERFACE_H
 #include "core/inspector.h"
 #include "core/renderer.h"
 #include "core/shader.h"
@@ -46,4 +46,4 @@ protected:
     bool m_leftMousePressed{ false };
 };
 
-#endif // SIMPLERENDERENGINE_COMMONINTERFACE_H
+#endif // GRAPHICRENDERENGINE_COMMONINTERFACE_H

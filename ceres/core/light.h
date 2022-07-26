@@ -2,8 +2,8 @@
 // Created by william on 2022/5/22.
 //
 
-#ifndef SIMPLERENDERENGINE_LIGHT_H
-#define SIMPLERENDERENGINE_LIGHT_H
+#ifndef GRAPHICRENDERENGINE_LIGHT_H
+#define GRAPHICRENDERENGINE_LIGHT_H
 #include "color.h"
 
 #include <glm/glm.hpp>
@@ -53,4 +53,4 @@ struct Light
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_LIGHT_H
+#endif // GRAPHICRENDERENGINE_LIGHT_H

@@ -2,8 +2,8 @@
 // Created by william on 2022/5/22.
 //
 
-#ifndef SIMPLERENDERENGINE_RENDERER_H
-#define SIMPLERENDERENGINE_RENDERER_H
+#ifndef GRAPHICRENDERENGINE_RENDERER_H
+#define GRAPHICRENDERENGINE_RENDERER_H
 #include "camera.h"
 #include "glCommonDefine.h"
 #include "light.h"
@@ -79,4 +79,4 @@ private:
     friend class Material;
 };
 } // namespace ceres
-#endif // SIMPLERENDERENGINE_RENDERER_H
+#endif // GRAPHICRENDERENGINE_RENDERER_H

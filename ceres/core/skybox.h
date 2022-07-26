@@ -2,8 +2,8 @@
 // Created by cwb on 2022/6/21.
 //
 
-#ifndef SIMPLERENDERENGINE_SKYBOX_H
-#define SIMPLERENDERENGINE_SKYBOX_H
+#ifndef GRAPHICRENDERENGINE_SKYBOX_H
+#define GRAPHICRENDERENGINE_SKYBOX_H
 #include <memory>
 namespace ceres
 {
@@ -25,4 +25,4 @@ private:
     friend class RenderPass;
 };
 } // namespace ceres
-#endif // SIMPLERENDERENGINE_SKYBOX_H
+#endif // GRAPHICRENDERENGINE_SKYBOX_H

@@ -2,8 +2,8 @@
 // Created by william on 2022/5/31.
 //
 
-#ifndef SIMPLERENDERENGINE_FRAMEBUFFER_H
-#define SIMPLERENDERENGINE_FRAMEBUFFER_H
+#ifndef GRAPHICRENDERENGINE_FRAMEBUFFER_H
+#define GRAPHICRENDERENGINE_FRAMEBUFFER_H
 #include <glm/glm.hpp>
 #include <string>
 #include <string_view>
@@ -62,4 +62,4 @@ private:
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_FRAMEBUFFER_H
+#endif // GRAPHICRENDERENGINE_FRAMEBUFFER_H

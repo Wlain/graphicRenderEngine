@@ -2,8 +2,8 @@
 // Created by william on 2022/6/1.
 //
 
-#ifndef SIMPLERENDERENGINE_SPRITEBATCH_H
-#define SIMPLERENDERENGINE_SPRITEBATCH_H
+#ifndef GRAPHICRENDERENGINE_SPRITEBATCH_H
+#define GRAPHICRENDERENGINE_SPRITEBATCH_H
 #include "mesh.h"
 #include "sprite.h"
 
@@ -62,4 +62,4 @@ private:
 
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_SPRITEBATCH_H
+#endif // GRAPHICRENDERENGINE_SPRITEBATCH_H

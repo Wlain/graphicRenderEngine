@@ -2,8 +2,8 @@
 // Created by cwb on 2022/6/30.
 //
 
-#ifndef SIMPLERENDERENGINE_RAY_H
-#define SIMPLERENDERENGINE_RAY_H
+#ifndef GRAPHICRENDERENGINE_RAY_H
+#define GRAPHICRENDERENGINE_RAY_H
 #include <glm/glm.hpp>
 namespace ceres
 {
@@ -20,4 +20,4 @@ struct Ray
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_RAY_H
+#endif // GRAPHICRENDERENGINE_RAY_H

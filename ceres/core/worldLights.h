@@ -2,8 +2,8 @@
 // Created by william on 2022/5/26.
 //
 
-#ifndef SIMPLERENDERENGINE_WORLDLIGHTS_H
-#define SIMPLERENDERENGINE_WORLDLIGHTS_H
+#ifndef GRAPHICRENDERENGINE_WORLDLIGHTS_H
+#define GRAPHICRENDERENGINE_WORLDLIGHTS_H
 #include "commonMacro.h"
 #include "light.h"
 
@@ -58,4 +58,4 @@ struct WorldLights
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_WORLDLIGHTS_H
+#endif // GRAPHICRENDERENGINE_WORLDLIGHTS_H

@@ -2,8 +2,8 @@
 // Created by william on 2022/5/22.
 //
 
-#ifndef SIMPLERENDERENGINE_SHADER_H
-#define SIMPLERENDERENGINE_SHADER_H
+#ifndef GRAPHICRENDERENGINE_SHADER_H
+#define GRAPHICRENDERENGINE_SHADER_H
 #include "commonMacro.h"
 #include "glCommonDefine.h"
 #include "light.h"
@@ -264,4 +264,4 @@ private:
 };
 } // namespace ceres
 
-#endif // SIMPLERENDERENGINE_SHADER_H
+#endif // GRAPHICRENDERENGINE_SHADER_H

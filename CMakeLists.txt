@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
-project(simpleRenderEngine)
+project(graphicRenderEngine)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON) # 设置指定的C++版本
 # modify flat to -std=c++17 rather than -std=gnu++17
@@ -31,6 +31,6 @@ file(COPY ./test/resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 file(COPY ceres/shaders DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 enable_testing()
-add_executable(simpleRenderEngine ${SOURCES})
+add_executable(graphicRenderEngine ${SOURCES})
 # 链接库
-target_link_libraries(simpleRenderEngine ceres box2d liblua sol2)
+target_link_libraries(graphicRenderEngine ceres box2d liblua sol2)

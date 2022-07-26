@@ -2,8 +2,8 @@
 // Created by william on 2022/5/22.
 //
 
-#ifndef SIMPLERENDERENGINE_LOGGER_H
-#define SIMPLERENDERENGINE_LOGGER_H
+#ifndef GRAPHICRENDERENGINE_LOGGER_H
+#define GRAPHICRENDERENGINE_LOGGER_H
 #include "singleton.h"
 
 #include <cstdio>
@@ -61,4 +61,4 @@ public:
 private:
     std::shared_ptr<spdlog::logger> m_logger;
 };
-#endif // SIMPLERENDERENGINE_LOGGER_H
+#endif // GRAPHICRENDERENGINE_LOGGER_H
