@@ -16,8 +16,7 @@ public:
     {
         m_camera.setLookAt({ 0.0f, 0.0f, 4.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
         m_camera.setPerspectiveProjection(60.0f, 0.1f, 100.0f);
-        std::vector<std::shared_ptr<Material>> materialUnused;
-        m_mesh = ModelImporter::importObj("resources/objFiles/spot/spot_triangulated_good.obj", materialUnused);
+        m_mesh = ModelImporter::importObj("resources/objFiles/spot/spot_triangulated_good.obj");
         m_worldLights = MAKE_UNIQUE(m_worldLights);
         m_worldLights->addLight(Light::create().withPointLight({ -10, -10, 10 }).withColor({ 1, 1, 1 }).build());
         m_worldLights->addLight(Light::create().withPointLight({ -30, -30, 10 }).withColor({ 1, 1, 1 }).build());

@@ -42,6 +42,6 @@ extern void sceneTest();
 
 int main()
 {
-    multiLightTest();
+    skyboxTest();
     return 0;
 }

@@ -18,8 +18,7 @@ public:
     {
         m_camera.setLookAt(m_eye, m_at, m_up);
         m_camera.setPerspectiveProjection(45.0f, 0.1f, 100.0f);
-        std::vector<std::shared_ptr<Material>> materialUnused;
-        m_mesh = ModelImporter::importObj("resources/objFiles/suzanne.obj", materialUnused);
+        m_mesh = ModelImporter::importObj("resources/objFiles/suzanne.obj");
         m_meshSphere = Mesh::create().withSphere().build();
         m_meshPlane = Mesh::create().withQuad(4).build();
         m_worldLights = MAKE_UNIQUE(m_worldLights);

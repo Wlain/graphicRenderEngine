@@ -29,7 +29,7 @@ representative: goddess of agriculture, representing productivity, agriculture, 
 
 ![avatar](samples/clothSimulationTest.png)
 
-* skybox Test
+* skybox Test:cubeMap + AmbientMap(Reflection + Refraction)
 
 ![avatar](samples/skybox.png)
 

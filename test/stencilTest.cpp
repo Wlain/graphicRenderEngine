@@ -47,8 +47,7 @@ public:
     {
         m_camera.setLookAt(m_eye, m_at, m_up);
         m_camera.setPerspectiveProjection(45.0f, 0.1f, 100.0f);
-        std::vector<std::shared_ptr<Material>> materialUnused;
-        m_mesh = ModelImporter::importObj("resources/objFiles/suzanne.obj", materialUnused);
+        m_mesh = ModelImporter::importObj("resources/objFiles/suzanne.obj");
         m_plane = Mesh::create().withQuad(2).build();
         m_matStencilWrite = Shader::create()
                                 .withSourceFile("shaders/unlit_vert.glsl", Shader::ShaderType::Vertex)

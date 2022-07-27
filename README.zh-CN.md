@@ -29,7 +29,7 @@
 
 ![avatar](samples/clothSimulationTest.png)
 
-* 天空盒
+* 天空盒：cubeMap + AmbientMap(Reflection + Refraction)
 
 ![avatar](samples/skybox.png)
 

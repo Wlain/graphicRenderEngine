@@ -601,7 +601,7 @@ std::shared_ptr<Mesh> ModelImporter::importObj(const std::filesystem::path& path
     return meshBuilder.build();
 }
 
-std::shared_ptr<Mesh> ModelImporter::importObj(const std::filesystem::path& path, std::string filename)
+std::shared_ptr<Mesh> ModelImporter::importObj(const std::filesystem::path& path)
 {
     std::vector<std::shared_ptr<Material>> outModelMaterials;
     return ModelImporter::importObj(path, outModelMaterials);

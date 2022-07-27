@@ -42,8 +42,7 @@ public:
     {
         m_camera.setLookAt({ 0, 0, 3.5f }, { 0, 0, 0 }, { 0, 1, 0 });
         m_camera.setPerspectiveProjection(45.0f, 0.1f, 100.0f);
-        std::vector<std::shared_ptr<Material>> materialUnused;
-        m_mesh = ModelImporter::importObj("resources/objFiles/suzanne.obj", materialUnused);
+        m_mesh = ModelImporter::importObj("resources/objFiles/suzanne.obj");
         for (int i = 0; i < s_textureCount; i++)
         {
             m_textures[i] = Texture::create().withFile(std::string("resources/matcap/matcap_0000") + std::to_string(i + 1) + ".png").build();
