@@ -2,9 +2,9 @@
 // Created by william on 2022/5/23.
 //
 
-#include "engineTestSimple.h"
 #include "commonMacro.h"
 #include "core/worldLights.h"
+#include "engineTestSimple.h"
 
 #include <glm/glm.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
@@ -25,9 +25,14 @@ public:
         m_mesh = Mesh::create().withCube().build();
         m_meshSphere = Mesh::create().withSphere().build();
         m_worldLights = MAKE_UNIQUE(m_worldLights);
+        LOG_ERROR("cwb:lightCount:{}", Renderer::s_instance->getMaxSceneLights());
         for (int i = 0; i < Renderer::s_instance->getMaxSceneLights(); i++)
         {
-            m_worldLights->addLight(Light::create().withPointLight({ 0, 2, 1 }).withColor({ 1, 0, 1 }).withRange(10).build());
+            m_worldLights->addLight(Light::create()
+                                        .withPointLight({ (float(rand()) / RAND_MAX) * 2 - 1, 0.02f, (float(rand()) / RAND_MAX) * 2 - 1 })
+                                        .withColor({ (float(rand()) / RAND_MAX) * 0.75f, (float(rand()) / RAND_MAX) * 0.75f, (float(rand()) / RAND_MAX) * 0.75f })
+                                        .withRange(10)
+                                        .build());
         }
         m_materials[0] = Shader::getStandardBlinnPhong()->createMaterial();
         m_materials[1] = Shader::getStandardPhong()->createMaterial();

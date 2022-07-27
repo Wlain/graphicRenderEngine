@@ -20,4 +20,4 @@
  不依赖于任何GPU计算API。
 * TXAA (Temporal Anti-Aliasing)：时间性抗锯齿：将 MSAA、时间滤波以及后期处理相 结合，用于呈现更高的视觉保真度,
   TXAA 还能够对帧 之间的整个场景进行抖动采样，以减少闪烁情形，闪烁情形在技术上又称作时间性锯齿。
-* MFAA (Multi-Frame Sampled Anti-Aliasing)：多帧采样抗锯齿:是NVIDIA公司根据MSAA改进出的一种抗锯齿技术,
+* MFAA (Multi-Frame Sampled Anti-Aliasing)：多帧采样抗锯齿:是NVIDIA公司根据MSAA改进出的一种抗锯齿技术。
