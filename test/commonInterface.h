@@ -26,7 +26,6 @@ public:
     // button: left or right, action:pressed or released
     virtual void mouseButtonEvent(int button, int action, int mods);
     virtual void dropEvent(int count, const char** paths);
-    void setEffect();
 
 protected:
     GLFWRenderer* m_renderer{ nullptr };
