@@ -21,8 +21,11 @@ public:
         m_worldLights->addLight(Light::create().withPointLight({ -10, -10, 10 }).withColor({ 1, 1, 1 }).build());
         m_worldLights->addLight(Light::create().withPointLight({ -30, -30, 10 }).withColor({ 1, 1, 1 }).build());
         m_worldLights->addLight(Light::create().withPointLight({ 30, -30 + 180, 10 }).withColor({ 1, 1, 1 }).build());
-        m_specialization["S_NORMALMAP"] = "1";
-        m_material = Shader::getStandardBlinnPhong()->createMaterial(m_specialization);
+        m_material = Shader::create()
+                         .withSourceFile("shaders/bumpMapping/normal_mapping_vert.glsl", Shader::ShaderType::Vertex)
+                         .withSourceFile("shaders/bumpMapping/normal_mapping_frag.glsl", Shader::ShaderType::Fragment)
+                         .build()
+                         ->createMaterial();
         m_materialNormalDebug = Shader::create()
                                     .withSourceFile("shaders/debug_normal_vert.glsl", Shader::ShaderType::Vertex)
                                     .withSourceFile("shaders/debug_normal_frag.glsl", Shader::ShaderType::Fragment)

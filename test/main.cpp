@@ -42,6 +42,6 @@ extern void sceneTest();
 
 int main()
 {
-    skyboxTest();
+    bumpMapTest();
     return 0;
 }

@@ -255,13 +255,13 @@ std::vector<glm::vec4> Mesh::getColors()
 
 std::vector<glm::vec4> Mesh::getTangents()
 {
-    std::vector<glm::vec4> color;
+    std::vector<glm::vec4> tangents;
     auto ref = m_attributesVec4.find("tangent");
     if (ref != m_attributesVec4.end())
     {
-        color = ref->second;
+        tangents = ref->second;
     }
-    return color;
+    return tangents;
 }
 
 [[maybe_unused]] std::vector<float> Mesh::getParticleSizes()
