@@ -7,7 +7,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/transform.hpp>
 
-static std::string s_vertexShaderSource = R"(#version 330
+static std::string_view s_vertexShaderSource = R"(#version 330
 in vec4 position;
 in vec3 normal;
 out vec3 vNormal;
@@ -20,7 +20,7 @@ void main() {
 }
 )";
 
-static std::string s_fragmentShaderSource = R"(#version 330
+static std::string_view s_fragmentShaderSource = R"(#version 330
 out vec4 fragColor;
 in vec3 vNormal;
 
