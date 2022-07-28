@@ -63,15 +63,17 @@ public:
         auto tex = Texture::create().withFile("resources/blocks/bricks2.jpg").withSamplerColorspace(Texture::SamplerColorspace::Linear).build();
         auto normalTex = Texture::create().withFile("resources/blocks/bricks2_normal.jpg").withSamplerColorspace(Texture::SamplerColorspace::Gamma).build();
         auto depthTex = Texture::create().withFile("resources/blocks/bricks2_disp.jpg").withSamplerColorspace(Texture::SamplerColorspace::Gamma).build();
+        auto displaceMap = Texture::create().withFile("resources/displacement/concentric.png").withSamplerColorspace(Texture::SamplerColorspace::Gamma).build();
         m_materialNormalMapping->set("normalTex", normalTex);
         m_materialNormalMapping->set("tex", tex);
         m_materialBlinnBumpMapping->set("tex", tex);
         m_materialParallaxMapping->set("tex", tex);
         m_materialParallaxMapping->set("normalTex", normalTex);
         m_materialParallaxMapping->set("depthTex", depthTex);
-        m_materialDisplacementMapping->set("normalTex", normalTex);
+        m_materialParallaxMapping->set("heightScale", 1.0f);
+        m_materialDisplacementMapping->set("displaceMap", displaceMap);
         m_materialDisplacementMapping->set("tex", tex);
-        m_materialReliefMapping->set("normalTex", normalTex);
+        m_materialReliefMapping->set("displaceMap", displaceMap);
         m_materialReliefMapping->set("tex", tex);
     }
     void render() override
@@ -82,6 +84,8 @@ public:
                       .withClearColor(true, { 0, 0, 0, 1 })
                       .build();
         auto size = 0.45f;
+        m_materialDisplacementMapping->set("time", m_totalTime * 0.1f);
+        m_materialReliefMapping->set("time", m_totalTime * 0.1f);
         auto scaleRotateMatrix = glm::scale(glm::vec3(size, size, size)) * glm::eulerAngleY(glm::radians(30.0f * m_totalTime));
         rp.draw(m_mesh, glm::translate(glm::vec3(-2, 1, 0)) * scaleRotateMatrix, m_materialNormalDebug);
         rp.draw(m_mesh, glm::translate(glm::vec3(0, 1, 0)) * scaleRotateMatrix, m_materialBlinnBumpMapping);

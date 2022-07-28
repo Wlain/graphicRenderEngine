@@ -9,6 +9,8 @@ in vec3 vNormal;
 #include "utils_incl.glsl"
 uniform sampler2D normalTex;
 uniform sampler2D tex;
+uniform sampler2D displaceMap;
+uniform float time;
 
 mat3 calculateTBN(vec3 worldPos, vec2 uv)
 {
@@ -38,11 +40,14 @@ mat3 calculateTBN(vec3 worldPos, vec2 uv)
 
 void main()
 {
-    vec3 normal = texture(normalTex, vUv).rgb;
+    vec2 texcoord = vec2(vUv.s + time, vUv.t + time);
+    vec4 displace = texture(displaceMap, texcoord);
+    float displaceValue  = displace.g * 1.0;
+    vec2 uvDisplaced = vec2(vUv.x + displaceValue, vUv.y + displaceValue);
     // 将法线向量转换为范围[-1,1]
-    normal = calculateTBN(vWorldPos, vUv) * (normal * 2.0 - 1.0);
+    vec3 normal = calculateTBN(vWorldPos, uvDisplaced) * vNormal;
     vec3 specularLight = vec3(0.0, 0.0, 0.0);
     vec3 light = computeLightBlinnPhong(vWorldPos, g_cameraPos.xyz, normal, specularLight);
-    fragColor = toLinear(texture(tex, vUv)) * vec4(light, 1.0) + vec4(specularLight, 0);
+    fragColor = toLinear(texture(tex, uvDisplaced)) * vec4(light, 1.0);
     fragColor = toOutput(fragColor);
 }
