@@ -39,9 +39,10 @@ extern void luaScriptTest();
 extern void luaForMathematicalFuncTest();
 extern void particleSystemTest();
 extern void sceneTest();
+extern void deferredShadingTest();
 
 int main()
 {
-    bumpMapTest();
+    deferredShadingTest();
     return 0;
 }

@@ -77,6 +77,12 @@ FrameBuffer::FrameBufferBuilder& FrameBuffer::FrameBufferBuilder::withName(std::
     return *this;
 }
 
+FrameBuffer::FrameBufferBuilder& FrameBuffer::FrameBufferBuilder::useMRT(bool useMrt)
+{
+    m_useMrt = useMrt;
+    return *this;
+}
+
 std::shared_ptr<FrameBuffer> FrameBuffer::FrameBufferBuilder::build()
 {
     if (m_name.empty())
@@ -91,8 +97,11 @@ std::shared_ptr<FrameBuffer> FrameBuffer::FrameBufferBuilder::build()
     std::vector<GLenum> drawBuffers;
     for (unsigned i = 0; i < m_textures.size(); i++)
     {
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, m_textures[i]->m_info.id, 0);
+        auto colorAttachment = GL_COLOR_ATTACHMENT0 + i;
+        glFramebufferTexture2D(GL_FRAMEBUFFER, colorAttachment, GL_TEXTURE_2D, m_textures[i]->m_info.id, 0);
         drawBuffers.push_back(GL_COLOR_ATTACHMENT0 + i);
+        if (m_useMrt)
+            m_mrtList.emplace_back(colorAttachment);
     }
     if (m_depthTexture)
     {
@@ -107,6 +116,11 @@ std::shared_ptr<FrameBuffer> FrameBuffer::FrameBufferBuilder::build()
         glBindRenderbuffer(GL_RENDERBUFFER, 0);
         // attach the renderbuffer to depth attachment point
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, framebuffer->m_rbo);
+    }
+    // 使用多渲染目标技术：MRT-Multiple Render Targets
+    if (m_useMrt)
+    {
+        glDrawBuffers(m_mrtList.size(), m_mrtList.data());
     }
     // check FBO
     checkStatus();

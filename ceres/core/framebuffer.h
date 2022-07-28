@@ -23,15 +23,20 @@ public:
         FrameBufferBuilder& withColorTexture(const std::shared_ptr<Texture>& texture);
         FrameBufferBuilder& withDepthTexture(const std::shared_ptr<Texture>& texture);
         FrameBufferBuilder& withName(std::string_view name);
+        FrameBufferBuilder& useMRT(bool useMrt);
         std::shared_ptr<FrameBuffer> build();
+
+    private:
+        FrameBufferBuilder() = default;
+        FrameBufferBuilder(const FrameBufferBuilder&) = default;
 
     private:
         std::vector<std::shared_ptr<Texture>> m_textures;
         std::shared_ptr<Texture> m_depthTexture;
         std::string m_name;
         glm::uvec2 m_size{};
-        FrameBufferBuilder() = default;
-        FrameBufferBuilder(const FrameBufferBuilder&) = default;
+        std::vector<uint32_t> m_mrtList;
+        bool m_useMrt{ false };
         friend class FrameBuffer;
     };
 
