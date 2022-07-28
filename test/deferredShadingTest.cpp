@@ -21,13 +21,13 @@ public:
         m_lightDirection = glm::normalize(glm::vec3{ 1, 1, 1 });
         m_worldLights->addLight(Light::create().withDirectionalLight(m_lightDirection).withColor(Color(1, 1, 1), 7).build());
         initFramebufferObject(800, 600);
-
     }
 
     void render() override
     {
         // render pass - render world with shadow lookup
         auto rp = RenderPass::create()
+                      .withFramebuffer(m_gBuffer)
                       .withCamera(m_camera)
                       .withClearColor(true, { 0, 0, 0, 1 })
                       .withWorldLights(m_worldLights.get())
@@ -48,17 +48,17 @@ private:
         m_positionTexture = Texture::create().withRGBAData(nullptr, width, height).withName("position").build();
         m_normalTexture = Texture::create().withRGBAData(nullptr, width, height).withName("normal").build();
         m_colorTexture = Texture::create().withRGBAData(nullptr, width, height).withName("color").build();
-        m_framebuffer = FrameBuffer::create()
-                            .withUseMRT(true)
-                            .withColorTexture(m_positionTexture)
-                            .withColorTexture(m_normalTexture)
-                            .withColorTexture(m_colorTexture)
-                            .build();
+        m_gBuffer = FrameBuffer::create()
+                        .withUseMRT(true)
+                        .withColorTexture(m_positionTexture)
+                        .withColorTexture(m_normalTexture)
+                        .withColorTexture(m_colorTexture)
+                        .build();
     }
 
 private:
     Camera m_shadowMapCamera;
-    std::shared_ptr<FrameBuffer> m_framebuffer;
+    std::shared_ptr<FrameBuffer> m_gBuffer;
     std::shared_ptr<Texture> m_shadowMapTexture;
     std::shared_ptr<Texture> m_positionTexture;
     std::shared_ptr<Texture> m_depthTexture;
