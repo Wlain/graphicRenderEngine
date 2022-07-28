@@ -31,6 +31,11 @@ public:
                                       .withSourceFile("shaders/bumpMapping/blinn_bump_mapping_frag.glsl", Shader::ShaderType::Fragment)
                                       .build()
                                       ->createMaterial();
+        m_materialParallaxMapping = Shader::create()
+                                        .withSourceFile("shaders/bumpMapping/parallax_mapping_vert.glsl", Shader::ShaderType::Vertex)
+                                        .withSourceFile("shaders/bumpMapping/parallax_mapping_frag.glsl", Shader::ShaderType::Fragment)
+                                        .build()
+                                        ->createMaterial();
         m_materialNormalDebug = Shader::create()
                                     .withSourceFile("shaders/debug_normal_vert.glsl", Shader::ShaderType::Vertex)
                                     .withSourceFile("shaders/debug_normal_frag.glsl", Shader::ShaderType::Fragment)
@@ -67,8 +72,9 @@ public:
 
 private:
     std::map<std::string, std::string> m_specialization;
-    std::shared_ptr<Material> m_materialNormalMapping;
-    std::shared_ptr<Material> m_materialBlinnBumpMapping;
+    std::shared_ptr<Material> m_materialNormalMapping; // 法线贴图材质
+    std::shared_ptr<Material> m_materialBlinnBumpMapping; // 凹凸贴图材质
+    std::shared_ptr<Material> m_materialParallaxMapping;  // 视差贴图材质
     std::shared_ptr<Material> m_materialNormalDebug;
     std::shared_ptr<Material> m_materialUvDebug;
 };
