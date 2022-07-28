@@ -10,7 +10,7 @@ in vec3 vNormal;
 uniform sampler2D normalTex;
 uniform sampler2D tex;
 
-mat3 calculateTBN(vec3 worldPos, vec2 uv, vec3 normal)
+mat3 calculateTBN(vec3 worldPos, vec2 uv)
 {
     vec3 posDx = dFdx(worldPos);
     vec3 posDy = dFdy(worldPos);
@@ -40,8 +40,7 @@ void main()
 {
     vec3 normal = texture(normalTex, vUv).rgb;
     // 将法线向量转换为范围[-1,1]
-    normal = normalize(normal * 2.0 - 1.0);
-    normal = calculateTBN(vWorldPos, vUv, normal) * normal;
+    normal = calculateTBN(vWorldPos, vUv) * (normal * 2.0 - 1.0);
     vec3 specularLight = vec3(0.0, 0.0, 0.0);
     vec3 light = computeLightBlinnPhong(vWorldPos, g_cameraPos.xyz, normal, specularLight);
     fragColor = toLinear(texture(tex, vUv)) * vec4(light, 1.0) + vec4(specularLight, 0);

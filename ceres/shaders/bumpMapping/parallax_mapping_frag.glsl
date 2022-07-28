@@ -9,13 +9,22 @@ in vec3 vNormal;
 #include "utils_incl.glsl"
 uniform sampler2D normalTex;
 uniform sampler2D tex;
+uniform sampler2D depthTex;
 
-mat3 calculateTBN(vec3 worldPos, vec2 uv, vec3 normal)
+uniform float heightScale;
+
+vec2 parallaxMapping(vec2 texCoords, vec3 viewDir)
 {
-    vec3 posDx = dFdx(worldPos);
-    vec3 posDy = dFdy(worldPos);
-    vec3 texDx = dFdx(vec3(uv, 0.0));
-    vec3 texDy = dFdy(vec3(uv, 0.0));
+    float height = texture(depthTex, texCoords).r;
+    return texCoords - viewDir.xy * (height * heightScale);
+}
+
+mat3 calculateTBN()
+{
+    vec3 posDx = dFdx(vWorldPos);
+    vec3 posDy = dFdy(vWorldPos);
+    vec3 texDx = dFdx(vec3(vUv, 0.0));
+    vec3 texDy = dFdy(vec3(vUv, 0.0));
     // 根据矩阵求解
     // texDx.s: dU1
     // texDx.t: dV1
@@ -38,12 +47,16 @@ mat3 calculateTBN(vec3 worldPos, vec2 uv, vec3 normal)
 
 void main()
 {
-    vec3 normal = texture(normalTex, vUv).rgb;
+    mat3 tbn = calculateTBN();
+    vec3 worldPos = tbn * vWorldPos;
+    vec3 cameraPos = tbn * g_cameraPos.xyz;
+    vec3 viewDir = cameraPos - worldPos;
+    vec2 texCoords = parallaxMapping(vUv,  viewDir);
+    vec3 specularLight = vec3(0.0, 0.0, 0.0);
+    vec3 normal = texture(normalTex, texCoords).rgb;
     // 将法线向量转换为范围[-1,1]
     normal = normalize(normal * 2.0 - 1.0);
-    normal = calculateTBN(vWorldPos, vUv, normal) * normal;
-    vec3 specularLight = vec3(0.0, 0.0, 0.0);
-    vec3 light = computeLightBlinnPhong(vWorldPos, g_cameraPos.xyz, normal, specularLight);
-    fragColor = toLinear(texture(tex, vUv)) * vec4(light, 1.0) + vec4(specularLight, 0);
+    vec3 light = computeLightBlinnPhongWithParallaxMapping(worldPos, viewDir, normal, tbn, specularLight);
+    fragColor = toLinear(texture(tex, texCoords)) * vec4(light, 1.0);
     fragColor = toOutput(fragColor);
 }

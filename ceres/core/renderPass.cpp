@@ -236,6 +236,10 @@ void RenderPass::setupShader(const glm::mat4& modelTransform, Shader* shader)
     // normal
     if (shader->m_uniformLocationModelViewInverseTranspose != -1)
     {
+        // 求法线矩阵的缘由：为了确定法线向量在顶点着色器里的方向始终垂直于表面
+        // 如果模型矩阵进行非一致性(non-uniform)缩放(scale)，顶点变化后，其法线向量不再垂直于表面，所以需要法线矩阵
+        // 法线矩阵是乘法线向量，可把该法线转化为即使缩放也不会不垂直于表面的法线向量,法线矩阵可从模型视图矩阵转换而来(转置逆转矩阵)，
+        // 但因为是工作在世界空间(而不是视图空间)，所以用模型矩阵转换,把模型矩阵转化为3x3矩阵(用mat3)失去转置属性，而后可和vec3向量相乘
         auto normalMatrix = transpose(inverse((glm::mat3)(m_builder.m_camera.getViewTransform() * modelTransform)));
         glUniformMatrix3fv(shader->m_uniformLocationModelViewInverseTranspose, 1, GL_FALSE, glm::value_ptr(normalMatrix));
     }
