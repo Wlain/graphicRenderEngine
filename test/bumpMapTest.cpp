@@ -21,29 +21,31 @@ public:
         m_worldLights->addLight(Light::create().withPointLight({ -10, -10, 10 }).withColor({ 1, 1, 1 }).build());
         m_worldLights->addLight(Light::create().withPointLight({ -30, -30, 10 }).withColor({ 1, 1, 1 }).build());
         m_worldLights->addLight(Light::create().withPointLight({ 30, -30 + 180, 10 }).withColor({ 1, 1, 1 }).build());
-        m_material = Shader::create()
+        m_materialNormalMapping = Shader::create()
                          .withSourceFile("shaders/bumpMapping/normal_mapping_vert.glsl", Shader::ShaderType::Vertex)
                          .withSourceFile("shaders/bumpMapping/normal_mapping_frag.glsl", Shader::ShaderType::Fragment)
-                         .withCullFace(Shader::CullFace::None)
                          .build()
                          ->createMaterial();
+        m_materialBlinnBumpMapping = Shader::create()
+                                      .withSourceFile("shaders/bumpMapping/blinn_bump_mapping_vert.glsl", Shader::ShaderType::Vertex)
+                                      .withSourceFile("shaders/bumpMapping/blinn_bump_mapping_frag.glsl", Shader::ShaderType::Fragment)
+                                      .build()
+                                      ->createMaterial();
         m_materialNormalDebug = Shader::create()
                                     .withSourceFile("shaders/debug_normal_vert.glsl", Shader::ShaderType::Vertex)
                                     .withSourceFile("shaders/debug_normal_frag.glsl", Shader::ShaderType::Fragment)
-                                    .withCullFace(Shader::CullFace::None)
                                     .build()
                                     ->createMaterial();
         m_materialUvDebug = Shader::create()
                                 .withSourceFile("shaders/debug_uv_vert.glsl", Shader::ShaderType::Vertex)
                                 .withSourceFile("shaders/debug_uv_frag.glsl", Shader::ShaderType::Fragment)
-                                .withCullFace(Shader::CullFace::None)
                                 .build()
                                 ->createMaterial();
-        m_material->setColor({ 1, 1, 1, 1 });
-        m_material->setSpecularity(Color(0, 0, 1, 50));
-        m_material->set("normalTex", Texture::create().withFile("resources/objFiles/spot/normal.jpg").withSamplerColorspace(Texture::SamplerColorspace::Gamma).build());
-        m_material->set("tex", Texture::create().withFile("resources/objFiles/spot/spot_texture.png").withSamplerColorspace(Texture::SamplerColorspace::Linear).build());
-        m_material->set("normalScale", 2.0f);
+        m_materialNormalMapping->setColor({ 1, 1, 1, 1 });
+        m_materialNormalMapping->setSpecularity(Color(0, 0, 1, 50));
+        m_materialNormalMapping->set("normalTex", Texture::create().withFile("resources/objFiles/spot/normal.jpg").withSamplerColorspace(Texture::SamplerColorspace::Gamma).build());
+        m_materialNormalMapping->set("tex", Texture::create().withFile("resources/objFiles/spot/spot_texture.png").withSamplerColorspace(Texture::SamplerColorspace::Linear).build());
+        m_materialNormalMapping->set("normalScale", 2.0f);
     }
     void render() override
     {
@@ -52,10 +54,11 @@ public:
                       .withWorldLights(m_worldLights.get())
                       .withClearColor(true, { 0, 0, 0, 1 })
                       .build();
-        auto rotateMatrix = glm::eulerAngleY(glm::radians(30 * m_totalTime));
-        rp.draw(m_mesh, rotateMatrix, m_material);
-        rp.draw(m_mesh, glm::translate(glm::vec3(2, 0, 0)) * rotateMatrix, m_materialNormalDebug);
-        rp.draw(m_mesh, glm::translate(glm::vec3(-2, 0, 0)) * rotateMatrix, m_materialUvDebug);
+        auto scaleRotateMatrix = glm::scale(glm::vec3(0.5, 0.5, 0.5)) * glm::eulerAngleY(glm::radians(30 * m_totalTime));
+        rp.draw(m_mesh, glm::translate(glm::vec3(0, 1, 0)) * scaleRotateMatrix, m_materialNormalMapping);
+        rp.draw(m_mesh, glm::translate(glm::vec3(2, 1, 0)) * scaleRotateMatrix, m_materialNormalDebug);
+        rp.draw(m_mesh, glm::translate(glm::vec3(-2, 1, 0)) * scaleRotateMatrix, m_materialUvDebug);
+        rp.draw(m_mesh, glm::translate(glm::vec3(0, 0, 0)) * scaleRotateMatrix, m_materialBlinnBumpMapping);
     }
     void setTitle() override
     {
@@ -64,6 +67,8 @@ public:
 
 private:
     std::map<std::string, std::string> m_specialization;
+    std::shared_ptr<Material> m_materialNormalMapping;
+    std::shared_ptr<Material> m_materialBlinnBumpMapping;
     std::shared_ptr<Material> m_materialNormalDebug;
     std::shared_ptr<Material> m_materialUvDebug;
 };

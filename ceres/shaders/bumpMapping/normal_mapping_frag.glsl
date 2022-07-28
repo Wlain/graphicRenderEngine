@@ -2,6 +2,7 @@
 out vec4 fragColor;
 in vec2 vUv;
 in vec3 vWorldPos;
+in vec3 vNormal;
 
 #include "uniforms_incl.glsl"
 #include "light_incl.glsl"
@@ -24,7 +25,7 @@ mat3 calculateTBN(vec3 worldPos, vec2 uv, vec3 normal)
     // posDy:E2
     // y = (dV2 * E1 - dV1 * E2) / (dU1 * dV2 - dU2 * dV1)
     vec3 t = (texDy.t * posDx - texDx.t * posDy) / (texDx.s * texDy.t - texDy.s * texDx.t);
-    vec3 ng = normalize(normal);
+    vec3 ng = normalize(vNormal);
     // 当在更大的网格上计算切线向量的时候，它们往往有很大数量的共享顶点，当法向贴图应用到这些表面时将切线向量平均化通常能获得更好更平滑的结果。
     // 这样做有个问题，就是TBN向量可能会不能互相垂直，这意味着TBN矩阵不再是正交矩阵了。法线贴图可能会稍稍偏移，但这仍然可以改进。
     // 格拉姆-施密特正交化：在不必花费太多性能开销的情况下稍稍提升画质表现
