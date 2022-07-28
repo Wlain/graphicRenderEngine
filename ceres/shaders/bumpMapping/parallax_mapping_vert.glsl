@@ -12,7 +12,7 @@ out vec3 vWorldPos;
 void main() {
     vec4 worldPos = g_model * vec4(position, 1.0);
     vWorldPos = worldPos.xyz;
-    vNormal = mat3(g_view * g_model * inverse(transpose(inverse(g_view * g_model)))) * normal; // 此处还原到原始的法线坐标
+    vNormal = normal; // 此处还原到原始的法线坐标
     vUv = uv.xy;
     gl_Position = g_projection * g_view * worldPos;
 }
