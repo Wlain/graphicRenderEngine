@@ -24,16 +24,19 @@ public:
         m_material = Shader::create()
                          .withSourceFile("shaders/bumpMapping/normal_mapping_vert.glsl", Shader::ShaderType::Vertex)
                          .withSourceFile("shaders/bumpMapping/normal_mapping_frag.glsl", Shader::ShaderType::Fragment)
+                         .withCullFace(Shader::CullFace::None)
                          .build()
                          ->createMaterial();
         m_materialNormalDebug = Shader::create()
                                     .withSourceFile("shaders/debug_normal_vert.glsl", Shader::ShaderType::Vertex)
                                     .withSourceFile("shaders/debug_normal_frag.glsl", Shader::ShaderType::Fragment)
+                                    .withCullFace(Shader::CullFace::None)
                                     .build()
                                     ->createMaterial();
         m_materialUvDebug = Shader::create()
                                 .withSourceFile("shaders/debug_uv_vert.glsl", Shader::ShaderType::Vertex)
                                 .withSourceFile("shaders/debug_uv_frag.glsl", Shader::ShaderType::Fragment)
+                                .withCullFace(Shader::CullFace::None)
                                 .build()
                                 ->createMaterial();
         m_material->setColor({ 1, 1, 1, 1 });
