@@ -25,16 +25,18 @@ public:
 
     void render() override
     {
-        // render pass - render world with shadow lookup
+        // 几何处理阶段：render pass
         auto rp = RenderPass::create()
                       .withFramebuffer(m_gBuffer)
                       .withCamera(m_camera)
+                      .withGUI(false)
                       .withClearColor(true, { 0, 0, 0, 1 })
                       .withWorldLights(m_worldLights.get())
                       .build();
+        // 着色阶段：render pass
+
 
         rp.draw(m_mesh, glm::mat4(1), m_materials);
-
         ImGui::DragFloat3("Light pos", &m_worldLights->getLight(0)->position.x, 0.1f);
         ImGui::DragFloat3("eye", &m_eye.x);
         ImGui::DragFloat3("at", &m_at.x);
@@ -49,7 +51,7 @@ private:
         m_normalTexture = Texture::create().withRGBAData(nullptr, width, height).withName("normal").build();
         m_colorTexture = Texture::create().withRGBAData(nullptr, width, height).withName("color").build();
         m_gBuffer = FrameBuffer::create()
-                        .withUseMRT(true)
+                        .withMRT(true)
                         .withColorTexture(m_positionTexture)
                         .withColorTexture(m_normalTexture)
                         .withColorTexture(m_colorTexture)

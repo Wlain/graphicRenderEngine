@@ -69,7 +69,7 @@ FrameBuffer::FrameBufferBuilder& FrameBuffer::FrameBufferBuilder::withName(std::
     return *this;
 }
 
-FrameBuffer::FrameBufferBuilder& FrameBuffer::FrameBufferBuilder::withUseMRT(bool useMrt)
+FrameBuffer::FrameBufferBuilder& FrameBuffer::FrameBufferBuilder::withMRT(bool useMrt)
 {
     m_useMrt = useMrt;
     return *this;
