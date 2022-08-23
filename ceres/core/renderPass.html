@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>renderPass.h &mdash; graphicRenderEngine documentation  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/sphinx_rtd_size.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="renderStats.h" href="renderStats.html" />
+    <link rel="prev" title="ray.h" href="ray.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> graphicRenderEngine documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">graphicRenderEngine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#dependencies">dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#test-demo">test demo</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">core</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="camera.html">camera.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="color.html">color.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="framebuffer.html">framebuffer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glfwRenderer.html">glfwRenderer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inspector.html">inspector.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="light.html">light.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="material.html">material.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">mesh.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modelImporter.html">modelImporter.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="particleEmitter.html">particleEmitter.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ray.html">ray.h</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">renderPass.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renderStats.html">renderStats.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renderer.html">renderer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource.html">resource.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shader.html">shader.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="skybox.html">skybox.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sprite.html">sprite.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spriteAtlas.html">spriteAtlas.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spriteBatch.html">spriteBatch.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texture.html">texture.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uniformSet.html">uniformSet.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="worldLights.html">worldLights.h</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/index.html">utils</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">graphicRenderEngine documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">core</a> &raquo;</li>
+      <li>renderPass.h</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/ceres/core/renderPass.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="renderpass-h">
+<h1>renderPass.h<a class="headerlink" href="#renderpass-h" title="Permalink to this heading"></a></h1>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv45ceres">
+<span id="_CPPv35ceres"></span><span id="_CPPv25ceres"></span><span id="ceres"></span><span class="target" id="namespaceceres"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ceres</span></span></span><br /></dt>
+<dd><dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPassE">
+<span id="_CPPv3N5ceres10RenderPassE"></span><span id="_CPPv2N5ceres10RenderPassE"></span><span id="ceres::RenderPass"></span><span class="target" id="classceres_1_1_render_pass"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RenderPass</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPassE" title="Permalink to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass10RenderPassEv">
+<span id="_CPPv3N5ceres10RenderPass10RenderPassEv"></span><span id="_CPPv2N5ceres10RenderPass10RenderPassEv"></span><span id="ceres::RenderPass::RenderPass"></span><span class="target" id="classceres_1_1_render_pass_1a51ffed5322915922e4587d74f6b15d49"></span><span class="sig-name descname"><span class="n"><span class="pre">RenderPass</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass10RenderPassEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass10RenderPassERK10RenderPass">
+<span id="_CPPv3N5ceres10RenderPass10RenderPassERK10RenderPass"></span><span id="_CPPv2N5ceres10RenderPass10RenderPassERK10RenderPass"></span><span id="ceres::RenderPass::RenderPass__RenderPassCR"></span><span class="target" id="classceres_1_1_render_pass_1adfc70eb785d3907780b1ea8fc9852c4b"></span><span class="sig-name descname"><span class="n"><span class="pre">RenderPass</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N5ceres10RenderPass10RenderPassERK10RenderPass" title="ceres::RenderPass::RenderPass"><span class="n"><span class="pre">RenderPass</span></span></a><span class="p"><span class="pre">&amp;</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">delete</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass10RenderPassERK10RenderPass" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass10RenderPassERR10RenderPass">
+<span id="_CPPv3N5ceres10RenderPass10RenderPassERR10RenderPass"></span><span id="_CPPv2N5ceres10RenderPass10RenderPassERR10RenderPass"></span><span id="ceres::RenderPass::RenderPass__RenderPassRR"></span><span class="target" id="classceres_1_1_render_pass_1a5e58887e7164ab8cfdeb5c23196e69d5"></span><span class="sig-name descname"><span class="n"><span class="pre">RenderPass</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N5ceres10RenderPass10RenderPassERR10RenderPass" title="ceres::RenderPass::RenderPass"><span class="n"><span class="pre">RenderPass</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rp</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass10RenderPassERR10RenderPass" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPassaSERR10RenderPass">
+<span id="_CPPv3N5ceres10RenderPassaSERR10RenderPass"></span><span id="_CPPv2N5ceres10RenderPassaSERR10RenderPass"></span><span id="ceres::RenderPass::assign-operator__RenderPassRR"></span><span class="target" id="classceres_1_1_render_pass_1a2a53db990d1a0f44230f464fedc5c6f1"></span><a class="reference internal" href="#_CPPv4N5ceres10RenderPassE" title="ceres::RenderPass"><span class="n"><span class="pre">RenderPass</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N5ceres10RenderPassE" title="ceres::RenderPass"><span class="n"><span class="pre">RenderPass</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">other</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPassaSERR10RenderPass" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPassD0Ev">
+<span id="_CPPv3N5ceres10RenderPassD0Ev"></span><span id="_CPPv2N5ceres10RenderPassD0Ev"></span><span id="ceres::RenderPass::~RenderPass"></span><span class="target" id="classceres_1_1_render_pass_1af9821a9145bf2dc57eb253cfc3e88b7e"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~RenderPass</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPassD0Ev" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass9drawLinesERKNSt6vectorIN3glm4vec3EEE5ColorN4Mesh8TopologyE">
+<span id="_CPPv3N5ceres10RenderPass9drawLinesERKNSt6vectorIN3glm4vec3EEE5ColorN4Mesh8TopologyE"></span><span id="_CPPv2N5ceres10RenderPass9drawLinesERKNSt6vectorIN3glm4vec3EEE5ColorN4Mesh8TopologyE"></span><span id="ceres::RenderPass::drawLines__std::vector:glm::vec3:CR.Color.Mesh::Topology"></span><span class="target" id="classceres_1_1_render_pass_1a379fa1d7075b6107fb242647b6566d8b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">drawLines</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec3</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">vertices</span></span>, <a class="reference internal" href="color.html#_CPPv4N5ceres5ColorE" title="ceres::Color"><span class="n"><span class="pre">Color</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">color</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">1.0f</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1.0f</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1.0f</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1.0f</span></span><span class="p"><span class="pre">}</span></span>, <a class="reference internal" href="mesh.html#_CPPv4N5ceres4MeshE" title="ceres::Mesh"><span class="n"><span class="pre">Mesh</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="mesh.html#_CPPv4N5ceres4Mesh8TopologyE" title="ceres::Mesh::Topology"><span class="n"><span class="pre">Topology</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">meshTopology</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="mesh.html#_CPPv4N5ceres4MeshE" title="ceres::Mesh"><span class="n"><span class="pre">Mesh</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="mesh.html#_CPPv4N5ceres4Mesh8TopologyE" title="ceres::Mesh::Topology"><span class="n"><span class="pre">Topology</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="mesh.html#_CPPv4N5ceres4Mesh8Topology5LinesE" title="ceres::Mesh::Topology::Lines"><span class="n"><span class="pre">Lines</span></span></a><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass9drawLinesERKNSt6vectorIN3glm4vec3EEE5ColorN4Mesh8TopologyE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass4drawERKNSt10shared_ptrI4MeshEEN3glm4mat4ERNSt10shared_ptrI8MaterialEE">
+<span id="_CPPv3N5ceres10RenderPass4drawERKNSt10shared_ptrI4MeshEEN3glm4mat4ERNSt10shared_ptrI8MaterialEE"></span><span id="_CPPv2N5ceres10RenderPass4drawERKNSt10shared_ptrI4MeshEEN3glm4mat4ERNSt10shared_ptrI8MaterialEE"></span><span id="ceres::RenderPass::draw__std::shared_ptr:Mesh:CR.glm::mat4.std::shared_ptr:Material:R"></span><span class="target" id="classceres_1_1_render_pass_1ae154ffce2c41935eb97e5b8107c1a90f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">draw</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv4N5ceres4MeshE" title="ceres::Mesh"><span class="n"><span class="pre">Mesh</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mesh</span></span>, <span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">modelTransform</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="material.html#_CPPv4N5ceres8MaterialE" title="ceres::Material"><span class="n"><span class="pre">Material</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">material</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass4drawERKNSt10shared_ptrI4MeshEEN3glm4mat4ERNSt10shared_ptrI8MaterialEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass4drawERNSt10shared_ptrI4MeshEEN3glm4mat4ERNSt6vectorINSt10shared_ptrI8MaterialEEEE">
+<span id="_CPPv3N5ceres10RenderPass4drawERNSt10shared_ptrI4MeshEEN3glm4mat4ERNSt6vectorINSt10shared_ptrI8MaterialEEEE"></span><span id="_CPPv2N5ceres10RenderPass4drawERNSt10shared_ptrI4MeshEEN3glm4mat4ERNSt6vectorINSt10shared_ptrI8MaterialEEEE"></span><span id="ceres::RenderPass::draw__std::shared_ptr:Mesh:R.glm::mat4.std::vector:std::shared_ptr:Material::R"></span><span class="target" id="classceres_1_1_render_pass_1a40a3b5325c9e9f9498a1d5e2a2c45c68"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">draw</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv4N5ceres4MeshE" title="ceres::Mesh"><span class="n"><span class="pre">Mesh</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mesh</span></span>, <span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">modelTransform</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="material.html#_CPPv4N5ceres8MaterialE" title="ceres::Material"><span class="n"><span class="pre">Material</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">materials</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass4drawERNSt10shared_ptrI4MeshEEN3glm4mat4ERNSt6vectorINSt10shared_ptrI8MaterialEEEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass4drawERNSt10shared_ptrI11SpriteBatchEEN3glm4mat4E">
+<span id="_CPPv3N5ceres10RenderPass4drawERNSt10shared_ptrI11SpriteBatchEEN3glm4mat4E"></span><span id="_CPPv2N5ceres10RenderPass4drawERNSt10shared_ptrI11SpriteBatchEEN3glm4mat4E"></span><span id="ceres::RenderPass::draw__std::shared_ptr:SpriteBatch:R.glm::mat4"></span><span class="target" id="classceres_1_1_render_pass_1adf6d8a81bc21e993d36bd27eb0e8ceb1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">draw</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="spriteBatch.html#_CPPv4N5ceres11SpriteBatchE" title="ceres::SpriteBatch"><span class="n"><span class="pre">SpriteBatch</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">spriteBatch</span></span>, <span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">modelTransform</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass4drawERNSt10shared_ptrI11SpriteBatchEEN3glm4mat4E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass4drawERRNSt10shared_ptrI11SpriteBatchEEN3glm4mat4E">
+<span id="_CPPv3N5ceres10RenderPass4drawERRNSt10shared_ptrI11SpriteBatchEEN3glm4mat4E"></span><span id="_CPPv2N5ceres10RenderPass4drawERRNSt10shared_ptrI11SpriteBatchEEN3glm4mat4E"></span><span id="ceres::RenderPass::draw__std::shared_ptr:SpriteBatch:RR.glm::mat4"></span><span class="target" id="classceres_1_1_render_pass_1afebe51399965bde46dc76dff4c4b1e05"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">draw</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="spriteBatch.html#_CPPv4N5ceres11SpriteBatchE" title="ceres::SpriteBatch"><span class="n"><span class="pre">SpriteBatch</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">spriteBatch</span></span>, <span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">modelTransform</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass4drawERRNSt10shared_ptrI11SpriteBatchEEN3glm4mat4E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass4blitENSt10shared_ptrI7TextureEEN3glm4mat4E">
+<span id="_CPPv3N5ceres10RenderPass4blitENSt10shared_ptrI7TextureEEN3glm4mat4E"></span><span id="_CPPv2N5ceres10RenderPass4blitENSt10shared_ptrI7TextureEEN3glm4mat4E"></span><span id="ceres::RenderPass::blit__std::shared_ptr:Texture:.glm::mat4"></span><span class="target" id="classceres_1_1_render_pass_1aa8aab09b2294405481ae1ef54cf7b4f2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">blit</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="texture.html#_CPPv4N5ceres7TextureE" title="ceres::Texture"><span class="n"><span class="pre">Texture</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">texture</span></span>, <span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">transformation</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">1.0f</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass4blitENSt10shared_ptrI7TextureEEN3glm4mat4E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass4blitENSt10shared_ptrI8MaterialEEN3glm4mat4E">
+<span id="_CPPv3N5ceres10RenderPass4blitENSt10shared_ptrI8MaterialEEN3glm4mat4E"></span><span id="_CPPv2N5ceres10RenderPass4blitENSt10shared_ptrI8MaterialEEN3glm4mat4E"></span><span id="ceres::RenderPass::blit__std::shared_ptr:Material:.glm::mat4"></span><span class="target" id="classceres_1_1_render_pass_1aec3dec2bc1fb5a7b42b4616193f8ebf1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">blit</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="material.html#_CPPv4N5ceres8MaterialE" title="ceres::Material"><span class="n"><span class="pre">Material</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">material</span></span>, <span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">transformation</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">1.0f</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass4blitENSt10shared_ptrI8MaterialEEN3glm4mat4E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass10readPixelsEjjjj">
+<span id="_CPPv3N5ceres10RenderPass10readPixelsEjjjj"></span><span id="_CPPv2N5ceres10RenderPass10readPixelsEjjjj"></span><span id="ceres::RenderPass::readPixels__unsigned-i.unsigned-i.unsigned-i.unsigned-i"></span><span class="target" id="classceres_1_1_render_pass_1a01b00656026c4fd1cc700fb3e3b6d24e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="color.html#_CPPv4N5ceres5ColorE" title="ceres::Color"><span class="n"><span class="pre">Color</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">readPixels</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">x</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">y</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">width</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">height</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass10readPixelsEjjjj" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK5ceres10RenderPass22finishGPUCommandBufferEv">
+<span id="_CPPv3NK5ceres10RenderPass22finishGPUCommandBufferEv"></span><span id="_CPPv2NK5ceres10RenderPass22finishGPUCommandBufferEv"></span><span id="ceres::RenderPass::finishGPUCommandBufferC"></span><span class="target" id="classceres_1_1_render_pass_1ab28ce5fbddecbd91ab275495e1922933"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">finishGPUCommandBuffer</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK5ceres10RenderPass22finishGPUCommandBufferEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass6finishEv">
+<span id="_CPPv3N5ceres10RenderPass6finishEv"></span><span id="_CPPv2N5ceres10RenderPass6finishEv"></span><span id="ceres::RenderPass::finish"></span><span class="target" id="classceres_1_1_render_pass_1a3a900d6959ab21eaa35803e1caa2c632"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">finish</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass6finishEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass10isFinishedEv">
+<span id="_CPPv3N5ceres10RenderPass10isFinishedEv"></span><span id="_CPPv2N5ceres10RenderPass10isFinishedEv"></span><span id="ceres::RenderPass::isFinished"></span><span class="target" id="classceres_1_1_render_pass_1a26a6bb2e51ce9831704e93c75aabdecc"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">isFinished</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass10isFinishedEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass6createEv">
+<span id="_CPPv3N5ceres10RenderPass6createEv"></span><span id="_CPPv2N5ceres10RenderPass6createEv"></span><span id="ceres::RenderPass::create"></span><span class="target" id="classceres_1_1_render_pass_1a567055c002b30229da457341aaa36a88"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilderE" title="ceres::RenderPass::RenderPassBuilder"><span class="n"><span class="pre">RenderPassBuilder</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">create</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass6createEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass10RenderPassERN10RenderPass17RenderPassBuilderE">
+<span id="_CPPv3N5ceres10RenderPass10RenderPassERN10RenderPass17RenderPassBuilderE"></span><span id="_CPPv2N5ceres10RenderPass10RenderPassERN10RenderPass17RenderPassBuilderE"></span><span id="ceres::RenderPass::RenderPass__RenderPass::RenderPassBuilderR"></span><span class="target" id="classceres_1_1_render_pass_1a9268093b7c0bb4861d7567041f313c75"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RenderPass</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N5ceres10RenderPass10RenderPassERN10RenderPass17RenderPassBuilderE" title="ceres::RenderPass::RenderPass"><span class="n"><span class="pre">RenderPass</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">RenderPassBuilder</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">builder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass10RenderPassERN10RenderPass17RenderPassBuilderE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass21setupShaderRenderPassEP6Shader">
+<span id="_CPPv3N5ceres10RenderPass21setupShaderRenderPassEP6Shader"></span><span id="_CPPv2N5ceres10RenderPass21setupShaderRenderPassEP6Shader"></span><span id="ceres::RenderPass::setupShaderRenderPass__ShaderP"></span><span class="target" id="classceres_1_1_render_pass_1abe25e7ed2c508702affc519a8e6dff0f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setupShaderRenderPass</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="shader.html#_CPPv4N5ceres6ShaderE" title="ceres::Shader"><span class="n"><span class="pre">Shader</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">shader</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass21setupShaderRenderPassEP6Shader" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass21setupShaderRenderPassERK14GlobalUniforms">
+<span id="_CPPv3N5ceres10RenderPass21setupShaderRenderPassERK14GlobalUniforms"></span><span id="_CPPv2N5ceres10RenderPass21setupShaderRenderPassERK14GlobalUniforms"></span><span id="ceres::RenderPass::setupShaderRenderPass__GlobalUniformsCR"></span><span class="target" id="classceres_1_1_render_pass_1a5de6baeecb216cb9d8cb12244cccf54e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setupShaderRenderPass</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N5ceres10RenderPass14GlobalUniformsE" title="ceres::RenderPass::GlobalUniforms"><span class="n"><span class="pre">GlobalUniforms</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">globalUniforms</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass21setupShaderRenderPassERK14GlobalUniforms" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass25setupGlobalShaderUniformsEv">
+<span id="_CPPv3N5ceres10RenderPass25setupGlobalShaderUniformsEv"></span><span id="_CPPv2N5ceres10RenderPass25setupGlobalShaderUniformsEv"></span><span id="ceres::RenderPass::setupGlobalShaderUniforms"></span><span class="target" id="classceres_1_1_render_pass_1ad1b61b1f881a886698c38e8a0af7ebf4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setupGlobalShaderUniforms</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass25setupGlobalShaderUniformsEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass11setupShaderERKN3glm4mat4EP6Shader">
+<span id="_CPPv3N5ceres10RenderPass11setupShaderERKN3glm4mat4EP6Shader"></span><span id="_CPPv2N5ceres10RenderPass11setupShaderERKN3glm4mat4EP6Shader"></span><span id="ceres::RenderPass::setupShader__glm::mat4CR.ShaderP"></span><span class="target" id="classceres_1_1_render_pass_1a521b45f0819cfee2ff932a248ed48829"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setupShader</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">modelTransform</span></span>, <a class="reference internal" href="shader.html#_CPPv4N5ceres6ShaderE" title="ceres::Shader"><span class="n"><span class="pre">Shader</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">shader</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass11setupShaderERKN3glm4mat4EP6Shader" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass12drawInstanceER14RenderQueueObj">
+<span id="_CPPv3N5ceres10RenderPass12drawInstanceER14RenderQueueObj"></span><span id="_CPPv2N5ceres10RenderPass12drawInstanceER14RenderQueueObj"></span><span id="ceres::RenderPass::drawInstance__RenderQueueObjR"></span><span class="target" id="classceres_1_1_render_pass_1a70f63a9977f161c95d2c822c719cc91e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">drawInstance</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N5ceres10RenderPass14RenderQueueObjE" title="ceres::RenderPass::RenderQueueObj"><span class="n"><span class="pre">RenderQueueObj</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rqObj</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass12drawInstanceER14RenderQueueObj" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass9m_builderE">
+<span id="_CPPv3N5ceres10RenderPass9m_builderE"></span><span id="_CPPv2N5ceres10RenderPass9m_builderE"></span><span id="ceres::RenderPass::m_builder__RenderPass::RenderPassBuilder"></span><span class="target" id="classceres_1_1_render_pass_1a402d2ae4a1f34bf4ff340ea938b65f03"></span><a class="reference internal" href="#_CPPv4N5ceres10RenderPassE" title="ceres::RenderPass"><span class="n"><span class="pre">RenderPass</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilderE" title="ceres::RenderPass::RenderPassBuilder"><span class="n"><span class="pre">RenderPassBuilder</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_builder</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass9m_builderE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17m_lastBoundShaderE">
+<span id="_CPPv3N5ceres10RenderPass17m_lastBoundShaderE"></span><span id="_CPPv2N5ceres10RenderPass17m_lastBoundShaderE"></span><span id="ceres::RenderPass::m_lastBoundShader__ShaderP"></span><span class="target" id="classceres_1_1_render_pass_1a4f0986cab0ce196cebe8ecc089d10331"></span><a class="reference internal" href="shader.html#_CPPv4N5ceres6ShaderE" title="ceres::Shader"><span class="n"><span class="pre">Shader</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">m_lastBoundShader</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="k"><span class="pre">nullptr</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17m_lastBoundShaderE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass19m_lastBoundMaterialE">
+<span id="_CPPv3N5ceres10RenderPass19m_lastBoundMaterialE"></span><span id="_CPPv2N5ceres10RenderPass19m_lastBoundMaterialE"></span><span id="ceres::RenderPass::m_lastBoundMaterial__MaterialP"></span><span class="target" id="classceres_1_1_render_pass_1a00884752f54963a57d0a39d28ef80778"></span><a class="reference internal" href="material.html#_CPPv4N5ceres8MaterialE" title="ceres::Material"><span class="n"><span class="pre">Material</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">m_lastBoundMaterial</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="k"><span class="pre">nullptr</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass19m_lastBoundMaterialE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17m_lastBoundMeshIdE">
+<span id="_CPPv3N5ceres10RenderPass17m_lastBoundMeshIdE"></span><span id="_CPPv2N5ceres10RenderPass17m_lastBoundMeshIdE"></span><span id="ceres::RenderPass::m_lastBoundMeshId__int64_t"></span><span class="target" id="classceres_1_1_render_pass_1a5fbd0c3352384a70e27bfd50f91a81c3"></span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_lastBoundMeshId</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17m_lastBoundMeshIdE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass12m_projectionE">
+<span id="_CPPv3N5ceres10RenderPass12m_projectionE"></span><span id="_CPPv2N5ceres10RenderPass12m_projectionE"></span><span id="ceres::RenderPass::m_projection__glm::mat4"></span><span class="target" id="classceres_1_1_render_pass_1afc798bf2e00559c3a91c5b470a8baed0"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_projection</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass12m_projectionE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass16m_viewportOffsetE">
+<span id="_CPPv3N5ceres10RenderPass16m_viewportOffsetE"></span><span id="_CPPv2N5ceres10RenderPass16m_viewportOffsetE"></span><span id="ceres::RenderPass::m_viewportOffset__glm::uvec2"></span><span class="target" id="classceres_1_1_render_pass_1a95d9c7e2a09e4375a9515f5b3e8b61f4"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">uvec2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_viewportOffset</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass16m_viewportOffsetE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass14m_viewportSizeE">
+<span id="_CPPv3N5ceres10RenderPass14m_viewportSizeE"></span><span id="_CPPv2N5ceres10RenderPass14m_viewportSizeE"></span><span id="ceres::RenderPass::m_viewportSize__glm::uvec2"></span><span class="target" id="classceres_1_1_render_pass_1ae7b19bcbd4e9f744d998fc0844974c08"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">uvec2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_viewportSize</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass14m_viewportSizeE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass13m_renderQueueE">
+<span id="_CPPv3N5ceres10RenderPass13m_renderQueueE"></span><span id="_CPPv2N5ceres10RenderPass13m_renderQueueE"></span><span id="ceres::RenderPass::m_renderQueue__std::vector:RenderQueueObj:"></span><span class="target" id="classceres_1_1_render_pass_1aa1e343149c2a32c0f52fef0a4245f97c"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N5ceres10RenderPass14RenderQueueObjE" title="ceres::RenderPass::RenderQueueObj"><span class="n"><span class="pre">RenderQueueObj</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_renderQueue</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass13m_renderQueueE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass9m_shadersE">
+<span id="_CPPv3N5ceres10RenderPass9m_shadersE"></span><span id="_CPPv2N5ceres10RenderPass9m_shadersE"></span><span id="ceres::RenderPass::m_shaders__std::set:ShaderP:"></span><span class="target" id="classceres_1_1_render_pass_1a825a61adfc6615992665177eafebc82d"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">set</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="shader.html#_CPPv4N5ceres6ShaderE" title="ceres::Shader"><span class="n"><span class="pre">Shader</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_shaders</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass9m_shadersE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass12m_isFinishedE">
+<span id="_CPPv3N5ceres10RenderPass12m_isFinishedE"></span><span id="_CPPv2N5ceres10RenderPass12m_isFinishedE"></span><span id="ceres::RenderPass::m_isFinished__b"></span><span class="target" id="classceres_1_1_render_pass_1ae04065b384571a9cbc8b41ecfd97dec2"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_isFinished</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass12m_isFinishedE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-friends">Friends</p>
+<dl>
+<dt class="sig sig-object cpp">
+<em class="property"><span class="pre">friend</span> <span class="pre">class</span></em> <span class="pre">Renderer</span></dt>
+</dl>
+
+</div>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass14GlobalUniformsE">
+<span id="_CPPv3N5ceres10RenderPass14GlobalUniformsE"></span><span id="_CPPv2N5ceres10RenderPass14GlobalUniformsE"></span><span id="ceres::RenderPass::GlobalUniforms"></span><span class="target" id="structceres_1_1_render_pass_1_1_global_uniforms"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GlobalUniforms</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass14GlobalUniformsE" title="Permalink to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass14GlobalUniforms6g_viewE">
+<span id="_CPPv3N5ceres10RenderPass14GlobalUniforms6g_viewE"></span><span id="_CPPv2N5ceres10RenderPass14GlobalUniforms6g_viewE"></span><span id="ceres::RenderPass::GlobalUniforms::g_view__glm::mat4P"></span><span class="target" id="structceres_1_1_render_pass_1_1_global_uniforms_1af6077d72bf24f764a29a1382d07c1346"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">g_view</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass14GlobalUniforms6g_viewE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass14GlobalUniforms12g_projectionE">
+<span id="_CPPv3N5ceres10RenderPass14GlobalUniforms12g_projectionE"></span><span id="_CPPv2N5ceres10RenderPass14GlobalUniforms12g_projectionE"></span><span id="ceres::RenderPass::GlobalUniforms::g_projection__glm::mat4P"></span><span class="target" id="structceres_1_1_render_pass_1_1_global_uniforms_1ad14ea5c54fcaca6b5b54d658b50bfa8f"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">g_projection</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass14GlobalUniforms12g_projectionE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass14GlobalUniforms10g_viewportE">
+<span id="_CPPv3N5ceres10RenderPass14GlobalUniforms10g_viewportE"></span><span id="_CPPv2N5ceres10RenderPass14GlobalUniforms10g_viewportE"></span><span id="ceres::RenderPass::GlobalUniforms::g_viewport__glm::vec4P"></span><span class="target" id="structceres_1_1_render_pass_1_1_global_uniforms_1a637b1e06324847fbf410dd980f136d96"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec4</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">g_viewport</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass14GlobalUniforms10g_viewportE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass14GlobalUniforms11g_cameraPosE">
+<span id="_CPPv3N5ceres10RenderPass14GlobalUniforms11g_cameraPosE"></span><span id="_CPPv2N5ceres10RenderPass14GlobalUniforms11g_cameraPosE"></span><span id="ceres::RenderPass::GlobalUniforms::g_cameraPos__glm::vec4P"></span><span class="target" id="structceres_1_1_render_pass_1_1_global_uniforms_1af87b2b65d3ead6f25e62881186d3107e"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec4</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">g_cameraPos</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass14GlobalUniforms11g_cameraPosE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass14GlobalUniforms14g_ambientLightE">
+<span id="_CPPv3N5ceres10RenderPass14GlobalUniforms14g_ambientLightE"></span><span id="_CPPv2N5ceres10RenderPass14GlobalUniforms14g_ambientLightE"></span><span id="ceres::RenderPass::GlobalUniforms::g_ambientLight__glm::vec4P"></span><span class="target" id="structceres_1_1_render_pass_1_1_global_uniforms_1a41211d1846908d2346110668030b64ad"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec4</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">g_ambientLight</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass14GlobalUniforms14g_ambientLightE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass14GlobalUniforms17g_lightColorRangeE">
+<span id="_CPPv3N5ceres10RenderPass14GlobalUniforms17g_lightColorRangeE"></span><span id="_CPPv2N5ceres10RenderPass14GlobalUniforms17g_lightColorRangeE"></span><span id="ceres::RenderPass::GlobalUniforms::g_lightColorRange__glm::vec4P"></span><span class="target" id="structceres_1_1_render_pass_1_1_global_uniforms_1ae37c6783977091e9110732450d8c46b7"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec4</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">g_lightColorRange</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass14GlobalUniforms17g_lightColorRangeE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass14GlobalUniforms14g_lightPosTypeE">
+<span id="_CPPv3N5ceres10RenderPass14GlobalUniforms14g_lightPosTypeE"></span><span id="_CPPv2N5ceres10RenderPass14GlobalUniforms14g_lightPosTypeE"></span><span id="ceres::RenderPass::GlobalUniforms::g_lightPosType__glm::vec4P"></span><span class="target" id="structceres_1_1_render_pass_1_1_global_uniforms_1ab027834f89eba5122a5da2f7b54a89c4"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec4</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">g_lightPosType</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass14GlobalUniforms14g_lightPosTypeE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilderE">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilderE"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilderE"></span><span id="ceres::RenderPass::RenderPassBuilder"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RenderPassBuilder</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilderE" title="Permalink to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder8withNameERKNSt6stringE">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder8withNameERKNSt6stringE"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder8withNameERKNSt6stringE"></span><span id="ceres::RenderPass::RenderPassBuilder::withName__ssCR"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1a61e255f2f4f5a86c3a781b426c7a9882"></span><a class="reference internal" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilderE" title="ceres::RenderPass::RenderPassBuilder"><span class="n"><span class="pre">RenderPassBuilder</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">withName</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder8withNameERKNSt6stringE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder10withCameraERK6Camera">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder10withCameraERK6Camera"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder10withCameraERK6Camera"></span><span id="ceres::RenderPass::RenderPassBuilder::withCamera__CameraCR"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1a00c0f6b67d23758d410c813611d114d6"></span><a class="reference internal" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilderE" title="ceres::RenderPass::RenderPassBuilder"><span class="n"><span class="pre">RenderPassBuilder</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">withCamera</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="camera.html#_CPPv4N5ceres6CameraE" title="ceres::Camera"><span class="n"><span class="pre">Camera</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">camera</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder10withCameraERK6Camera" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder15withWorldLightsEP11WorldLights">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder15withWorldLightsEP11WorldLights"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder15withWorldLightsEP11WorldLights"></span><span id="ceres::RenderPass::RenderPassBuilder::withWorldLights__WorldLightsP"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1a7a21d84b6b20c676598268b4971a4be2"></span><a class="reference internal" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilderE" title="ceres::RenderPass::RenderPassBuilder"><span class="n"><span class="pre">RenderPassBuilder</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">withWorldLights</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="worldLights.html#_CPPv4N5ceres11WorldLightsE" title="ceres::WorldLights"><span class="n"><span class="pre">WorldLights</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">worldLights</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder15withWorldLightsEP11WorldLights" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder14withClearColorEb5Color">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder14withClearColorEb5Color"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder14withClearColorEb5Color"></span><span id="ceres::RenderPass::RenderPassBuilder::withClearColor__b.Color"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1a623e3d2c0111febcd1e4dbf57fd8ed4f"></span><a class="reference internal" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilderE" title="ceres::RenderPass::RenderPassBuilder"><span class="n"><span class="pre">RenderPassBuilder</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">withClearColor</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">enabled</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span>, <a class="reference internal" href="color.html#_CPPv4N5ceres5ColorE" title="ceres::Color"><span class="n"><span class="pre">Color</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">color</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">}</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder14withClearColorEb5Color" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder14withClearDepthEbf">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder14withClearDepthEbf"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder14withClearDepthEbf"></span><span id="ceres::RenderPass::RenderPassBuilder::withClearDepth__b.float"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1adb837bda4e9a96dbe5c8aa5ce7f8f87f"></span><a class="reference internal" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilderE" title="ceres::RenderPass::RenderPassBuilder"><span class="n"><span class="pre">RenderPassBuilder</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">withClearDepth</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">enabled</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder14withClearDepthEbf" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder16withClearStencilEbi">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder16withClearStencilEbi"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder16withClearStencilEbi"></span><span id="ceres::RenderPass::RenderPassBuilder::withClearStencil__b.i"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1a367289e3893b55483cecccc656531369"></span><a class="reference internal" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilderE" title="ceres::RenderPass::RenderPassBuilder"><span class="n"><span class="pre">RenderPassBuilder</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">withClearStencil</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">enabled</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder16withClearStencilEbi" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder7withGUIEb">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder7withGUIEb"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder7withGUIEb"></span><span id="ceres::RenderPass::RenderPassBuilder::withGUI__b"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1a0dda2c9d58940e1d77fbd9ccf3f8f6d4"></span><a class="reference internal" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilderE" title="ceres::RenderPass::RenderPassBuilder"><span class="n"><span class="pre">RenderPassBuilder</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">withGUI</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">enabled</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder7withGUIEb" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder15withFramebufferENSt10shared_ptrI11FrameBufferEE">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder15withFramebufferENSt10shared_ptrI11FrameBufferEE"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder15withFramebufferENSt10shared_ptrI11FrameBufferEE"></span><span id="ceres::RenderPass::RenderPassBuilder::withFramebuffer__std::shared_ptr:FrameBuffer:"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1ab4d4b35387fbce94f0068bf93ed06e95"></span><a class="reference internal" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilderE" title="ceres::RenderPass::RenderPassBuilder"><span class="n"><span class="pre">RenderPassBuilder</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">withFramebuffer</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="framebuffer.html#_CPPv4N5ceres11FrameBufferE" title="ceres::FrameBuffer"><span class="n"><span class="pre">FrameBuffer</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">framebuffer</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder15withFramebufferENSt10shared_ptrI11FrameBufferEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder10withSkyboxERKNSt10shared_ptrI6SkyboxEE">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder10withSkyboxERKNSt10shared_ptrI6SkyboxEE"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder10withSkyboxERKNSt10shared_ptrI6SkyboxEE"></span><span id="ceres::RenderPass::RenderPassBuilder::withSkybox__std::shared_ptr:Skybox:CR"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1ab7ee1f6f239d77c10d33e11de674a34f"></span><a class="reference internal" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilderE" title="ceres::RenderPass::RenderPassBuilder"><span class="n"><span class="pre">RenderPassBuilder</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">withSkybox</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="skybox.html#_CPPv4N5ceres6SkyboxE" title="ceres::Skybox"><span class="n"><span class="pre">Skybox</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">skybox</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder10withSkyboxERKNSt10shared_ptrI6SkyboxEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder5buildEv">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder5buildEv"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder5buildEv"></span><span id="ceres::RenderPass::RenderPassBuilder::build"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1a33f6ba9c37a16ae5840d8dbb65761973"></span><a class="reference internal" href="#_CPPv4N5ceres10RenderPassE" title="ceres::RenderPass"><span class="n"><span class="pre">RenderPass</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">build</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder5buildEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder17RenderPassBuilderEv">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder17RenderPassBuilderEv"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder17RenderPassBuilderEv"></span><span id="ceres::RenderPass::RenderPassBuilder::RenderPassBuilder"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1ae56dd70efce9c103c0b32ae00d9a4b6f"></span><span class="sig-name descname"><span class="n"><span class="pre">RenderPassBuilder</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder17RenderPassBuilderEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder17RenderPassBuilderEP11RenderStats">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder17RenderPassBuilderEP11RenderStats"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder17RenderPassBuilderEP11RenderStats"></span><span id="ceres::RenderPass::RenderPassBuilder::RenderPassBuilder__RenderStatsP"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1a4168cdd1eb5829fe9ea63ca74bc61354"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RenderPassBuilder</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="renderStats.html#_CPPv4N5ceres11RenderStatsE" title="ceres::RenderStats"><span class="n"><span class="pre">RenderStats</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">renderStats</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder17RenderPassBuilderEP11RenderStats" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder17m_clearColorValueE">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder17m_clearColorValueE"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder17m_clearColorValueE"></span><span id="ceres::RenderPass::RenderPassBuilder::m_clearColorValue__glm::vec4"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1a74b5286c18d59026d175c0cddbe736b1"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec4</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_clearColorValue</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder17m_clearColorValueE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder17m_clearDepthValueE">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder17m_clearDepthValueE"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder17m_clearDepthValueE"></span><span id="ceres::RenderPass::RenderPassBuilder::m_clearDepthValue__float"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1a66c1c78f70306e2cba78609f22b7f363"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_clearDepthValue</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">1.0f</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder17m_clearDepthValueE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder19m_clearStencilValueE">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder19m_clearStencilValueE"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder19m_clearStencilValueE"></span><span id="ceres::RenderPass::RenderPassBuilder::m_clearStencilValue__i"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1a5d0c0c3b468896d0e536dac00f64113e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_clearStencilValue</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder19m_clearStencilValueE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder12m_clearDepthE">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder12m_clearDepthE"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder12m_clearDepthE"></span><span id="ceres::RenderPass::RenderPassBuilder::m_clearDepth__b"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1ac623487a7bf4ab016c1b95b85f128e37"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_clearDepth</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="k"><span class="pre">true</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder12m_clearDepthE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder14m_clearStencilE">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder14m_clearStencilE"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder14m_clearStencilE"></span><span id="ceres::RenderPass::RenderPassBuilder::m_clearStencil__b"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1ac16c1798f28204d37ba0f8fdb908e184"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_clearStencil</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder14m_clearStencilE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder12m_clearColorE">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder12m_clearColorE"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder12m_clearColorE"></span><span id="ceres::RenderPass::RenderPassBuilder::m_clearColor__b"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1a8fd1a53967157b3a2289a37217cae109"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_clearColor</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="k"><span class="pre">true</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder12m_clearColorE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder5m_guiE">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder5m_guiE"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder5m_guiE"></span><span id="ceres::RenderPass::RenderPassBuilder::m_gui__b"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1a713d780d70ebdb2ea979018e4f6c50f4"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_gui</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="k"><span class="pre">true</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder5m_guiE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder6m_nameE">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder6m_nameE"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder6m_nameE"></span><span id="ceres::RenderPass::RenderPassBuilder::m_name__ss"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1a5fc6f0afa0e9011894f345bd70f164ef"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_name</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder6m_nameE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder13m_worldLightsE">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder13m_worldLightsE"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder13m_worldLightsE"></span><span id="ceres::RenderPass::RenderPassBuilder::m_worldLights__WorldLightsP"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1a96bb72c718a8faad2cf19655a737edfb"></span><a class="reference internal" href="worldLights.html#_CPPv4N5ceres11WorldLightsE" title="ceres::WorldLights"><span class="n"><span class="pre">WorldLights</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">m_worldLights</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="k"><span class="pre">nullptr</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder13m_worldLightsE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder13m_renderStatsE">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder13m_renderStatsE"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder13m_renderStatsE"></span><span id="ceres::RenderPass::RenderPassBuilder::m_renderStats__RenderStatsP"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1a7bec45737b3ee89425607dfed5452f0a"></span><a class="reference internal" href="renderStats.html#_CPPv4N5ceres11RenderStatsE" title="ceres::RenderStats"><span class="n"><span class="pre">RenderStats</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">m_renderStats</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="k"><span class="pre">nullptr</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder13m_renderStatsE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder13m_framebufferE">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder13m_framebufferE"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder13m_framebufferE"></span><span id="ceres::RenderPass::RenderPassBuilder::m_framebuffer__std::shared_ptr:FrameBuffer:"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1ae96e0da0f17df568039007a65d3e9d24"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="framebuffer.html#_CPPv4N5ceres11FrameBufferE" title="ceres::FrameBuffer"><span class="n"><span class="pre">FrameBuffer</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_framebuffer</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder13m_framebufferE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder8m_cameraE">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder8m_cameraE"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder8m_cameraE"></span><span id="ceres::RenderPass::RenderPassBuilder::m_camera__Camera"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1a4a011fbdd57920edeec1311cb0a7a552"></span><a class="reference internal" href="camera.html#_CPPv4N5ceres6CameraE" title="ceres::Camera"><span class="n"><span class="pre">Camera</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_camera</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder8m_cameraE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass17RenderPassBuilder8m_skyboxE">
+<span id="_CPPv3N5ceres10RenderPass17RenderPassBuilder8m_skyboxE"></span><span id="_CPPv2N5ceres10RenderPass17RenderPassBuilder8m_skyboxE"></span><span id="ceres::RenderPass::RenderPassBuilder::m_skybox__std::shared_ptr:Skybox:"></span><span class="target" id="classceres_1_1_render_pass_1_1_render_pass_builder_1aa56d925a644ab2d22e91139e346f1df4"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="skybox.html#_CPPv4N5ceres6SkyboxE" title="ceres::Skybox"><span class="n"><span class="pre">Skybox</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_skybox</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass17RenderPassBuilder8m_skyboxE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-friends">Friends</p>
+<dl>
+<dt class="sig sig-object cpp">
+<em class="property"><span class="pre">friend</span> <span class="pre">class</span></em> <span class="pre">Renderer</span></dt>
+</dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<em class="property"><span class="pre">friend</span> <span class="pre">class</span></em> <span class="pre">RenderPass</span></dt>
+</dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass14RenderQueueObjE">
+<span id="_CPPv3N5ceres10RenderPass14RenderQueueObjE"></span><span id="_CPPv2N5ceres10RenderPass14RenderQueueObjE"></span><span id="ceres::RenderPass::RenderQueueObj"></span><span class="target" id="structceres_1_1_render_pass_1_1_render_queue_obj"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RenderQueueObj</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass14RenderQueueObjE" title="Permalink to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass14RenderQueueObj4meshE">
+<span id="_CPPv3N5ceres10RenderPass14RenderQueueObj4meshE"></span><span id="_CPPv2N5ceres10RenderPass14RenderQueueObj4meshE"></span><span id="ceres::RenderPass::RenderQueueObj::mesh__std::shared_ptr:Mesh:"></span><span class="target" id="structceres_1_1_render_pass_1_1_render_queue_obj_1ae66cad5aa6170f9032a531fc738e3139"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv4N5ceres4MeshE" title="ceres::Mesh"><span class="n"><span class="pre">Mesh</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mesh</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass14RenderQueueObj4meshE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass14RenderQueueObj14modelTransformE">
+<span id="_CPPv3N5ceres10RenderPass14RenderQueueObj14modelTransformE"></span><span id="_CPPv2N5ceres10RenderPass14RenderQueueObj14modelTransformE"></span><span id="ceres::RenderPass::RenderQueueObj::modelTransform__glm::mat4"></span><span class="target" id="structceres_1_1_render_pass_1_1_render_queue_obj_1a7747f43c9644b14985e8042633a9d4f8"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">modelTransform</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass14RenderQueueObj14modelTransformE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass14RenderQueueObj8materialE">
+<span id="_CPPv3N5ceres10RenderPass14RenderQueueObj8materialE"></span><span id="_CPPv2N5ceres10RenderPass14RenderQueueObj8materialE"></span><span id="ceres::RenderPass::RenderQueueObj::material__std::shared_ptr:Material:"></span><span class="target" id="structceres_1_1_render_pass_1_1_render_queue_obj_1a3c153bed1832601c89ad3b0ee18bdff8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="material.html#_CPPv4N5ceres8MaterialE" title="ceres::Material"><span class="n"><span class="pre">Material</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">material</span></span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass14RenderQueueObj8materialE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres10RenderPass14RenderQueueObj7subMeshE">
+<span id="_CPPv3N5ceres10RenderPass14RenderQueueObj7subMeshE"></span><span id="_CPPv2N5ceres10RenderPass14RenderQueueObj7subMeshE"></span><span id="ceres::RenderPass::RenderQueueObj::subMesh__i"></span><span class="target" id="structceres_1_1_render_pass_1_1_render_queue_obj_1a5d345a498e95bf9a7ceeb5f39c5ce8a8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">subMesh</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N5ceres10RenderPass14RenderQueueObj7subMeshE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ray.html" class="btn btn-neutral float-left" title="ray.h" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="renderStats.html" class="btn btn-neutral float-right" title="renderStats.h" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, william.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
