@@ -1,0 +1,673 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
+  <compounddef id="classceres_1_1_render_pass" kind="class" language="C++" prot="public">
+    <compoundname>ceres::RenderPass</compoundname>
+    <innerclass refid="structceres_1_1_render_pass_1_1_global_uniforms" prot="private">ceres::RenderPass::GlobalUniforms</innerclass>
+    <innerclass refid="classceres_1_1_render_pass_1_1_render_pass_builder" prot="public">ceres::RenderPass::RenderPassBuilder</innerclass>
+    <innerclass refid="structceres_1_1_render_pass_1_1_render_queue_obj" prot="private">ceres::RenderPass::RenderQueueObj</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classceres_1_1_render_pass_1a402d2ae4a1f34bf4ff340ea938b65f03" prot="private" static="no" mutable="no">
+        <type><ref refid="classceres_1_1_render_pass_1_1_render_pass_builder" kindref="compound">RenderPass::RenderPassBuilder</ref></type>
+        <definition>RenderPass::RenderPassBuilder ceres::RenderPass::m_builder</definition>
+        <argsstring></argsstring>
+        <name>m_builder</name>
+        <qualifiedname>ceres::RenderPass::m_builder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="119" column="35" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_render_pass_1a4f0986cab0ce196cebe8ecc089d10331" prot="private" static="no" mutable="no">
+        <type><ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> *</type>
+        <definition>Shader* ceres::RenderPass::m_lastBoundShader</definition>
+        <argsstring></argsstring>
+        <name>m_lastBoundShader</name>
+        <qualifiedname>ceres::RenderPass::m_lastBoundShader</qualifiedname>
+        <initializer>= { nullptr }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="120" column="12" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_render_pass_1a00884752f54963a57d0a39d28ef80778" prot="private" static="no" mutable="no">
+        <type><ref refid="classceres_1_1_material" kindref="compound">Material</ref> *</type>
+        <definition>Material* ceres::RenderPass::m_lastBoundMaterial</definition>
+        <argsstring></argsstring>
+        <name>m_lastBoundMaterial</name>
+        <qualifiedname>ceres::RenderPass::m_lastBoundMaterial</qualifiedname>
+        <initializer>= { nullptr }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="121" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_render_pass_1a5fbd0c3352384a70e27bfd50f91a81c3" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t ceres::RenderPass::m_lastBoundMeshId</definition>
+        <argsstring></argsstring>
+        <name>m_lastBoundMeshId</name>
+        <qualifiedname>ceres::RenderPass::m_lastBoundMeshId</qualifiedname>
+        <initializer>= { -1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="122" column="13" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_render_pass_1afc798bf2e00559c3a91c5b470a8baed0" prot="private" static="no" mutable="no">
+        <type>glm::mat4</type>
+        <definition>glm::mat4 ceres::RenderPass::m_projection</definition>
+        <argsstring></argsstring>
+        <name>m_projection</name>
+        <qualifiedname>ceres::RenderPass::m_projection</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="123" column="15" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_render_pass_1a95d9c7e2a09e4375a9515f5b3e8b61f4" prot="private" static="no" mutable="no">
+        <type>glm::uvec2</type>
+        <definition>glm::uvec2 ceres::RenderPass::m_viewportOffset</definition>
+        <argsstring></argsstring>
+        <name>m_viewportOffset</name>
+        <qualifiedname>ceres::RenderPass::m_viewportOffset</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="124" column="16" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_render_pass_1ae7b19bcbd4e9f744d998fc0844974c08" prot="private" static="no" mutable="no">
+        <type>glm::uvec2</type>
+        <definition>glm::uvec2 ceres::RenderPass::m_viewportSize</definition>
+        <argsstring></argsstring>
+        <name>m_viewportSize</name>
+        <qualifiedname>ceres::RenderPass::m_viewportSize</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="125" column="16" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_render_pass_1aa1e343149c2a32c0f52fef0a4245f97c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; RenderQueueObj &gt;</type>
+        <definition>std::vector&lt;RenderQueueObj&gt; ceres::RenderPass::m_renderQueue</definition>
+        <argsstring></argsstring>
+        <name>m_renderQueue</name>
+        <qualifiedname>ceres::RenderPass::m_renderQueue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="126" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_render_pass_1a825a61adfc6615992665177eafebc82d" prot="private" static="no" mutable="no">
+        <type>std::set&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> * &gt;</type>
+        <definition>std::set&lt;Shader*&gt; ceres::RenderPass::m_shaders</definition>
+        <argsstring></argsstring>
+        <name>m_shaders</name>
+        <qualifiedname>ceres::RenderPass::m_shaders</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="127" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_render_pass_1ae04065b384571a9cbc8b41ecfd97dec2" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ceres::RenderPass::m_isFinished</definition>
+        <argsstring></argsstring>
+        <name>m_isFinished</name>
+        <qualifiedname>ceres::RenderPass::m_isFinished</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="128" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classceres_1_1_render_pass_1a70538530bc36e033e360880ef311df61" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class Renderer</definition>
+        <argsstring></argsstring>
+        <name>Renderer</name>
+        <qualifiedname>ceres::RenderPass::Renderer</qualifiedname>
+        <param>
+          <type><ref refid="classceres_1_1_renderer" kindref="compound">Renderer</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="129" column="18" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classceres_1_1_render_pass_1a51ffed5322915922e4587d74f6b15d49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ceres::RenderPass::RenderPass</definition>
+        <argsstring>()=default</argsstring>
+        <name>RenderPass</name>
+        <qualifiedname>ceres::RenderPass::RenderPass</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="90" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1adfc70eb785d3907780b1ea8fc9852c4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ceres::RenderPass::RenderPass</definition>
+        <argsstring>(const RenderPass &amp;)=delete</argsstring>
+        <name>RenderPass</name>
+        <qualifiedname>ceres::RenderPass::RenderPass</qualifiedname>
+        <param>
+          <type>const <ref refid="classceres_1_1_render_pass" kindref="compound">RenderPass</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="92" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1a5e58887e7164ab8cfdeb5c23196e69d5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>ceres::RenderPass::RenderPass</definition>
+        <argsstring>(RenderPass &amp;&amp;rp) noexcept</argsstring>
+        <name>RenderPass</name>
+        <qualifiedname>ceres::RenderPass::RenderPass</qualifiedname>
+        <param>
+          <type><ref refid="classceres_1_1_render_pass" kindref="compound">RenderPass</ref> &amp;&amp;</type>
+          <declname>rp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="93" column="5" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="121" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1a2a53db990d1a0f44230f464fedc5c6f1" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classceres_1_1_render_pass" kindref="compound">RenderPass</ref> &amp;</type>
+        <definition>RenderPass &amp; ceres::RenderPass::operator=</definition>
+        <argsstring>(RenderPass &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>ceres::RenderPass::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classceres_1_1_render_pass" kindref="compound">RenderPass</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="94" column="16" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="133" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1af9821a9145bf2dc57eb253cfc3e88b7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>ceres::RenderPass::~RenderPass</definition>
+        <argsstring>()</argsstring>
+        <name>~RenderPass</name>
+        <qualifiedname>ceres::RenderPass::~RenderPass</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="95" column="13" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="116" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1a379fa1d7075b6107fb242647b6566d8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::RenderPass::drawLines</definition>
+        <argsstring>(const std::vector&lt; glm::vec3 &gt; &amp;vertices, Color color={ 1.0f, 1.0f, 1.0f, 1.0f }, Mesh::Topology meshTopology=Mesh::Topology::Lines)</argsstring>
+        <name>drawLines</name>
+        <qualifiedname>ceres::RenderPass::drawLines</qualifiedname>
+        <param>
+          <type>const std::vector&lt; glm::vec3 &gt; &amp;</type>
+          <declname>vertices</declname>
+        </param>
+        <param>
+          <type><ref refid="classceres_1_1_color" kindref="compound">Color</ref></type>
+          <declname>color</declname>
+          <defval>{ 1.0f, 1.0f, 1.0f, 1.0f }</defval>
+        </param>
+        <param>
+          <type>Mesh::Topology</type>
+          <declname>meshTopology</declname>
+          <defval>Mesh::Topology::Lines</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="96" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="147" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1ae154ffce2c41935eb97e5b8107c1a90f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::RenderPass::draw</definition>
+        <argsstring>(const std::shared_ptr&lt; Mesh &gt; &amp;mesh, glm::mat4 modelTransform, std::shared_ptr&lt; Material &gt; &amp;material)</argsstring>
+        <name>draw</name>
+        <qualifiedname>ceres::RenderPass::draw</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classceres_1_1_mesh" kindref="compound">Mesh</ref> &gt; &amp;</type>
+          <declname>mesh</declname>
+        </param>
+        <param>
+          <type>glm::mat4</type>
+          <declname>modelTransform</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classceres_1_1_material" kindref="compound">Material</ref> &gt; &amp;</type>
+          <declname>material</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="97" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="159" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1a40a3b5325c9e9f9498a1d5e2a2c45c68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::RenderPass::draw</definition>
+        <argsstring>(std::shared_ptr&lt; Mesh &gt; &amp;mesh, glm::mat4 modelTransform, std::vector&lt; std::shared_ptr&lt; Material &gt; &gt; &amp;materials)</argsstring>
+        <name>draw</name>
+        <qualifiedname>ceres::RenderPass::draw</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classceres_1_1_mesh" kindref="compound">Mesh</ref> &gt; &amp;</type>
+          <declname>mesh</declname>
+        </param>
+        <param>
+          <type>glm::mat4</type>
+          <declname>modelTransform</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classceres_1_1_material" kindref="compound">Material</ref> &gt; &gt; &amp;</type>
+          <declname>materials</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="98" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="165" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1adf6d8a81bc21e993d36bd27eb0e8ceb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::RenderPass::draw</definition>
+        <argsstring>(std::shared_ptr&lt; SpriteBatch &gt; &amp;spriteBatch, glm::mat4 modelTransform=glm::mat4(1))</argsstring>
+        <name>draw</name>
+        <qualifiedname>ceres::RenderPass::draw</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classceres_1_1_sprite_batch" kindref="compound">SpriteBatch</ref> &gt; &amp;</type>
+          <declname>spriteBatch</declname>
+        </param>
+        <param>
+          <type>glm::mat4</type>
+          <declname>modelTransform</declname>
+          <defval>glm::mat4(1)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="99" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="177" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1afebe51399965bde46dc76dff4c4b1e05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::RenderPass::draw</definition>
+        <argsstring>(std::shared_ptr&lt; SpriteBatch &gt; &amp;&amp;spriteBatch, glm::mat4 modelTransform=glm::mat4(1))</argsstring>
+        <name>draw</name>
+        <qualifiedname>ceres::RenderPass::draw</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classceres_1_1_sprite_batch" kindref="compound">SpriteBatch</ref> &gt; &amp;&amp;</type>
+          <declname>spriteBatch</declname>
+        </param>
+        <param>
+          <type>glm::mat4</type>
+          <declname>modelTransform</declname>
+          <defval>glm::mat4(1)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="100" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="188" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1aa8aab09b2294405481ae1ef54cf7b4f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::RenderPass::blit</definition>
+        <argsstring>(std::shared_ptr&lt; Texture &gt; texture, glm::mat4 transformation=glm::mat4(1.0f))</argsstring>
+        <name>blit</name>
+        <qualifiedname>ceres::RenderPass::blit</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classceres_1_1_texture" kindref="compound">Texture</ref> &gt;</type>
+          <declname>texture</declname>
+        </param>
+        <param>
+          <type>glm::mat4</type>
+          <declname>transformation</declname>
+          <defval>glm::mat4(1.0f)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="101" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="199" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1aec3dec2bc1fb5a7b42b4616193f8ebf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::RenderPass::blit</definition>
+        <argsstring>(std::shared_ptr&lt; Material &gt; material, glm::mat4 transformation=glm::mat4(1.0f))</argsstring>
+        <name>blit</name>
+        <qualifiedname>ceres::RenderPass::blit</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classceres_1_1_material" kindref="compound">Material</ref> &gt;</type>
+          <declname>material</declname>
+        </param>
+        <param>
+          <type>glm::mat4</type>
+          <declname>transformation</declname>
+          <defval>glm::mat4(1.0f)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="102" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="206" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1a01b00656026c4fd1cc700fb3e3b6d24e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classceres_1_1_color" kindref="compound">Color</ref> &gt;</type>
+        <definition>std::vector&lt; Color &gt; ceres::RenderPass::readPixels</definition>
+        <argsstring>(unsigned int x, unsigned int y, unsigned int width=1, unsigned int height=1)</argsstring>
+        <name>readPixels</name>
+        <qualifiedname>ceres::RenderPass::readPixels</qualifiedname>
+        <param>
+          <type>unsigned int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>width</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>height</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="104" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="328" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1ab28ce5fbddecbd91ab275495e1922933" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::RenderPass::finishGPUCommandBuffer</definition>
+        <argsstring>() const</argsstring>
+        <name>finishGPUCommandBuffer</name>
+        <qualifiedname>ceres::RenderPass::finishGPUCommandBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="106" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="354" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1a3a900d6959ab21eaa35803e1caa2c632" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::RenderPass::finish</definition>
+        <argsstring>()</argsstring>
+        <name>finish</name>
+        <qualifiedname>ceres::RenderPass::finish</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="107" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="249" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1a26a6bb2e51ce9831704e93c75aabdecc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ceres::RenderPass::isFinished</definition>
+        <argsstring>()</argsstring>
+        <name>isFinished</name>
+        <qualifiedname>ceres::RenderPass::isFinished</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="108" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="359" bodyend="362"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classceres_1_1_render_pass_1a567055c002b30229da457341aaa36a88" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classceres_1_1_render_pass_1_1_render_pass_builder" kindref="compound">RenderPassBuilder</ref></type>
+        <definition>RenderPass::RenderPassBuilder ceres::RenderPass::create</definition>
+        <argsstring>()</argsstring>
+        <name>create</name>
+        <qualifiedname>ceres::RenderPass::create</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="91" column="30" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="111" bodyend="114"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classceres_1_1_render_pass_1a9268093b7c0bb4861d7567041f313c75" prot="private" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ceres::RenderPass::RenderPass</definition>
+        <argsstring>(RenderPass::RenderPassBuilder &amp;builder)</argsstring>
+        <name>RenderPass</name>
+        <qualifiedname>ceres::RenderPass::RenderPass</qualifiedname>
+        <param>
+          <type><ref refid="classceres_1_1_render_pass_1_1_render_pass_builder" kindref="compound">RenderPass::RenderPassBuilder</ref> &amp;</type>
+          <declname>builder</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="111" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="42" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1abe25e7ed2c508702affc519a8e6dff0f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::RenderPass::setupShaderRenderPass</definition>
+        <argsstring>(Shader *shader)</argsstring>
+        <name>setupShaderRenderPass</name>
+        <qualifiedname>ceres::RenderPass::setupShaderRenderPass</qualifiedname>
+        <param>
+          <type><ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> *</type>
+          <declname>shader</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="112" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="398" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1a5de6baeecb216cb9d8cb12244cccf54e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::RenderPass::setupShaderRenderPass</definition>
+        <argsstring>(const GlobalUniforms &amp;globalUniforms)</argsstring>
+        <name>setupShaderRenderPass</name>
+        <qualifiedname>ceres::RenderPass::setupShaderRenderPass</qualifiedname>
+        <param>
+          <type>const GlobalUniforms &amp;</type>
+          <declname>globalUniforms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="113" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="415" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1ad1b61b1f881a886698c38e8a0af7ebf4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::RenderPass::setupGlobalShaderUniforms</definition>
+        <argsstring>()</argsstring>
+        <name>setupGlobalShaderUniforms</name>
+        <qualifiedname>ceres::RenderPass::setupGlobalShaderUniforms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="114" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="452" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1a521b45f0819cfee2ff932a248ed48829" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::RenderPass::setupShader</definition>
+        <argsstring>(const glm::mat4 &amp;modelTransform, Shader *shader)</argsstring>
+        <name>setupShader</name>
+        <qualifiedname>ceres::RenderPass::setupShader</qualifiedname>
+        <param>
+          <type>const glm::mat4 &amp;</type>
+          <declname>modelTransform</declname>
+        </param>
+        <param>
+          <type><ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> *</type>
+          <declname>shader</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="115" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="223" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_render_pass_1a70f63a9977f161c95d2c822c719cc91e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::RenderPass::drawInstance</definition>
+        <argsstring>(RenderQueueObj &amp;rqObj)</argsstring>
+        <name>drawInstance</name>
+        <qualifiedname>ceres::RenderPass::drawInstance</qualifiedname>
+        <param>
+          <type>RenderQueueObj &amp;</type>
+          <declname>rqObj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="116" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.cpp" bodystart="364" bodyend="396"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" line="26" column="1" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderPass.h" bodystart="27" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classceres_1_1_render_pass_1aa8aab09b2294405481ae1ef54cf7b4f2" prot="public" virt="non-virtual"><scope>ceres::RenderPass</scope><name>blit</name></member>
+      <member refid="classceres_1_1_render_pass_1aec3dec2bc1fb5a7b42b4616193f8ebf1" prot="public" virt="non-virtual"><scope>ceres::RenderPass</scope><name>blit</name></member>
+      <member refid="classceres_1_1_render_pass_1a567055c002b30229da457341aaa36a88" prot="public" virt="non-virtual"><scope>ceres::RenderPass</scope><name>create</name></member>
+      <member refid="classceres_1_1_render_pass_1ae154ffce2c41935eb97e5b8107c1a90f" prot="public" virt="non-virtual"><scope>ceres::RenderPass</scope><name>draw</name></member>
+      <member refid="classceres_1_1_render_pass_1a40a3b5325c9e9f9498a1d5e2a2c45c68" prot="public" virt="non-virtual"><scope>ceres::RenderPass</scope><name>draw</name></member>
+      <member refid="classceres_1_1_render_pass_1adf6d8a81bc21e993d36bd27eb0e8ceb1" prot="public" virt="non-virtual"><scope>ceres::RenderPass</scope><name>draw</name></member>
+      <member refid="classceres_1_1_render_pass_1afebe51399965bde46dc76dff4c4b1e05" prot="public" virt="non-virtual"><scope>ceres::RenderPass</scope><name>draw</name></member>
+      <member refid="classceres_1_1_render_pass_1a70f63a9977f161c95d2c822c719cc91e" prot="private" virt="non-virtual"><scope>ceres::RenderPass</scope><name>drawInstance</name></member>
+      <member refid="classceres_1_1_render_pass_1a379fa1d7075b6107fb242647b6566d8b" prot="public" virt="non-virtual"><scope>ceres::RenderPass</scope><name>drawLines</name></member>
+      <member refid="classceres_1_1_render_pass_1a3a900d6959ab21eaa35803e1caa2c632" prot="public" virt="non-virtual"><scope>ceres::RenderPass</scope><name>finish</name></member>
+      <member refid="classceres_1_1_render_pass_1ab28ce5fbddecbd91ab275495e1922933" prot="public" virt="non-virtual"><scope>ceres::RenderPass</scope><name>finishGPUCommandBuffer</name></member>
+      <member refid="classceres_1_1_render_pass_1a26a6bb2e51ce9831704e93c75aabdecc" prot="public" virt="non-virtual"><scope>ceres::RenderPass</scope><name>isFinished</name></member>
+      <member refid="classceres_1_1_render_pass_1a402d2ae4a1f34bf4ff340ea938b65f03" prot="private" virt="non-virtual"><scope>ceres::RenderPass</scope><name>m_builder</name></member>
+      <member refid="classceres_1_1_render_pass_1ae04065b384571a9cbc8b41ecfd97dec2" prot="private" virt="non-virtual"><scope>ceres::RenderPass</scope><name>m_isFinished</name></member>
+      <member refid="classceres_1_1_render_pass_1a00884752f54963a57d0a39d28ef80778" prot="private" virt="non-virtual"><scope>ceres::RenderPass</scope><name>m_lastBoundMaterial</name></member>
+      <member refid="classceres_1_1_render_pass_1a5fbd0c3352384a70e27bfd50f91a81c3" prot="private" virt="non-virtual"><scope>ceres::RenderPass</scope><name>m_lastBoundMeshId</name></member>
+      <member refid="classceres_1_1_render_pass_1a4f0986cab0ce196cebe8ecc089d10331" prot="private" virt="non-virtual"><scope>ceres::RenderPass</scope><name>m_lastBoundShader</name></member>
+      <member refid="classceres_1_1_render_pass_1afc798bf2e00559c3a91c5b470a8baed0" prot="private" virt="non-virtual"><scope>ceres::RenderPass</scope><name>m_projection</name></member>
+      <member refid="classceres_1_1_render_pass_1aa1e343149c2a32c0f52fef0a4245f97c" prot="private" virt="non-virtual"><scope>ceres::RenderPass</scope><name>m_renderQueue</name></member>
+      <member refid="classceres_1_1_render_pass_1a825a61adfc6615992665177eafebc82d" prot="private" virt="non-virtual"><scope>ceres::RenderPass</scope><name>m_shaders</name></member>
+      <member refid="classceres_1_1_render_pass_1a95d9c7e2a09e4375a9515f5b3e8b61f4" prot="private" virt="non-virtual"><scope>ceres::RenderPass</scope><name>m_viewportOffset</name></member>
+      <member refid="classceres_1_1_render_pass_1ae7b19bcbd4e9f744d998fc0844974c08" prot="private" virt="non-virtual"><scope>ceres::RenderPass</scope><name>m_viewportSize</name></member>
+      <member refid="classceres_1_1_render_pass_1a2a53db990d1a0f44230f464fedc5c6f1" prot="public" virt="non-virtual"><scope>ceres::RenderPass</scope><name>operator=</name></member>
+      <member refid="classceres_1_1_render_pass_1a01b00656026c4fd1cc700fb3e3b6d24e" prot="public" virt="non-virtual"><scope>ceres::RenderPass</scope><name>readPixels</name></member>
+      <member refid="classceres_1_1_render_pass_1a70538530bc36e033e360880ef311df61" prot="private" virt="non-virtual"><scope>ceres::RenderPass</scope><name>Renderer</name></member>
+      <member refid="classceres_1_1_render_pass_1a51ffed5322915922e4587d74f6b15d49" prot="public" virt="non-virtual"><scope>ceres::RenderPass</scope><name>RenderPass</name></member>
+      <member refid="classceres_1_1_render_pass_1adfc70eb785d3907780b1ea8fc9852c4b" prot="public" virt="non-virtual"><scope>ceres::RenderPass</scope><name>RenderPass</name></member>
+      <member refid="classceres_1_1_render_pass_1a5e58887e7164ab8cfdeb5c23196e69d5" prot="public" virt="non-virtual"><scope>ceres::RenderPass</scope><name>RenderPass</name></member>
+      <member refid="classceres_1_1_render_pass_1a9268093b7c0bb4861d7567041f313c75" prot="private" virt="non-virtual"><scope>ceres::RenderPass</scope><name>RenderPass</name></member>
+      <member refid="classceres_1_1_render_pass_1ad1b61b1f881a886698c38e8a0af7ebf4" prot="private" virt="non-virtual"><scope>ceres::RenderPass</scope><name>setupGlobalShaderUniforms</name></member>
+      <member refid="classceres_1_1_render_pass_1a521b45f0819cfee2ff932a248ed48829" prot="private" virt="non-virtual"><scope>ceres::RenderPass</scope><name>setupShader</name></member>
+      <member refid="classceres_1_1_render_pass_1abe25e7ed2c508702affc519a8e6dff0f" prot="private" virt="non-virtual"><scope>ceres::RenderPass</scope><name>setupShaderRenderPass</name></member>
+      <member refid="classceres_1_1_render_pass_1a5de6baeecb216cb9d8cb12244cccf54e" prot="private" virt="non-virtual"><scope>ceres::RenderPass</scope><name>setupShaderRenderPass</name></member>
+      <member refid="classceres_1_1_render_pass_1af9821a9145bf2dc57eb253cfc3e88b7e" prot="public" virt="virtual"><scope>ceres::RenderPass</scope><name>~RenderPass</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

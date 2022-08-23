@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>camera.h &mdash; graphicRenderEngine documentation  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/sphinx_rtd_size.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="color.h" href="color.html" />
+    <link rel="prev" title="core" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> graphicRenderEngine documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">graphicRenderEngine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#dependencies">dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#test-demo">test demo</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">core</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">camera.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="color.html">color.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="framebuffer.html">framebuffer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glfwRenderer.html">glfwRenderer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inspector.html">inspector.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="light.html">light.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="material.html">material.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">mesh.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modelImporter.html">modelImporter.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="particleEmitter.html">particleEmitter.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ray.html">ray.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renderPass.html">renderPass.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renderStats.html">renderStats.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renderer.html">renderer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource.html">resource.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shader.html">shader.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="skybox.html">skybox.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sprite.html">sprite.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spriteAtlas.html">spriteAtlas.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spriteBatch.html">spriteBatch.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texture.html">texture.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uniformSet.html">uniformSet.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="worldLights.html">worldLights.h</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/index.html">utils</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">graphicRenderEngine documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">core</a> &raquo;</li>
+      <li>camera.h</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/ceres/core/camera.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="camera-h">
+<h1>camera.h<a class="headerlink" href="#camera-h" title="Permalink to this heading"></a></h1>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv45ceres">
+<span id="_CPPv35ceres"></span><span id="_CPPv25ceres"></span><span id="ceres"></span><span class="target" id="namespaceceres"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ceres</span></span></span><a class="headerlink" href="#_CPPv45ceres" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6CameraE">
+<span id="_CPPv3N5ceres6CameraE"></span><span id="_CPPv2N5ceres6CameraE"></span><span id="ceres::Camera"></span><span class="target" id="classceres_1_1_camera"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Camera</span></span></span><a class="headerlink" href="#_CPPv4N5ceres6CameraE" title="Permalink to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera6CameraEv">
+<span id="_CPPv3N5ceres6Camera6CameraEv"></span><span id="_CPPv2N5ceres6Camera6CameraEv"></span><span id="ceres::Camera::Camera"></span><span class="target" id="classceres_1_1_camera_1aa6d2b922df6655f0aaa4065a8db53d5b"></span><span class="sig-name descname"><span class="n"><span class="pre">Camera</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Camera6CameraEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera9setLookAtEN3glm4vec3EN3glm4vec3EN3glm4vec3E">
+<span id="_CPPv3N5ceres6Camera9setLookAtEN3glm4vec3EN3glm4vec3EN3glm4vec3E"></span><span id="_CPPv2N5ceres6Camera9setLookAtEN3glm4vec3EN3glm4vec3EN3glm4vec3E"></span><span id="ceres::Camera::setLookAt__glm::vec3.glm::vec3.glm::vec3"></span><span class="target" id="classceres_1_1_camera_1a3d292a611d593ca23eadb2cc1defd6d2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setLookAt</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec3</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">eye</span></span>, <span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec3</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">at</span></span>, <span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec3</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">up</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Camera9setLookAtEN3glm4vec3EN3glm4vec3EN3glm4vec3E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera22setPositionAndRotationEN3glm4vec3EN3glm4vec3E">
+<span id="_CPPv3N5ceres6Camera22setPositionAndRotationEN3glm4vec3EN3glm4vec3E"></span><span id="_CPPv2N5ceres6Camera22setPositionAndRotationEN3glm4vec3EN3glm4vec3E"></span><span id="ceres::Camera::setPositionAndRotation__glm::vec3.glm::vec3"></span><span class="target" id="classceres_1_1_camera_1adb31978a365abaabbbc5750aa8f49076"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setPositionAndRotation</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec3</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">position</span></span>, <span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec3</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">rotationEulersDegrees</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Camera22setPositionAndRotationEN3glm4vec3EN3glm4vec3E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera11getPositionEv">
+<span id="_CPPv3N5ceres6Camera11getPositionEv"></span><span id="_CPPv2N5ceres6Camera11getPositionEv"></span><span id="ceres::Camera::getPosition"></span><span class="target" id="classceres_1_1_camera_1a27fa19b43d097df4d7a00e7d931112c1"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec3</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getPosition</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Camera11getPositionEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera16getRotationEulerEv">
+<span id="_CPPv3N5ceres6Camera16getRotationEulerEv"></span><span id="_CPPv2N5ceres6Camera16getRotationEulerEv"></span><span id="ceres::Camera::getRotationEuler"></span><span class="target" id="classceres_1_1_camera_1a18c04c3efd4f1048454a5448386f5e64"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec3</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getRotationEuler</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Camera16getRotationEulerEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera16screenPointToRayEN3glm4vec2E">
+<span id="_CPPv3N5ceres6Camera16screenPointToRayEN3glm4vec2E"></span><span id="_CPPv2N5ceres6Camera16screenPointToRayEN3glm4vec2E"></span><span id="ceres::Camera::screenPointToRay__glm::vec2"></span><span class="target" id="classceres_1_1_camera_1a6ec57af2f650a85c1b9c6fbfc8f5faa7"></span><a class="reference internal" href="ray.html#_CPPv4N5ceres3RayE" title="ceres::Ray"><span class="n"><span class="pre">Ray</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">screenPointToRay</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">position</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Camera16screenPointToRayEN3glm4vec2E" title="Permalink to this definition"></a><br /></dt>
+<dd><p>屏幕像素点转换成射线:屏幕坐标转世界坐标 </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera24setPerspectiveProjectionEfff">
+<span id="_CPPv3N5ceres6Camera24setPerspectiveProjectionEfff"></span><span id="_CPPv2N5ceres6Camera24setPerspectiveProjectionEfff"></span><span id="ceres::Camera::setPerspectiveProjection__float.float.float"></span><span class="target" id="classceres_1_1_camera_1aac8d299564d2e67a5aa7be8594b16475"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setPerspectiveProjection</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">fieldOfViewY</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">nearPlane</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">farPlane</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Camera24setPerspectiveProjectionEfff" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera25setOrthographicProjectionEfff">
+<span id="_CPPv3N5ceres6Camera25setOrthographicProjectionEfff"></span><span id="_CPPv2N5ceres6Camera25setOrthographicProjectionEfff"></span><span id="ceres::Camera::setOrthographicProjection__float.float.float"></span><span class="target" id="classceres_1_1_camera_1a9944e93bcb43fa002389b67715b54d5d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setOrthographicProjection</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">orthographicSize</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">nearPlane</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">farPlane</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Camera25setOrthographicProjectionEfff" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera20setWindowCoordinatesEv">
+<span id="_CPPv3N5ceres6Camera20setWindowCoordinatesEv"></span><span id="_CPPv2N5ceres6Camera20setWindowCoordinatesEv"></span><span id="ceres::Camera::setWindowCoordinates"></span><span class="target" id="classceres_1_1_camera_1ad4891ac7ac7da8263115e7089418f353"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setWindowCoordinates</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Camera20setWindowCoordinatesEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera16setViewTransformERKN3glm4mat4E">
+<span id="_CPPv3N5ceres6Camera16setViewTransformERKN3glm4mat4E"></span><span id="_CPPv2N5ceres6Camera16setViewTransformERKN3glm4mat4E"></span><span id="ceres::Camera::setViewTransform__glm::mat4CR"></span><span class="target" id="classceres_1_1_camera_1af9503f69d544a8d2e0b8907542a9919f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setViewTransform</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">viewTransform</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Camera16setViewTransformERKN3glm4mat4E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera22setProjectionTransformERKN3glm4mat4E">
+<span id="_CPPv3N5ceres6Camera22setProjectionTransformERKN3glm4mat4E"></span><span id="_CPPv2N5ceres6Camera22setProjectionTransformERKN3glm4mat4E"></span><span id="ceres::Camera::setProjectionTransform__glm::mat4CR"></span><span class="target" id="classceres_1_1_camera_1a21bd7a3ae1dc9dc7e451349d0af12842"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setProjectionTransform</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">projectionTransform</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Camera22setProjectionTransformERKN3glm4mat4E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK5ceres6Camera16getViewTransformEv">
+<span id="_CPPv3NK5ceres6Camera16getViewTransformEv"></span><span id="_CPPv2NK5ceres6Camera16getViewTransformEv"></span><span id="ceres::Camera::getViewTransformC"></span><span class="target" id="classceres_1_1_camera_1a96b1d873cc3fa23a3af8abb0c29ecb25"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getViewTransform</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK5ceres6Camera16getViewTransformEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera22getProjectionTransformERKN3glm5uvec2E">
+<span id="_CPPv3N5ceres6Camera22getProjectionTransformERKN3glm5uvec2E"></span><span id="_CPPv2N5ceres6Camera22getProjectionTransformERKN3glm5uvec2E"></span><span id="ceres::Camera::getProjectionTransform__glm::uvec2CR"></span><span class="target" id="classceres_1_1_camera_1a46420138889d7f8aee296ce8fcc0f0d1"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getProjectionTransform</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">uvec2</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">viewportSize</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Camera22getProjectionTransformERKN3glm5uvec2E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera30getInfiniteProjectionTransformEN3glm5uvec2E">
+<span id="_CPPv3N5ceres6Camera30getInfiniteProjectionTransformEN3glm5uvec2E"></span><span id="_CPPv2N5ceres6Camera30getInfiniteProjectionTransformEN3glm5uvec2E"></span><span id="ceres::Camera::getInfiniteProjectionTransform__glm::uvec2"></span><span class="target" id="classceres_1_1_camera_1a1dccd41ba04a5779fe0a464b56544721"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getInfiniteProjectionTransform</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">uvec2</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">viewportSize</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Camera30getInfiniteProjectionTransformEN3glm5uvec2E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera11setViewportERKN3glm4vec2ERKN3glm4vec2E">
+<span id="_CPPv3N5ceres6Camera11setViewportERKN3glm4vec2ERKN3glm4vec2E"></span><span id="_CPPv2N5ceres6Camera11setViewportERKN3glm4vec2ERKN3glm4vec2E"></span><span id="ceres::Camera::setViewport__glm::vec2CR.glm::vec2CR"></span><span class="target" id="classceres_1_1_camera_1a910c9f6b12fa9435784ad05cb1a72cfd"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setViewport</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">offset</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Camera11setViewportERKN3glm4vec2ERKN3glm4vec2E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-types">Private Types</p>
+<dl class="cpp enum-class">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera14ProjectionTypeE">
+<span id="_CPPv3N5ceres6Camera14ProjectionTypeE"></span><span id="_CPPv2N5ceres6Camera14ProjectionTypeE"></span><span class="target" id="classceres_1_1_camera_1a69f013432afc7e33029efe886cbc0e1d"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ProjectionType</span></span></span><a class="headerlink" href="#_CPPv4N5ceres6Camera14ProjectionTypeE" title="Permalink to this definition"></a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera14ProjectionType11PerspectiveE">
+<span id="_CPPv3N5ceres6Camera14ProjectionType11PerspectiveE"></span><span id="_CPPv2N5ceres6Camera14ProjectionType11PerspectiveE"></span><span class="target" id="classceres_1_1_camera_1a69f013432afc7e33029efe886cbc0e1daa80420eef88d11f77532f1b9cb467fa3"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Perspective</span></span></span><a class="headerlink" href="#_CPPv4N5ceres6Camera14ProjectionType11PerspectiveE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera14ProjectionType12OrthographicE">
+<span id="_CPPv3N5ceres6Camera14ProjectionType12OrthographicE"></span><span id="_CPPv2N5ceres6Camera14ProjectionType12OrthographicE"></span><span class="target" id="classceres_1_1_camera_1a69f013432afc7e33029efe886cbc0e1da03424250432f2aa71de95579d2c0eaeb"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Orthographic</span></span></span><a class="headerlink" href="#_CPPv4N5ceres6Camera14ProjectionType12OrthographicE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera14ProjectionType18OrthographicWindowE">
+<span id="_CPPv3N5ceres6Camera14ProjectionType18OrthographicWindowE"></span><span id="_CPPv2N5ceres6Camera14ProjectionType18OrthographicWindowE"></span><span class="target" id="classceres_1_1_camera_1a69f013432afc7e33029efe886cbc0e1dabecf758bf94079dcbe8a7770928d2ce3"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">OrthographicWindow</span></span></span><a class="headerlink" href="#_CPPv4N5ceres6Camera14ProjectionType18OrthographicWindowE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera14ProjectionType6CustomE">
+<span id="_CPPv3N5ceres6Camera14ProjectionType6CustomE"></span><span id="_CPPv2N5ceres6Camera14ProjectionType6CustomE"></span><span class="target" id="classceres_1_1_camera_1a69f013432afc7e33029efe886cbc0e1da90589c47f06eb971d548591f23c285af"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Custom</span></span></span><a class="headerlink" href="#_CPPv4N5ceres6Camera14ProjectionType6CustomE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera15m_viewTransformE">
+<span id="_CPPv3N5ceres6Camera15m_viewTransformE"></span><span id="_CPPv2N5ceres6Camera15m_viewTransformE"></span><span id="ceres::Camera::m_viewTransform__glm::mat4"></span><span class="target" id="classceres_1_1_camera_1a564176da15e3947c7d0649b2d4f17286"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_viewTransform</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">1.0f</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres6Camera15m_viewTransformE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera17m_projectionValueE">
+<span id="_CPPv3N5ceres6Camera17m_projectionValueE"></span><span id="_CPPv2N5ceres6Camera17m_projectionValueE"></span><span id="ceres::Camera::m_projectionValue__ProjectionValue"></span><span class="target" id="classceres_1_1_camera_1ae1ca3915a7ebad33f7c8103a15fb6cb3"></span><a class="reference internal" href="#_CPPv4N5ceres6Camera15ProjectionValueE" title="ceres::Camera::ProjectionValue"><span class="n"><span class="pre">ProjectionValue</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_projectionValue</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">1.0f</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres6Camera17m_projectionValueE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera16m_projectionTypeE">
+<span id="_CPPv3N5ceres6Camera16m_projectionTypeE"></span><span id="_CPPv2N5ceres6Camera16m_projectionTypeE"></span><span id="ceres::Camera::m_projectionType__ProjectionType"></span><span class="target" id="classceres_1_1_camera_1a0805636e33f16b5a152ede980add4a79"></span><a class="reference internal" href="#_CPPv4N5ceres6Camera14ProjectionTypeE" title="ceres::Camera::ProjectionType"><span class="n"><span class="pre">ProjectionType</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_projectionType</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N5ceres6Camera14ProjectionTypeE" title="ceres::Camera::ProjectionType"><span class="n"><span class="pre">ProjectionType</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N5ceres6Camera14ProjectionType12OrthographicE" title="ceres::Camera::ProjectionType::Orthographic"><span class="n"><span class="pre">Orthographic</span></span></a><a class="headerlink" href="#_CPPv4N5ceres6Camera16m_projectionTypeE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera16m_viewportOffsetE">
+<span id="_CPPv3N5ceres6Camera16m_viewportOffsetE"></span><span id="_CPPv2N5ceres6Camera16m_viewportOffsetE"></span><span id="ceres::Camera::m_viewportOffset__glm::vec2"></span><span class="target" id="classceres_1_1_camera_1a7812ad984c65b523e104c0dccb8b3a81"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_viewportOffset</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres6Camera16m_viewportOffsetE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera14m_viewportSizeE">
+<span id="_CPPv3N5ceres6Camera14m_viewportSizeE"></span><span id="_CPPv2N5ceres6Camera14m_viewportSizeE"></span><span id="ceres::Camera::m_viewportSize__glm::vec2"></span><span class="target" id="classceres_1_1_camera_1ac393829dfc8572cf4bdb50b91fd5a484"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_viewportSize</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres6Camera14m_viewportSizeE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-friends">Friends</p>
+<dl>
+<dt class="sig sig-object cpp">
+<em class="property"><span class="pre">friend</span> <span class="pre">class</span></em> <span class="pre">RenderPass</span></dt>
+</dl>
+
+</div>
+<dl class="cpp union">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera15ProjectionValueE">
+<span id="_CPPv3N5ceres6Camera15ProjectionValueE"></span><span id="_CPPv2N5ceres6Camera15ProjectionValueE"></span><span class="target" id="unionceres_1_1_camera_1_1_projection_value"></span><span class="k"><span class="pre">union</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ProjectionValue</span></span></span><a class="headerlink" href="#_CPPv4N5ceres6Camera15ProjectionValueE" title="Permalink to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera15ProjectionValue12fieldOfViewYE">
+<span id="_CPPv3N5ceres6Camera15ProjectionValue12fieldOfViewYE"></span><span id="_CPPv2N5ceres6Camera15ProjectionValue12fieldOfViewYE"></span><span id="ceres::Camera::ProjectionValue::fieldOfViewY__float"></span><span class="target" id="unionceres_1_1_camera_1_1_projection_value_1a46f6235ee1f089f48f8d7bf91c399627"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">fieldOfViewY</span></span></span><a class="headerlink" href="#_CPPv4N5ceres6Camera15ProjectionValue12fieldOfViewYE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera15ProjectionValue9nearPlaneE">
+<span id="_CPPv3N5ceres6Camera15ProjectionValue9nearPlaneE"></span><span id="_CPPv2N5ceres6Camera15ProjectionValue9nearPlaneE"></span><span id="ceres::Camera::ProjectionValue::nearPlane__float"></span><span class="target" id="unionceres_1_1_camera_1_1_projection_value_1a5d8ac3fa0ebc14138507175491148ef3"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nearPlane</span></span></span><a class="headerlink" href="#_CPPv4N5ceres6Camera15ProjectionValue9nearPlaneE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera15ProjectionValue8farPlaneE">
+<span id="_CPPv3N5ceres6Camera15ProjectionValue8farPlaneE"></span><span id="_CPPv2N5ceres6Camera15ProjectionValue8farPlaneE"></span><span id="ceres::Camera::ProjectionValue::farPlane__float"></span><span class="target" id="unionceres_1_1_camera_1_1_projection_value_1a216ef5579a8776456ae033bb916ab9a2"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">farPlane</span></span></span><a class="headerlink" href="#_CPPv4N5ceres6Camera15ProjectionValue8farPlaneE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera15ProjectionValue11perspectiveE">
+<span id="_CPPv3N5ceres6Camera15ProjectionValue11perspectiveE"></span><span id="_CPPv2N5ceres6Camera15ProjectionValue11perspectiveE"></span><span class="target" id="unionceres_1_1_camera_1_1_projection_value_1a637c94f44982bac722c4ffc588f97b76"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv45ceres" title="ceres"><span class="n"><span class="pre">ceres</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N5ceres6CameraE" title="ceres::Camera"><span class="n"><span class="pre">Camera</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N5ceres6Camera15ProjectionValueE" title="ceres::Camera::ProjectionValue"><span class="n"><span class="pre">ProjectionValue</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">[anonymous]</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">perspective</span></span></span><a class="headerlink" href="#_CPPv4N5ceres6Camera15ProjectionValue11perspectiveE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera15ProjectionValue16orthographicSizeE">
+<span id="_CPPv3N5ceres6Camera15ProjectionValue16orthographicSizeE"></span><span id="_CPPv2N5ceres6Camera15ProjectionValue16orthographicSizeE"></span><span id="ceres::Camera::ProjectionValue::orthographicSize__float"></span><span class="target" id="unionceres_1_1_camera_1_1_projection_value_1ad2eb6d9b9cc83c4dcf105b85be296972"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">orthographicSize</span></span></span><a class="headerlink" href="#_CPPv4N5ceres6Camera15ProjectionValue16orthographicSizeE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera15ProjectionValue12orthographicE">
+<span id="_CPPv3N5ceres6Camera15ProjectionValue12orthographicE"></span><span id="_CPPv2N5ceres6Camera15ProjectionValue12orthographicE"></span><span class="target" id="unionceres_1_1_camera_1_1_projection_value_1a55aacfd94de7816ba8a2f7c3f44fbcbf"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv45ceres" title="ceres"><span class="n"><span class="pre">ceres</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N5ceres6CameraE" title="ceres::Camera"><span class="n"><span class="pre">Camera</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N5ceres6Camera15ProjectionValueE" title="ceres::Camera::ProjectionValue"><span class="n"><span class="pre">ProjectionValue</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">[anonymous]</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">orthographic</span></span></span><a class="headerlink" href="#_CPPv4N5ceres6Camera15ProjectionValue12orthographicE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Camera15ProjectionValue22customProjectionMatrixE">
+<span id="_CPPv3N5ceres6Camera15ProjectionValue22customProjectionMatrixE"></span><span id="_CPPv2N5ceres6Camera15ProjectionValue22customProjectionMatrixE"></span><span id="ceres::Camera::ProjectionValue::customProjectionMatrix__floatA"></span><span class="target" id="unionceres_1_1_camera_1_1_projection_value_1afe9c798d77c0059737103ea2857cb7c8"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">customProjectionMatrix</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">16</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#_CPPv4N5ceres6Camera15ProjectionValue22customProjectionMatrixE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="core" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="color.html" class="btn btn-neutral float-right" title="color.h" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, william.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,1193 @@
+\hypertarget{mesh_8cpp_source}{}\doxysection{mesh.\+cpp}
+\label{mesh_8cpp_source}\index{/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp@{/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00003}00003 \textcolor{comment}{// Created by william on 2022/5/22.}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00004}00004 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00006}00006 \textcolor{preprocessor}{\#include "{}mesh.h"{}}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00008}00008 \textcolor{preprocessor}{\#include "{}glCommonDefine.h"{}}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00009}00009 \textcolor{preprocessor}{\#include "{}renderStats.h"{}}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00010}00010 \textcolor{preprocessor}{\#include "{}renderer.h"{}}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00011}00011 \textcolor{preprocessor}{\#include "{}shader.h"{}}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00013}00013 \textcolor{preprocessor}{\#include <glm/gtc/constants.hpp>}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00014}00014 \textcolor{preprocessor}{\#include <iomanip>}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00015}00015 \textcolor{keyword}{namespace }ceres}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00016}00016 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00017}00017 Mesh::Mesh(std::map<std::string, std::vector<float>>\&\& attributesFloat, std::map<std::string, std::vector<glm::vec2>>\&\& attributesVec2, std::map<std::string, std::vector<glm::vec3>>\&\& attributesVec3,}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00018}00018            std::map<std::string, std::vector<glm::vec4>>\&\& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>\&\& attributesIVec4, std::vector<std::vector<uint16\_t>>\&\& indices,}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00019}00019            std::vector<Topology>\& meshTopology, BufferUsage bufferUsage, std::string\_view name, RenderStats\& renderStats)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00020}00020 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00021}00021     m\_meshId = m\_meshIdCount++;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00022}00022     \textcolor{keywordflow}{if} (Renderer::s\_instance == \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00023}00023     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00024}00024         \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"{}Cannot instantiate re::Mesh before ceres::Renderer is created."{}});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00025}00025     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00026}00026     glGenBuffers(1, \&m\_vbo);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00027}00027     update(std::move(attributesFloat), std::move(attributesVec2), std::move(attributesVec3), std::move(attributesVec4), std::move(attributesIVec4), std::move(indices), meshTopology, bufferUsage, name, renderStats);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00028}00028     Renderer::s\_instance-\/>m\_meshes.emplace\_back(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00029}00029 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00031}00031 Mesh::\string~Mesh()}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00032}00032 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00033}00033     \textcolor{keyword}{auto}* r = Renderer::s\_instance;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00034}00034     \textcolor{keywordflow}{if} (r != \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00035}00035     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00036}00036         RenderStats\& renderStats = r-\/>m\_renderStatsCurrent;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00037}00037         \textcolor{keyword}{auto} dataSize = getDataSize();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00038}00038         renderStats.meshBytes -\/= dataSize;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00039}00039         renderStats.meshBytesDeallocated += dataSize;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00040}00040         renderStats.meshCount-\/-\/;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00041}00041         \textcolor{keywordflow}{if} (!r-\/>m\_meshes.empty())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00042}00042         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00043}00043             \textcolor{comment}{// 指定删除某个元素}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00044}00044             r-\/>m\_meshes.erase(std::remove(r-\/>m\_meshes.begin(), r-\/>m\_meshes.end(), \textcolor{keyword}{this}));}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00045}00045         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00046}00046     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00047}00047     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} obj : m\_shaderToVao)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00048}00048     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00049}00049         glDeleteVertexArrays(1, \&(obj.second.vaoID));}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00050}00050     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00051}00051     glDeleteBuffers(1, \&m\_vbo);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00053}00053     \textcolor{keywordflow}{if} (m\_ebo != 0)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00054}00054     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00055}00055         glDeleteBuffers(1, \&m\_ebo);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00056}00056     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00057}00057 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00059}00059 \textcolor{keywordtype}{void} Mesh::bind(Shader* shader)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00060}00060 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00061}00061     \textcolor{keyword}{auto} res = m\_shaderToVao.find(shader-\/>m\_id);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00062}00062     \textcolor{keywordflow}{if} (res != m\_shaderToVao.end() \&\& res-\/>second.shaderId == shader-\/>m\_shaderUniqueId)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00063}00063     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00064}00064         GLuint vao = res-\/>second.vaoID;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00065}00065         glBindVertexArray(vao);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00066}00066     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00067}00067     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00068}00068     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00069}00069         GLuint index;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00070}00070         \textcolor{keywordflow}{if} (res != m\_shaderToVao.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00071}00071         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00072}00072             index = res-\/>second.vaoID;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00073}00073         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00074}00074         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00075}00075         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00076}00076             glGenVertexArrays(1, \&index);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00077}00077         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00078}00078         glBindVertexArray(index);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00079}00079         setVertexAttributePointers(shader);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00080}00080         m\_shaderToVao[shader-\/>m\_id] = \{ shader-\/>m\_shaderUniqueId, index \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00081}00081         bindIndexSet();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00082}00082     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00083}00083 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00085}00085 \textcolor{keywordtype}{void} Mesh::bindIndexSet()\textcolor{keyword}{ const}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00086}00086 \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00087}00087     glBindBuffer(GL\_ELEMENT\_ARRAY\_BUFFER, m\_ebo);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00088}00088 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00089}00089 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00090}00090 \textcolor{keywordtype}{void} Mesh::update(std::map<std::string, std::vector<float>>\&\& attributesFloat, std::map<std::string, std::vector<glm::vec2>>\&\& attributesVec2, std::map<std::string, std::vector<glm::vec3>>\&\& attributesVec3, std::map<std::string, std::vector<glm::vec4>>\&\& attributesVec4, std::map<std::string, std::vector<glm::i32vec4>>\&\& attributesIVec4, std::vector<std::vector<uint16\_t>>\&\& indices, std::vector<Topology>\& meshTopology, BufferUsage bufferUsage, std::string\_view name, RenderStats\& renderStats)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00091}00091 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00092}00092     m\_vertexCount = 0;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00093}00093     m\_dataSize = 0;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00094}00094     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& obj : m\_shaderToVao)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00095}00095     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00096}00096         glDeleteVertexArrays(1, \&(obj.second.vaoID));}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00097}00097     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00098}00098     m\_shaderToVao.clear();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00099}00099     m\_attributeByName.clear();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00100}00100     m\_attributesFloat = std::move(attributesFloat);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00101}00101     m\_attributesVec2 = std::move(attributesVec2);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00102}00102     m\_attributesVec3 = std::move(attributesVec3);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00103}00103     m\_attributesVec4 = std::move(attributesVec4);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00104}00104     m\_attributesIVec4 = std::move(attributesIVec4);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00105}00105     m\_indices = std::move(indices);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00106}00106     m\_topologies = std::move(meshTopology);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00107}00107     m\_bufferUsage = bufferUsage;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00108}00108     \textcolor{keyword}{auto} interleavedData = getInterleavedData();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00109}00109     glBindVertexArray(0);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00110}00110     glBindBuffer(GL\_ARRAY\_BUFFER, m\_vbo);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00111}00111     glBufferData(GL\_ARRAY\_BUFFER, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}) * interleavedData.size(), interleavedData.data(), GL\_STATIC\_DRAW);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00112}00112     updateIndexBuffers();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00113}00113     m\_boundsMinMax[0] = glm::vec3\{ std::numeric\_limits<float>::max() \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00114}00114     m\_boundsMinMax[1] = glm::vec3\{ -\/std::numeric\_limits<float>::max() \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00115}00115     \textcolor{keyword}{auto} pos = m\_attributesVec3.find(\textcolor{stringliteral}{"{}position"{}});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00116}00116     \textcolor{keywordflow}{if} (pos != m\_attributesVec3.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00117}00117     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00118}00118         \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& v : pos-\/>second)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00119}00119         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00120}00120             m\_boundsMinMax[0] = glm::min(m\_boundsMinMax[0], v);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00121}00121             m\_boundsMinMax[1] = glm::max(m\_boundsMinMax[1], v);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00122}00122         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00123}00123     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00124}00124     m\_dataSize = m\_totalBytesPerVertex * m\_vertexCount;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00125}00125     renderStats.meshBytes += m\_dataSize;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00126}00126     renderStats.meshBytesAllocated += m\_dataSize;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00127}00127     m\_name = name;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00128}00128     m\_meshId = m\_meshIdCount++;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00129}00129 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00130}00130 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00131}00131 \textcolor{keywordtype}{void} Mesh::setVertexAttributePointers(Shader* shader)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00132}00132 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00133}00133     glBindBuffer(GL\_ARRAY\_BUFFER, m\_vbo);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00134}00134     \textcolor{keywordtype}{int} vertexAttribArray = 0;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00135}00135     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& attribute : shader-\/>m\_attributes)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00136}00136     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00137}00137         \textcolor{keyword}{auto} meshAttribute = m\_attributeByName.find(attribute.first);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00138}00138         \textcolor{keywordtype}{bool} attributeFoundInMesh = meshAttribute != m\_attributeByName.end();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00139}00139         \textcolor{keywordtype}{bool} equalType = attributeFoundInMesh \&\& (attribute.second.type == meshAttribute-\/>second.attributeType || (attribute.second.type >= GL\_FLOAT\_VEC2 \&\& attribute.second.type <= GL\_FLOAT\_VEC4 \&\& attribute.second.type >= meshAttribute-\/>second.attributeType) || (attribute.second.type >= GL\_INT\_VEC2 \&\& attribute.second.type <= GL\_INT\_VEC4 \&\& attribute.second.type >= meshAttribute-\/>second.attributeType));}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00140}00140         \textcolor{keywordflow}{if} (equalType \&\& attribute.second.arraySize == 1)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00141}00141         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00142}00142             glEnableVertexAttribArray(attribute.second.position);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00143}00143             glVertexAttribPointer(attribute.second.position, meshAttribute-\/>second.elementCount, meshAttribute-\/>second.dataType, GL\_FALSE, m\_totalBytesPerVertex, (\textcolor{keywordtype}{char}*)\textcolor{keyword}{nullptr} + meshAttribute-\/>second.offset);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00144}00144             vertexAttribArray++;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00145}00145         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00146}00146         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00147}00147         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00148}00148             ASSERT(attribute.second.arraySize == 1 \&\& \textcolor{stringliteral}{"{}constant vertex attributes not supported as arrays"{}});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00149}00149             glDisableVertexAttribArray(attribute.second.position);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00150}00150             \textcolor{keyword}{constexpr} \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{float} a[] = \{ 0, 0, 0, 0,}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00151}00151                                                  0, 0, 0, 0,}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00152}00152                                                  0, 0, 0, 0,}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00153}00153                                                  0, 0, 0, 0 \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00154}00154             \textcolor{keywordflow}{switch} (attribute.second.type)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00155}00155             \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00156}00156             \textcolor{keywordflow}{case} GL\_INT\_VEC4:}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00157}00157                 glVertexAttribI4iv(attribute.second.position, (GLint*)a);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00158}00158                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00159}00159             \textcolor{keywordflow}{case} GL\_INT\_VEC3:}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00160}00160                 glVertexAttribI3iv(attribute.second.position, (GLint*)a);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00161}00161                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00162}00162             \textcolor{keywordflow}{case} GL\_INT\_VEC2:}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00163}00163                 glVertexAttribI2iv(attribute.second.position, (GLint*)a);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00164}00164                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00165}00165             \textcolor{keywordflow}{case} GL\_INT:}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00166}00166                 glVertexAttribI1iv(attribute.second.position, (GLint*)a);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00167}00167                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00168}00168             \textcolor{keywordflow}{case} GL\_FLOAT\_VEC4:}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00169}00169                 glVertexAttrib4fv(attribute.second.position, a);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00170}00170                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00171}00171             \textcolor{keywordflow}{case} GL\_FLOAT\_VEC3:}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00172}00172                 glVertexAttrib3fv(attribute.second.position, a);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00173}00173                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00174}00174             \textcolor{keywordflow}{case} GL\_FLOAT\_VEC2:}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00175}00175                 glVertexAttrib2fv(attribute.second.position, a);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00176}00176                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00177}00177             \textcolor{keywordflow}{case} GL\_FLOAT:}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00178}00178                 glVertexAttrib1fv(attribute.second.position, a);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00179}00179                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00180}00180             \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00181}00181                 LOG\_ERROR(\textcolor{stringliteral}{"{}Unhandled attribute type:\{\}"{}}, (\textcolor{keywordtype}{int})attribute.second.type);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00182}00182                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00183}00183             \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00184}00184         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00185}00185     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00186}00186 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00187}00187 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00188}00188 Mesh::MeshBuilder Mesh::create()}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00189}00189 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00190}00190     \textcolor{keywordflow}{return} \{\};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00191}00191 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00192}00192 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00193}00193 Mesh::MeshBuilder Mesh::update()}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00194}00194 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00195}00195     Mesh::MeshBuilder builder;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00196}00196     builder.m\_mesh = \textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00197}00197     builder.m\_attributesFloat = m\_attributesFloat;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00198}00198     builder.m\_attributesVec2 = m\_attributesVec2;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00199}00199     builder.m\_attributesVec3 = m\_attributesVec3;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00200}00200     builder.m\_attributesVec4 = m\_attributesVec4;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00201}00201     builder.m\_attributesIVec4 = m\_attributesIVec4;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00202}00202     builder.m\_indices = m\_indices;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00203}00203     builder.m\_topologies = m\_topologies;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00204}00204     \textcolor{keywordflow}{return} builder;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00205}00205 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00206}00206 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00207}00207 \textcolor{keywordtype}{int} Mesh::getDataSize()\textcolor{keyword}{ const}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00208}00208 \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00209}00209     \textcolor{keywordflow}{return} m\_dataSize;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00210}00210 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00211}00211 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00212}00212 std::vector<glm::vec3> Mesh::getPositions()}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00213}00213 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00214}00214     std::vector<glm::vec3> position;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00215}00215     \textcolor{keyword}{auto} ref = m\_attributesVec3.find(\textcolor{stringliteral}{"{}position"{}});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00216}00216     \textcolor{keywordflow}{if} (ref != m\_attributesVec3.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00217}00217     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00218}00218         position = ref-\/>second;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00219}00219     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00220}00220     \textcolor{keywordflow}{return} position;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00221}00221 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00222}00222 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00223}00223 std::vector<glm::vec3> Mesh::getNormals()}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00224}00224 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00225}00225     std::vector<glm::vec3> normal;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00226}00226     \textcolor{keyword}{auto} ref = m\_attributesVec3.find(\textcolor{stringliteral}{"{}normal"{}});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00227}00227     \textcolor{keywordflow}{if} (ref != m\_attributesVec3.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00228}00228     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00229}00229         normal = ref-\/>second;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00230}00230     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00231}00231     \textcolor{keywordflow}{return} normal;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00232}00232 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00233}00233 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00234}00234 std::vector<glm::vec4> Mesh::getUVs()}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00235}00235 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00236}00236     std::vector<glm::vec4> uv;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00237}00237     \textcolor{keyword}{auto} ref = m\_attributesVec4.find(\textcolor{stringliteral}{"{}uv"{}});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00238}00238     \textcolor{keywordflow}{if} (ref != m\_attributesVec4.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00239}00239     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00240}00240         uv = ref-\/>second;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00241}00241     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00242}00242     \textcolor{keywordflow}{return} uv;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00243}00243 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00244}00244 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00245}00245 std::vector<glm::vec4> Mesh::getColors()}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00246}00246 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00247}00247     std::vector<glm::vec4> color;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00248}00248     \textcolor{keyword}{auto} ref = m\_attributesVec4.find(\textcolor{stringliteral}{"{}color"{}});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00249}00249     \textcolor{keywordflow}{if} (ref != m\_attributesVec4.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00250}00250     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00251}00251         color = ref-\/>second;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00252}00252     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00253}00253     \textcolor{keywordflow}{return} color;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00254}00254 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00255}00255 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00256}00256 std::vector<glm::vec4> Mesh::getTangents()}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00257}00257 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00258}00258     std::vector<glm::vec4> color;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00259}00259     \textcolor{keyword}{auto} ref = m\_attributesVec4.find(\textcolor{stringliteral}{"{}tangent"{}});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00260}00260     \textcolor{keywordflow}{if} (ref != m\_attributesVec4.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00261}00261     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00262}00262         color = ref-\/>second;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00263}00263     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00264}00264     \textcolor{keywordflow}{return} color;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00265}00265 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00266}00266 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00267}00267 [[maybe\_unused]] std::vector<float> Mesh::getParticleSizes()}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00268}00268 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00269}00269     std::vector<float> particleSize;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00270}00270     \textcolor{keyword}{auto} ref = m\_attributesFloat.find(\textcolor{stringliteral}{"{}particleSize"{}});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00271}00271     \textcolor{keywordflow}{if} (ref != m\_attributesFloat.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00272}00272     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00273}00273         particleSize = ref-\/>second;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00274}00274     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00275}00275     \textcolor{keywordflow}{return} particleSize;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00276}00276 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00277}00277 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00278}00278 \textcolor{keyword}{template} <>}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00279}00279 \textcolor{keyword}{const} std::vector<float>\& Mesh::get(std::string\_view uniformName)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00280}00280 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00281}00281     \textcolor{keywordflow}{return} m\_attributesFloat[uniformName.data()];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00282}00282 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00283}00283 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00284}00284 \textcolor{keyword}{template} <>}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00285}00285 \textcolor{keyword}{const} std::vector<glm::vec2>\& Mesh::get(std::string\_view uniformName)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00286}00286 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00287}00287     \textcolor{keywordflow}{return} m\_attributesVec2[uniformName.data()];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00288}00288 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00289}00289 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00290}00290 \textcolor{keyword}{template} <>}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00291}00291 \textcolor{keyword}{const} std::vector<glm::vec3>\& Mesh::get(std::string\_view uniformName)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00292}00292 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00293}00293     \textcolor{keywordflow}{return} m\_attributesVec3[uniformName.data()];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00294}00294 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00295}00295 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00296}00296 \textcolor{keyword}{template} <>}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00297}00297 \textcolor{keyword}{const} std::vector<glm::vec4>\& Mesh::get(std::string\_view uniformName)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00298}00298 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00299}00299     \textcolor{keywordflow}{return} m\_attributesVec4[uniformName.data()];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00300}00300 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00301}00301 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00302}00302 \textcolor{keyword}{template} <>}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00303}00303 \textcolor{keyword}{const} std::vector<glm::i32vec4>\& Mesh::get(std::string\_view uniformName)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00304}00304 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00305}00305     \textcolor{keywordflow}{return} m\_attributesIVec4[uniformName.data()];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00306}00306 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00307}00307 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00308}00308 std::pair<int, int> Mesh::getType(std::string\_view name)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00309}00309 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00310}00310     \textcolor{keyword}{auto} ret = m\_attributeByName.find(name.data());}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00311}00311     \textcolor{keywordflow}{if} (ret != m\_attributeByName.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00312}00312     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00313}00313         \textcolor{keywordflow}{return} \{ ret-\/>second.dataType, ret-\/>second.elementCount \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00314}00314     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00315}00315     \textcolor{keywordflow}{return} \{ -\/1, -\/1 \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00316}00316 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00317}00317 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00318}00318 std::vector<std::string> Mesh::getAttributeNames()}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00319}00319 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00320}00320     std::vector<std::string> names;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00321}00321     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& u : m\_attributeByName)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00322}00322     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00323}00323         names.push\_back(u.first);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00324}00324     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00325}00325     \textcolor{keywordflow}{return} names;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00326}00326 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00327}00327 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00328}00328 \textcolor{keyword}{const} std::array<glm::vec3, 2>\& Mesh::getBoundsMinMax()\textcolor{keyword}{ const}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00329}00329 \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00330}00330     \textcolor{keywordflow}{return} m\_boundsMinMax;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00331}00331 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00332}00332 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00333}00333 \textcolor{keywordtype}{void} Mesh::setBoundsMinMax(\textcolor{keyword}{const} std::array<glm::vec3, 2>\& minMax)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00334}00334 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00335}00335     m\_boundsMinMax = minMax;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00336}00336 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00337}00337 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00338}00338 Mesh::Topology Mesh::getMeshTopology(\textcolor{keywordtype}{int} indexSet)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00339}00339 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00340}00340     \textcolor{keywordflow}{if} (m\_topologies.empty())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00341}00341     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00342}00342         m\_topologies.emplace\_back();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00343}00343         m\_topologies[0] = Mesh::Topology::Triangles;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00344}00344     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00345}00345     \textcolor{keywordflow}{return} m\_topologies[indexSet];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00346}00346 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00347}00347 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00348}00348 Mesh::BufferUsage Mesh::getMeshBufferUsage()}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00349}00349 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00350}00350     \textcolor{keywordflow}{return} m\_bufferUsage;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00351}00351 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00352}00352 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00353}00353 std::vector<float> Mesh::getInterleavedData()}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00354}00354 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00355}00355     m\_totalBytesPerVertex = 0;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00356}00356     \textcolor{comment}{// 强制执行的stdout 140布局规则( https://learnopengl.com/\#!advanced-\/opengl/advanced-\/glsl), 顺序是 vec3 vec4 ivec4 vec2 float}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00357}00357     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& pair : m\_attributesVec3)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00358}00358     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00359}00359         m\_vertexCount = std::max(m\_vertexCount, (\textcolor{keywordtype}{int})pair.second.size());}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00360}00360         m\_attributeByName[pair.first] = \{ m\_totalBytesPerVertex, 3, GL\_FLOAT, GL\_FLOAT\_VEC3 \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00361}00361         m\_totalBytesPerVertex += \textcolor{keyword}{sizeof}(glm::vec4); \textcolor{comment}{// note use vec4 size}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00362}00362     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00363}00363     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& pair : m\_attributesVec4)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00364}00364     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00365}00365         m\_vertexCount = std::max(m\_vertexCount, (\textcolor{keywordtype}{int})pair.second.size());}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00366}00366         m\_attributeByName[pair.first] = \{ m\_totalBytesPerVertex, 4, GL\_FLOAT, GL\_FLOAT\_VEC4 \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00367}00367         m\_totalBytesPerVertex += \textcolor{keyword}{sizeof}(glm::vec4);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00368}00368     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00369}00369     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& pair : m\_attributesIVec4)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00370}00370     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00371}00371         m\_vertexCount = std::max(m\_vertexCount, (\textcolor{keywordtype}{int})pair.second.size());}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00372}00372         m\_attributeByName[pair.first] = \{ m\_totalBytesPerVertex, 4, GL\_INT, GL\_INT\_VEC4 \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00373}00373         m\_totalBytesPerVertex += \textcolor{keyword}{sizeof}(glm::i32vec4);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00374}00374     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00375}00375     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& pair : m\_attributesVec2)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00376}00376     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00377}00377         m\_vertexCount = std::max(m\_vertexCount, (\textcolor{keywordtype}{int})pair.second.size());}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00378}00378         m\_attributeByName[pair.first] = \{ m\_totalBytesPerVertex, 2, GL\_FLOAT, GL\_FLOAT\_VEC2 \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00379}00379         m\_totalBytesPerVertex += \textcolor{keyword}{sizeof}(glm::vec2);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00380}00380     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00381}00381     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& pair : m\_attributesFloat)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00382}00382     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00383}00383         m\_vertexCount = std::max(m\_vertexCount, (\textcolor{keywordtype}{int})pair.second.size());}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00384}00384         m\_attributeByName[pair.first] = \{ m\_totalBytesPerVertex, 1, GL\_FLOAT, GL\_FLOAT \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00385}00385         m\_totalBytesPerVertex += \textcolor{keyword}{sizeof}(float);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00386}00386     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00387}00387     \textcolor{comment}{//添加最后的padding(使顶点与 vec4对齐)}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00388}00388     \textcolor{keywordflow}{if} (m\_totalBytesPerVertex \% (\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}) * 4) != 0)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00389}00389     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00390}00390         m\_totalBytesPerVertex += \textcolor{keyword}{sizeof}(float) * 4 -\/ m\_totalBytesPerVertex \% (\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}) * 4);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00391}00391     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00392}00392     std::vector<float> interleavedData((m\_vertexCount * m\_totalBytesPerVertex) / \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{float}), 0);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00393}00393     \textcolor{keyword}{const} \textcolor{keywordtype}{char}* dataPtr = (\textcolor{keywordtype}{char}*)interleavedData.data();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00394}00394     \textcolor{comment}{// 添加数据(将每个元素复制到interleaved buffer中)}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00395}00395     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& pair : m\_attributesVec3)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00396}00396     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00397}00397         \textcolor{keyword}{auto}\& attribute = m\_attributeByName[pair.first];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00398}00398         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < pair.second.size(); i++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00399}00399         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00400}00400             \textcolor{keyword}{auto}* locationPtr = (glm::vec3*)(dataPtr + (m\_totalBytesPerVertex * i) + attribute.offset);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00401}00401             *locationPtr = pair.second[i];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00402}00402         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00403}00403     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00404}00404     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& pair : m\_attributesVec4)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00405}00405     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00406}00406         \textcolor{keyword}{auto}\& attribute = m\_attributeByName[pair.first];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00407}00407         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < pair.second.size(); i++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00408}00408         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00409}00409             \textcolor{keyword}{auto}* locationPtr = (glm::vec4*)(dataPtr + m\_totalBytesPerVertex * i + attribute.offset);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00410}00410             *locationPtr = pair.second[i];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00411}00411         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00412}00412     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00413}00413     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& pair : m\_attributesIVec4)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00414}00414     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00415}00415         \textcolor{keyword}{auto}\& attribute = m\_attributeByName[pair.first];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00416}00416         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < pair.second.size(); i++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00417}00417         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00418}00418             \textcolor{keyword}{auto}* locationPtr = (glm::i32vec4*)(dataPtr + m\_totalBytesPerVertex * i + attribute.offset);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00419}00419             *locationPtr = pair.second[i];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00420}00420         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00421}00421     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00422}00422     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& pair : m\_attributesVec2)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00423}00423     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00424}00424         \textcolor{keyword}{auto}\& attribute = m\_attributeByName[pair.first];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00425}00425         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < pair.second.size(); i++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00426}00426         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00427}00427             \textcolor{keyword}{auto}* locationPtr = (glm::vec2*)(dataPtr + m\_totalBytesPerVertex * i + attribute.offset);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00428}00428             *locationPtr = pair.second[i];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00429}00429         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00430}00430     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00431}00431     \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& pair : m\_attributesFloat)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00432}00432     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00433}00433         \textcolor{keyword}{auto}\& attribute = m\_attributeByName[pair.first];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00434}00434         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < pair.second.size(); i++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00435}00435         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00436}00436             \textcolor{keyword}{auto}* locationPtr = (\textcolor{keywordtype}{float}*)(dataPtr + m\_totalBytesPerVertex * i + attribute.offset);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00437}00437             *locationPtr = pair.second[i];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00438}00438         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00439}00439     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00440}00440     \textcolor{keywordflow}{return} interleavedData;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00441}00441 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00442}00442 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00443}00443 Mesh::MeshBuilder\& Mesh::MeshBuilder::withQuad(\textcolor{keywordtype}{float} size)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00444}00444 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00445}00445     \textcolor{keywordflow}{if} (m\_name.empty())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00446}00446     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00447}00447         std::stringstream ss;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00448}00448         ss << \textcolor{stringliteral}{"{}re Quad -\/"{}} << std::setprecision(2) << size;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00449}00449         m\_name = ss.str();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00450}00450     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00451}00451     std::vector<glm::vec3> vertices(\{ \{ size, -\/size, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00452}00452                                       \{ size, size, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00453}00453                                       \{ -\/size, -\/size, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00454}00454                                       \{ -\/size, size, 0 \} \});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00455}00455 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00456}00456     std::vector<glm::vec3> normals(4, glm::vec3\{ 0, 0, 1 \});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00457}00457     std::vector<glm::vec4> uvs(\{ \{ 1, 0, 0, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00458}00458                                  \{ 1, 1, 0, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00459}00459                                  \{ 0, 0, 0, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00460}00460                                  \{ 0, 1, 0, 0 \} \});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00461}00461     std::vector<uint16\_t> indices = \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00462}00462         0, 1, 2,}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00463}00463         2, 1, 3}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00464}00464     \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00465}00465     std::vector<glm::vec4> tangents(\{ glm::vec4\{ 1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00466}00466                                       glm::vec4\{ 1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00467}00467                                       glm::vec4\{ 1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00468}00468                                       glm::vec4\{ 1, 0, 0, 1 \} \});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00469}00469     withPositions(vertices);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00470}00470     withNormals(normals);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00471}00471     withUvs(uvs);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00472}00472     withTangents(tangents);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00473}00473     withIndices(indices);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00474}00474     withMeshTopology(Topology::Triangles);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00475}00475     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00476}00476 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00477}00477 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00478}00478 Mesh::MeshBuilder\& Mesh::MeshBuilder::withCube(\textcolor{keywordtype}{float} length)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00479}00479 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00480}00480     \textcolor{comment}{//    v5-\/-\/-\/-\/-\/ v4}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00481}00481     \textcolor{comment}{//   /|      /|}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00482}00482     \textcolor{comment}{//  v1-\/-\/-\/-\/-\/-\/v0|}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00483}00483     \textcolor{comment}{//  | |     | |}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00484}00484     \textcolor{comment}{//  | |v6-\/-\/-\/|-\/|v7}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00485}00485     \textcolor{comment}{//  |/      |/}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00486}00486     \textcolor{comment}{//  v2-\/-\/-\/-\/-\/-\/v3}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00487}00487     \textcolor{keywordflow}{if} (m\_name.empty())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00488}00488     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00489}00489         std::stringstream ss;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00490}00490         ss << \textcolor{stringliteral}{"{}re Cube -\/"{}} << std::setprecision(2) << length;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00491}00491         m\_name = ss.str();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00492}00492     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00493}00493     glm::vec3 p[] = \{ \{ length, length, length \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00494}00494                       \{ -\/length, length, length \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00495}00495                       \{ -\/length, -\/length, length \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00496}00496                       \{ length, -\/length, length \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00497}00497 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00498}00498                       \{ length, length, -\/length \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00499}00499                       \{ -\/length, length, -\/length \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00500}00500                       \{ -\/length, -\/length, -\/length \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00501}00501                       \{ length, -\/length, -\/length \} \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00502}00502 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00503}00503     std::vector<uint16\_t> indices(\{ 0, 1, 2, 0, 2, 3,}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00504}00504                                     4, 5, 6, 4, 6, 7,}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00505}00505                                     8, 9, 10, 8, 10, 11,}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00506}00506                                     12, 13, 14, 12, 14, 15,}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00507}00507                                     16, 17, 18, 16, 18, 19,}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00508}00508                                     20, 21, 22, 20, 22, 23 \});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00509}00509     std::vector<glm::vec3> positions(\{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00510}00510         p[0], p[1], p[2], p[3], \textcolor{comment}{// v0-\/v1-\/v2-\/v3}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00511}00511         p[4], p[0], p[3], p[7], \textcolor{comment}{// v4-\/v0-\/v3-\/v7}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00512}00512         p[5], p[4], p[7], p[6], \textcolor{comment}{// v5-\/v4-\/v7-\/v6}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00513}00513         p[1], p[5], p[6], p[2], \textcolor{comment}{// v1-\/v5-\/v6-\/v2}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00514}00514         p[4], p[5], p[1], p[0], \textcolor{comment}{// v1-\/v5-\/v6-\/v2}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00515}00515         p[3], p[2], p[6], p[7], \textcolor{comment}{// v1-\/v5-\/v6-\/v2}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00516}00516     \});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00517}00517     glm::vec4 u[] = \{ \{ 1, 1, 0, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00518}00518                       \{ 0, 1, 0, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00519}00519                       \{ 0, 0, 0, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00520}00520                       \{ 1, 0, 0, 0 \} \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00521}00521 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00522}00522     std::vector<glm::vec4> uvs(\{ u[0], u[1], u[2], u[3],}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00523}00523                                  u[0], u[1], u[2], u[3],}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00524}00524                                  u[0], u[1], u[2], u[3],}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00525}00525                                  u[0], u[1], u[2], u[3],}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00526}00526                                  u[0], u[1], u[2], u[3],}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00527}00527                                  u[0], u[1], u[2], u[3] \});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00528}00528     std::vector<glm::vec3> normals(\{ \{ 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00529}00529                                      \{ 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00530}00530                                      \{ 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00531}00531                                      \{ 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00532}00532                                      \{ 1, 0, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00533}00533                                      \{ 1, 0, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00534}00534                                      \{ 1, 0, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00535}00535                                      \{ 1, 0, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00536}00536                                      \{ 0, 0, -\/1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00537}00537                                      \{ 0, 0, -\/1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00538}00538                                      \{ 0, 0, -\/1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00539}00539                                      \{ 0, 0, -\/1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00540}00540                                      \{ -\/1, 0, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00541}00541                                      \{ -\/1, 0, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00542}00542                                      \{ -\/1, 0, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00543}00543                                      \{ -\/1, 0, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00544}00544                                      \{ 0, 1, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00545}00545                                      \{ 0, 1, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00546}00546                                      \{ 0, 1, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00547}00547                                      \{ 0, 1, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00548}00548                                      \{ 0, -\/1, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00549}00549                                      \{ 0, -\/1, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00550}00550                                      \{ 0, -\/1, 0 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00551}00551                                      \{ 0, -\/1, 0 \} \});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00552}00552     std::vector<glm::vec4> tangents(\{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00553}00553         \{ 1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00554}00554         \{ 1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00555}00555         \{ 1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00556}00556         \{ 1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00557}00557         \{ 0, 0, -\/1, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00558}00558         \{ 0, 0, -\/1, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00559}00559         \{ 0, 0, -\/1, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00560}00560         \{ 0, 0, -\/1, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00561}00561         \{ -\/1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00562}00562         \{ -\/1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00563}00563         \{ -\/1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00564}00564         \{ -\/1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00565}00565         \{ 0, 0, 1, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00566}00566         \{ 0, 0, 1, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00567}00567         \{ 0, 0, 1, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00568}00568         \{ 0, 0, 1, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00569}00569         \{ 1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00570}00570         \{ 1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00571}00571         \{ 1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00572}00572         \{ 1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00573}00573         \{ -\/1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00574}00574         \{ -\/1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00575}00575         \{ -\/1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00576}00576         \{ -\/1, 0, 0, 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00577}00577     \});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00578}00578     withPositions(positions);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00579}00579     withNormals(normals);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00580}00580     withUvs(uvs);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00581}00581     withTangents(tangents);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00582}00582     withIndices(indices);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00583}00583     withMeshTopology(Topology::Triangles);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00584}00584     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00585}00585 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00586}00586 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00587}00587 Mesh::MeshBuilder\& Mesh::MeshBuilder::withSphere(\textcolor{keywordtype}{int} stacks, \textcolor{keywordtype}{int} slices, \textcolor{keywordtype}{float} radius)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00588}00588 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00589}00589     \textcolor{keyword}{using namespace }glm;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00590}00590     \textcolor{keywordflow}{if} (m\_name.empty())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00591}00591     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00592}00592         std::stringstream ss;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00593}00593         ss << \textcolor{stringliteral}{"{}re Sphere "{}} << stacks << \textcolor{stringliteral}{"{}-\/"{}} << slices << \textcolor{stringliteral}{"{}-\/"{}} << std::setprecision(2) << radius;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00594}00594         m\_name = ss.str();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00595}00595     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00596}00596     \textcolor{keywordtype}{size\_t} vertexCount = ((stacks + 1) * (slices + 1));}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00597}00597     std::vector<vec3> vertices\{ vertexCount \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00598}00598     std::vector<vec3> normals\{ vertexCount \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00599}00599     std::vector<vec4> tangents\{ vertexCount \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00600}00600     std::vector<vec4> uvs\{ vertexCount \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00601}00601     \textcolor{keywordtype}{int} index = 0;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00602}00602     \textcolor{comment}{// create vertices}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00603}00603     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j = 0; j <= stacks; j++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00604}00604     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00605}00605         \textcolor{keywordtype}{float} latitude1 = (glm::pi<float>() / (float)stacks) * (float)j -\/ (glm::pi<float>() / 2);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00606}00606         \textcolor{keywordtype}{float} sinLat1 = sin(latitude1);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00607}00607         \textcolor{keywordtype}{float} cosLat1 = cos(latitude1);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00608}00608         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i <= slices; i++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00609}00609         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00610}00610             \textcolor{keywordtype}{float} longitude = ((glm::pi<float>() * 2) / (\textcolor{keywordtype}{float})slices) * (\textcolor{keywordtype}{float})i;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00611}00611             \textcolor{keywordtype}{float} sinLong = sin(longitude);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00612}00612             \textcolor{keywordtype}{float} cosLong = cos(longitude);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00613}00613             vec3 normal\{ cosLong * cosLat1, sinLat1, sinLong * cosLat1 \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00614}00614             vec4 tangent = vec4((vec3)normalize(dvec3(cos(longitude + glm::half\_pi<double>()), 0, sin(longitude + glm::half\_pi<double>()))), 1);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00615}00615             normal = normalize(normal);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00616}00616             tangents[index] = tangent;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00617}00617             normals[index] = normal;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00618}00618             uvs[index] = vec4\{ 1 -\/ (float)i / (\textcolor{keywordtype}{float})slices, (float)j / (\textcolor{keywordtype}{float})stacks, 0, 0 \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00619}00619             vertices[index] = normal * radius;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00620}00620             index++;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00621}00621         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00622}00622     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00623}00623     std::vector<vec3> finalPosition;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00624}00624     std::vector<vec3> finalNormals;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00625}00625     std::vector<vec4> finalTangents;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00626}00626     std::vector<vec4> finalUVs;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00627}00627     \textcolor{comment}{// create indices}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00628}00628     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j = 0; j < stacks; j++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00629}00629     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00630}00630         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i <= slices; i++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00631}00631         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00632}00632             glm::u8vec2 offset[] = \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00633}00633                 \textcolor{comment}{// first triangle}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00634}00634                 \{ i, j \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00635}00635                 \{ (i + 1) \% (slices + 1), j + 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00636}00636                 \{ (i + 1) \% (slices + 1), j \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00637}00637 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00638}00638                 \textcolor{comment}{// second triangle}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00639}00639                 \{ i, j \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00640}00640                 \{ i, j + 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00641}00641                 \{ (i + 1) \% (slices + 1), j + 1 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00642}00642             \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00643}00643             \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto}\& o : offset)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00644}00644             \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00645}00645                 index = o[1] * (slices + 1) + o[0];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00646}00646                 finalPosition.push\_back(vertices[index]);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00647}00647                 finalNormals.push\_back(normals[index]);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00648}00648                 finalTangents.push\_back(tangents[index]);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00649}00649                 finalUVs.push\_back(uvs[index]);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00650}00650             \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00651}00651         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00652}00652     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00653}00653     withPositions(finalPosition);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00654}00654     withNormals(finalNormals);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00655}00655     withTangents(finalTangents);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00656}00656     withUvs(finalUVs);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00657}00657     withMeshTopology(Topology::Triangles);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00658}00658     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00659}00659 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00660}00660 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00661}00661 Mesh::MeshBuilder\& Mesh::MeshBuilder::withPositions(\textcolor{keyword}{const} std::vector<glm::vec3>\& position)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00662}00662 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00663}00663     withAttribute(\textcolor{stringliteral}{"{}position"{}}, position);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00664}00664     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00665}00665 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00666}00666 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00667}00667 Mesh::MeshBuilder\& Mesh::MeshBuilder::withNormals(\textcolor{keyword}{const} std::vector<glm::vec3>\& normal)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00668}00668 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00669}00669     withAttribute(\textcolor{stringliteral}{"{}normal"{}}, normal);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00670}00670     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00671}00671 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00672}00672 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00673}00673 Mesh::MeshBuilder\& Mesh::MeshBuilder::withUvs(\textcolor{keyword}{const} std::vector<glm::vec4>\& uv)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00674}00674 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00675}00675     withAttribute(\textcolor{stringliteral}{"{}uv"{}}, uv);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00676}00676     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00677}00677 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00678}00678 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00679}00679 Mesh::MeshBuilder\& Mesh::MeshBuilder::withColors(\textcolor{keyword}{const} std::vector<glm::vec4>\& colors)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00680}00680 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00681}00681     withAttribute(\textcolor{stringliteral}{"{}color"{}}, colors);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00682}00682     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00683}00683 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00684}00684 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00685}00685 Mesh::MeshBuilder\& Mesh::MeshBuilder::withTangents(\textcolor{keyword}{const} std::vector<glm::vec4>\& tangent)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00686}00686 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00687}00687     withAttribute(\textcolor{stringliteral}{"{}tangent"{}}, tangent);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00688}00688     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00689}00689 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00690}00690 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00691}00691 Mesh::MeshBuilder\& Mesh::MeshBuilder::withParticleSizes(\textcolor{keyword}{const} std::vector<float>\& particleSize)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00692}00692 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00693}00693     withAttribute(\textcolor{stringliteral}{"{}particleSize"{}}, particleSize);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00694}00694     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00695}00695 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00696}00696 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00697}00697 Mesh::MeshBuilder\& Mesh::MeshBuilder::withMeshTopology(Mesh::Topology topology)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00698}00698 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00699}00699     \textcolor{keywordflow}{if} (m\_topologies.empty())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00700}00700     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00701}00701         m\_topologies.emplace\_back();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00702}00702     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00703}00703     m\_topologies[0] = topology;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00704}00704     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00705}00705 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00706}00706 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00707}00707 Mesh::MeshBuilder\& Mesh::MeshBuilder::withUsage(BufferUsage usage)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00708}00708 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00709}00709     m\_bufferUsage = usage;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00710}00710     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00711}00711 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00712}00712 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00713}00713 Mesh::MeshBuilder\& Mesh::MeshBuilder::withIndices(\textcolor{keyword}{const} std::vector<uint16\_t>\& indices, Topology topology, \textcolor{keywordtype}{int} indexSet)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00714}00714 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00715}00715     \textcolor{keywordflow}{while} (indexSet >= m\_indices.size())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00716}00716     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00717}00717         m\_indices.emplace\_back();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00718}00718     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00719}00719     \textcolor{keywordflow}{while} (indexSet >= m\_topologies.size())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00720}00720     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00721}00721         m\_topologies.emplace\_back();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00722}00722     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00723}00723     m\_indices[indexSet] = indices;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00724}00724     m\_topologies[indexSet] = topology;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00725}00725     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00726}00726 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00727}00727 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00728}00728 Mesh::MeshBuilder\& Mesh::MeshBuilder::withName(std::string\_view name)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00729}00729 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00730}00730     m\_name = name;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00731}00731     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00732}00732 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00733}00733 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00734}00734 Mesh::MeshBuilder\& Mesh::MeshBuilder::withRecomputeNormals(\textcolor{keywordtype}{bool} enabled)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00735}00735 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00736}00736     m\_recomputeNormals = enabled;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00737}00737     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00738}00738 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00739}00739 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00740}00740 Mesh::MeshBuilder\& Mesh::MeshBuilder::withRecomputeTangents(\textcolor{keywordtype}{bool} enabled)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00741}00741 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00742}00742     m\_recomputeTangents = enabled;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00743}00743     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00744}00744 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00745}00745 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00746}00746 std::shared\_ptr<Mesh> Mesh::MeshBuilder::build()}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00747}00747 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00748}00748     \textcolor{comment}{// update stats}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00749}00749     RenderStats\& renderStats = Renderer::s\_instance-\/>m\_renderStatsCurrent;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00750}00750     \textcolor{keywordflow}{if} (m\_name.empty())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00751}00751     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00752}00752         m\_name = \textcolor{stringliteral}{"{}Unnamed Mesh"{}};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00753}00753     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00754}00754     \textcolor{keywordflow}{if} (m\_recomputeNormals)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00755}00755     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00756}00756         \textcolor{keyword}{auto} newNormals = computeNormals();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00757}00757         \textcolor{keywordflow}{if} (!newNormals.empty())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00758}00758         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00759}00759             withNormals(newNormals);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00760}00760         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00761}00761     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00762}00762 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00763}00763     \textcolor{keywordflow}{if} (m\_recomputeTangents)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00764}00764     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00765}00765         \textcolor{keywordtype}{bool} hasNormals = m\_attributesVec3.find(\textcolor{stringliteral}{"{}normal"{}}) == m\_attributesVec3.end();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00766}00766         \textcolor{keyword}{auto} newTangents = computeTangents(hasNormals ? m\_attributesVec3[\textcolor{stringliteral}{"{}normal"{}}] : computeNormals());}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00767}00767         \textcolor{keywordflow}{if} (!newTangents.empty())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00768}00768         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00769}00769             withTangents(newTangents);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00770}00770         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00771}00771     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00772}00772     \textcolor{keywordflow}{if} (m\_mesh != \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00773}00773     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00774}00774         renderStats.meshBytes -\/= m\_mesh-\/>getDataSize();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00775}00775         m\_mesh-\/>update(std::move(m\_attributesFloat), std::move(m\_attributesVec2), std::move(m\_attributesVec3), std::move(m\_attributesVec4), std::move(m\_attributesIVec4), std::move(m\_indices), m\_topologies, m\_bufferUsage, m\_name, renderStats);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00776}00776         \textcolor{keywordflow}{return} m\_mesh-\/>shared\_from\_this();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00777}00777     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00778}00778     \textcolor{keyword}{auto}* mesh = \textcolor{keyword}{new} Mesh(std::move(m\_attributesFloat), std::move(m\_attributesVec2), std::move(m\_attributesVec3), std::move(m\_attributesVec4), std::move(m\_attributesIVec4), std::move(m\_indices), m\_topologies, m\_bufferUsage, m\_name, renderStats);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00779}00779     renderStats.meshCount++;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00780}00780     \textcolor{keywordflow}{return} std::shared\_ptr<Mesh>(mesh);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00781}00781 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00782}00782 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00783}00783 Mesh::MeshBuilder\& Mesh::MeshBuilder::withAttribute(std::string\_view name, \textcolor{keyword}{const} std::vector<float>\& values)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00784}00784 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00785}00785     \textcolor{keywordflow}{if} (m\_mesh != \textcolor{keyword}{nullptr} \&\& m\_attributesFloat.find(name.data()) == m\_attributesFloat.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00786}00786     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00787}00787         LOG\_ERROR(\textcolor{stringliteral}{"{}Cannot change mesh structure. \{\} did not exist in original mesh."{}}, name.data());}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00788}00788     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00789}00789     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00790}00790     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00791}00791         m\_attributesFloat[name.data()] = values;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00792}00792     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00793}00793     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00794}00794 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00795}00795 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00796}00796 Mesh::MeshBuilder\& Mesh::MeshBuilder::withAttribute(std::string\_view name, \textcolor{keyword}{const} std::vector<glm::vec2>\& values)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00797}00797 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00798}00798     \textcolor{keywordflow}{if} (m\_mesh != \textcolor{keyword}{nullptr} \&\& m\_attributesVec2.find(name.data()) == m\_attributesVec2.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00799}00799     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00800}00800         LOG\_ERROR(\textcolor{stringliteral}{"{}Cannot change mesh structure. \{\} did not exist in original mesh."{}}, name.data());}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00801}00801     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00802}00802     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00803}00803     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00804}00804         m\_attributesVec2[name.data()] = values;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00805}00805     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00806}00806     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00807}00807 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00808}00808 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00809}00809 Mesh::MeshBuilder\& Mesh::MeshBuilder::withAttribute(std::string\_view name, \textcolor{keyword}{const} std::vector<glm::vec3>\& values)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00810}00810 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00811}00811     \textcolor{keywordflow}{if} (m\_mesh != \textcolor{keyword}{nullptr} \&\& m\_attributesVec3.find(name.data()) == m\_attributesVec3.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00812}00812     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00813}00813         LOG\_ERROR(\textcolor{stringliteral}{"{}Cannot change mesh structure. \{\} did not exist in original mesh."{}}, name.data());}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00814}00814     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00815}00815     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00816}00816     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00817}00817         m\_attributesVec3[name.data()] = values;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00818}00818     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00819}00819     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00820}00820 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00821}00821 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00822}00822 Mesh::MeshBuilder\& Mesh::MeshBuilder::withAttribute(std::string\_view name, \textcolor{keyword}{const} std::vector<glm::vec4>\& values)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00823}00823 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00824}00824     \textcolor{keywordflow}{if} (m\_mesh != \textcolor{keyword}{nullptr} \&\& m\_attributesVec4.find(name.data()) == m\_attributesVec4.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00825}00825     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00826}00826         LOG\_ERROR(\textcolor{stringliteral}{"{}Cannot change mesh structure. \{\} did not exist in original mesh."{}}, name.data());}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00827}00827     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00828}00828     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00829}00829     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00830}00830         m\_attributesVec4[name.data()] = values;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00831}00831     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00832}00832     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00833}00833 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00834}00834 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00835}00835 Mesh::MeshBuilder\& Mesh::MeshBuilder::withTorus(\textcolor{keywordtype}{int} segmentsC, \textcolor{keywordtype}{int} segmentsA, \textcolor{keywordtype}{float} radiusC, \textcolor{keywordtype}{float} radiusA)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00836}00836 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00837}00837     \textcolor{comment}{//  losely based on http://mathworld.wolfram.com/Torus.html}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00838}00838     \textcolor{keywordflow}{if} (m\_name.empty())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00839}00839     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00840}00840         std::stringstream ss;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00841}00841         ss << \textcolor{stringliteral}{"{}re Torus "{}} << segmentsC << \textcolor{stringliteral}{"{}-\/"{}} << segmentsA << \textcolor{stringliteral}{"{}-\/"{}} << std::setprecision(2) << radiusC << \textcolor{stringliteral}{"{}-\/"{}} << radiusA;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00842}00842         m\_name = ss.str();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00843}00843     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00844}00844 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00845}00845     \textcolor{keyword}{auto} vertexCount = (size\_t)((segmentsC + 1) * (segmentsA + 1));}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00846}00846     std::vector<glm::vec3> vertices\{ vertexCount \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00847}00847     std::vector<glm::vec3> normals\{ vertexCount \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00848}00848     std::vector<glm::vec4> tangents\{ vertexCount \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00849}00849     std::vector<glm::vec4> uvs\{ vertexCount \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00850}00850     \textcolor{keywordtype}{int} index = 0;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00851}00851 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00852}00852     \textcolor{comment}{// create vertices}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00853}00853     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j = 0; j <= segmentsC; j++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00854}00854     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00855}00855         \textcolor{comment}{// outer circle}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00856}00856         \textcolor{keywordtype}{float} u = glm::two\_pi<float>() * (float)j / (\textcolor{keywordtype}{float})segmentsC;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00857}00857         \textcolor{keyword}{auto} t = glm::vec4((glm::vec3)normalize(glm::dvec3(cos(u + glm::half\_pi<double>()), sin(u + glm::half\_pi<double>()), 0)), 1);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00858}00858         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i <= segmentsA; i++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00859}00859         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00860}00860             \textcolor{keywordtype}{float} v = glm::two\_pi<float>() * (float)i / (\textcolor{keywordtype}{float})segmentsA;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00861}00861             glm::vec3 pos\{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00862}00862                 (radiusC + radiusA * cos(v)) * cos(u),}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00863}00863                 (radiusC + radiusA * cos(v)) * sin(u),}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00864}00864                 radiusA * sin(v)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00865}00865             \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00866}00866             glm::vec3 tangent\{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00867}00867                 (radiusC + radiusA * cos(v)) * cos(u),}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00868}00868                 (radiusC + radiusA * cos(v)) * sin(u),}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00869}00869                 radiusA * sin(v)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00870}00870             \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00871}00871             glm::vec3 posOuter\{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00872}00872                 (radiusC + (radiusA * 2) * cos(v)) * cos(u),}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00873}00873                 (radiusC + (radiusA * 2) * cos(v)) * sin(u),}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00874}00874                 (radiusA * 2) * sin(v)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00875}00875             \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00876}00876             tangents[index] = t;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00877}00877             uvs[index] = glm::vec4\{ 1 -\/ (float)j / (\textcolor{keywordtype}{float})segmentsC, (float)i / (\textcolor{keywordtype}{float})segmentsA, 0, 0 \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00878}00878             vertices[index] = pos;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00879}00879             normals[index] = glm::normalize(posOuter -\/ pos);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00880}00880             index++;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00881}00881         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00882}00882     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00883}00883     std::vector<glm::vec3> finalPosition;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00884}00884     std::vector<glm::vec3> finalNormals;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00885}00885     std::vector<glm::vec4> finalUVs;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00886}00886     std::vector<glm::vec4> finalTangents;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00887}00887     \textcolor{comment}{// create indices}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00888}00888     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j = 0; j < segmentsC; j++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00889}00889     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00890}00890         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i <= segmentsA; i++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00891}00891         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00892}00892             glm::u8vec2 offset[] = \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00893}00893                 \textcolor{comment}{// first triangle}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00894}00894                 \{ i, j \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00895}00895                 \{ (i + 1) \% (segmentsA + 1), j + 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00896}00896                 \{ (i + 1) \% (segmentsA + 1), j \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00897}00897 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00898}00898                 \textcolor{comment}{// second triangle}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00899}00899                 \{ i, j \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00900}00900                 \{ i, j + 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00901}00901                 \{ (i + 1) \% (segmentsA + 1), j + 1 \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00902}00902 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00903}00903             \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00904}00904             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} o : offset)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00905}00905             \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00906}00906                 index = o[1] * (segmentsA + 1) + o[0];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00907}00907                 finalPosition.push\_back(vertices[index]);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00908}00908                 finalNormals.push\_back(normals[index]);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00909}00909                 finalUVs.push\_back(uvs[index]);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00910}00910             \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00911}00911         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00912}00912     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00913}00913     withPositions(finalPosition);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00914}00914     withNormals(finalNormals);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00915}00915     withUvs(finalUVs);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00916}00916     withTangents(finalTangents);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00917}00917     withMeshTopology(Mesh::Topology::Triangles);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00918}00918     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00919}00919 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00920}00920 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00921}00921 Mesh::MeshBuilder\& Mesh::MeshBuilder::withWireCube(\textcolor{keywordtype}{float} length)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00922}00922 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00923}00923     \textcolor{keywordflow}{if} (m\_name.length() == 0)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00924}00924     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00925}00925         std::stringstream ss;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00926}00926         ss << \textcolor{stringliteral}{"{}WireCube "{}} << std::setprecision(2) << length;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00927}00927         m\_name = ss.str();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00928}00928     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00929}00929 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00930}00930     std::vector<glm::vec3> positions(\{ \{ length, length, length \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00931}00931                                        \{ -\/length, length, length \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00932}00932                                        \{ -\/length, -\/length, length \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00933}00933                                        \{ length, -\/length, length \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00934}00934 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00935}00935                                        \{ length, length, -\/length \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00936}00936                                        \{ -\/length, length, -\/length \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00937}00937                                        \{ -\/length, -\/length, -\/length \},}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00938}00938                                        \{ length, -\/length, -\/length \} \});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00939}00939     std::vector<uint16\_t> indices;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00940}00940 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00941}00941     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < positions.size(); i++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00942}00942     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00943}00943         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j = 0; j < i; j++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00944}00944         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00945}00945             \textcolor{keywordflow}{if} (glm::length(positions[i] -\/ positions[j]) <= length * 2.1f)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00946}00946             \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00947}00947                 indices.push\_back(i);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00948}00948                 indices.push\_back(j);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00949}00949             \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00950}00950         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00951}00951     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00952}00952     withPositions(positions);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00953}00953     withIndices(indices);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00954}00954     withMeshTopology(Mesh::Topology::Lines);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00955}00955     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00956}00956 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00957}00957 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00958}00958 std::vector<glm::vec3> Mesh::MeshBuilder::computeNormals()}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00959}00959 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00960}00960     \textcolor{keywordflow}{if} (m\_attributesVec3.find(\textcolor{stringliteral}{"{}position"{}}) == m\_attributesVec3.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00961}00961     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00962}00962         LOG\_WARN(\textcolor{stringliteral}{"{}Cannot find vertex attribute position (vec3) for recomputeNormals()"{}});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00963}00963         \textcolor{keywordflow}{return} \{\};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00964}00964     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00965}00965 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00966}00966     std::vector<glm::vec3> vertexPositions = m\_attributesVec3[\textcolor{stringliteral}{"{}position"{}}];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00967}00967     std::vector<glm::vec3> normals(vertexPositions.size(), glm::vec3(0));}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00968}00968     \textcolor{comment}{// 根据三角形的夹角得出权重值。}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00969}00969     \textcolor{keyword}{auto} computeNormal = [\&](\textcolor{keywordtype}{int} i1, \textcolor{keywordtype}{int} i2, \textcolor{keywordtype}{int} i3) \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00970}00970         \textcolor{keyword}{auto} v1 = vertexPositions[i1];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00971}00971         \textcolor{keyword}{auto} v2 = vertexPositions[i2];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00972}00972         \textcolor{keyword}{auto} v3 = vertexPositions[i3];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00973}00973         \textcolor{keyword}{auto} v1v2 = glm::normalize(v2 -\/ v1);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00974}00974         \textcolor{keyword}{auto} v1v3 = glm::normalize(v3 -\/ v1);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00975}00975         \textcolor{keyword}{auto} normal = glm::normalize(glm::cross(v1v2, v1v3));}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00976}00976         \textcolor{keywordtype}{float} weight1 = acos(glm::max(-\/1.0f, glm::min(1.0f, glm::dot(v1v2, v1v3))));}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00977}00977         \textcolor{keyword}{auto} v2v3Alias = glm::normalize(v3 -\/ v2);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00978}00978         \textcolor{keywordtype}{float} weight2 = glm::pi<float>() -\/ acos(glm::max(-\/1.0f, glm::min(1.0f, glm::dot(v1v2, v2v3Alias))));}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00979}00979         normals[i1] += normal * weight1;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00980}00980         normals[i2] += normal * weight2;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00981}00981         normals[i3] += normal * (glm::pi<float>() -\/ weight1 -\/ weight2);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00982}00982     \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00983}00983 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00984}00984     \textcolor{keywordflow}{if} (m\_indices.empty())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00985}00985     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00986}00986         \textcolor{keywordflow}{if} (m\_topologies[0] != Mesh::Topology::Triangles)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00987}00987         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00988}00988             LOG\_WARN(\textcolor{stringliteral}{"{}Cannot only triangles supported for recomputeNormals()"{}});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00989}00989             \textcolor{keywordflow}{return} \{\};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00990}00990         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00991}00991         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < vertexPositions.size(); i = i + 3)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00992}00992         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00993}00993             computeNormal(i, i + 1, i + 2);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00994}00994         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00995}00995     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00996}00996     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00997}00997     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00998}00998         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j = 0; j < m\_indices.size(); j++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l00999}00999         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01000}01000             \textcolor{keywordflow}{if} (m\_topologies[j] != Mesh::Topology::Triangles)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01001}01001             \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01002}01002                 LOG\_WARN(\textcolor{stringliteral}{"{}Cannot only triangles supported for recomputeNormals()"{}});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01003}01003                 \textcolor{keywordflow}{return} \{\};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01004}01004             \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01005}01005             \textcolor{keyword}{auto}\& submeshIdx = m\_indices[j];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01006}01006             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < submeshIdx.size(); i = i + 3)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01007}01007             \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01008}01008                 computeNormal(submeshIdx[i], submeshIdx[i + 1], submeshIdx[i + 2]);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01009}01009             \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01010}01010         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01011}01011     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01012}01012 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01013}01013     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& val : normals)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01014}01014     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01015}01015         val = glm::normalize(val);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01016}01016     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01017}01017     \textcolor{keywordflow}{return} normals;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01018}01018 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01019}01019 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01020}01020 std::vector<glm::vec4> Mesh::MeshBuilder::computeTangents(\textcolor{keyword}{const} std::vector<glm::vec3>\& normals)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01021}01021 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01022}01022     \textcolor{keywordflow}{if} (m\_attributesVec3.find(\textcolor{stringliteral}{"{}position"{}}) == m\_attributesVec3.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01023}01023     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01024}01024         LOG\_WARN(\textcolor{stringliteral}{"{}Cannot find vertex attribute position (vec3) required for m\_recomputeNormals()"{}});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01025}01025         \textcolor{keywordflow}{return} \{\};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01026}01026     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01027}01027     \textcolor{keywordflow}{if} (m\_attributesVec4.find(\textcolor{stringliteral}{"{}uv"{}}) == m\_attributesVec4.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01028}01028     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01029}01029         LOG\_WARN(\textcolor{stringliteral}{"{}Cannot find vertex attribute uv (vec4) required for m\_recomputeNormals()"{}});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01030}01030         \textcolor{keywordflow}{return} \{\};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01031}01031     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01032}01032 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01033}01033     std::vector<glm::vec3> vertexPositions = m\_attributesVec3[\textcolor{stringliteral}{"{}position"{}}];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01034}01034     std::vector<glm::vec4> uvs = m\_attributesVec4[\textcolor{stringliteral}{"{}uv"{}}];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01035}01035 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01036}01036     std::vector<glm::vec3> tan1(vertexPositions.size(), glm::vec3(0.0f));}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01037}01037     std::vector<glm::vec3> tan2(vertexPositions.size(), glm::vec3(0.0f));}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01038}01038     \textcolor{keyword}{auto} computeTangent = [\&](\textcolor{keywordtype}{int} i1, \textcolor{keywordtype}{int} i2, \textcolor{keywordtype}{int} i3) \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01039}01039         \textcolor{keyword}{auto} v1 = vertexPositions[i1];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01040}01040         \textcolor{keyword}{auto} v2 = vertexPositions[i2];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01041}01041         \textcolor{keyword}{auto} v3 = vertexPositions[i3];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01042}01042 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01043}01043         \textcolor{keyword}{auto} w1 = glm::vec2(uvs[i1]);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01044}01044         \textcolor{keyword}{auto} w2 = glm::vec2(uvs[i2]);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01045}01045         \textcolor{keyword}{auto} w3 = glm::vec2(uvs[i3]);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01046}01046 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01047}01047         \textcolor{keywordtype}{float} x1 = v2.x -\/ v1.x;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01048}01048         \textcolor{keywordtype}{float} x2 = v3.x -\/ v1.x;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01049}01049         \textcolor{keywordtype}{float} y1 = v2.y -\/ v1.y;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01050}01050         \textcolor{keywordtype}{float} y2 = v3.y -\/ v1.y;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01051}01051         \textcolor{keywordtype}{float} z1 = v2.z -\/ v1.z;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01052}01052         \textcolor{keywordtype}{float} z2 = v3.z -\/ v1.z;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01053}01053 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01054}01054         \textcolor{keywordtype}{float} s1 = w2.x -\/ w1.x;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01055}01055         \textcolor{keywordtype}{float} s2 = w3.x -\/ w1.x;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01056}01056         \textcolor{keywordtype}{float} t1 = w2.y -\/ w1.y;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01057}01057         \textcolor{keywordtype}{float} t2 = w3.y -\/ w1.y;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01058}01058 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01059}01059         \textcolor{keywordtype}{float} r = 1.0F / (s1 * t2 -\/ s2 * t1);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01060}01060         glm::vec3 sdir((t2 * x1 -\/ t1 * x2) * r, (t2 * y1 -\/ t1 * y2) * r,}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01061}01061                        (t2 * z1 -\/ t1 * z2) * r);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01062}01062         glm::vec3 tdir((s1 * x2 -\/ s2 * x1) * r, (s1 * y2 -\/ s2 * y1) * r,}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01063}01063                        (s1 * z2 -\/ s2 * z1) * r);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01064}01064 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01065}01065         tan1[i1] += sdir;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01066}01066         tan1[i2] += sdir;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01067}01067         tan1[i3] += sdir;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01068}01068 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01069}01069         tan2[i1] += tdir;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01070}01070         tan2[i2] += tdir;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01071}01071         tan2[i3] += tdir;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01072}01072     \};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01073}01073 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01074}01074     \textcolor{keywordflow}{if} (m\_indices.empty())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01075}01075     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01076}01076         \textcolor{keywordflow}{if} (m\_topologies[0] != Mesh::Topology::Triangles)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01077}01077         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01078}01078             LOG\_WARN(\textcolor{stringliteral}{"{}Cannot only triangles supported for recomputeTangents()"{}});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01079}01079             \textcolor{keywordflow}{return} \{\};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01080}01080         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01081}01081         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < vertexPositions.size(); i = i + 3)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01082}01082         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01083}01083             computeTangent(i, i + 1, i + 2);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01084}01084         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01085}01085     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01086}01086     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01087}01087     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01088}01088         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j = 0; j < m\_indices.size(); j++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01089}01089         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01090}01090             \textcolor{keywordflow}{if} (m\_topologies[j] != Mesh::Topology::Triangles)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01091}01091             \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01092}01092                 LOG\_WARN(\textcolor{stringliteral}{"{}Cannot only triangles supported for recomputeTangents()"{}});}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01093}01093                 \textcolor{keywordflow}{return} \{\};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01094}01094             \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01095}01095             \textcolor{keyword}{auto}\& submeshIdx = m\_indices[j];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01096}01096             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < submeshIdx.size(); i = i + 3)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01097}01097             \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01098}01098                 computeTangent(submeshIdx[i], submeshIdx[i + 1], submeshIdx[i + 2]);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01099}01099             \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01100}01100         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01101}01101     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01102}01102 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01103}01103     std::vector<glm::vec4> tangent(vertexPositions.size());}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01104}01104     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{long} a = 0; a < vertexPositions.size(); a++)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01105}01105     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01106}01106         \textcolor{keyword}{auto} n = normals[a];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01107}01107         \textcolor{keyword}{auto} t = tan1[a];}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01108}01108 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01109}01109         tangent[a] = glm::vec4(}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01110}01110             \textcolor{comment}{// Gram-\/Schmidt orthogonalize}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01111}01111             glm::normalize(t -\/ n * glm::dot(n, t)),}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01112}01112             \textcolor{comment}{// Calculate handedness}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01113}01113             (glm::dot(glm::cross(n, t), tan2[a]) < 0.0F) ? -\/1.0F : 1.0F);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01114}01114     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01115}01115     \textcolor{keywordflow}{return} tangent;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01116}01116 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01117}01117 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01118}01118 Mesh::MeshBuilder\& Mesh::MeshBuilder::withAttribute(std::string\_view name, \textcolor{keyword}{const} std::vector<glm::i32vec4>\& values)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01119}01119 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01120}01120     \textcolor{keywordflow}{if} (m\_mesh != \textcolor{keyword}{nullptr} \&\& m\_attributesIVec4.find(name.data()) == m\_attributesIVec4.end())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01121}01121     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01122}01122         LOG\_ERROR(\textcolor{stringliteral}{"{}Cannot change mesh structure. \{\} did not exist in original mesh."{}}, name.data());}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01123}01123     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01124}01124     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01125}01125     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01126}01126         m\_attributesIVec4[name.data()] = values;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01127}01127     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01128}01128     \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01129}01129 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01130}01130 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01131}01131 GLenum Mesh::convertBufferUsage(BufferUsage usage)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01132}01132 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01133}01133     GLenum u;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01134}01134     \textcolor{keywordflow}{switch} (usage)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01135}01135     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01136}01136     \textcolor{keywordflow}{case} BufferUsage::StaticDraw:}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01137}01137         u = GL\_STATIC\_DRAW;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01138}01138         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01139}01139     \textcolor{keywordflow}{case} BufferUsage::DynamicDraw:}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01140}01140         u = GL\_DYNAMIC\_DRAW;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01141}01141         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01142}01142     \textcolor{keywordflow}{case} BufferUsage::StreamDraw:}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01143}01143         u = GL\_STREAM\_DRAW;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01144}01144         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01145}01145     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01146}01146     \textcolor{keywordflow}{return} u;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01147}01147 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01148}01148 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01149}01149 \textcolor{keywordtype}{void} Mesh::updateIndexBuffers()}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01150}01150 \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01151}01151     m\_elementBufferOffsetCount.clear();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01152}01152     \textcolor{keywordflow}{if} (m\_indices.empty())}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01153}01153     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01154}01154         \textcolor{keywordflow}{if} (m\_ebo != 0)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01155}01155         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01156}01156             glDeleteBuffers(1, \&m\_ebo);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01157}01157             m\_ebo = 0;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01158}01158         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01159}01159     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01160}01160     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01161}01161     \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01162}01162         \textcolor{keywordflow}{if} (m\_ebo == 0)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01163}01163         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01164}01164             glGenBuffers(1, \&m\_ebo);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01165}01165         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01166}01166         \textcolor{keywordtype}{size\_t} totalCount = 0;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01167}01167         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& index : m\_indices)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01168}01168         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01169}01169             totalCount += index.size();}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01170}01170         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01171}01171         std::vector<uint16\_t> concatenatedIndices;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01172}01172         concatenatedIndices.reserve(totalCount);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01173}01173         \textcolor{keywordtype}{int} offset = 0;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01174}01174         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& index : m\_indices)}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01175}01175         \{}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01176}01176             \textcolor{keywordtype}{size\_t} dataSize = index.size() * \textcolor{keyword}{sizeof}(uint16\_t);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01177}01177             concatenatedIndices.insert(concatenatedIndices.end(), index.begin(), index.end());}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01178}01178             m\_elementBufferOffsetCount.emplace\_back(offset, index.size());}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01179}01179             offset += (int)dataSize;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01180}01180         \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01181}01181         glBindBuffer(GL\_ELEMENT\_ARRAY\_BUFFER, m\_ebo);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01182}01182         glBufferData(GL\_ELEMENT\_ARRAY\_BUFFER, offset, concatenatedIndices.data(), GL\_STATIC\_DRAW);}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01183}01183         m\_dataSize += offset;}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01184}01184     \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01185}01185 \}}
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01186}01186 }
+\DoxyCodeLine{\Hypertarget{mesh_8cpp_source_l01187}01187 \} \textcolor{comment}{// namespace ceres}}
+
+\end{DoxyCode}

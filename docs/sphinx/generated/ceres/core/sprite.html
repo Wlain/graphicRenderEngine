@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sprite.h &mdash; graphicRenderEngine documentation  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/sphinx_rtd_size.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="spriteAtlas.h" href="spriteAtlas.html" />
+    <link rel="prev" title="skybox.h" href="skybox.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> graphicRenderEngine documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">graphicRenderEngine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#dependencies">dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#test-demo">test demo</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">core</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="camera.html">camera.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="color.html">color.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="framebuffer.html">framebuffer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glfwRenderer.html">glfwRenderer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inspector.html">inspector.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="light.html">light.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="material.html">material.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">mesh.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modelImporter.html">modelImporter.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="particleEmitter.html">particleEmitter.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ray.html">ray.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renderPass.html">renderPass.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renderStats.html">renderStats.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renderer.html">renderer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource.html">resource.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shader.html">shader.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="skybox.html">skybox.h</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">sprite.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spriteAtlas.html">spriteAtlas.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spriteBatch.html">spriteBatch.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texture.html">texture.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uniformSet.html">uniformSet.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="worldLights.html">worldLights.h</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/index.html">utils</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">graphicRenderEngine documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">core</a> &raquo;</li>
+      <li>sprite.h</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/ceres/core/sprite.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="sprite-h">
+<h1>sprite.h<a class="headerlink" href="#sprite-h" title="Permalink to this heading"></a></h1>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv45ceres">
+<span id="_CPPv35ceres"></span><span id="_CPPv25ceres"></span><span id="ceres"></span><span class="target" id="namespaceceres"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ceres</span></span></span><br /></dt>
+<dd><dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6SpriteE">
+<span id="_CPPv3N5ceres6SpriteE"></span><span id="_CPPv2N5ceres6SpriteE"></span><span id="ceres::Sprite"></span><span class="target" id="classceres_1_1_sprite"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Sprite</span></span></span><a class="headerlink" href="#_CPPv4N5ceres6SpriteE" title="Permalink to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite6SpriteEv">
+<span id="_CPPv3N5ceres6Sprite6SpriteEv"></span><span id="_CPPv2N5ceres6Sprite6SpriteEv"></span><span id="ceres::Sprite::Sprite"></span><span class="target" id="classceres_1_1_sprite_1a6ea5cddca2959dd0e06fca769fbb9552"></span><span class="sig-name descname"><span class="n"><span class="pre">Sprite</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Sprite6SpriteEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6SpriteD0Ev">
+<span id="_CPPv3N5ceres6SpriteD0Ev"></span><span id="_CPPv2N5ceres6SpriteD0Ev"></span><span id="ceres::Sprite::~Sprite"></span><span class="target" id="classceres_1_1_sprite_1ae88adfcfedd856d3660fdb9834566042"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~Sprite</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6SpriteD0Ev" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite6SpriteERK6Sprite">
+<span id="_CPPv3N5ceres6Sprite6SpriteERK6Sprite"></span><span id="_CPPv2N5ceres6Sprite6SpriteERK6Sprite"></span><span id="ceres::Sprite::Sprite__SpriteCR"></span><span class="target" id="classceres_1_1_sprite_1ab9922c4558db19c6ea2ffbccb1efc19e"></span><span class="sig-name descname"><span class="n"><span class="pre">Sprite</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N5ceres6Sprite6SpriteERK6Sprite" title="ceres::Sprite::Sprite"><span class="n"><span class="pre">Sprite</span></span></a><span class="p"><span class="pre">&amp;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Sprite6SpriteERK6Sprite" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK5ceres6Sprite11getRotationEv">
+<span id="_CPPv3NK5ceres6Sprite11getRotationEv"></span><span id="_CPPv2NK5ceres6Sprite11getRotationEv"></span><span id="ceres::Sprite::getRotationC"></span><span class="target" id="classceres_1_1_sprite_1a1117d702bb90a91b97b0ab510bcb0361"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getRotation</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK5ceres6Sprite11getRotationEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite11setRotationEf">
+<span id="_CPPv3N5ceres6Sprite11setRotationEf"></span><span id="_CPPv2N5ceres6Sprite11setRotationEf"></span><span id="ceres::Sprite::setRotation__float"></span><span class="target" id="classceres_1_1_sprite_1a617ca2e3f53e293ec2f45ba9ea5b2a8a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setRotation</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">rotation</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Sprite11setRotationEf" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK5ceres6Sprite12getPositionsEv">
+<span id="_CPPv3NK5ceres6Sprite12getPositionsEv"></span><span id="_CPPv2NK5ceres6Sprite12getPositionsEv"></span><span id="ceres::Sprite::getPositionsC"></span><span class="target" id="classceres_1_1_sprite_1a76cda6b63cae4d614ff88d6bf7e07125"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getPositions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK5ceres6Sprite12getPositionsEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite11setPositionERKN3glm4vec2E">
+<span id="_CPPv3N5ceres6Sprite11setPositionERKN3glm4vec2E"></span><span id="_CPPv2N5ceres6Sprite11setPositionERKN3glm4vec2E"></span><span id="ceres::Sprite::setPosition__glm::vec2CR"></span><span class="target" id="classceres_1_1_sprite_1acfd4f2763a2321b53d8c1d854e1525e8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setPosition</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Sprite11setPositionERKN3glm4vec2E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK5ceres6Sprite8getScaleEv">
+<span id="_CPPv3NK5ceres6Sprite8getScaleEv"></span><span id="_CPPv2NK5ceres6Sprite8getScaleEv"></span><span id="ceres::Sprite::getScaleC"></span><span class="target" id="classceres_1_1_sprite_1a1190e93b65634156bc2ede030facba05"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getScale</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK5ceres6Sprite8getScaleEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite8setScaleERKN3glm4vec2E">
+<span id="_CPPv3N5ceres6Sprite8setScaleERKN3glm4vec2E"></span><span id="_CPPv2N5ceres6Sprite8setScaleERKN3glm4vec2E"></span><span id="ceres::Sprite::setScale__glm::vec2CR"></span><span class="target" id="classceres_1_1_sprite_1a30e249d69ec0de22ab3f0e2ec9cae500"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setScale</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">scale</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Sprite8setScaleERKN3glm4vec2E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK5ceres6Sprite7getFlipEv">
+<span id="_CPPv3NK5ceres6Sprite7getFlipEv"></span><span id="_CPPv2NK5ceres6Sprite7getFlipEv"></span><span id="ceres::Sprite::getFlipC"></span><span class="target" id="classceres_1_1_sprite_1a309f0a8c977d08a819707b648b4e5a91"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">bvec2</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getFlip</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK5ceres6Sprite7getFlipEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite7setFlipERKN3glm5bvec2E">
+<span id="_CPPv3N5ceres6Sprite7setFlipERKN3glm5bvec2E"></span><span id="_CPPv2N5ceres6Sprite7setFlipERKN3glm5bvec2E"></span><span id="ceres::Sprite::setFlip__glm::bvec2CR"></span><span class="target" id="classceres_1_1_sprite_1a514a6d8bcbdc4cd0f626a9fd71730f14"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setFlip</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">bvec2</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">flip</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Sprite7setFlipERKN3glm5bvec2E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK5ceres6Sprite15getOrderInBatchEv">
+<span id="_CPPv3NK5ceres6Sprite15getOrderInBatchEv"></span><span id="_CPPv2NK5ceres6Sprite15getOrderInBatchEv"></span><span id="ceres::Sprite::getOrderInBatchC"></span><span class="target" id="classceres_1_1_sprite_1a46263b434c1e0db32d8c828c105f8fd8"></span><span class="n"><span class="pre">uint16_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getOrderInBatch</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK5ceres6Sprite15getOrderInBatchEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite15setOrderInBatchE8uint16_t">
+<span id="_CPPv3N5ceres6Sprite15setOrderInBatchE8uint16_t"></span><span id="_CPPv2N5ceres6Sprite15setOrderInBatchE8uint16_t"></span><span id="ceres::Sprite::setOrderInBatch__uint16_t"></span><span class="target" id="classceres_1_1_sprite_1a394efdfba32844fbf21a6e995703db3e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setOrderInBatch</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint16_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">orderInBatch</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Sprite15setOrderInBatchE8uint16_t" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK5ceres6Sprite8getColorEv">
+<span id="_CPPv3NK5ceres6Sprite8getColorEv"></span><span id="_CPPv2NK5ceres6Sprite8getColorEv"></span><span id="ceres::Sprite::getColorC"></span><span class="target" id="classceres_1_1_sprite_1a322ddcc3ffdd0a94002806174b9e06df"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec4</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getColor</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK5ceres6Sprite8getColorEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite8setColorERKN3glm4vec4E">
+<span id="_CPPv3N5ceres6Sprite8setColorERKN3glm4vec4E"></span><span id="_CPPv2N5ceres6Sprite8setColorERKN3glm4vec4E"></span><span id="ceres::Sprite::setColor__glm::vec4CR"></span><span class="target" id="classceres_1_1_sprite_1a1fce00e73b1118796ff8ea18f1c82951"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setColor</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec4</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">color</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Sprite8setColorERKN3glm4vec4E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK5ceres6Sprite12getSpritePosEv">
+<span id="_CPPv3NK5ceres6Sprite12getSpritePosEv"></span><span id="_CPPv2NK5ceres6Sprite12getSpritePosEv"></span><span id="ceres::Sprite::getSpritePosC"></span><span class="target" id="classceres_1_1_sprite_1ae2dd91db981e2ed5076a5a6ab8bc8c9c"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ivec2</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getSpritePos</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK5ceres6Sprite12getSpritePosEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK5ceres6Sprite13getSpriteSizeEv">
+<span id="_CPPv3NK5ceres6Sprite13getSpriteSizeEv"></span><span id="_CPPv2NK5ceres6Sprite13getSpriteSizeEv"></span><span id="ceres::Sprite::getSpriteSizeC"></span><span class="target" id="classceres_1_1_sprite_1a15e0ed0eb02d40668fd1c4c59b3fa91c"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ivec2</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getSpriteSize</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK5ceres6Sprite13getSpriteSizeEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK5ceres6Sprite15getSpriteAnchorEv">
+<span id="_CPPv3NK5ceres6Sprite15getSpriteAnchorEv"></span><span id="_CPPv2NK5ceres6Sprite15getSpriteAnchorEv"></span><span id="ceres::Sprite::getSpriteAnchorC"></span><span class="target" id="classceres_1_1_sprite_1adcaef9e253ee6388dfdc9fa76deca0eb"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getSpriteAnchor</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK5ceres6Sprite15getSpriteAnchorEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK5ceres6Sprite17getTrimmedCornersEv">
+<span id="_CPPv3NK5ceres6Sprite17getTrimmedCornersEv"></span><span id="_CPPv2NK5ceres6Sprite17getTrimmedCornersEv"></span><span id="ceres::Sprite::getTrimmedCornersC"></span><span class="target" id="classceres_1_1_sprite_1af0bf9e23b45a1009e8e5be8055c13529"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">4</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getTrimmedCorners</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK5ceres6Sprite17getTrimmedCornersEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite6getUvsEv">
+<span id="_CPPv3N5ceres6Sprite6getUvsEv"></span><span id="_CPPv2N5ceres6Sprite6getUvsEv"></span><span id="ceres::Sprite::getUvs"></span><span class="target" id="classceres_1_1_sprite_1a980a4837ae3046a2c4e795e854c20cc3"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">4</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getUvs</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Sprite6getUvsEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite11globalOrderE">
+<span id="_CPPv3N5ceres6Sprite11globalOrderE"></span><span id="_CPPv2N5ceres6Sprite11globalOrderE"></span><span id="ceres::Sprite::globalOrder__uint64_t"></span><span class="target" id="classceres_1_1_sprite_1ab6aa6ab7ca71ad9daaa4e1a8a38e425a"></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">globalOrder</span></span></span><a class="headerlink" href="#_CPPv4N5ceres6Sprite11globalOrderE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite6SpriteEN3glm5ivec2EN3glm5ivec2EN3glm5ivec2EN3glm5ivec2EN3glm4vec2EP7Texture">
+<span id="_CPPv3N5ceres6Sprite6SpriteEN3glm5ivec2EN3glm5ivec2EN3glm5ivec2EN3glm5ivec2EN3glm4vec2EP7Texture"></span><span id="_CPPv2N5ceres6Sprite6SpriteEN3glm5ivec2EN3glm5ivec2EN3glm5ivec2EN3glm5ivec2EN3glm4vec2EP7Texture"></span><span id="ceres::Sprite::Sprite__glm::ivec2.glm::ivec2.glm::ivec2.glm::ivec2.glm::vec2.TextureP"></span><span class="target" id="classceres_1_1_sprite_1a416882163f0e13b2051009aa11ee9973"></span><span class="sig-name descname"><span class="n"><span class="pre">Sprite</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ivec2</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">spritePos</span></span>, <span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ivec2</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">spriteSize</span></span>, <span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ivec2</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">spriteSourcePos</span></span>, <span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ivec2</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">spriteSourceSize</span></span>, <span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">spriteAnchor</span></span>, <a class="reference internal" href="texture.html#_CPPv4N5ceres7TextureE" title="ceres::Texture"><span class="n"><span class="pre">Texture</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">texture</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres6Sprite6SpriteEN3glm5ivec2EN3glm5ivec2EN3glm5ivec2EN3glm5ivec2EN3glm4vec2EP7Texture" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite7m_colorE">
+<span id="_CPPv3N5ceres6Sprite7m_colorE"></span><span id="_CPPv2N5ceres6Sprite7m_colorE"></span><span id="ceres::Sprite::m_color__glm::vec4"></span><span class="target" id="classceres_1_1_sprite_1adaa5b3b95f94fb19961490148bdd1716"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec4</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_color</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">1.0f</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1.0f</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1.0f</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1.0f</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres6Sprite7m_colorE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite10m_positionE">
+<span id="_CPPv3N5ceres6Sprite10m_positionE"></span><span id="_CPPv2N5ceres6Sprite10m_positionE"></span><span id="ceres::Sprite::m_position__glm::vec2"></span><span class="target" id="classceres_1_1_sprite_1a7634c3f645d6de1136a9acb4ae17c69c"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_position</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0.0f</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">0.0f</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres6Sprite10m_positionE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite7m_scaleE">
+<span id="_CPPv3N5ceres6Sprite7m_scaleE"></span><span id="_CPPv2N5ceres6Sprite7m_scaleE"></span><span id="ceres::Sprite::m_scale__glm::vec2"></span><span class="target" id="classceres_1_1_sprite_1adcf5f11d2e0fe215284a2afa190ea9c6"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_scale</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">1.0f</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1.0f</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres6Sprite7m_scaleE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite6m_flipE">
+<span id="_CPPv3N5ceres6Sprite6m_flipE"></span><span id="_CPPv2N5ceres6Sprite6m_flipE"></span><span id="ceres::Sprite::m_flip__glm::bvec2"></span><span class="target" id="classceres_1_1_sprite_1a0f0bd6335638749a8f6bd737827b4096"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">bvec2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_flip</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres6Sprite6m_flipE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite11m_spritePosE">
+<span id="_CPPv3N5ceres6Sprite11m_spritePosE"></span><span id="_CPPv2N5ceres6Sprite11m_spritePosE"></span><span id="ceres::Sprite::m_spritePos__glm::ivec2"></span><span class="target" id="classceres_1_1_sprite_1a4b90535a8e7de9864c163c379fdbf516"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ivec2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_spritePos</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0.0f</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">0.0f</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres6Sprite11m_spritePosE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite12m_spriteSizeE">
+<span id="_CPPv3N5ceres6Sprite12m_spriteSizeE"></span><span id="_CPPv2N5ceres6Sprite12m_spriteSizeE"></span><span id="ceres::Sprite::m_spriteSize__glm::ivec2"></span><span class="target" id="classceres_1_1_sprite_1ab71fc1701b0c164705b6b47e0622cee1"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ivec2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_spriteSize</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0.0f</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">0.0f</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres6Sprite12m_spriteSizeE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite14m_spriteAnchorE">
+<span id="_CPPv3N5ceres6Sprite14m_spriteAnchorE"></span><span id="_CPPv2N5ceres6Sprite14m_spriteAnchorE"></span><span id="ceres::Sprite::m_spriteAnchor__glm::vec2"></span><span class="target" id="classceres_1_1_sprite_1abb77998ad600d2e072afed3ee1af28b9"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_spriteAnchor</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0.0f</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">0.0f</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres6Sprite14m_spriteAnchorE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite17m_spriteSourcePosE">
+<span id="_CPPv3N5ceres6Sprite17m_spriteSourcePosE"></span><span id="_CPPv2N5ceres6Sprite17m_spriteSourcePosE"></span><span id="ceres::Sprite::m_spriteSourcePos__glm::ivec2"></span><span class="target" id="classceres_1_1_sprite_1a08c5a61b642492dd5dfe44c2c1468682"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ivec2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_spriteSourcePos</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres6Sprite17m_spriteSourcePosE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite18m_spriteSourceSizeE">
+<span id="_CPPv3N5ceres6Sprite18m_spriteSourceSizeE"></span><span id="_CPPv2N5ceres6Sprite18m_spriteSourceSizeE"></span><span id="ceres::Sprite::m_spriteSourceSize__glm::ivec2"></span><span class="target" id="classceres_1_1_sprite_1a4f8d3f93fd8790b5405c1bd4816bdde2"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ivec2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_spriteSourceSize</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres6Sprite18m_spriteSourceSizeE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite9m_textureE">
+<span id="_CPPv3N5ceres6Sprite9m_textureE"></span><span id="_CPPv2N5ceres6Sprite9m_textureE"></span><span id="ceres::Sprite::m_texture__TextureP"></span><span class="target" id="classceres_1_1_sprite_1a11402f3b811de800f0a7d75bc101d6f9"></span><a class="reference internal" href="texture.html#_CPPv4N5ceres7TextureE" title="ceres::Texture"><span class="n"><span class="pre">Texture</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">m_texture</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="k"><span class="pre">nullptr</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres6Sprite9m_textureE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite10m_rotationE">
+<span id="_CPPv3N5ceres6Sprite10m_rotationE"></span><span id="_CPPv2N5ceres6Sprite10m_rotationE"></span><span id="ceres::Sprite::m_rotation__float"></span><span class="target" id="classceres_1_1_sprite_1ab16532b3ded34b9e04d5e706b4e89b77"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_rotation</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0.0f</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres6Sprite10m_rotationE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres6Sprite7m_orderE">
+<span id="_CPPv3N5ceres6Sprite7m_orderE"></span><span id="_CPPv2N5ceres6Sprite7m_orderE"></span><span class="target" id="classceres_1_1_sprite_1ac90cc70a42fe50173d23050c8f3c5dd4"></span><span class="k"><span class="pre">union</span></span><span class="w"> </span><a class="reference internal" href="camera.html#_CPPv45ceres" title="ceres"><span class="n"><span class="pre">ceres</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N5ceres6SpriteE" title="ceres::Sprite"><span class="n"><span class="pre">Sprite</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">[anonymous]</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_order</span></span></span><a class="headerlink" href="#_CPPv4N5ceres6Sprite7m_orderE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-friends">Friends</p>
+<dl>
+<dt class="sig sig-object cpp">
+<em class="property"><span class="pre">friend</span> <span class="pre">class</span></em> <span class="pre">SpriteAtlas</span></dt>
+</dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<em class="property"><span class="pre">friend</span> <span class="pre">class</span></em> <span class="pre">SpriteBatch</span></dt>
+</dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<em class="property"><span class="pre">friend</span> <span class="pre">class</span></em> <span class="pre">Inspector</span></dt>
+</dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="skybox.html" class="btn btn-neutral float-left" title="skybox.h" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="spriteAtlas.html" class="btn btn-neutral float-right" title="spriteAtlas.h" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, william.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

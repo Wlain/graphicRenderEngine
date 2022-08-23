@@ -1,0 +1,1105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
+  <compounddef id="classceres_1_1_mesh" kind="class" language="C++" prot="public">
+    <compoundname>ceres::Mesh</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::enable_shared_from_this&lt; Mesh &gt;</basecompoundref>
+    <innerclass refid="structceres_1_1_mesh_1_1_attribute" prot="private">ceres::Mesh::Attribute</innerclass>
+    <innerclass refid="classceres_1_1_mesh_1_1_mesh_builder" prot="public">ceres::Mesh::MeshBuilder</innerclass>
+    <innerclass refid="structceres_1_1_mesh_1_1_v_a_o_binding" prot="private">ceres::Mesh::VAOBinding</innerclass>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classceres_1_1_mesh_1a6163eecf51376a10303def6d63761981" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>Topology</name>
+        <qualifiedname>ceres::Mesh::Topology</qualifiedname>
+        <enumvalue id="classceres_1_1_mesh_1a6163eecf51376a10303def6d63761981a75dd5f1160a3f02b6fae89c54361a1b3" prot="public">
+          <name>Points</name>
+          <initializer>= 0x0000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_mesh_1a6163eecf51376a10303def6d63761981aa0b0293a2db49f5f93c15a62e095c819" prot="public">
+          <name>Lines</name>
+          <initializer>= 0x0001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_mesh_1a6163eecf51376a10303def6d63761981ae7f9e73b8edd21f420a63b3ace5768a2" prot="public">
+          <name>LineStrip</name>
+          <initializer>= 0x0003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_mesh_1a6163eecf51376a10303def6d63761981a7ca66fdfaad3eb33fc65d7490178f856" prot="public">
+          <name>Triangles</name>
+          <initializer>= 0x0004</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_mesh_1a6163eecf51376a10303def6d63761981a1da0b9ead8b051940a89214bae22831c" prot="public">
+          <name>TriangleStrip</name>
+          <initializer>= 0x0005</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_mesh_1a6163eecf51376a10303def6d63761981a18d58fde618e4a30e2dfdc122e693047" prot="public">
+          <name>TriangleFan</name>
+          <initializer>= 0x0006</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="27" column="5" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="28" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="enum" id="classceres_1_1_mesh_1a48eaa2228e5b8299e4584cda7f0205e5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BufferUsage</name>
+        <qualifiedname>ceres::Mesh::BufferUsage</qualifiedname>
+        <enumvalue id="classceres_1_1_mesh_1a48eaa2228e5b8299e4584cda7f0205e5ac3ed2ba606af12869974bdab26334e6c" prot="public">
+          <name>StaticDraw</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_mesh_1a48eaa2228e5b8299e4584cda7f0205e5a07988dce2d161630856fb73bc06682c0" prot="public">
+          <name>DynamicDraw</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_mesh_1a48eaa2228e5b8299e4584cda7f0205e5ab831b12d8d415645f1f00e37e0426ca2" prot="public">
+          <name>StreamDraw</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="37" column="5" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="38" bodyend="42"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classceres_1_1_mesh_1a89565c3f0694d8f12fa6ba7cc5ef17e9" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, Attribute &gt;</type>
+        <definition>std::map&lt;std::string, Attribute&gt; ceres::Mesh::m_attributeByName</definition>
+        <argsstring></argsstring>
+        <name>m_attributeByName</name>
+        <qualifiedname>ceres::Mesh::m_attributeByName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="154" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1ab7dae2c597851e62f5c08946a3cfcacb" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;float&gt; &gt; ceres::Mesh::m_attributesFloat</definition>
+        <argsstring></argsstring>
+        <name>m_attributesFloat</name>
+        <qualifiedname>ceres::Mesh::m_attributesFloat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="155" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1a5ced9515ef10e11bd182b0ddb1148cda" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; glm::vec2 &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;glm::vec2&gt; &gt; ceres::Mesh::m_attributesVec2</definition>
+        <argsstring></argsstring>
+        <name>m_attributesVec2</name>
+        <qualifiedname>ceres::Mesh::m_attributesVec2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="156" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1a995acd13aecb470a619fd52127a8df52" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; glm::vec3 &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;glm::vec3&gt; &gt; ceres::Mesh::m_attributesVec3</definition>
+        <argsstring></argsstring>
+        <name>m_attributesVec3</name>
+        <qualifiedname>ceres::Mesh::m_attributesVec3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="157" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1ab2a0f400bf3f2532902da33c79b2e757" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; glm::vec4 &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;glm::vec4&gt; &gt; ceres::Mesh::m_attributesVec4</definition>
+        <argsstring></argsstring>
+        <name>m_attributesVec4</name>
+        <qualifiedname>ceres::Mesh::m_attributesVec4</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="158" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1a528288abbffdc10eadd38cfd6abddae6" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; glm::i32vec4 &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;glm::i32vec4&gt; &gt; ceres::Mesh::m_attributesIVec4</definition>
+        <argsstring></argsstring>
+        <name>m_attributesIVec4</name>
+        <qualifiedname>ceres::Mesh::m_attributesIVec4</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="159" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1a827cd2f543170d60c9df97a16e1673b4" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; uint16_t &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;uint16_t&gt; &gt; ceres::Mesh::m_indices</definition>
+        <argsstring></argsstring>
+        <name>m_indices</name>
+        <qualifiedname>ceres::Mesh::m_indices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="160" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1aa32d1947f48b2783844b8883438d4942" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Topology &gt;</type>
+        <definition>std::vector&lt;Topology&gt; ceres::Mesh::m_topologies</definition>
+        <argsstring></argsstring>
+        <name>m_topologies</name>
+        <qualifiedname>ceres::Mesh::m_topologies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="161" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1aa66b80068eb565281f26d2fcda1bade4" prot="private" static="no" mutable="no">
+        <type>BufferUsage</type>
+        <definition>BufferUsage ceres::Mesh::m_bufferUsage</definition>
+        <argsstring></argsstring>
+        <name>m_bufferUsage</name>
+        <qualifiedname>ceres::Mesh::m_bufferUsage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="162" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1ad93942e438917de2566b7831cbebbe51" prot="private" static="no" mutable="no">
+        <type>std::array&lt; glm::vec3, 2 &gt;</type>
+        <definition>std::array&lt;glm::vec3, 2&gt; ceres::Mesh::m_boundsMinMax</definition>
+        <argsstring></argsstring>
+        <name>m_boundsMinMax</name>
+        <qualifiedname>ceres::Mesh::m_boundsMinMax</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="163" column="16" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1a71b29582c0ffeea15035ee89c969d97b" prot="private" static="no" mutable="no">
+        <type>std::map&lt; unsigned int, VAOBinding &gt;</type>
+        <definition>std::map&lt;unsigned int, VAOBinding&gt; ceres::Mesh::m_shaderToVao</definition>
+        <argsstring></argsstring>
+        <name>m_shaderToVao</name>
+        <qualifiedname>ceres::Mesh::m_shaderToVao</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="164" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1aa1d1dd4a90d46fa532a89160bacf02c2" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ceres::Mesh::m_vbo</definition>
+        <argsstring></argsstring>
+        <name>m_vbo</name>
+        <qualifiedname>ceres::Mesh::m_vbo</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="165" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1a750b7a914a15219966158a0f6ac72e1e" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ceres::Mesh::m_ebo</definition>
+        <argsstring></argsstring>
+        <name>m_ebo</name>
+        <qualifiedname>ceres::Mesh::m_ebo</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="166" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1a13a4cf2fd3539f62b2839a624d077bd3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; int, int &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;int, int&gt; &gt; ceres::Mesh::m_elementBufferOffsetCount</definition>
+        <argsstring></argsstring>
+        <name>m_elementBufferOffsetCount</name>
+        <qualifiedname>ceres::Mesh::m_elementBufferOffsetCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="167" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1a91e293bb30f491978b68eb3e129612ca" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ceres::Mesh::m_name</definition>
+        <argsstring></argsstring>
+        <name>m_name</name>
+        <qualifiedname>ceres::Mesh::m_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="168" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1af6ae6ecba44f27a1a080288a4d2e9b3c" prot="private" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t ceres::Mesh::m_vertexCount</definition>
+        <argsstring></argsstring>
+        <name>m_vertexCount</name>
+        <qualifiedname>ceres::Mesh::m_vertexCount</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="169" column="13" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1a0e78daee2024e668269ea7a06584fa76" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ceres::Mesh::m_dataSize</definition>
+        <argsstring></argsstring>
+        <name>m_dataSize</name>
+        <qualifiedname>ceres::Mesh::m_dataSize</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="170" column="9" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1a43c056b60c298528b97b8e81b55b36ce" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ceres::Mesh::m_totalBytesPerVertex</definition>
+        <argsstring></argsstring>
+        <name>m_totalBytesPerVertex</name>
+        <qualifiedname>ceres::Mesh::m_totalBytesPerVertex</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="171" column="9" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_mesh_1acde9ff10c8e14e170c9250b904d1dbca" prot="private" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t ceres::Mesh::m_meshId</definition>
+        <argsstring></argsstring>
+        <name>m_meshId</name>
+        <qualifiedname>ceres::Mesh::m_meshId</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="172" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classceres_1_1_mesh_1a3a6e56d5bc6d37c6efdfc9b5667740c3" prot="private" static="yes" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t ceres::Mesh::m_meshIdCount</definition>
+        <argsstring></argsstring>
+        <name>m_meshIdCount</name>
+        <qualifiedname>ceres::Mesh::m_meshIdCount</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="175" column="28" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classceres_1_1_mesh_1aa8ab806874e69ead344abef1c5e76aa0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class RenderPass</definition>
+        <argsstring></argsstring>
+        <name>RenderPass</name>
+        <qualifiedname>ceres::Mesh::RenderPass</qualifiedname>
+        <param>
+          <type><ref refid="classceres_1_1_render_pass" kindref="compound">RenderPass</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="176" column="18" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="friend" id="classceres_1_1_mesh_1a5486a5ab1c546bf41e8da20dd0b01de1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class Inspector</definition>
+        <argsstring></argsstring>
+        <name>Inspector</name>
+        <qualifiedname>ceres::Mesh::Inspector</qualifiedname>
+        <param>
+          <type><ref refid="classceres_1_1_inspector" kindref="compound">Inspector</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="177" column="18" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classceres_1_1_mesh_1a8997b6fa1474c564b1033c086432837a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classceres_1_1_mesh_1_1_mesh_builder" kindref="compound">MeshBuilder</ref></type>
+        <definition>Mesh::MeshBuilder ceres::Mesh::create</definition>
+        <argsstring>()</argsstring>
+        <name>create</name>
+        <qualifiedname>ceres::Mesh::create</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="94" column="24" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="188" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1a982790a784c8a512e251e69ba0943e53" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GLenum</type>
+        <definition>GLenum ceres::Mesh::convertBufferUsage</definition>
+        <argsstring>(BufferUsage usage)</argsstring>
+        <name>convertBufferUsage</name>
+        <qualifiedname>ceres::Mesh::convertBufferUsage</qualifiedname>
+        <param>
+          <type>BufferUsage</type>
+          <declname>usage</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="124" column="19" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="1131" bodyend="1147"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classceres_1_1_mesh_1aa1eb7ff4e83a19281eb0f3dd3f16b859" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classceres_1_1_mesh_1_1_mesh_builder" kindref="compound">MeshBuilder</ref></type>
+        <definition>Mesh::MeshBuilder ceres::Mesh::update</definition>
+        <argsstring>()</argsstring>
+        <name>update</name>
+        <qualifiedname>ceres::Mesh::update</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="95" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="193" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1a5f81548986b40c6df25659dc80b7d8a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ceres::Mesh::~Mesh</definition>
+        <argsstring>()</argsstring>
+        <name>~Mesh</name>
+        <qualifiedname>ceres::Mesh::~Mesh</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="98" column="5" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="31" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1ab50633a6cfb4598f288cc541762d3d66" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t ceres::Mesh::getVertexCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getVertexCount</name>
+        <qualifiedname>ceres::Mesh::getVertexCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="99" column="20" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1a418aa67fbfbd2c7397b20a85b7e0f389" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; uint16_t &gt; &amp;</type>
+        <definition>const std::vector&lt; uint16_t &gt; &amp; ceres::Mesh::getIndices</definition>
+        <argsstring>(int indexSet=0) const</argsstring>
+        <name>getIndices</name>
+        <qualifiedname>ceres::Mesh::getIndices</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>indexSet</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="100" column="30" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1a8a6c1b84ad88fada1ecb7e1dc68c08e6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int ceres::Mesh::getIndicesSize</definition>
+        <argsstring>(int indexSet)</argsstring>
+        <name>getIndicesSize</name>
+        <qualifiedname>ceres::Mesh::getIndicesSize</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>indexSet</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="101" column="16" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1affb779a0dced8f1c787b46a5dbd10e71" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t ceres::Mesh::getIndexSets</definition>
+        <argsstring>() const</argsstring>
+        <name>getIndexSets</name>
+        <qualifiedname>ceres::Mesh::getIndexSets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="102" column="19" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1af8a6258aefa2cae3d4f246de74e3469c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; glm::vec3 &gt;</type>
+        <definition>std::vector&lt; glm::vec3 &gt; ceres::Mesh::getPositions</definition>
+        <argsstring>()</argsstring>
+        <name>getPositions</name>
+        <qualifiedname>ceres::Mesh::getPositions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="103" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="212" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1aca42f6321d7078ddcd9737be8a993ca5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; glm::vec3 &gt;</type>
+        <definition>std::vector&lt; glm::vec3 &gt; ceres::Mesh::getNormals</definition>
+        <argsstring>()</argsstring>
+        <name>getNormals</name>
+        <qualifiedname>ceres::Mesh::getNormals</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="104" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="223" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1a6a7ccde7d385ccb78c69ef02be9879a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; glm::vec4 &gt;</type>
+        <definition>std::vector&lt; glm::vec4 &gt; ceres::Mesh::getUVs</definition>
+        <argsstring>()</argsstring>
+        <name>getUVs</name>
+        <qualifiedname>ceres::Mesh::getUVs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="105" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="234" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1a26e66ed12ae29ad5dd51ccb89a0fdaba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; glm::vec4 &gt;</type>
+        <definition>std::vector&lt; glm::vec4 &gt; ceres::Mesh::getColors</definition>
+        <argsstring>()</argsstring>
+        <name>getColors</name>
+        <qualifiedname>ceres::Mesh::getColors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="106" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="245" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1ac033e851b810b432a462d5b758b438a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; glm::vec4 &gt;</type>
+        <definition>std::vector&lt; glm::vec4 &gt; ceres::Mesh::getTangents</definition>
+        <argsstring>()</argsstring>
+        <name>getTangents</name>
+        <qualifiedname>ceres::Mesh::getTangents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="107" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="256" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1af6cd7aa823df71a00aeaacc1271fdf5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; ceres::Mesh::getParticleSizes</definition>
+        <argsstring>()</argsstring>
+        <name>getParticleSizes</name>
+        <qualifiedname>ceres::Mesh::getParticleSizes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="108" column="18" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="267" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1aa14a52b88e240a373cf8936252f386dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Topology</type>
+        <definition>Mesh::Topology ceres::Mesh::getMeshTopology</definition>
+        <argsstring>(int indexSet=0)</argsstring>
+        <name>getMeshTopology</name>
+        <qualifiedname>ceres::Mesh::getMeshTopology</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>indexSet</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="109" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="338" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1a0a5c2b3882ef266b48e63e0a7cf34a72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>BufferUsage</type>
+        <definition>Mesh::BufferUsage ceres::Mesh::getMeshBufferUsage</definition>
+        <argsstring>()</argsstring>
+        <name>getMeshBufferUsage</name>
+        <qualifiedname>ceres::Mesh::getMeshBufferUsage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="110" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="348" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1ae3cc060069683ced51318a294bffb33b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>const T &amp;</type>
+        <definition>const T &amp; ceres::Mesh::get</definition>
+        <argsstring>(std::string_view attributeName)</argsstring>
+        <name>get</name>
+        <qualifiedname>ceres::Mesh::get</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>attributeName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="112" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1a42a31f4362013d8a125e8a643fa608cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; int, int &gt;</type>
+        <definition>std::pair&lt; int, int &gt; ceres::Mesh::getType</definition>
+        <argsstring>(std::string_view name)</argsstring>
+        <name>getType</name>
+        <qualifiedname>ceres::Mesh::getType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="113" column="15" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="308" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1a65642a48a22357213ad4438385d5e7ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; ceres::Mesh::getAttributeNames</definition>
+        <argsstring>()</argsstring>
+        <name>getAttributeNames</name>
+        <qualifiedname>ceres::Mesh::getAttributeNames</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="114" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="318" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1a823e224d5c403a80f17962d5e687e7f2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::array&lt; glm::vec3, 2 &gt; &amp;</type>
+        <definition>const std::array&lt; glm::vec3, 2 &gt; &amp; ceres::Mesh::getBoundsMinMax</definition>
+        <argsstring>() const</argsstring>
+        <name>getBoundsMinMax</name>
+        <qualifiedname>ceres::Mesh::getBoundsMinMax</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="116" column="22" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="328" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1ae7efe24c3f3d5647bfde82e36a40917f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::Mesh::setBoundsMinMax</definition>
+        <argsstring>(const std::array&lt; glm::vec3, 2 &gt; &amp;minMax)</argsstring>
+        <name>setBoundsMinMax</name>
+        <qualifiedname>ceres::Mesh::setBoundsMinMax</qualifiedname>
+        <param>
+          <type>const std::array&lt; glm::vec3, 2 &gt; &amp;</type>
+          <declname>minMax</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="118" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="333" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1af7c86b04fb5f3312b1e25ea96a13ff4f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ceres::Mesh::getDataSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getDataSize</name>
+        <qualifiedname>ceres::Mesh::getDataSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="119" column="9" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="207" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1a271bc1955621fa6bbdb76cbb1baa1a4f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; ceres::Mesh::name</definition>
+        <argsstring>() const</argsstring>
+        <name>name</name>
+        <qualifiedname>ceres::Mesh::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="120" column="30" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1a035e75ae66082402a29cd484368b97df" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ceres::Mesh::hasAttribute</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>hasAttribute</name>
+        <qualifiedname>ceres::Mesh::hasAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="121" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1a3b655e3cf6f677ca313bf2313f1da384" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+        </templateparamlist>
+        <type>const std::vector&lt; float &gt; &amp;</type>
+        <definition>const std::vector&lt; glm::i32vec4 &gt; &amp; ceres::Mesh::get</definition>
+        <argsstring>(std::string_view uniformName)</argsstring>
+        <name>get</name>
+        <qualifiedname>ceres::Mesh::get</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>uniformName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" line="279" column="19" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="279" bodyend="282"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classceres_1_1_mesh_1ab45e5c720333656520a78b9545cb6d42" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::Mesh::bind</definition>
+        <argsstring>(Shader *shader)</argsstring>
+        <name>bind</name>
+        <qualifiedname>ceres::Mesh::bind</qualifiedname>
+        <param>
+          <type><ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> *</type>
+          <declname>shader</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="141" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="59" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1a23c11aba057debe1675f438a81a784df" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::Mesh::bindIndexSet</definition>
+        <argsstring>() const</argsstring>
+        <name>bindIndexSet</name>
+        <qualifiedname>ceres::Mesh::bindIndexSet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="142" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="85" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1abcd8faa4b42bb9b7bff316cd1d35fba2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::Mesh::setVertexAttributePointers</definition>
+        <argsstring>(Shader *shader)</argsstring>
+        <name>setVertexAttributePointers</name>
+        <qualifiedname>ceres::Mesh::setVertexAttributePointers</qualifiedname>
+        <param>
+          <type><ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> *</type>
+          <declname>shader</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="143" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="131" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1a1f798bb2b6f8359f06a03d3d8959cac9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ceres::Mesh::Mesh</definition>
+        <argsstring>(std::map&lt; std::string, std::vector&lt; float &gt; &gt; &amp;&amp;attributesFloat, std::map&lt; std::string, std::vector&lt; glm::vec2 &gt; &gt; &amp;&amp;attributesVec2, std::map&lt; std::string, std::vector&lt; glm::vec3 &gt; &gt; &amp;&amp;attributesVec3, std::map&lt; std::string, std::vector&lt; glm::vec4 &gt; &gt; &amp;&amp;attributesVec4, std::map&lt; std::string, std::vector&lt; glm::i32vec4 &gt; &gt; &amp;&amp;attributesIVec4, std::vector&lt; std::vector&lt; uint16_t &gt; &gt; &amp;&amp;indices, std::vector&lt; Topology &gt; &amp;meshTopology, BufferUsage bufferUsage, std::string_view name, RenderStats &amp;renderStats)</argsstring>
+        <name>Mesh</name>
+        <qualifiedname>ceres::Mesh::Mesh</qualifiedname>
+        <param>
+          <type>std::map&lt; std::string, std::vector&lt; float &gt; &gt; &amp;&amp;</type>
+          <declname>attributesFloat</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, std::vector&lt; glm::vec2 &gt; &gt; &amp;&amp;</type>
+          <declname>attributesVec2</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, std::vector&lt; glm::vec3 &gt; &gt; &amp;&amp;</type>
+          <declname>attributesVec3</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, std::vector&lt; glm::vec4 &gt; &gt; &amp;&amp;</type>
+          <declname>attributesVec4</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, std::vector&lt; glm::i32vec4 &gt; &gt; &amp;&amp;</type>
+          <declname>attributesIVec4</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::vector&lt; uint16_t &gt; &gt; &amp;&amp;</type>
+          <declname>indices</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; Topology &gt; &amp;</type>
+          <declname>meshTopology</declname>
+        </param>
+        <param>
+          <type>BufferUsage</type>
+          <declname>bufferUsage</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="structceres_1_1_render_stats" kindref="compound">RenderStats</ref> &amp;</type>
+          <declname>renderStats</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="144" column="5" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="17" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1a55f11734ba9df76b00b3974608c8fe4c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::Mesh::update</definition>
+        <argsstring>(std::map&lt; std::string, std::vector&lt; float &gt; &gt; &amp;&amp;attributesFloat, std::map&lt; std::string, std::vector&lt; glm::vec2 &gt; &gt; &amp;&amp;attributesVec2, std::map&lt; std::string, std::vector&lt; glm::vec3 &gt; &gt; &amp;&amp;attributesVec3, std::map&lt; std::string, std::vector&lt; glm::vec4 &gt; &gt; &amp;&amp;attributesVec4, std::map&lt; std::string, std::vector&lt; glm::i32vec4 &gt; &gt; &amp;&amp;attributesIVec4, std::vector&lt; std::vector&lt; uint16_t &gt; &gt; &amp;&amp;indices, std::vector&lt; Topology &gt; &amp;meshTopology, BufferUsage bufferUsage, std::string_view name, RenderStats &amp;renderStats)</argsstring>
+        <name>update</name>
+        <qualifiedname>ceres::Mesh::update</qualifiedname>
+        <param>
+          <type>std::map&lt; std::string, std::vector&lt; float &gt; &gt; &amp;&amp;</type>
+          <declname>attributesFloat</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, std::vector&lt; glm::vec2 &gt; &gt; &amp;&amp;</type>
+          <declname>attributesVec2</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, std::vector&lt; glm::vec3 &gt; &gt; &amp;&amp;</type>
+          <declname>attributesVec3</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, std::vector&lt; glm::vec4 &gt; &gt; &amp;&amp;</type>
+          <declname>attributesVec4</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, std::vector&lt; glm::i32vec4 &gt; &gt; &amp;&amp;</type>
+          <declname>attributesIVec4</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::vector&lt; uint16_t &gt; &gt; &amp;&amp;</type>
+          <declname>indices</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; Topology &gt; &amp;</type>
+          <declname>meshTopology</declname>
+        </param>
+        <param>
+          <type>BufferUsage</type>
+          <declname>bufferUsage</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="structceres_1_1_render_stats" kindref="compound">RenderStats</ref> &amp;</type>
+          <declname>renderStats</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="146" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="90" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1a446a93762d0a5ba3b196ce82d23b2a01" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; ceres::Mesh::getInterleavedData</definition>
+        <argsstring>()</argsstring>
+        <name>getInterleavedData</name>
+        <qualifiedname>ceres::Mesh::getInterleavedData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="148" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="353" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_mesh_1abd206bdf4437af9bd1dfd98561610204" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::Mesh::updateIndexBuffers</definition>
+        <argsstring>()</argsstring>
+        <name>updateIndexBuffers</name>
+        <qualifiedname>ceres::Mesh::updateIndexBuffers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="151" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.cpp" bodystart="1149" bodyend="1185"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ceres::Mesh</label>
+        <link refid="classceres_1_1_mesh"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::enable_shared_from_this&lt; Mesh &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ceres::Mesh</label>
+        <link refid="classceres_1_1_mesh"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::enable_shared_from_this&lt; Mesh &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" line="24" column="1" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/mesh.h" bodystart="25" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classceres_1_1_mesh_1ab45e5c720333656520a78b9545cb6d42" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>bind</name></member>
+      <member refid="classceres_1_1_mesh_1a23c11aba057debe1675f438a81a784df" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>bindIndexSet</name></member>
+      <member refid="classceres_1_1_mesh_1a48eaa2228e5b8299e4584cda7f0205e5" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>BufferUsage</name></member>
+      <member refid="classceres_1_1_mesh_1a982790a784c8a512e251e69ba0943e53" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>convertBufferUsage</name></member>
+      <member refid="classceres_1_1_mesh_1a8997b6fa1474c564b1033c086432837a" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>create</name></member>
+      <member refid="classceres_1_1_mesh_1ae3cc060069683ced51318a294bffb33b" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>get</name></member>
+      <member refid="classceres_1_1_mesh_1a3b655e3cf6f677ca313bf2313f1da384" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>get</name></member>
+      <member refid="classceres_1_1_mesh_1a65642a48a22357213ad4438385d5e7ae" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>getAttributeNames</name></member>
+      <member refid="classceres_1_1_mesh_1a823e224d5c403a80f17962d5e687e7f2" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>getBoundsMinMax</name></member>
+      <member refid="classceres_1_1_mesh_1a26e66ed12ae29ad5dd51ccb89a0fdaba" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>getColors</name></member>
+      <member refid="classceres_1_1_mesh_1af7c86b04fb5f3312b1e25ea96a13ff4f" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>getDataSize</name></member>
+      <member refid="classceres_1_1_mesh_1affb779a0dced8f1c787b46a5dbd10e71" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>getIndexSets</name></member>
+      <member refid="classceres_1_1_mesh_1a418aa67fbfbd2c7397b20a85b7e0f389" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>getIndices</name></member>
+      <member refid="classceres_1_1_mesh_1a8a6c1b84ad88fada1ecb7e1dc68c08e6" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>getIndicesSize</name></member>
+      <member refid="classceres_1_1_mesh_1a446a93762d0a5ba3b196ce82d23b2a01" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>getInterleavedData</name></member>
+      <member refid="classceres_1_1_mesh_1a0a5c2b3882ef266b48e63e0a7cf34a72" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>getMeshBufferUsage</name></member>
+      <member refid="classceres_1_1_mesh_1aa14a52b88e240a373cf8936252f386dd" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>getMeshTopology</name></member>
+      <member refid="classceres_1_1_mesh_1aca42f6321d7078ddcd9737be8a993ca5" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>getNormals</name></member>
+      <member refid="classceres_1_1_mesh_1af6cd7aa823df71a00aeaacc1271fdf5e" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>getParticleSizes</name></member>
+      <member refid="classceres_1_1_mesh_1af8a6258aefa2cae3d4f246de74e3469c" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>getPositions</name></member>
+      <member refid="classceres_1_1_mesh_1ac033e851b810b432a462d5b758b438a1" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>getTangents</name></member>
+      <member refid="classceres_1_1_mesh_1a42a31f4362013d8a125e8a643fa608cc" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>getType</name></member>
+      <member refid="classceres_1_1_mesh_1a6a7ccde7d385ccb78c69ef02be9879a9" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>getUVs</name></member>
+      <member refid="classceres_1_1_mesh_1ab50633a6cfb4598f288cc541762d3d66" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>getVertexCount</name></member>
+      <member refid="classceres_1_1_mesh_1a035e75ae66082402a29cd484368b97df" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>hasAttribute</name></member>
+      <member refid="classceres_1_1_mesh_1a5486a5ab1c546bf41e8da20dd0b01de1" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>Inspector</name></member>
+      <member refid="classceres_1_1_mesh_1a89565c3f0694d8f12fa6ba7cc5ef17e9" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_attributeByName</name></member>
+      <member refid="classceres_1_1_mesh_1ab7dae2c597851e62f5c08946a3cfcacb" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_attributesFloat</name></member>
+      <member refid="classceres_1_1_mesh_1a528288abbffdc10eadd38cfd6abddae6" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_attributesIVec4</name></member>
+      <member refid="classceres_1_1_mesh_1a5ced9515ef10e11bd182b0ddb1148cda" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_attributesVec2</name></member>
+      <member refid="classceres_1_1_mesh_1a995acd13aecb470a619fd52127a8df52" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_attributesVec3</name></member>
+      <member refid="classceres_1_1_mesh_1ab2a0f400bf3f2532902da33c79b2e757" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_attributesVec4</name></member>
+      <member refid="classceres_1_1_mesh_1ad93942e438917de2566b7831cbebbe51" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_boundsMinMax</name></member>
+      <member refid="classceres_1_1_mesh_1aa66b80068eb565281f26d2fcda1bade4" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_bufferUsage</name></member>
+      <member refid="classceres_1_1_mesh_1a0e78daee2024e668269ea7a06584fa76" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_dataSize</name></member>
+      <member refid="classceres_1_1_mesh_1a750b7a914a15219966158a0f6ac72e1e" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_ebo</name></member>
+      <member refid="classceres_1_1_mesh_1a13a4cf2fd3539f62b2839a624d077bd3" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_elementBufferOffsetCount</name></member>
+      <member refid="classceres_1_1_mesh_1a827cd2f543170d60c9df97a16e1673b4" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_indices</name></member>
+      <member refid="classceres_1_1_mesh_1acde9ff10c8e14e170c9250b904d1dbca" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_meshId</name></member>
+      <member refid="classceres_1_1_mesh_1a3a6e56d5bc6d37c6efdfc9b5667740c3" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_meshIdCount</name></member>
+      <member refid="classceres_1_1_mesh_1a91e293bb30f491978b68eb3e129612ca" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_name</name></member>
+      <member refid="classceres_1_1_mesh_1a71b29582c0ffeea15035ee89c969d97b" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_shaderToVao</name></member>
+      <member refid="classceres_1_1_mesh_1aa32d1947f48b2783844b8883438d4942" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_topologies</name></member>
+      <member refid="classceres_1_1_mesh_1a43c056b60c298528b97b8e81b55b36ce" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_totalBytesPerVertex</name></member>
+      <member refid="classceres_1_1_mesh_1aa1d1dd4a90d46fa532a89160bacf02c2" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_vbo</name></member>
+      <member refid="classceres_1_1_mesh_1af6ae6ecba44f27a1a080288a4d2e9b3c" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>m_vertexCount</name></member>
+      <member refid="classceres_1_1_mesh_1a1f798bb2b6f8359f06a03d3d8959cac9" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>Mesh</name></member>
+      <member refid="classceres_1_1_mesh_1a271bc1955621fa6bbdb76cbb1baa1a4f" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>name</name></member>
+      <member refid="classceres_1_1_mesh_1aa8ab806874e69ead344abef1c5e76aa0" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>RenderPass</name></member>
+      <member refid="classceres_1_1_mesh_1ae7efe24c3f3d5647bfde82e36a40917f" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>setBoundsMinMax</name></member>
+      <member refid="classceres_1_1_mesh_1abcd8faa4b42bb9b7bff316cd1d35fba2" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>setVertexAttributePointers</name></member>
+      <member refid="classceres_1_1_mesh_1a6163eecf51376a10303def6d63761981" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>Topology</name></member>
+      <member refid="classceres_1_1_mesh_1aa1eb7ff4e83a19281eb0f3dd3f16b859" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>update</name></member>
+      <member refid="classceres_1_1_mesh_1a55f11734ba9df76b00b3974608c8fe4c" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>update</name></member>
+      <member refid="classceres_1_1_mesh_1abd206bdf4437af9bd1dfd98561610204" prot="private" virt="non-virtual"><scope>ceres::Mesh</scope><name>updateIndexBuffers</name></member>
+      <member refid="classceres_1_1_mesh_1a5f81548986b40c6df25659dc80b7d8a5" prot="public" virt="non-virtual"><scope>ceres::Mesh</scope><name>~Mesh</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,71 @@
+\hypertarget{framebuffer_8h_source}{}\doxysection{framebuffer.\+h}
+\label{framebuffer_8h_source}\index{/Users/william/Developer/demo/graphicRenderEngine/ceres/core/framebuffer.h@{/Users/william/Developer/demo/graphicRenderEngine/ceres/core/framebuffer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00002}00002 \textcolor{comment}{// Created by william on 2022/5/31.}}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00005}00005 \textcolor{preprocessor}{\#ifndef GRAPHICRENDERENGINE\_FRAMEBUFFER\_H}}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00006}00006 \textcolor{preprocessor}{\#define GRAPHICRENDERENGINE\_FRAMEBUFFER\_H}}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00007}00007 \textcolor{preprocessor}{\#include <glm/glm.hpp>}}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00008}00008 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00009}00009 \textcolor{preprocessor}{\#include <string\_view>}}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00010}00010 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00011}00011 }
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00012}00012 \textcolor{keyword}{namespace }ceres}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00013}00013 \{}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00014}00014 \textcolor{keyword}{class }RenderPass;}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00015}00015 \textcolor{keyword}{class }Texture;}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00017}\mbox{\hyperlink{classceres_1_1_frame_buffer}{00017}} \textcolor{keyword}{class }\mbox{\hyperlink{classceres_1_1_frame_buffer}{FrameBuffer}}}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00018}00018 \{}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00019}00019 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00020}\mbox{\hyperlink{classceres_1_1_frame_buffer_1_1_frame_buffer_builder}{00020}}     \textcolor{keyword}{class }\mbox{\hyperlink{classceres_1_1_frame_buffer_1_1_frame_buffer_builder}{FrameBufferBuilder}}}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00021}00021     \{}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00022}00022     \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00023}00023         \mbox{\hyperlink{classceres_1_1_frame_buffer_1_1_frame_buffer_builder}{FrameBufferBuilder}}\& withColorTexture(\textcolor{keyword}{const} std::shared\_ptr<Texture>\& texture);}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00024}00024         \mbox{\hyperlink{classceres_1_1_frame_buffer_1_1_frame_buffer_builder}{FrameBufferBuilder}}\& withDepthTexture(\textcolor{keyword}{const} std::shared\_ptr<Texture>\& texture);}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00025}00025         \mbox{\hyperlink{classceres_1_1_frame_buffer_1_1_frame_buffer_builder}{FrameBufferBuilder}}\& withName(std::string\_view name);}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00026}00026         std::shared\_ptr<FrameBuffer> build();}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00028}00028     \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00029}00029         std::vector<std::shared\_ptr<Texture>> m\_textures;}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00030}00030         std::shared\_ptr<Texture> m\_depthTexture;}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00031}00031         std::string m\_name;}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00032}00032         glm::uvec2 m\_size\{\};}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00033}00033         \mbox{\hyperlink{classceres_1_1_frame_buffer_1_1_frame_buffer_builder}{FrameBufferBuilder}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00034}00034         \mbox{\hyperlink{classceres_1_1_frame_buffer_1_1_frame_buffer_builder}{FrameBufferBuilder}}(\textcolor{keyword}{const} \mbox{\hyperlink{classceres_1_1_frame_buffer_1_1_frame_buffer_builder}{FrameBufferBuilder}}\&) = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00035}00035         \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classceres_1_1_frame_buffer}{FrameBuffer}};}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00036}00036     \};}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00038}00038 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00039}00039     \textcolor{keyword}{explicit} \mbox{\hyperlink{classceres_1_1_frame_buffer}{FrameBuffer}}(std::string\_view name);}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00040}00040     \mbox{\hyperlink{classceres_1_1_frame_buffer}{\string~FrameBuffer}}();}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00041}00041     [[nodiscard]] \textcolor{keyword}{inline} \textcolor{keyword}{const} std::string\& name()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_name; \}}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00042}00042     \textcolor{keywordtype}{void} setColorTexture(\textcolor{keyword}{const} std::shared\_ptr<Texture>\& tex, \textcolor{keywordtype}{int} index = 0);}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00043}00043     \textcolor{keywordtype}{void} setDepthTexture(\textcolor{keyword}{const} std::shared\_ptr<Texture>\& tex);}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00044}00044     \textcolor{keyword}{static} FrameBufferBuilder create();}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00045}00045     \textcolor{keyword}{static} \textcolor{keywordtype}{int} getMaximumColorAttachments();}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00046}00046     \textcolor{keyword}{static} \textcolor{keywordtype}{int} getMaximumDepthAttachments();}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00048}00048 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00049}00049     \textcolor{keywordtype}{void} bind();}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00051}00051 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00052}00052     std::vector<std::shared\_ptr<Texture>> m\_textures;}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00053}00053     std::shared\_ptr<Texture> m\_depthTexture;}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00054}00054     std::string m\_name;}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00055}00055     uint32\_t m\_renderBufferDepth\{ 0 \};}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00056}00056     uint32\_t m\_fbo\{ 0 \};}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00057}00057     uint32\_t m\_rbo\{ 0 \};}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00058}00058     glm::vec2 m\_size;}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00059}00059     \textcolor{keywordtype}{bool} m\_dirty\{ \textcolor{keyword}{true} \};}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00060}00060     \textcolor{keyword}{friend} \textcolor{keyword}{class }RenderPass;}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00061}00061     \textcolor{keyword}{friend} \textcolor{keyword}{class }Inspector;}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00062}00062 \};}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00063}00063 \} \textcolor{comment}{// namespace ceres}}
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{framebuffer_8h_source_l00065}00065 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// GRAPHICRENDERENGINE\_FRAMEBUFFER\_H}}
+
+\end{DoxyCode}

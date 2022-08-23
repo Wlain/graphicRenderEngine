@@ -1,0 +1,86 @@
+\hypertarget{sprite_8h_source}{}\doxysection{sprite.\+h}
+\label{sprite_8h_source}\index{/Users/william/Developer/demo/graphicRenderEngine/ceres/core/sprite.h@{/Users/william/Developer/demo/graphicRenderEngine/ceres/core/sprite.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00002}00002 \textcolor{comment}{// Created by william on 2022/6/1.}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00005}00005 \textcolor{preprocessor}{\#ifndef GRAPHICRENDERENGINE\_SPRITE\_H}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00006}00006 \textcolor{preprocessor}{\#define GRAPHICRENDERENGINE\_SPRITE\_H}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00007}00007 \textcolor{preprocessor}{\#include "{}commonMacro.h"{}}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00009}00009 \textcolor{preprocessor}{\#include <array>}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00010}00010 \textcolor{preprocessor}{\#include <glm/glm.hpp>}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00011}00011 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00012}00012 \textcolor{comment}{// 精灵图集}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00013}00013 \textcolor{keyword}{namespace }ceres}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00014}00014 \{}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00015}00015 \textcolor{keyword}{class }SpriteAtlas;}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00016}00016 \textcolor{keyword}{class }Texture;}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00017}\mbox{\hyperlink{classceres_1_1_sprite}{00017}} \textcolor{keyword}{class }\mbox{\hyperlink{classceres_1_1_sprite}{Sprite}}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00018}00018 \{}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00019}00019 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00020}00020     \mbox{\hyperlink{classceres_1_1_sprite}{Sprite}}();}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00021}00021     \textcolor{keyword}{virtual} \mbox{\hyperlink{classceres_1_1_sprite}{\string~Sprite}}();}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00022}00022     \mbox{\hyperlink{classceres_1_1_sprite}{Sprite}}(\textcolor{keyword}{const} \mbox{\hyperlink{classceres_1_1_sprite}{Sprite}}\&);}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00023}00023     [[nodiscard]] \textcolor{keywordtype}{float} getRotation() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00024}00024     \textcolor{keywordtype}{void} setRotation(\textcolor{keywordtype}{float} rotation);}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00025}00025 }
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00026}00026     [[nodiscard]] \textcolor{keyword}{const} glm::vec2\& getPositions() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00027}00027     \textcolor{keywordtype}{void} setPosition(\textcolor{keyword}{const} glm::vec2\& position);}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00028}00028 }
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00029}00029     [[nodiscard]] \textcolor{keyword}{const} glm::vec2\& getScale() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00030}00030     \textcolor{keywordtype}{void} setScale(\textcolor{keyword}{const} glm::vec2\& scale);}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00032}00032     [[nodiscard]] \textcolor{keyword}{const} glm::bvec2\& getFlip() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00033}00033     \textcolor{keywordtype}{void} setFlip(\textcolor{keyword}{const} glm::bvec2\& flip);}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00035}00035     [[maybe\_unused]] [[nodiscard]] uint16\_t getOrderInBatch() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00036}00036     [[maybe\_unused]] \textcolor{keywordtype}{void} setOrderInBatch(uint16\_t orderInBatch);}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00038}00038     [[nodiscard]] \textcolor{keyword}{const} glm::vec4\& getColor() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00039}00039     \textcolor{keywordtype}{void} setColor(\textcolor{keyword}{const} glm::vec4\& color);}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00041}00041     [[nodiscard]] \textcolor{keyword}{const} glm::ivec2\& getSpritePos() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00042}00042     [[nodiscard]] \textcolor{keyword}{const} glm::ivec2\& getSpriteSize() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00043}00043     [[nodiscard]] \textcolor{keyword}{const} glm::vec2\& getSpriteAnchor() \textcolor{keyword}{const}; \textcolor{comment}{// 锚点}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00044}00044     \textcolor{comment}{// 获取AABB 8个顶点的世界坐标}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00045}00045     [[nodiscard]] std::array<glm::vec2, 4> getTrimmedCorners() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00046}00046     std::array<glm::vec2, 4> getUvs();}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00048}00048 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00049}00049     \mbox{\hyperlink{classceres_1_1_sprite}{Sprite}}(glm::ivec2 spritePos, glm::ivec2 spriteSize, glm::ivec2 spriteSourcePos, glm::ivec2 spriteSourceSize, glm::vec2 spriteAnchor, \mbox{\hyperlink{classceres_1_1_texture}{Texture}}* texture);}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00051}00051 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00052}00052     glm::vec4 m\_color = \{ 1.0f, 1.0f, 1.0f, 1.0f \};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00053}00053     glm::vec2 m\_position = \{ 0.0f, 0.0f \};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00054}00054     glm::vec2 m\_scale = \{ 1.0f, 1.0f \};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00055}00055     glm::bvec2 m\_flip = \{ \textcolor{keyword}{false}, \textcolor{keyword}{false} \};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00056}00056     glm::ivec2 m\_spritePos\{ 0.0f, 0.0f \};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00057}00057     glm::ivec2 m\_spriteSize\{ 0.0f, 0.0f \};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00058}00058     glm::vec2 m\_spriteAnchor\{ 0.0f, 0.0f \};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00059}00059     glm::ivec2 m\_spriteSourcePos\{ 0, 0 \};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00060}00060     glm::ivec2 m\_spriteSourceSize\{ 0, 0 \};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00061}00061     \mbox{\hyperlink{classceres_1_1_texture}{Texture}}* m\_texture\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00062}00062     \textcolor{keywordtype}{float} m\_rotation\{ 0.0f \};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00063}00063     \textcolor{keyword}{union}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00064}00064     \{}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00065}00065         uint64\_t globalOrder;}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00066}00066         PACK(\textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00067}00067              \{}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00068}00068                  uint16\_t drawOrder; \textcolor{comment}{// lowest priority}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00069}00069                  uint32\_t texture;}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00070}00070                  uint16\_t orderInBatch; \textcolor{comment}{// highest priority}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00071}00071              \})}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00072}00072         details;}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00073}00073     \} m\_order\{\};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00074}00074     \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classceres_1_1_sprite_atlas}{SpriteAtlas}};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00075}00075     \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classceres_1_1_sprite_batch}{SpriteBatch}};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00076}00076     \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classceres_1_1_inspector}{Inspector}};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00077}00077 \};}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00078}00078 \} \textcolor{comment}{// namespace ceres}}
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{sprite_8h_source_l00080}00080 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// GRAPHICRENDERENGINE\_SPRITE\_H}}
+
+\end{DoxyCode}

@@ -1,0 +1,79 @@
+\hypertarget{camera_8h_source}{}\doxysection{camera.\+h}
+\label{camera_8h_source}\index{/Users/william/Developer/demo/graphicRenderEngine/ceres/core/camera.h@{/Users/william/Developer/demo/graphicRenderEngine/ceres/core/camera.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00002}00002 \textcolor{comment}{// Created by william on 2022/5/22.}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00005}00005 \textcolor{preprocessor}{\#ifndef GRAPHICRENDERENGINE\_CAMERA\_H}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00006}00006 \textcolor{preprocessor}{\#define GRAPHICRENDERENGINE\_CAMERA\_H}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00007}00007 \textcolor{preprocessor}{\#include "{}ray.h"{}}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00009}00009 \textcolor{preprocessor}{\#include <array>}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00010}00010 \textcolor{preprocessor}{\#include <glm/glm.hpp>}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00011}00011 \textcolor{keyword}{namespace }ceres}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00012}00012 \{}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00013}\mbox{\hyperlink{classceres_1_1_camera}{00013}} \textcolor{keyword}{class }\mbox{\hyperlink{classceres_1_1_camera}{Camera}}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00014}00014 \{}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00015}00015 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00016}00016     \textcolor{comment}{// 默认是正交投影：eye:(0,0,0)，看向z负轴，使用正交投影，[-\/1,1]}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00017}00017     \mbox{\hyperlink{classceres_1_1_camera}{Camera}}();}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00018}00018     \textcolor{comment}{// set position of camera in world space (view transform) using}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00019}00019     \textcolor{keywordtype}{void} setLookAt(glm::vec3 eye, glm::vec3 at, glm::vec3 up);}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00020}00020     \textcolor{comment}{// set the camera view transform using worldspace position and rotation is degrees}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00021}00021     \textcolor{keywordtype}{void} setPositionAndRotation(glm::vec3 position, glm::vec3 rotationEulersDegrees);}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00022}00022     \textcolor{comment}{// return the camera position (computed from the view transform)}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00023}00023     glm::vec3 getPosition();}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00024}00024     glm::vec3 getRotationEuler();}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00025}00025     \textcolor{comment}{// 世界坐标到屏幕的获取射线}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00026}00026     \mbox{\hyperlink{structceres_1_1_ray}{Ray}} \mbox{\hyperlink{classceres_1_1_camera_a6ec57af2f650a85c1b9c6fbfc8f5faa7}{screenPointToRay}}(glm::vec2 position);}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00027}00027     \textcolor{keywordtype}{void} setPerspectiveProjection(\textcolor{keywordtype}{float} fieldOfViewY, \textcolor{keywordtype}{float} nearPlane, \textcolor{keywordtype}{float} farPlane);}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00028}00028     \textcolor{keywordtype}{void} setOrthographicProjection(\textcolor{keywordtype}{float} orthographicSize, \textcolor{keywordtype}{float} nearPlane, \textcolor{keywordtype}{float} farPlane);}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00029}00029     \textcolor{keywordtype}{void} setWindowCoordinates();}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00030}00030     \textcolor{keyword}{inline} \textcolor{keywordtype}{void} setViewTransform(\textcolor{keyword}{const} glm::mat4\& viewTransform) \{ m\_viewTransform = viewTransform; \}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00031}00031     \textcolor{keywordtype}{void} setProjectionTransform(\textcolor{keyword}{const} glm::mat4\& projectionTransform);}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00032}00032     [[nodiscard]] \textcolor{keyword}{inline} glm::mat4 getViewTransform()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_viewTransform; \}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00033}00033     glm::mat4 getProjectionTransform(\textcolor{keyword}{const} glm::uvec2\& viewportSize);}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00034}00034     glm::mat4 getInfiniteProjectionTransform(glm::uvec2 viewportSize);}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00035}00035     \textcolor{keywordtype}{void} setViewport(\textcolor{keyword}{const} glm::vec2\& offset, \textcolor{keyword}{const} glm::vec2\& size);}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00037}00037 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00038}00038     \textcolor{keyword}{enum class} ProjectionType}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00039}00039     \{}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00040}00040         Perspective,}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00041}00041         Orthographic,}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00042}00042         OrthographicWindow,}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00043}00043         Custom}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00044}00044     \};}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00046}00046     \textcolor{keyword}{union }ProjectionValue}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00047}00047     \{}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00048}00048         \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00049}00049         \{}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00050}00050             \textcolor{keywordtype}{float} fieldOfViewY;}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00051}00051             \textcolor{keywordtype}{float} nearPlane;}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00052}00052             \textcolor{keywordtype}{float} farPlane;}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00053}00053         \} perspective;}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00054}00054         \textcolor{keyword}{struct}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00055}00055         \{}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00056}00056             \textcolor{keywordtype}{float} orthographicSize;}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00057}00057             \textcolor{keywordtype}{float} nearPlane;}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00058}00058             \textcolor{keywordtype}{float} farPlane;}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00059}00059         \} orthographic;}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00060}00060         \textcolor{keywordtype}{float} customProjectionMatrix[16];}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00061}00061     \};}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00062}00062 }
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00063}00063 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00064}00064     glm::mat4 m\_viewTransform\{ 1.0f \};}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00065}00065     ProjectionValue m\_projectionValue\{ 1.0f \};}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00066}00066     ProjectionType m\_projectionType = ProjectionType::Orthographic;}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00067}00067     glm::vec2 m\_viewportOffset = glm::vec2\{ 0, 0 \};}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00068}00068     glm::vec2 m\_viewportSize = glm::vec2\{ 1, 1 \};}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00069}00069     \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classceres_1_1_render_pass}{RenderPass}};}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00070}00070 \};}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00071}00071 \} \textcolor{comment}{// namespace ceres}}
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{camera_8h_source_l00073}00073 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// GRAPHICRENDERENGINE\_CAMERA\_H}}
+
+\end{DoxyCode}

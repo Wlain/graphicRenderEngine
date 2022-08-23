@@ -1,0 +1,1758 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
+  <compounddef id="classceres_1_1_shader" kind="class" language="C++" prot="public">
+    <compoundname>ceres::Shader</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::enable_shared_from_this&lt; Shader &gt;</basecompoundref>
+    <innerclass refid="structceres_1_1_shader_1_1_resource" prot="public">ceres::Shader::Resource</innerclass>
+    <innerclass refid="structceres_1_1_shader_1_1_shader_attribute" prot="public">ceres::Shader::ShaderAttribute</innerclass>
+    <innerclass refid="classceres_1_1_shader_1_1_shader_builder" prot="public">ceres::Shader::ShaderBuilder</innerclass>
+    <innerclass refid="structceres_1_1_shader_1_1_stencil_descriptor" prot="public">ceres::Shader::StencilDescriptor</innerclass>
+    <innerclass refid="structceres_1_1_shader_1_1_uniform" prot="public">ceres::Shader::Uniform</innerclass>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classceres_1_1_shader_1a4f5133901fedfc58d4c83ddaf03a7bfd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BlendType</name>
+        <qualifiedname>ceres::Shader::BlendType</qualifiedname>
+        <enumvalue id="classceres_1_1_shader_1a4f5133901fedfc58d4c83ddaf03a7bfdab9f5c797ebbf55adccdd8539a65a0241" prot="public">
+          <name>Disabled</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a4f5133901fedfc58d4c83ddaf03a7bfda8bb7dc17a08b6afa19cc4c18c6334eee" prot="public">
+          <name>AlphaBlending</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a4f5133901fedfc58d4c83ddaf03a7bfda55b2009972903a90babbfccd52ab1ad8" prot="public">
+          <name>AdditiveBlending</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="28" column="5" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="29" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="classceres_1_1_shader_1a9cb5dc0b059617f7fff5e8caeddae72d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>UniformType</name>
+        <qualifiedname>ceres::Shader::UniformType</qualifiedname>
+        <enumvalue id="classceres_1_1_shader_1a9cb5dc0b059617f7fff5e8caeddae72da1686a6c336b71b36d77354cea19a8b52" prot="public">
+          <name>Int</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a9cb5dc0b059617f7fff5e8caeddae72da22ae0e2b89e5e3d477f988cc36d3272b" prot="public">
+          <name>Float</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a9cb5dc0b059617f7fff5e8caeddae72da2495a7d9c1fab19af6441abbfed823e1" prot="public">
+          <name>Mat3</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a9cb5dc0b059617f7fff5e8caeddae72da80f7408b0a5b5d78c26adae9f6f420f9" prot="public">
+          <name>Mat4</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a9cb5dc0b059617f7fff5e8caeddae72daf67402842935c0240e8109e7312def66" prot="public">
+          <name>Vec4</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a9cb5dc0b059617f7fff5e8caeddae72daf561f51fe7403ddb3f8d7e2732cb4d65" prot="public">
+          <name>IVec4</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a9cb5dc0b059617f7fff5e8caeddae72da01b2dc1a2922d9be9e12ef0709600977" prot="public">
+          <name>Vec3</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a9cb5dc0b059617f7fff5e8caeddae72daa3e8ae43188ae76d38f414b2bdb0077b" prot="public">
+          <name>Texture</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a9cb5dc0b059617f7fff5e8caeddae72da4bbb8f967da6d1a610596d7257179c2b" prot="public">
+          <name>Invalid</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a9cb5dc0b059617f7fff5e8caeddae72da0a152d9f3e1df14068c5857fb3352505" prot="public">
+          <name>TextureCube</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="35" column="5" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="36" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="enum" id="classceres_1_1_shader_1a8b3a996a8bb1ee631c8b2f23601f9c13" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CullFace</name>
+        <qualifiedname>ceres::Shader::CullFace</qualifiedname>
+        <enumvalue id="classceres_1_1_shader_1a8b3a996a8bb1ee631c8b2f23601f9c13a5835bab1ade0060909e31a06af2e2cde" prot="public">
+          <name>Front</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a8b3a996a8bb1ee631c8b2f23601f9c13a0557fa923dcee4d0f86b1409f5c2167f" prot="public">
+          <name>Back</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a8b3a996a8bb1ee631c8b2f23601f9c13a6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="49" column="5" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="50" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="enum" id="classceres_1_1_shader_1a43a6500dd91ef75cadef2e6a4d72ddc2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ShaderType</name>
+        <qualifiedname>ceres::Shader::ShaderType</qualifiedname>
+        <enumvalue id="classceres_1_1_shader_1a43a6500dd91ef75cadef2e6a4d72ddc2ab22b929ba52471a02d18bb3a4e4472e6" prot="public">
+          <name>Vertex</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a43a6500dd91ef75cadef2e6a4d72ddc2a37d01b98065725fe3a1d30acf3a0064a" prot="public">
+          <name>Fragment</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a43a6500dd91ef75cadef2e6a4d72ddc2ad9c6333623e6357515fcbf17be806273" prot="public">
+          <name>Geometry</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a43a6500dd91ef75cadef2e6a4d72ddc2a91a08ad964ef35c89ae69cd4176cfb4a" prot="public">
+          <name>TessellationControl</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a43a6500dd91ef75cadef2e6a4d72ddc2a85a5d743bd284736223e3c1e95c6b952" prot="public">
+          <name>TessellationEvaluation</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="75" column="5" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="76" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="enum" id="classceres_1_1_shader_1ac6285fd2b54bcff3c9760bfed76e093c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ResourceType</name>
+        <qualifiedname>ceres::Shader::ResourceType</qualifiedname>
+        <enumvalue id="classceres_1_1_shader_1ac6285fd2b54bcff3c9760bfed76e093ca0b27918290ff5323bea1e3b78a9cf04e" prot="public">
+          <name>File</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1ac6285fd2b54bcff3c9760bfed76e093ca4789f23283b3a61f858b641a1bef19a3" prot="public">
+          <name>Memory</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="84" column="5" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="85" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="enum" id="classceres_1_1_shader_1a9d20808e0dd2ab6c8221cd83e3b04174" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>StencilFunc</name>
+        <qualifiedname>ceres::Shader::StencilFunc</qualifiedname>
+        <enumvalue id="classceres_1_1_shader_1a9d20808e0dd2ab6c8221cd83e3b04174a6e7b34fa59e1bd229b207892956dc41c" prot="public">
+          <name>Never</name>
+          <initializer>= GL_NEVER</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a9d20808e0dd2ab6c8221cd83e3b04174a1cfdf0e8d0c87a228c1f40d9bee7888b" prot="public">
+          <name>Less</name>
+          <initializer>= GL_LESS</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a9d20808e0dd2ab6c8221cd83e3b04174af5f286e73bda105e538310b3190f75c5" prot="public">
+          <name>Equal</name>
+          <initializer>= GL_EQUAL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a9d20808e0dd2ab6c8221cd83e3b04174a9f2def3dbc3357543556d765e234a550" prot="public">
+          <name>LEqual</name>
+          <initializer>= GL_LEQUAL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a9d20808e0dd2ab6c8221cd83e3b04174a8768a6821cd735aea4f5b0df88c1fc6a" prot="public">
+          <name>Greater</name>
+          <initializer>= GL_GREATER</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a9d20808e0dd2ab6c8221cd83e3b04174a19bb0af2c3c530538cb41aff7f235b96" prot="public">
+          <name>NotEqual</name>
+          <initializer>= GL_NOTEQUAL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a9d20808e0dd2ab6c8221cd83e3b04174a6274a4f615e42c9894ded1bc221ceba6" prot="public">
+          <name>GEqual</name>
+          <initializer>= GL_GEQUAL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a9d20808e0dd2ab6c8221cd83e3b04174a68eec46437c384d8dad18d5464ebc35c" prot="public">
+          <name>Always</name>
+          <initializer>= GL_ALWAYS</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a9d20808e0dd2ab6c8221cd83e3b04174ab9f5c797ebbf55adccdd8539a65a0241" prot="public">
+          <name>Disabled</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="96" column="5" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="97" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="enum" id="classceres_1_1_shader_1a4c94ec2e744eb6a5bbf0eb444072e213" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>StencilOp</name>
+        <qualifiedname>ceres::Shader::StencilOp</qualifiedname>
+        <enumvalue id="classceres_1_1_shader_1a4c94ec2e744eb6a5bbf0eb444072e213a02bce93bff905887ad2233110bf9c49e" prot="public">
+          <name>Keep</name>
+          <initializer>= GL_KEEP</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a4c94ec2e744eb6a5bbf0eb444072e213ad7ed4ee1df437474d005188535f74875" prot="public">
+          <name>Zero</name>
+          <initializer>= GL_ZERO</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a4c94ec2e744eb6a5bbf0eb444072e213a0ebe6df8a3ac338e0512acc741823fdb" prot="public">
+          <name>Replace</name>
+          <initializer>= GL_REPLACE</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a4c94ec2e744eb6a5bbf0eb444072e213a7dec2923eeed0835d6a0f5cd58eb3c61" prot="public">
+          <name>Incr</name>
+          <initializer>= GL_INCR</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a4c94ec2e744eb6a5bbf0eb444072e213a893d5395c39e90eca72ccb89e2e90312" prot="public">
+          <name>IncrWrap</name>
+          <initializer>= GL_INCR_WRAP</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a4c94ec2e744eb6a5bbf0eb444072e213a8e0aa9abd1cf647fde90da660c638c1e" prot="public">
+          <name>Decr</name>
+          <initializer>= GL_DECR</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a4c94ec2e744eb6a5bbf0eb444072e213a705c1791598610083534bb820c98ad4b" prot="public">
+          <name>DecrWrap</name>
+          <initializer>= GL_DECR_WRAP</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classceres_1_1_shader_1a4c94ec2e744eb6a5bbf0eb444072e213a9b8958acb7be504bb5f55f17c0eea366" prot="public">
+          <name>Invert</name>
+          <initializer>= GL_INVERT</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="109" column="5" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="110" bodyend="119"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classceres_1_1_shader_1ad319b28696fac5620e19ed6d1b2bc094" prot="private" static="yes" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Shader&gt; ceres::Shader::s_unlit</definition>
+        <argsstring></argsstring>
+        <name>s_unlit</name>
+        <qualifiedname>ceres::Shader::s_unlit</qualifiedname>
+        <initializer>{ nullptr }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="220" column="35" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1ac058140c99787a74dd42d111f25b69d2" prot="private" static="yes" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Shader&gt; ceres::Shader::s_blit</definition>
+        <argsstring></argsstring>
+        <name>s_blit</name>
+        <qualifiedname>ceres::Shader::s_blit</qualifiedname>
+        <initializer>{ nullptr }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="221" column="35" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1ab5ffa01543c9c686a971a0f661c43349" prot="private" static="yes" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Shader&gt; ceres::Shader::s_unlitSprite</definition>
+        <argsstring></argsstring>
+        <name>s_unlitSprite</name>
+        <qualifiedname>ceres::Shader::s_unlitSprite</qualifiedname>
+        <initializer>{ nullptr }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="222" column="35" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a68bf7a296ab49a76ee1e442349c2d277" prot="private" static="yes" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Shader&gt; ceres::Shader::s_debugUV</definition>
+        <argsstring></argsstring>
+        <name>s_debugUV</name>
+        <qualifiedname>ceres::Shader::s_debugUV</qualifiedname>
+        <initializer>{ nullptr }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="223" column="35" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a82df0bfdcb6a8454d2e65cc5b79552a3" prot="private" static="yes" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Shader&gt; ceres::Shader::s_debugNormals</definition>
+        <argsstring></argsstring>
+        <name>s_debugNormals</name>
+        <qualifiedname>ceres::Shader::s_debugNormals</qualifiedname>
+        <initializer>{ nullptr }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="224" column="35" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a8736c02c0235013fd29778c03603c2de" prot="private" static="yes" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Shader&gt; ceres::Shader::s_font</definition>
+        <argsstring></argsstring>
+        <name>s_font</name>
+        <qualifiedname>ceres::Shader::s_font</qualifiedname>
+        <initializer>{ nullptr }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="225" column="35" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a5f4049d12f353dfc52343fc99442d7f8" prot="private" static="yes" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Shader&gt; ceres::Shader::s_standardParticles</definition>
+        <argsstring></argsstring>
+        <name>s_standardParticles</name>
+        <qualifiedname>ceres::Shader::s_standardParticles</qualifiedname>
+        <initializer>{ nullptr }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="226" column="35" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1ac9e386612433741aeb1509f6a2c4c360" prot="private" static="yes" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Shader&gt; ceres::Shader::s_standardPBR</definition>
+        <argsstring></argsstring>
+        <name>s_standardPBR</name>
+        <qualifiedname>ceres::Shader::s_standardPBR</qualifiedname>
+        <initializer>{ nullptr }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="227" column="35" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a6710ed38572fee1ac1509a3487205d20" prot="private" static="yes" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Shader&gt; ceres::Shader::s_standardPhong</definition>
+        <argsstring></argsstring>
+        <name>s_standardPhong</name>
+        <qualifiedname>ceres::Shader::s_standardPhong</qualifiedname>
+        <initializer>{ nullptr }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="228" column="35" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a3e740c696def9b26dff0d5740273e03a" prot="private" static="yes" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Shader&gt; ceres::Shader::s_standardBlinnPhong</definition>
+        <argsstring></argsstring>
+        <name>s_standardBlinnPhong</name>
+        <qualifiedname>ceres::Shader::s_standardBlinnPhong</qualifiedname>
+        <initializer>{ nullptr }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="229" column="35" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a1c60f00f180a174343e26f818c0ca00e" prot="private" static="yes" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Shader&gt; ceres::Shader::s_skybox</definition>
+        <argsstring></argsstring>
+        <name>s_skybox</name>
+        <qualifiedname>ceres::Shader::s_skybox</qualifiedname>
+        <initializer>{ nullptr }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="230" column="35" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a7e9518f6be1fd4809abf64166b10cd77" prot="private" static="yes" mutable="no">
+        <type>long</type>
+        <definition>long ceres::Shader::s_globalShaderCounter</definition>
+        <argsstring></argsstring>
+        <name>s_globalShaderCounter</name>
+        <qualifiedname>ceres::Shader::s_globalShaderCounter</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="231" column="24" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classceres_1_1_shader_1a243554f90508e2dbc3ae4add4ec2e8e3" prot="private" static="no" mutable="no">
+        <type>BlendType</type>
+        <definition>BlendType ceres::Shader::m_blendType</definition>
+        <argsstring></argsstring>
+        <name>m_blendType</name>
+        <qualifiedname>ceres::Shader::m_blendType</qualifiedname>
+        <initializer>{ BlendType::Disabled }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="234" column="15" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a6e91b7f9b5b48268555e3be93148cfd9" prot="private" static="no" mutable="no">
+        <type>CullFace</type>
+        <definition>CullFace ceres::Shader::m_cullFace</definition>
+        <argsstring></argsstring>
+        <name>m_cullFace</name>
+        <qualifiedname>ceres::Shader::m_cullFace</qualifiedname>
+        <initializer>{ CullFace::Back }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="235" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1ad6fa18319ceee0e4cd1d2097c02fe5b7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structceres_1_1_shader_1_1_uniform" kindref="compound">Uniform</ref> &gt;</type>
+        <definition>std::vector&lt;Uniform&gt; ceres::Shader::m_uniforms</definition>
+        <argsstring></argsstring>
+        <name>m_uniforms</name>
+        <qualifiedname>ceres::Shader::m_uniforms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="236" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a31643f694f1fb8969348e4c4d2c08cd3" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structceres_1_1_shader_1_1_shader_attribute" kindref="compound">ShaderAttribute</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ShaderAttribute&gt; ceres::Shader::m_attributes</definition>
+        <argsstring></argsstring>
+        <name>m_attributes</name>
+        <qualifiedname>ceres::Shader::m_attributes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="237" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a34c385437c85b6990821def7a594a3bf" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; ceres::Shader::m_specializationConstants</definition>
+        <argsstring></argsstring>
+        <name>m_specializationConstants</name>
+        <qualifiedname>ceres::Shader::m_specializationConstants</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="238" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a4ff4e1137d4da26f4c3957aef7d83b8d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::weak_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::weak_ptr&lt;Shader&gt; &gt; ceres::Shader::m_specializations</definition>
+        <argsstring></argsstring>
+        <name>m_specializations</name>
+        <qualifiedname>ceres::Shader::m_specializations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="239" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a92195194717549926d09460c492ea747" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Shader&gt; ceres::Shader::m_parent</definition>
+        <argsstring></argsstring>
+        <name>m_parent</name>
+        <qualifiedname>ceres::Shader::m_parent</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="240" column="21" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1aae45b80cc94d52c08540d387b388d923" prot="private" static="no" mutable="no">
+        <type>std::map&lt; ShaderType, <ref refid="structceres_1_1_shader_1_1_resource" kindref="compound">Resource</ref> &gt;</type>
+        <definition>std::map&lt;ShaderType, Resource&gt; ceres::Shader::m_shaderSources</definition>
+        <argsstring></argsstring>
+        <name>m_shaderSources</name>
+        <qualifiedname>ceres::Shader::m_shaderSources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="241" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1ac462a27b08a270de5c1b95eff66b0ec0" prot="private" static="no" mutable="no">
+        <type>glm::vec2</type>
+        <definition>glm::vec2 ceres::Shader::m_offset</definition>
+        <argsstring></argsstring>
+        <name>m_offset</name>
+        <qualifiedname>ceres::Shader::m_offset</qualifiedname>
+        <initializer>= glm::vec2(0, 0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="242" column="15" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a11aaacbb8b3f4a616494fdc91767bf29" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ceres::Shader::m_name</definition>
+        <argsstring></argsstring>
+        <name>m_name</name>
+        <qualifiedname>ceres::Shader::m_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="243" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a641a25f490837e53c7b34c08d0616aa6" prot="private" static="no" mutable="no">
+        <type><ref refid="structceres_1_1_shader_1_1_stencil_descriptor" kindref="compound">StencilDescriptor</ref></type>
+        <definition>StencilDescriptor ceres::Shader::m_stencil</definition>
+        <argsstring></argsstring>
+        <name>m_stencil</name>
+        <qualifiedname>ceres::Shader::m_stencil</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="244" column="23" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a4d8c57f297ac57ea444e0d3cbcb51e03" prot="private" static="no" mutable="no">
+        <type>glm::bvec4</type>
+        <definition>glm::bvec4 ceres::Shader::m_colorWrite</definition>
+        <argsstring></argsstring>
+        <name>m_colorWrite</name>
+        <qualifiedname>ceres::Shader::m_colorWrite</qualifiedname>
+        <initializer>{ true, true, true, true }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="245" column="16" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1ae64a5a22b88fc3672b33b38dcfdc2975" prot="private" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int ceres::Shader::m_id</definition>
+        <argsstring></argsstring>
+        <name>m_id</name>
+        <qualifiedname>ceres::Shader::m_id</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="246" column="18" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a6a37221e2eeddf488544cd84684454d4" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ceres::Shader::m_depthTest</definition>
+        <argsstring></argsstring>
+        <name>m_depthTest</name>
+        <qualifiedname>ceres::Shader::m_depthTest</qualifiedname>
+        <initializer>{ true }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="247" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1ad533464e4f51ca2b829e261c71c7c3e5" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ceres::Shader::m_depthWrite</definition>
+        <argsstring></argsstring>
+        <name>m_depthWrite</name>
+        <qualifiedname>ceres::Shader::m_depthWrite</qualifiedname>
+        <initializer>{ true }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="248" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a4e4bf724b0d699409bf1e577a9f5bd8c" prot="private" static="no" mutable="no">
+        <type>long</type>
+        <definition>long ceres::Shader::m_shaderUniqueId</definition>
+        <argsstring></argsstring>
+        <name>m_shaderUniqueId</name>
+        <qualifiedname>ceres::Shader::m_shaderUniqueId</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="249" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1af90ce715cd518fa052e9196d542e59b4" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ceres::Shader::m_uniformLocationModel</definition>
+        <argsstring></argsstring>
+        <name>m_uniformLocationModel</name>
+        <qualifiedname>ceres::Shader::m_uniformLocationModel</qualifiedname>
+        <initializer>{ -1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="250" column="9" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a62e98bd04509df7d2b6bd55eba4ec15d" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ceres::Shader::m_uniformLocationView</definition>
+        <argsstring></argsstring>
+        <name>m_uniformLocationView</name>
+        <qualifiedname>ceres::Shader::m_uniformLocationView</qualifiedname>
+        <initializer>{ -1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="251" column="9" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a1b338d82216f0fcd40026cfffb3779a7" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ceres::Shader::m_uniformLocationProjection</definition>
+        <argsstring></argsstring>
+        <name>m_uniformLocationProjection</name>
+        <qualifiedname>ceres::Shader::m_uniformLocationProjection</qualifiedname>
+        <initializer>{ -1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="252" column="9" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a2f38c11a822eebdbe35eade5fde87041" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ceres::Shader::m_uniformLocationModelViewInverseTranspose</definition>
+        <argsstring></argsstring>
+        <name>m_uniformLocationModelViewInverseTranspose</name>
+        <qualifiedname>ceres::Shader::m_uniformLocationModelViewInverseTranspose</qualifiedname>
+        <initializer>{ -1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="253" column="9" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a9953b9bcf1bf86b92092bd1ef0ecf3ab" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ceres::Shader::m_uniformLocationModelInverseTranspose</definition>
+        <argsstring></argsstring>
+        <name>m_uniformLocationModelInverseTranspose</name>
+        <qualifiedname>ceres::Shader::m_uniformLocationModelInverseTranspose</qualifiedname>
+        <initializer>{ -1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="254" column="9" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a807bb4efd00f82122e76befdafc9319a" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ceres::Shader::m_uniformLocationViewport</definition>
+        <argsstring></argsstring>
+        <name>m_uniformLocationViewport</name>
+        <qualifiedname>ceres::Shader::m_uniformLocationViewport</qualifiedname>
+        <initializer>{ -1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="255" column="9" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a92fda98ac7d5cf11a433fdfce08e9a79" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ceres::Shader::m_uniformLocationCameraPosition</definition>
+        <argsstring></argsstring>
+        <name>m_uniformLocationCameraPosition</name>
+        <qualifiedname>ceres::Shader::m_uniformLocationCameraPosition</qualifiedname>
+        <initializer>{ -1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="256" column="9" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a7e8a40733677443846426bb3c82c21b0" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ceres::Shader::m_uniformLocationAmbientLight</definition>
+        <argsstring></argsstring>
+        <name>m_uniformLocationAmbientLight</name>
+        <qualifiedname>ceres::Shader::m_uniformLocationAmbientLight</qualifiedname>
+        <initializer>{ -1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="257" column="9" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1a115f5569773e6afdcbc2ee5a9893cb96" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ceres::Shader::m_uniformLocationLightPosType</definition>
+        <argsstring></argsstring>
+        <name>m_uniformLocationLightPosType</name>
+        <qualifiedname>ceres::Shader::m_uniformLocationLightPosType</qualifiedname>
+        <initializer>{ -1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="258" column="9" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classceres_1_1_shader_1aad55266b7d9c1484ea28e0d534bf3d06" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ceres::Shader::m_uniformLocationLightColorRange</definition>
+        <argsstring></argsstring>
+        <name>m_uniformLocationLightColorRange</name>
+        <qualifiedname>ceres::Shader::m_uniformLocationLightColorRange</qualifiedname>
+        <initializer>{ -1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="259" column="9" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classceres_1_1_shader_1aa41a130f156b145bffb3f4b5172c4c93" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class Mesh</definition>
+        <argsstring></argsstring>
+        <name>Mesh</name>
+        <qualifiedname>ceres::Shader::Mesh</qualifiedname>
+        <param>
+          <type><ref refid="classceres_1_1_mesh" kindref="compound">Mesh</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="260" column="18" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="friend" id="classceres_1_1_shader_1aa8ab806874e69ead344abef1c5e76aa0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class RenderPass</definition>
+        <argsstring></argsstring>
+        <name>RenderPass</name>
+        <qualifiedname>ceres::Shader::RenderPass</qualifiedname>
+        <param>
+          <type><ref refid="classceres_1_1_render_pass" kindref="compound">RenderPass</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="261" column="18" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="friend" id="classceres_1_1_shader_1aa1212b6e372a0f45d2c01f3cd203af77" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class Material</definition>
+        <argsstring></argsstring>
+        <name>Material</name>
+        <qualifiedname>ceres::Shader::Material</qualifiedname>
+        <param>
+          <type><ref refid="classceres_1_1_material" kindref="compound">Material</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="262" column="18" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="friend" id="classceres_1_1_shader_1a5486a5ab1c546bf41e8da20dd0b01de1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class Inspector</definition>
+        <argsstring></argsstring>
+        <name>Inspector</name>
+        <qualifiedname>ceres::Shader::Inspector</qualifiedname>
+        <param>
+          <type><ref refid="classceres_1_1_inspector" kindref="compound">Inspector</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="263" column="18" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classceres_1_1_shader_1aae508b42cf664d2f43eded45711623cf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classceres_1_1_shader_1_1_shader_builder" kindref="compound">ShaderBuilder</ref></type>
+        <definition>Shader::ShaderBuilder ceres::Shader::create</definition>
+        <argsstring>()</argsstring>
+        <name>create</name>
+        <qualifiedname>ceres::Shader::create</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="170" column="26" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="718" bodyend="721"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1afea1d2fe0e512b826c9d64945a511eca" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classceres_1_1_shader_1_1_shader_builder" kindref="compound">ShaderBuilder</ref></type>
+        <definition>Shader::ShaderBuilder ceres::Shader::update</definition>
+        <argsstring>()</argsstring>
+        <name>update</name>
+        <qualifiedname>ceres::Shader::update</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="172" column="26" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="940" bodyend="943"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a4c93eec6eee0da34e5807a7496c5f88c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Shader &gt; ceres::Shader::getUnlit</definition>
+        <argsstring>()</argsstring>
+        <name>getUnlit</name>
+        <qualifiedname>ceres::Shader::getUnlit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="173" column="28" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="302" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a3f581b979d632c1935bcde81cc50e620" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Shader &gt; ceres::Shader::getBlit</definition>
+        <argsstring>()</argsstring>
+        <name>getBlit</name>
+        <qualifiedname>ceres::Shader::getBlit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="174" column="28" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="316" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a4cf25fbb1e0d37164059759a72e03cfd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Shader &gt; ceres::Shader::getUnlitSprite</definition>
+        <argsstring>()</argsstring>
+        <name>getUnlitSprite</name>
+        <qualifiedname>ceres::Shader::getUnlitSprite</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="175" column="28" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="330" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1ad1cb5946e26455d4ab254dcc7e866a08" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Shader &gt; ceres::Shader::getStandardParticles</definition>
+        <argsstring>()</argsstring>
+        <name>getStandardParticles</name>
+        <qualifiedname>ceres::Shader::getStandardParticles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="176" column="28" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="347" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1af2c0ff157be0a27252b1aa8351d1b700" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Shader &gt; ceres::Shader::getStandardPBR</definition>
+        <argsstring>()</argsstring>
+        <name>getStandardPBR</name>
+        <qualifiedname>ceres::Shader::getStandardPBR</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="177" column="28" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="945" bodyend="957"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a8bd8b7102bbd4e20fe9a101b8876f0f9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Shader &gt; ceres::Shader::getStandardBlinnPhong</definition>
+        <argsstring>()</argsstring>
+        <name>getStandardBlinnPhong</name>
+        <qualifiedname>ceres::Shader::getStandardBlinnPhong</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="178" column="28" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="959" bodyend="971"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a80dc0cec5f12da8147b44eee9ff882ff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Shader &gt; ceres::Shader::getStandardPhong</definition>
+        <argsstring>()</argsstring>
+        <name>getStandardPhong</name>
+        <qualifiedname>ceres::Shader::getStandardPhong</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="179" column="28" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="973" bodyend="985"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1aead8414ac7b03877b1394283df8ae763" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Shader &gt; ceres::Shader::getSkybox</definition>
+        <argsstring>()</argsstring>
+        <name>getSkybox</name>
+        <qualifiedname>ceres::Shader::getSkybox</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="180" column="28" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="987" bodyend="1000"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1acbc60156909ac42faf088ac966eac132" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ceres::Shader::toId</definition>
+        <argsstring>(ShaderType st)</argsstring>
+        <name>toId</name>
+        <qualifiedname>ceres::Shader::toId</qualifiedname>
+        <param>
+          <type>ShaderType</type>
+          <declname>st</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="207" column="21" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="919" bodyend="938"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classceres_1_1_shader_1af4ca2898d2493873f59641b00ba38169" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string ceres::Shader::getSource</definition>
+        <argsstring>(const Resource &amp;resource)</argsstring>
+        <name>getSource</name>
+        <qualifiedname>ceres::Shader::getSource</qualifiedname>
+        <param>
+          <type>const <ref refid="structceres_1_1_shader_1_1_resource" kindref="compound">Resource</ref> &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="183" column="24" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="276" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a73ec503aa36482dccafd368642c55ff6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string ceres::Shader::insertPreprocessorDefines</definition>
+        <argsstring>(std::string source, std::map&lt; std::string, std::string &gt; &amp;specializationConstants, uint32_t shaderType)</argsstring>
+        <name>insertPreprocessorDefines</name>
+        <qualifiedname>ceres::Shader::insertPreprocessorDefines</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>specializationConstants</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>shaderType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="214" column="24" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="1038" bodyend="1105"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classceres_1_1_shader_1af7016cb8b61815d0cbe9b9f0fd0b96b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ceres::Shader::~Shader</definition>
+        <argsstring>()</argsstring>
+        <name>~Shader</name>
+        <qualifiedname>ceres::Shader::~Shader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="186" column="5" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="374" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a977c0416fc3c2ca97e5a8303b7e3dd49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structceres_1_1_shader_1_1_uniform" kindref="compound">Uniform</ref></type>
+        <definition>Shader::Uniform ceres::Shader::getUniformType</definition>
+        <argsstring>(std::string_view name)</argsstring>
+        <name>getUniformType</name>
+        <qualifiedname>ceres::Shader::getUniformType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="187" column="13" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="506" bodyend="514"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a5101cac396598041719f03aa2b5c8678" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; int, int &gt;</type>
+        <definition>std::pair&lt; int, int &gt; ceres::Shader::getAttributeType</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>getAttributeType</name>
+        <qualifiedname>ceres::Shader::getAttributeType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="189" column="15" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="913" bodyend="917"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a4cedb63cf69c320c2a4d5ba9bdeaffc7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ceres::Shader::isDepthTest</definition>
+        <argsstring>() const</argsstring>
+        <name>isDepthTest</name>
+        <qualifiedname>ceres::Shader::isDepthTest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="190" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="190" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1ab29798106b4c5df13c386f5cec729361" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ceres::Shader::isDepthWrite</definition>
+        <argsstring>() const</argsstring>
+        <name>isDepthWrite</name>
+        <qualifiedname>ceres::Shader::isDepthWrite</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="191" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="191" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1aedaa92aed505ce1ad46bfc5e7579fedb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>BlendType</type>
+        <definition>BlendType ceres::Shader::getBlend</definition>
+        <argsstring>() const</argsstring>
+        <name>getBlend</name>
+        <qualifiedname>ceres::Shader::getBlend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="192" column="22" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1af43a031016f54c6c2b76935071f39ee1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const glm::vec2 &amp;</type>
+        <definition>const glm::vec2 &amp; ceres::Shader::getOffset</definition>
+        <argsstring>() const</argsstring>
+        <name>getOffset</name>
+        <qualifiedname>ceres::Shader::getOffset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="193" column="28" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="193" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a2da0d30444a83b8da9d7ca7573bda1a6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; ceres::Shader::name</definition>
+        <argsstring>() const</argsstring>
+        <name>name</name>
+        <qualifiedname>ceres::Shader::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="194" column="30" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="194" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a61a349238550c32ee8c98eff2b2737ff" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structceres_1_1_shader_1_1_stencil_descriptor" kindref="compound">StencilDescriptor</ref> &amp;</type>
+        <definition>const StencilDescriptor &amp; ceres::Shader::getStencil</definition>
+        <argsstring>() const</argsstring>
+        <name>getStencil</name>
+        <qualifiedname>ceres::Shader::getStencil</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="195" column="36" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="195" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a6e4cb2b1010f0485ff07ac7ac81d8bc2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const glm::bvec4 &amp;</type>
+        <definition>const glm::bvec4 &amp; ceres::Shader::colorWriteMask</definition>
+        <argsstring>() const</argsstring>
+        <name>colorWriteMask</name>
+        <qualifiedname>ceres::Shader::colorWriteMask</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="196" column="29" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="196" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a758f1f0b961c7e9efdb9da0e469ce6a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; ceres::Shader::getAttributeNames</definition>
+        <argsstring>()</argsstring>
+        <name>getAttributeNames</name>
+        <qualifiedname>ceres::Shader::getAttributeNames</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="198" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="789" bodyend="797"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1afe598d9eec80e9ace494840c6ed9201b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; ceres::Shader::getUniformNames</definition>
+        <argsstring>()</argsstring>
+        <name>getUniformNames</name>
+        <qualifiedname>ceres::Shader::getUniformNames</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="199" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="799" bodyend="807"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a73b67ac45af774da00da3ab370291019" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ceres::Shader::validateMesh</definition>
+        <argsstring>(Mesh *mesh, std::string &amp;info)</argsstring>
+        <name>validateMesh</name>
+        <qualifiedname>ceres::Shader::validateMesh</qualifiedname>
+        <param>
+          <type><ref refid="classceres_1_1_mesh" kindref="compound">Mesh</ref> *</type>
+          <declname>mesh</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="202" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="809" bodyend="846"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a458d39e89de44cf22a430b6fe4a90041" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+        <definition>const std::map&lt; std::string, std::string &gt; &amp; ceres::Shader::getCurrentSpecializationConstants</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentSpecializationConstants</name>
+        <qualifiedname>ceres::Shader::getCurrentSpecializationConstants</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="203" column="20" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="1002" bodyend="1005"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1acdb872dbda463433c48c4e7012675116" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt; std::string &gt; ceres::Shader::getAllSpecializationConstants</definition>
+        <argsstring>()</argsstring>
+        <name>getAllSpecializationConstants</name>
+        <qualifiedname>ceres::Shader::getAllSpecializationConstants</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="204" column="14" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="1007" bodyend="1027"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1aa8f93ff28512494ed3cafe96075cd881" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classceres_1_1_material" kindref="compound">Material</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Material &gt; ceres::Shader::createMaterial</definition>
+        <argsstring>(std::map&lt; std::string, std::string &gt; specializationConstants={})</argsstring>
+        <name>createMaterial</name>
+        <qualifiedname>ceres::Shader::createMaterial</qualifiedname>
+        <param>
+          <type>std::map&lt; std::string, std::string &gt;</type>
+          <declname>specializationConstants</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="205" column="21" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="848" bodyend="884"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1adf74e965d77078643333c13c93aa3a5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * ceres::Shader::toStr</definition>
+        <argsstring>(UniformType u)</argsstring>
+        <name>toStr</name>
+        <qualifiedname>ceres::Shader::toStr</qualifiedname>
+        <param>
+          <type>UniformType</type>
+          <declname>u</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="206" column="16" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="886" bodyend="911"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classceres_1_1_shader_1a67e75de1b7a4e58ca3080f912601d6b6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ceres::Shader::Shader</definition>
+        <argsstring>()</argsstring>
+        <name>Shader</name>
+        <qualifiedname>ceres::Shader::Shader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="210" column="5" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="363" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a1b725b952acaebc821b71d6685b46f1c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::Shader::bind</definition>
+        <argsstring>()</argsstring>
+        <name>bind</name>
+        <qualifiedname>ceres::Shader::bind</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="211" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="435" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a762eb081e8ec556f74e042e44dfa1040" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ceres::Shader::build</definition>
+        <argsstring>(const std::map&lt; ShaderType, Resource &gt; &amp;shaderSources, std::vector&lt; std::string &gt; &amp;errors)</argsstring>
+        <name>build</name>
+        <qualifiedname>ceres::Shader::build</qualifiedname>
+        <param>
+          <type>const std::map&lt; ShaderType, <ref refid="structceres_1_1_shader_1_1_resource" kindref="compound">Resource</ref> &gt; &amp;</type>
+          <declname>shaderSources</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="212" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="723" bodyend="787"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1aa9f1d6b80c47ae8b53f1f0d28878711f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string ceres::Shader::precompile</definition>
+        <argsstring>(std::string source, std::vector&lt; std::string &gt; &amp;errors, uint32_t shaderType)</argsstring>
+        <name>precompile</name>
+        <qualifiedname>ceres::Shader::precompile</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>shaderType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="213" column="17" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="1029" bodyend="1036"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a027aff61556fd2f336d1e95afdc4a3e9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ceres::Shader::setLights</definition>
+        <argsstring>(WorldLights *worldLights) const</argsstring>
+        <name>setLights</name>
+        <qualifiedname>ceres::Shader::setLights</qualifiedname>
+        <param>
+          <type><ref refid="structceres_1_1_world_lights" kindref="compound">WorldLights</ref> *</type>
+          <declname>worldLights</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="215" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="384" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1a3910cf3530c591d101adddba35ff9426" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ceres::Shader::updateUniformsAndAttributes</definition>
+        <argsstring>()</argsstring>
+        <name>updateUniformsAndAttributes</name>
+        <qualifiedname>ceres::Shader::updateUniformsAndAttributes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="216" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="516" bodyend="716"/>
+      </memberdef>
+      <memberdef kind="function" id="classceres_1_1_shader_1ab5f23bd9e7f5bd5e08be88c8f4187745" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ceres::Shader::compileShader</definition>
+        <argsstring>(const Resource &amp;resource, GLenum type, GLuint &amp;shader, std::vector&lt; std::string &gt; &amp;errors)</argsstring>
+        <name>compileShader</name>
+        <qualifiedname>ceres::Shader::compileShader</qualifiedname>
+        <param>
+          <type>const <ref refid="structceres_1_1_shader_1_1_resource" kindref="compound">Resource</ref> &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>GLenum</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>GLuint &amp;</type>
+          <declname>shader</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="217" column="10" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.cpp" bodystart="286" bodyend="300"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ceres::Shader</label>
+        <link refid="classceres_1_1_shader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::enable_shared_from_this&lt; Shader &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ceres::Shader</label>
+        <link refid="classceres_1_1_shader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::enable_shared_from_this&lt; Shader &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" line="25" column="1" bodyfile="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/shader.h" bodystart="26" bodyend="264"/>
+    <listofallmembers>
+      <member refid="classceres_1_1_shader_1a1b725b952acaebc821b71d6685b46f1c" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>bind</name></member>
+      <member refid="classceres_1_1_shader_1a4f5133901fedfc58d4c83ddaf03a7bfd" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>BlendType</name></member>
+      <member refid="classceres_1_1_shader_1a762eb081e8ec556f74e042e44dfa1040" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>build</name></member>
+      <member refid="classceres_1_1_shader_1a6e4cb2b1010f0485ff07ac7ac81d8bc2" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>colorWriteMask</name></member>
+      <member refid="classceres_1_1_shader_1ab5f23bd9e7f5bd5e08be88c8f4187745" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>compileShader</name></member>
+      <member refid="classceres_1_1_shader_1aae508b42cf664d2f43eded45711623cf" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>create</name></member>
+      <member refid="classceres_1_1_shader_1aa8f93ff28512494ed3cafe96075cd881" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>createMaterial</name></member>
+      <member refid="classceres_1_1_shader_1a8b3a996a8bb1ee631c8b2f23601f9c13" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>CullFace</name></member>
+      <member refid="classceres_1_1_shader_1acdb872dbda463433c48c4e7012675116" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>getAllSpecializationConstants</name></member>
+      <member refid="classceres_1_1_shader_1a758f1f0b961c7e9efdb9da0e469ce6a5" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>getAttributeNames</name></member>
+      <member refid="classceres_1_1_shader_1a5101cac396598041719f03aa2b5c8678" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>getAttributeType</name></member>
+      <member refid="classceres_1_1_shader_1aedaa92aed505ce1ad46bfc5e7579fedb" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>getBlend</name></member>
+      <member refid="classceres_1_1_shader_1a3f581b979d632c1935bcde81cc50e620" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>getBlit</name></member>
+      <member refid="classceres_1_1_shader_1a458d39e89de44cf22a430b6fe4a90041" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>getCurrentSpecializationConstants</name></member>
+      <member refid="classceres_1_1_shader_1af43a031016f54c6c2b76935071f39ee1" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>getOffset</name></member>
+      <member refid="classceres_1_1_shader_1aead8414ac7b03877b1394283df8ae763" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>getSkybox</name></member>
+      <member refid="classceres_1_1_shader_1af4ca2898d2493873f59641b00ba38169" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>getSource</name></member>
+      <member refid="classceres_1_1_shader_1a8bd8b7102bbd4e20fe9a101b8876f0f9" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>getStandardBlinnPhong</name></member>
+      <member refid="classceres_1_1_shader_1ad1cb5946e26455d4ab254dcc7e866a08" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>getStandardParticles</name></member>
+      <member refid="classceres_1_1_shader_1af2c0ff157be0a27252b1aa8351d1b700" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>getStandardPBR</name></member>
+      <member refid="classceres_1_1_shader_1a80dc0cec5f12da8147b44eee9ff882ff" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>getStandardPhong</name></member>
+      <member refid="classceres_1_1_shader_1a61a349238550c32ee8c98eff2b2737ff" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>getStencil</name></member>
+      <member refid="classceres_1_1_shader_1afe598d9eec80e9ace494840c6ed9201b" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>getUniformNames</name></member>
+      <member refid="classceres_1_1_shader_1a977c0416fc3c2ca97e5a8303b7e3dd49" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>getUniformType</name></member>
+      <member refid="classceres_1_1_shader_1a4c93eec6eee0da34e5807a7496c5f88c" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>getUnlit</name></member>
+      <member refid="classceres_1_1_shader_1a4cf25fbb1e0d37164059759a72e03cfd" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>getUnlitSprite</name></member>
+      <member refid="classceres_1_1_shader_1a73ec503aa36482dccafd368642c55ff6" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>insertPreprocessorDefines</name></member>
+      <member refid="classceres_1_1_shader_1a5486a5ab1c546bf41e8da20dd0b01de1" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>Inspector</name></member>
+      <member refid="classceres_1_1_shader_1a4cedb63cf69c320c2a4d5ba9bdeaffc7" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>isDepthTest</name></member>
+      <member refid="classceres_1_1_shader_1ab29798106b4c5df13c386f5cec729361" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>isDepthWrite</name></member>
+      <member refid="classceres_1_1_shader_1a31643f694f1fb8969348e4c4d2c08cd3" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_attributes</name></member>
+      <member refid="classceres_1_1_shader_1a243554f90508e2dbc3ae4add4ec2e8e3" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_blendType</name></member>
+      <member refid="classceres_1_1_shader_1a4d8c57f297ac57ea444e0d3cbcb51e03" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_colorWrite</name></member>
+      <member refid="classceres_1_1_shader_1a6e91b7f9b5b48268555e3be93148cfd9" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_cullFace</name></member>
+      <member refid="classceres_1_1_shader_1a6a37221e2eeddf488544cd84684454d4" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_depthTest</name></member>
+      <member refid="classceres_1_1_shader_1ad533464e4f51ca2b829e261c71c7c3e5" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_depthWrite</name></member>
+      <member refid="classceres_1_1_shader_1ae64a5a22b88fc3672b33b38dcfdc2975" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_id</name></member>
+      <member refid="classceres_1_1_shader_1a11aaacbb8b3f4a616494fdc91767bf29" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_name</name></member>
+      <member refid="classceres_1_1_shader_1ac462a27b08a270de5c1b95eff66b0ec0" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_offset</name></member>
+      <member refid="classceres_1_1_shader_1a92195194717549926d09460c492ea747" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_parent</name></member>
+      <member refid="classceres_1_1_shader_1aae45b80cc94d52c08540d387b388d923" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_shaderSources</name></member>
+      <member refid="classceres_1_1_shader_1a4e4bf724b0d699409bf1e577a9f5bd8c" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_shaderUniqueId</name></member>
+      <member refid="classceres_1_1_shader_1a34c385437c85b6990821def7a594a3bf" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_specializationConstants</name></member>
+      <member refid="classceres_1_1_shader_1a4ff4e1137d4da26f4c3957aef7d83b8d" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_specializations</name></member>
+      <member refid="classceres_1_1_shader_1a641a25f490837e53c7b34c08d0616aa6" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_stencil</name></member>
+      <member refid="classceres_1_1_shader_1a7e8a40733677443846426bb3c82c21b0" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_uniformLocationAmbientLight</name></member>
+      <member refid="classceres_1_1_shader_1a92fda98ac7d5cf11a433fdfce08e9a79" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_uniformLocationCameraPosition</name></member>
+      <member refid="classceres_1_1_shader_1aad55266b7d9c1484ea28e0d534bf3d06" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_uniformLocationLightColorRange</name></member>
+      <member refid="classceres_1_1_shader_1a115f5569773e6afdcbc2ee5a9893cb96" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_uniformLocationLightPosType</name></member>
+      <member refid="classceres_1_1_shader_1af90ce715cd518fa052e9196d542e59b4" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_uniformLocationModel</name></member>
+      <member refid="classceres_1_1_shader_1a9953b9bcf1bf86b92092bd1ef0ecf3ab" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_uniformLocationModelInverseTranspose</name></member>
+      <member refid="classceres_1_1_shader_1a2f38c11a822eebdbe35eade5fde87041" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_uniformLocationModelViewInverseTranspose</name></member>
+      <member refid="classceres_1_1_shader_1a1b338d82216f0fcd40026cfffb3779a7" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_uniformLocationProjection</name></member>
+      <member refid="classceres_1_1_shader_1a62e98bd04509df7d2b6bd55eba4ec15d" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_uniformLocationView</name></member>
+      <member refid="classceres_1_1_shader_1a807bb4efd00f82122e76befdafc9319a" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_uniformLocationViewport</name></member>
+      <member refid="classceres_1_1_shader_1ad6fa18319ceee0e4cd1d2097c02fe5b7" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>m_uniforms</name></member>
+      <member refid="classceres_1_1_shader_1aa1212b6e372a0f45d2c01f3cd203af77" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>Material</name></member>
+      <member refid="classceres_1_1_shader_1aa41a130f156b145bffb3f4b5172c4c93" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>Mesh</name></member>
+      <member refid="classceres_1_1_shader_1a2da0d30444a83b8da9d7ca7573bda1a6" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>name</name></member>
+      <member refid="classceres_1_1_shader_1aa9f1d6b80c47ae8b53f1f0d28878711f" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>precompile</name></member>
+      <member refid="classceres_1_1_shader_1aa8ab806874e69ead344abef1c5e76aa0" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>RenderPass</name></member>
+      <member refid="classceres_1_1_shader_1ac6285fd2b54bcff3c9760bfed76e093c" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>ResourceType</name></member>
+      <member refid="classceres_1_1_shader_1ac058140c99787a74dd42d111f25b69d2" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>s_blit</name></member>
+      <member refid="classceres_1_1_shader_1a82df0bfdcb6a8454d2e65cc5b79552a3" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>s_debugNormals</name></member>
+      <member refid="classceres_1_1_shader_1a68bf7a296ab49a76ee1e442349c2d277" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>s_debugUV</name></member>
+      <member refid="classceres_1_1_shader_1a8736c02c0235013fd29778c03603c2de" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>s_font</name></member>
+      <member refid="classceres_1_1_shader_1a7e9518f6be1fd4809abf64166b10cd77" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>s_globalShaderCounter</name></member>
+      <member refid="classceres_1_1_shader_1a1c60f00f180a174343e26f818c0ca00e" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>s_skybox</name></member>
+      <member refid="classceres_1_1_shader_1a3e740c696def9b26dff0d5740273e03a" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>s_standardBlinnPhong</name></member>
+      <member refid="classceres_1_1_shader_1a5f4049d12f353dfc52343fc99442d7f8" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>s_standardParticles</name></member>
+      <member refid="classceres_1_1_shader_1ac9e386612433741aeb1509f6a2c4c360" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>s_standardPBR</name></member>
+      <member refid="classceres_1_1_shader_1a6710ed38572fee1ac1509a3487205d20" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>s_standardPhong</name></member>
+      <member refid="classceres_1_1_shader_1ad319b28696fac5620e19ed6d1b2bc094" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>s_unlit</name></member>
+      <member refid="classceres_1_1_shader_1ab5ffa01543c9c686a971a0f661c43349" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>s_unlitSprite</name></member>
+      <member refid="classceres_1_1_shader_1a027aff61556fd2f336d1e95afdc4a3e9" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>setLights</name></member>
+      <member refid="classceres_1_1_shader_1a67e75de1b7a4e58ca3080f912601d6b6" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>Shader</name></member>
+      <member refid="classceres_1_1_shader_1a43a6500dd91ef75cadef2e6a4d72ddc2" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>ShaderType</name></member>
+      <member refid="classceres_1_1_shader_1a9d20808e0dd2ab6c8221cd83e3b04174" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>StencilFunc</name></member>
+      <member refid="classceres_1_1_shader_1a4c94ec2e744eb6a5bbf0eb444072e213" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>StencilOp</name></member>
+      <member refid="classceres_1_1_shader_1acbc60156909ac42faf088ac966eac132" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>toId</name></member>
+      <member refid="classceres_1_1_shader_1adf74e965d77078643333c13c93aa3a5a" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>toStr</name></member>
+      <member refid="classceres_1_1_shader_1a9cb5dc0b059617f7fff5e8caeddae72d" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>UniformType</name></member>
+      <member refid="classceres_1_1_shader_1afea1d2fe0e512b826c9d64945a511eca" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>update</name></member>
+      <member refid="classceres_1_1_shader_1a3910cf3530c591d101adddba35ff9426" prot="private" virt="non-virtual"><scope>ceres::Shader</scope><name>updateUniformsAndAttributes</name></member>
+      <member refid="classceres_1_1_shader_1a73b67ac45af774da00da3ab370291019" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>validateMesh</name></member>
+      <member refid="classceres_1_1_shader_1af7016cb8b61815d0cbe9b9f0fd0b96b4" prot="public" virt="non-virtual"><scope>ceres::Shader</scope><name>~Shader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

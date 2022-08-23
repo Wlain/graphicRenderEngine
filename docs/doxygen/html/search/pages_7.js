@@ -1,4 +1,0 @@
-var searchData=
-[
-  ['how_20to_20build_0',['How to Build',['../md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_examples_example_emscripten_opengl3__r_e_a_d_m_e.html',1,'(Global Namespace)'],['../md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_examples_example_emscripten_wgpu__r_e_a_d_m_e.html',1,'(Global Namespace)'],['../md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_examples_example_sdl_opengl2__r_e_a_d_m_e.html',1,'(Global Namespace)'],['../md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_examples_example_sdl_opengl3__r_e_a_d_m_e.html',1,'(Global Namespace)'],['../md___users_cwb_developer_learning_graphic_render_engine_ceres_3rdparty_imgui_examples_example_sdl_sdlrenderer__r_e_a_d_m_e.html',1,'(Global Namespace)']]]
-];

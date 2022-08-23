@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>glfwRenderer.h &mdash; graphicRenderEngine documentation  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/sphinx_rtd_size.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="inspector.h" href="inspector.html" />
+    <link rel="prev" title="framebuffer.h" href="framebuffer.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> graphicRenderEngine documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">graphicRenderEngine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#dependencies">dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#test-demo">test demo</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">core</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="camera.html">camera.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="color.html">color.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="framebuffer.html">framebuffer.h</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">glfwRenderer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inspector.html">inspector.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="light.html">light.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="material.html">material.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">mesh.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modelImporter.html">modelImporter.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="particleEmitter.html">particleEmitter.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ray.html">ray.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renderPass.html">renderPass.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renderStats.html">renderStats.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="renderer.html">renderer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource.html">resource.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shader.html">shader.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="skybox.html">skybox.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sprite.html">sprite.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spriteAtlas.html">spriteAtlas.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spriteBatch.html">spriteBatch.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="texture.html">texture.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uniformSet.html">uniformSet.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="worldLights.html">worldLights.h</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/index.html">utils</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">graphicRenderEngine documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">core</a> &raquo;</li>
+      <li>glfwRenderer.h</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/ceres/core/glfwRenderer.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="glfwrenderer-h">
+<h1>glfwRenderer.h<a class="headerlink" href="#glfwrenderer-h" title="Permalink to this heading"></a></h1>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv45ceres">
+<span id="_CPPv35ceres"></span><span id="_CPPv25ceres"></span><span id="ceres"></span><span class="target" id="namespaceceres"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ceres</span></span></span><br /></dt>
+<dd><dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRendererE">
+<span id="_CPPv3N5ceres12GLFWRendererE"></span><span id="_CPPv2N5ceres12GLFWRendererE"></span><span id="ceres::GLFWRenderer"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GLFWRenderer</span></span></span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRendererE" title="Permalink to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer12GLFWRendererEv">
+<span id="_CPPv3N5ceres12GLFWRenderer12GLFWRendererEv"></span><span id="_CPPv2N5ceres12GLFWRenderer12GLFWRendererEv"></span><span id="ceres::GLFWRenderer::GLFWRenderer"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a0b27467bdab8bbc275e21f75776fea84"></span><span class="sig-name descname"><span class="n"><span class="pre">GLFWRenderer</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer12GLFWRendererEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRendererD0Ev">
+<span id="_CPPv3N5ceres12GLFWRendererD0Ev"></span><span id="_CPPv2N5ceres12GLFWRendererD0Ev"></span><span id="ceres::GLFWRenderer::~GLFWRenderer"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a1dfa9d64b2e7a22440191416879d98f4"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~GLFWRenderer</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRendererD0Ev" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer12GLFWRendererERK12GLFWRenderer">
+<span id="_CPPv3N5ceres12GLFWRenderer12GLFWRendererERK12GLFWRenderer"></span><span id="_CPPv2N5ceres12GLFWRenderer12GLFWRendererERK12GLFWRenderer"></span><span id="ceres::GLFWRenderer::GLFWRenderer__GLFWRendererCR"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a854ac1247f21114ddb7878f7094621f9"></span><span class="sig-name descname"><span class="n"><span class="pre">GLFWRenderer</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N5ceres12GLFWRenderer12GLFWRendererERK12GLFWRenderer" title="ceres::GLFWRenderer::GLFWRenderer"><span class="n"><span class="pre">GLFWRenderer</span></span></a><span class="p"><span class="pre">&amp;</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">delete</span></span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer12GLFWRendererERK12GLFWRenderer" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer4initEb">
+<span id="_CPPv3N5ceres12GLFWRenderer4initEb"></span><span id="_CPPv2N5ceres12GLFWRenderer4initEb"></span><span id="ceres::GLFWRenderer::init__b"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a8ea1738803e21f308706c4362401c0fd"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">init</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">vsync</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer4initEb" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer14setWindowTitleENSt11string_viewE">
+<span id="_CPPv3N5ceres12GLFWRenderer14setWindowTitleENSt11string_viewE"></span><span id="_CPPv2N5ceres12GLFWRenderer14setWindowTitleENSt11string_viewE"></span><span id="ceres::GLFWRenderer::setWindowTitle__std::string_view"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a7b8fb7dc9cd3726d96c6aa1388848024"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setWindowTitle</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">title</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer14setWindowTitleENSt11string_viewE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer13setWindowSizeEii">
+<span id="_CPPv3N5ceres12GLFWRenderer13setWindowSizeEii"></span><span id="_CPPv2N5ceres12GLFWRenderer13setWindowSizeEii"></span><span id="ceres::GLFWRenderer::setWindowSize__i.i"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a40a6c334ca1a2a041c37ba93b40eb6bc"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setWindowSize</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">width</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">height</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer13setWindowSizeEii" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer14startEventLoopEv">
+<span id="_CPPv3N5ceres12GLFWRenderer14startEventLoopEv"></span><span id="_CPPv2N5ceres12GLFWRenderer14startEventLoopEv"></span><span id="ceres::GLFWRenderer::startEventLoop"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a0f5c55577caee9e07a3a857fd73d1cc0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">startEventLoop</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer14startEventLoopEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer13stopEventLoopEv">
+<span id="_CPPv3N5ceres12GLFWRenderer13stopEventLoopEv"></span><span id="_CPPv2N5ceres12GLFWRenderer13stopEventLoopEv"></span><span id="ceres::GLFWRenderer::stopEventLoop"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a8ab834fe955f2f9fca2054b5d0a2c616"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stopEventLoop</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer13stopEventLoopEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer13getGlfwWindowEv">
+<span id="_CPPv3N5ceres12GLFWRenderer13getGlfwWindowEv"></span><span id="_CPPv2N5ceres12GLFWRenderer13getGlfwWindowEv"></span><span id="ceres::GLFWRenderer::getGlfwWindow"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a532d0b85e22666125696d185621ad2b2"></span><span class="n"><span class="pre">GLFWwindow</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">getGlfwWindow</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer13getGlfwWindowEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer18getFrameBufferSizeEv">
+<span id="_CPPv3N5ceres12GLFWRenderer18getFrameBufferSizeEv"></span><span id="_CPPv2N5ceres12GLFWRenderer18getFrameBufferSizeEv"></span><span id="ceres::GLFWRenderer::getFrameBufferSize"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a8e9a20879a2b1d66de34b3311ff70151"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ivec2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getFrameBufferSize</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer18getFrameBufferSizeEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer13getWindowSizeEv">
+<span id="_CPPv3N5ceres12GLFWRenderer13getWindowSizeEv"></span><span id="_CPPv2N5ceres12GLFWRenderer13getWindowSizeEv"></span><span id="ceres::GLFWRenderer::getWindowSize"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a8586f9c139e7c93506a3e461cefa79f3"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ivec2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getWindowSize</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer13getWindowSizeEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer13m_frameResizeE">
+<span id="_CPPv3N5ceres12GLFWRenderer13m_frameResizeE"></span><span id="_CPPv2N5ceres12GLFWRenderer13m_frameResizeE"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1aa5d05030a41bbb5b7038aba5ff0da4f7"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_frameResize</span></span></span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer13m_frameResizeE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer16m_cursorPosEventE">
+<span id="_CPPv3N5ceres12GLFWRenderer16m_cursorPosEventE"></span><span id="_CPPv2N5ceres12GLFWRenderer16m_cursorPosEventE"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1ac854813fe9c06f6e5c7adc648009b27e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">xPos</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">yPos</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_cursorPosEvent</span></span></span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer16m_cursorPosEventE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer18m_mouseButtonEventE">
+<span id="_CPPv3N5ceres12GLFWRenderer18m_mouseButtonEventE"></span><span id="_CPPv2N5ceres12GLFWRenderer18m_mouseButtonEventE"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a5012f191917c51dc749c1bc7c4a43c5e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">button</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">mods</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_mouseButtonEvent</span></span></span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer18m_mouseButtonEventE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer11m_dropEventE">
+<span id="_CPPv3N5ceres12GLFWRenderer11m_dropEventE"></span><span id="_CPPv2N5ceres12GLFWRenderer11m_dropEventE"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a61965b9e340a7f9e5d94f9fbcba663ee"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">count</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">paths</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_dropEvent</span></span></span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer11m_dropEventE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer13m_frameUpdateE">
+<span id="_CPPv3N5ceres12GLFWRenderer13m_frameUpdateE"></span><span id="_CPPv2N5ceres12GLFWRenderer13m_frameUpdateE"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1aefd356fc0b3f897758f77c8ef7341194"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">deltaTimeSec</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_frameUpdate</span></span></span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer13m_frameUpdateE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer13m_frameRenderE">
+<span id="_CPPv3N5ceres12GLFWRenderer13m_frameRenderE"></span><span id="_CPPv2N5ceres12GLFWRenderer13m_frameRenderE"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a6f2e3384f9985223bb132f732191464e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_frameRender</span></span></span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer13m_frameRenderE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer5frameEf">
+<span id="_CPPv3N5ceres12GLFWRenderer5frameEf"></span><span id="_CPPv2N5ceres12GLFWRenderer5frameEf"></span><span id="ceres::GLFWRenderer::frame__float"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1aacc9862628e3293b6f0bcf71e6d3004d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">frame</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">deltaTimeSec</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer5frameEf" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer10m_rendererE">
+<span id="_CPPv3N5ceres12GLFWRenderer10m_rendererE"></span><span id="_CPPv2N5ceres12GLFWRenderer10m_rendererE"></span><span id="ceres::GLFWRenderer::m_renderer__RendererP"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a6051c452e6e22a345363a66b0bad1cfd"></span><a class="reference internal" href="renderer.html#_CPPv4N5ceres8RendererE" title="ceres::Renderer"><span class="n"><span class="pre">Renderer</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">m_renderer</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="k"><span class="pre">nullptr</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer10m_rendererE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer8m_windowE">
+<span id="_CPPv3N5ceres12GLFWRenderer8m_windowE"></span><span id="_CPPv2N5ceres12GLFWRenderer8m_windowE"></span><span id="ceres::GLFWRenderer::m_window__GLFWwindowP"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a5933bfa584f054e55187ec886cdac1d2"></span><span class="n"><span class="pre">GLFWwindow</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">m_window</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="k"><span class="pre">nullptr</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer8m_windowE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer13m_windowTitleE">
+<span id="_CPPv3N5ceres12GLFWRenderer13m_windowTitleE"></span><span id="_CPPv2N5ceres12GLFWRenderer13m_windowTitleE"></span><span id="ceres::GLFWRenderer::m_windowTitle__ss"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1acc784c539eb9a94e318467a2cfac5655"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_windowTitle</span></span></span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer13m_windowTitleE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer14m_timePerFrameE">
+<span id="_CPPv3N5ceres12GLFWRenderer14m_timePerFrameE"></span><span id="_CPPv2N5ceres12GLFWRenderer14m_timePerFrameE"></span><span id="ceres::GLFWRenderer::m_timePerFrame__float"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a27b892221c7536ad1ea2eb7079f16f3f"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_timePerFrame</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">1.0f</span></span><span class="w"> </span><span class="o"><span class="pre">/</span></span><span class="w"> </span><span class="m"><span class="pre">60.0f</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer14m_timePerFrameE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer13m_windowWidthE">
+<span id="_CPPv3N5ceres12GLFWRenderer13m_windowWidthE"></span><span id="_CPPv2N5ceres12GLFWRenderer13m_windowWidthE"></span><span id="ceres::GLFWRenderer::m_windowWidth__i"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a29e82ff001e4c94052c8023338db4872"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_windowWidth</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">800</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer13m_windowWidthE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer14m_windowHeightE">
+<span id="_CPPv3N5ceres12GLFWRenderer14m_windowHeightE"></span><span id="_CPPv2N5ceres12GLFWRenderer14m_windowHeightE"></span><span id="ceres::GLFWRenderer::m_windowHeight__i"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a350da52a57bbeb330070911003c711a0"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_windowHeight</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">600</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer14m_windowHeightE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres12GLFWRenderer9m_runningE">
+<span id="_CPPv3N5ceres12GLFWRenderer9m_runningE"></span><span id="_CPPv2N5ceres12GLFWRenderer9m_runningE"></span><span id="ceres::GLFWRenderer::m_running__b"></span><span class="target" id="classceres_1_1_g_l_f_w_renderer_1a13051b0007427487427a5c2962d9c413"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_running</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres12GLFWRenderer9m_runningE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="framebuffer.html" class="btn btn-neutral float-left" title="framebuffer.h" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="inspector.html" class="btn btn-neutral float-right" title="inspector.h" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, william.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

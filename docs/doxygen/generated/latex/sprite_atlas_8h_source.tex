@@ -1,0 +1,43 @@
+\hypertarget{sprite_atlas_8h_source}{}\doxysection{sprite\+Atlas.\+h}
+\label{sprite_atlas_8h_source}\index{/Users/william/Developer/demo/graphicRenderEngine/ceres/core/spriteAtlas.h@{/Users/william/Developer/demo/graphicRenderEngine/ceres/core/spriteAtlas.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00001}00001 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00002}00002 \textcolor{comment}{// Created by william on 2022/6/1.}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00003}00003 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00005}00005 \textcolor{preprocessor}{\#ifndef GRAPHICRENDERENGINE\_SPRITEATLAS\_H}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00006}00006 \textcolor{preprocessor}{\#define GRAPHICRENDERENGINE\_SPRITEATLAS\_H}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00007}00007 \textcolor{preprocessor}{\#include "{}sprite.h"{}}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00009}00009 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00010}00010 \textcolor{preprocessor}{\#include <string\_view>}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00011}00011 \textcolor{keyword}{namespace }ceres}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00012}00012 \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00013}\mbox{\hyperlink{classceres_1_1_sprite_atlas}{00013}} \textcolor{keyword}{class }\mbox{\hyperlink{classceres_1_1_sprite_atlas}{SpriteAtlas}}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00014}00014 \{}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00015}00015 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00016}00016     \mbox{\hyperlink{classceres_1_1_sprite_atlas}{\string~SpriteAtlas}}();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00017}00017     \textcolor{comment}{// create sprite atlas based on JSON file}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00018}00018     \textcolor{keyword}{static} std::shared\_ptr<SpriteAtlas> create(std::string\_view jsonFile, std::string\_view imageFile, \textcolor{keywordtype}{bool} flipAnchorY = \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00019}00019     \textcolor{keyword}{static} std::shared\_ptr<SpriteAtlas> create(std::string\_view jsonFile, \textcolor{keyword}{const} std::shared\_ptr<Texture>\& texture, \textcolor{keywordtype}{bool} flipAnchorY = \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00020}00020     \textcolor{comment}{// create sprite atlas (with single sprite) using texture}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00021}00021     \textcolor{keyword}{static} std::shared\_ptr<SpriteAtlas> createSingleSprite(\textcolor{keyword}{const} std::shared\_ptr<Texture>\& texture, std::string\_view name = \textcolor{stringliteral}{"{}sprite"{}}, glm::vec2 pivot = \{ 0.5f, 0.5f \}, glm::ivec2 pos = \{ 0, 0 \}, glm::ivec2 size = \{ 0, 0 \});}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00022}00022     \mbox{\hyperlink{classceres_1_1_sprite}{Sprite}} get(std::string\_view name); \textcolor{comment}{// Return a copy of a Sprite object.}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00023}00023     std::vector<std::string> getNames();}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00024}00024     [[nodiscard]] \textcolor{keyword}{const} std::string\& getAtlasName()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_atlasName; \};}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00025}00025     [[nodiscard]] \textcolor{keyword}{inline} \textcolor{keyword}{const} std::shared\_ptr<Texture>\& getTexture()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_texture; \}; \textcolor{comment}{// return sprite texture}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00027}00027 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00028}00028     \mbox{\hyperlink{classceres_1_1_sprite_atlas}{SpriteAtlas}}(std::map<std::string, Sprite>\&\& sprites, std::shared\_ptr<Texture> texture, std::string\_view Atlas);}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00030}00030 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00031}00031     std::string m\_atlasName;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00032}00032     std::map<std::string, Sprite> m\_sprites;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00033}00033     std::shared\_ptr<Texture> m\_texture;}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00034}00034 \};}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00035}00035 \} \textcolor{comment}{// namespace ceres}}
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{sprite_atlas_8h_source_l00037}00037 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// GRAPHICRENDERENGINE\_SPRITEATLAS\_H}}
+
+\end{DoxyCode}
