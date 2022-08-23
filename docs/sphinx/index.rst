@@ -10,5 +10,4 @@ Welcome to graphicRenderEngine's documentation!
    :maxdepth: 2
 
    README.md
-   ceres/core/index
-   ceres/utils/index
+   APIDocumentation
