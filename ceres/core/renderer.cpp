@@ -6,6 +6,7 @@
 
 #include "commonMacro.h"
 #include "guiCommonDefine.h"
+#include "contextGL.h"
 // render engine
 namespace ceres
 {
@@ -40,8 +41,30 @@ Renderer::Renderer(GLFWwindow* window, bool vsync, int maxSceneLights) :
     ImGui_ImplOpenGL3_Init("#version 330");
     m_renderInfo.graphicsAPIVersion = (char*)glGetString(GL_VERSION);
     m_renderInfo.graphicsAPIVendor = (char*)glGetString(GL_VENDOR);
-    LOG_INFO("OpenGL version {}", m_renderInfo.graphicsAPIVersion.c_str());
-    LOG_INFO("rg version {}.{}.{}", s_rgVersionMajor, s_rgVersionMinor, s_rgVersionPoint);
+    m_renderInfo.graphicVendor = (char*)glGetString(GL_VENDOR);
+    m_renderInfo.graphicRenderer = (char*)glGetString(GL_RENDERER);
+    m_renderInfo.graphicVersion = (char*)glGetString(GL_VERSION);
+    m_renderInfo.graphicShader = (char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
+    LOG_INFO("graphic OpenGL version: {}", m_renderInfo.graphicsAPIVersion.c_str());
+    LOG_INFO("graphic OpenGL Vendor: {}", m_renderInfo.graphicVendor.c_str());
+    LOG_INFO("graphic OpenGL Renderer: {}", m_renderInfo.graphicRenderer.c_str());
+    LOG_INFO("graphic OpenGL Version: {}", m_renderInfo.graphicVersion.c_str());
+    LOG_INFO("graphic OpenGL Shader: {}", m_renderInfo.graphicShader.c_str());
+    LOG_INFO("rg version: {}.{}.{}", s_rgVersionMajor, s_rgVersionMinor, s_rgVersionPoint);
+    ContextGL::GLInfo info{};
+    glGetIntegerv(GL_MAX_RENDERBUFFER_SIZE, &info.maxRenderbufferSize);
+    glGetIntegerv(GL_MAX_UNIFORM_BLOCK_SIZE, &info.maxUniformBlockSize);
+    glGetIntegerv(GL_MAX_SAMPLES, &info.maxSamples);
+    glGetIntegerv(GL_MAX_DRAW_BUFFERS, &info.maxDrawBuffers);
+    glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &info.maxTextureImageUnits);
+    glGetIntegerv(GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT, &info.uniformBufferOffsetAlignment);
+    LOG_INFO("GL_MAX_DRAW_BUFFERS = {}", info.maxDrawBuffers);
+    LOG_INFO("GL_MAX_RENDERBUFFER_SIZE = {}", info.maxRenderbufferSize);
+    LOG_INFO("GL_MAX_SAMPLES = {}", info.maxSamples);
+    LOG_INFO("GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT = {}", info.maxTextureImageUnits);
+    LOG_INFO("GL_MAX_UNIFORM_BLOCK_SIZE = {}", info.maxUniformBlockSize);
+    LOG_INFO("GL_MAX_TEXTURE_IMAGE_UNITS = {}", info.maxTextureImageUnits);
+    LOG_INFO("GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT = {}", info.uniformBufferOffsetAlignment);
     // setup opengl context
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);

@@ -30,6 +30,10 @@ public:
         bool supportFBODepthAttachment = false;
         std::string graphicsAPIVersion;
         std::string graphicsAPIVendor;
+        std::string graphicVendor;
+        std::string graphicRenderer;
+        std::string graphicVersion;
+        std::string graphicShader;
     };
     explicit Renderer(GLFWwindow* window, bool vsync = true, int maxSceneLights = 4);
     ~Renderer();

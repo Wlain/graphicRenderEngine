@@ -4,7 +4,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON) # 设置指定的C++版本
 # modify flat to -std=c++17 rather than -std=gnu++17
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(OPEN_SPHINX ON)
 
 # box2d
 add_subdirectory(3rdparty/box2d)
@@ -14,11 +13,6 @@ add_subdirectory(3rdparty/lua)
 add_subdirectory(3rdparty/sol2)
 # render engine
 add_subdirectory(ceres)
-if (OPEN_SPHINX)
-    # Add the cmake folder so the FindSphinx module is found
-    set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
-    add_subdirectory(docs)
-endif ()
 
 include_directories(
         ${PROJECT_SOURCE_DIR}/test

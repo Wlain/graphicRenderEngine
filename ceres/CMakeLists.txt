@@ -54,6 +54,8 @@ add_library(ceres SHARED)
 target_include_directories(ceres  PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/utils
+        ${CMAKE_CURRENT_SOURCE_DIR}/backend/handle
+        ${CMAKE_CURRENT_SOURCE_DIR}/backend/opengl
         ${CMAKE_CURRENT_LIST_DIR}/3rdparty
         ${CMAKE_CURRENT_LIST_DIR}/3rdparty/glew/include
         ${CMAKE_CURRENT_LIST_DIR}/3rdparty/imgui
