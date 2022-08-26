@@ -12,13 +12,13 @@
 class PbrExample : public CommonInterface
 {
 public:
-    glm::vec3 rotatedPosition(float x, float y, float distance)
+    static glm::vec3 rotatedPosition(float x, float y, float distance)
     {
         glm::vec3 pos{ 0, 0, distance };
         return glm::rotateY(glm::rotateX(pos, glm::radians(x)), glm::radians(y));
     }
 
-    std::shared_ptr<Texture> updateTexture(const char* filename, std::shared_ptr<Texture> fallback)
+    static std::shared_ptr<Texture> updateTexture(const char* filename, std::shared_ptr<Texture> fallback)
     {
         auto res = Texture::create().withFile(filename).build();
         if (res)
@@ -212,7 +212,7 @@ public:
         inspector.gui();
     }
 
-    bool loadTexture(std::string label, std::shared_ptr<Texture>& texRef, std::string_view fileLocation)
+    bool loadTexture(const std::string& label, std::shared_ptr<Texture>& texRef, std::string_view fileLocation)
     {
         bool changed = ImGui::InputText(label.c_str(), (char*)(fileLocation.data()), fileLocation.size());
         if (changed)

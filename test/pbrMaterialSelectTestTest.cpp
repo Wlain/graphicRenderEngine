@@ -11,17 +11,18 @@
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <vector>
+#include <core/modelImporter.h>
 
 class PbrMaterialSelectExample : public CommonInterface
 {
 public:
-    glm::vec3 rotatedPosition(float x, float y, float distance)
+    static glm::vec3 rotatedPosition(float x, float y, float distance)
     {
         glm::vec3 pos{ 0, 0, distance };
         return glm::rotateY(glm::rotateX(pos, glm::radians(x)), glm::radians(y));
     }
 
-    std::shared_ptr<Texture> updateTexture(char* filename, std::shared_ptr<Texture> fallback)
+    static std::shared_ptr<Texture> updateTexture(const char* filename, std::shared_ptr<Texture> fallback)
     {
         auto res = Texture::create().withFile(filename).build();
         if (res)
@@ -55,7 +56,8 @@ public:
         updateMaterial();
         m_meshes = { { Mesh::create().withSphere(32, 64).build(),
                        Mesh::create().withCube().build(),
-                       Mesh::create().withTorus(48, 48).build() } };
+                       Mesh::create().withTorus(48, 48).build(),
+                       ModelImporter::importObj("resources/objFiles/monkey/monkey.obj")} };
     }
 
     void update(float deltaTime) override
@@ -165,7 +167,7 @@ public:
         }
         if (ImGui::CollapsingHeader("Model"))
         {
-            ImGui::Combo("Mesh", &m_meshType, "Sphere\0Cube\0Torus\0");
+            ImGui::Combo("Mesh", &m_meshType, "Sphere\0Cube\0Torus\0monkey\0");
         }
         if (ImGui::CollapsingHeader("PBRMaterial"))
         {
