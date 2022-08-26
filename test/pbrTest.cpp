@@ -267,7 +267,7 @@ private:
 void pbrTest()
 {
     GLFWRenderer renderer{};
-    EngineTestSimple test(renderer);
+    p test(renderer);
     auto sceneNodeEffect = std::make_shared<PbrExample>(&renderer);
     auto effect = std::make_shared<EffectManager>();
     effect->insertEffect(sceneNodeEffect);

@@ -58,28 +58,22 @@ struct PBRInfo
 const float M_PI = 3.141592653589793;
 const float c_MinRoughness = 0.04;
 
-// The following equation models the Fresnel reflectance term of the spec equation (aka F())
-// Implementation of fresnel from [4], Equation 15
 // 菲涅耳反射项
-vec3 specularReflection(PBRInfo pbrInputs)
+vec3 schlick(PBRInfo pbrInputs)
 {
-    return pbrInputs.reflectance0 + (pbrInputs.reflectance90 - pbrInputs.reflectance0) * pow(clamp(1.0 - pbrInputs.VdotH, 0.0, 1.0), 5.0);
+    // 90度时，Fresnel反射率为1.0
+    float f = pow(1.0 - pbrInputs.VdotH, 5.0);
+    return f + pbrInputs.reflectance0 + (1.0 - f);
 }
 
-// Basic Lambertian diffuse
-// Implementation from Lambert's Photometria https://archive.org/details/lambertsphotome00lambgoog
-// See also [1], Equation 1
+// 假定微面半球具有均匀的漫反射
 vec3 diffuse(PBRInfo pbrInputs)
 {
     return pbrInputs.diffuseColor / M_PI;
 }
 
-// This calculates the specular geometric attenuation (aka G()),
-// where rougher material will reflect less light back to the viewer.
-// This implementation is based on [1] Equation 4, and we adopt their modifications to
-// alphaRoughness as input as originally proposed in [2].
 // 自遮挡项（smith GGX）
-float geometricOcclusion(PBRInfo pbrInputs)
+float smithGGXCorrelated(PBRInfo pbrInputs)
 {
     float NdotL = pbrInputs.NdotL;
     float NdotV = pbrInputs.NdotV;
@@ -90,17 +84,13 @@ float geometricOcclusion(PBRInfo pbrInputs)
     return attenuationL * attenuationV;
 }
 
-// The following equation(s) model the distribution of microfacet normals across the area being drawn (aka D())
-// Implementation from "Average Irregularity Representation of a Roughened Surface for Ray Reflection" by T. S. Trowbridge, and K. P. Reitz
-// Follows the distribution function recommended in the SIGGRAPH 2013 course notes from EPIC Games [1], Equation 3.
 // 法线分布函数（GGX）
-float microfacetDistribution(PBRInfo pbrInputs)
+float GGX(PBRInfo pbrInputs)
 {
-    float roughnessSq = pbrInputs.alphaRoughness * pbrInputs.alphaRoughness;
-    float f = pbrInputs.NdotH * (roughnessSq - 1.0) + 1.0;
-    return roughnessSq / (M_PI * f * f);
+    float a = pbrInputs.NdotH * pbrInputs.alphaRoughness;
+    float k = pbrInputs.alphaRoughness / (1.0 - pbrInputs.NdotH * pbrInputs.NdotH + a * a);
+    return k * k * (1.0 / M_PI);
 }
-
 void main()
 {
     float perceptualRoughness = metallicRoughness.y;
@@ -145,7 +135,7 @@ void main()
     vec3 color = baseColor.rgb * g_ambientLight.rgb;// non pbr
     vec3 n = getNormal();// Normal at surface point
     vec3 v = normalize(g_cameraPos.xyz - vWsPos.xyz);// Vector from surface point to camera
-    for (int i=0;i<SI_LIGHTS;i++) {
+    for (int i=0; i<SI_LIGHTS; i++) {
         float attenuation = 0.0;
         vec3 l = vec3(0.0,0.0,0.0);
         lightDirectionAndAttenuation(g_lightPosType[i], g_lightColorRange[i].w, vWsPos, l, attenuation);
@@ -177,9 +167,9 @@ void main()
         );
 
         // Calculate the shading terms for the microfacet specular shading model
-        vec3 F = specularReflection(pbrInputs);
-        float G = geometricOcclusion(pbrInputs);
-        float D = microfacetDistribution(pbrInputs);
+        vec3 F = schlick(pbrInputs);
+        float G = smithGGXCorrelated(pbrInputs);
+        float D = GGX(pbrInputs);
 
         // Calculation of analytical lighting contribution
         vec3 diffuseContrib = (1.0 - F) * diffuse(pbrInputs);
