@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>renderStats.h &mdash; graphicRenderEngine documentation  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/sphinx_rtd_size.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="renderer.h" href="renderer.html" />
+    <link rel="prev" title="renderPass.h" href="renderPass.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> graphicRenderEngine documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../overview/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">API Documents</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">core</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="camera.html">camera.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color.html">color.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="framebuffer.html">framebuffer.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glfwRenderer.html">glfwRenderer.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="inspector.html">inspector.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="light.html">light.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material.html">material.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh.html">mesh.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modelImporter.html">modelImporter.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="particleEmitter.html">particleEmitter.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray.html">ray.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="renderPass.html">renderPass.h</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">renderStats.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="renderer.html">renderer.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resource.html">resource.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shader.html">shader.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="skybox.html">skybox.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sprite.html">sprite.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spriteAtlas.html">spriteAtlas.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spriteBatch.html">spriteBatch.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texture.html">texture.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uniformSet.html">uniformSet.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worldLights.html">worldLights.h</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../utils/index.html">utils</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools/tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../internals/internals.html">Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license/license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">graphicRenderEngine documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../api.html">API Documents</a> &raquo;</li>
+          <li><a href="index.html">core</a> &raquo;</li>
+      <li>renderStats.h</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/api/ceres/core/renderStats.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="renderstats-h">
+<h1>renderStats.h<a class="headerlink" href="#renderstats-h" title="Permalink to this heading"></a></h1>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv45ceres">
+<span id="_CPPv35ceres"></span><span id="_CPPv25ceres"></span><span id="ceres"></span><span class="target" id="namespaceceres"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ceres</span></span></span><br /></dt>
+<dd><dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11RenderStatsE">
+<span id="_CPPv3N5ceres11RenderStatsE"></span><span id="_CPPv2N5ceres11RenderStatsE"></span><span id="ceres::RenderStats"></span><span class="target" id="structceres_1_1_render_stats"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RenderStats</span></span></span><a class="headerlink" href="#_CPPv4N5ceres11RenderStatsE" title="Permalink to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11RenderStats5frameE">
+<span id="_CPPv3N5ceres11RenderStats5frameE"></span><span id="_CPPv2N5ceres11RenderStats5frameE"></span><span id="ceres::RenderStats::frame__i"></span><span class="target" id="structceres_1_1_render_stats_1a0cd19f64b696654bd04c50b7b8be720b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">frame</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres11RenderStats5frameE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11RenderStats9meshCountE">
+<span id="_CPPv3N5ceres11RenderStats9meshCountE"></span><span id="_CPPv2N5ceres11RenderStats9meshCountE"></span><span id="ceres::RenderStats::meshCount__i"></span><span class="target" id="structceres_1_1_render_stats_1a2775cb91e11b75b6609f276145f6c291"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">meshCount</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres11RenderStats9meshCountE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11RenderStats9meshBytesE">
+<span id="_CPPv3N5ceres11RenderStats9meshBytesE"></span><span id="_CPPv2N5ceres11RenderStats9meshBytesE"></span><span id="ceres::RenderStats::meshBytes__i"></span><span class="target" id="structceres_1_1_render_stats_1a64caa9b37337df4cf684461386870832"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">meshBytes</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres11RenderStats9meshBytesE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11RenderStats12textureCountE">
+<span id="_CPPv3N5ceres11RenderStats12textureCountE"></span><span id="_CPPv2N5ceres11RenderStats12textureCountE"></span><span id="ceres::RenderStats::textureCount__i"></span><span class="target" id="structceres_1_1_render_stats_1aa2b49f83a591803e22117bceb9e57a10"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">textureCount</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres11RenderStats12textureCountE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11RenderStats12textureBytesE">
+<span id="_CPPv3N5ceres11RenderStats12textureBytesE"></span><span id="_CPPv2N5ceres11RenderStats12textureBytesE"></span><span id="ceres::RenderStats::textureBytes__i"></span><span class="target" id="structceres_1_1_render_stats_1ae040673e9093a0f49aeaedc0e9bbc10e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">textureBytes</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres11RenderStats12textureBytesE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11RenderStats11shaderCountE">
+<span id="_CPPv3N5ceres11RenderStats11shaderCountE"></span><span id="_CPPv2N5ceres11RenderStats11shaderCountE"></span><span id="ceres::RenderStats::shaderCount__i"></span><span class="target" id="structceres_1_1_render_stats_1a4e475e6367ad4842b2f01ced17c2c9e0"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">shaderCount</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres11RenderStats11shaderCountE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11RenderStats9drawCallsE">
+<span id="_CPPv3N5ceres11RenderStats9drawCallsE"></span><span id="_CPPv2N5ceres11RenderStats9drawCallsE"></span><span id="ceres::RenderStats::drawCalls__i"></span><span class="target" id="structceres_1_1_render_stats_1a6e9ef9bd33ee10e4247f4dafbd74db55"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">drawCalls</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres11RenderStats9drawCallsE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11RenderStats18stateChangesShaderE">
+<span id="_CPPv3N5ceres11RenderStats18stateChangesShaderE"></span><span id="_CPPv2N5ceres11RenderStats18stateChangesShaderE"></span><span id="ceres::RenderStats::stateChangesShader__i"></span><span class="target" id="structceres_1_1_render_stats_1ad7cfd462f854ba50e272d3b3e431532e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stateChangesShader</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres11RenderStats18stateChangesShaderE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11RenderStats20stateChangesMaterialE">
+<span id="_CPPv3N5ceres11RenderStats20stateChangesMaterialE"></span><span id="_CPPv2N5ceres11RenderStats20stateChangesMaterialE"></span><span id="ceres::RenderStats::stateChangesMaterial__i"></span><span class="target" id="structceres_1_1_render_stats_1a5dca8e74c0fe8eda94cd2391c4c3c7ff"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stateChangesMaterial</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres11RenderStats20stateChangesMaterialE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11RenderStats16stateChangesMeshE">
+<span id="_CPPv3N5ceres11RenderStats16stateChangesMeshE"></span><span id="_CPPv2N5ceres11RenderStats16stateChangesMeshE"></span><span id="ceres::RenderStats::stateChangesMesh__i"></span><span class="target" id="structceres_1_1_render_stats_1a18e6f73e729550919357a10bd5081558"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stateChangesMesh</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres11RenderStats16stateChangesMeshE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11RenderStats21textureBytesAllocatedE">
+<span id="_CPPv3N5ceres11RenderStats21textureBytesAllocatedE"></span><span id="_CPPv2N5ceres11RenderStats21textureBytesAllocatedE"></span><span id="ceres::RenderStats::textureBytesAllocated__i"></span><span class="target" id="structceres_1_1_render_stats_1a80423c24ab402485e79008f51c010da8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">textureBytesAllocated</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N5ceres11RenderStats21textureBytesAllocatedE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11RenderStats23textureBytesDeallocatedE">
+<span id="_CPPv3N5ceres11RenderStats23textureBytesDeallocatedE"></span><span id="_CPPv2N5ceres11RenderStats23textureBytesDeallocatedE"></span><span id="ceres::RenderStats::textureBytesDeallocated__i"></span><span class="target" id="structceres_1_1_render_stats_1adea6659a91c5fa16335e20e25f919682"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">textureBytesDeallocated</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N5ceres11RenderStats23textureBytesDeallocatedE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11RenderStats18meshBytesAllocatedE">
+<span id="_CPPv3N5ceres11RenderStats18meshBytesAllocatedE"></span><span id="_CPPv2N5ceres11RenderStats18meshBytesAllocatedE"></span><span id="ceres::RenderStats::meshBytesAllocated__i"></span><span class="target" id="structceres_1_1_render_stats_1aa1c2c23efebda340d84183a586af4caf"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">meshBytesAllocated</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N5ceres11RenderStats18meshBytesAllocatedE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11RenderStats20meshBytesDeallocatedE">
+<span id="_CPPv3N5ceres11RenderStats20meshBytesDeallocatedE"></span><span id="_CPPv2N5ceres11RenderStats20meshBytesDeallocatedE"></span><span id="ceres::RenderStats::meshBytesDeallocated__i"></span><span class="target" id="structceres_1_1_render_stats_1ae94760fb8d9e12b08bc3493b0f59d188"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">meshBytesDeallocated</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N5ceres11RenderStats20meshBytesDeallocatedE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="renderPass.html" class="btn btn-neutral float-left" title="renderPass.h" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="renderer.html" class="btn btn-neutral float-right" title="renderer.h" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, william.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

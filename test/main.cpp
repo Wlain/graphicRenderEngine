@@ -42,6 +42,6 @@ extern void sceneTest();
 
 int main()
 {
-    skyboxTest();
+    pbrTest();
     return 0;
 }

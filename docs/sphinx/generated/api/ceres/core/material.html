@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>material.h &mdash; graphicRenderEngine documentation  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/sphinx_rtd_size.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="mesh.h" href="mesh.html" />
+    <link rel="prev" title="light.h" href="light.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> graphicRenderEngine documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../overview/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">API Documents</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">core</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="camera.html">camera.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color.html">color.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="framebuffer.html">framebuffer.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glfwRenderer.html">glfwRenderer.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="inspector.html">inspector.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="light.html">light.h</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">material.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh.html">mesh.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modelImporter.html">modelImporter.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="particleEmitter.html">particleEmitter.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray.html">ray.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="renderPass.html">renderPass.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="renderStats.html">renderStats.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="renderer.html">renderer.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resource.html">resource.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shader.html">shader.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="skybox.html">skybox.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sprite.html">sprite.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spriteAtlas.html">spriteAtlas.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spriteBatch.html">spriteBatch.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texture.html">texture.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uniformSet.html">uniformSet.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worldLights.html">worldLights.h</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../utils/index.html">utils</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools/tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../internals/internals.html">Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license/license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">graphicRenderEngine documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../api.html">API Documents</a> &raquo;</li>
+          <li><a href="index.html">core</a> &raquo;</li>
+      <li>material.h</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/api/ceres/core/material.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="material-h">
+<h1>material.h<a class="headerlink" href="#material-h" title="Permalink to this heading"></a></h1>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv45ceres">
+<span id="_CPPv35ceres"></span><span id="_CPPv25ceres"></span><span id="ceres"></span><span class="target" id="namespaceceres"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ceres</span></span></span><br /></dt>
+<dd><dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8MaterialE">
+<span id="_CPPv3N5ceres8MaterialE"></span><span id="_CPPv2N5ceres8MaterialE"></span><span id="ceres::Material"></span><span class="target" id="classceres_1_1_material"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Material</span></span></span><a class="headerlink" href="#_CPPv4N5ceres8MaterialE" title="Permalink to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material8MaterialEv">
+<span id="_CPPv3N5ceres8Material8MaterialEv"></span><span id="_CPPv2N5ceres8Material8MaterialEv"></span><span id="ceres::Material::Material"></span><span class="target" id="classceres_1_1_material_1adc180ce0fead91bc9a178dcf9ff41fde"></span><span class="sig-name descname"><span class="n"><span class="pre">Material</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">delete</span></span><a class="headerlink" href="#_CPPv4N5ceres8Material8MaterialEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material8MaterialERKNSt10shared_ptrI6ShaderEE">
+<span id="_CPPv3N5ceres8Material8MaterialERKNSt10shared_ptrI6ShaderEE"></span><span id="_CPPv2N5ceres8Material8MaterialERKNSt10shared_ptrI6ShaderEE"></span><span id="ceres::Material::Material__std::shared_ptr:Shader:CR"></span><span class="target" id="classceres_1_1_material_1a5055bf79f2eccb3483c38e3e8d3d4137"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Material</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="shader.html#_CPPv4N5ceres6ShaderE" title="ceres::Shader"><span class="n"><span class="pre">Shader</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">shader</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material8MaterialERKNSt10shared_ptrI6ShaderEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8MaterialD0Ev">
+<span id="_CPPv3N5ceres8MaterialD0Ev"></span><span id="_CPPv2N5ceres8MaterialD0Ev"></span><span id="ceres::Material::~Material"></span><span class="target" id="classceres_1_1_material_1a2217ff47da85781639b660d959fad02c"></span><span class="sig-name descname"><span class="n"><span class="pre">~Material</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8MaterialD0Ev" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK5ceres8Material9getShaderEv">
+<span id="_CPPv3NK5ceres8Material9getShaderEv"></span><span id="_CPPv2NK5ceres8Material9getShaderEv"></span><span id="ceres::Material::getShaderC"></span><span class="target" id="classceres_1_1_material_1a1027bb960e0870aa764575f60164685e"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="shader.html#_CPPv4N5ceres6ShaderE" title="ceres::Shader"><span class="n"><span class="pre">Shader</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getShader</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK5ceres8Material9getShaderEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material9setShaderERKNSt10shared_ptrI6ShaderEE">
+<span id="_CPPv3N5ceres8Material9setShaderERKNSt10shared_ptrI6ShaderEE"></span><span id="_CPPv2N5ceres8Material9setShaderERKNSt10shared_ptrI6ShaderEE"></span><span id="ceres::Material::setShader__std::shared_ptr:Shader:CR"></span><span class="target" id="classceres_1_1_material_1aa888c39080d71f059178aefa37804c23"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setShader</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="shader.html#_CPPv4N5ceres6ShaderE" title="ceres::Shader"><span class="n"><span class="pre">Shader</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">shader</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material9setShaderERKNSt10shared_ptrI6ShaderEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK5ceres8Material7getNameEv">
+<span id="_CPPv3NK5ceres8Material7getNameEv"></span><span id="_CPPv2NK5ceres8Material7getNameEv"></span><span id="ceres::Material::getNameC"></span><span class="target" id="classceres_1_1_material_1a122f810689d0a45bc98aa801035f8982"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getName</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK5ceres8Material7getNameEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material7setNameENSt11string_viewE">
+<span id="_CPPv3N5ceres8Material7setNameENSt11string_viewE"></span><span id="_CPPv2N5ceres8Material7setNameENSt11string_viewE"></span><span id="ceres::Material::setName__std::string_view"></span><span class="target" id="classceres_1_1_material_1af41d2f631f124b74387c0ac530c3cd9e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setName</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material7setNameENSt11string_viewE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material8getColorEv">
+<span id="_CPPv3N5ceres8Material8getColorEv"></span><span id="_CPPv2N5ceres8Material8getColorEv"></span><span id="ceres::Material::getColor"></span><span class="target" id="classceres_1_1_material_1ac497df2433d8842883b0f538a3227197"></span><a class="reference internal" href="color.html#_CPPv4N5ceres5ColorE" title="ceres::Color"><span class="n"><span class="pre">Color</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getColor</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material8getColorEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material8setColorERK5Color">
+<span id="_CPPv3N5ceres8Material8setColorERK5Color"></span><span id="_CPPv2N5ceres8Material8setColorERK5Color"></span><span id="ceres::Material::setColor__ColorCR"></span><span class="target" id="classceres_1_1_material_1ad69a938a54d2333e17db3fb47a2d61f8"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setColor</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="color.html#_CPPv4N5ceres5ColorE" title="ceres::Color"><span class="n"><span class="pre">Color</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">color</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material8setColorERK5Color" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material14getSpecularityEv">
+<span id="_CPPv3N5ceres8Material14getSpecularityEv"></span><span id="_CPPv2N5ceres8Material14getSpecularityEv"></span><span id="ceres::Material::getSpecularity"></span><span class="target" id="classceres_1_1_material_1abeeae5bf324ab939ea989e0c1782d8f0"></span><a class="reference internal" href="color.html#_CPPv4N5ceres5ColorE" title="ceres::Color"><span class="n"><span class="pre">Color</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getSpecularity</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material14getSpecularityEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material14setSpecularityE5Color">
+<span id="_CPPv3N5ceres8Material14setSpecularityE5Color"></span><span id="_CPPv2N5ceres8Material14setSpecularityE5Color"></span><span id="ceres::Material::setSpecularity__Color"></span><span class="target" id="classceres_1_1_material_1a2396920c6a2e88c05e1f3bd9b379cfef"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setSpecularity</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="color.html#_CPPv4N5ceres5ColorE" title="ceres::Color"><span class="n"><span class="pre">Color</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">specularity</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material14setSpecularityE5Color" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material20getMetallicRoughnessEv">
+<span id="_CPPv3N5ceres8Material20getMetallicRoughnessEv"></span><span id="_CPPv2N5ceres8Material20getMetallicRoughnessEv"></span><span id="ceres::Material::getMetallicRoughness"></span><span class="target" id="classceres_1_1_material_1a1773d125eb48b1c69354b891e66fe67b"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getMetallicRoughness</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material20getMetallicRoughnessEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material20setMetallicRoughnessEN3glm4vec2E">
+<span id="_CPPv3N5ceres8Material20setMetallicRoughnessEN3glm4vec2E"></span><span id="_CPPv2N5ceres8Material20setMetallicRoughnessEN3glm4vec2E"></span><span id="ceres::Material::setMetallicRoughness__glm::vec2"></span><span class="target" id="classceres_1_1_material_1acf29d0543095db6a8ccf23ffed076bb8"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setMetallicRoughness</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">metallicRoughness</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material20setMetallicRoughnessEN3glm4vec2E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material27getMetallicRoughnessTextureEv">
+<span id="_CPPv3N5ceres8Material27getMetallicRoughnessTextureEv"></span><span id="_CPPv2N5ceres8Material27getMetallicRoughnessTextureEv"></span><span id="ceres::Material::getMetallicRoughnessTexture"></span><span class="target" id="classceres_1_1_material_1a8481c9aa54ac2af6ab29b4fe04bb889c"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="texture.html#_CPPv4N5ceres7TextureE" title="ceres::Texture"><span class="n"><span class="pre">Texture</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getMetallicRoughnessTexture</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material27getMetallicRoughnessTextureEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material27setMetallicRoughnessTextureENSt10shared_ptrI7TextureEE">
+<span id="_CPPv3N5ceres8Material27setMetallicRoughnessTextureENSt10shared_ptrI7TextureEE"></span><span id="_CPPv2N5ceres8Material27setMetallicRoughnessTextureENSt10shared_ptrI7TextureEE"></span><span id="ceres::Material::setMetallicRoughnessTexture__std::shared_ptr:Texture:"></span><span class="target" id="classceres_1_1_material_1abc689b33c5619ff44beef796c437f278"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setMetallicRoughnessTexture</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="texture.html#_CPPv4N5ceres7TextureE" title="ceres::Texture"><span class="n"><span class="pre">Texture</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">texture</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material27setMetallicRoughnessTextureENSt10shared_ptrI7TextureEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material10getTextureEv">
+<span id="_CPPv3N5ceres8Material10getTextureEv"></span><span id="_CPPv2N5ceres8Material10getTextureEv"></span><span id="ceres::Material::getTexture"></span><span class="target" id="classceres_1_1_material_1a18e7b2a78565498050e873cf82a228af"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="texture.html#_CPPv4N5ceres7TextureE" title="ceres::Texture"><span class="n"><span class="pre">Texture</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getTexture</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material10getTextureEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material10setTextureERKNSt10shared_ptrI7TextureEE">
+<span id="_CPPv3N5ceres8Material10setTextureERKNSt10shared_ptrI7TextureEE"></span><span id="_CPPv2N5ceres8Material10setTextureERKNSt10shared_ptrI7TextureEE"></span><span id="ceres::Material::setTexture__std::shared_ptr:Texture:CR"></span><span class="target" id="classceres_1_1_material_1a457fc472bc38f44d2155ff7f665585c7"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setTexture</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="texture.html#_CPPv4N5ceres7TextureE" title="ceres::Texture"><span class="n"><span class="pre">Texture</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">texture</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material10setTextureERKNSt10shared_ptrI7TextureEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material3setENSt11string_viewERKN3glm4vec4E">
+<span id="_CPPv3N5ceres8Material3setENSt11string_viewERKN3glm4vec4E"></span><span id="_CPPv2N5ceres8Material3setENSt11string_viewERKN3glm4vec4E"></span><span id="ceres::Material::set__std::string_view.glm::vec4CR"></span><span class="target" id="classceres_1_1_material_1a99ae3873cd482ad93f3dfc5d228a8d5a"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">uniformName</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec4</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material3setENSt11string_viewERKN3glm4vec4E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material3setENSt11string_viewE5Color">
+<span id="_CPPv3N5ceres8Material3setENSt11string_viewE5Color"></span><span id="_CPPv2N5ceres8Material3setENSt11string_viewE5Color"></span><span id="ceres::Material::set__std::string_view.Color"></span><span class="target" id="classceres_1_1_material_1a95cb69e7ddc5a2a0db734efd59e0c4f8"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">uniformName</span></span>, <a class="reference internal" href="color.html#_CPPv4N5ceres5ColorE" title="ceres::Color"><span class="n"><span class="pre">Color</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material3setENSt11string_viewE5Color" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material3setENSt11string_viewEf">
+<span id="_CPPv3N5ceres8Material3setENSt11string_viewEf"></span><span id="_CPPv2N5ceres8Material3setENSt11string_viewEf"></span><span id="ceres::Material::set__std::string_view.float"></span><span class="target" id="classceres_1_1_material_1a0ac6bed71a4f1454cdda744846e2afaa"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">uniformName</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material3setENSt11string_viewEf" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material3setENSt11string_viewEi">
+<span id="_CPPv3N5ceres8Material3setENSt11string_viewEi"></span><span id="_CPPv2N5ceres8Material3setENSt11string_viewEi"></span><span id="ceres::Material::set__std::string_view.i"></span><span class="target" id="classceres_1_1_material_1a41204d6d48390e385dbbbc480b295277"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">uniformName</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material3setENSt11string_viewEi" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material3setENSt11string_viewERKN3glm4mat3E">
+<span id="_CPPv3N5ceres8Material3setENSt11string_viewERKN3glm4mat3E"></span><span id="_CPPv2N5ceres8Material3setENSt11string_viewERKN3glm4mat3E"></span><span id="ceres::Material::set__std::string_view.glm::mat3CR"></span><span class="target" id="classceres_1_1_material_1a7b1fa568506ee29d6a88d3ddc134c894"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">uniformName</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat3</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material3setENSt11string_viewERKN3glm4mat3E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material3setENSt11string_viewERKN3glm4mat4E">
+<span id="_CPPv3N5ceres8Material3setENSt11string_viewERKN3glm4mat4E"></span><span id="_CPPv2N5ceres8Material3setENSt11string_viewERKN3glm4mat4E"></span><span id="ceres::Material::set__std::string_view.glm::mat4CR"></span><span class="target" id="classceres_1_1_material_1ad88caa61c8b5932d0b274c7017c3fbc6"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">uniformName</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material3setENSt11string_viewERKN3glm4mat4E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material3setENSt11string_viewERKNSt10shared_ptrI7TextureEE">
+<span id="_CPPv3N5ceres8Material3setENSt11string_viewERKNSt10shared_ptrI7TextureEE"></span><span id="_CPPv2N5ceres8Material3setENSt11string_viewERKNSt10shared_ptrI7TextureEE"></span><span id="ceres::Material::set__std::string_view.std::shared_ptr:Texture:CR"></span><span class="target" id="classceres_1_1_material_1a5f0a16c3a919ce6abde6bb8f5d696b90"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">uniformName</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="texture.html#_CPPv4N5ceres7TextureE" title="ceres::Texture"><span class="n"><span class="pre">Texture</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">texture</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material3setENSt11string_viewERKNSt10shared_ptrI7TextureEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material3setENSt11string_viewERKNSt10shared_ptrINSt6vectorIN3glm4mat3EEEEE">
+<span id="_CPPv3N5ceres8Material3setENSt11string_viewERKNSt10shared_ptrINSt6vectorIN3glm4mat3EEEEE"></span><span id="_CPPv2N5ceres8Material3setENSt11string_viewERKNSt10shared_ptrINSt6vectorIN3glm4mat3EEEEE"></span><span id="ceres::Material::set__std::string_view.std::shared_ptr:std::vector:glm::mat3::CR"></span><span class="target" id="classceres_1_1_material_1ac99bf71a3b1120e25f623112e503ecf0"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">uniformName</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat3</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material3setENSt11string_viewERKNSt10shared_ptrINSt6vectorIN3glm4mat3EEEEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material3setENSt11string_viewERKNSt10shared_ptrINSt6vectorIN3glm4mat4EEEEE">
+<span id="_CPPv3N5ceres8Material3setENSt11string_viewERKNSt10shared_ptrINSt6vectorIN3glm4mat4EEEEE"></span><span id="_CPPv2N5ceres8Material3setENSt11string_viewERKNSt10shared_ptrINSt6vectorIN3glm4mat4EEEEE"></span><span id="ceres::Material::set__std::string_view.std::shared_ptr:std::vector:glm::mat4::CR"></span><span class="target" id="classceres_1_1_material_1aa26fa4132b9fcdf37e2565518fb67530"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">uniformName</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">mat4</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material3setENSt11string_viewERKNSt10shared_ptrINSt6vectorIN3glm4mat4EEEEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN5ceres8Material3getE1TNSt11string_viewE">
+<span id="_CPPv3I0EN5ceres8Material3getENSt11string_viewE"></span><span id="_CPPv2I0EN5ceres8Material3getENSt11string_viewE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classceres_1_1_material_1a6c9e9c0c0d66fa441b0f85ef9fe82818"></span><a class="reference internal" href="#_CPPv4I0EN5ceres8Material3getE1TNSt11string_viewE" title="ceres::Material::get::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">uniformName</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN5ceres8Material3getE1TNSt11string_viewE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material4bindEv">
+<span id="_CPPv3N5ceres8Material4bindEv"></span><span id="_CPPv2N5ceres8Material4bindEv"></span><span id="ceres::Material::bind"></span><span class="target" id="classceres_1_1_material_1ab70629e46c54f6b6ae0d45ee2fdf2764"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bind</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres8Material4bindEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material6m_nameE">
+<span id="_CPPv3N5ceres8Material6m_nameE"></span><span id="_CPPv2N5ceres8Material6m_nameE"></span><span id="ceres::Material::m_name__ss"></span><span class="target" id="classceres_1_1_material_1a8c4a0154e8a31fd2fbc1fdcaf16cac89"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_name</span></span></span><a class="headerlink" href="#_CPPv4N5ceres8Material6m_nameE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material8m_shaderE">
+<span id="_CPPv3N5ceres8Material8m_shaderE"></span><span id="_CPPv2N5ceres8Material8m_shaderE"></span><span id="ceres::Material::m_shader__std::shared_ptr:Shader:"></span><span class="target" id="classceres_1_1_material_1ad5ea55bc8389d46234547036104561dc"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="shader.html#_CPPv4N5ceres6ShaderE" title="ceres::Shader"><span class="n"><span class="pre">Shader</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_shader</span></span></span><a class="headerlink" href="#_CPPv4N5ceres8Material8m_shaderE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres8Material12m_uniformMapE">
+<span id="_CPPv3N5ceres8Material12m_uniformMapE"></span><span id="_CPPv2N5ceres8Material12m_uniformMapE"></span><span id="ceres::Material::m_uniformMap__UniformSet"></span><span class="target" id="classceres_1_1_material_1ae9e09830ad8e85601861b7477b4a94ec"></span><a class="reference internal" href="uniformSet.html#_CPPv4N5ceres10UniformSetE" title="ceres::UniformSet"><span class="n"><span class="pre">UniformSet</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_uniformMap</span></span></span><a class="headerlink" href="#_CPPv4N5ceres8Material12m_uniformMapE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-friends">Friends</p>
+<dl>
+<dt class="sig sig-object cpp">
+<em class="property"><span class="pre">friend</span> <span class="pre">class</span></em> <span class="pre">Shader</span></dt>
+</dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<em class="property"><span class="pre">friend</span> <span class="pre">class</span></em> <span class="pre">RenderPass</span></dt>
+</dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="light.html" class="btn btn-neutral float-left" title="light.h" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mesh.html" class="btn btn-neutral float-right" title="mesh.h" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, william.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

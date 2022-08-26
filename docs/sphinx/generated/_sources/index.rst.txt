@@ -9,5 +9,11 @@ Welcome to graphicRenderEngine's documentation!
 .. toctree::
    :maxdepth: 2
 
-   README.md
-   APIDocumentation
+   overview/overview
+   build/build
+   examples/examples
+   api/api
+   tools/tools
+   internals/internals
+   license/license
+

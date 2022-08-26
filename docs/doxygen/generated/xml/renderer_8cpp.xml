@@ -1,10 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
   <compounddef id="renderer_8cpp" kind="file" language="C++">
     <compoundname>renderer.cpp</compoundname>
     <includes refid="renderer_8h" local="yes">renderer.h</includes>
     <includes refid="common_macro_8h" local="yes">commonMacro.h</includes>
     <includes refid="gui_common_define_8h" local="yes">guiCommonDefine.h</includes>
+    <includes local="yes">contextGL.h</includes>
     <incdepgraph>
       <node id="3">
         <label>camera.h</label>
@@ -93,13 +94,15 @@
         <link refid="render_stats_8h_source"/>
       </node>
       <node id="1">
-        <label>/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderer.cpp</label>
+        <label>/Users/william/git/demo/graphicRenderEngine/ceres/core/renderer.cpp</label>
         <link refid="renderer_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -219,6 +222,9 @@
       <node id="15">
         <label>chrono</label>
       </node>
+      <node id="38">
+        <label>contextGL.h</label>
+      </node>
       <node id="12">
         <label>cstdio</label>
       </node>
@@ -273,107 +279,130 @@
 <codeline lineno="6"><highlight class="normal"></highlight></codeline>
 <codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;commonMacro.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;guiCommonDefine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>render<sp/>engine</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">ceres</highlight></codeline>
-<codeline lineno="11"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="12"><highlight class="normal">Renderer::Renderer(GLFWwindow*<sp/>window,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>vsync,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>maxSceneLights)<sp/>:</highlight></codeline>
-<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>m_window(window),<sp/>m_vsync(vsync),<sp/>m_maxSceneLights(maxSceneLights)</highlight></codeline>
-<codeline lineno="14"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s_instance<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
-<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LOG_ERROR(</highlight><highlight class="stringliteral">&quot;multiple<sp/>versions<sp/>of<sp/>Renderer<sp/>initialized.<sp/>Only<sp/>a<sp/>single<sp/>instance<sp/>is<sp/>supported.&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>s_instance<sp/>=<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>glfwMakeContextCurrent(window);</highlight></codeline>
-<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(m_vsync)</highlight></codeline>
-<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glfwSwapInterval(1);<sp/></highlight><highlight class="comment">//<sp/>开启垂直同步</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderInfo.useFramebufferSRGB<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderInfo.supportTextureSamplerSRGB<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderInfo.supportFBODepthAttachment<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>glEnable(GL_FRAMEBUFFER_SRGB);</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>GLenum<sp/>err<sp/>=<sp/>glewInit();</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(err<sp/>!=<sp/>GLEW_OK)</highlight></codeline>
-<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exit(EXIT_FAILURE);</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Problem:<sp/>glewInit<sp/>failed,<sp/>something<sp/>is<sp/>seriously<sp/>wrong.<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LOG_FATAL(</highlight><highlight class="stringliteral">&quot;Error<sp/>initializing<sp/>OpenGL<sp/>using<sp/>GLEW:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>glewGetErrorString(err));</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>initialize<sp/>ImGUI</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui::CreateContext();</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>设置平台和渲染器</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui_ImplGlfw_InitForOpenGL(window,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui_ImplOpenGL3_Init(</highlight><highlight class="stringliteral">&quot;#version<sp/>330&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderInfo.graphicsAPIVersion<sp/>=<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)glGetString(GL_VERSION);</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderInfo.graphicsAPIVendor<sp/>=<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)glGetString(GL_VENDOR);</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_INFO(</highlight><highlight class="stringliteral">&quot;OpenGL<sp/>version<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>m_renderInfo.graphicsAPIVersion.c_str());</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_INFO(</highlight><highlight class="stringliteral">&quot;rg<sp/>version<sp/>{}.{}.{}&quot;</highlight><highlight class="normal">,<sp/>s_rgVersionMajor,<sp/>s_rgVersionMinor,<sp/>s_rgVersionPoint);</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>setup<sp/>opengl<sp/>context</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>glEnable(GL_DEPTH_TEST);</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>glEnable(GL_CULL_FACE);</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN,<sp/>GL_LOWER_LEFT);</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>initGlobalUniformBuffer();</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>reset<sp/>render<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsCurrent.frame<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsCurrent.meshCount<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsCurrent.meshBytes<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsCurrent.textureCount<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsCurrent.textureBytes<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsCurrent.drawCalls<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsLast<sp/>=<sp/>m_renderStatsCurrent;</highlight></codeline>
-<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="normal">Renderer::~Renderer()</highlight></codeline>
-<codeline lineno="62"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>glDeleteBuffers(1,<sp/>&amp;m_globalUniformBuffer);</highlight></codeline>
-<codeline lineno="64"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"></highlight></codeline>
-<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Renderer::swapWindow()</highlight></codeline>
-<codeline lineno="67"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsLast<sp/>=<sp/>m_renderStatsCurrent;</highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsCurrent.frame++;</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsCurrent.drawCalls<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>glfwSwapBuffers(m_window);</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>glfwPollEvents();</highlight></codeline>
-<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight></codeline>
-<codeline lineno="75"><highlight class="normal">glm::ivec2<sp/>Renderer::getFramebufferSize()</highlight></codeline>
-<codeline lineno="76"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>glm::ivec2<sp/>size;</highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>glfwGetFramebufferSize(m_window,<sp/>&amp;size.r,<sp/>&amp;size.g);</highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>size;</highlight></codeline>
-<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"></highlight></codeline>
-<codeline lineno="82"><highlight class="normal">glm::ivec2<sp/>Renderer::getWindowSize()</highlight></codeline>
-<codeline lineno="83"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>glm::ivec2<sp/>size;</highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>glfwGetWindowSize(m_window,<sp/>&amp;size.r,<sp/>&amp;size.g);</highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>size;</highlight></codeline>
-<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;contextGL.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>render<sp/>engine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">ceres</highlight></codeline>
+<codeline lineno="12"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal">Renderer::Renderer(GLFWwindow*<sp/>window,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>vsync,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>maxSceneLights)<sp/>:</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>m_window(window),<sp/>m_vsync(vsync),<sp/>m_maxSceneLights(maxSceneLights)</highlight></codeline>
+<codeline lineno="15"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s_instance<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LOG_ERROR(</highlight><highlight class="stringliteral">&quot;multiple<sp/>versions<sp/>of<sp/>Renderer<sp/>initialized.<sp/>Only<sp/>a<sp/>single<sp/>instance<sp/>is<sp/>supported.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>s_instance<sp/>=<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>glfwMakeContextCurrent(window);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(m_vsync)</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>glfwSwapInterval(1);<sp/></highlight><highlight class="comment">//<sp/>开启垂直同步</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderInfo.useFramebufferSRGB<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderInfo.supportTextureSamplerSRGB<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderInfo.supportFBODepthAttachment<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>glEnable(GL_FRAMEBUFFER_SRGB);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>GLenum<sp/>err<sp/>=<sp/>glewInit();</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(err<sp/>!=<sp/>GLEW_OK)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exit(EXIT_FAILURE);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Problem:<sp/>glewInit<sp/>failed,<sp/>something<sp/>is<sp/>seriously<sp/>wrong.<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LOG_FATAL(</highlight><highlight class="stringliteral">&quot;Error<sp/>initializing<sp/>OpenGL<sp/>using<sp/>GLEW:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>glewGetErrorString(err));</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>initialize<sp/>ImGUI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui::CreateContext();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>设置平台和渲染器</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui_ImplGlfw_InitForOpenGL(window,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>ImGui_ImplOpenGL3_Init(</highlight><highlight class="stringliteral">&quot;#version<sp/>330&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderInfo.graphicsAPIVersion<sp/>=<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)glGetString(GL_VERSION);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderInfo.graphicsAPIVendor<sp/>=<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)glGetString(GL_VENDOR);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderInfo.graphicVendor<sp/>=<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)glGetString(GL_VENDOR);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderInfo.graphicRenderer<sp/>=<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)glGetString(GL_RENDERER);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderInfo.graphicVersion<sp/>=<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)glGetString(GL_VERSION);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderInfo.graphicShader<sp/>=<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)glGetString(GL_SHADING_LANGUAGE_VERSION);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>ContextGL::GLInfo<sp/>info{};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>glGetIntegerv(GL_MAX_RENDERBUFFER_SIZE,<sp/>&amp;info.maxRenderbufferSize);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>glGetIntegerv(GL_MAX_UNIFORM_BLOCK_SIZE,<sp/>&amp;info.maxUniformBlockSize);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>glGetIntegerv(GL_MAX_SAMPLES,<sp/>&amp;info.maxSamples);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>glGetIntegerv(GL_MAX_DRAW_BUFFERS,<sp/>&amp;info.maxDrawBuffers);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS,<sp/>&amp;info.maxTextureImageUnits);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>glGetIntegerv(GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT,<sp/>&amp;info.uniformBufferOffsetAlignment);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_INFO(</highlight><highlight class="stringliteral">&quot;graphic<sp/>OpenGL<sp/>version:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>m_renderInfo.graphicsAPIVersion.c_str());</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_INFO(</highlight><highlight class="stringliteral">&quot;graphic<sp/>OpenGL<sp/>Vendor:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>m_renderInfo.graphicVendor.c_str());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_INFO(</highlight><highlight class="stringliteral">&quot;graphic<sp/>OpenGL<sp/>Renderer:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>m_renderInfo.graphicRenderer.c_str());</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_INFO(</highlight><highlight class="stringliteral">&quot;graphic<sp/>OpenGL<sp/>Version:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>m_renderInfo.graphicVersion.c_str());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_INFO(</highlight><highlight class="stringliteral">&quot;graphic<sp/>OpenGL<sp/>Shader:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>m_renderInfo.graphicShader.c_str());</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_INFO(</highlight><highlight class="stringliteral">&quot;rg<sp/>version:<sp/>{}.{}.{}&quot;</highlight><highlight class="normal">,<sp/>s_rgVersionMajor,<sp/>s_rgVersionMinor,<sp/>s_rgVersionPoint);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_INFO(</highlight><highlight class="stringliteral">&quot;GL_MAX_DRAW_BUFFERS<sp/>=<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>info.maxDrawBuffers);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_INFO(</highlight><highlight class="stringliteral">&quot;GL_MAX_RENDERBUFFER_SIZE<sp/>=<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>info.maxRenderbufferSize);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_INFO(</highlight><highlight class="stringliteral">&quot;GL_MAX_SAMPLES<sp/>=<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>info.maxSamples);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_INFO(</highlight><highlight class="stringliteral">&quot;GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT<sp/>=<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>info.maxTextureImageUnits);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_INFO(</highlight><highlight class="stringliteral">&quot;GL_MAX_UNIFORM_BLOCK_SIZE<sp/>=<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>info.maxUniformBlockSize);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_INFO(</highlight><highlight class="stringliteral">&quot;GL_MAX_TEXTURE_IMAGE_UNITS<sp/>=<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>info.maxTextureImageUnits);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_INFO(</highlight><highlight class="stringliteral">&quot;GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT<sp/>=<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>info.uniformBufferOffsetAlignment);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>setup<sp/>opengl<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>glEnable(GL_DEPTH_TEST);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>glEnable(GL_CULL_FACE);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN,<sp/>GL_LOWER_LEFT);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>initGlobalUniformBuffer();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>reset<sp/>render<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsCurrent.frame<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsCurrent.meshCount<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsCurrent.meshBytes<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsCurrent.textureCount<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsCurrent.textureBytes<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsCurrent.drawCalls<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsLast<sp/>=<sp/>m_renderStatsCurrent;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">Renderer::~Renderer()</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>glDeleteBuffers(1,<sp/>&amp;m_globalUniformBuffer);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="88"><highlight class="normal"></highlight></codeline>
-<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>Renderer::getMaxSceneLights()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
-<codeline lineno="90"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m_maxSceneLights;</highlight></codeline>
-<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"></highlight></codeline>
-<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Renderer::RenderInfo&amp;<sp/>Renderer::renderInfo()</highlight></codeline>
-<codeline lineno="95"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m_renderInfo;</highlight></codeline>
-<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Renderer::initGlobalUniformBuffer()</highlight></codeline>
-<codeline lineno="100"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>glGenBuffers(1,<sp/>&amp;m_globalUniformBuffer);</highlight></codeline>
-<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>lightSize<sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(glm::vec4)<sp/>*<sp/>(1<sp/>+<sp/>m_maxSceneLights<sp/>*<sp/>2);<sp/></highlight><highlight class="comment">//<sp/>ambient<sp/>+<sp/>(lightPosType<sp/>+<sp/>lightColorRange)<sp/>*<sp/>maxSceneLights</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>m_globalUniformBufferSize<sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(glm::mat4)<sp/>*<sp/>2<sp/>+<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(glm::vec4)<sp/>*<sp/>2<sp/>+<sp/>lightSize;</highlight></codeline>
-<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>glBindBuffer(GL_UNIFORM_BUFFER,<sp/>m_globalUniformBuffer);</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>glBufferData(GL_UNIFORM_BUFFER,<sp/>m_globalUniformBufferSize,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>GL_STREAM_DRAW);</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>glBindBuffer(GL_UNIFORM_BUFFER,<sp/>0);</highlight></codeline>
-<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="108"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ceres</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Renderer::swapWindow()</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsLast<sp/>=<sp/>m_renderStatsCurrent;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsCurrent.frame++;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>m_renderStatsCurrent.drawCalls<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>glfwSwapBuffers(m_window);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>glfwPollEvents();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal">glm::ivec2<sp/>Renderer::getFramebufferSize()</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>glm::ivec2<sp/>size;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>glfwGetFramebufferSize(m_window,<sp/>&amp;size.r,<sp/>&amp;size.g);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>size;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal">glm::ivec2<sp/>Renderer::getWindowSize()</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>glm::ivec2<sp/>size;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>glfwGetWindowSize(m_window,<sp/>&amp;size.r,<sp/>&amp;size.g);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>size;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>Renderer::getMaxSceneLights()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="113"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m_maxSceneLights;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Renderer::RenderInfo&amp;<sp/>Renderer::renderInfo()</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m_renderInfo;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Renderer::initGlobalUniformBuffer()</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>glGenBuffers(1,<sp/>&amp;m_globalUniformBuffer);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>lightSize<sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(glm::vec4)<sp/>*<sp/>(1<sp/>+<sp/>m_maxSceneLights<sp/>*<sp/>2);<sp/></highlight><highlight class="comment">//<sp/>ambient<sp/>+<sp/>(lightPosType<sp/>+<sp/>lightColorRange)<sp/>*<sp/>maxSceneLights</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>m_globalUniformBufferSize<sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(glm::mat4)<sp/>*<sp/>2<sp/>+<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(glm::vec4)<sp/>*<sp/>2<sp/>+<sp/>lightSize;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>glBindBuffer(GL_UNIFORM_BUFFER,<sp/>m_globalUniformBuffer);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>glBufferData(GL_UNIFORM_BUFFER,<sp/>m_globalUniformBufferSize,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>GL_STREAM_DRAW);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>glBindBuffer(GL_UNIFORM_BUFFER,<sp/>0);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ceres</highlight></codeline>
     </programlisting>
-    <location file="/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderer.cpp"/>
+    <location file="/Users/william/git/demo/graphicRenderEngine/ceres/core/renderer.cpp"/>
   </compounddef>
 </doxygen>

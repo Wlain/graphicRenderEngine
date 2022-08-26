@@ -1,5 +1,5 @@
 \hypertarget{renderer_8h_source}{}\doxysection{renderer.\+h}
-\label{renderer_8h_source}\index{/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderer.h@{/Users/william/Developer/demo/graphicRenderEngine/ceres/core/renderer.h}}
+\label{renderer_8h_source}\index{/Users/william/git/demo/graphicRenderEngine/ceres/core/renderer.h@{/Users/william/git/demo/graphicRenderEngine/ceres/core/renderer.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{renderer_8h_source_l00001}00001 \textcolor{comment}{//}}
@@ -34,55 +34,59 @@
 \DoxyCodeLine{\Hypertarget{renderer_8h_source_l00030}00030         \textcolor{keywordtype}{bool} supportFBODepthAttachment = \textcolor{keyword}{false};}
 \DoxyCodeLine{\Hypertarget{renderer_8h_source_l00031}00031         std::string graphicsAPIVersion;}
 \DoxyCodeLine{\Hypertarget{renderer_8h_source_l00032}00032         std::string graphicsAPIVendor;}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00033}00033     \};}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00034}00034     \textcolor{keyword}{explicit} \mbox{\hyperlink{classceres_1_1_renderer}{Renderer}}(GLFWwindow* window, \textcolor{keywordtype}{bool} vsync = \textcolor{keyword}{true}, \textcolor{keywordtype}{int} maxSceneLights = 4);}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00035}00035     \mbox{\hyperlink{classceres_1_1_renderer}{\string~Renderer}}();}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00036}00036     \textcolor{comment}{// Update window with OpenGL rendering}}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00037}00037     \textcolor{keywordtype}{void} swapWindow();}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00038}00038     \textcolor{comment}{// return stats of the last rendered frame,only data maintained by re is included}}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00039}00039     [[nodiscard]] \textcolor{keyword}{inline} \textcolor{keyword}{const} \mbox{\hyperlink{structceres_1_1_render_stats}{RenderStats}}\& getRenderStats()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_renderStatsLast; \}}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00040}00040     [[nodiscard]] \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} usesVSync()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_vsync; \};}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00041}00041     glm::ivec2 getFramebufferSize();}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00042}00042     glm::ivec2 getWindowSize();}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00043}00043     [[nodiscard]] \textcolor{keywordtype}{int} getMaxSceneLights() \textcolor{keyword}{const};}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00044}00044     \textcolor{keyword}{const} RenderInfo\& renderInfo();}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00045}00045     \textcolor{keywordtype}{void} initGlobalUniformBuffer();}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00046}00046 }
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00047}00047 \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00048}00048     \textcolor{keyword}{inline} \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} s\_rgVersionMajor\{ 3 \};}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00049}00049     \textcolor{keyword}{inline} \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} s\_rgVersionMinor\{ 2 \};}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00050}00050     \textcolor{keyword}{inline} \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} s\_rgVersionPoint\{ 2 \};}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00051}00051     \textcolor{keyword}{inline} \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} s\_depthBits\{ 24 \};}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00052}00052     \textcolor{keyword}{inline} \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} s\_stencilBits\{ 8 \};}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00053}00053     \textcolor{keyword}{inline} \textcolor{keyword}{static} Renderer* s\_instance\{ \textcolor{keyword}{nullptr} \};}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00054}00054 }
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00055}00055 \textcolor{keyword}{private}:}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00056}00056     RenderInfo m\_renderInfo;}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00057}00057     RenderStats m\_renderStatsLast\{\};}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00058}00058     RenderStats m\_renderStatsCurrent\{\};}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00059}00059     GLFWwindow* m\_window\{ \textcolor{keyword}{nullptr} \};}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00060}00060     std::vector<FrameBuffer*> m\_fbos;}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00061}00061     std::vector<Mesh*> m\_meshes;}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00062}00062     std::vector<Shader*> m\_shaders;}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00063}00063     std::vector<Texture*> m\_textures;}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00064}00064     std::vector<SpriteAtlas*> m\_spriteAtlases;}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00065}00065     \textcolor{keywordtype}{int} m\_maxSceneLights\{ 4 \};}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00066}00066     GLuint m\_globalUniformBuffer\{ 0 \};}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00067}00067     GLuint m\_globalUniformBufferSize\{ 1 \};}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00068}00068     \textcolor{keywordtype}{bool} m\_vsync\{ \textcolor{keyword}{false} \};}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00069}00069 }
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00070}00070     \textcolor{keyword}{friend} \textcolor{keyword}{class }Mesh;}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00071}00071     \textcolor{keyword}{friend} \textcolor{keyword}{class }Mesh::MeshBuilder;}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00072}00072     \textcolor{keyword}{friend} \textcolor{keyword}{class }Shader;}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00073}00073     \textcolor{keyword}{friend} \textcolor{keyword}{class }Texture;}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00074}00074     \textcolor{keyword}{friend} \textcolor{keyword}{class }Camera;}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00075}00075     \textcolor{keyword}{friend} \textcolor{keyword}{class }RenderPass;}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00076}00076     \textcolor{keyword}{friend} \textcolor{keyword}{class }Inspector;}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00077}00077     \textcolor{keyword}{friend} \textcolor{keyword}{class }FrameBuffer;}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00078}00078     \textcolor{keyword}{friend} \textcolor{keyword}{class }SpriteAtlas;}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00079}00079     \textcolor{keyword}{friend} \textcolor{keyword}{class }Material;}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00080}00080 \};}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00081}00081 \} \textcolor{comment}{// namespace ceres}}
-\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00082}00082 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// GRAPHICRENDERENGINE\_RENDERER\_H}}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00033}00033         std::string graphicVendor;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00034}00034         std::string graphicRenderer;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00035}00035         std::string graphicVersion;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00036}00036         std::string graphicShader;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00037}00037     \};}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00038}00038     \textcolor{keyword}{explicit} \mbox{\hyperlink{classceres_1_1_renderer}{Renderer}}(GLFWwindow* window, \textcolor{keywordtype}{bool} vsync = \textcolor{keyword}{true}, \textcolor{keywordtype}{int} maxSceneLights = 4);}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00039}00039     \mbox{\hyperlink{classceres_1_1_renderer}{\string~Renderer}}();}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00040}00040     \textcolor{comment}{// Update window with OpenGL rendering}}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00041}00041     \textcolor{keywordtype}{void} swapWindow();}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00042}00042     \textcolor{comment}{// return stats of the last rendered frame,only data maintained by re is included}}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00043}00043     [[nodiscard]] \textcolor{keyword}{inline} \textcolor{keyword}{const} \mbox{\hyperlink{structceres_1_1_render_stats}{RenderStats}}\& getRenderStats()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_renderStatsLast; \}}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00044}00044     [[nodiscard]] \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} usesVSync()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_vsync; \};}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00045}00045     glm::ivec2 getFramebufferSize();}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00046}00046     glm::ivec2 getWindowSize();}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00047}00047     [[nodiscard]] \textcolor{keywordtype}{int} getMaxSceneLights() \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00048}00048     \textcolor{keyword}{const} RenderInfo\& renderInfo();}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00049}00049     \textcolor{keywordtype}{void} initGlobalUniformBuffer();}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00051}00051 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00052}00052     \textcolor{keyword}{inline} \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} s\_rgVersionMajor\{ 3 \};}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00053}00053     \textcolor{keyword}{inline} \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} s\_rgVersionMinor\{ 2 \};}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00054}00054     \textcolor{keyword}{inline} \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} s\_rgVersionPoint\{ 2 \};}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00055}00055     \textcolor{keyword}{inline} \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} s\_depthBits\{ 24 \};}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00056}00056     \textcolor{keyword}{inline} \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} s\_stencilBits\{ 8 \};}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00057}00057     \textcolor{keyword}{inline} \textcolor{keyword}{static} Renderer* s\_instance\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00059}00059 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00060}00060     RenderInfo m\_renderInfo;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00061}00061     RenderStats m\_renderStatsLast\{\};}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00062}00062     RenderStats m\_renderStatsCurrent\{\};}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00063}00063     GLFWwindow* m\_window\{ \textcolor{keyword}{nullptr} \};}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00064}00064     std::vector<FrameBuffer*> m\_fbos;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00065}00065     std::vector<Mesh*> m\_meshes;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00066}00066     std::vector<Shader*> m\_shaders;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00067}00067     std::vector<Texture*> m\_textures;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00068}00068     std::vector<SpriteAtlas*> m\_spriteAtlases;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00069}00069     \textcolor{keywordtype}{int} m\_maxSceneLights\{ 4 \};}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00070}00070     GLuint m\_globalUniformBuffer\{ 0 \};}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00071}00071     GLuint m\_globalUniformBufferSize\{ 1 \};}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00072}00072     \textcolor{keywordtype}{bool} m\_vsync\{ \textcolor{keyword}{false} \};}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00074}00074     \textcolor{keyword}{friend} \textcolor{keyword}{class }Mesh;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00075}00075     \textcolor{keyword}{friend} \textcolor{keyword}{class }Mesh::MeshBuilder;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00076}00076     \textcolor{keyword}{friend} \textcolor{keyword}{class }Shader;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00077}00077     \textcolor{keyword}{friend} \textcolor{keyword}{class }Texture;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00078}00078     \textcolor{keyword}{friend} \textcolor{keyword}{class }Camera;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00079}00079     \textcolor{keyword}{friend} \textcolor{keyword}{class }RenderPass;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00080}00080     \textcolor{keyword}{friend} \textcolor{keyword}{class }Inspector;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00081}00081     \textcolor{keyword}{friend} \textcolor{keyword}{class }FrameBuffer;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00082}00082     \textcolor{keyword}{friend} \textcolor{keyword}{class }SpriteAtlas;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00083}00083     \textcolor{keyword}{friend} \textcolor{keyword}{class }Material;}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00084}00084 \};}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00085}00085 \} \textcolor{comment}{// namespace ceres}}
+\DoxyCodeLine{\Hypertarget{renderer_8h_source_l00086}00086 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// GRAPHICRENDERENGINE\_RENDERER\_H}}
 
 \end{DoxyCode}

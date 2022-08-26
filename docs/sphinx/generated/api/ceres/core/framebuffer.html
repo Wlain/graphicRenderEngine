@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>framebuffer.h &mdash; graphicRenderEngine documentation  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/sphinx_rtd_size.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="glfwRenderer.h" href="glfwRenderer.html" />
+    <link rel="prev" title="color.h" href="color.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> graphicRenderEngine documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../overview/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">API Documents</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">core</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="camera.html">camera.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color.html">color.h</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">framebuffer.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glfwRenderer.html">glfwRenderer.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="inspector.html">inspector.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="light.html">light.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material.html">material.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh.html">mesh.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modelImporter.html">modelImporter.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="particleEmitter.html">particleEmitter.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray.html">ray.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="renderPass.html">renderPass.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="renderStats.html">renderStats.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="renderer.html">renderer.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resource.html">resource.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shader.html">shader.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="skybox.html">skybox.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sprite.html">sprite.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spriteAtlas.html">spriteAtlas.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spriteBatch.html">spriteBatch.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="texture.html">texture.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uniformSet.html">uniformSet.h</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worldLights.html">worldLights.h</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../utils/index.html">utils</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools/tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../internals/internals.html">Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license/license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">graphicRenderEngine documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../api.html">API Documents</a> &raquo;</li>
+          <li><a href="index.html">core</a> &raquo;</li>
+      <li>framebuffer.h</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/api/ceres/core/framebuffer.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="framebuffer-h">
+<h1>framebuffer.h<a class="headerlink" href="#framebuffer-h" title="Permalink to this heading"></a></h1>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv45ceres">
+<span id="_CPPv35ceres"></span><span id="_CPPv25ceres"></span><span id="ceres"></span><span class="target" id="namespaceceres"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ceres</span></span></span><br /></dt>
+<dd><dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBufferE">
+<span id="_CPPv3N5ceres11FrameBufferE"></span><span id="_CPPv2N5ceres11FrameBufferE"></span><span id="ceres::FrameBuffer"></span><span class="target" id="classceres_1_1_frame_buffer"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FrameBuffer</span></span></span><a class="headerlink" href="#_CPPv4N5ceres11FrameBufferE" title="Permalink to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer11FrameBufferENSt11string_viewE">
+<span id="_CPPv3N5ceres11FrameBuffer11FrameBufferENSt11string_viewE"></span><span id="_CPPv2N5ceres11FrameBuffer11FrameBufferENSt11string_viewE"></span><span id="ceres::FrameBuffer::FrameBuffer__std::string_view"></span><span class="target" id="classceres_1_1_frame_buffer_1ad32e85ac067d614b7ed41e47d11b28a6"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FrameBuffer</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer11FrameBufferENSt11string_viewE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBufferD0Ev">
+<span id="_CPPv3N5ceres11FrameBufferD0Ev"></span><span id="_CPPv2N5ceres11FrameBufferD0Ev"></span><span id="ceres::FrameBuffer::~FrameBuffer"></span><span class="target" id="classceres_1_1_frame_buffer_1ac0b50c2f812349b9ff533a2fe0dae742"></span><span class="sig-name descname"><span class="n"><span class="pre">~FrameBuffer</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres11FrameBufferD0Ev" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK5ceres11FrameBuffer4nameEv">
+<span id="_CPPv3NK5ceres11FrameBuffer4nameEv"></span><span id="_CPPv2NK5ceres11FrameBuffer4nameEv"></span><span id="ceres::FrameBuffer::nameC"></span><span class="target" id="classceres_1_1_frame_buffer_1a6d0742cc146d61ba93866139560cc67c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">name</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK5ceres11FrameBuffer4nameEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer15setColorTextureERKNSt10shared_ptrI7TextureEEi">
+<span id="_CPPv3N5ceres11FrameBuffer15setColorTextureERKNSt10shared_ptrI7TextureEEi"></span><span id="_CPPv2N5ceres11FrameBuffer15setColorTextureERKNSt10shared_ptrI7TextureEEi"></span><span id="ceres::FrameBuffer::setColorTexture__std::shared_ptr:Texture:CR.i"></span><span class="target" id="classceres_1_1_frame_buffer_1a040d2775a9d45cf1d0813d314c875c70"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setColorTexture</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="texture.html#_CPPv4N5ceres7TextureE" title="ceres::Texture"><span class="n"><span class="pre">Texture</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">tex</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer15setColorTextureERKNSt10shared_ptrI7TextureEEi" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer15setDepthTextureERKNSt10shared_ptrI7TextureEE">
+<span id="_CPPv3N5ceres11FrameBuffer15setDepthTextureERKNSt10shared_ptrI7TextureEE"></span><span id="_CPPv2N5ceres11FrameBuffer15setDepthTextureERKNSt10shared_ptrI7TextureEE"></span><span id="ceres::FrameBuffer::setDepthTexture__std::shared_ptr:Texture:CR"></span><span class="target" id="classceres_1_1_frame_buffer_1a52f71e4145c3342611252ab418e97d5c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setDepthTexture</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="texture.html#_CPPv4N5ceres7TextureE" title="ceres::Texture"><span class="n"><span class="pre">Texture</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">tex</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer15setDepthTextureERKNSt10shared_ptrI7TextureEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer6createEv">
+<span id="_CPPv3N5ceres11FrameBuffer6createEv"></span><span id="_CPPv2N5ceres11FrameBuffer6createEv"></span><span id="ceres::FrameBuffer::create"></span><span class="target" id="classceres_1_1_frame_buffer_1ae8e39148abece1252ac2828c8c936138"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N5ceres11FrameBuffer18FrameBufferBuilderE" title="ceres::FrameBuffer::FrameBufferBuilder"><span class="n"><span class="pre">FrameBufferBuilder</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">create</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer6createEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer26getMaximumColorAttachmentsEv">
+<span id="_CPPv3N5ceres11FrameBuffer26getMaximumColorAttachmentsEv"></span><span id="_CPPv2N5ceres11FrameBuffer26getMaximumColorAttachmentsEv"></span><span id="ceres::FrameBuffer::getMaximumColorAttachments"></span><span class="target" id="classceres_1_1_frame_buffer_1a3d5eb7b824f6b7f877b2654ebae07265"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getMaximumColorAttachments</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer26getMaximumColorAttachmentsEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer26getMaximumDepthAttachmentsEv">
+<span id="_CPPv3N5ceres11FrameBuffer26getMaximumDepthAttachmentsEv"></span><span id="_CPPv2N5ceres11FrameBuffer26getMaximumDepthAttachmentsEv"></span><span id="ceres::FrameBuffer::getMaximumDepthAttachments"></span><span class="target" id="classceres_1_1_frame_buffer_1a3728b961f3de3e983027a45ab82d4d78"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getMaximumDepthAttachments</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer26getMaximumDepthAttachmentsEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer4bindEv">
+<span id="_CPPv3N5ceres11FrameBuffer4bindEv"></span><span id="_CPPv2N5ceres11FrameBuffer4bindEv"></span><span id="ceres::FrameBuffer::bind"></span><span class="target" id="classceres_1_1_frame_buffer_1ac49dd535a8c1ae5cee09cab38d937fde"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bind</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer4bindEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer10m_texturesE">
+<span id="_CPPv3N5ceres11FrameBuffer10m_texturesE"></span><span id="_CPPv2N5ceres11FrameBuffer10m_texturesE"></span><span id="ceres::FrameBuffer::m_textures__std::vector:std::shared_ptr:Texture::"></span><span class="target" id="classceres_1_1_frame_buffer_1ad2faa528d0bbedb65038776b9085262d"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="texture.html#_CPPv4N5ceres7TextureE" title="ceres::Texture"><span class="n"><span class="pre">Texture</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_textures</span></span></span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer10m_texturesE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer14m_depthTextureE">
+<span id="_CPPv3N5ceres11FrameBuffer14m_depthTextureE"></span><span id="_CPPv2N5ceres11FrameBuffer14m_depthTextureE"></span><span id="ceres::FrameBuffer::m_depthTexture__std::shared_ptr:Texture:"></span><span class="target" id="classceres_1_1_frame_buffer_1a559a4a2faf45bcaad7e28ea8bfe88203"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="texture.html#_CPPv4N5ceres7TextureE" title="ceres::Texture"><span class="n"><span class="pre">Texture</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_depthTexture</span></span></span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer14m_depthTextureE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer6m_nameE">
+<span id="_CPPv3N5ceres11FrameBuffer6m_nameE"></span><span id="_CPPv2N5ceres11FrameBuffer6m_nameE"></span><span id="ceres::FrameBuffer::m_name__ss"></span><span class="target" id="classceres_1_1_frame_buffer_1a1426662bb0672977b1212cd0f09651a8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_name</span></span></span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer6m_nameE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer19m_renderBufferDepthE">
+<span id="_CPPv3N5ceres11FrameBuffer19m_renderBufferDepthE"></span><span id="_CPPv2N5ceres11FrameBuffer19m_renderBufferDepthE"></span><span id="ceres::FrameBuffer::m_renderBufferDepth__uint32_t"></span><span class="target" id="classceres_1_1_frame_buffer_1a4d69abe8fa0c95eaad721964c0da281f"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_renderBufferDepth</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer19m_renderBufferDepthE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer5m_fboE">
+<span id="_CPPv3N5ceres11FrameBuffer5m_fboE"></span><span id="_CPPv2N5ceres11FrameBuffer5m_fboE"></span><span id="ceres::FrameBuffer::m_fbo__uint32_t"></span><span class="target" id="classceres_1_1_frame_buffer_1aff5b3740e4aede4a914a32d73e7af4ed"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_fbo</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer5m_fboE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer5m_rboE">
+<span id="_CPPv3N5ceres11FrameBuffer5m_rboE"></span><span id="_CPPv2N5ceres11FrameBuffer5m_rboE"></span><span id="ceres::FrameBuffer::m_rbo__uint32_t"></span><span class="target" id="classceres_1_1_frame_buffer_1a8231936eee4c770e6a4f632131416610"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_rbo</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer5m_rboE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer6m_sizeE">
+<span id="_CPPv3N5ceres11FrameBuffer6m_sizeE"></span><span id="_CPPv2N5ceres11FrameBuffer6m_sizeE"></span><span id="ceres::FrameBuffer::m_size__glm::vec2"></span><span class="target" id="classceres_1_1_frame_buffer_1a2e6cc20964d5f647e337a6964279453d"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_size</span></span></span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer6m_sizeE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer7m_dirtyE">
+<span id="_CPPv3N5ceres11FrameBuffer7m_dirtyE"></span><span id="_CPPv2N5ceres11FrameBuffer7m_dirtyE"></span><span id="ceres::FrameBuffer::m_dirty__b"></span><span class="target" id="classceres_1_1_frame_buffer_1a67d2eaa1885dcc8ab2ca39a3dfcddf10"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_dirty</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="k"><span class="pre">true</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer7m_dirtyE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-friends">Friends</p>
+<dl>
+<dt class="sig sig-object cpp">
+<em class="property"><span class="pre">friend</span> <span class="pre">class</span></em> <span class="pre">RenderPass</span></dt>
+</dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<em class="property"><span class="pre">friend</span> <span class="pre">class</span></em> <span class="pre">Inspector</span></dt>
+</dl>
+
+</div>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer18FrameBufferBuilderE">
+<span id="_CPPv3N5ceres11FrameBuffer18FrameBufferBuilderE"></span><span id="_CPPv2N5ceres11FrameBuffer18FrameBufferBuilderE"></span><span id="ceres::FrameBuffer::FrameBufferBuilder"></span><span class="target" id="classceres_1_1_frame_buffer_1_1_frame_buffer_builder"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FrameBufferBuilder</span></span></span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer18FrameBufferBuilderE" title="Permalink to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder16withColorTextureERKNSt10shared_ptrI7TextureEE">
+<span id="_CPPv3N5ceres11FrameBuffer18FrameBufferBuilder16withColorTextureERKNSt10shared_ptrI7TextureEE"></span><span id="_CPPv2N5ceres11FrameBuffer18FrameBufferBuilder16withColorTextureERKNSt10shared_ptrI7TextureEE"></span><span id="ceres::FrameBuffer::FrameBufferBuilder::withColorTexture__std::shared_ptr:Texture:CR"></span><span class="target" id="classceres_1_1_frame_buffer_1_1_frame_buffer_builder_1ad4f786593f1f216558e7e2606bb05f33"></span><a class="reference internal" href="#_CPPv4N5ceres11FrameBuffer18FrameBufferBuilderE" title="ceres::FrameBuffer::FrameBufferBuilder"><span class="n"><span class="pre">FrameBufferBuilder</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">withColorTexture</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="texture.html#_CPPv4N5ceres7TextureE" title="ceres::Texture"><span class="n"><span class="pre">Texture</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">texture</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder16withColorTextureERKNSt10shared_ptrI7TextureEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder16withDepthTextureERKNSt10shared_ptrI7TextureEE">
+<span id="_CPPv3N5ceres11FrameBuffer18FrameBufferBuilder16withDepthTextureERKNSt10shared_ptrI7TextureEE"></span><span id="_CPPv2N5ceres11FrameBuffer18FrameBufferBuilder16withDepthTextureERKNSt10shared_ptrI7TextureEE"></span><span id="ceres::FrameBuffer::FrameBufferBuilder::withDepthTexture__std::shared_ptr:Texture:CR"></span><span class="target" id="classceres_1_1_frame_buffer_1_1_frame_buffer_builder_1acba906a4c265d92f14d91d229cb50be8"></span><a class="reference internal" href="#_CPPv4N5ceres11FrameBuffer18FrameBufferBuilderE" title="ceres::FrameBuffer::FrameBufferBuilder"><span class="n"><span class="pre">FrameBufferBuilder</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">withDepthTexture</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="texture.html#_CPPv4N5ceres7TextureE" title="ceres::Texture"><span class="n"><span class="pre">Texture</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">texture</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder16withDepthTextureERKNSt10shared_ptrI7TextureEE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder8withNameENSt11string_viewE">
+<span id="_CPPv3N5ceres11FrameBuffer18FrameBufferBuilder8withNameENSt11string_viewE"></span><span id="_CPPv2N5ceres11FrameBuffer18FrameBufferBuilder8withNameENSt11string_viewE"></span><span id="ceres::FrameBuffer::FrameBufferBuilder::withName__std::string_view"></span><span class="target" id="classceres_1_1_frame_buffer_1_1_frame_buffer_builder_1a9770869f3998844812816c95fcf6e1b4"></span><a class="reference internal" href="#_CPPv4N5ceres11FrameBuffer18FrameBufferBuilderE" title="ceres::FrameBuffer::FrameBufferBuilder"><span class="n"><span class="pre">FrameBufferBuilder</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">withName</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder8withNameENSt11string_viewE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder5buildEv">
+<span id="_CPPv3N5ceres11FrameBuffer18FrameBufferBuilder5buildEv"></span><span id="_CPPv2N5ceres11FrameBuffer18FrameBufferBuilder5buildEv"></span><span id="ceres::FrameBuffer::FrameBufferBuilder::build"></span><span class="target" id="classceres_1_1_frame_buffer_1_1_frame_buffer_builder_1a1e9eea9d8a7106ed613b16e021597a0e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N5ceres11FrameBufferE" title="ceres::FrameBuffer"><span class="n"><span class="pre">FrameBuffer</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">build</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder5buildEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder18FrameBufferBuilderEv">
+<span id="_CPPv3N5ceres11FrameBuffer18FrameBufferBuilder18FrameBufferBuilderEv"></span><span id="_CPPv2N5ceres11FrameBuffer18FrameBufferBuilder18FrameBufferBuilderEv"></span><span id="ceres::FrameBuffer::FrameBufferBuilder::FrameBufferBuilder"></span><span class="target" id="classceres_1_1_frame_buffer_1_1_frame_buffer_builder_1a899bc1ab467107ea432a7c75165af08d"></span><span class="sig-name descname"><span class="n"><span class="pre">FrameBufferBuilder</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder18FrameBufferBuilderEv" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder18FrameBufferBuilderERK18FrameBufferBuilder">
+<span id="_CPPv3N5ceres11FrameBuffer18FrameBufferBuilder18FrameBufferBuilderERK18FrameBufferBuilder"></span><span id="_CPPv2N5ceres11FrameBuffer18FrameBufferBuilder18FrameBufferBuilderERK18FrameBufferBuilder"></span><span id="ceres::FrameBuffer::FrameBufferBuilder::FrameBufferBuilder__FrameBufferBuilderCR"></span><span class="target" id="classceres_1_1_frame_buffer_1_1_frame_buffer_builder_1a3eb68a796162c96e8fa5d486c15cf0e8"></span><span class="sig-name descname"><span class="n"><span class="pre">FrameBufferBuilder</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder18FrameBufferBuilderERK18FrameBufferBuilder" title="ceres::FrameBuffer::FrameBufferBuilder::FrameBufferBuilder"><span class="n"><span class="pre">FrameBufferBuilder</span></span></a><span class="p"><span class="pre">&amp;</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder18FrameBufferBuilderERK18FrameBufferBuilder" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder10m_texturesE">
+<span id="_CPPv3N5ceres11FrameBuffer18FrameBufferBuilder10m_texturesE"></span><span id="_CPPv2N5ceres11FrameBuffer18FrameBufferBuilder10m_texturesE"></span><span id="ceres::FrameBuffer::FrameBufferBuilder::m_textures__std::vector:std::shared_ptr:Texture::"></span><span class="target" id="classceres_1_1_frame_buffer_1_1_frame_buffer_builder_1a6598eb698289a5799d50343148606693"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="texture.html#_CPPv4N5ceres7TextureE" title="ceres::Texture"><span class="n"><span class="pre">Texture</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_textures</span></span></span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder10m_texturesE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder14m_depthTextureE">
+<span id="_CPPv3N5ceres11FrameBuffer18FrameBufferBuilder14m_depthTextureE"></span><span id="_CPPv2N5ceres11FrameBuffer18FrameBufferBuilder14m_depthTextureE"></span><span id="ceres::FrameBuffer::FrameBufferBuilder::m_depthTexture__std::shared_ptr:Texture:"></span><span class="target" id="classceres_1_1_frame_buffer_1_1_frame_buffer_builder_1aed0152b5b64a9034d968d8449e809485"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="texture.html#_CPPv4N5ceres7TextureE" title="ceres::Texture"><span class="n"><span class="pre">Texture</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_depthTexture</span></span></span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder14m_depthTextureE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder6m_nameE">
+<span id="_CPPv3N5ceres11FrameBuffer18FrameBufferBuilder6m_nameE"></span><span id="_CPPv2N5ceres11FrameBuffer18FrameBufferBuilder6m_nameE"></span><span id="ceres::FrameBuffer::FrameBufferBuilder::m_name__ss"></span><span class="target" id="classceres_1_1_frame_buffer_1_1_frame_buffer_builder_1ab3075ef84120679d18a13a56e93ff0c8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_name</span></span></span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder6m_nameE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder6m_sizeE">
+<span id="_CPPv3N5ceres11FrameBuffer18FrameBufferBuilder6m_sizeE"></span><span id="_CPPv2N5ceres11FrameBuffer18FrameBufferBuilder6m_sizeE"></span><span id="ceres::FrameBuffer::FrameBufferBuilder::m_size__glm::uvec2"></span><span class="target" id="classceres_1_1_frame_buffer_1_1_frame_buffer_builder_1a660b792296575b1f75756304421a6133"></span><span class="n"><span class="pre">glm</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">uvec2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_size</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N5ceres11FrameBuffer18FrameBufferBuilder6m_sizeE" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-friends">Friends</p>
+<dl>
+<dt class="sig sig-object cpp">
+<em class="property"><span class="pre">friend</span> <span class="pre">class</span></em> <span class="pre">FrameBuffer</span></dt>
+</dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="color.html" class="btn btn-neutral float-left" title="color.h" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="glfwRenderer.html" class="btn btn-neutral float-right" title="glfwRenderer.h" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, william.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
