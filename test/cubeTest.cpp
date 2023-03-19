@@ -1,10 +1,11 @@
 //
 // Created by william on 2022/5/22.
 //
-#include "engineTestSimple.h"
 #include "commonMacro.h"
 #include "core/worldLights.h"
+#include "engineTestSimple.h"
 #include "guiCommonDefine.h"
+#include "utils/funcHook.h"
 
 #include <glm/glm.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
@@ -52,6 +53,7 @@ private:
 
 void cubeTest()
 {
+    FuncHook::init();
     GLFWRenderer renderer{};
     EngineTestSimple test(renderer);
     auto sceneNodeEffect = std::make_shared<CubeExample>(&renderer);

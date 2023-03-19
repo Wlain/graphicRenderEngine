@@ -44,6 +44,7 @@ file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS
         ${IMGUI_SRC}
         ${CMAKE_CURRENT_LIST_DIR}/core/*.cpp
         ${CMAKE_CURRENT_LIST_DIR}/utils/*.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/utils/*.c
         ${CMAKE_CURRENT_SOURCE_DIR}/*.h
         ${CMAKE_CURRENT_SOURCE_DIR}/ceres/utils/*.h)
 
